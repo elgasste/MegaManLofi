@@ -132,6 +132,9 @@
     <ClCompile Include="PlayerSpriteGenerator.cpp">
       <Filter>Source Files\ConfigGenerators</Filter>
     </ClCompile>
+    <ClCompile Include="Physics.cpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameRunner.h">
@@ -331,6 +334,9 @@
     </ClInclude>
     <ClInclude Include="IPhysics.h">
       <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics.h">
+      <Filter>Header Files\Utilities</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

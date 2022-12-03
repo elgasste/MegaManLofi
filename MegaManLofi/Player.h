@@ -25,7 +25,9 @@ namespace MegaManLofi
       const Rectangle& GetHitBox() const override { return _hitBox; }
 
       double GetVelocityX() const override { return _velocityX; }
+      void SetVelocityX( double velocityX ) override { _velocityX = velocityX; }
       double GetVelocityY() const override { return _velocityY; }
+      void SetVelocityY( double velocityY ) override { _velocityY = velocityY; }
 
       void Push( Direction direction ) override;
       void Point( Direction direction ) override;

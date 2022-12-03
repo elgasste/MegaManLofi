@@ -66,6 +66,7 @@
     <ClCompile Include="GameRunnerTests.cpp" />
     <ClCompile Include="GameTests.cpp" />
     <ClCompile Include="KeyboardInputReaderTests.cpp" />
+    <ClCompile Include="PhysicsTests.cpp" />
     <ClCompile Include="PlayerTests.cpp" />
     <ClCompile Include="PlayingStateInputHandlerTests.cpp" />
     <ClCompile Include="RectangleUtilitiesTests.cpp" />

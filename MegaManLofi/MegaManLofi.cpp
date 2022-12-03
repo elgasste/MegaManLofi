@@ -162,8 +162,8 @@ shared_ptr<ConsoleRenderConfig> BuildConsoleRenderConfig()
       renderConfig->ArenaSpriteMap[i] = 0;
    }
 
-   // platform on the 21st row, extending 30 tiles from the right edge of the arena
-   for ( int i = ( ( 114 * 21 ) - 1 ); i > ( ( 114 * 21 ) - 30 ); i-- )
+   // platform on the 21st row, extending 50 tiles from the right edge of the arena
+   for ( int i = ( ( 114 * 21 ) - 1 ); i > ( ( 114 * 21 ) - 50 ); i-- )
    {
       renderConfig->ArenaSpriteMap[i] = 1;
    }
@@ -281,8 +281,8 @@ shared_ptr<ArenaConfig> BuildArenaConfig()
       arenaConfig->Tiles[i] = { false, false, false, false };
    }
 
-   // platform on the 21st row, extending 30 tiles from the right edge of the arena
-   for ( int i = ( ( 114 * 21 ) - 1 ); i > ( ( 114 * 21 ) - 30 ); i-- )
+   // platform on the 21st row, extending 50 tiles from the right edge of the arena
+   for ( int i = ( ( 114 * 21 ) - 1 ); i > ( ( 114 * 21 ) - 50 ); i-- )
    {
       arenaConfig->Tiles[i] = { true, true, true, false }; // passable in all ways except down
    }

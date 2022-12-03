@@ -27,5 +27,8 @@ namespace MegaManLofi
 
       std::map<Direction, ConsoleSprite> PlayerStaticSpriteMap;
       std::map<Direction, ConsoleSprite> PlayerMovingSpriteMap;
+
+      std::map<int, ConsoleSprite> ArenaSprites;
+      std::map<int, int> ArenaSpriteMap;
    };
 }

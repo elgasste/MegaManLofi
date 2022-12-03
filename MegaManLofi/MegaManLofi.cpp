@@ -37,6 +37,7 @@
 #include "Direction.h"
 #include "ArenaTile.h"
 #include "PlayerSpriteGenerator.h"
+#include "ConsoleSprite.h"
 
 using namespace std;
 using namespace MegaManLofi;
@@ -144,6 +145,28 @@ shared_ptr<ConsoleRenderConfig> BuildConsoleRenderConfig()
 
    renderConfig->PlayerStaticSpriteMap = PlayerSpriteGenerator::GenerateStaticSpriteMap();
    renderConfig->PlayerMovingSpriteMap = PlayerSpriteGenerator::GenerateMovingSpriteMap();
+
+   // ground that is impassable in all directions
+   renderConfig->ArenaSprites[0].Width = 1;
+   renderConfig->ArenaSprites[0].Height = 1;
+   renderConfig->ArenaSprites[0].Pixels.push_back( { '=', ConsoleColor::DarkGrey } );
+
+   // ground that is only impassable downward
+   renderConfig->ArenaSprites[1].Width = 1;
+   renderConfig->ArenaSprites[1].Height = 1;
+   renderConfig->ArenaSprites[1].Pixels.push_back( { '-', ConsoleColor::DarkGrey } );
+
+   // platform on the 11th row, extending 50 tiles from the left edge of the arena
+   for ( int i = ( 114 * 10 ); i < ( ( 114 * 10 ) + 50 ); i++ )
+   {
+      renderConfig->ArenaSpriteMap[i] = 0;
+   }
+
+   // platform on the 21st row, extending 30 tiles from the right edge of the arena
+   for ( int i = ( ( 114 * 21 ) - 1 ); i > ( ( 114 * 21 ) - 30 ); i-- )
+   {
+      renderConfig->ArenaSpriteMap[i] = 1;
+   }
 
    return renderConfig;
 }

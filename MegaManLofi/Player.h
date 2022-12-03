@@ -4,7 +4,6 @@
 
 #include "IPlayer.h"
 #include "IPlayerInfoProvider.h"
-#include "Rectangle.h"
 
 namespace MegaManLofi
 {
@@ -25,8 +24,9 @@ namespace MegaManLofi
       const Rectangle& GetHitBox() const override { return _hitBox; }
 
       double GetVelocityX() const override { return _velocityX; }
-      void SetVelocityX( double velocityX ) override { _velocityX = velocityX; }
       double GetVelocityY() const override { return _velocityY; }
+
+      void SetVelocityX( double velocityX ) override { _velocityX = velocityX; }
       void SetVelocityY( double velocityY ) override { _velocityY = velocityY; }
 
       void Point( Direction direction ) override;

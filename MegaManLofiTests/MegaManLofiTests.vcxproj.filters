@@ -98,6 +98,9 @@
     <ClInclude Include="mock_FrameRateProvider.h">
       <Filter>Mocks</Filter>
     </ClInclude>
+    <ClInclude Include="mock_Physics.h">
+      <Filter>Mocks</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Mocks">

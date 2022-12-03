@@ -204,6 +204,7 @@
     <ClInclude Include="IGameInfoProvider.h" />
     <ClInclude Include="IGameInputConfig.h" />
     <ClInclude Include="IGameRenderConfig.h" />
+    <ClInclude Include="IPhysics.h" />
     <ClInclude Include="IPlayer.h" />
     <ClInclude Include="IPlayerInfoProvider.h" />
     <ClInclude Include="IScreenBuffer.h" />

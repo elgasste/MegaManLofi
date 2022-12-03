@@ -31,7 +31,6 @@ namespace MegaManLofi
 
       void Push( Direction direction ) override;
       void Point( Direction direction ) override;
-      void Jump() override;
       void StopX() override;
       void StopY() override;
 

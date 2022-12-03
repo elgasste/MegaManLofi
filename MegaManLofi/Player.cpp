@@ -54,13 +54,6 @@ void Player::Point( Direction direction )
    _direction = direction;
 }
 
-void Player::Jump()
-{
-   // TODO: this should only be possible if we're on a flat surface.
-   _velocityY = -( _config->MaxGravityVelocity );
-   _frameActionRegistry->FlagAction( FrameAction::PlayerJumping );
-}
-
 void Player::StopX()
 {
    _velocityX = 0.;

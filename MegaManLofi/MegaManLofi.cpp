@@ -37,6 +37,7 @@
 #include "Direction.h"
 #include "ArenaTile.h"
 #include "PlayerSpriteGenerator.h"
+#include "ConsoleSprite.h"
 
 using namespace std;
 using namespace MegaManLofi;
@@ -145,6 +146,28 @@ shared_ptr<ConsoleRenderConfig> BuildConsoleRenderConfig()
    renderConfig->PlayerStaticSpriteMap = PlayerSpriteGenerator::GenerateStaticSpriteMap();
    renderConfig->PlayerMovingSpriteMap = PlayerSpriteGenerator::GenerateMovingSpriteMap();
 
+   // ground that is impassable in all directions
+   renderConfig->ArenaSprites[0].Width = 1;
+   renderConfig->ArenaSprites[0].Height = 1;
+   renderConfig->ArenaSprites[0].Pixels.push_back( { '=', ConsoleColor::DarkGrey } );
+
+   // ground that is only impassable downward
+   renderConfig->ArenaSprites[1].Width = 1;
+   renderConfig->ArenaSprites[1].Height = 1;
+   renderConfig->ArenaSprites[1].Pixels.push_back( { '-', ConsoleColor::DarkGrey } );
+
+   // platform on the 11th row, extending 50 tiles from the left edge of the arena
+   for ( int i = ( 114 * 10 ); i < ( ( 114 * 10 ) + 50 ); i++ )
+   {
+      renderConfig->ArenaSpriteMap[i] = 0;
+   }
+
+   // platform on the 21st row, extending 50 tiles from the right edge of the arena
+   for ( int i = ( ( 114 * 21 ) - 1 ); i > ( ( 114 * 21 ) - 50 ); i-- )
+   {
+      renderConfig->ArenaSpriteMap[i] = 1;
+   }
+
    return renderConfig;
 }
 
@@ -246,10 +269,22 @@ shared_ptr<ArenaConfig> BuildArenaConfig()
    arenaConfig->HorizontalTiles = 114;
    arenaConfig->VerticalTiles = 24;
 
-   // fill the list with all passable tiles for now
+   // start with all passable tiles
    for ( int i = 0; i < arenaConfig->HorizontalTiles * arenaConfig->VerticalTiles; i++ )
    {
       arenaConfig->Tiles.push_back( { true, true, true, true } );
+   }
+
+   // platform on the 11th row, extending 50 tiles from the left edge of the arena
+   for ( int i = ( 114 * 10 ); i < ( ( 114 * 10 ) + 50 ); i++ )
+   {
+      arenaConfig->Tiles[i] = { false, false, false, false };
+   }
+
+   // platform on the 21st row, extending 50 tiles from the right edge of the arena
+   for ( int i = ( ( 114 * 21 ) - 1 ); i > ( ( 114 * 21 ) - 50 ); i-- )
+   {
+      arenaConfig->Tiles[i] = { true, true, true, false }; // passable in all ways except down
    }
 
    arenaConfig->PlayerStartX = ( arenaConfig->TileWidth * arenaConfig->HorizontalTiles ) / 2.;

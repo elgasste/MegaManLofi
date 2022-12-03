@@ -81,7 +81,7 @@ TEST_F( GameTests, ExecuteCommand_PointPlayer_PointsPlayerInSpecifiedDirection )
 
 TEST_F( GameTests, ExecuteCommand_Jump_Jumps )
 {
-   EXPECT_CALL( *_playerMock, Jump() );
+   EXPECT_CALL( *_physicsMock, PlayerJump( _ ) );
 
    _game->ExecuteCommand( GameCommand::Jump );
 }

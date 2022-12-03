@@ -51,3 +51,10 @@ void Physics::PlayerApplyGravity( const shared_ptr<IPlayer> player ) const
       player->SetVelocityY( min( player->GetVelocityY() + velocityDelta, _playerConfig->MaxGravityVelocity ) );
    }
 }
+
+void Physics::PlayerJump( const shared_ptr<IPlayer> player ) const
+{
+   // TODO: this should only be possible if we're on a flat surface.
+   player->SetVelocityY( -( _playerConfig->MaxGravityVelocity ) );
+   _frameActionRegistry->FlagAction( FrameAction::PlayerJumping );
+}

@@ -112,3 +112,17 @@ TEST_F( PhysicsTests, PlayerApplyGravity_PlayerIsAtTerminalVelocity_DoesNotChang
 
    _physics->PlayerApplyGravity( _playerMock );
 }
+
+TEST_F( PhysicsTests, PlayerJump_Always_SetsVelocityToUpwardGravityMaximum )
+{
+   EXPECT_CALL( *_playerMock, SetVelocityY( -20. ) );
+
+   _physics->PlayerJump( _playerMock );
+}
+
+TEST_F( PhysicsTests, PlayerJump_Always_FlagsPlayerJumpingAction )
+{
+   EXPECT_CALL( *_frameActionRegistryMock, FlagAction( FrameAction::PlayerJumping ) );
+
+   _physics->PlayerJump( _playerMock );
+}

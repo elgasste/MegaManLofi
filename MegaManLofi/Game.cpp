@@ -61,7 +61,7 @@ void Game::ExecuteCommand( GameCommand command, const shared_ptr<GameCommandArgs
          _player->Point( static_pointer_cast<PointPlayerCommandArgs>( args )->Direction );
          break;
       case GameCommand::Jump:
-         _player->Jump();
+         _physics->PlayerJump( _player );
          break;
    }
 }

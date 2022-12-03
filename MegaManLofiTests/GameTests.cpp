@@ -12,6 +12,7 @@
 #include <MegaManLofi/PointPlayerCommandArgs.h>
 
 #include "mock_GameEventAggregator.h"
+#include "mock_PlayerPhysics.h"
 #include "mock_Player.h"
 #include "mock_Arena.h"
 
@@ -26,15 +27,17 @@ public:
    {
       _config.reset( new GameConfig );
       _eventAggregatorMock.reset( new NiceMock<mock_GameEventAggregator> );
+      _playerPhysicsMock.reset( new NiceMock<mock_PlayerPhysics> );
       _playerMock.reset( new NiceMock<mock_Player> );
       _arenaMock.reset( new NiceMock<mock_Arena> );
 
-      _game.reset( new Game( _config, _eventAggregatorMock, _playerMock, _arenaMock ) );
+      _game.reset( new Game( _config, _eventAggregatorMock, _playerPhysicsMock, _playerMock, _arenaMock ) );
    }
 
 protected:
    shared_ptr<GameConfig> _config;
    shared_ptr<mock_GameEventAggregator> _eventAggregatorMock;
+   shared_ptr<mock_PlayerPhysics> _playerPhysicsMock;
    shared_ptr<mock_Player> _playerMock;
    shared_ptr<mock_Arena> _arenaMock;
 
@@ -62,7 +65,7 @@ TEST_F( GameTests, ExecuteCommand_Quit_RaisesShutdownEvent )
 
 TEST_F( GameTests, ExecuteCommand_PushPlayer_PushesPlayerInSpecifiedDirection )
 {
-   EXPECT_CALL( *_playerMock, Push( Direction::UpLeft ) );
+   EXPECT_CALL( *_playerPhysicsMock, Push( _, Direction::UpLeft ) );
 
    _game->ExecuteCommand( GameCommand::PushPlayer,
                           shared_ptr<PushPlayerCommandArgs>( new PushPlayerCommandArgs( Direction::UpLeft ) ) );
@@ -78,15 +81,15 @@ TEST_F( GameTests, ExecuteCommand_PointPlayer_PointsPlayerInSpecifiedDirection )
 
 TEST_F( GameTests, ExecuteCommand_Jump_Jumps )
 {
-   EXPECT_CALL( *_playerMock, Jump() );
+   EXPECT_CALL( *_playerPhysicsMock, Jump( _ ) );
 
    _game->ExecuteCommand( GameCommand::Jump );
 }
 
 TEST_F( GameTests, RunFrame_GameStateIsNotPlaying_DoesNotDoPlayerOrArenaActions )
 {
-   EXPECT_CALL( *_playerMock, ApplyFriction() ).Times( 0 );
-   EXPECT_CALL( *_playerMock, ApplyGravity() ).Times( 0 );
+   EXPECT_CALL( *_playerPhysicsMock, ApplyFriction( _ ) ).Times( 0 );
+   EXPECT_CALL( *_playerPhysicsMock, ApplyGravity( _ ) ).Times( 0 );
    EXPECT_CALL( *_arenaMock, MovePlayer() ).Times( 0 );
 
    _game->RunFrame();
@@ -96,8 +99,8 @@ TEST_F( GameTests, RunFrame_GameStateIsPlaying_DoesPlayerAndArenaActions )
 {
    _game->ExecuteCommand( GameCommand::Start );
 
-   EXPECT_CALL( *_playerMock, ApplyFriction() );
-   EXPECT_CALL( *_playerMock, ApplyGravity() );
+   EXPECT_CALL( *_playerPhysicsMock, ApplyFriction( _ ) );
+   EXPECT_CALL( *_playerPhysicsMock, ApplyGravity( _ ) );
    EXPECT_CALL( *_arenaMock, MovePlayer() );
 
    _game->RunFrame();

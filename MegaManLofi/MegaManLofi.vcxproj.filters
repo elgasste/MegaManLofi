@@ -132,6 +132,9 @@
     <ClCompile Include="PlayerSpriteGenerator.cpp">
       <Filter>Source Files\ConfigGenerators</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerPhysics.cpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameRunner.h">
@@ -328,6 +331,12 @@
     </ClInclude>
     <ClInclude Include="IFrameRateProvider.h">
       <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="IPlayerPhysics.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerPhysics.h">
+      <Filter>Header Files\Utilities</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -42,6 +42,9 @@
     <ClCompile Include="ArenaTests.cpp">
       <Filter>Tests\GameObjects</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerPhysicsTests.cpp">
+      <Filter>Tests\Utilities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="mock_GameEventAggregator.h">
@@ -96,6 +99,9 @@
       <Filter>Mocks</Filter>
     </ClInclude>
     <ClInclude Include="mock_FrameRateProvider.h">
+      <Filter>Mocks</Filter>
+    </ClInclude>
+    <ClInclude Include="mock_PlayerPhysics.h">
       <Filter>Mocks</Filter>
     </ClInclude>
   </ItemGroup>

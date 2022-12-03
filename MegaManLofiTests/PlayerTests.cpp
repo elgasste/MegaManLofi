@@ -83,7 +83,7 @@ TEST_F( PlayerTests, IsMoving_MovingHorizontally_ReturnsTrue )
 {
    BuildPlayer();
 
-   _player->Push( Direction::Left );
+   _player->SetVelocityX( -2. );
 
    EXPECT_TRUE( _player->IsMoving() );
 }
@@ -92,7 +92,7 @@ TEST_F( PlayerTests, IsMoving_MovingVertically_ReturnsTrue )
 {
    BuildPlayer();
 
-   _player->ApplyGravity();
+   _player->SetVelocityY( 2. );
 
    EXPECT_TRUE( _player->IsMoving() );
 }
@@ -111,7 +111,7 @@ TEST_F( PlayerTests, GetVelocityX_Always_ReturnsVelocityX )
 {
    BuildPlayer();
 
-   _player->Push( Direction::Right );
+   _player->SetVelocityX( 2. );
 
    EXPECT_EQ( _player->GetVelocityX(), 2. );
 }
@@ -120,137 +120,9 @@ TEST_F( PlayerTests, GetVelocityY_Always_ReturnsVelocityY )
 {
    BuildPlayer();
 
-   _player->ApplyGravity();
+   _player->SetVelocityY( 5. );
 
-   EXPECT_EQ( _player->GetVelocityY(), 2. );
-}
-
-TEST_F( PlayerTests, Push_LeftAndVelocityHasNotMaxedOut_DecreasesXVelocity )
-{
-   BuildPlayer();
-
-   _player->Push( Direction::Left );
-
-   EXPECT_EQ( _player->GetVelocityX(), -2. );
-}
-
-TEST_F( PlayerTests, Push_UpLeftAndVelocityHasNotMaxedOut_DecreasesXVelocity )
-{
-   BuildPlayer();
-
-   _player->Push( Direction::UpLeft );
-
-   EXPECT_EQ( _player->GetVelocityX(), -2. );
-}
-
-TEST_F( PlayerTests, Push_UpRightAndVelocityHasNotMaxedOut_IncreasesXVelocity )
-{
-   BuildPlayer();
-
-   _player->Push( Direction::UpRight );
-
-   EXPECT_EQ( _player->GetVelocityX(), 2. );
-}
-
-TEST_F( PlayerTests, Push_RightAndVelocityHasNotMaxedOut_IncreasesXVelocity )
-{
-   BuildPlayer();
-
-   _player->Push( Direction::Right );
-
-   EXPECT_EQ( _player->GetVelocityX(), 2. );
-}
-
-TEST_F( PlayerTests, Push_DownRightAndVelocityHasNotMaxedOut_IncreasesXVelocity )
-{
-   BuildPlayer();
-
-   _player->Push( Direction::DownRight );
-
-   EXPECT_EQ( _player->GetVelocityX(), 2. );
-}
-
-TEST_F( PlayerTests, Push_DownLeftAndVelocityHasNotMaxedOut_DecreasesXVelocity )
-{
-   BuildPlayer();
-
-   _player->Push( Direction::DownLeft );
-
-   EXPECT_EQ( _player->GetVelocityX(), -2. );
-}
-
-TEST_F( PlayerTests, Push_LeftAndVelocityHasMaxedOut_ClampsToMaxVelocity )
-{
-   _config->PushAccelerationPerSecond = 100001.;
-   BuildPlayer();
-
-   _player->Push( Direction::Left );
-
-   EXPECT_EQ( _player->GetVelocityX(), -100. );
-}
-
-TEST_F( PlayerTests, Push_RightAndVelocityHasMaxedOut_ClampsToMaxVelocity )
-{
-   _config->PushAccelerationPerSecond = 100001.;
-   BuildPlayer();
-
-   _player->Push( Direction::Right );
-
-   EXPECT_EQ( _player->GetVelocityX(), 100. );
-}
-
-TEST_F( PlayerTests, Push_Left_FlagsPlayerPushedFrameAction )
-{
-   BuildPlayer();
-
-   EXPECT_CALL( *_frameActionRegistryMock, FlagAction( FrameAction::PlayerPushed ) );
-
-   _player->Push( Direction::Left );
-}
-
-TEST_F( PlayerTests, Push_UpLeft_FlagsPlayerPushedFrameAction )
-{
-   BuildPlayer();
-
-   EXPECT_CALL( *_frameActionRegistryMock, FlagAction( FrameAction::PlayerPushed ) );
-
-   _player->Push( Direction::UpLeft );
-}
-
-TEST_F( PlayerTests, Push_UpRight_FlagsPlayerPushedFrameAction )
-{
-   BuildPlayer();
-
-   EXPECT_CALL( *_frameActionRegistryMock, FlagAction( FrameAction::PlayerPushed ) );
-
-   _player->Push( Direction::UpRight );
-}
-
-TEST_F( PlayerTests, Push_Right_FlagsPlayerPushedFrameAction )
-{
-   BuildPlayer();
-
-   EXPECT_CALL( *_frameActionRegistryMock, FlagAction( FrameAction::PlayerPushed ) );
-
-   _player->Push( Direction::Right );
-}
-
-TEST_F( PlayerTests, Push_DownRight_FlagsPlayerPushedFrameAction )
-{
-   BuildPlayer();
-
-   EXPECT_CALL( *_frameActionRegistryMock, FlagAction( FrameAction::PlayerPushed ) );
-
-   _player->Push( Direction::DownRight );
-}
-
-TEST_F( PlayerTests, Push_DownLeft_FlagsPlayerPushedFrameAction )
-{
-   BuildPlayer();
-
-   EXPECT_CALL( *_frameActionRegistryMock, FlagAction( FrameAction::PlayerPushed ) );
-
-   _player->Push( Direction::DownLeft );
+   EXPECT_EQ( _player->GetVelocityY(), 5. );
 }
 
 TEST_F( PlayerTests, Point_Always_SetsDirectionToSpecifiedValue )
@@ -262,85 +134,11 @@ TEST_F( PlayerTests, Point_Always_SetsDirectionToSpecifiedValue )
    EXPECT_EQ( _player->GetDirection(), Direction::DownRight );
 }
 
-TEST_F( PlayerTests, ApplyFriction_PlayerIsMovingLeftAndHasVelocityToSpare_DoesNotStop )
-{
-   BuildPlayer();
-
-   ON_CALL( *_frameActionRegistryMock, ActionFlagged( FrameAction::PlayerPushed ) ).WillByDefault( Return( false ) );
-
-   _player->Push( Direction::Left );
-   _player->Push( Direction::Left );
-   _player->ApplyFriction();
-
-   EXPECT_EQ( _player->GetVelocityX(), -2. );
-}
-
-TEST_F( PlayerTests, ApplyFriction_PlayerIsMovingRightAndHasVelocityToSpare_DoesNotStop )
-{
-   BuildPlayer();
-
-   ON_CALL( *_frameActionRegistryMock, ActionFlagged( FrameAction::PlayerPushed ) ).WillByDefault( Return( false ) );
-
-   _player->Push( Direction::Right );
-   _player->Push( Direction::Right );
-   _player->ApplyFriction();
-
-   EXPECT_EQ( _player->GetVelocityX(), 2. );
-}
-
-TEST_F( PlayerTests, ApplyFriction_PlayerIsMovingLeftAndHasNoVelocityToSpare_Stops )
-{
-   _config->StartVelocityX = -1.;
-   _config->MaxPushVelocity = 2.;
-   BuildPlayer();
-
-   ON_CALL( *_frameActionRegistryMock, ActionFlagged( FrameAction::PlayerPushed ) ).WillByDefault( Return( false ) );
-
-   _player->ApplyFriction();
-
-   EXPECT_EQ( _player->GetVelocityX(), 0. );
-}
-
-TEST_F( PlayerTests, ApplyFriction_PlayerIsMovingRightAndHasNoVelocityToSpare_Stops )
-{
-   _config->StartVelocityX = 1.;
-   _config->MaxPushVelocity = 2.;
-   BuildPlayer();
-
-   ON_CALL( *_frameActionRegistryMock, ActionFlagged( FrameAction::PlayerPushed ) ).WillByDefault( Return( false ) );
-
-   _player->ApplyFriction();
-
-   EXPECT_EQ( _player->GetVelocityX(), 0. );
-}
-
-TEST_F( PlayerTests, ApplyGravity_PlayerIsJumping_DoesNotApplyGravity )
-{
-   BuildPlayer();
-
-   ON_CALL( *_frameActionRegistryMock, ActionFlagged( FrameAction::PlayerJumping ) ).WillByDefault( Return( true ) );
-
-   _player->ApplyGravity();
-
-   EXPECT_EQ( _player->GetVelocityY(), 0. );
-}
-
-TEST_F( PlayerTests, ApplyGravity_PlayerIsNotJumping_AppliesGravity )
-{
-   BuildPlayer();
-
-   ON_CALL( *_frameActionRegistryMock, ActionFlagged( FrameAction::PlayerJumping ) ).WillByDefault( Return( false ) );
-
-   _player->ApplyGravity();
-
-   EXPECT_EQ( _player->GetVelocityY(), 2. );
-}
-
 TEST_F( PlayerTests, StopX_Always_SetsXVelocityToZero )
 {
    BuildPlayer();
 
-   _player->Push( Direction::Right );
+   _player->SetVelocityX( 2. );
    _player->StopX();
 
    EXPECT_EQ( _player->GetVelocityX(), 0. );
@@ -350,7 +148,7 @@ TEST_F( PlayerTests, StopY_Always_SetsYVelocityToZero )
 {
    BuildPlayer();
 
-   _player->Push( Direction::Up );
+   _player->SetVelocityY( -2. );
    _player->StopY();
 
    EXPECT_EQ( _player->GetVelocityY(), 0. );

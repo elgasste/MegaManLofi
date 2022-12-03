@@ -17,6 +17,7 @@ namespace MegaManLofi
       double MaxGravityVelocity = 0.;
 
       double PushAccelerationPerSecond = 0.;
+      double FrictionDecelerationPerSecond = 0.;
       double GravityAccelerationPerSecond = 0.;
 
       Direction StartDirection = (Direction)0;

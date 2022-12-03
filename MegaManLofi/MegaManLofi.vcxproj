@@ -163,6 +163,7 @@
     <ClCompile Include="HighResolutionClockWrapper.cpp" />
     <ClCompile Include="KeyboardInputReader.cpp" />
     <ClCompile Include="KeyboardWrapper.cpp" />
+    <ClCompile Include="PlayerPhysics.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerSpriteGenerator.cpp" />
     <ClCompile Include="PlayingStateConsoleRenderer.cpp" />
@@ -204,6 +205,7 @@
     <ClInclude Include="IGameInfoProvider.h" />
     <ClInclude Include="IGameInputConfig.h" />
     <ClInclude Include="IGameRenderConfig.h" />
+    <ClInclude Include="IPlayerPhysics.h" />
     <ClInclude Include="IPlayer.h" />
     <ClInclude Include="IPlayerInfoProvider.h" />
     <ClInclude Include="IScreenBuffer.h" />
@@ -225,6 +227,7 @@
     <ClInclude Include="ISleeper.h" />
     <ClInclude Include="KeyboardInputReader.h" />
     <ClInclude Include="KeyCode.h" />
+    <ClInclude Include="PlayerPhysics.h" />
     <ClInclude Include="PlayerSpriteGenerator.h" />
     <ClInclude Include="PointPlayerCommandArgs.h" />
     <ClInclude Include="PushPlayerCommandArgs.h" />

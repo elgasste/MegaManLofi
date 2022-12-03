@@ -4,7 +4,6 @@
 
 #include "IPlayer.h"
 #include "IPlayerInfoProvider.h"
-#include "Rectangle.h"
 
 namespace MegaManLofi
 {
@@ -27,16 +26,12 @@ namespace MegaManLofi
       double GetVelocityX() const override { return _velocityX; }
       double GetVelocityY() const override { return _velocityY; }
 
-      void Push( Direction direction ) override;
-      void Point( Direction direction ) override;
-      void Jump() override;
-      void ApplyFriction() override;
-      void ApplyGravity() override;
-      void StopX() override;
-      void StopY() override;
+      void SetVelocityX( double velocityX ) override { _velocityX = velocityX; }
+      void SetVelocityY( double velocityY ) override { _velocityY = velocityY; }
 
-   private:
-      void ClampVelocity();
+      void Point( Direction direction ) override;
+      void StopX() override { _velocityX = 0; }
+      void StopY() override { _velocityY = 0; }
 
    private:
       const std::shared_ptr<PlayerConfig> _config;

@@ -23,6 +23,7 @@ namespace MegaManLofi
 
    private:
       void DrawArenaFence();
+      void DrawArenaSprites();
       void DrawPlayer();
 
    private:

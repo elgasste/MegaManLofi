@@ -24,7 +24,7 @@ public:
 
       _playerConfig->MaxPushVelocity = 10.;
       _playerConfig->MaxGravityVelocity = 20.;
-      _playerConfig->PushAccelerationPerSecond = 2.;
+      _playerConfig->FrictionDecelerationPerSecond = 2.;
       _playerConfig->GravityAccelerationPerSecond = 4.;
 
       ON_CALL( *_frameRateProviderMock, GetFramesPerSecond() ).WillByDefault( Return( 1 ) );

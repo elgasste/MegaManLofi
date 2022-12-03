@@ -26,7 +26,7 @@ void Physics::PlayerApplyFriction( const shared_ptr<IPlayer> player ) const
       return;
    }
 
-   auto velocityDelta = ( _playerConfig->PushAccelerationPerSecond / _frameRateProvider->GetFramesPerSecond() );
+   auto velocityDelta = ( _playerConfig->FrictionDecelerationPerSecond / _frameRateProvider->GetFramesPerSecond() );
    auto currentVelocityX = player->GetVelocityX();
    auto newVelocityX = 0.;
 

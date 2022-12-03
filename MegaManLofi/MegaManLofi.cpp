@@ -255,6 +255,7 @@ shared_ptr<PlayerConfig> BuildPlayerConfig()
    playerConfig->MaxGravityVelocity = 4'000.;
 
    playerConfig->PushAccelerationPerSecond = 8'000.;
+   playerConfig->FrictionDecelerationPerSecond = 10'000;
    playerConfig->GravityAccelerationPerSecond = 10'000.;
 
    playerConfig->StartDirection = Direction::Right;

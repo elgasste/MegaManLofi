@@ -39,7 +39,7 @@ void Physics::PlayerApplyFriction( const shared_ptr<IPlayer> player ) const
       newVelocityX = max( currentVelocityX - velocityDelta, 0. );
    }
 
-   player->SetVelocityX( clamp( newVelocityX, -( _playerConfig->MaxPushVelocity ), _playerConfig->MaxPushVelocity ) );
+   player->SetVelocityX( newVelocityX );
 }
 
 void Physics::PlayerApplyGravity( const shared_ptr<IPlayer> player ) const

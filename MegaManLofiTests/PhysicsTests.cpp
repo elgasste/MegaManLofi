@@ -68,24 +68,6 @@ TEST_F( PhysicsTests, PlayerApplyFriction_PlayerIsMovingRight_SlowsDownCorrectly
    _physics->PlayerApplyFriction( _playerMock );
 }
 
-TEST_F( PhysicsTests, PlayerApplyFriction_PlayerIsMovingLeftTooFast_ClampsToMaximumVelocity )
-{
-   ON_CALL( *_playerMock, GetVelocityX() ).WillByDefault( Return( -14. ) );
-
-   EXPECT_CALL( *_playerMock, SetVelocityX( -10. ) );
-
-   _physics->PlayerApplyFriction( _playerMock );
-}
-
-TEST_F( PhysicsTests, PlayerApplyFriction_PlayerIsMovingRightTooFast_ClampsToMaximumVelocity )
-{
-   ON_CALL( *_playerMock, GetVelocityX() ).WillByDefault( Return( 14. ) );
-
-   EXPECT_CALL( *_playerMock, SetVelocityX( 10. ) );
-
-   _physics->PlayerApplyFriction( _playerMock );
-}
-
 TEST_F( PhysicsTests, PlayerApplyGravity_PlayerIsJumping_DoesNotApplyGravity )
 {
    ON_CALL( *_frameActionRegistryMock, ActionFlagged( FrameAction::PlayerJumping ) ).WillByDefault( Return( true ) );

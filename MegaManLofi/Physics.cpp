@@ -41,3 +41,13 @@ void Physics::PlayerApplyFriction( const shared_ptr<IPlayer> player ) const
 
    player->SetVelocityX( clamp( newVelocityX, -( _playerConfig->MaxPushVelocity ), _playerConfig->MaxPushVelocity ) );
 }
+
+void Physics::PlayerApplyGravity( const shared_ptr<IPlayer> player ) const
+{
+   if ( !_frameActionRegistry->ActionFlagged( FrameAction::PlayerJumping ) &&
+        player->GetVelocityY() < _playerConfig->MaxGravityVelocity )
+   {
+      auto velocityDelta = ( _playerConfig->GravityAccelerationPerSecond / _frameRateProvider->GetFramesPerSecond() );
+      player->SetVelocityY( min( player->GetVelocityY() + velocityDelta, _playerConfig->MaxGravityVelocity ) );
+   }
+}

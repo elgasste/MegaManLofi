@@ -16,6 +16,7 @@ namespace MegaManLofi
                const std::shared_ptr<PlayerConfig> playerConfig );
 
       void PlayerApplyFriction( const std::shared_ptr<IPlayer> player ) const override;
+      void PlayerApplyGravity( const std::shared_ptr<IPlayer> player ) const override;
 
    private:
       const std::shared_ptr<IFrameRateProvider> _frameRateProvider;

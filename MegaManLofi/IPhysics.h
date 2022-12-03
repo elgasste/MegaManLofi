@@ -10,5 +10,6 @@ namespace MegaManLofi
    {
    public:
       virtual void PlayerApplyFriction( const std::shared_ptr<IPlayer> player ) const = 0;
+      virtual void PlayerApplyGravity( const std::shared_ptr<IPlayer> player ) const = 0;
    };
 }

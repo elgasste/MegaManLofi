@@ -12,6 +12,7 @@
 #include <MegaManLofi/PointPlayerCommandArgs.h>
 
 #include "mock_GameEventAggregator.h"
+#include "mock_Physics.h"
 #include "mock_Player.h"
 #include "mock_Arena.h"
 
@@ -26,15 +27,17 @@ public:
    {
       _config.reset( new GameConfig );
       _eventAggregatorMock.reset( new NiceMock<mock_GameEventAggregator> );
+      _physicsMock.reset( new NiceMock<mock_Physics> );
       _playerMock.reset( new NiceMock<mock_Player> );
       _arenaMock.reset( new NiceMock<mock_Arena> );
 
-      _game.reset( new Game( _config, _eventAggregatorMock, _playerMock, _arenaMock ) );
+      _game.reset( new Game( _config, _eventAggregatorMock, _physicsMock, _playerMock, _arenaMock ) );
    }
 
 protected:
    shared_ptr<GameConfig> _config;
    shared_ptr<mock_GameEventAggregator> _eventAggregatorMock;
+   shared_ptr<mock_Physics> _physicsMock;
    shared_ptr<mock_Player> _playerMock;
    shared_ptr<mock_Arena> _arenaMock;
 
@@ -85,8 +88,8 @@ TEST_F( GameTests, ExecuteCommand_Jump_Jumps )
 
 TEST_F( GameTests, RunFrame_GameStateIsNotPlaying_DoesNotDoPlayerOrArenaActions )
 {
-   EXPECT_CALL( *_playerMock, ApplyFriction() ).Times( 0 );
-   EXPECT_CALL( *_playerMock, ApplyGravity() ).Times( 0 );
+   EXPECT_CALL( *_physicsMock, PlayerApplyFriction( _ ) ).Times( 0 );
+   EXPECT_CALL( *_physicsMock, PlayerApplyGravity( _ ) ).Times( 0 );
    EXPECT_CALL( *_arenaMock, MovePlayer() ).Times( 0 );
 
    _game->RunFrame();
@@ -96,8 +99,8 @@ TEST_F( GameTests, RunFrame_GameStateIsPlaying_DoesPlayerAndArenaActions )
 {
    _game->ExecuteCommand( GameCommand::Start );
 
-   EXPECT_CALL( *_playerMock, ApplyFriction() );
-   EXPECT_CALL( *_playerMock, ApplyGravity() );
+   EXPECT_CALL( *_physicsMock, PlayerApplyFriction( _ ) );
+   EXPECT_CALL( *_physicsMock, PlayerApplyGravity( _ ) );
    EXPECT_CALL( *_arenaMock, MovePlayer() );
 
    _game->RunFrame();

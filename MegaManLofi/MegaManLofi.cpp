@@ -20,6 +20,7 @@
 #include "GameClock.h"
 #include "KeyboardInputReader.h"
 #include "FrameActionRegistry.h"
+#include "Physics.h"
 #include "Player.h"
 #include "Arena.h"
 #include "Game.h"
@@ -101,10 +102,13 @@ void LoadAndRun( const shared_ptr<IConsoleBuffer> consoleBuffer )
    auto clock = shared_ptr<GameClock>( new GameClock( highResolutionClock, sleeper, config->FramesPerSecond ) );
    auto keyboardInputReader = shared_ptr<KeyboardInputReader>( new KeyboardInputReader( keyboardInputConfig, keyboard ) );
 
+   // utilities
+   auto physics = shared_ptr<Physics>( new Physics( clock, frameActionRegistry, config->PlayerConfig ) );
+
    // game objects
    auto player = shared_ptr<Player>( new Player( config->PlayerConfig, frameActionRegistry, clock ) );
    auto arena = shared_ptr<Arena>( new Arena( config->ArenaConfig, player, frameActionRegistry, clock ) );
-   auto game = shared_ptr<Game>( new Game( config, eventAggregator, player, arena ) );
+   auto game = shared_ptr<Game>( new Game( config, eventAggregator, physics, player, arena ) );
 
    // input objects
    auto startupStateInputHandler = shared_ptr<StartupStateInputHandler>( new StartupStateInputHandler( keyboardInputReader, game ) );

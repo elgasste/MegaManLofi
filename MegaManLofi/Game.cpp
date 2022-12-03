@@ -1,6 +1,7 @@
 #include "Game.h"
 #include "GameConfig.h"
 #include "IGameEventAggregator.h"
+#include "IPhysics.h"
 #include "IPlayer.h"
 #include "IArena.h"
 #include "GameState.h"
@@ -15,10 +16,12 @@ using namespace MegaManLofi;
 
 Game::Game( const std::shared_ptr<GameConfig> config,
             const std::shared_ptr<IGameEventAggregator> eventAggregator,
+            const std::shared_ptr<IPhysics> physics,
             const std::shared_ptr<IPlayer> player,
             const std::shared_ptr<IArena> arena ) :
    _config( config ),
    _eventAggregator( eventAggregator ),
+   _physics( physics ),
    _player( player ),
    _arena( arena ),
    _state( GameState::Startup )
@@ -29,8 +32,9 @@ void Game::RunFrame()
 {
    if ( _state == GameState::Playing )
    {
-      _player->ApplyFriction();
-      _player->ApplyGravity();
+      _physics->PlayerApplyFriction( _player );
+      _physics->PlayerApplyGravity( _player );
+
       _arena->MovePlayer();
    }
 }

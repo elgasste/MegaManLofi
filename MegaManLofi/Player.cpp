@@ -61,34 +61,6 @@ void Player::Jump()
    _frameActionRegistry->FlagAction( FrameAction::PlayerJumping );
 }
 
-void Player::ApplyFriction()
-{
-   if ( !_frameActionRegistry->ActionFlagged( FrameAction::PlayerPushed ) )
-   {
-      auto velocityDelta = ( _config->PushAccelerationPerSecond / _frameRateProvider->GetFramesPerSecond() );
-
-      if ( _velocityX < 0. )
-      {
-         _velocityX = min( _velocityX + velocityDelta, 0. );
-      }
-      else if ( _velocityX > 0. )
-      {
-         _velocityX = max( _velocityX - velocityDelta, 0. );
-      }
-   }
-
-   ClampVelocity();
-}
-
-void Player::ApplyGravity()
-{
-   if ( !_frameActionRegistry->ActionFlagged( FrameAction::PlayerJumping ) )
-   {
-      _velocityY += ( _config->GravityAccelerationPerSecond / _frameRateProvider->GetFramesPerSecond() );
-      ClampVelocity();
-   }
-}
-
 void Player::StopX()
 {
    _velocityX = 0.;

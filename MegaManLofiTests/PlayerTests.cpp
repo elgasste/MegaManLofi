@@ -92,7 +92,7 @@ TEST_F( PlayerTests, IsMoving_MovingVertically_ReturnsTrue )
 {
    BuildPlayer();
 
-   _player->ApplyGravity();
+   _player->SetVelocityY( 2. );
 
    EXPECT_TRUE( _player->IsMoving() );
 }
@@ -120,9 +120,9 @@ TEST_F( PlayerTests, GetVelocityY_Always_ReturnsVelocityY )
 {
    BuildPlayer();
 
-   _player->ApplyGravity();
+   _player->SetVelocityY( 5. );
 
-   EXPECT_EQ( _player->GetVelocityY(), 2. );
+   EXPECT_EQ( _player->GetVelocityY(), 5. );
 }
 
 TEST_F( PlayerTests, Push_LeftAndVelocityHasNotMaxedOut_DecreasesXVelocity )
@@ -260,80 +260,6 @@ TEST_F( PlayerTests, Point_Always_SetsDirectionToSpecifiedValue )
    _player->Point( Direction::DownRight );
 
    EXPECT_EQ( _player->GetDirection(), Direction::DownRight );
-}
-
-TEST_F( PlayerTests, ApplyFriction_PlayerIsMovingLeftAndHasVelocityToSpare_DoesNotStop )
-{
-   BuildPlayer();
-
-   ON_CALL( *_frameActionRegistryMock, ActionFlagged( FrameAction::PlayerPushed ) ).WillByDefault( Return( false ) );
-
-   _player->Push( Direction::Left );
-   _player->Push( Direction::Left );
-   _player->ApplyFriction();
-
-   EXPECT_EQ( _player->GetVelocityX(), -2. );
-}
-
-TEST_F( PlayerTests, ApplyFriction_PlayerIsMovingRightAndHasVelocityToSpare_DoesNotStop )
-{
-   BuildPlayer();
-
-   ON_CALL( *_frameActionRegistryMock, ActionFlagged( FrameAction::PlayerPushed ) ).WillByDefault( Return( false ) );
-
-   _player->Push( Direction::Right );
-   _player->Push( Direction::Right );
-   _player->ApplyFriction();
-
-   EXPECT_EQ( _player->GetVelocityX(), 2. );
-}
-
-TEST_F( PlayerTests, ApplyFriction_PlayerIsMovingLeftAndHasNoVelocityToSpare_Stops )
-{
-   _config->StartVelocityX = -1.;
-   _config->MaxPushVelocity = 2.;
-   BuildPlayer();
-
-   ON_CALL( *_frameActionRegistryMock, ActionFlagged( FrameAction::PlayerPushed ) ).WillByDefault( Return( false ) );
-
-   _player->ApplyFriction();
-
-   EXPECT_EQ( _player->GetVelocityX(), 0. );
-}
-
-TEST_F( PlayerTests, ApplyFriction_PlayerIsMovingRightAndHasNoVelocityToSpare_Stops )
-{
-   _config->StartVelocityX = 1.;
-   _config->MaxPushVelocity = 2.;
-   BuildPlayer();
-
-   ON_CALL( *_frameActionRegistryMock, ActionFlagged( FrameAction::PlayerPushed ) ).WillByDefault( Return( false ) );
-
-   _player->ApplyFriction();
-
-   EXPECT_EQ( _player->GetVelocityX(), 0. );
-}
-
-TEST_F( PlayerTests, ApplyGravity_PlayerIsJumping_DoesNotApplyGravity )
-{
-   BuildPlayer();
-
-   ON_CALL( *_frameActionRegistryMock, ActionFlagged( FrameAction::PlayerJumping ) ).WillByDefault( Return( true ) );
-
-   _player->ApplyGravity();
-
-   EXPECT_EQ( _player->GetVelocityY(), 0. );
-}
-
-TEST_F( PlayerTests, ApplyGravity_PlayerIsNotJumping_AppliesGravity )
-{
-   BuildPlayer();
-
-   ON_CALL( *_frameActionRegistryMock, ActionFlagged( FrameAction::PlayerJumping ) ).WillByDefault( Return( false ) );
-
-   _player->ApplyGravity();
-
-   EXPECT_EQ( _player->GetVelocityY(), 2. );
 }
 
 TEST_F( PlayerTests, StopX_Always_SetsXVelocityToZero )

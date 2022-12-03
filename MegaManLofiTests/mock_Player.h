@@ -17,8 +17,6 @@ public:
    MOCK_METHOD( void, Push, ( MegaManLofi::Direction ), ( override ) );
    MOCK_METHOD( void, Point, ( MegaManLofi::Direction ), ( override ) );
    MOCK_METHOD( void, Jump, ( ), ( override ) );
-   MOCK_METHOD( void, ApplyFriction, ( ), ( override ) );
-   MOCK_METHOD( void, ApplyGravity, ( ), ( override ) );
    MOCK_METHOD( void, StopX, ( ), ( override ) );
    MOCK_METHOD( void, StopY, ( ), ( override ) );
 };

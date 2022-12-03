@@ -30,11 +30,8 @@ namespace MegaManLofi
       void SetVelocityY( double velocityY ) override { _velocityY = velocityY; }
 
       void Point( Direction direction ) override;
-      void StopX() override;
-      void StopY() override;
-
-   private:
-      void ClampVelocity();
+      void StopX() override { _velocityX = 0; }
+      void StopY() override { _velocityY = 0; }
 
    private:
       const std::shared_ptr<PlayerConfig> _config;

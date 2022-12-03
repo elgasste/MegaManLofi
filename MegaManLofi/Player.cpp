@@ -32,34 +32,3 @@ void Player::Point( Direction direction )
 {
    _direction = direction;
 }
-
-void Player::StopX()
-{
-   _velocityX = 0.;
-}
-
-void Player::StopY()
-{
-   _velocityY = 0.;
-}
-
-void Player::ClampVelocity()
-{
-   if ( _velocityX < -( _config->MaxPushVelocity ) )
-   {
-      _velocityX = -( _config->MaxPushVelocity );
-   }
-   else if ( _velocityX > _config->MaxPushVelocity )
-   {
-      _velocityX = _config->MaxPushVelocity;
-   }
-
-   if ( _velocityY < -( _config->MaxGravityVelocity ) )
-   {
-      _velocityY = -( _config->MaxGravityVelocity );
-   }
-   else if ( _velocityY > _config->MaxGravityVelocity )
-   {
-      _velocityY = _config->MaxGravityVelocity;
-   }
-}

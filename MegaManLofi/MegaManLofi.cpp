@@ -246,10 +246,22 @@ shared_ptr<ArenaConfig> BuildArenaConfig()
    arenaConfig->HorizontalTiles = 114;
    arenaConfig->VerticalTiles = 24;
 
-   // fill the list with all passable tiles for now
+   // start with all passable tiles
    for ( int i = 0; i < arenaConfig->HorizontalTiles * arenaConfig->VerticalTiles; i++ )
    {
       arenaConfig->Tiles.push_back( { true, true, true, true } );
+   }
+
+   // platform on the 11th row, extending 50 tiles from the left edge of the arena
+   for ( int i = ( 114 * 10 ); i < ( ( 114 * 10 ) + 50 ); i++ )
+   {
+      arenaConfig->Tiles[i] = { false, false, false, false };
+   }
+
+   // platform on the 21st row, extending 30 tiles from the right edge of the arena
+   for ( int i = ( ( 114 * 21 ) - 1 ); i > ( ( 114 * 21 ) - 30 ); i-- )
+   {
+      arenaConfig->Tiles[i] = { true, true, true, false }; // passable in all ways except down
    }
 
    arenaConfig->PlayerStartX = ( arenaConfig->TileWidth * arenaConfig->HorizontalTiles ) / 2.;

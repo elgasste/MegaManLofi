@@ -3,6 +3,7 @@
 #include <MegaManLofi/Physics.h>
 #include <MegaManLofi/PlayerConfig.h>
 #include <MegaManLofi/FrameAction.h>
+#include <MegaManLofi/Direction.h>
 
 #include "mock_FrameRateProvider.h"
 #include "mock_FrameActionRegistry.h"
@@ -111,6 +112,74 @@ TEST_F( PhysicsTests, PlayerApplyGravity_PlayerIsAtTerminalVelocity_DoesNotChang
    EXPECT_CALL( *_playerMock, SetVelocityY( _ ) ).Times( 0 );
 
    _physics->PlayerApplyGravity( _playerMock );
+}
+
+TEST_F( PhysicsTests, PlayerPush_Leftward_FlagsAction )
+{
+   EXPECT_CALL( *_frameActionRegistryMock, FlagAction( FrameAction::PlayerPushed ) );
+
+   _physics->PlayerPush( _playerMock, Direction::Left );
+}
+
+TEST_F( PhysicsTests, PlayerPush_Right_FlagsAction )
+{
+   EXPECT_CALL( *_frameActionRegistryMock, FlagAction( FrameAction::PlayerPushed ) );
+
+   _physics->PlayerPush( _playerMock, Direction::Right );
+}
+
+TEST_F( PhysicsTests, PlayerPush_Leftward_ChangesXVelocity )
+{
+   ON_CALL( *_playerMock, GetVelocityX() ).WillByDefault( Return( -6. ) );
+
+   EXPECT_CALL( *_playerMock, SetVelocityX( -8. ) ).Times( 0 );
+
+   _physics->PlayerPush( _playerMock, Direction::Left );
+}
+
+TEST_F( PhysicsTests, PlayerPush_LeftwardAndPushVelocityHasAlmostMaxedOut_ClampsToMaxPushVelocity )
+{
+   ON_CALL( *_playerMock, GetVelocityX() ).WillByDefault( Return( -9. ) );
+
+   EXPECT_CALL( *_playerMock, SetVelocityX( -10. ) ).Times( 0 );
+
+   _physics->PlayerPush( _playerMock, Direction::Left );
+}
+
+TEST_F( PhysicsTests, PlayerPush_LeftwardAndPushVelocityHasMaxedOut_DoesNotChangeXVelocity )
+{
+   ON_CALL( *_playerMock, GetVelocityX() ).WillByDefault( Return( -10. ) );
+
+   EXPECT_CALL( *_playerMock, SetVelocityX( _ ) ).Times( 0 );
+
+   _physics->PlayerPush( _playerMock, Direction::Left );
+}
+
+TEST_F( PhysicsTests, PlayerPush_Rightward_ChangesXVelocity )
+{
+   ON_CALL( *_playerMock, GetVelocityX() ).WillByDefault( Return( 6. ) );
+
+   EXPECT_CALL( *_playerMock, SetVelocityX( 8. ) ).Times( 0 );
+
+   _physics->PlayerPush( _playerMock, Direction::Right );
+}
+
+TEST_F( PhysicsTests, PlayerPush_RightwardAndPushVelocityHasAlmostMaxedOut_ClampsToMaxPushVelocity )
+{
+   ON_CALL( *_playerMock, GetVelocityX() ).WillByDefault( Return( 9. ) );
+
+   EXPECT_CALL( *_playerMock, SetVelocityX( 10. ) ).Times( 0 );
+
+   _physics->PlayerPush( _playerMock, Direction::Right );
+}
+
+TEST_F( PhysicsTests, PlayerPush_RightwardAndPushVelocityHasMaxedOut_DoesNotChangeXVelocity )
+{
+   ON_CALL( *_playerMock, GetVelocityX() ).WillByDefault( Return( 10. ) );
+
+   EXPECT_CALL( *_playerMock, SetVelocityX( _ ) ).Times( 0 );
+
+   _physics->PlayerPush( _playerMock, Direction::Right );
 }
 
 TEST_F( PhysicsTests, PlayerJump_Always_SetsVelocityToUpwardGravityMaximum )

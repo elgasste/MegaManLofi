@@ -52,6 +52,37 @@ void Physics::PlayerApplyGravity( const shared_ptr<IPlayer> player ) const
    }
 }
 
+void Physics::PlayerPush( const shared_ptr<IPlayer> player, Direction direction ) const
+{
+   auto velocityDelta = 0.;
+
+   switch ( direction )
+   {
+      case Direction::Left:
+      case Direction::UpLeft:
+      case Direction::DownLeft:
+         _frameActionRegistry->FlagAction( FrameAction::PlayerPushed );
+         if ( player->GetVelocityX() <= -( _playerConfig->MaxPushVelocity ) )
+         {
+            return;
+         }
+         velocityDelta = -( _playerConfig->PushAccelerationPerSecond / _frameRateProvider->GetFramesPerSecond() );
+         player->SetVelocityY( max( -( _playerConfig->MaxPushVelocity ), player->GetVelocityX() + velocityDelta ) );
+         break;
+      case Direction::Right:
+      case Direction::UpRight:
+      case Direction::DownRight:
+         _frameActionRegistry->FlagAction( FrameAction::PlayerPushed );
+         if ( player->GetVelocityX() >= _playerConfig->MaxPushVelocity )
+         {
+            return;
+         }
+         velocityDelta = _playerConfig->PushAccelerationPerSecond / _frameRateProvider->GetFramesPerSecond();
+         player->SetVelocityY( min( _playerConfig->MaxPushVelocity, player->GetVelocityX() + velocityDelta ) );
+         break;
+   }
+}
+
 void Physics::PlayerJump( const shared_ptr<IPlayer> player ) const
 {
    // TODO: this should only be possible if we're on a flat surface.

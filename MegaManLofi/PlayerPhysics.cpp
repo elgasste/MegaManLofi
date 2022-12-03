@@ -1,6 +1,6 @@
 #include <algorithm>
 
-#include "Physics.h"
+#include "PlayerPhysics.h"
 #include "IFrameRateProvider.h"
 #include "IFrameActionRegistry.h"
 #include "PlayerConfig.h"
@@ -10,16 +10,16 @@
 using namespace std;
 using namespace MegaManLofi;
 
-Physics::Physics( const shared_ptr<IFrameRateProvider> frameRateProvider,
-                  const shared_ptr<IFrameActionRegistry> frameActionRegistry,
-                  const shared_ptr<PlayerConfig> playerConfig ) :
+PlayerPhysics::PlayerPhysics( const shared_ptr<IFrameRateProvider> frameRateProvider,
+                              const shared_ptr<IFrameActionRegistry> frameActionRegistry,
+                              const shared_ptr<PlayerConfig> playerConfig ) :
    _frameRateProvider( frameRateProvider ),
    _frameActionRegistry( frameActionRegistry ),
    _playerConfig( playerConfig )
 {
 }
 
-void Physics::PlayerApplyFriction( const shared_ptr<IPlayer> player ) const
+void PlayerPhysics::ApplyFriction( const shared_ptr<IPlayer> player ) const
 {
    if ( _frameActionRegistry->ActionFlagged( FrameAction::PlayerPushed ) )
    {
@@ -42,7 +42,7 @@ void Physics::PlayerApplyFriction( const shared_ptr<IPlayer> player ) const
    player->SetVelocityX( newVelocityX );
 }
 
-void Physics::PlayerApplyGravity( const shared_ptr<IPlayer> player ) const
+void PlayerPhysics::ApplyGravity( const shared_ptr<IPlayer> player ) const
 {
    if ( !_frameActionRegistry->ActionFlagged( FrameAction::PlayerJumping ) &&
         player->GetVelocityY() < _playerConfig->MaxGravityVelocity )
@@ -52,7 +52,7 @@ void Physics::PlayerApplyGravity( const shared_ptr<IPlayer> player ) const
    }
 }
 
-void Physics::PlayerPush( const shared_ptr<IPlayer> player, Direction direction ) const
+void PlayerPhysics::Push( const shared_ptr<IPlayer> player, Direction direction ) const
 {
    auto velocityDelta = 0.;
 
@@ -83,7 +83,7 @@ void Physics::PlayerPush( const shared_ptr<IPlayer> player, Direction direction 
    }
 }
 
-void Physics::PlayerJump( const shared_ptr<IPlayer> player ) const
+void PlayerPhysics::Jump( const shared_ptr<IPlayer> player ) const
 {
    // TODO: this should only be possible if we're on a flat surface.
    player->SetVelocityY( -( _playerConfig->MaxGravityVelocity ) );

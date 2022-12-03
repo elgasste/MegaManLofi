@@ -11,7 +11,7 @@ namespace MegaManLofi
    enum class Direction;
    class GameConfig;
    class IGameEventAggregator;
-   class IPhysics;
+   class IPlayerPhysics;
    class IPlayer;
    class IArena;
 
@@ -22,7 +22,7 @@ namespace MegaManLofi
    public:
       Game( const std::shared_ptr<GameConfig> config,
             const std::shared_ptr<IGameEventAggregator> eventAggregator,
-            const std::shared_ptr<IPhysics> physics,
+            const std::shared_ptr<IPlayerPhysics> playerPhysics,
             const std::shared_ptr<IPlayer> player,
             const std::shared_ptr<IArena> arena );
 
@@ -36,7 +36,7 @@ namespace MegaManLofi
    private:
       const std::shared_ptr<GameConfig> _config;
       const std::shared_ptr<IGameEventAggregator> _eventAggregator;
-      const std::shared_ptr<IPhysics> _physics;
+      const std::shared_ptr<IPlayerPhysics> _playerPhysics;
       const std::shared_ptr<IPlayer> _player;
       const std::shared_ptr<IArena> _arena;
 

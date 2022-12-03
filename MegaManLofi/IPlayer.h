@@ -17,7 +17,6 @@ namespace MegaManLofi
       virtual double GetVelocityY() const = 0;
       virtual void SetVelocityY( double velocityY ) = 0;
 
-      virtual void Push( Direction direction ) = 0;
       virtual void Point( Direction direction ) = 0;
       virtual void StopX() = 0;
       virtual void StopY() = 0;

@@ -28,27 +28,6 @@ bool Player::IsMoving() const
    return _velocityX != 0. || _velocityY != 0.;
 }
 
-void Player::Push( Direction direction )
-{
-   switch ( direction )
-   {
-   case Direction::Left:
-   case Direction::UpLeft:
-   case Direction::DownLeft:
-      _velocityX -= ( _config->PushAccelerationPerSecond / _frameRateProvider->GetFramesPerSecond() );
-      _frameActionRegistry->FlagAction( FrameAction::PlayerPushed );
-      break;
-   case Direction::Right:
-   case Direction::UpRight:
-   case Direction::DownRight:
-      _velocityX += ( _config->PushAccelerationPerSecond / _frameRateProvider->GetFramesPerSecond() );
-      _frameActionRegistry->FlagAction( FrameAction::PlayerPushed );
-      break;
-   }
-
-   ClampVelocity();
-}
-
 void Player::Point( Direction direction )
 {
    _direction = direction;

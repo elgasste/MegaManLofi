@@ -65,7 +65,7 @@ TEST_F( GameTests, ExecuteCommand_Quit_RaisesShutdownEvent )
 
 TEST_F( GameTests, ExecuteCommand_PushPlayer_PushesPlayerInSpecifiedDirection )
 {
-   EXPECT_CALL( *_playerMock, Push( Direction::UpLeft ) );
+   EXPECT_CALL( *_physicsMock, PlayerPush( _, Direction::UpLeft ) );
 
    _game->ExecuteCommand( GameCommand::PushPlayer,
                           shared_ptr<PushPlayerCommandArgs>( new PushPlayerCommandArgs( Direction::UpLeft ) ) );

@@ -29,7 +29,6 @@ namespace MegaManLofi
       double GetVelocityY() const override { return _velocityY; }
       void SetVelocityY( double velocityY ) override { _velocityY = velocityY; }
 
-      void Push( Direction direction ) override;
       void Point( Direction direction ) override;
       void StopX() override;
       void StopY() override;

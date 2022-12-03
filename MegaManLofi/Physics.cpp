@@ -67,7 +67,7 @@ void Physics::PlayerPush( const shared_ptr<IPlayer> player, Direction direction 
             return;
          }
          velocityDelta = -( _playerConfig->PushAccelerationPerSecond / _frameRateProvider->GetFramesPerSecond() );
-         player->SetVelocityY( max( -( _playerConfig->MaxPushVelocity ), player->GetVelocityX() + velocityDelta ) );
+         player->SetVelocityX( max( -( _playerConfig->MaxPushVelocity ), player->GetVelocityX() + velocityDelta ) );
          break;
       case Direction::Right:
       case Direction::UpRight:
@@ -78,7 +78,7 @@ void Physics::PlayerPush( const shared_ptr<IPlayer> player, Direction direction 
             return;
          }
          velocityDelta = _playerConfig->PushAccelerationPerSecond / _frameRateProvider->GetFramesPerSecond();
-         player->SetVelocityY( min( _playerConfig->MaxPushVelocity, player->GetVelocityX() + velocityDelta ) );
+         player->SetVelocityX( min( _playerConfig->MaxPushVelocity, player->GetVelocityX() + velocityDelta ) );
          break;
    }
 }

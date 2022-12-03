@@ -14,7 +14,6 @@ public:
    MOCK_METHOD( void, SetVelocityX, ( double ), ( override ) );
    MOCK_METHOD( double, GetVelocityY, ( ), ( const, override ) );
    MOCK_METHOD( void, SetVelocityY, ( double ), ( override ) );
-   MOCK_METHOD( void, Push, ( MegaManLofi::Direction ), ( override ) );
    MOCK_METHOD( void, Point, ( MegaManLofi::Direction ), ( override ) );
    MOCK_METHOD( void, StopX, ( ), ( override ) );
    MOCK_METHOD( void, StopY, ( ), ( override ) );

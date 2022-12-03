@@ -55,7 +55,7 @@ void Game::ExecuteCommand( GameCommand command, const shared_ptr<GameCommandArgs
          _eventAggregator->RaiseEvent( GameEvent::Shutdown );
          break;
       case GameCommand::PushPlayer:
-         _player->Push( static_pointer_cast<PushPlayerCommandArgs>( args )->Direction );
+         _physics->PlayerPush( _player, static_pointer_cast<PushPlayerCommandArgs>( args )->Direction );
          break;
       case GameCommand::PointPlayer:
          _player->Point( static_pointer_cast<PointPlayerCommandArgs>( args )->Direction );

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="GameInputHandlerTests.cpp">
+      <Filter>Tests\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="GameClockTests.cpp">
+      <Filter>Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyboardInputReaderTests.cpp">
+      <Filter>Tests\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayingStateInputHandlerTests.cpp">
+      <Filter>Tests\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="StartupStateInputHandlerTests.cpp">
+      <Filter>Tests\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\gtest-all.cc" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\gmock-all.cc" />
+    <ClCompile Include="GameEventAggregatorTests.cpp">
+      <Filter>Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="GameRendererTests.cpp">
+      <Filter>Tests\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="GameRunnerTests.cpp">
+      <Filter>Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="RectangleUtilitiesTests.cpp">
+      <Filter>Tests\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameActionRegistryTests.cpp">
+      <Filter>Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="GameTests.cpp">
+      <Filter>Tests\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerTests.cpp">
+      <Filter>Tests\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="ArenaTests.cpp">
+      <Filter>Tests\GameObjects</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="mock_GameEventAggregator.h">
+      <Filter>Mocks</Filter>
+    </ClInclude>
+    <ClInclude Include="mock_GameInputReader.h">
+      <Filter>Mocks</Filter>
+    </ClInclude>
+    <ClInclude Include="mock_GameInputHandler.h">
+      <Filter>Mocks</Filter>
+    </ClInclude>
+    <ClInclude Include="mock_HighResolutionClock.h">
+      <Filter>Mocks</Filter>
+    </ClInclude>
+    <ClInclude Include="mock_Sleeper.h">
+      <Filter>Mocks</Filter>
+    </ClInclude>
+    <ClInclude Include="mock_Keyboard.h">
+      <Filter>Mocks</Filter>
+    </ClInclude>
+    <ClInclude Include="mock_GameCommandExecutor.h">
+      <Filter>Mocks</Filter>
+    </ClInclude>
+    <ClInclude Include="mock_ConsoleBuffer.h">
+      <Filter>Mocks</Filter>
+    </ClInclude>
+    <ClInclude Include="mock_GameRenderer.h">
+      <Filter>Mocks</Filter>
+    </ClInclude>
+    <ClInclude Include="mock_GameClock.h">
+      <Filter>Mocks</Filter>
+    </ClInclude>
+    <ClInclude Include="mock_ScreenBuffer.h">
+      <Filter>Mocks</Filter>
+    </ClInclude>
+    <ClInclude Include="mock_Game.h">
+      <Filter>Mocks</Filter>
+    </ClInclude>
+    <ClInclude Include="mock_GameInfoProvider.h">
+      <Filter>Mocks</Filter>
+    </ClInclude>
+    <ClInclude Include="mock_Thread.h">
+      <Filter>Mocks</Filter>
+    </ClInclude>
+    <ClInclude Include="mock_Player.h">
+      <Filter>Mocks</Filter>
+    </ClInclude>
+    <ClInclude Include="mock_FrameActionRegistry.h">
+      <Filter>Mocks</Filter>
+    </ClInclude>
+    <ClInclude Include="mock_Arena.h">
+      <Filter>Mocks</Filter>
+    </ClInclude>
+    <ClInclude Include="mock_FrameRateProvider.h">
+      <Filter>Mocks</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Mocks">
+      <UniqueIdentifier>{a125ac42-bdf3-4553-a036-5b08f971d7d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tests">
+      <UniqueIdentifier>{13933dfa-aac8-49da-a1ea-e0c8b889f9d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tests\Input">
+      <UniqueIdentifier>{700158eb-2489-40b4-b065-d241c20a0716}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tests\Render">
+      <UniqueIdentifier>{c17d64d4-63ff-4094-8067-b00dbb5c4561}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tests\Utilities">
+      <UniqueIdentifier>{7944d5d0-5302-4e76-8f97-581c783b7510}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tests\GameObjects">
+      <UniqueIdentifier>{02651954-e96a-4c40-9549-39d3547a04bf}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+</Project>

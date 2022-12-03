@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Interfaces">
+      <UniqueIdentifier>{e48f0707-0596-4f72-8f84-c97bfeca1e7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\DataTypes">
+      <UniqueIdentifier>{023c0bdb-bbe6-4fef-900c-dd7639370f59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Render">
+      <UniqueIdentifier>{73821680-50e0-435e-9c7b-6b92ec59b435}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Input">
+      <UniqueIdentifier>{0970d3aa-1903-4c7e-ad8c-e47a91652266}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Input">
+      <UniqueIdentifier>{f1d43813-58a5-4210-9400-d94cdcec4d53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Render">
+      <UniqueIdentifier>{72e4b4f7-3f00-40f2-bb2f-68c19aef96d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Config">
+      <UniqueIdentifier>{3d844f74-be55-4dd0-b069-ece15e0fba1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Wrappers">
+      <UniqueIdentifier>{82f7e089-e48f-47eb-a1b9-e2f92e1392e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Wrappers">
+      <UniqueIdentifier>{60b226f4-2879-4bda-8b14-6cffa8d37e50}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\CommandArgs">
+      <UniqueIdentifier>{c79bef2d-4ae2-4f2d-979d-26aea4e9ea68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utilities">
+      <UniqueIdentifier>{5569498b-18d5-4dfd-9039-2af16f2c646b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utilities">
+      <UniqueIdentifier>{a96f927d-ca98-40b3-b787-ea9f3da7469f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GameObjects">
+      <UniqueIdentifier>{7ecda67d-baba-4905-a196-b74366b3fabd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GameObjects">
+      <UniqueIdentifier>{8312b608-7cf1-4ec4-9f83-176d417cfdab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ConfigGenerators">
+      <UniqueIdentifier>{80d520c0-4325-4405-a317-2f5151f0356b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ConfigGenerators">
+      <UniqueIdentifier>{bada5787-7047-4f37-88c2-c3ec93573a4a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="MegaManLofi.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameRunner.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameClock.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEventAggregator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameInputHandler.cpp">
+      <Filter>Source Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyboardInputReader.cpp">
+      <Filter>Source Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="GameRenderer.cpp">
+      <Filter>Source Files\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="ConsoleBuffer.cpp">
+      <Filter>Source Files\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="StartupStateInputHandler.cpp">
+      <Filter>Source Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="StartupStateConsoleRenderer.cpp">
+      <Filter>Source Files\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="DiagnosticsConsoleRenderer.cpp">
+      <Filter>Source Files\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayingStateInputHandler.cpp">
+      <Filter>Source Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayingStateConsoleRenderer.cpp">
+      <Filter>Source Files\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="SleeperWrapper.cpp">
+      <Filter>Source Files\Wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="HighResolutionClockWrapper.cpp">
+      <Filter>Source Files\Wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyboardWrapper.cpp">
+      <Filter>Source Files\Wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="ThreadWrapper.cpp">
+      <Filter>Source Files\Wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="RectangleUtilities.cpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameActionRegistry.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Source Files\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Source Files\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Arena.cpp">
+      <Filter>Source Files\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerSpriteGenerator.cpp">
+      <Filter>Source Files\ConfigGenerators</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="GameRunner.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameClock.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEventAggregator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IGameClock.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="IGameEventAggregator.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="IGameInputHandler.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="IGameRenderer.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="IGameRunner.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEvent.h">
+      <Filter>Header Files\DataTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="GameButton.h">
+      <Filter>Header Files\DataTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="GameState.h">
+      <Filter>Header Files\DataTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="IGameInputReader.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="IConsoleBuffer.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="ConsoleColor.h">
+      <Filter>Header Files\DataTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="ConsoleBuffer.h">
+      <Filter>Header Files\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="GameRenderer.h">
+      <Filter>Header Files\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="GameInputHandler.h">
+      <Filter>Header Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyboardInputReader.h">
+      <Filter>Header Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyCode.h">
+      <Filter>Header Files\DataTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="StartupStateInputHandler.h">
+      <Filter>Header Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="StartupStateConsoleRenderer.h">
+      <Filter>Header Files\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="GameConfig.h">
+      <Filter>Header Files\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="ConsoleRenderConfig.h">
+      <Filter>Header Files\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyboardInputConfig.h">
+      <Filter>Header Files\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="DiagnosticsConsoleRenderer.h">
+      <Filter>Header Files\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="IGameCommandExecutor.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="GameCommand.h">
+      <Filter>Header Files\DataTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayingStateInputHandler.h">
+      <Filter>Header Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayingStateConsoleRenderer.h">
+      <Filter>Header Files\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Direction.h">
+      <Filter>Header Files\DataTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="IHighResolutionClock.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="HighResolutionClockWrapper.h">
+      <Filter>Header Files\Wrappers</Filter>
+    </ClInclude>
+    <ClInclude Include="ISleeper.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="SleeperWrapper.h">
+      <Filter>Header Files\Wrappers</Filter>
+    </ClInclude>
+    <ClInclude Include="IKeyboard.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyboardWrapper.h">
+      <Filter>Header Files\Wrappers</Filter>
+    </ClInclude>
+    <ClInclude Include="GameCommandArgs.h">
+      <Filter>Header Files\DataTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="PushPlayerCommandArgs.h">
+      <Filter>Header Files\CommandArgs</Filter>
+    </ClInclude>
+    <ClInclude Include="ConsolePixel.h">
+      <Filter>Header Files\DataTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="ConsoleSprite.h">
+      <Filter>Header Files\DataTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="IGameRenderConfig.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="IGameInputConfig.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="IScreenBuffer.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerConfig.h">
+      <Filter>Header Files\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="IGame.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="ArenaConfig.h">
+      <Filter>Header Files\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="IGameInfoProvider.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="IThread.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="ThreadWrapper.h">
+      <Filter>Header Files\Wrappers</Filter>
+    </ClInclude>
+    <ClInclude Include="RectangleUtilities.h">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Rectangle.h">
+      <Filter>Header Files\DataTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="IPlayerInfoProvider.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="IPlayer.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameAction.h">
+      <Filter>Header Files\DataTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="IFrameActionRegistry.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameActionRegistry.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Header Files\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Header Files\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Arena.h">
+      <Filter>Header Files\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="IArena.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="IArenaInfoProvider.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="ArenaTile.h">
+      <Filter>Header Files\DataTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerSpriteGenerator.h">
+      <Filter>Header Files\ConfigGenerators</Filter>
+    </ClInclude>
+    <ClInclude Include="PointPlayerCommandArgs.h">
+      <Filter>Header Files\CommandArgs</Filter>
+    </ClInclude>
+    <ClInclude Include="IFrameRateProvider.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

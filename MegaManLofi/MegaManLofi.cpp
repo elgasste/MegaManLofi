@@ -20,9 +20,10 @@
 #include "GameClock.h"
 #include "KeyboardInputReader.h"
 #include "FrameActionRegistry.h"
-#include "PlayerPhysics.h"
 #include "Player.h"
 #include "Arena.h"
+#include "PlayerPhysics.h"
+#include "ArenaPhysics.h"
 #include "Game.h"
 #include "DiagnosticsConsoleRenderer.h"
 #include "StartupStateInputHandler.h"
@@ -102,13 +103,16 @@ void LoadAndRun( const shared_ptr<IConsoleBuffer> consoleBuffer )
    auto clock = shared_ptr<GameClock>( new GameClock( highResolutionClock, sleeper, config->FramesPerSecond ) );
    auto keyboardInputReader = shared_ptr<KeyboardInputReader>( new KeyboardInputReader( keyboardInputConfig, keyboard ) );
 
-   // utilities
-   auto playerPhysics = shared_ptr<PlayerPhysics>( new PlayerPhysics( clock, frameActionRegistry, config->PlayerConfig ) );
-
-   // game objects
+   // game sub-objects
    auto player = shared_ptr<Player>( new Player( config->PlayerConfig, frameActionRegistry, clock ) );
    auto arena = shared_ptr<Arena>( new Arena( config->ArenaConfig, player, frameActionRegistry, clock ) );
-   auto game = shared_ptr<Game>( new Game( config, eventAggregator, playerPhysics, player, arena ) );
+
+   // utilities
+   auto playerPhysics = shared_ptr<PlayerPhysics>( new PlayerPhysics( clock, frameActionRegistry, config->PlayerConfig ) );
+   auto arenaPhysics = shared_ptr<ArenaPhysics>( new ArenaPhysics( clock, frameActionRegistry, config->ArenaConfig, arena, player ) );
+
+   // game object
+   auto game = shared_ptr<Game>( new Game( config, eventAggregator, playerPhysics, arenaPhysics, player, arena ) );
 
    // input objects
    auto startupStateInputHandler = shared_ptr<StartupStateInputHandler>( new StartupStateInputHandler( keyboardInputReader, game ) );

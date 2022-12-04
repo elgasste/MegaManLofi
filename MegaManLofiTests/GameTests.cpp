@@ -13,6 +13,7 @@
 
 #include "mock_GameEventAggregator.h"
 #include "mock_PlayerPhysics.h"
+#include "mock_ArenaPhysics.h"
 #include "mock_Player.h"
 #include "mock_Arena.h"
 
@@ -28,16 +29,18 @@ public:
       _config.reset( new GameConfig );
       _eventAggregatorMock.reset( new NiceMock<mock_GameEventAggregator> );
       _playerPhysicsMock.reset( new NiceMock<mock_PlayerPhysics> );
+      _arenaPhysicsMock.reset( new NiceMock<mock_ArenaPhysics> );
       _playerMock.reset( new NiceMock<mock_Player> );
       _arenaMock.reset( new NiceMock<mock_Arena> );
 
-      _game.reset( new Game( _config, _eventAggregatorMock, _playerPhysicsMock, _playerMock, _arenaMock ) );
+      _game.reset( new Game( _config, _eventAggregatorMock, _playerPhysicsMock, _arenaPhysicsMock, _playerMock, _arenaMock ) );
    }
 
 protected:
    shared_ptr<GameConfig> _config;
    shared_ptr<mock_GameEventAggregator> _eventAggregatorMock;
    shared_ptr<mock_PlayerPhysics> _playerPhysicsMock;
+   shared_ptr<mock_ArenaPhysics> _arenaPhysicsMock;
    shared_ptr<mock_Player> _playerMock;
    shared_ptr<mock_Arena> _arenaMock;
 
@@ -90,7 +93,7 @@ TEST_F( GameTests, RunFrame_GameStateIsNotPlaying_DoesNotDoPlayerOrArenaActions 
 {
    EXPECT_CALL( *_playerPhysicsMock, ApplyFriction( _ ) ).Times( 0 );
    EXPECT_CALL( *_playerPhysicsMock, ApplyGravity( _ ) ).Times( 0 );
-   EXPECT_CALL( *_arenaMock, MovePlayer() ).Times( 0 );
+   EXPECT_CALL( *_arenaPhysicsMock, MovePlayer() ).Times( 0 );
 
    _game->RunFrame();
 }
@@ -101,7 +104,7 @@ TEST_F( GameTests, RunFrame_GameStateIsPlaying_DoesPlayerAndArenaActions )
 
    EXPECT_CALL( *_playerPhysicsMock, ApplyFriction( _ ) );
    EXPECT_CALL( *_playerPhysicsMock, ApplyGravity( _ ) );
-   EXPECT_CALL( *_arenaMock, MovePlayer() );
+   EXPECT_CALL( *_arenaPhysicsMock, MovePlayer() );
 
    _game->RunFrame();
 }

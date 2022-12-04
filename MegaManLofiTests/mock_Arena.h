@@ -13,5 +13,4 @@ public:
    MOCK_METHOD( double, GetPlayerPositionY, ( ), ( const, override ) );
    MOCK_METHOD( void, SetPlayerPositionX, ( double ), ( override ) );
    MOCK_METHOD( void, SetPlayerPositionY, ( double ), ( override ) );
-   MOCK_METHOD( void, MovePlayer, ( ), ( override ) );
 };

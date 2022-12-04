@@ -9,7 +9,7 @@ namespace MegaManLofi
    class IFrameRateProvider;
    class IFrameActionRegistry;
    class IPlayer;
-   class PlayerConfig;
+   class PlayerPhysicsConfig;
 
    class PlayerPhysics : public IPlayerPhysics
    {
@@ -17,7 +17,7 @@ namespace MegaManLofi
       PlayerPhysics( const std::shared_ptr<IFrameRateProvider> frameRateProvider,
                      const std::shared_ptr<IFrameActionRegistry> frameActionRegistry,
                      const std::shared_ptr<IPlayer> player,
-                     const std::shared_ptr<PlayerConfig> playerConfig );
+                     const std::shared_ptr<PlayerPhysicsConfig> config );
 
       void ApplyFriction() const override;
       void ApplyGravity() const override;
@@ -28,6 +28,6 @@ namespace MegaManLofi
       const std::shared_ptr<IFrameRateProvider> _frameRateProvider;
       const std::shared_ptr<IFrameActionRegistry> _frameActionRegistry;
       const std::shared_ptr<IPlayer> _player;
-      const std::shared_ptr<PlayerConfig> _playerConfig;
+      const std::shared_ptr<PlayerPhysicsConfig> _config;
    };
 }

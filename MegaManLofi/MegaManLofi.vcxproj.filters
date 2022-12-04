@@ -350,5 +350,8 @@
     <ClInclude Include="TileIndices.h">
       <Filter>Header Files\DataTypes</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerPhysicsConfig.h">
+      <Filter>Header Files\Config</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

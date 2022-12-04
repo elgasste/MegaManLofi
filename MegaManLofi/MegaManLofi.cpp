@@ -10,6 +10,7 @@
 #include "KeyboardInputConfig.h"
 #include "PlayerConfig.h"
 #include "ArenaConfig.h"
+#include "PlayerPhysicsConfig.h"
 #include "KeyCode.h"
 #include "GameButton.h"
 #include "HighResolutionClockWrapper.h"
@@ -51,6 +52,7 @@ shared_ptr<ConsoleRenderConfig> BuildConsoleRenderConfig();
 shared_ptr<KeyboardInputConfig> BuildKeyboardInputConfig();
 shared_ptr<PlayerConfig> BuildPlayerConfig();
 shared_ptr<ArenaConfig> BuildArenaConfig();
+shared_ptr<PlayerPhysicsConfig> BuildPlayerPhysicsConfig();
 shared_ptr<GameConfig> BuildGameConfig();
 void LoadAndRun( const shared_ptr<IConsoleBuffer> consoleBuffer );
 
@@ -108,7 +110,7 @@ void LoadAndRun( const shared_ptr<IConsoleBuffer> consoleBuffer )
    auto arena = shared_ptr<Arena>( new Arena( config->ArenaConfig ) );
 
    // utilities
-   auto playerPhysics = shared_ptr<PlayerPhysics>( new PlayerPhysics( clock, frameActionRegistry, player, config->PlayerConfig ) );
+   auto playerPhysics = shared_ptr<PlayerPhysics>( new PlayerPhysics( clock, frameActionRegistry, player, config->PlayerPhysicsConfig ) );
    auto arenaPhysics = shared_ptr<ArenaPhysics>( new ArenaPhysics( clock, frameActionRegistry, arena, player ) );
 
    // game object
@@ -255,13 +257,6 @@ shared_ptr<PlayerConfig> BuildPlayerConfig()
    playerConfig->DefaultVelocityX = 0.;
    playerConfig->DefaultVelocityY = 0.;
 
-   playerConfig->MaxPushVelocity = 1'000.;
-   playerConfig->MaxGravityVelocity = 4'000.;
-
-   playerConfig->PushAccelerationPerSecond = 8'000.;
-   playerConfig->FrictionDecelerationPerSecond = 10'000;
-   playerConfig->GravityAccelerationPerSecond = 10'000.;
-
    playerConfig->DefaultDirection = Direction::Right;
 
    return playerConfig;
@@ -302,6 +297,20 @@ shared_ptr<ArenaConfig> BuildArenaConfig()
    return arenaConfig;
 }
 
+shared_ptr<PlayerPhysicsConfig> BuildPlayerPhysicsConfig()
+{
+   auto playerPhysicsConfig = make_shared<PlayerPhysicsConfig>();
+
+   playerPhysicsConfig->MaxPushVelocity = 1'000.;
+   playerPhysicsConfig->MaxGravityVelocity = 4'000.;
+
+   playerPhysicsConfig->PushAccelerationPerSecond = 8'000.;
+   playerPhysicsConfig->FrictionDecelerationPerSecond = 10'000;
+   playerPhysicsConfig->GravityAccelerationPerSecond = 10'000.;
+
+   return playerPhysicsConfig;
+}
+
 shared_ptr<GameConfig> BuildGameConfig()
 {
    auto config = make_shared<GameConfig>();
@@ -312,6 +321,7 @@ shared_ptr<GameConfig> BuildGameConfig()
    config->InputConfig = BuildKeyboardInputConfig();
    config->PlayerConfig = BuildPlayerConfig();
    config->ArenaConfig = BuildArenaConfig();
+   config->PlayerPhysicsConfig = BuildPlayerPhysicsConfig();
 
    return config;
 }

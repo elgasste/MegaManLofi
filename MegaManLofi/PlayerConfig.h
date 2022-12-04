@@ -14,12 +14,5 @@ namespace MegaManLofi
       double DefaultVelocityY = 0.;
 
       Direction DefaultDirection = (Direction)0;
-
-      double MaxPushVelocity = 0.;
-      double MaxGravityVelocity = 0.;
-
-      double PushAccelerationPerSecond = 0.;
-      double FrictionDecelerationPerSecond = 0.;
-      double GravityAccelerationPerSecond = 0.;
    };
 }

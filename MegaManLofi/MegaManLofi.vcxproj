@@ -231,6 +231,7 @@
     <ClInclude Include="KeyboardInputReader.h" />
     <ClInclude Include="KeyCode.h" />
     <ClInclude Include="PlayerPhysics.h" />
+    <ClInclude Include="PlayerPhysicsConfig.h" />
     <ClInclude Include="PlayerSpriteGenerator.h" />
     <ClInclude Include="PointPlayerCommandArgs.h" />
     <ClInclude Include="PushPlayerCommandArgs.h" />

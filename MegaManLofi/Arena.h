@@ -28,6 +28,9 @@ namespace MegaManLofi
       double GetPlayerPositionX() const override { return _playerPositionX; }
       double GetPlayerPositionY() const override { return _playerPositionY; }
 
+      void SetPlayerPositionX( double positionX ) override { _playerPositionX = positionX; }
+      void SetPlayerPositionY( double positionY ) override { _playerPositionY = positionY; }
+
       void MovePlayer() override;
 
    private:

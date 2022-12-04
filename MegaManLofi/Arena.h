@@ -4,7 +4,6 @@
 #include <vector>
 
 #include "IArena.h"
-#include "ArenaTile.h"
 
 namespace MegaManLofi
 {
@@ -24,6 +23,14 @@ namespace MegaManLofi
       void SetPlayerPositionX( double positionX ) override { _playerPositionX = positionX; }
       void SetPlayerPositionY( double positionY ) override { _playerPositionY = positionY; }
 
+      double GetTileWidth() const override { return _tileWidth; }
+      double GetTileHeight() const override { return _tileHeight; }
+
+      int GetHorizontalTiles() const override { return _horizontalTiles; }
+      int GetVerticalTiles() const override { return _verticalTiles; }
+
+      const ArenaTile& GetTile( int index ) const override { return _tiles[index]; }
+
    private:
       std::vector<ArenaTile> _tiles;
 
@@ -32,5 +39,11 @@ namespace MegaManLofi
 
       double _playerPositionX;
       double _playerPositionY;
+
+      double _tileWidth;
+      double _tileHeight;
+
+      int _horizontalTiles;
+      int _verticalTiles;
    };
 }

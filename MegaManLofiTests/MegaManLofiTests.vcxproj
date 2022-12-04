@@ -58,6 +58,7 @@
     <ClInclude Include="mock_Thread.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ArenaPhysicsTests.cpp" />
     <ClCompile Include="ArenaTests.cpp" />
     <ClCompile Include="FrameActionRegistryTests.cpp" />
     <ClCompile Include="GameClockTests.cpp" />

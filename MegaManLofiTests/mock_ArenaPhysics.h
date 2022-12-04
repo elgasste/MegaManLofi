@@ -7,6 +7,5 @@
 class mock_ArenaPhysics : public MegaManLofi::IArenaPhysics
 {
 public:
-   MOCK_METHOD( void, MovePlayer, ( const std::shared_ptr<MegaManLofi::IArena>,
-                                    const std::shared_ptr<MegaManLofi::IPlayer> ), ( const, override ) );
+   MOCK_METHOD( void, MovePlayer, ( ), ( override ) );
 };

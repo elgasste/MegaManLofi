@@ -3,7 +3,6 @@
 #include <memory>
 
 #include <MegaManLofi/Game.h>
-#include <MegaManLofi/GameConfig.h>
 #include <MegaManLofi/GameState.h>
 #include <MegaManLofi/Direction.h>
 #include <MegaManLofi/GameCommand.h>
@@ -15,7 +14,6 @@
 #include "mock_PlayerPhysics.h"
 #include "mock_ArenaPhysics.h"
 #include "mock_Player.h"
-#include "mock_Arena.h"
 
 using namespace std;
 using namespace testing;
@@ -26,23 +24,19 @@ class GameTests : public Test
 public:
    void SetUp() override
    {
-      _config.reset( new GameConfig );
       _eventAggregatorMock.reset( new NiceMock<mock_GameEventAggregator> );
       _playerPhysicsMock.reset( new NiceMock<mock_PlayerPhysics> );
       _arenaPhysicsMock.reset( new NiceMock<mock_ArenaPhysics> );
       _playerMock.reset( new NiceMock<mock_Player> );
-      _arenaMock.reset( new NiceMock<mock_Arena> );
 
-      _game.reset( new Game( _config, _eventAggregatorMock, _playerPhysicsMock, _arenaPhysicsMock, _playerMock, _arenaMock ) );
+      _game.reset( new Game( _eventAggregatorMock, _playerPhysicsMock, _arenaPhysicsMock, _playerMock ) );
    }
 
 protected:
-   shared_ptr<GameConfig> _config;
    shared_ptr<mock_GameEventAggregator> _eventAggregatorMock;
    shared_ptr<mock_PlayerPhysics> _playerPhysicsMock;
    shared_ptr<mock_ArenaPhysics> _arenaPhysicsMock;
    shared_ptr<mock_Player> _playerMock;
-   shared_ptr<mock_Arena> _arenaMock;
 
    shared_ptr<Game> _game;
 };

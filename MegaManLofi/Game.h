@@ -8,25 +8,20 @@
 
 namespace MegaManLofi
 {
-   enum class Direction;
-   class GameConfig;
    class IGameEventAggregator;
    class IPlayerPhysics;
    class IArenaPhysics;
    class IPlayer;
-   class IArena;
 
    class Game : public IGame,
                 public IGameCommandExecutor,
                 public IGameInfoProvider
    {
    public:
-      Game( const std::shared_ptr<GameConfig> config,
-            const std::shared_ptr<IGameEventAggregator> eventAggregator,
+      Game( const std::shared_ptr<IGameEventAggregator> eventAggregator,
             const std::shared_ptr<IPlayerPhysics> playerPhysics,
             const std::shared_ptr<IArenaPhysics> arenaPhysics,
-            const std::shared_ptr<IPlayer> player,
-            const std::shared_ptr<IArena> arena );
+            const std::shared_ptr<IPlayer> player );
 
       void RunFrame() override;
 
@@ -36,12 +31,10 @@ namespace MegaManLofi
       void ExecuteCommand( GameCommand command, const std::shared_ptr<GameCommandArgs> args ) override;
 
    private:
-      const std::shared_ptr<GameConfig> _config;
       const std::shared_ptr<IGameEventAggregator> _eventAggregator;
       const std::shared_ptr<IPlayerPhysics> _playerPhysics;
       const std::shared_ptr<IArenaPhysics> _arenaPhysics;
       const std::shared_ptr<IPlayer> _player;
-      const std::shared_ptr<IArena> _arena;
 
       GameState _state;
    };

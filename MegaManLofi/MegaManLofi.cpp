@@ -114,7 +114,7 @@ void LoadAndRun( const shared_ptr<IConsoleBuffer> consoleBuffer )
    auto arenaPhysics = shared_ptr<ArenaPhysics>( new ArenaPhysics( clock, frameActionRegistry, arena, player ) );
 
    // game object
-   auto game = shared_ptr<Game>( new Game( config, eventAggregator, playerPhysics, arenaPhysics, player, arena ) );
+   auto game = shared_ptr<Game>( new Game( eventAggregator, playerPhysics, arenaPhysics, player ) );
 
    // input objects
    auto startupStateInputHandler = shared_ptr<StartupStateInputHandler>( new StartupStateInputHandler( keyboardInputReader, game ) );

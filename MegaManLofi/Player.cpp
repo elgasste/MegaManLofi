@@ -13,13 +13,12 @@ using namespace MegaManLofi;
 Player::Player( const shared_ptr<PlayerConfig> config,
                 const shared_ptr<IFrameActionRegistry> frameActionRegistry,
                 const shared_ptr<IFrameRateProvider> frameRateProvider ) :
-   _config( config ),
    _frameActionRegistry( frameActionRegistry ),
    _frameRateProvider( frameRateProvider ),
    _hitBox( config->HitBox ),
-   _velocityX( _config->StartVelocityX ),
-   _velocityY( _config->StartVelocityY ),
-   _direction( _config->StartDirection )
+   _velocityX( config->StartVelocityX ),
+   _velocityY( config->StartVelocityY ),
+   _direction( config->StartDirection )
 {
 }
 

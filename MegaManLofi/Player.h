@@ -34,7 +34,6 @@ namespace MegaManLofi
       void StopY() override { _velocityY = 0; }
 
    private:
-      const std::shared_ptr<PlayerConfig> _config;
       const std::shared_ptr<IFrameActionRegistry> _frameActionRegistry;
       const std::shared_ptr<IFrameRateProvider> _frameRateProvider;
 

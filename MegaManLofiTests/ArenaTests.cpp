@@ -48,10 +48,20 @@ protected:
 
 TEST_F( ArenaTests, Constructor_Always_SetsDefaultInfoBasedOnConfig )
 {
+   _config->Tiles[5] = { false, true, false, true };
    BuildArena();
 
    EXPECT_EQ( _arena->GetWidth(), 20. );
    EXPECT_EQ( _arena->GetHeight(), 16. );
    EXPECT_EQ( _arena->GetPlayerPositionX(), 10. );
    EXPECT_EQ( _arena->GetPlayerPositionY(), 8. );
+   EXPECT_EQ( _arena->GetTileWidth(), 2. );
+   EXPECT_EQ( _arena->GetTileHeight(), 2. );
+   EXPECT_EQ( _arena->GetHorizontalTiles(), 10 );
+   EXPECT_EQ( _arena->GetVerticalTiles(), 8. );
+
+   EXPECT_FALSE( _arena->GetTile( 5 ).LeftPassable );
+   EXPECT_TRUE( _arena->GetTile( 5 ).UpPassable );
+   EXPECT_FALSE( _arena->GetTile( 5 ).RightPassable );
+   EXPECT_TRUE( _arena->GetTile( 5 ).DownPassable );
 }

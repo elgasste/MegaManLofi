@@ -1,7 +1,6 @@
 #include "ArenaPhysics.h"
 #include "IFrameRateProvider.h"
 #include "IFrameActionRegistry.h"
-#include "ArenaConfig.h"
 #include "IPlayer.h"
 #include "IArena.h"
 #include "FrameAction.h"
@@ -11,12 +10,10 @@ using namespace MegaManLofi;
 
 ArenaPhysics::ArenaPhysics( const shared_ptr<IFrameRateProvider> frameRateProvider,
                             const shared_ptr<IFrameActionRegistry> frameActionRegistry,
-                            const shared_ptr<ArenaConfig> arenaConfig,
                             const shared_ptr<IArena> arena,
                             const shared_ptr<IPlayer> player ) :
    _frameRateProvider( frameRateProvider ),
    _frameActionRegistry( frameActionRegistry ),
-   _arenaConfig( arenaConfig ),
    _arena( arena ),
    _player( player )
 {
@@ -43,15 +40,15 @@ void ArenaPhysics::UpdatePlayerOccupyingTileIndices()
    auto playerPositionX = _arena->GetPlayerPositionX();
    auto playerPositionY = _arena->GetPlayerPositionY();
 
-   _playerOccupyingTileIndices.Left = (long long)( ( playerPositionX + hitBox.Left ) / _arenaConfig->TileWidth );
-   _playerOccupyingTileIndices.Top = (long long)( ( playerPositionY + hitBox.Top ) / _arenaConfig->TileHeight );
+   _playerOccupyingTileIndices.Left = (long long)( ( playerPositionX + hitBox.Left ) / _arena->GetTileWidth() );
+   _playerOccupyingTileIndices.Top = (long long)( ( playerPositionY + hitBox.Top ) / _arena->GetTileHeight() );
 
    // if the hit box is exactly on a right or bottom tile edge, these will be incorrect,
    // so a quick and dirty solution is to trim a tiny bit off the hit box width and height
    // TODO: there must be a better way to do this, because this can still mess up in rare cases...
    // how can we (quickly & easily) tell if the right/bottom edge perfectly matches a tile boundary?
-   _playerOccupyingTileIndices.Right = (long long)( ( playerPositionX + hitBox.Left + ( hitBox.Width - 0.001 ) ) / _arenaConfig->TileWidth );
-   _playerOccupyingTileIndices.Bottom = (long long)( ( playerPositionY + hitBox.Top + hitBox.Height - 0.001 ) / _arenaConfig->TileHeight );
+   _playerOccupyingTileIndices.Right = (long long)( ( playerPositionX + hitBox.Left + ( hitBox.Width - 0.001 ) ) / _arena->GetTileWidth() );
+   _playerOccupyingTileIndices.Bottom = (long long)( ( playerPositionY + hitBox.Top + hitBox.Height - 0.001 ) / _arena->GetTileHeight() );
 }
 
 void ArenaPhysics::MovePlayerX()
@@ -90,7 +87,7 @@ void ArenaPhysics::DetectPlayerTileCollisionX( double& newPositionX )
    {
       if ( newPositionX < currentPositionX ) // moving left
       {
-         auto leftOccupyingTileLeftEdge = _playerOccupyingTileIndices.Left * _arenaConfig->TileWidth;
+         auto leftOccupyingTileLeftEdge = _playerOccupyingTileIndices.Left * _arena->GetTileWidth();
 
          if ( newPositionX < 0. )
          {
@@ -102,7 +99,7 @@ void ArenaPhysics::DetectPlayerTileCollisionX( double& newPositionX )
          else if ( newPositionX < leftOccupyingTileLeftEdge )
          {
             // check if we're trying to enter a new tile to the left
-            const auto& nextLeftTile = _arenaConfig->Tiles[( y * _arenaConfig->HorizontalTiles ) + ( _playerOccupyingTileIndices.Left - 1 )];
+            const auto& nextLeftTile = _arena->GetTile( ( y * _arena->GetHorizontalTiles() ) + ( _playerOccupyingTileIndices.Left - 1 ) );
             if ( !nextLeftTile.LeftPassable )
             {
                newPositionX = leftOccupyingTileLeftEdge;
@@ -112,7 +109,7 @@ void ArenaPhysics::DetectPlayerTileCollisionX( double& newPositionX )
       }
       else // moving right
       {
-         auto rightOccupyingTileRightEdge = ( _playerOccupyingTileIndices.Right + 1 ) * _arenaConfig->TileWidth;
+         auto rightOccupyingTileRightEdge = ( _playerOccupyingTileIndices.Right + 1 ) * _arena->GetTileWidth();
          auto newPositionXRight = newPositionX + hitBox.Width;
          auto arenaWidth = _arena->GetWidth();
 
@@ -126,7 +123,7 @@ void ArenaPhysics::DetectPlayerTileCollisionX( double& newPositionX )
          else if ( newPositionXRight > rightOccupyingTileRightEdge )
          {
             // check if we're trying to enter a new tile to the right
-            const auto& nextRightTile = _arenaConfig->Tiles[( y * _arenaConfig->HorizontalTiles ) + ( _playerOccupyingTileIndices.Right + 1 )];
+            const auto& nextRightTile = _arena->GetTile( ( y * _arena->GetHorizontalTiles() ) + ( _playerOccupyingTileIndices.Right + 1 ) );
             if ( !nextRightTile.RightPassable )
             {
                newPositionX = rightOccupyingTileRightEdge - hitBox.Width;
@@ -147,7 +144,7 @@ void ArenaPhysics::DetectPlayerTileCollisionY( double& newPositionY )
    {
       if ( newPositionY < currentPositionY ) // moving up
       {
-         auto topOccupyingTileTopEdge = _playerOccupyingTileIndices.Top * _arenaConfig->TileHeight;
+         auto topOccupyingTileTopEdge = _playerOccupyingTileIndices.Top * _arena->GetTileHeight();
 
          if ( newPositionY < 0. )
          {
@@ -159,7 +156,7 @@ void ArenaPhysics::DetectPlayerTileCollisionY( double& newPositionY )
          else if ( newPositionY < topOccupyingTileTopEdge )
          {
             // check if we're trying to enter a new tile upward
-            const auto& nextTileUp = _arenaConfig->Tiles[( ( _playerOccupyingTileIndices.Top - 1 ) * _arenaConfig->HorizontalTiles ) + x];
+            const auto& nextTileUp = _arena->GetTile( ( ( _playerOccupyingTileIndices.Top - 1 ) * _arena->GetHorizontalTiles() ) + x );
             if ( !nextTileUp.UpPassable )
             {
                newPositionY = topOccupyingTileTopEdge;
@@ -169,7 +166,7 @@ void ArenaPhysics::DetectPlayerTileCollisionY( double& newPositionY )
       }
       else // moving down
       {
-         auto bottomOccupyingTileBottomEdge = ( _playerOccupyingTileIndices.Bottom + 1 ) * _arenaConfig->TileHeight;
+         auto bottomOccupyingTileBottomEdge = ( _playerOccupyingTileIndices.Bottom + 1 ) * _arena->GetTileHeight();
          auto newPositionYBottom = newPositionY + hitBox.Height;
          auto arenaHeight = _arena->GetHeight();
 
@@ -183,7 +180,7 @@ void ArenaPhysics::DetectPlayerTileCollisionY( double& newPositionY )
          else if ( newPositionYBottom > bottomOccupyingTileBottomEdge )
          {
             // check if we're trying to enter a new tile downward
-            const auto& nextTileDown = _arenaConfig->Tiles[( ( _playerOccupyingTileIndices.Bottom + 1 ) * _arenaConfig->HorizontalTiles ) + x];
+            const auto& nextTileDown = _arena->GetTile( ( ( _playerOccupyingTileIndices.Bottom + 1 ) * _arena->GetHorizontalTiles() ) + x );
             if ( !nextTileDown.DownPassable )
             {
                newPositionY = bottomOccupyingTileBottomEdge - hitBox.Height;

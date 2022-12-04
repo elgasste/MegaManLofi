@@ -109,7 +109,7 @@ void LoadAndRun( const shared_ptr<IConsoleBuffer> consoleBuffer )
 
    // utilities
    auto playerPhysics = shared_ptr<PlayerPhysics>( new PlayerPhysics( clock, frameActionRegistry, player, config->PlayerConfig ) );
-   auto arenaPhysics = shared_ptr<ArenaPhysics>( new ArenaPhysics( clock, frameActionRegistry, config->ArenaConfig, arena, player ) );
+   auto arenaPhysics = shared_ptr<ArenaPhysics>( new ArenaPhysics( clock, frameActionRegistry, arena, player ) );
 
    // game object
    auto game = shared_ptr<Game>( new Game( config, eventAggregator, playerPhysics, arenaPhysics, player, arena ) );

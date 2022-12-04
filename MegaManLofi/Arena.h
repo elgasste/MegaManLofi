@@ -29,7 +29,7 @@ namespace MegaManLofi
       int GetHorizontalTiles() const override { return _horizontalTiles; }
       int GetVerticalTiles() const override { return _verticalTiles; }
 
-      const ArenaTile& GetTile( int index ) const override { return _tiles[index]; }
+      const ArenaTile& GetTile( long long index ) const override { return _tiles[index]; }
 
    private:
       std::vector<ArenaTile> _tiles;

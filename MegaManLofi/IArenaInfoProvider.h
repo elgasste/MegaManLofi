@@ -19,6 +19,6 @@ namespace MegaManLofi
       virtual int GetHorizontalTiles() const = 0;
       virtual int GetVerticalTiles() const = 0;
 
-      virtual const ArenaTile& GetTile( int index ) const = 0;
+      virtual const ArenaTile& GetTile( long long index ) const = 0;
    };
 }

@@ -6,14 +6,14 @@ using namespace std;
 using namespace MegaManLofi;
 
 Arena::Arena( const shared_ptr<ArenaConfig> config ) :
-   _tiles( config->Tiles ),
-   _width( config->TileWidth* config->HorizontalTiles ),
-   _height( config->TileHeight* config->VerticalTiles ),
-   _playerPositionX( config->PlayerStartX ),
-   _playerPositionY( config->PlayerStartY ),
-   _tileWidth( config->TileWidth ),
-   _tileHeight( config->TileHeight ),
-   _horizontalTiles( config->HorizontalTiles ),
-   _verticalTiles( config->VerticalTiles )
+   _tiles( config->DefaultTiles ),
+   _width( config->DefaultTileWidth* config->DefaultHorizontalTiles ),
+   _height( config->DefaultTileHeight* config->DefaultVerticalTiles ),
+   _playerPositionX( config->DefaultPlayerPositionX ),
+   _playerPositionY( config->DefaultPlayerPositionY ),
+   _tileWidth( config->DefaultTileWidth ),
+   _tileHeight( config->DefaultTileHeight ),
+   _horizontalTiles( config->DefaultHorizontalTiles ),
+   _verticalTiles( config->DefaultVerticalTiles )
 {
 }

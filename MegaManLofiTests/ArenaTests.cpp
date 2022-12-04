@@ -22,16 +22,16 @@ public:
    {
       _config.reset( new ArenaConfig );
 
-      _config->TileWidth = 2.;
-      _config->TileHeight = 2.;
-      _config->HorizontalTiles = 10;
-      _config->VerticalTiles = 8;
-      _config->PlayerStartX = 10.;
-      _config->PlayerStartY = 8.;
+      _config->DefaultTileWidth = 2.;
+      _config->DefaultTileHeight = 2.;
+      _config->DefaultHorizontalTiles = 10;
+      _config->DefaultVerticalTiles = 8;
+      _config->DefaultPlayerPositionX = 10.;
+      _config->DefaultPlayerPositionY = 8.;
 
-      for ( int i = 0; i < _config->HorizontalTiles * _config->VerticalTiles; i++ )
+      for ( int i = 0; i < _config->DefaultHorizontalTiles * _config->DefaultVerticalTiles; i++ )
       {
-         _config->Tiles.push_back( { true, true, true, true } );
+         _config->DefaultTiles.push_back( { true, true, true, true } );
       }
    }
 
@@ -48,7 +48,7 @@ protected:
 
 TEST_F( ArenaTests, Constructor_Always_SetsDefaultInfoBasedOnConfig )
 {
-   _config->Tiles[5] = { false, true, false, true };
+   _config->DefaultTiles[5] = { false, true, false, true };
    BuildArena();
 
    EXPECT_EQ( _arena->GetWidth(), 20. );

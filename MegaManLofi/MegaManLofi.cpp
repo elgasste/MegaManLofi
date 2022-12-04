@@ -272,32 +272,32 @@ shared_ptr<ArenaConfig> BuildArenaConfig()
    auto arenaConfig = make_shared<ArenaConfig>();
 
    // this results in a 4332 x 1872 arena, which translates super well to a 120 x 30 console
-   arenaConfig->TileWidth = 38.;
-   arenaConfig->TileHeight = 78.;
+   arenaConfig->DefaultTileWidth = 38.;
+   arenaConfig->DefaultTileHeight = 78.;
 
-   arenaConfig->HorizontalTiles = 114;
-   arenaConfig->VerticalTiles = 24;
+   arenaConfig->DefaultHorizontalTiles = 114;
+   arenaConfig->DefaultVerticalTiles = 24;
 
    // start with all passable tiles
-   for ( int i = 0; i < arenaConfig->HorizontalTiles * arenaConfig->VerticalTiles; i++ )
+   for ( int i = 0; i < arenaConfig->DefaultHorizontalTiles * arenaConfig->DefaultVerticalTiles; i++ )
    {
-      arenaConfig->Tiles.push_back( { true, true, true, true } );
+      arenaConfig->DefaultTiles.push_back( { true, true, true, true } );
    }
 
    // platform on the 11th row, extending 50 tiles from the left edge of the arena
    for ( int i = ( 114 * 10 ); i < ( ( 114 * 10 ) + 50 ); i++ )
    {
-      arenaConfig->Tiles[i] = { false, false, false, false };
+      arenaConfig->DefaultTiles[i] = { false, false, false, false };
    }
 
    // platform on the 21st row, extending 50 tiles from the right edge of the arena
    for ( int i = ( ( 114 * 21 ) - 1 ); i > ( ( 114 * 21 ) - 50 ); i-- )
    {
-      arenaConfig->Tiles[i] = { true, true, true, false }; // passable in all ways except down
+      arenaConfig->DefaultTiles[i] = { true, true, true, false }; // passable in all ways except down
    }
 
-   arenaConfig->PlayerStartX = ( arenaConfig->TileWidth * arenaConfig->HorizontalTiles ) / 2.;
-   arenaConfig->PlayerStartY = ( arenaConfig->TileHeight * arenaConfig->VerticalTiles ) / 2.;
+   arenaConfig->DefaultPlayerPositionX = ( arenaConfig->DefaultTileWidth * arenaConfig->DefaultHorizontalTiles ) / 2.;
+   arenaConfig->DefaultPlayerPositionY = ( arenaConfig->DefaultTileHeight * arenaConfig->DefaultVerticalTiles ) / 2.;
 
    return arenaConfig;
 }

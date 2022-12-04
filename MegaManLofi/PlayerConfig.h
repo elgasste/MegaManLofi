@@ -8,10 +8,12 @@ namespace MegaManLofi
    class PlayerConfig
    {
    public:
-      Rectangle HitBox = { 0., 0., 0., 0. };
+      Rectangle DefaultHitBox = { 0., 0., 0., 0. };
 
-      double StartVelocityX = 0.;
-      double StartVelocityY = 0.;
+      double DefaultVelocityX = 0.;
+      double DefaultVelocityY = 0.;
+
+      Direction DefaultDirection = (Direction)0;
 
       double MaxPushVelocity = 0.;
       double MaxGravityVelocity = 0.;
@@ -19,7 +21,5 @@ namespace MegaManLofi
       double PushAccelerationPerSecond = 0.;
       double FrictionDecelerationPerSecond = 0.;
       double GravityAccelerationPerSecond = 0.;
-
-      Direction StartDirection = (Direction)0;
    };
 }

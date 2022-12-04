@@ -15,10 +15,10 @@ Player::Player( const shared_ptr<PlayerConfig> config,
                 const shared_ptr<IFrameRateProvider> frameRateProvider ) :
    _frameActionRegistry( frameActionRegistry ),
    _frameRateProvider( frameRateProvider ),
-   _hitBox( config->HitBox ),
-   _velocityX( config->StartVelocityX ),
-   _velocityY( config->StartVelocityY ),
-   _direction( config->StartDirection )
+   _hitBox( config->DefaultHitBox ),
+   _velocityX( config->DefaultVelocityX ),
+   _velocityY( config->DefaultVelocityY ),
+   _direction( config->DefaultDirection )
 {
 }
 

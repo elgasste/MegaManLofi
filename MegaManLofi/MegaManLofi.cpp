@@ -250,10 +250,10 @@ shared_ptr<PlayerConfig> BuildPlayerConfig()
 
    // one character is 38 x 78 units, and our player sprites are 4 x 3 characters,
    // so this hit box should match the player's sprite size
-   playerConfig->HitBox = { 0., 0., 38. * 4., 78. * 3. };
+   playerConfig->DefaultHitBox = { 0., 0., 38. * 4., 78. * 3. };
 
-   playerConfig->StartVelocityX = 0.;
-   playerConfig->StartVelocityY = 0.;
+   playerConfig->DefaultVelocityX = 0.;
+   playerConfig->DefaultVelocityY = 0.;
 
    playerConfig->MaxPushVelocity = 1'000.;
    playerConfig->MaxGravityVelocity = 4'000.;
@@ -262,7 +262,7 @@ shared_ptr<PlayerConfig> BuildPlayerConfig()
    playerConfig->FrictionDecelerationPerSecond = 10'000;
    playerConfig->GravityAccelerationPerSecond = 10'000.;
 
-   playerConfig->StartDirection = Direction::Right;
+   playerConfig->DefaultDirection = Direction::Right;
 
    return playerConfig;
 }

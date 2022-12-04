@@ -150,6 +150,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Arena.cpp" />
+    <ClCompile Include="ArenaPhysics.cpp" />
     <ClCompile Include="ConsoleBuffer.cpp" />
     <ClCompile Include="FrameActionRegistry.cpp" />
     <ClCompile Include="MegaManLofi.cpp" />
@@ -177,6 +178,7 @@
   <ItemGroup>
     <ClInclude Include="Arena.h" />
     <ClInclude Include="ArenaConfig.h" />
+    <ClInclude Include="ArenaPhysics.h" />
     <ClInclude Include="ArenaTile.h" />
     <ClInclude Include="ConsoleColor.h" />
     <ClInclude Include="ConsoleBuffer.h" />
@@ -199,6 +201,7 @@
     <ClInclude Include="GameState.h" />
     <ClInclude Include="IArena.h" />
     <ClInclude Include="IArenaInfoProvider.h" />
+    <ClInclude Include="IArenaPhysics.h" />
     <ClInclude Include="IFrameActionRegistry.h" />
     <ClInclude Include="IFrameRateProvider.h" />
     <ClInclude Include="IGame.h" />

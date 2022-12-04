@@ -35,8 +35,8 @@ void Game::RunFrame()
 {
    if ( _state == GameState::Playing )
    {
-      _playerPhysics->ApplyFriction( _player );
-      _playerPhysics->ApplyGravity( _player );
+      _playerPhysics->ApplyFriction();
+      _playerPhysics->ApplyGravity();
 
       _arenaPhysics->MovePlayer();
    }
@@ -58,13 +58,13 @@ void Game::ExecuteCommand( GameCommand command, const shared_ptr<GameCommandArgs
          _eventAggregator->RaiseEvent( GameEvent::Shutdown );
          break;
       case GameCommand::PushPlayer:
-         _playerPhysics->Push( _player, static_pointer_cast<PushPlayerCommandArgs>( args )->Direction );
+         _playerPhysics->Push( static_pointer_cast<PushPlayerCommandArgs>( args )->Direction );
          break;
       case GameCommand::PointPlayer:
          _player->Point( static_pointer_cast<PointPlayerCommandArgs>( args )->Direction );
          break;
       case GameCommand::Jump:
-         _playerPhysics->Jump( _player );
+         _playerPhysics->Jump();
          break;
    }
 }

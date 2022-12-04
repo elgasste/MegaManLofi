@@ -3,31 +3,34 @@
 #include "PlayerPhysics.h"
 #include "IFrameRateProvider.h"
 #include "IFrameActionRegistry.h"
-#include "PlayerConfig.h"
+#include "PlayerPhysicsConfig.h"
 #include "IPlayer.h"
 #include "FrameAction.h"
+#include "Direction.h"
 
 using namespace std;
 using namespace MegaManLofi;
 
 PlayerPhysics::PlayerPhysics( const shared_ptr<IFrameRateProvider> frameRateProvider,
                               const shared_ptr<IFrameActionRegistry> frameActionRegistry,
-                              const shared_ptr<PlayerConfig> playerConfig ) :
+                              const shared_ptr<IPlayer> player,
+                              const shared_ptr<PlayerPhysicsConfig> config ) :
    _frameRateProvider( frameRateProvider ),
    _frameActionRegistry( frameActionRegistry ),
-   _playerConfig( playerConfig )
+   _player( player ),
+   _config( config )
 {
 }
 
-void PlayerPhysics::ApplyFriction( const shared_ptr<IPlayer> player ) const
+void PlayerPhysics::ApplyFriction() const
 {
    if ( _frameActionRegistry->ActionFlagged( FrameAction::PlayerPushed ) )
    {
       return;
    }
 
-   auto velocityDelta = ( _playerConfig->FrictionDecelerationPerSecond / _frameRateProvider->GetFramesPerSecond() );
-   auto currentVelocityX = player->GetVelocityX();
+   auto velocityDelta = ( _config->FrictionDecelerationPerSecond / _frameRateProvider->GetFramesPerSecond() );
+   auto currentVelocityX = _player->GetVelocityX();
    auto newVelocityX = 0.;
 
    if ( currentVelocityX < 0. )
@@ -39,20 +42,25 @@ void PlayerPhysics::ApplyFriction( const shared_ptr<IPlayer> player ) const
       newVelocityX = max( currentVelocityX - velocityDelta, 0. );
    }
 
-   player->SetVelocityX( newVelocityX );
+   _player->SetVelocityX( newVelocityX );
 }
 
-void PlayerPhysics::ApplyGravity( const shared_ptr<IPlayer> player ) const
+void PlayerPhysics::ApplyGravity() const
 {
    if ( !_frameActionRegistry->ActionFlagged( FrameAction::PlayerJumping ) &&
-        player->GetVelocityY() < _playerConfig->MaxGravityVelocity )
+        _player->GetVelocityY() < _config->MaxGravityVelocity )
    {
-      auto velocityDelta = ( _playerConfig->GravityAccelerationPerSecond / _frameRateProvider->GetFramesPerSecond() );
-      player->SetVelocityY( min( player->GetVelocityY() + velocityDelta, _playerConfig->MaxGravityVelocity ) );
+      auto velocityDelta = ( _config->GravityAccelerationPerSecond / _frameRateProvider->GetFramesPerSecond() );
+      _player->SetVelocityY( min( _player->GetVelocityY() + velocityDelta, _config->MaxGravityVelocity ) );
    }
 }
 
-void PlayerPhysics::Push( const shared_ptr<IPlayer> player, Direction direction ) const
+void PlayerPhysics::Point( Direction direction ) const
+{
+   _player->SetDirection( direction );
+}
+
+void PlayerPhysics::Push( Direction direction ) const
 {
    auto velocityDelta = 0.;
 
@@ -62,30 +70,30 @@ void PlayerPhysics::Push( const shared_ptr<IPlayer> player, Direction direction 
       case Direction::UpLeft:
       case Direction::DownLeft:
          _frameActionRegistry->FlagAction( FrameAction::PlayerPushed );
-         if ( player->GetVelocityX() <= -( _playerConfig->MaxPushVelocity ) )
+         if ( _player->GetVelocityX() <= -( _config->MaxPushVelocity ) )
          {
             return;
          }
-         velocityDelta = -( _playerConfig->PushAccelerationPerSecond / _frameRateProvider->GetFramesPerSecond() );
-         player->SetVelocityX( max( -( _playerConfig->MaxPushVelocity ), player->GetVelocityX() + velocityDelta ) );
+         velocityDelta = -( _config->PushAccelerationPerSecond / _frameRateProvider->GetFramesPerSecond() );
+         _player->SetVelocityX( max( -( _config->MaxPushVelocity ), _player->GetVelocityX() + velocityDelta ) );
          break;
       case Direction::Right:
       case Direction::UpRight:
       case Direction::DownRight:
          _frameActionRegistry->FlagAction( FrameAction::PlayerPushed );
-         if ( player->GetVelocityX() >= _playerConfig->MaxPushVelocity )
+         if ( _player->GetVelocityX() >= _config->MaxPushVelocity )
          {
             return;
          }
-         velocityDelta = _playerConfig->PushAccelerationPerSecond / _frameRateProvider->GetFramesPerSecond();
-         player->SetVelocityX( min( _playerConfig->MaxPushVelocity, player->GetVelocityX() + velocityDelta ) );
+         velocityDelta = _config->PushAccelerationPerSecond / _frameRateProvider->GetFramesPerSecond();
+         _player->SetVelocityX( min( _config->MaxPushVelocity, _player->GetVelocityX() + velocityDelta ) );
          break;
    }
 }
 
-void PlayerPhysics::Jump( const shared_ptr<IPlayer> player ) const
+void PlayerPhysics::Jump() const
 {
    // TODO: this should only be possible if we're on a flat surface.
-   player->SetVelocityY( -( _playerConfig->MaxGravityVelocity ) );
+   _player->SetVelocityY( -( _config->MaxGravityVelocity ) );
    _frameActionRegistry->FlagAction( FrameAction::PlayerJumping );
 }

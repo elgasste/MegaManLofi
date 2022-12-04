@@ -8,7 +8,7 @@ namespace MegaManLofi
    class IGameInputConfig;
    class PlayerConfig;
    class ArenaConfig;
-   enum class Direction;
+   class PlayerPhysicsConfig;
 
    class GameConfig
    {
@@ -19,5 +19,6 @@ namespace MegaManLofi
       std::shared_ptr<IGameInputConfig> InputConfig;
       std::shared_ptr<PlayerConfig> PlayerConfig;
       std::shared_ptr<ArenaConfig> ArenaConfig;
+      std::shared_ptr<PlayerPhysicsConfig> PlayerPhysicsConfig;
    };
 }

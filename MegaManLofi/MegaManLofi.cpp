@@ -10,6 +10,7 @@
 #include "KeyboardInputConfig.h"
 #include "PlayerConfig.h"
 #include "ArenaConfig.h"
+#include "PlayerPhysicsConfig.h"
 #include "KeyCode.h"
 #include "GameButton.h"
 #include "HighResolutionClockWrapper.h"
@@ -20,9 +21,10 @@
 #include "GameClock.h"
 #include "KeyboardInputReader.h"
 #include "FrameActionRegistry.h"
-#include "PlayerPhysics.h"
 #include "Player.h"
 #include "Arena.h"
+#include "PlayerPhysics.h"
+#include "ArenaPhysics.h"
 #include "Game.h"
 #include "DiagnosticsConsoleRenderer.h"
 #include "StartupStateInputHandler.h"
@@ -50,6 +52,7 @@ shared_ptr<ConsoleRenderConfig> BuildConsoleRenderConfig();
 shared_ptr<KeyboardInputConfig> BuildKeyboardInputConfig();
 shared_ptr<PlayerConfig> BuildPlayerConfig();
 shared_ptr<ArenaConfig> BuildArenaConfig();
+shared_ptr<PlayerPhysicsConfig> BuildPlayerPhysicsConfig();
 shared_ptr<GameConfig> BuildGameConfig();
 void LoadAndRun( const shared_ptr<IConsoleBuffer> consoleBuffer );
 
@@ -102,13 +105,16 @@ void LoadAndRun( const shared_ptr<IConsoleBuffer> consoleBuffer )
    auto clock = shared_ptr<GameClock>( new GameClock( highResolutionClock, sleeper, config->FramesPerSecond ) );
    auto keyboardInputReader = shared_ptr<KeyboardInputReader>( new KeyboardInputReader( keyboardInputConfig, keyboard ) );
 
-   // utilities
-   auto playerPhysics = shared_ptr<PlayerPhysics>( new PlayerPhysics( clock, frameActionRegistry, config->PlayerConfig ) );
-
-   // game objects
+   // game sub-objects
    auto player = shared_ptr<Player>( new Player( config->PlayerConfig, frameActionRegistry, clock ) );
-   auto arena = shared_ptr<Arena>( new Arena( config->ArenaConfig, player, frameActionRegistry, clock ) );
-   auto game = shared_ptr<Game>( new Game( config, eventAggregator, playerPhysics, player, arena ) );
+   auto arena = shared_ptr<Arena>( new Arena( config->ArenaConfig ) );
+
+   // utilities
+   auto playerPhysics = shared_ptr<PlayerPhysics>( new PlayerPhysics( clock, frameActionRegistry, player, config->PlayerPhysicsConfig ) );
+   auto arenaPhysics = shared_ptr<ArenaPhysics>( new ArenaPhysics( clock, frameActionRegistry, arena, player ) );
+
+   // game object
+   auto game = shared_ptr<Game>( new Game( eventAggregator, playerPhysics, arenaPhysics ) );
 
    // input objects
    auto startupStateInputHandler = shared_ptr<StartupStateInputHandler>( new StartupStateInputHandler( keyboardInputReader, game ) );
@@ -246,19 +252,12 @@ shared_ptr<PlayerConfig> BuildPlayerConfig()
 
    // one character is 38 x 78 units, and our player sprites are 4 x 3 characters,
    // so this hit box should match the player's sprite size
-   playerConfig->HitBox = { 0., 0., 38. * 4., 78. * 3. };
+   playerConfig->DefaultHitBox = { 0., 0., 38. * 4., 78. * 3. };
 
-   playerConfig->StartVelocityX = 0.;
-   playerConfig->StartVelocityY = 0.;
+   playerConfig->DefaultVelocityX = 0.;
+   playerConfig->DefaultVelocityY = 0.;
 
-   playerConfig->MaxPushVelocity = 1'000.;
-   playerConfig->MaxGravityVelocity = 4'000.;
-
-   playerConfig->PushAccelerationPerSecond = 8'000.;
-   playerConfig->FrictionDecelerationPerSecond = 10'000;
-   playerConfig->GravityAccelerationPerSecond = 10'000.;
-
-   playerConfig->StartDirection = Direction::Right;
+   playerConfig->DefaultDirection = Direction::Right;
 
    return playerConfig;
 }
@@ -268,34 +267,48 @@ shared_ptr<ArenaConfig> BuildArenaConfig()
    auto arenaConfig = make_shared<ArenaConfig>();
 
    // this results in a 4332 x 1872 arena, which translates super well to a 120 x 30 console
-   arenaConfig->TileWidth = 38.;
-   arenaConfig->TileHeight = 78.;
+   arenaConfig->DefaultTileWidth = 38.;
+   arenaConfig->DefaultTileHeight = 78.;
 
-   arenaConfig->HorizontalTiles = 114;
-   arenaConfig->VerticalTiles = 24;
+   arenaConfig->DefaultHorizontalTiles = 114;
+   arenaConfig->DefaultVerticalTiles = 24;
 
    // start with all passable tiles
-   for ( int i = 0; i < arenaConfig->HorizontalTiles * arenaConfig->VerticalTiles; i++ )
+   for ( int i = 0; i < arenaConfig->DefaultHorizontalTiles * arenaConfig->DefaultVerticalTiles; i++ )
    {
-      arenaConfig->Tiles.push_back( { true, true, true, true } );
+      arenaConfig->DefaultTiles.push_back( { true, true, true, true } );
    }
 
    // platform on the 11th row, extending 50 tiles from the left edge of the arena
    for ( int i = ( 114 * 10 ); i < ( ( 114 * 10 ) + 50 ); i++ )
    {
-      arenaConfig->Tiles[i] = { false, false, false, false };
+      arenaConfig->DefaultTiles[i] = { false, false, false, false };
    }
 
    // platform on the 21st row, extending 50 tiles from the right edge of the arena
    for ( int i = ( ( 114 * 21 ) - 1 ); i > ( ( 114 * 21 ) - 50 ); i-- )
    {
-      arenaConfig->Tiles[i] = { true, true, true, false }; // passable in all ways except down
+      arenaConfig->DefaultTiles[i] = { true, true, true, false }; // passable in all ways except down
    }
 
-   arenaConfig->PlayerStartX = ( arenaConfig->TileWidth * arenaConfig->HorizontalTiles ) / 2.;
-   arenaConfig->PlayerStartY = ( arenaConfig->TileHeight * arenaConfig->VerticalTiles ) / 2.;
+   arenaConfig->DefaultPlayerPositionX = ( arenaConfig->DefaultTileWidth * arenaConfig->DefaultHorizontalTiles ) / 2.;
+   arenaConfig->DefaultPlayerPositionY = ( arenaConfig->DefaultTileHeight * arenaConfig->DefaultVerticalTiles ) / 2.;
 
    return arenaConfig;
+}
+
+shared_ptr<PlayerPhysicsConfig> BuildPlayerPhysicsConfig()
+{
+   auto playerPhysicsConfig = make_shared<PlayerPhysicsConfig>();
+
+   playerPhysicsConfig->MaxPushVelocity = 1'000.;
+   playerPhysicsConfig->MaxGravityVelocity = 4'000.;
+
+   playerPhysicsConfig->PushAccelerationPerSecond = 8'000.;
+   playerPhysicsConfig->FrictionDecelerationPerSecond = 10'000;
+   playerPhysicsConfig->GravityAccelerationPerSecond = 10'000.;
+
+   return playerPhysicsConfig;
 }
 
 shared_ptr<GameConfig> BuildGameConfig()
@@ -308,6 +321,7 @@ shared_ptr<GameConfig> BuildGameConfig()
    config->InputConfig = BuildKeyboardInputConfig();
    config->PlayerConfig = BuildPlayerConfig();
    config->ArenaConfig = BuildArenaConfig();
+   config->PlayerPhysicsConfig = BuildPlayerPhysicsConfig();
 
    return config;
 }

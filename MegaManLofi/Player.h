@@ -4,6 +4,7 @@
 
 #include "IPlayer.h"
 #include "IPlayerInfoProvider.h"
+#include "Direction.h"
 
 namespace MegaManLofi
 {
@@ -21,6 +22,8 @@ namespace MegaManLofi
       Direction GetDirection() const override { return _direction; }
       bool IsMoving() const override;
 
+      void SetDirection( Direction direction ) override { _direction = direction; }
+
       const Rectangle& GetHitBox() const override { return _hitBox; }
 
       double GetVelocityX() const override { return _velocityX; }
@@ -29,12 +32,10 @@ namespace MegaManLofi
       void SetVelocityX( double velocityX ) override { _velocityX = velocityX; }
       void SetVelocityY( double velocityY ) override { _velocityY = velocityY; }
 
-      void Point( Direction direction ) override;
       void StopX() override { _velocityX = 0; }
       void StopY() override { _velocityY = 0; }
 
    private:
-      const std::shared_ptr<PlayerConfig> _config;
       const std::shared_ptr<IFrameActionRegistry> _frameActionRegistry;
       const std::shared_ptr<IFrameRateProvider> _frameRateProvider;
 

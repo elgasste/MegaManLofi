@@ -1,7 +1,7 @@
 #include "gtest/gtest.h"
 
 #include <MegaManLofi/PlayerPhysics.h>
-#include <MegaManLofi/PlayerConfig.h>
+#include <MegaManLofi/PlayerPhysicsConfig.h>
 #include <MegaManLofi/FrameAction.h>
 #include <MegaManLofi/Direction.h>
 
@@ -20,27 +20,27 @@ public:
    {
       _frameRateProviderMock.reset( new NiceMock<mock_FrameRateProvider> );
       _frameActionRegistryMock.reset( new NiceMock<mock_FrameActionRegistry> );
-      _playerConfig.reset( new PlayerConfig );
       _playerMock.reset( new NiceMock<mock_Player> );
+      _config.reset( new PlayerPhysicsConfig );
 
-      _playerConfig->MaxPushVelocity = 10.;
-      _playerConfig->MaxGravityVelocity = 20.;
-      _playerConfig->PushAccelerationPerSecond = 2.;
-      _playerConfig->FrictionDecelerationPerSecond = 2.;
-      _playerConfig->GravityAccelerationPerSecond = 4.;
+      _config->MaxPushVelocity = 10.;
+      _config->MaxGravityVelocity = 20.;
+      _config->PushAccelerationPerSecond = 2.;
+      _config->FrictionDecelerationPerSecond = 2.;
+      _config->GravityAccelerationPerSecond = 4.;
 
       ON_CALL( *_frameRateProviderMock, GetFramesPerSecond() ).WillByDefault( Return( 1 ) );
       ON_CALL( *_frameActionRegistryMock, ActionFlagged( FrameAction::PlayerPushed ) ).WillByDefault( Return( false ) );
       ON_CALL( *_frameActionRegistryMock, ActionFlagged( FrameAction::PlayerJumping ) ).WillByDefault( Return( false ) );
 
-      _physics.reset( new PlayerPhysics( _frameRateProviderMock, _frameActionRegistryMock, _playerConfig ) );
+      _physics.reset( new PlayerPhysics( _frameRateProviderMock, _frameActionRegistryMock, _playerMock, _config ) );
    }
 
 protected:
    shared_ptr<mock_FrameRateProvider> _frameRateProviderMock;
    shared_ptr<mock_FrameActionRegistry> _frameActionRegistryMock;
-   shared_ptr<PlayerConfig> _playerConfig;
    shared_ptr<mock_Player> _playerMock;
+   shared_ptr<PlayerPhysicsConfig> _config;
 
    shared_ptr<PlayerPhysics> _physics;
 };
@@ -58,7 +58,7 @@ TEST_F( PlayerPhysicsTests, ApplyFriction_PlayerIsMovingLeft_SlowsDownCorrectly 
 
    EXPECT_CALL( *_playerMock, SetVelocityX( -2. ) );
 
-   _physics->ApplyFriction( _playerMock );
+   _physics->ApplyFriction();
 }
 
 TEST_F( PlayerPhysicsTests, ApplyFriction_PlayerIsMovingRight_SlowsDownCorrectly )
@@ -67,7 +67,7 @@ TEST_F( PlayerPhysicsTests, ApplyFriction_PlayerIsMovingRight_SlowsDownCorrectly
 
    EXPECT_CALL( *_playerMock, SetVelocityX( 2. ) );
 
-   _physics->ApplyFriction( _playerMock );
+   _physics->ApplyFriction();
 }
 
 TEST_F( PlayerPhysicsTests, ApplyGravity_PlayerIsJumping_DoesNotApplyGravity )
@@ -76,7 +76,7 @@ TEST_F( PlayerPhysicsTests, ApplyGravity_PlayerIsJumping_DoesNotApplyGravity )
 
    EXPECT_CALL( *_playerMock, SetVelocityY( _ ) ).Times( 0 );
 
-   _physics->ApplyGravity( _playerMock );
+   _physics->ApplyGravity();
 }
 
 TEST_F( PlayerPhysicsTests, ApplyGravity_PlayerIsMovingUp_DecreasesYVelocity )
@@ -85,7 +85,7 @@ TEST_F( PlayerPhysicsTests, ApplyGravity_PlayerIsMovingUp_DecreasesYVelocity )
 
    EXPECT_CALL( *_playerMock, SetVelocityY( -6. ) );
 
-   _physics->ApplyGravity( _playerMock );
+   _physics->ApplyGravity();
 }
 
 TEST_F( PlayerPhysicsTests, ApplyGravity_PlayerIsMovingDown_DecreasesYVelocity )
@@ -94,7 +94,7 @@ TEST_F( PlayerPhysicsTests, ApplyGravity_PlayerIsMovingDown_DecreasesYVelocity )
 
    EXPECT_CALL( *_playerMock, SetVelocityY( 14. ) );
 
-   _physics->ApplyGravity( _playerMock );
+   _physics->ApplyGravity();
 }
 
 TEST_F( PlayerPhysicsTests, ApplyGravity_PlayerIsNearTerminalVelocity_ClampsToTerminalVelocity )
@@ -103,7 +103,7 @@ TEST_F( PlayerPhysicsTests, ApplyGravity_PlayerIsNearTerminalVelocity_ClampsToTe
 
    EXPECT_CALL( *_playerMock, SetVelocityY( 20. ) );
 
-   _physics->ApplyGravity( _playerMock );
+   _physics->ApplyGravity();
 }
 
 TEST_F( PlayerPhysicsTests, ApplyGravity_PlayerIsAtTerminalVelocity_DoesNotChangeYVelocity )
@@ -112,21 +112,28 @@ TEST_F( PlayerPhysicsTests, ApplyGravity_PlayerIsAtTerminalVelocity_DoesNotChang
 
    EXPECT_CALL( *_playerMock, SetVelocityY( _ ) ).Times( 0 );
 
-   _physics->ApplyGravity( _playerMock );
+   _physics->ApplyGravity();
+}
+
+TEST_F( PlayerPhysicsTests, Point_Always_SetsPlayerDirection )
+{
+   EXPECT_CALL( *_playerMock, SetDirection( Direction::Down ) );
+
+   _physics->Point( Direction::Down );
 }
 
 TEST_F( PlayerPhysicsTests, Push_Left_FlagsAction )
 {
    EXPECT_CALL( *_frameActionRegistryMock, FlagAction( FrameAction::PlayerPushed ) );
 
-   _physics->Push( _playerMock, Direction::Left );
+   _physics->Push( Direction::Left );
 }
 
 TEST_F( PlayerPhysicsTests, Push_Right_FlagsAction )
 {
    EXPECT_CALL( *_frameActionRegistryMock, FlagAction( FrameAction::PlayerPushed ) );
 
-   _physics->Push( _playerMock, Direction::Right );
+   _physics->Push( Direction::Right );
 }
 
 TEST_F( PlayerPhysicsTests, Push_Left_ChangesXVelocity )
@@ -135,7 +142,7 @@ TEST_F( PlayerPhysicsTests, Push_Left_ChangesXVelocity )
 
    EXPECT_CALL( *_playerMock, SetVelocityX( -8. ) );
 
-   _physics->Push( _playerMock, Direction::Left );
+   _physics->Push( Direction::Left );
 }
 
 TEST_F( PlayerPhysicsTests, Push_LeftAndPushVelocityHasAlmostMaxedOut_ClampsToMaxPushVelocity )
@@ -144,7 +151,7 @@ TEST_F( PlayerPhysicsTests, Push_LeftAndPushVelocityHasAlmostMaxedOut_ClampsToMa
 
    EXPECT_CALL( *_playerMock, SetVelocityX( -10. ) );
 
-   _physics->Push( _playerMock, Direction::Left );
+   _physics->Push( Direction::Left );
 }
 
 TEST_F( PlayerPhysicsTests, Push_LeftAndPushVelocityHasMaxedOut_DoesNotChangeXVelocity )
@@ -153,7 +160,7 @@ TEST_F( PlayerPhysicsTests, Push_LeftAndPushVelocityHasMaxedOut_DoesNotChangeXVe
 
    EXPECT_CALL( *_playerMock, SetVelocityX( _ ) ).Times( 0 );
 
-   _physics->Push( _playerMock, Direction::Left );
+   _physics->Push( Direction::Left );
 }
 
 TEST_F( PlayerPhysicsTests, Push_Right_ChangesXVelocity )
@@ -162,7 +169,7 @@ TEST_F( PlayerPhysicsTests, Push_Right_ChangesXVelocity )
 
    EXPECT_CALL( *_playerMock, SetVelocityX( 8. ) );
 
-   _physics->Push( _playerMock, Direction::Right );
+   _physics->Push( Direction::Right );
 }
 
 TEST_F( PlayerPhysicsTests, Push_RightAndPushVelocityHasAlmostMaxedOut_ClampsToMaxPushVelocity )
@@ -171,7 +178,7 @@ TEST_F( PlayerPhysicsTests, Push_RightAndPushVelocityHasAlmostMaxedOut_ClampsToM
 
    EXPECT_CALL( *_playerMock, SetVelocityX( 10. ) );
 
-   _physics->Push( _playerMock, Direction::Right );
+   _physics->Push( Direction::Right );
 }
 
 TEST_F( PlayerPhysicsTests, Push_RightAndPushVelocityHasMaxedOut_DoesNotChangeXVelocity )
@@ -180,19 +187,19 @@ TEST_F( PlayerPhysicsTests, Push_RightAndPushVelocityHasMaxedOut_DoesNotChangeXV
 
    EXPECT_CALL( *_playerMock, SetVelocityX( _ ) ).Times( 0 );
 
-   _physics->Push( _playerMock, Direction::Right );
+   _physics->Push( Direction::Right );
 }
 
 TEST_F( PlayerPhysicsTests, Jump_Always_SetsVelocityToUpwardGravityMaximum )
 {
    EXPECT_CALL( *_playerMock, SetVelocityY( -20. ) );
 
-   _physics->Jump( _playerMock );
+   _physics->Jump();
 }
 
 TEST_F( PlayerPhysicsTests, Jump_Always_FlagsJumpingAction )
 {
    EXPECT_CALL( *_frameActionRegistryMock, FlagAction( FrameAction::PlayerJumping ) );
 
-   _physics->Jump( _playerMock );
+   _physics->Jump();
 }

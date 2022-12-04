@@ -23,14 +23,10 @@ public:
       _frameActionRegistryMock.reset( new NiceMock<mock_FrameActionRegistry> );
       _frameRateProviderMock.reset( new NiceMock<mock_FrameRateProvider> );
 
-      _config->HitBox = { 0., 0., 4., 4. };
-      _config->StartVelocityX = 0.;
-      _config->StartVelocityY = 0.;
-      _config->MaxPushVelocity = 100.;
-      _config->MaxGravityVelocity = 100.;
-      _config->PushAccelerationPerSecond = 200.;
-      _config->GravityAccelerationPerSecond = 200.;
-      _config->StartDirection = Direction::Left;
+      _config->DefaultHitBox = { 0., 0., 4., 4. };
+      _config->DefaultVelocityX = 0.;
+      _config->DefaultVelocityY = 0.;
+      _config->DefaultDirection = Direction::Left;
 
       ON_CALL( *_frameRateProviderMock, GetFramesPerSecond() ).WillByDefault( Return( 100 ) );
    }
@@ -52,9 +48,9 @@ protected:
 
 TEST_F( PlayerTests, Constructor_Always_SetsDefaultPropertiesFromConfig )
 {
-   _config->StartVelocityX = 100.;
-   _config->StartVelocityY = 200.;
-   _config->StartDirection = Direction::Right;
+   _config->DefaultVelocityX = 100.;
+   _config->DefaultVelocityY = 200.;
+   _config->DefaultDirection = Direction::Right;
    BuildPlayer();
 
    EXPECT_EQ( _player->GetVelocityX(), 100. );
@@ -64,7 +60,7 @@ TEST_F( PlayerTests, Constructor_Always_SetsDefaultPropertiesFromConfig )
 
 TEST_F( PlayerTests, GetDirection_Always_ReturnsDirection )
 {
-   _config->StartDirection = Direction::Right;
+   _config->DefaultDirection = Direction::Right;
    BuildPlayer();
 
    EXPECT_EQ( _player->GetDirection(), Direction::Right );
@@ -123,15 +119,6 @@ TEST_F( PlayerTests, GetVelocityY_Always_ReturnsVelocityY )
    _player->SetVelocityY( 5. );
 
    EXPECT_EQ( _player->GetVelocityY(), 5. );
-}
-
-TEST_F( PlayerTests, Point_Always_SetsDirectionToSpecifiedValue )
-{
-   BuildPlayer();
-
-   _player->Point( Direction::DownRight );
-
-   EXPECT_EQ( _player->GetDirection(), Direction::DownRight );
 }
 
 TEST_F( PlayerTests, StopX_Always_SetsXVelocityToZero )

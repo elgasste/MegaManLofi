@@ -9,15 +9,15 @@ namespace MegaManLofi
    class ArenaConfig
    {
    public:
-      double TileWidth = 0.;
-      double TileHeight = 0.;
+      double DefaultTileWidth = 0.;
+      double DefaultTileHeight = 0.;
 
-      int HorizontalTiles = 0;
-      int VerticalTiles = 0;
+      int DefaultHorizontalTiles = 0;
+      int DefaultVerticalTiles = 0;
 
-      std::vector<ArenaTile> Tiles;
+      std::vector<ArenaTile> DefaultTiles;
 
-      double PlayerStartX = 0.;
-      double PlayerStartY = 0.;
+      double DefaultPlayerPositionX = 0.;
+      double DefaultPlayerPositionY = 0.;
    };
 }

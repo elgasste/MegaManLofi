@@ -245,6 +245,7 @@
     <ClInclude Include="StartupStateInputHandler.h" />
     <ClInclude Include="StartupStateConsoleRenderer.h" />
     <ClInclude Include="ThreadWrapper.h" />
+    <ClInclude Include="TileIndices.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

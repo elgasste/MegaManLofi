@@ -347,5 +347,8 @@
     <ClInclude Include="IArenaPhysics.h">
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
+    <ClInclude Include="TileIndices.h">
+      <Filter>Header Files\DataTypes</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

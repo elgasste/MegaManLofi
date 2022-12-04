@@ -5,6 +5,7 @@
 
 #include "IArena.h"
 #include "ArenaTile.h"
+#include "TileIndices.h"
 
 namespace MegaManLofi
 {
@@ -12,14 +13,6 @@ namespace MegaManLofi
    class IPlayer;
    class IFrameActionRegistry;
    class IFrameRateProvider;
-
-   struct TileIndices
-   {
-      long long Left = 0;
-      long long Top = 0;
-      long long Right = 0;
-      long long Bottom = 0;
-   };
 
    class Arena : public IArena
    {

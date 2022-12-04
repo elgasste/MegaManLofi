@@ -11,7 +11,6 @@ namespace MegaManLofi
    class IGameEventAggregator;
    class IPlayerPhysics;
    class IArenaPhysics;
-   class IPlayer;
 
    class Game : public IGame,
                 public IGameCommandExecutor,
@@ -20,8 +19,7 @@ namespace MegaManLofi
    public:
       Game( const std::shared_ptr<IGameEventAggregator> eventAggregator,
             const std::shared_ptr<IPlayerPhysics> playerPhysics,
-            const std::shared_ptr<IArenaPhysics> arenaPhysics,
-            const std::shared_ptr<IPlayer> player );
+            const std::shared_ptr<IArenaPhysics> arenaPhysics );
 
       void RunFrame() override;
 
@@ -34,7 +32,6 @@ namespace MegaManLofi
       const std::shared_ptr<IGameEventAggregator> _eventAggregator;
       const std::shared_ptr<IPlayerPhysics> _playerPhysics;
       const std::shared_ptr<IArenaPhysics> _arenaPhysics;
-      const std::shared_ptr<IPlayer> _player;
 
       GameState _state;
    };

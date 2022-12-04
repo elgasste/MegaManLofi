@@ -26,8 +26,3 @@ bool Player::IsMoving() const
 {
    return _velocityX != 0. || _velocityY != 0.;
 }
-
-void Player::Point( Direction direction )
-{
-   _direction = direction;
-}

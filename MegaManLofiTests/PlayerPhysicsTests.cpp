@@ -115,6 +115,13 @@ TEST_F( PlayerPhysicsTests, ApplyGravity_PlayerIsAtTerminalVelocity_DoesNotChang
    _physics->ApplyGravity();
 }
 
+TEST_F( PlayerPhysicsTests, Point_Always_SetsPlayerDirection )
+{
+   EXPECT_CALL( *_playerMock, SetDirection( Direction::Down ) );
+
+   _physics->Point( Direction::Down );
+}
+
 TEST_F( PlayerPhysicsTests, Push_Left_FlagsAction )
 {
    EXPECT_CALL( *_frameActionRegistryMock, FlagAction( FrameAction::PlayerPushed ) );

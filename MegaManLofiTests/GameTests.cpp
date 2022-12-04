@@ -13,7 +13,6 @@
 #include "mock_GameEventAggregator.h"
 #include "mock_PlayerPhysics.h"
 #include "mock_ArenaPhysics.h"
-#include "mock_Player.h"
 
 using namespace std;
 using namespace testing;
@@ -27,16 +26,14 @@ public:
       _eventAggregatorMock.reset( new NiceMock<mock_GameEventAggregator> );
       _playerPhysicsMock.reset( new NiceMock<mock_PlayerPhysics> );
       _arenaPhysicsMock.reset( new NiceMock<mock_ArenaPhysics> );
-      _playerMock.reset( new NiceMock<mock_Player> );
 
-      _game.reset( new Game( _eventAggregatorMock, _playerPhysicsMock, _arenaPhysicsMock, _playerMock ) );
+      _game.reset( new Game( _eventAggregatorMock, _playerPhysicsMock, _arenaPhysicsMock ) );
    }
 
 protected:
    shared_ptr<mock_GameEventAggregator> _eventAggregatorMock;
    shared_ptr<mock_PlayerPhysics> _playerPhysicsMock;
    shared_ptr<mock_ArenaPhysics> _arenaPhysicsMock;
-   shared_ptr<mock_Player> _playerMock;
 
    shared_ptr<Game> _game;
 };
@@ -70,7 +67,7 @@ TEST_F( GameTests, ExecuteCommand_PushPlayer_PushesPlayerInSpecifiedDirection )
 
 TEST_F( GameTests, ExecuteCommand_PointPlayer_PointsPlayerInSpecifiedDirection )
 {
-   EXPECT_CALL( *_playerMock, Point( Direction::DownLeft ) );
+   EXPECT_CALL( *_playerPhysicsMock, Point( Direction::DownLeft ) );
 
    _game->ExecuteCommand( GameCommand::PointPlayer,
                           shared_ptr<PointPlayerCommandArgs>( new PointPlayerCommandArgs( Direction::DownLeft ) ) );

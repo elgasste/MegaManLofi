@@ -55,6 +55,11 @@ void PlayerPhysics::ApplyGravity() const
    }
 }
 
+void PlayerPhysics::Point( Direction direction ) const
+{
+   _player->SetDirection( direction );
+}
+
 void PlayerPhysics::Push( Direction direction ) const
 {
    auto velocityDelta = 0.;

@@ -2,7 +2,6 @@
 #include "IGameEventAggregator.h"
 #include "IPlayerPhysics.h"
 #include "IArenaPhysics.h"
-#include "IPlayer.h"
 #include "GameState.h"
 #include "GameCommand.h"
 #include "GameEvent.h"
@@ -14,12 +13,10 @@ using namespace MegaManLofi;
 
 Game::Game( const std::shared_ptr<IGameEventAggregator> eventAggregator,
             const std::shared_ptr<IPlayerPhysics> playerPhysics,
-            const std::shared_ptr<IArenaPhysics> arenaPhysics,
-            const std::shared_ptr<IPlayer> player ) :
+            const std::shared_ptr<IArenaPhysics> arenaPhysics ) :
    _eventAggregator( eventAggregator ),
    _playerPhysics( playerPhysics ),
    _arenaPhysics( arenaPhysics ),
-   _player( player ),
    _state( GameState::Startup )
 {
 }
@@ -54,7 +51,7 @@ void Game::ExecuteCommand( GameCommand command, const shared_ptr<GameCommandArgs
          _playerPhysics->Push( static_pointer_cast<PushPlayerCommandArgs>( args )->Direction );
          break;
       case GameCommand::PointPlayer:
-         _player->Point( static_pointer_cast<PointPlayerCommandArgs>( args )->Direction );
+         _playerPhysics->Point( static_pointer_cast<PointPlayerCommandArgs>( args )->Direction );
          break;
       case GameCommand::Jump:
          _playerPhysics->Jump();

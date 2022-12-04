@@ -121,15 +121,6 @@ TEST_F( PlayerTests, GetVelocityY_Always_ReturnsVelocityY )
    EXPECT_EQ( _player->GetVelocityY(), 5. );
 }
 
-TEST_F( PlayerTests, Point_Always_SetsDirectionToSpecifiedValue )
-{
-   BuildPlayer();
-
-   _player->Point( Direction::DownRight );
-
-   EXPECT_EQ( _player->GetDirection(), Direction::DownRight );
-}
-
 TEST_F( PlayerTests, StopX_Always_SetsXVelocityToZero )
 {
    BuildPlayer();

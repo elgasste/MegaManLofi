@@ -21,6 +21,7 @@ namespace MegaManLofi
 
       void ApplyFriction() const override;
       void ApplyGravity() const override;
+      void Point( Direction direction ) const override;
       void Push( Direction direction ) const override;
       void Jump() const override;
 

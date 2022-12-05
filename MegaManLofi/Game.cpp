@@ -26,8 +26,7 @@ void Game::Tick()
    if ( _state == GameState::Playing )
    {
       _playerPhysics->Tick();
-
-      _arenaPhysics->MovePlayer();
+      _arenaPhysics->Tick();
    }
 }
 

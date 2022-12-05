@@ -90,7 +90,7 @@ TEST_F( GameTests, ExecuteCommand_ExtendJump_ExtendsJump )
 TEST_F( GameTests, Tick_GameStateIsNotPlaying_DoesNotDoPlayerOrArenaActions )
 {
    EXPECT_CALL( *_playerPhysicsMock, Tick() ).Times( 0 );
-   EXPECT_CALL( *_arenaPhysicsMock, MovePlayer() ).Times( 0 );
+   EXPECT_CALL( *_arenaPhysicsMock, Tick() ).Times( 0 );
 
    _game->Tick();
 }
@@ -100,7 +100,7 @@ TEST_F( GameTests, Tick_GameStateIsPlaying_DoesPlayerAndArenaActions )
    _game->ExecuteCommand( GameCommand::Start );
 
    EXPECT_CALL( *_playerPhysicsMock, Tick() );
-   EXPECT_CALL( *_arenaPhysicsMock, MovePlayer() );
+   EXPECT_CALL( *_arenaPhysicsMock, Tick() );
 
    _game->Tick();
 }

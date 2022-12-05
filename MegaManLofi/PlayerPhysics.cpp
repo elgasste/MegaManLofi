@@ -93,7 +93,9 @@ void PlayerPhysics::Push( Direction direction ) const
 
 void PlayerPhysics::Jump() const
 {
-   // TODO: this should only be possible if we're on a flat surface.
-   _player->SetVelocityY( -( _config->MaxGravityVelocity ) );
-   _frameActionRegistry->FlagAction( FrameAction::PlayerJumping );
+   if ( _player->IsStanding() )
+   {
+      _player->SetVelocityY( -( _config->MaxGravityVelocity ) );
+      _frameActionRegistry->FlagAction( FrameAction::PlayerJumping );
+   }
 }

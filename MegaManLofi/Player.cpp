@@ -18,7 +18,8 @@ Player::Player( const shared_ptr<PlayerConfig> config,
    _hitBox( config->DefaultHitBox ),
    _velocityX( config->DefaultVelocityX ),
    _velocityY( config->DefaultVelocityY ),
-   _direction( config->DefaultDirection )
+   _direction( config->DefaultDirection ),
+   _isStanding( false )
 {
 }
 

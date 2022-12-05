@@ -17,12 +17,11 @@ ArenaPhysics::ArenaPhysics( const shared_ptr<IFrameRateProvider> frameRateProvid
    _arena( arena ),
    _player( player )
 {
+   UpdatePlayerOccupyingTileIndices();
 }
 
 void ArenaPhysics::MovePlayer()
 {
-   UpdatePlayerOccupyingTileIndices();
-
    if ( _player->GetVelocityX() != 0 )
    {
       MovePlayerX();
@@ -32,6 +31,9 @@ void ArenaPhysics::MovePlayer()
    {
       MovePlayerY();
    }
+
+   UpdatePlayerOccupyingTileIndices();
+   DetectPlayerStanding();
 }
 
 void ArenaPhysics::UpdatePlayerOccupyingTileIndices()
@@ -193,6 +195,36 @@ void ArenaPhysics::DetectPlayerTileCollisionY( long long& newPositionY )
                _player->StopY();
             }
          }
+      }
+   }
+}
+
+void ArenaPhysics::DetectPlayerStanding()
+{
+   const auto& hitBox = _player->GetHitBox();
+   auto playerPositionY = _arena->GetPlayerPositionY();
+   auto playerHitBoxBottom = playerPositionY + hitBox.Top + hitBox.Height;
+
+   _player->SetIsStanding( false );
+
+   if ( playerHitBoxBottom >= _arena->GetHeight() )
+   {
+      _player->SetIsStanding( true );
+      return;
+   }
+   else if ( ( playerHitBoxBottom % _arena->GetTileHeight() ) != 0 )
+   {
+      return;
+   }
+
+   for ( long long x = _playerOccupyingTileIndices.Left; x <= _playerOccupyingTileIndices.Right; x++ )
+   {
+      const auto& nextTileDown = _arena->GetTile( ( ( _playerOccupyingTileIndices.Bottom + 1 ) * _arena->GetHorizontalTiles() ) + x );
+
+      if ( !nextTileDown.DownPassable )
+      {
+         _player->SetIsStanding( true );
+         return;
       }
    }
 }

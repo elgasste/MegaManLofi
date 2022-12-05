@@ -21,6 +21,7 @@ namespace MegaManLofi
 
       Direction GetDirection() const override { return _direction; }
       bool IsMoving() const override;
+      bool IsStanding() const override { return _isStanding; }
 
       void SetDirection( Direction direction ) override { _direction = direction; }
 
@@ -31,6 +32,8 @@ namespace MegaManLofi
 
       void SetVelocityX( long long velocityX ) override { _velocityX = velocityX; }
       void SetVelocityY( long long velocityY ) override { _velocityY = velocityY; }
+
+      void SetIsStanding( bool isStanding ) override { _isStanding = isStanding; }
 
       void StopX() override { _velocityX = 0; }
       void StopY() override { _velocityY = 0; }
@@ -45,5 +48,7 @@ namespace MegaManLofi
       long long _velocityY;
 
       Direction _direction;
+
+      bool _isStanding;
    };
 }

@@ -105,16 +105,14 @@ void LoadAndRun( const shared_ptr<IConsoleBuffer> consoleBuffer )
    auto clock = shared_ptr<GameClock>( new GameClock( highResolutionClock, sleeper, config->FramesPerSecond ) );
    auto keyboardInputReader = shared_ptr<KeyboardInputReader>( new KeyboardInputReader( keyboardInputConfig, keyboard ) );
 
-   // game sub-objects
+   // utilities
+   auto playerPhysics = shared_ptr<PlayerPhysics>( new PlayerPhysics( clock, frameActionRegistry, config->PlayerPhysicsConfig ) );
+   auto arenaPhysics = shared_ptr<ArenaPhysics>( new ArenaPhysics( clock, frameActionRegistry ) );
+
+   // game objects
    auto player = shared_ptr<Player>( new Player( config->PlayerConfig, frameActionRegistry, clock ) );
    auto arena = shared_ptr<Arena>( new Arena( config->ArenaConfig ) );
-
-   // utilities
-   auto playerPhysics = shared_ptr<PlayerPhysics>( new PlayerPhysics( clock, frameActionRegistry, player, config->PlayerPhysicsConfig ) );
-   auto arenaPhysics = shared_ptr<ArenaPhysics>( new ArenaPhysics( clock, frameActionRegistry, arena, player ) );
-
-   // game object
-   auto game = shared_ptr<Game>( new Game( eventAggregator, playerPhysics, arenaPhysics ) );
+   auto game = shared_ptr<Game>( new Game( eventAggregator, player, arena, playerPhysics, arenaPhysics ) );
 
    // input objects
    auto startupStateInputHandler = shared_ptr<StartupStateInputHandler>( new StartupStateInputHandler( keyboardInputReader, game ) );

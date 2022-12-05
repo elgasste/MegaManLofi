@@ -9,14 +9,20 @@ using namespace std;
 using namespace MegaManLofi;
 
 ArenaPhysics::ArenaPhysics( const shared_ptr<IFrameRateProvider> frameRateProvider,
-                            const shared_ptr<IFrameActionRegistry> frameActionRegistry,
-                            const shared_ptr<IArena> arena,
-                            const shared_ptr<IPlayer> player ) :
+                            const shared_ptr<IFrameActionRegistry> frameActionRegistry ) :
    _frameRateProvider( frameRateProvider ),
    _frameActionRegistry( frameActionRegistry ),
-   _arena( arena ),
-   _player( player )
+   _arena( nullptr ),
+   _player( nullptr )
 {
+}
+
+void ArenaPhysics::AssignTo( const shared_ptr<IArena> arena,
+                             const shared_ptr<IPlayer> player )
+{
+   _arena = arena;
+   _player = player;
+
    UpdatePlayerOccupyingTileIndices();
 }
 

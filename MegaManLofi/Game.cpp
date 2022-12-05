@@ -11,14 +11,18 @@
 using namespace std;
 using namespace MegaManLofi;
 
-Game::Game( const std::shared_ptr<IGameEventAggregator> eventAggregator,
-            const std::shared_ptr<IPlayerPhysics> playerPhysics,
-            const std::shared_ptr<IArenaPhysics> arenaPhysics ) :
+Game::Game( const shared_ptr<IGameEventAggregator> eventAggregator,
+            const shared_ptr<IPlayer> player,
+            const shared_ptr<IArena> arena,
+            const shared_ptr<IPlayerPhysics> playerPhysics,
+            const shared_ptr<IArenaPhysics> arenaPhysics ) :
    _eventAggregator( eventAggregator ),
    _playerPhysics( playerPhysics ),
    _arenaPhysics( arenaPhysics ),
    _state( GameState::Startup )
 {
+   _playerPhysics->AssignTo( player );
+   _arenaPhysics->AssignTo( arena, player );
 }
 
 void Game::Tick()

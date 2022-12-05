@@ -46,7 +46,8 @@ public:
 
    void BuildArenaPhysics()
    {
-      _arenaPhysics.reset( new ArenaPhysics( _frameRateProviderMock, _frameActionRegistryMock, _arenaMock, _playerMock ) );
+      _arenaPhysics.reset( new ArenaPhysics( _frameRateProviderMock, _frameActionRegistryMock ) );
+      _arenaPhysics->AssignTo( _arenaMock, _playerMock );
    }
 
 protected:
@@ -60,6 +61,11 @@ protected:
 
    shared_ptr<ArenaPhysics> _arenaPhysics;
 };
+
+TEST_F( ArenaPhysicsTests, AssignTo_Always_UpdatesPlayerOccupyingTileIndices )
+{
+   // MUFFINS
+}
 
 TEST_F( ArenaPhysicsTests, Tick_PlayerDidNotMove_DoesNotFlagMoveActions )
 {

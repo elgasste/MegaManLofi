@@ -9,6 +9,8 @@
 namespace MegaManLofi
 {
    class IGameEventAggregator;
+   class IPlayer;
+   class IArena;
    class IPlayerPhysics;
    class IArenaPhysics;
 
@@ -18,6 +20,8 @@ namespace MegaManLofi
    {
    public:
       Game( const std::shared_ptr<IGameEventAggregator> eventAggregator,
+            const std::shared_ptr<IPlayer> player,
+            const std::shared_ptr<IArena> arena,
             const std::shared_ptr<IPlayerPhysics> playerPhysics,
             const std::shared_ptr<IArenaPhysics> arenaPhysics );
 

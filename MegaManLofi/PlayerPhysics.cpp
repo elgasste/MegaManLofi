@@ -117,7 +117,6 @@ void PlayerPhysics::ExtendJump()
    {
       return;
    }
-
    
    auto currentFrame = _frameRateProvider->GetCurrentFrame();
 

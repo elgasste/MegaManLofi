@@ -13,15 +13,22 @@ using namespace MegaManLofi;
 
 PlayerPhysics::PlayerPhysics( const shared_ptr<IFrameRateProvider> frameRateProvider,
                               const shared_ptr<IFrameActionRegistry> frameActionRegistry,
-                              const shared_ptr<IPlayer> player,
                               const shared_ptr<PlayerPhysicsConfig> config ) :
    _frameRateProvider( frameRateProvider ),
    _frameActionRegistry( frameActionRegistry ),
-   _player( player ),
    _config( config ),
+   _player( nullptr ),
    _lastExtendJumpFrame( 0 ),
    _elapsedJumpExtensionSeconds( 0. )
 {
+}
+
+void PlayerPhysics::AssignTo( const shared_ptr<IPlayer> player )
+{
+   _player = player;
+
+   _lastExtendJumpFrame = 0;
+   _elapsedJumpExtensionSeconds = 0;
 }
 
 void PlayerPhysics::Tick()

@@ -39,7 +39,8 @@ public:
 
    void BuildPhysics()
    {
-      _physics.reset( new PlayerPhysics( _frameRateProviderMock, _frameActionRegistryMock, _playerMock, _config ) );
+      _physics.reset( new PlayerPhysics( _frameRateProviderMock, _frameActionRegistryMock, _config ) );
+      _physics->AssignTo( _playerMock );
    }
 
 protected:
@@ -50,6 +51,11 @@ protected:
 
    shared_ptr<PlayerPhysics> _physics;
 };
+
+TEST_F( PlayerPhysicsTests, AssignTo_Always_ResetsExtendJumpParameters )
+{
+   // MUFFINS
+}
 
 TEST_F( PlayerPhysicsTests, Tick_PlayerWasPushed_DoesNotApplyFriction )
 {

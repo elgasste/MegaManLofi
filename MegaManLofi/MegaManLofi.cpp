@@ -301,10 +301,10 @@ shared_ptr<PlayerPhysicsConfig> BuildPlayerPhysicsConfig()
 {
    auto playerPhysicsConfig = make_shared<PlayerPhysicsConfig>();
 
-   playerPhysicsConfig->MaxPushVelocity = 1'000;
+   playerPhysicsConfig->MaxPushVelocity = 1'200;
    playerPhysicsConfig->MaxGravityVelocity = 4'000;
 
-   playerPhysicsConfig->PushAccelerationPerSecond = 8'000;
+   playerPhysicsConfig->PushAccelerationPerSecond = 8'500;
    playerPhysicsConfig->FrictionDecelerationPerSecond = 10'000;
    playerPhysicsConfig->GravityAccelerationPerSecond = 10'000;
 

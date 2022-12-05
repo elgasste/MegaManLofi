@@ -80,6 +80,13 @@ TEST_F( GameTests, ExecuteCommand_Jump_Jumps )
    _game->ExecuteCommand( GameCommand::Jump );
 }
 
+TEST_F( GameTests, ExecuteCommand_ExtendJump_ExtendsJump )
+{
+   EXPECT_CALL( *_playerPhysicsMock, ExtendJump() );
+
+   _game->ExecuteCommand( GameCommand::ExtendJump );
+}
+
 TEST_F( GameTests, RunFrame_GameStateIsNotPlaying_DoesNotDoPlayerOrArenaActions )
 {
    EXPECT_CALL( *_playerPhysicsMock, ApplyFriction() ).Times( 0 );

@@ -56,5 +56,8 @@ void Game::ExecuteCommand( GameCommand command, const shared_ptr<GameCommandArgs
       case GameCommand::Jump:
          _playerPhysics->Jump();
          break;
+      case GameCommand::ExtendJump:
+         _playerPhysics->ExtendJump();
+         break;
    }
 }

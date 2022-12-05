@@ -42,15 +42,19 @@ void ArenaPhysics::UpdatePlayerOccupyingTileIndices()
 
    _playerOccupyingTileIndices.Left = ( playerPositionX + hitBox.Left ) / _arena->GetTileWidth();
    _playerOccupyingTileIndices.Top = ( playerPositionY + hitBox.Top ) / _arena->GetTileHeight();
+   _playerOccupyingTileIndices.Right = (long long)( ( playerPositionX + hitBox.Left + hitBox.Width ) / _arena->GetTileWidth() );
+   _playerOccupyingTileIndices.Bottom = (long long)( ( playerPositionY + hitBox.Top + hitBox.Height ) / _arena->GetTileHeight() );
 
-   // if the hit box is exactly on a right or bottom tile edge, these will be incorrect,
-   // so a quick and dirty solution is to trim a tiny bit off the hit box width and height
-   // TODO: after switching away from doubles in favor of long longs, we can do this:
-   // ( playerPositionX + hitBox.Left + hitBox.Width ) % _arena->GetTileWidth();
-   // this will tell us if the right edge aligns perfectly with a tile, in which case
-   // we would decrement the index by one. Same with the bottom edge.
-   _playerOccupyingTileIndices.Right = (long long)( ( playerPositionX + hitBox.Left + ( hitBox.Width - 1 ) ) / _arena->GetTileWidth() );
-   _playerOccupyingTileIndices.Bottom = (long long)( ( playerPositionY + hitBox.Top + ( hitBox.Height - 1 ) ) / _arena->GetTileHeight() );
+   // when the player is positioned exactly at the edge of the right or bottom tile,
+   // these indices will be incorrect, and need to be decremented.
+   if ( ( ( playerPositionX + hitBox.Left + hitBox.Width ) % _arena->GetTileWidth() ) == 0 )
+   {
+      _playerOccupyingTileIndices.Right--;
+   }
+   if ( ( ( playerPositionY + hitBox.Top + hitBox.Height ) % _arena->GetTileHeight() ) == 0 )
+   {
+      _playerOccupyingTileIndices.Bottom--;
+   }
 }
 
 void ArenaPhysics::MovePlayerX()

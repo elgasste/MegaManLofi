@@ -24,6 +24,7 @@ namespace MegaManLofi
       void Point( Direction direction ) const override;
       void Push( Direction direction ) const override;
       void Jump() const override;
+      void ExtendJump() const override;
 
    private:
       const std::shared_ptr<IFrameRateProvider> _frameRateProvider;

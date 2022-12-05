@@ -54,6 +54,14 @@ TEST_F( PlayingStateInputHandlerTests, HandleInput_AButtonWasPressed_ExecutesJum
    _inputHandler->HandleInput();
 }
 
+TEST_F( PlayingStateInputHandlerTests, HandleInput_AButtonWasNotPressedAndIsDown_ExecutesExtendJumpCommand )
+{
+   ON_CALL( *_inputReaderMock, IsButtonDown( GameButton::A ) ).WillByDefault( Return( true ) );
+   EXPECT_CALL( *_commandExecutorMock, ExecuteCommand( GameCommand::ExtendJump ) );
+
+   _inputHandler->HandleInput();
+}
+
 TEST_F( PlayingStateInputHandlerTests, HandleInput_LeftButtonIsDown_ExecutesPushAndPointPlayerCommands )
 {
    shared_ptr<GameCommandArgs> pushArgs;

@@ -99,3 +99,8 @@ void PlayerPhysics::Jump() const
       _frameActionRegistry->FlagAction( FrameAction::PlayerJumping );
    }
 }
+
+void PlayerPhysics::ExtendJump() const
+{
+   // MUFFINS: only allow this if we haven't reached the maximum extension time
+}

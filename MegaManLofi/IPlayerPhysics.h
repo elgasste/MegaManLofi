@@ -12,5 +12,6 @@ namespace MegaManLofi
       virtual void Point( Direction direction ) const = 0;
       virtual void Push( Direction direction ) const = 0;
       virtual void Jump() const = 0;
+      virtual void ExtendJump() const = 0;
    };
 }

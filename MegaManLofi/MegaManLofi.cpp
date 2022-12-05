@@ -166,8 +166,8 @@ shared_ptr<ConsoleRenderConfig> BuildConsoleRenderConfig()
    renderConfig->ArenaSprites[1].Height = 1;
    renderConfig->ArenaSprites[1].Pixels.push_back( { '-', ConsoleColor::DarkGrey } );
 
-   // platform on the 11th row, extending 50 tiles from the left edge of the arena
-   for ( int i = ( 114 * 10 ); i < ( ( 114 * 10 ) + 50 ); i++ )
+   // platform on the 13th row, extending 50 tiles from the left edge of the arena
+   for ( int i = ( 114 * 12 ); i < ( ( 114 * 12 ) + 50 ); i++ )
    {
       renderConfig->ArenaSpriteMap[i] = 0;
    }
@@ -279,8 +279,8 @@ shared_ptr<ArenaConfig> BuildArenaConfig()
       arenaConfig->DefaultTiles.push_back( { true, true, true, true } );
    }
 
-   // platform on the 11th row, extending 50 tiles from the left edge of the arena
-   for ( int i = ( 114 * 10 ); i < ( ( 114 * 10 ) + 50 ); i++ )
+   // platform on the 13th row, extending 50 tiles from the left edge of the arena
+   for ( int i = ( 114 * 12 ); i < ( ( 114 * 12 ) + 50 ); i++ )
    {
       arenaConfig->DefaultTiles[i] = { false, false, false, false };
    }
@@ -291,8 +291,8 @@ shared_ptr<ArenaConfig> BuildArenaConfig()
       arenaConfig->DefaultTiles[i] = { true, true, true, false }; // passable in all ways except down
    }
 
-   arenaConfig->DefaultPlayerPositionX = ( arenaConfig->DefaultTileWidth * arenaConfig->DefaultHorizontalTiles ) / 2;
-   arenaConfig->DefaultPlayerPositionY = ( arenaConfig->DefaultTileHeight * arenaConfig->DefaultVerticalTiles ) / 2;
+   arenaConfig->DefaultPlayerPositionX = arenaConfig->DefaultTileWidth * 8;
+   arenaConfig->DefaultPlayerPositionY = arenaConfig->DefaultTileHeight * 9;
 
    return arenaConfig;
 }

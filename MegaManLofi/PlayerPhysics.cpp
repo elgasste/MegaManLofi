@@ -95,7 +95,7 @@ void PlayerPhysics::Jump() const
 {
    if ( _player->IsStanding() )
    {
-      _player->SetVelocityY( -( _config->MaxGravityVelocity ) );
+      _player->SetVelocityY( -( _config->JumpAccelerationPerSecond ) );
       _frameActionRegistry->FlagAction( FrameAction::PlayerJumping );
    }
 }

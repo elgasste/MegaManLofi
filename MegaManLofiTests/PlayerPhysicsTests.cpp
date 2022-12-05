@@ -27,6 +27,7 @@ public:
       _config->MaxGravityVelocity = 20;
       _config->PushAccelerationPerSecond = 2;
       _config->FrictionDecelerationPerSecond = 2;
+      _config->JumpAccelerationPerSecond = 1;
       _config->GravityAccelerationPerSecond = 4;
 
       ON_CALL( *_frameRateProviderMock, GetFramesPerSecond() ).WillByDefault( Return( 1 ) );
@@ -209,9 +210,9 @@ TEST_F( PlayerPhysicsTests, Jump_PlayerIsNotStanding_DoesNotFlagAction )
    _physics->Jump();
 }
 
-TEST_F( PlayerPhysicsTests, Jump_PlayerIsStanding_SetsVelocityToUpwardGravityMaximum )
+TEST_F( PlayerPhysicsTests, Jump_PlayerIsStanding_SetsVelocityToUpwardJumpVelocity )
 {
-   EXPECT_CALL( *_playerMock, SetVelocityY( -20 ) );
+   EXPECT_CALL( *_playerMock, SetVelocityY( -1 ) );
 
    _physics->Jump();
 }

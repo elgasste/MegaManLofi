@@ -19,11 +19,23 @@ Player::Player( const shared_ptr<PlayerConfig> config,
    _velocityX( config->DefaultVelocityX ),
    _velocityY( config->DefaultVelocityY ),
    _direction( config->DefaultDirection ),
-   _isStanding( false )
+   _isStanding( false ),
+   _isJumping( false )
 {
 }
 
 bool Player::IsMoving() const
 {
    return _velocityX != 0 || _velocityY != 0;
+}
+
+void Player::StopX()
+{
+   _velocityX = 0;
+}
+
+void Player::StopY()
+{
+   _velocityY = 0;
+   _isJumping = false;
 }

@@ -38,8 +38,8 @@ namespace MegaManLofi
       void SetIsStanding( bool isStanding ) override { _isStanding = isStanding; }
       void SetIsJumping( bool isJumping ) override { _isJumping = isJumping; }
 
-      void StopX() override { _velocityX = 0; }
-      void StopY() override { _velocityY = 0; }
+      void StopX() override;
+      void StopY() override;
 
    private:
       const std::shared_ptr<IFrameActionRegistry> _frameActionRegistry;

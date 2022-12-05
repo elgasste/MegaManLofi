@@ -96,11 +96,21 @@ void PlayerPhysics::Jump() const
    if ( _player->IsStanding() )
    {
       _player->SetVelocityY( -( _config->JumpAccelerationPerSecond ) );
+      _player->SetIsJumping( true );
       _frameActionRegistry->FlagAction( FrameAction::PlayerJumping );
    }
 }
 
 void PlayerPhysics::ExtendJump() const
 {
-   // MUFFINS: only allow this if we haven't reached the maximum extension time
+   if ( !_player->IsJumping() )
+   {
+      return;
+   }
+
+   // MUFFINS:
+   // - if we've reached the maximum extension time, call _player->SetIsJumping( false )
+   // - otherwise, set the Y velocity just like the Jump() call, and also flag PlayerJumping
+   /*_player->SetVelocityY( -( _config->JumpAccelerationPerSecond ) );
+   _frameActionRegistry->FlagAction( FrameAction::PlayerJumping );*/
 }

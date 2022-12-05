@@ -223,3 +223,10 @@ TEST_F( PlayerPhysicsTests, Jump_PlayerIsStanding_FlagsJumpingAction )
 
    _physics->Jump();
 }
+
+TEST_F( PlayerPhysicsTests, Jump_PlayerIsStanding_SetsIsJumpingToTrue )
+{
+   EXPECT_CALL( *_playerMock, SetIsJumping( true ) );
+
+   _physics->Jump();
+}

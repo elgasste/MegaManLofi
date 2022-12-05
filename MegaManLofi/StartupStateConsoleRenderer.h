@@ -20,7 +20,7 @@ namespace MegaManLofi
       void Render() override;
 
    private:
-      void DrawKeyBindings( int middleX, int top ) const;
+      void DrawKeyBindings( short middleX, short top ) const;
 
    private:
       const std::shared_ptr<IConsoleBuffer> _consoleBuffer;

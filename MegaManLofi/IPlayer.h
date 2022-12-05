@@ -14,11 +14,11 @@ namespace MegaManLofi
 
       virtual void SetDirection( Direction direction ) = 0;
 
-      virtual double GetVelocityX() const = 0;
-      virtual double GetVelocityY() const = 0;
+      virtual long long GetVelocityX() const = 0;
+      virtual long long GetVelocityY() const = 0;
 
-      virtual void SetVelocityX( double velocityX ) = 0;
-      virtual void SetVelocityY( double velocityY ) = 0;
+      virtual void SetVelocityX( long long velocityX ) = 0;
+      virtual void SetVelocityY( long long velocityY ) = 0;
 
       virtual void StopX() = 0;
       virtual void StopY() = 0;

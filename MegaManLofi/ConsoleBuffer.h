@@ -21,13 +21,13 @@ namespace MegaManLofi
       void SetDefaultBackgroundColor( ConsoleColor color ) override;
       void Clear() override;
 
-      void Draw( int left, int top, char buffer ) override;
-      void Draw( int left, int top, char buffer, ConsoleColor foregroundColor ) override;
-      void Draw( int left, int top, char buffer, ConsoleColor foregroundColor, ConsoleColor backgroundColor ) override;
-      void Draw( int left, int top, const std::string& buffer ) override;
-      void Draw( int left, int top, const std::string& buffer, ConsoleColor foregroundColor ) override;
-      void Draw( int left, int top, const std::string& buffer, ConsoleColor foregroundColor, ConsoleColor backgroundColor ) override;
-      void Draw( int left, int top, const ConsoleSprite& sprite ) override;
+      void Draw( short left, short top, char buffer ) override;
+      void Draw( short left, short top, char buffer, ConsoleColor foregroundColor ) override;
+      void Draw( short left, short top, char buffer, ConsoleColor foregroundColor, ConsoleColor backgroundColor ) override;
+      void Draw( short left, short top, const std::string& buffer ) override;
+      void Draw( short left, short top, const std::string& buffer, ConsoleColor foregroundColor ) override;
+      void Draw( short left, short top, const std::string& buffer, ConsoleColor foregroundColor, ConsoleColor backgroundColor ) override;
+      void Draw( short left, short top, const ConsoleSprite& sprite ) override;
 
       void Flip() override;
 

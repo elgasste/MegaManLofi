@@ -31,15 +31,15 @@ void PlayerPhysics::ApplyFriction() const
 
    auto velocityDelta = ( _config->FrictionDecelerationPerSecond / _frameRateProvider->GetFramesPerSecond() );
    auto currentVelocityX = _player->GetVelocityX();
-   auto newVelocityX = 0.;
+   auto newVelocityX = 0ll;
 
-   if ( currentVelocityX < 0. )
+   if ( currentVelocityX < 0 )
    {
-      newVelocityX = min( currentVelocityX + velocityDelta, 0. );
+      newVelocityX = min( currentVelocityX + velocityDelta, 0ll );
    }
-   else if ( currentVelocityX > 0. )
+   else if ( currentVelocityX > 0 )
    {
-      newVelocityX = max( currentVelocityX - velocityDelta, 0. );
+      newVelocityX = max( currentVelocityX - velocityDelta, 0ll );
    }
 
    _player->SetVelocityX( newVelocityX );
@@ -62,7 +62,7 @@ void PlayerPhysics::Point( Direction direction ) const
 
 void PlayerPhysics::Push( Direction direction ) const
 {
-   auto velocityDelta = 0.;
+   auto velocityDelta = 0ll;
 
    switch ( direction )
    {

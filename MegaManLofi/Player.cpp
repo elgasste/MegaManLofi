@@ -24,5 +24,5 @@ Player::Player( const shared_ptr<PlayerConfig> config,
 
 bool Player::IsMoving() const
 {
-   return _velocityX != 0. || _velocityY != 0.;
+   return _velocityX != 0 || _velocityY != 0;
 }

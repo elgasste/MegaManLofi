@@ -45,7 +45,7 @@ ConsoleBuffer::ConsoleBuffer() :
    _bufferInfo = shared_ptr<ConsoleBufferInfo>( new ConsoleBufferInfo( GetStdHandle( STD_OUTPUT_HANDLE ),
                                                                        { _originalWidth, _originalHeight },
                                                                        _originalWidth * _originalHeight,
-                                                                       new CHAR_INFO[(__int64)_originalWidth * (__int64)_originalHeight],
+                                                                       new CHAR_INFO[(long long)_originalWidth * (long long)_originalHeight],
                                                                        { 0, 0, _originalWidth, _originalHeight } ) );
 
    CONSOLE_SCREEN_BUFFER_INFO screenBufferInfo;
@@ -128,17 +128,17 @@ void ConsoleBuffer::Clear()
    }
 }
 
-void ConsoleBuffer::Draw( int left, int top, char buffer )
+void ConsoleBuffer::Draw( short left, short top, char buffer )
 {
    Draw( left, top, buffer, _defaultForegroundColor );
 }
 
-void ConsoleBuffer::Draw( int left, int top, char buffer, ConsoleColor foregroundColor )
+void ConsoleBuffer::Draw( short left, short top, char buffer, ConsoleColor foregroundColor )
 {
    Draw( left, top, buffer, foregroundColor, _defaultBackgroundColor );
 }
 
-void ConsoleBuffer::Draw( int left, int top, char buffer, ConsoleColor foregroundColor, ConsoleColor backgroundColor )
+void ConsoleBuffer::Draw( short left, short top, char buffer, ConsoleColor foregroundColor, ConsoleColor backgroundColor )
 {
    if ( left < 0 || left >= _bufferInfo->ConsoleSize.X || top < 0 || top >= _bufferInfo->ConsoleSize.Y )
    {
@@ -150,17 +150,17 @@ void ConsoleBuffer::Draw( int left, int top, char buffer, ConsoleColor foregroun
    _bufferInfo->DrawBuffer[bufferLocation].Char.AsciiChar = buffer;
 }
 
-void ConsoleBuffer::Draw( int left, int top, const string& buffer )
+void ConsoleBuffer::Draw( short left, short top, const string& buffer )
 {
    Draw( left, top, buffer, _defaultForegroundColor );
 }
 
-void ConsoleBuffer::Draw( int left, int top, const string& buffer, ConsoleColor foregroundColor )
+void ConsoleBuffer::Draw( short left, short top, const string& buffer, ConsoleColor foregroundColor )
 {
    Draw( left, top, buffer, foregroundColor, _defaultBackgroundColor );
 }
 
-void ConsoleBuffer::Draw( int left, int top, const string& buffer, ConsoleColor foregroundColor, ConsoleColor backgroundColor )
+void ConsoleBuffer::Draw( short left, short top, const string& buffer, ConsoleColor foregroundColor, ConsoleColor backgroundColor )
 {
    for ( int i = 0; i < (int)buffer.length(); i++ )
    {
@@ -168,7 +168,7 @@ void ConsoleBuffer::Draw( int left, int top, const string& buffer, ConsoleColor 
    }
 }
 
-void ConsoleBuffer::Draw( int left, int top, const ConsoleSprite& sprite )
+void ConsoleBuffer::Draw( short left, short top, const ConsoleSprite& sprite )
 {
    int i = 0, j = 0;
 

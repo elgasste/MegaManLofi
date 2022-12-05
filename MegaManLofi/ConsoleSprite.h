@@ -8,8 +8,8 @@ namespace MegaManLofi
 {
    struct ConsoleSprite
    {
-      int Width = 0;
-      int Height = 0;
+      short Width = 0;
+      short Height = 0;
 
       std::vector<ConsolePixel> Pixels;
    };

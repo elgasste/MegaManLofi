@@ -26,8 +26,8 @@ namespace MegaManLofi
       void UpdatePlayerOccupyingTileIndices();
       void MovePlayerX();
       void MovePlayerY();
-      void DetectPlayerTileCollisionX( double& newPositionX );
-      void DetectPlayerTileCollisionY( double& newPositionY );
+      void DetectPlayerTileCollisionX( long long& newPositionX );
+      void DetectPlayerTileCollisionY( long long& newPositionY );
 
    private:
       const std::shared_ptr<IFrameRateProvider> _frameRateProvider;

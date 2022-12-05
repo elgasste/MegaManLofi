@@ -6,10 +6,10 @@ using namespace MegaManLofi;
 
 bool RectangleUtilities::RectanglesIntersect( const Rectangle& rect1, const Rectangle& rect2 )
 {
-   double rect1Right = rect1.Left + rect1.Width;
-   double rect2Right = rect2.Left + rect2.Width;
-   double rect1Bottom = rect1.Top + rect1.Height;
-   double rect2Bottom = rect2.Top + rect2.Height;
+   auto rect1Right = rect1.Left + rect1.Width;
+   auto rect2Right = rect2.Left + rect2.Width;
+   auto rect1Bottom = rect1.Top + rect1.Height;
+   auto rect2Bottom = rect2.Top + rect2.Height;
 
    bool leftInBounds = rect1.Left > rect2.Left && rect1Right < rect2Right;
    bool rightInBounds = rect1Right > rect2.Left && rect1Right < rect2Right;
@@ -22,8 +22,8 @@ bool RectangleUtilities::RectanglesIntersect( const Rectangle& rect1, const Rect
 
 void RectangleUtilities::UnclipHorizontal( Rectangle& clippingRect, const Rectangle& clippedRect )
 {
-   auto clippingRectMiddle = clippingRect.Left + ( clippingRect.Width / 2. );
-   auto clippedRectMiddle = clippedRect.Left + ( clippedRect.Width / 2. );
+   auto clippingRectMiddle = clippingRect.Left + ( clippingRect.Width / 2 );
+   auto clippedRectMiddle = clippedRect.Left + ( clippedRect.Width / 2 );
 
    if ( clippingRectMiddle < clippedRectMiddle )
    {

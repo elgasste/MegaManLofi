@@ -7,14 +7,14 @@
 class mock_Arena : public MegaManLofi::IArena
 {
 public:
-   MOCK_METHOD( double, GetWidth, ( ), ( const, override ) );
-   MOCK_METHOD( double, GetHeight, ( ), ( const, override ) );
-   MOCK_METHOD( double, GetPlayerPositionX, ( ), ( const, override ) );
-   MOCK_METHOD( double, GetPlayerPositionY, ( ), ( const, override ) );
-   MOCK_METHOD( void, SetPlayerPositionX, ( double ), ( override ) );
-   MOCK_METHOD( void, SetPlayerPositionY, ( double ), ( override ) );
-   MOCK_METHOD( double, GetTileWidth, ( ), ( const, override ) );
-   MOCK_METHOD( double, GetTileHeight, ( ), ( const, override ) );
+   MOCK_METHOD( long long, GetWidth, ( ), ( const, override ) );
+   MOCK_METHOD( long long, GetHeight, ( ), ( const, override ) );
+   MOCK_METHOD( long long, GetPlayerPositionX, ( ), ( const, override ) );
+   MOCK_METHOD( long long, GetPlayerPositionY, ( ), ( const, override ) );
+   MOCK_METHOD( void, SetPlayerPositionX, ( long long ), ( override ) );
+   MOCK_METHOD( void, SetPlayerPositionY, ( long long ), ( override ) );
+   MOCK_METHOD( long long, GetTileWidth, ( ), ( const, override ) );
+   MOCK_METHOD( long long, GetTileHeight, ( ), ( const, override ) );
    MOCK_METHOD( int, GetHorizontalTiles, ( ), ( const, override ) );
    MOCK_METHOD( int, GetVerticalTiles, ( ), ( const, override ) );
    MOCK_METHOD( const MegaManLofi::ArenaTile&, GetTile, ( long long ), ( const, override ) );

@@ -8,6 +8,7 @@ namespace MegaManLofi
       PushPlayer,
       PointPlayer,
       Jump,
+      ExtendJump,
       Quit
    };
 }

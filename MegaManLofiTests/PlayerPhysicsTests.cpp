@@ -27,13 +27,18 @@ public:
       _config->MaxGravityVelocity = 20;
       _config->PushAccelerationPerSecond = 2;
       _config->FrictionDecelerationPerSecond = 2;
+      _config->JumpAccelerationPerSecond = 1;
       _config->GravityAccelerationPerSecond = 4;
+      _config->MaxJumpExtensionSeconds = 0.25;
 
       ON_CALL( *_frameRateProviderMock, GetFramesPerSecond() ).WillByDefault( Return( 1 ) );
       ON_CALL( *_frameActionRegistryMock, ActionFlagged( FrameAction::PlayerPushed ) ).WillByDefault( Return( false ) );
       ON_CALL( *_frameActionRegistryMock, ActionFlagged( FrameAction::PlayerJumping ) ).WillByDefault( Return( false ) );
       ON_CALL( *_playerMock, IsStanding() ).WillByDefault( Return( true ) );
+   }
 
+   void BuildPhysics()
+   {
       _physics.reset( new PlayerPhysics( _frameRateProviderMock, _frameActionRegistryMock, _playerMock, _config ) );
    }
 
@@ -46,153 +51,191 @@ protected:
    shared_ptr<PlayerPhysics> _physics;
 };
 
-TEST_F( PlayerPhysicsTests, ApplyFriction_PlayerWasPushed_DoesNotApplyFriction )
+TEST_F( PlayerPhysicsTests, Tick_PlayerWasPushed_DoesNotApplyFriction )
 {
+   BuildPhysics();
+
    ON_CALL( *_frameActionRegistryMock, ActionFlagged( FrameAction::PlayerPushed ) ).WillByDefault( Return( true ) );
 
    EXPECT_CALL( *_playerMock, SetVelocityX( _ ) ).Times( 0 );
+
+   _physics->Tick();
 }
 
-TEST_F( PlayerPhysicsTests, ApplyFriction_PlayerIsMovingLeft_SlowsDownCorrectly )
+TEST_F( PlayerPhysicsTests, Tick_PlayerIsMovingLeft_SlowsDownCorrectly )
 {
+   BuildPhysics();
+
    ON_CALL( *_playerMock, GetVelocityX() ).WillByDefault( Return( -4 ) );
 
    EXPECT_CALL( *_playerMock, SetVelocityX( -2 ) );
 
-   _physics->ApplyFriction();
+   _physics->Tick();
 }
 
-TEST_F( PlayerPhysicsTests, ApplyFriction_PlayerIsMovingRight_SlowsDownCorrectly )
+TEST_F( PlayerPhysicsTests, Tick_PlayerIsMovingRight_SlowsDownCorrectly )
 {
+   BuildPhysics();
+
    ON_CALL( *_playerMock, GetVelocityX() ).WillByDefault( Return( 4 ) );
 
    EXPECT_CALL( *_playerMock, SetVelocityX( 2 ) );
 
-   _physics->ApplyFriction();
+   _physics->Tick();
 }
 
-TEST_F( PlayerPhysicsTests, ApplyGravity_PlayerIsJumping_DoesNotApplyGravity )
+TEST_F( PlayerPhysicsTests, Tick_PlayerIsJumping_DoesNotApplyGravity )
 {
+   BuildPhysics();
+
    ON_CALL( *_frameActionRegistryMock, ActionFlagged( FrameAction::PlayerJumping ) ).WillByDefault( Return( true ) );
 
    EXPECT_CALL( *_playerMock, SetVelocityY( _ ) ).Times( 0 );
 
-   _physics->ApplyGravity();
+   _physics->Tick();
 }
 
-TEST_F( PlayerPhysicsTests, ApplyGravity_PlayerIsMovingUp_DecreasesYVelocity )
+TEST_F( PlayerPhysicsTests, Tick_PlayerIsMovingUp_DecreasesYVelocity )
 {
+   BuildPhysics();
+
    ON_CALL( *_playerMock, GetVelocityY() ).WillByDefault( Return( -10 ) );
 
    EXPECT_CALL( *_playerMock, SetVelocityY( -6 ) );
 
-   _physics->ApplyGravity();
+   _physics->Tick();
 }
 
-TEST_F( PlayerPhysicsTests, ApplyGravity_PlayerIsMovingDown_DecreasesYVelocity )
+TEST_F( PlayerPhysicsTests, Tick_PlayerIsMovingDown_DecreasesYVelocity )
 {
+   BuildPhysics();
+
    ON_CALL( *_playerMock, GetVelocityY() ).WillByDefault( Return( 10 ) );
 
    EXPECT_CALL( *_playerMock, SetVelocityY( 14 ) );
 
-   _physics->ApplyGravity();
+   _physics->Tick();
 }
 
-TEST_F( PlayerPhysicsTests, ApplyGravity_PlayerIsNearTerminalVelocity_ClampsToTerminalVelocity )
+TEST_F( PlayerPhysicsTests, Tick_PlayerIsNearTerminalVelocity_ClampsToTerminalVelocity )
 {
+   BuildPhysics();
+
    ON_CALL( *_playerMock, GetVelocityY() ).WillByDefault( Return( 19 ) );
 
    EXPECT_CALL( *_playerMock, SetVelocityY( 20 ) );
 
-   _physics->ApplyGravity();
+   _physics->Tick();
 }
 
-TEST_F( PlayerPhysicsTests, ApplyGravity_PlayerIsAtTerminalVelocity_DoesNotChangeYVelocity )
+TEST_F( PlayerPhysicsTests, Tick_PlayerIsAtTerminalVelocity_DoesNotChangeYVelocity )
 {
+   BuildPhysics();
+
    ON_CALL( *_playerMock, GetVelocityY() ).WillByDefault( Return( 20 ) );
 
    EXPECT_CALL( *_playerMock, SetVelocityY( _ ) ).Times( 0 );
 
-   _physics->ApplyGravity();
+   _physics->Tick();
 }
 
-TEST_F( PlayerPhysicsTests, Point_Always_SetsPlayerDirection )
+TEST_F( PlayerPhysicsTests, PointTo_Always_SetsPlayerDirection )
 {
+   BuildPhysics();
+
    EXPECT_CALL( *_playerMock, SetDirection( Direction::Down ) );
 
-   _physics->Point( Direction::Down );
+   _physics->PointTo( Direction::Down );
 }
 
-TEST_F( PlayerPhysicsTests, Push_Left_FlagsAction )
+TEST_F( PlayerPhysicsTests, PushTo_Left_FlagsAction )
 {
+   BuildPhysics();
+
    EXPECT_CALL( *_frameActionRegistryMock, FlagAction( FrameAction::PlayerPushed ) );
 
-   _physics->Push( Direction::Left );
+   _physics->PushTo( Direction::Left );
 }
 
-TEST_F( PlayerPhysicsTests, Push_Right_FlagsAction )
+TEST_F( PlayerPhysicsTests, PushTo_Right_FlagsAction )
 {
+   BuildPhysics();
+
    EXPECT_CALL( *_frameActionRegistryMock, FlagAction( FrameAction::PlayerPushed ) );
 
-   _physics->Push( Direction::Right );
+   _physics->PushTo( Direction::Right );
 }
 
-TEST_F( PlayerPhysicsTests, Push_Left_ChangesXVelocity )
+TEST_F( PlayerPhysicsTests, PushTo_Left_ChangesXVelocity )
 {
+   BuildPhysics();
+
    ON_CALL( *_playerMock, GetVelocityX() ).WillByDefault( Return( -6 ) );
 
    EXPECT_CALL( *_playerMock, SetVelocityX( -8 ) );
 
-   _physics->Push( Direction::Left );
+   _physics->PushTo( Direction::Left );
 }
 
-TEST_F( PlayerPhysicsTests, Push_LeftAndPushVelocityHasAlmostMaxedOut_ClampsToMaxPushVelocity )
+TEST_F( PlayerPhysicsTests, PushTo_LeftAndPushVelocityHasAlmostMaxedOut_ClampsToMaxPushVelocity )
 {
+   BuildPhysics();
+
    ON_CALL( *_playerMock, GetVelocityX() ).WillByDefault( Return( -9 ) );
 
    EXPECT_CALL( *_playerMock, SetVelocityX( -10 ) );
 
-   _physics->Push( Direction::Left );
+   _physics->PushTo( Direction::Left );
 }
 
-TEST_F( PlayerPhysicsTests, Push_LeftAndPushVelocityHasMaxedOut_DoesNotChangeXVelocity )
+TEST_F( PlayerPhysicsTests, PushTo_LeftAndPushVelocityHasMaxedOut_DoesNotChangeXVelocity )
 {
+   BuildPhysics();
+
    ON_CALL( *_playerMock, GetVelocityX() ).WillByDefault( Return( -10 ) );
 
    EXPECT_CALL( *_playerMock, SetVelocityX( _ ) ).Times( 0 );
 
-   _physics->Push( Direction::Left );
+   _physics->PushTo( Direction::Left );
 }
 
-TEST_F( PlayerPhysicsTests, Push_Right_ChangesXVelocity )
+TEST_F( PlayerPhysicsTests, PushTo_Right_ChangesXVelocity )
 {
+   BuildPhysics();
+
    ON_CALL( *_playerMock, GetVelocityX() ).WillByDefault( Return( 6 ) );
 
    EXPECT_CALL( *_playerMock, SetVelocityX( 8 ) );
 
-   _physics->Push( Direction::Right );
+   _physics->PushTo( Direction::Right );
 }
 
-TEST_F( PlayerPhysicsTests, Push_RightAndPushVelocityHasAlmostMaxedOut_ClampsToMaxPushVelocity )
+TEST_F( PlayerPhysicsTests, PushTo_RightAndPushVelocityHasAlmostMaxedOut_ClampsToMaxPushVelocity )
 {
+   BuildPhysics();
+
    ON_CALL( *_playerMock, GetVelocityX() ).WillByDefault( Return( 9 ) );
 
    EXPECT_CALL( *_playerMock, SetVelocityX( 10 ) );
 
-   _physics->Push( Direction::Right );
+   _physics->PushTo( Direction::Right );
 }
 
-TEST_F( PlayerPhysicsTests, Push_RightAndPushVelocityHasMaxedOut_DoesNotChangeXVelocity )
+TEST_F( PlayerPhysicsTests, PushTo_RightAndPushVelocityHasMaxedOut_DoesNotChangeXVelocity )
 {
+   BuildPhysics();
+
    ON_CALL( *_playerMock, GetVelocityX() ).WillByDefault( Return( 10 ) );
 
    EXPECT_CALL( *_playerMock, SetVelocityX( _ ) ).Times( 0 );
 
-   _physics->Push( Direction::Right );
+   _physics->PushTo( Direction::Right );
 }
 
 TEST_F( PlayerPhysicsTests, Jump_PlayerIsNotStanding_DoesNotChangeVelocity )
 {
+   BuildPhysics();
+
    ON_CALL( *_playerMock, IsStanding() ).WillByDefault( Return( false  ) );
 
    EXPECT_CALL( *_playerMock, SetVelocityY( _ ) ).Times( 0 );
@@ -202,6 +245,8 @@ TEST_F( PlayerPhysicsTests, Jump_PlayerIsNotStanding_DoesNotChangeVelocity )
 
 TEST_F( PlayerPhysicsTests, Jump_PlayerIsNotStanding_DoesNotFlagAction )
 {
+   BuildPhysics();
+
    ON_CALL( *_playerMock, IsStanding() ).WillByDefault( Return( false ) );
 
    EXPECT_CALL( *_frameActionRegistryMock, FlagAction( _ ) ).Times( 0 );
@@ -209,16 +254,79 @@ TEST_F( PlayerPhysicsTests, Jump_PlayerIsNotStanding_DoesNotFlagAction )
    _physics->Jump();
 }
 
-TEST_F( PlayerPhysicsTests, Jump_PlayerIsStanding_SetsVelocityToUpwardGravityMaximum )
+TEST_F( PlayerPhysicsTests, Jump_PlayerIsStanding_SetsVelocityToUpwardJumpVelocity )
 {
-   EXPECT_CALL( *_playerMock, SetVelocityY( -20 ) );
+   BuildPhysics();
+
+   EXPECT_CALL( *_playerMock, SetVelocityY( -1 ) );
 
    _physics->Jump();
 }
 
 TEST_F( PlayerPhysicsTests, Jump_PlayerIsStanding_FlagsJumpingAction )
 {
+   BuildPhysics();
+
    EXPECT_CALL( *_frameActionRegistryMock, FlagAction( FrameAction::PlayerJumping ) );
 
    _physics->Jump();
+}
+
+TEST_F( PlayerPhysicsTests, Jump_PlayerIsStanding_SetsIsJumpingToTrue )
+{
+   BuildPhysics();
+
+   EXPECT_CALL( *_playerMock, SetIsJumping( true ) );
+
+   _physics->Jump();
+}
+
+TEST_F( PlayerPhysicsTests, ExtendJump_PlayerIsNotJumping_DoesNotExtendJump )
+{
+   BuildPhysics();
+
+   ON_CALL( *_frameRateProviderMock, GetCurrentFrame() ).WillByDefault( Return( 0 ) );
+   ON_CALL( *_playerMock, IsJumping() ).WillByDefault( Return( false ) );
+
+   EXPECT_CALL( *_playerMock, SetVelocityY( _ ) ).Times( 0 );
+
+   _physics->ExtendJump();
+}
+
+TEST_F( PlayerPhysicsTests, ExtendJump_LastExtendJumpFrameIsTooOld_DoesNotExtendJump )
+{
+   BuildPhysics();
+
+   EXPECT_CALL( *_playerMock, IsJumping() ).WillOnce( Return( true ) );
+   EXPECT_CALL( *_frameRateProviderMock, GetCurrentFrame() ).WillOnce( Return( 2 ) );
+   EXPECT_CALL( *_playerMock, SetVelocityY( _ ) ).Times( 0 );
+
+   _physics->ExtendJump();
+}
+
+TEST_F( PlayerPhysicsTests, ExtendJump_AlreadyFullyExtendedJump_DoesNotExtendJump )
+{
+   _config->MaxJumpExtensionSeconds = 0;
+   BuildPhysics();
+
+   EXPECT_CALL( *_playerMock, IsJumping() ).WillOnce( Return( true ) );
+   EXPECT_CALL( *_frameRateProviderMock, GetCurrentFrame() ).WillOnce( Return( 1 ) );
+   EXPECT_CALL( *_playerMock, SetVelocityY( _ ) ).Times( 0 );
+
+   EXPECT_CALL( *_playerMock, SetIsJumping( false ) );
+
+   _physics->ExtendJump();
+}
+
+TEST_F( PlayerPhysicsTests, ExtendJump_ExtensionIsAllowed_ExtendsJump )
+{
+   BuildPhysics();
+
+   EXPECT_CALL( *_playerMock, IsJumping() ).WillOnce( Return( true ) );
+   EXPECT_CALL( *_frameRateProviderMock, GetCurrentFrame() ).WillRepeatedly( Return( 1 ) );
+
+   EXPECT_CALL( *_playerMock, SetVelocityY( -1 ) );
+   EXPECT_CALL( *_frameActionRegistryMock, FlagAction( FrameAction::PlayerJumping ) );
+
+   _physics->ExtendJump();
 }

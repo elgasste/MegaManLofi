@@ -64,7 +64,7 @@ public:
 
       ON_CALL( *_clockMock, WaitForNextFrame() ).WillByDefault( Invoke( IncrementFrameCount ) );
       ON_CALL( *_inputHandlerMock, HandleInput() ).WillByDefault( Invoke( IncrementHandleInputCount ) );
-      ON_CALL( *_gameMock, RunFrame() ).WillByDefault( Invoke( IncrementRunFrameCount ) );
+      ON_CALL( *_gameMock, Tick() ).WillByDefault( Invoke( IncrementRunFrameCount ) );
       ON_CALL( *_rendererMock, Render() ).WillByDefault( Invoke( IncrementRenderCount ) );
       ON_CALL( *_frameActionRegistryMock, Clear() ).WillByDefault( Invoke( IncrementFrameActionRegistryClearCount ) );
    }
@@ -116,7 +116,7 @@ TEST_F( GameRunnerTests, Run_EveryLoop_HandlesInput )
    EXPECT_EQ( HandleInputCount, FrameCount );
 }
 
-TEST_F( GameRunnerTests, Run_EveryLoop_RunsGameFrame )
+TEST_F( GameRunnerTests, Run_EveryLoop_TicksGame )
 {
    thread runWorker( RunWorker, _runner );
    while( FrameCount < 10 ) { }

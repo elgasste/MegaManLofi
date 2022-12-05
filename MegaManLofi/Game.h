@@ -21,7 +21,7 @@ namespace MegaManLofi
             const std::shared_ptr<IPlayerPhysics> playerPhysics,
             const std::shared_ptr<IArenaPhysics> arenaPhysics );
 
-      void RunFrame() override;
+      void Tick() override;
 
       GameState GetGameState() const override { return _state; }
 

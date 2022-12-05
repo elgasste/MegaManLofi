@@ -18,8 +18,52 @@ PlayerPhysics::PlayerPhysics( const shared_ptr<IFrameRateProvider> frameRateProv
    _frameRateProvider( frameRateProvider ),
    _frameActionRegistry( frameActionRegistry ),
    _player( player ),
-   _config( config )
+   _config( config ),
+   _lastExtendJumpFrame( 0 ),
+   _elapsedJumpExtensionSeconds( 0. )
 {
+}
+
+void PlayerPhysics::Tick()
+{
+   ApplyFriction();
+   ApplyGravity();
+}
+
+void PlayerPhysics::PointTo( Direction direction ) const
+{
+   _player->SetDirection( direction );
+}
+
+void PlayerPhysics::PushTo( Direction direction ) const
+{
+   auto velocityDelta = 0ll;
+
+   switch ( direction )
+   {
+      case Direction::Left:
+      case Direction::UpLeft:
+      case Direction::DownLeft:
+         _frameActionRegistry->FlagAction( FrameAction::PlayerPushed );
+         if ( _player->GetVelocityX() <= -( _config->MaxPushVelocity ) )
+         {
+            return;
+         }
+         velocityDelta = -( _config->PushAccelerationPerSecond / _frameRateProvider->GetFramesPerSecond() );
+         _player->SetVelocityX( max( -( _config->MaxPushVelocity ), _player->GetVelocityX() + velocityDelta ) );
+         break;
+      case Direction::Right:
+      case Direction::UpRight:
+      case Direction::DownRight:
+         _frameActionRegistry->FlagAction( FrameAction::PlayerPushed );
+         if ( _player->GetVelocityX() >= _config->MaxPushVelocity )
+         {
+            return;
+         }
+         velocityDelta = _config->PushAccelerationPerSecond / _frameRateProvider->GetFramesPerSecond();
+         _player->SetVelocityX( min( _config->MaxPushVelocity, _player->GetVelocityX() + velocityDelta ) );
+         break;
+   }
 }
 
 void PlayerPhysics::ApplyFriction() const
@@ -55,47 +99,41 @@ void PlayerPhysics::ApplyGravity() const
    }
 }
 
-void PlayerPhysics::Point( Direction direction ) const
-{
-   _player->SetDirection( direction );
-}
-
-void PlayerPhysics::Push( Direction direction ) const
-{
-   auto velocityDelta = 0ll;
-
-   switch ( direction )
-   {
-      case Direction::Left:
-      case Direction::UpLeft:
-      case Direction::DownLeft:
-         _frameActionRegistry->FlagAction( FrameAction::PlayerPushed );
-         if ( _player->GetVelocityX() <= -( _config->MaxPushVelocity ) )
-         {
-            return;
-         }
-         velocityDelta = -( _config->PushAccelerationPerSecond / _frameRateProvider->GetFramesPerSecond() );
-         _player->SetVelocityX( max( -( _config->MaxPushVelocity ), _player->GetVelocityX() + velocityDelta ) );
-         break;
-      case Direction::Right:
-      case Direction::UpRight:
-      case Direction::DownRight:
-         _frameActionRegistry->FlagAction( FrameAction::PlayerPushed );
-         if ( _player->GetVelocityX() >= _config->MaxPushVelocity )
-         {
-            return;
-         }
-         velocityDelta = _config->PushAccelerationPerSecond / _frameRateProvider->GetFramesPerSecond();
-         _player->SetVelocityX( min( _config->MaxPushVelocity, _player->GetVelocityX() + velocityDelta ) );
-         break;
-   }
-}
-
-void PlayerPhysics::Jump() const
+void PlayerPhysics::Jump()
 {
    if ( _player->IsStanding() )
    {
-      _player->SetVelocityY( -( _config->MaxGravityVelocity ) );
+      _player->SetIsJumping( true );
+      _player->SetVelocityY( -( _config->JumpAccelerationPerSecond ) );
+      _lastExtendJumpFrame = _frameRateProvider->GetCurrentFrame();
+      _elapsedJumpExtensionSeconds = 0.;
+      _frameActionRegistry->FlagAction( FrameAction::PlayerJumping );
+   }
+}
+
+void PlayerPhysics::ExtendJump()
+{
+   if ( !_player->IsJumping() )
+   {
+      return;
+   }
+   
+   auto currentFrame = _frameRateProvider->GetCurrentFrame();
+
+   if ( _lastExtendJumpFrame < ( currentFrame - 1 ) )
+   {
+      // don't allow re-extending a jump
+      return;
+   }
+   else if ( _elapsedJumpExtensionSeconds >= _config->MaxJumpExtensionSeconds )
+   {
+      _player->SetIsJumping( false );
+   }
+   else
+   {
+      _lastExtendJumpFrame = currentFrame;
+      _elapsedJumpExtensionSeconds += ( 1 / (double)_frameRateProvider->GetFramesPerSecond() );
+      _player->SetVelocityY( -( _config->JumpAccelerationPerSecond ) );
       _frameActionRegistry->FlagAction( FrameAction::PlayerJumping );
    }
 }

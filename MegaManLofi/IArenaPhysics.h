@@ -5,6 +5,6 @@ namespace MegaManLofi
    class __declspec( novtable ) IArenaPhysics
    {
    public:
-      virtual void MovePlayer() = 0;
+      virtual void Tick() = 0;
    };
 }

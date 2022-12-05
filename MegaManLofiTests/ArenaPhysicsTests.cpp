@@ -61,17 +61,17 @@ protected:
    shared_ptr<ArenaPhysics> _arenaPhysics;
 };
 
-TEST_F( ArenaPhysicsTests, MovePlayer_PlayerDidNotMove_DoesNotFlagMoveActions )
+TEST_F( ArenaPhysicsTests, Tick_PlayerDidNotMove_DoesNotFlagMoveActions )
 {
    BuildArenaPhysics();
 
    EXPECT_CALL( *_frameActionRegistryMock, FlagAction( FrameAction::PlayerMovedHorizontal ) ).Times( 0 );
    EXPECT_CALL( *_frameActionRegistryMock, FlagAction( FrameAction::PlayerMovedVertical ) ).Times( 0 );
 
-   _arenaPhysics->MovePlayer();
+   _arenaPhysics->Tick();
 }
 
-TEST_F( ArenaPhysicsTests, MovePlayer_LeftWithNoLeftTileCollisions_MovesPlayerAndFlagsMoveAction )
+TEST_F( ArenaPhysicsTests, Tick_LeftWithNoLeftTileCollisions_MovesPlayerAndFlagsMoveAction )
 {
    ON_CALL( *_arenaMock, GetPlayerPositionX() ).WillByDefault( Return( 12 ) );
    ON_CALL( *_playerMock, GetVelocityX() ).WillByDefault( Return( -2 ) );
@@ -80,10 +80,10 @@ TEST_F( ArenaPhysicsTests, MovePlayer_LeftWithNoLeftTileCollisions_MovesPlayerAn
    EXPECT_CALL( *_arenaMock, SetPlayerPositionX( 10 ) );
    EXPECT_CALL( *_frameActionRegistryMock, FlagAction( FrameAction::PlayerMovedHorizontal ) );
 
-   _arenaPhysics->MovePlayer();
+   _arenaPhysics->Tick();
 }
 
-TEST_F( ArenaPhysicsTests, MovePlayer_LeftWithCollidingPassableUpperLeftTile_MovesPlayer )
+TEST_F( ArenaPhysicsTests, Tick_LeftWithCollidingPassableUpperLeftTile_MovesPlayer )
 {
    ON_CALL( *_arenaMock, GetPlayerPositionX() ).WillByDefault( Return( 11 ) );
    ON_CALL( *_playerMock, GetVelocityX() ).WillByDefault( Return( -2 ) );
@@ -91,10 +91,10 @@ TEST_F( ArenaPhysicsTests, MovePlayer_LeftWithCollidingPassableUpperLeftTile_Mov
 
    EXPECT_CALL( *_arenaMock, SetPlayerPositionX( 9 ) );
 
-   _arenaPhysics->MovePlayer();
+   _arenaPhysics->Tick();
 }
 
-TEST_F( ArenaPhysicsTests, MovePlayer_LeftWithCollidingNonPassableUpperLeftTile_StopsPlayerX )
+TEST_F( ArenaPhysicsTests, Tick_LeftWithCollidingNonPassableUpperLeftTile_StopsPlayerX )
 {
    ON_CALL( *_arenaMock, GetPlayerPositionX() ).WillByDefault( Return( 11 ) );
    ON_CALL( *_arenaMock, GetPlayerPositionY() ).WillByDefault( Return( 7 ) );
@@ -106,10 +106,10 @@ TEST_F( ArenaPhysicsTests, MovePlayer_LeftWithCollidingNonPassableUpperLeftTile_
    EXPECT_CALL( *_arenaMock, SetPlayerPositionX( 10 ) );
    EXPECT_CALL( *_playerMock, StopX() );
 
-   _arenaPhysics->MovePlayer();
+   _arenaPhysics->Tick();
 }
 
-TEST_F( ArenaPhysicsTests, MovePlayer_LeftWithCollidingNonPassableMiddleLeftTile_StopsPlayerX )
+TEST_F( ArenaPhysicsTests, Tick_LeftWithCollidingNonPassableMiddleLeftTile_StopsPlayerX )
 {
    ON_CALL( *_arenaMock, GetPlayerPositionX() ).WillByDefault( Return( 11 ) );
    ON_CALL( *_arenaMock, GetPlayerPositionY() ).WillByDefault( Return( 7 ) );
@@ -121,10 +121,10 @@ TEST_F( ArenaPhysicsTests, MovePlayer_LeftWithCollidingNonPassableMiddleLeftTile
    EXPECT_CALL( *_arenaMock, SetPlayerPositionX( 10 ) );
    EXPECT_CALL( *_playerMock, StopX() );
 
-   _arenaPhysics->MovePlayer();
+   _arenaPhysics->Tick();
 }
 
-TEST_F( ArenaPhysicsTests, MovePlayer_LeftWithCollidingNonPassableLowerLeftTile_StopsPlayerX )
+TEST_F( ArenaPhysicsTests, Tick_LeftWithCollidingNonPassableLowerLeftTile_StopsPlayerX )
 {
    ON_CALL( *_arenaMock, GetPlayerPositionX() ).WillByDefault( Return( 11 ) );
    ON_CALL( *_arenaMock, GetPlayerPositionY() ).WillByDefault( Return( 7 ) );
@@ -136,10 +136,10 @@ TEST_F( ArenaPhysicsTests, MovePlayer_LeftWithCollidingNonPassableLowerLeftTile_
    EXPECT_CALL( *_arenaMock, SetPlayerPositionX( 10 ) );
    EXPECT_CALL( *_playerMock, StopX() );
 
-   _arenaPhysics->MovePlayer();
+   _arenaPhysics->Tick();
 }
 
-TEST_F( ArenaPhysicsTests, MovePlayer_LeftCloseToArenaBoundary_StopsPlayerX )
+TEST_F( ArenaPhysicsTests, Tick_LeftCloseToArenaBoundary_StopsPlayerX )
 {
    ON_CALL( *_arenaMock, GetPlayerPositionX() ).WillByDefault( Return( 1 ) );
    ON_CALL( *_playerMock, GetVelocityX() ).WillByDefault( Return( -2 ) );
@@ -148,10 +148,10 @@ TEST_F( ArenaPhysicsTests, MovePlayer_LeftCloseToArenaBoundary_StopsPlayerX )
    EXPECT_CALL( *_arenaMock, SetPlayerPositionX( 0 ) );
    EXPECT_CALL( *_playerMock, StopX() );
 
-   _arenaPhysics->MovePlayer();
+   _arenaPhysics->Tick();
 }
 
-TEST_F( ArenaPhysicsTests, MovePlayer_LeftAtArenaBoundary_StopsPlayerX )
+TEST_F( ArenaPhysicsTests, Tick_LeftAtArenaBoundary_StopsPlayerX )
 {
    ON_CALL( *_arenaMock, GetPlayerPositionX() ).WillByDefault( Return( 0 ) );
    ON_CALL( *_playerMock, GetVelocityX() ).WillByDefault( Return( -2 ) );
@@ -160,10 +160,10 @@ TEST_F( ArenaPhysicsTests, MovePlayer_LeftAtArenaBoundary_StopsPlayerX )
    EXPECT_CALL( *_arenaMock, SetPlayerPositionX( _ ) ).Times( 0 );
    EXPECT_CALL( *_playerMock, StopX() );
 
-   _arenaPhysics->MovePlayer();
+   _arenaPhysics->Tick();
 }
 
-TEST_F( ArenaPhysicsTests, MovePlayer_LeftAtTileBoundaryAndTileIsNotPassable_StopsPlayerX )
+TEST_F( ArenaPhysicsTests, Tick_LeftAtTileBoundaryAndTileIsNotPassable_StopsPlayerX )
 {
    ArenaTile tile = { false, true, true, true };
    ON_CALL( *_arenaMock, GetTile( 44 ) ).WillByDefault( ReturnRef( tile ) );
@@ -173,10 +173,10 @@ TEST_F( ArenaPhysicsTests, MovePlayer_LeftAtTileBoundaryAndTileIsNotPassable_Sto
    EXPECT_CALL( *_arenaMock, SetPlayerPositionX( _ ) ).Times( 0 );
    EXPECT_CALL( *_playerMock, StopX() );
 
-   _arenaPhysics->MovePlayer();
+   _arenaPhysics->Tick();
 }
 
-TEST_F( ArenaPhysicsTests, MovePlayer_RightWithNoRightTileCollisions_MovesPlayerAndFlagsMoveAction )
+TEST_F( ArenaPhysicsTests, Tick_RightWithNoRightTileCollisions_MovesPlayerAndFlagsMoveAction )
 {
    ON_CALL( *_arenaMock, GetPlayerPositionX() ).WillByDefault( Return( 8 ) );
    ON_CALL( *_playerMock, GetVelocityX() ).WillByDefault( Return( 2 ) );
@@ -185,10 +185,10 @@ TEST_F( ArenaPhysicsTests, MovePlayer_RightWithNoRightTileCollisions_MovesPlayer
    EXPECT_CALL( *_arenaMock, SetPlayerPositionX( 10 ) );
    EXPECT_CALL( *_frameActionRegistryMock, FlagAction( FrameAction::PlayerMovedHorizontal ) );
 
-   _arenaPhysics->MovePlayer();
+   _arenaPhysics->Tick();
 }
 
-TEST_F( ArenaPhysicsTests, MovePlayer_RightWithCollidingNonPassableUpperRightTile_StopsPlayerX )
+TEST_F( ArenaPhysicsTests, Tick_RightWithCollidingNonPassableUpperRightTile_StopsPlayerX )
 {
    ON_CALL( *_arenaMock, GetPlayerPositionX() ).WillByDefault( Return( 11 ) );
    ON_CALL( *_arenaMock, GetPlayerPositionY() ).WillByDefault( Return( 7 ) );
@@ -200,10 +200,10 @@ TEST_F( ArenaPhysicsTests, MovePlayer_RightWithCollidingNonPassableUpperRightTil
    EXPECT_CALL( *_arenaMock, SetPlayerPositionX( 12 ) );
    EXPECT_CALL( *_playerMock, StopX() );
 
-   _arenaPhysics->MovePlayer();
+   _arenaPhysics->Tick();
 }
 
-TEST_F( ArenaPhysicsTests, MovePlayer_RightWithCollidingNonPassableMiddleRightTile_StopsPlayerX )
+TEST_F( ArenaPhysicsTests, Tick_RightWithCollidingNonPassableMiddleRightTile_StopsPlayerX )
 {
    ON_CALL( *_arenaMock, GetPlayerPositionX() ).WillByDefault( Return( 11 ) );
    ON_CALL( *_arenaMock, GetPlayerPositionY() ).WillByDefault( Return( 7 ) );
@@ -215,10 +215,10 @@ TEST_F( ArenaPhysicsTests, MovePlayer_RightWithCollidingNonPassableMiddleRightTi
    EXPECT_CALL( *_arenaMock, SetPlayerPositionX( 12 ) );
    EXPECT_CALL( *_playerMock, StopX() );
 
-   _arenaPhysics->MovePlayer();
+   _arenaPhysics->Tick();
 }
 
-TEST_F( ArenaPhysicsTests, MovePlayer_RightWithCollidingNonPassableLowerRightTile_StopsPlayerX )
+TEST_F( ArenaPhysicsTests, Tick_RightWithCollidingNonPassableLowerRightTile_StopsPlayerX )
 {
    ON_CALL( *_arenaMock, GetPlayerPositionX() ).WillByDefault( Return( 11 ) );
    ON_CALL( *_arenaMock, GetPlayerPositionY() ).WillByDefault( Return( 7 ) );
@@ -230,10 +230,10 @@ TEST_F( ArenaPhysicsTests, MovePlayer_RightWithCollidingNonPassableLowerRightTil
    EXPECT_CALL( *_arenaMock, SetPlayerPositionX( 12 ) );
    EXPECT_CALL( *_playerMock, StopX() );
 
-   _arenaPhysics->MovePlayer();
+   _arenaPhysics->Tick();
 }
 
-TEST_F( ArenaPhysicsTests, MovePlayer_RightCloseToArenaBoundary_StopsPlayerX )
+TEST_F( ArenaPhysicsTests, Tick_RightCloseToArenaBoundary_StopsPlayerX )
 {
    ON_CALL( *_arenaMock, GetPlayerPositionX() ).WillByDefault( Return( 15 ) );
    ON_CALL( *_playerMock, GetVelocityX() ).WillByDefault( Return( 2 ) );
@@ -242,10 +242,10 @@ TEST_F( ArenaPhysicsTests, MovePlayer_RightCloseToArenaBoundary_StopsPlayerX )
    EXPECT_CALL( *_arenaMock, SetPlayerPositionX( 16 ) );
    EXPECT_CALL( *_playerMock, StopX() );
 
-   _arenaPhysics->MovePlayer();
+   _arenaPhysics->Tick();
 }
 
-TEST_F( ArenaPhysicsTests, MovePlayer_RightAtArenaBoundary_StopsPlayerX )
+TEST_F( ArenaPhysicsTests, Tick_RightAtArenaBoundary_StopsPlayerX )
 {
    ON_CALL( *_arenaMock, GetPlayerPositionX() ).WillByDefault( Return( 16 ) );
    ON_CALL( *_playerMock, GetVelocityX() ).WillByDefault( Return( 2 ) );
@@ -254,10 +254,10 @@ TEST_F( ArenaPhysicsTests, MovePlayer_RightAtArenaBoundary_StopsPlayerX )
    EXPECT_CALL( *_arenaMock, SetPlayerPositionX( _ ) ).Times( 0 );
    EXPECT_CALL( *_playerMock, StopX() );
 
-   _arenaPhysics->MovePlayer();
+   _arenaPhysics->Tick();
 }
 
-TEST_F( ArenaPhysicsTests, MovePlayer_RightAtTileBoundaryAndTileIsNotPassable_StopsPlayerX )
+TEST_F( ArenaPhysicsTests, Tick_RightAtTileBoundaryAndTileIsNotPassable_StopsPlayerX )
 {
    ArenaTile tile = { true, true, false, true };
    ON_CALL( *_arenaMock, GetTile( 47 ) ).WillByDefault( ReturnRef( tile ) );
@@ -267,10 +267,10 @@ TEST_F( ArenaPhysicsTests, MovePlayer_RightAtTileBoundaryAndTileIsNotPassable_St
    EXPECT_CALL( *_arenaMock, SetPlayerPositionX( _ ) ).Times( 0 );
    EXPECT_CALL( *_playerMock, StopX() );
 
-   _arenaPhysics->MovePlayer();
+   _arenaPhysics->Tick();
 }
 
-TEST_F( ArenaPhysicsTests, MovePlayer_UpWithNoUpTileCollisions_MovesPlayerAndFlagsMoveAction )
+TEST_F( ArenaPhysicsTests, Tick_UpWithNoUpTileCollisions_MovesPlayerAndFlagsMoveAction )
 {
    ON_CALL( *_arenaMock, GetPlayerPositionY() ).WillByDefault( Return( 10 ) );
    ON_CALL( *_playerMock, GetVelocityY() ).WillByDefault( Return( -2 ) );
@@ -279,10 +279,10 @@ TEST_F( ArenaPhysicsTests, MovePlayer_UpWithNoUpTileCollisions_MovesPlayerAndFla
    EXPECT_CALL( *_arenaMock, SetPlayerPositionY( 8 ) );
    EXPECT_CALL( *_frameActionRegistryMock, FlagAction( FrameAction::PlayerMovedVertical ) );
 
-   _arenaPhysics->MovePlayer();
+   _arenaPhysics->Tick();
 }
 
-TEST_F( ArenaPhysicsTests, MovePlayer_UpWithCollidingNonPassableUpperLeftTile_StopsPlayerY )
+TEST_F( ArenaPhysicsTests, Tick_UpWithCollidingNonPassableUpperLeftTile_StopsPlayerY )
 {
    ON_CALL( *_arenaMock, GetPlayerPositionX() ).WillByDefault( Return( 11 ) );
    ON_CALL( *_arenaMock, GetPlayerPositionY() ).WillByDefault( Return( 7 ) );
@@ -294,10 +294,10 @@ TEST_F( ArenaPhysicsTests, MovePlayer_UpWithCollidingNonPassableUpperLeftTile_St
    EXPECT_CALL( *_arenaMock, SetPlayerPositionY( 6 ) );
    EXPECT_CALL( *_playerMock, StopY() );
 
-   _arenaPhysics->MovePlayer();
+   _arenaPhysics->Tick();
 }
 
-TEST_F( ArenaPhysicsTests, MovePlayer_UpWithCollidingNonPassableUpperMiddleTile_StopsPlayerY )
+TEST_F( ArenaPhysicsTests, Tick_UpWithCollidingNonPassableUpperMiddleTile_StopsPlayerY )
 {
    ON_CALL( *_arenaMock, GetPlayerPositionX() ).WillByDefault( Return( 11 ) );
    ON_CALL( *_arenaMock, GetPlayerPositionY() ).WillByDefault( Return( 7 ) );
@@ -309,10 +309,10 @@ TEST_F( ArenaPhysicsTests, MovePlayer_UpWithCollidingNonPassableUpperMiddleTile_
    EXPECT_CALL( *_arenaMock, SetPlayerPositionY( 6 ) );
    EXPECT_CALL( *_playerMock, StopY() );
 
-   _arenaPhysics->MovePlayer();
+   _arenaPhysics->Tick();
 }
 
-TEST_F( ArenaPhysicsTests, MovePlayer_UpWithCollidingNonPassableUpperRightTile_StopsPlayerY )
+TEST_F( ArenaPhysicsTests, Tick_UpWithCollidingNonPassableUpperRightTile_StopsPlayerY )
 {
    ON_CALL( *_arenaMock, GetPlayerPositionX() ).WillByDefault( Return( 11 ) );
    ON_CALL( *_arenaMock, GetPlayerPositionY() ).WillByDefault( Return( 7 ) );
@@ -324,10 +324,10 @@ TEST_F( ArenaPhysicsTests, MovePlayer_UpWithCollidingNonPassableUpperRightTile_S
    EXPECT_CALL( *_arenaMock, SetPlayerPositionY( 6 ) );
    EXPECT_CALL( *_playerMock, StopY() );
 
-   _arenaPhysics->MovePlayer();
+   _arenaPhysics->Tick();
 }
 
-TEST_F( ArenaPhysicsTests, MovePlayer_UpCloseToArenaBoundary_StopsPlayerY )
+TEST_F( ArenaPhysicsTests, Tick_UpCloseToArenaBoundary_StopsPlayerY )
 {
    ON_CALL( *_arenaMock, GetPlayerPositionY() ).WillByDefault( Return( 1 ) );
    ON_CALL( *_playerMock, GetVelocityY() ).WillByDefault( Return( -2 ) );
@@ -336,10 +336,10 @@ TEST_F( ArenaPhysicsTests, MovePlayer_UpCloseToArenaBoundary_StopsPlayerY )
    EXPECT_CALL( *_arenaMock, SetPlayerPositionY( 0 ) );
    EXPECT_CALL( *_playerMock, StopY() );
 
-   _arenaPhysics->MovePlayer();
+   _arenaPhysics->Tick();
 }
 
-TEST_F( ArenaPhysicsTests, MovePlayer_UpAtArenaBoundary_StopsPlayerY )
+TEST_F( ArenaPhysicsTests, Tick_UpAtArenaBoundary_StopsPlayerY )
 {
    ON_CALL( *_arenaMock, GetPlayerPositionY() ).WillByDefault( Return( 0 ) );
    ON_CALL( *_playerMock, GetVelocityY() ).WillByDefault( Return( -2 ) );
@@ -348,10 +348,10 @@ TEST_F( ArenaPhysicsTests, MovePlayer_UpAtArenaBoundary_StopsPlayerY )
    EXPECT_CALL( *_arenaMock, SetPlayerPositionY( _ ) ).Times( 0 );
    EXPECT_CALL( *_playerMock, StopY() );
 
-   _arenaPhysics->MovePlayer();
+   _arenaPhysics->Tick();
 }
 
-TEST_F( ArenaPhysicsTests, MovePlayer_UpAtTileBoundaryAndTileIsNotPassable_StopsPlayerY )
+TEST_F( ArenaPhysicsTests, Tick_UpAtTileBoundaryAndTileIsNotPassable_StopsPlayerY )
 {
    ArenaTile tile = { true, false, true, true };
    ON_CALL( *_arenaMock, GetTile( 35 ) ).WillByDefault( ReturnRef( tile ) );
@@ -361,10 +361,10 @@ TEST_F( ArenaPhysicsTests, MovePlayer_UpAtTileBoundaryAndTileIsNotPassable_Stops
    EXPECT_CALL( *_arenaMock, SetPlayerPositionY( _ ) ).Times( 0 );
    EXPECT_CALL( *_playerMock, StopY() );
 
-   _arenaPhysics->MovePlayer();
+   _arenaPhysics->Tick();
 }
 
-TEST_F( ArenaPhysicsTests, MovePlayer_DownWithNoDownTileCollisions_MovesPlayerAndFlagsMoveAction )
+TEST_F( ArenaPhysicsTests, Tick_DownWithNoDownTileCollisions_MovesPlayerAndFlagsMoveAction )
 {
    ON_CALL( *_arenaMock, GetPlayerPositionY() ).WillByDefault( Return( 6 ) );
    ON_CALL( *_playerMock, GetVelocityY() ).WillByDefault( Return( 2 ) );
@@ -373,10 +373,10 @@ TEST_F( ArenaPhysicsTests, MovePlayer_DownWithNoDownTileCollisions_MovesPlayerAn
    EXPECT_CALL( *_arenaMock, SetPlayerPositionY( 8 ) );
    EXPECT_CALL( *_frameActionRegistryMock, FlagAction( FrameAction::PlayerMovedVertical ) );
 
-   _arenaPhysics->MovePlayer();
+   _arenaPhysics->Tick();
 }
 
-TEST_F( ArenaPhysicsTests, MovePlayer_DownWithCollidingNonPassableLowerLeftTile_StopsPlayerY )
+TEST_F( ArenaPhysicsTests, Tick_DownWithCollidingNonPassableLowerLeftTile_StopsPlayerY )
 {
    ON_CALL( *_arenaMock, GetPlayerPositionX() ).WillByDefault( Return( 11 ) );
    ON_CALL( *_arenaMock, GetPlayerPositionY() ).WillByDefault( Return( 7 ) );
@@ -388,10 +388,10 @@ TEST_F( ArenaPhysicsTests, MovePlayer_DownWithCollidingNonPassableLowerLeftTile_
    EXPECT_CALL( *_arenaMock, SetPlayerPositionY( 8 ) );
    EXPECT_CALL( *_playerMock, StopY() );
 
-   _arenaPhysics->MovePlayer();
+   _arenaPhysics->Tick();
 }
 
-TEST_F( ArenaPhysicsTests, MovePlayer_DownWithCollidingNonPassableLowerMiddleTile_StopsPlayerY )
+TEST_F( ArenaPhysicsTests, Tick_DownWithCollidingNonPassableLowerMiddleTile_StopsPlayerY )
 {
    ON_CALL( *_arenaMock, GetPlayerPositionX() ).WillByDefault( Return( 11 ) );
    ON_CALL( *_arenaMock, GetPlayerPositionY() ).WillByDefault( Return( 7 ) );
@@ -403,10 +403,10 @@ TEST_F( ArenaPhysicsTests, MovePlayer_DownWithCollidingNonPassableLowerMiddleTil
    EXPECT_CALL( *_arenaMock, SetPlayerPositionY( 8 ) );
    EXPECT_CALL( *_playerMock, StopY() );
 
-   _arenaPhysics->MovePlayer();
+   _arenaPhysics->Tick();
 }
 
-TEST_F( ArenaPhysicsTests, MovePlayer_DownWithCollidingNonPassableLowerRightTile_StopsPlayerY )
+TEST_F( ArenaPhysicsTests, Tick_DownWithCollidingNonPassableLowerRightTile_StopsPlayerY )
 {
    ON_CALL( *_arenaMock, GetPlayerPositionX() ).WillByDefault( Return( 11 ) );
    ON_CALL( *_arenaMock, GetPlayerPositionY() ).WillByDefault( Return( 7 ) );
@@ -418,10 +418,10 @@ TEST_F( ArenaPhysicsTests, MovePlayer_DownWithCollidingNonPassableLowerRightTile
    EXPECT_CALL( *_arenaMock, SetPlayerPositionY( 8 ) );
    EXPECT_CALL( *_playerMock, StopY() );
 
-   _arenaPhysics->MovePlayer();
+   _arenaPhysics->Tick();
 }
 
-TEST_F( ArenaPhysicsTests, MovePlayer_DownCloseToArenaBoundary_StopsPlayerY )
+TEST_F( ArenaPhysicsTests, Tick_DownCloseToArenaBoundary_StopsPlayerY )
 {
    ON_CALL( *_arenaMock, GetPlayerPositionY() ).WillByDefault( Return( 9 ) );
    ON_CALL( *_playerMock, GetVelocityY() ).WillByDefault( Return( 2 ) );
@@ -430,10 +430,10 @@ TEST_F( ArenaPhysicsTests, MovePlayer_DownCloseToArenaBoundary_StopsPlayerY )
    EXPECT_CALL( *_arenaMock, SetPlayerPositionY( 10 ) );
    EXPECT_CALL( *_playerMock, StopY() );
 
-   _arenaPhysics->MovePlayer();
+   _arenaPhysics->Tick();
 }
 
-TEST_F( ArenaPhysicsTests, MovePlayer_DownAtArenaBoundary_StopsPlayerY )
+TEST_F( ArenaPhysicsTests, Tick_DownAtArenaBoundary_StopsPlayerY )
 {
    ON_CALL( *_arenaMock, GetPlayerPositionY() ).WillByDefault( Return( 10 ) );
    ON_CALL( *_playerMock, GetVelocityY() ).WillByDefault( Return( 2 ) );
@@ -442,10 +442,10 @@ TEST_F( ArenaPhysicsTests, MovePlayer_DownAtArenaBoundary_StopsPlayerY )
    EXPECT_CALL( *_arenaMock, SetPlayerPositionY( _ ) ).Times( 0 );
    EXPECT_CALL( *_playerMock, StopY() );
 
-   _arenaPhysics->MovePlayer();
+   _arenaPhysics->Tick();
 }
 
-TEST_F( ArenaPhysicsTests, MovePlayer_DownAtTileBoundaryAndTileIsNotPassable_StopsPlayerY )
+TEST_F( ArenaPhysicsTests, Tick_DownAtTileBoundaryAndTileIsNotPassable_StopsPlayerY )
 {
    ArenaTile tile = { true, true, true, false };
    ON_CALL( *_arenaMock, GetTile( 75 ) ).WillByDefault( ReturnRef( tile ) );
@@ -455,10 +455,10 @@ TEST_F( ArenaPhysicsTests, MovePlayer_DownAtTileBoundaryAndTileIsNotPassable_Sto
    EXPECT_CALL( *_arenaMock, SetPlayerPositionY( _ ) ).Times( 0 );
    EXPECT_CALL( *_playerMock, StopY() );
 
-   _arenaPhysics->MovePlayer();
+   _arenaPhysics->Tick();
 }
 
-TEST_F( ArenaPhysicsTests, MovePlayer_HitBottomArenaBoundary_SetsIsStandingToTrue )
+TEST_F( ArenaPhysicsTests, Tick_HitBottomArenaBoundary_SetsIsStandingToTrue )
 {
    ON_CALL( *_arenaMock, GetPlayerPositionY() ).WillByDefault( Return( 10 ) );
    BuildArenaPhysics();
@@ -466,10 +466,10 @@ TEST_F( ArenaPhysicsTests, MovePlayer_HitBottomArenaBoundary_SetsIsStandingToTru
    EXPECT_CALL( *_playerMock, SetIsStanding( false ) );
    EXPECT_CALL( *_playerMock, SetIsStanding( true ) );
 
-   _arenaPhysics->MovePlayer();
+   _arenaPhysics->Tick();
 }
 
-TEST_F( ArenaPhysicsTests, MovePlayer_NotAtAnyBottomTileBoundaries_SetsIsStandingToFalse )
+TEST_F( ArenaPhysicsTests, Tick_NotAtAnyBottomTileBoundaries_SetsIsStandingToFalse )
 {
    ON_CALL( *_arenaMock, GetPlayerPositionY() ).WillByDefault( Return( 7 ) );
    BuildArenaPhysics();
@@ -477,20 +477,20 @@ TEST_F( ArenaPhysicsTests, MovePlayer_NotAtAnyBottomTileBoundaries_SetsIsStandin
    EXPECT_CALL( *_playerMock, SetIsStanding( false ) );
    EXPECT_CALL( *_playerMock, SetIsStanding( true ) ).Times( 0 );
 
-   _arenaPhysics->MovePlayer();
+   _arenaPhysics->Tick();
 }
 
-TEST_F( ArenaPhysicsTests, MovePlayer_AtPassableBottomTileBoundary_SetsIsStandingToFalse )
+TEST_F( ArenaPhysicsTests, Tick_AtPassableBottomTileBoundary_SetsIsStandingToFalse )
 {
    BuildArenaPhysics();
 
    EXPECT_CALL( *_playerMock, SetIsStanding( false ) );
    EXPECT_CALL( *_playerMock, SetIsStanding( true ) ).Times( 0 );
 
-   _arenaPhysics->MovePlayer();
+   _arenaPhysics->Tick();
 }
 
-TEST_F( ArenaPhysicsTests, MovePlayer_AtLowerLeftBottomTileBoundary_SetsIsStandingToTrue )
+TEST_F( ArenaPhysicsTests, Tick_AtLowerLeftBottomTileBoundary_SetsIsStandingToTrue )
 {
    ON_CALL( *_arenaMock, GetPlayerPositionX() ).WillByDefault( Return( 11 ) );
    ArenaTile tile = { true, true, true, false };
@@ -500,10 +500,10 @@ TEST_F( ArenaPhysicsTests, MovePlayer_AtLowerLeftBottomTileBoundary_SetsIsStandi
    EXPECT_CALL( *_playerMock, SetIsStanding( false ) );
    EXPECT_CALL( *_playerMock, SetIsStanding( true ) );
 
-   _arenaPhysics->MovePlayer();
+   _arenaPhysics->Tick();
 }
 
-TEST_F( ArenaPhysicsTests, MovePlayer_AtLowerMiddleBottomTileBoundary_SetsIsStandingToTrue )
+TEST_F( ArenaPhysicsTests, Tick_AtLowerMiddleBottomTileBoundary_SetsIsStandingToTrue )
 {
    ON_CALL( *_arenaMock, GetPlayerPositionX() ).WillByDefault( Return( 11 ) );
    ArenaTile tile = { true, true, true, false };
@@ -513,10 +513,10 @@ TEST_F( ArenaPhysicsTests, MovePlayer_AtLowerMiddleBottomTileBoundary_SetsIsStan
    EXPECT_CALL( *_playerMock, SetIsStanding( false ) );
    EXPECT_CALL( *_playerMock, SetIsStanding( true ) );
 
-   _arenaPhysics->MovePlayer();
+   _arenaPhysics->Tick();
 }
 
-TEST_F( ArenaPhysicsTests, MovePlayer_AtLowerRightBottomTileBoundary_SetsIsStandingToTrue )
+TEST_F( ArenaPhysicsTests, Tick_AtLowerRightBottomTileBoundary_SetsIsStandingToTrue )
 {
    ON_CALL( *_arenaMock, GetPlayerPositionX() ).WillByDefault( Return( 11 ) );
    ArenaTile tile = { true, true, true, false };
@@ -526,5 +526,5 @@ TEST_F( ArenaPhysicsTests, MovePlayer_AtLowerRightBottomTileBoundary_SetsIsStand
    EXPECT_CALL( *_playerMock, SetIsStanding( false ) );
    EXPECT_CALL( *_playerMock, SetIsStanding( true ) );
 
-   _arenaPhysics->MovePlayer();
+   _arenaPhysics->Tick();
 }

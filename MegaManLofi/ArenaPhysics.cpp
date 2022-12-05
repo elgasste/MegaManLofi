@@ -20,6 +20,11 @@ ArenaPhysics::ArenaPhysics( const shared_ptr<IFrameRateProvider> frameRateProvid
    UpdatePlayerOccupyingTileIndices();
 }
 
+void ArenaPhysics::Tick()
+{
+   MovePlayer();
+}
+
 void ArenaPhysics::MovePlayer()
 {
    if ( _player->GetVelocityX() != 0 )

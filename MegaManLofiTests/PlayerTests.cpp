@@ -140,3 +140,16 @@ TEST_F( PlayerTests, StopY_Always_SetsYVelocityToZero )
 
    EXPECT_EQ( _player->GetVelocityY(), 0 );
 }
+
+TEST_F( PlayerTests, StopY_Always_SetsIsJumpingToFalse )
+{
+   BuildPlayer();
+
+   _player->SetIsJumping( true );
+   
+   EXPECT_TRUE( _player->IsJumping() );
+
+   _player->StopY();
+
+   EXPECT_FALSE( _player->IsJumping() );
+}

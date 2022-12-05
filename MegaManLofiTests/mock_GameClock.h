@@ -14,4 +14,6 @@ public:
    MOCK_METHOD( int, GetFramesPerSecond, ( ), ( const, override ) );
    MOCK_METHOD( long long, GetTotalFrameCount, ( ), ( const, override ) );
    MOCK_METHOD( long long, GetLagFrameCount, ( ), ( const, override ) );
+   MOCK_METHOD( long long, GetCurrentFrame, ( ), ( const, override ) );
+
 };

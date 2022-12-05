@@ -28,6 +28,10 @@ void PlayingStateInputHandler::HandleInput()
    {
       _commandExecutor->ExecuteCommand( GameCommand::Jump );
    }
+   else if ( _inputReader->IsButtonDown( GameButton::A ) )
+   {
+      _commandExecutor->ExecuteCommand( GameCommand::ExtendJump );
+   }
 
    HandleDirections();
 }

@@ -166,8 +166,8 @@ shared_ptr<ConsoleRenderConfig> BuildConsoleRenderConfig()
    renderConfig->ArenaSprites[1].Height = 1;
    renderConfig->ArenaSprites[1].Pixels.push_back( { '-', ConsoleColor::DarkGrey } );
 
-   // platform on the 11th row, extending 50 tiles from the left edge of the arena
-   for ( int i = ( 114 * 10 ); i < ( ( 114 * 10 ) + 50 ); i++ )
+   // platform on the 13th row, extending 50 tiles from the left edge of the arena
+   for ( int i = ( 114 * 12 ); i < ( ( 114 * 12 ) + 50 ); i++ )
    {
       renderConfig->ArenaSpriteMap[i] = 0;
    }
@@ -279,8 +279,8 @@ shared_ptr<ArenaConfig> BuildArenaConfig()
       arenaConfig->DefaultTiles.push_back( { true, true, true, true } );
    }
 
-   // platform on the 11th row, extending 50 tiles from the left edge of the arena
-   for ( int i = ( 114 * 10 ); i < ( ( 114 * 10 ) + 50 ); i++ )
+   // platform on the 13th row, extending 50 tiles from the left edge of the arena
+   for ( int i = ( 114 * 12 ); i < ( ( 114 * 12 ) + 50 ); i++ )
    {
       arenaConfig->DefaultTiles[i] = { false, false, false, false };
    }
@@ -291,8 +291,8 @@ shared_ptr<ArenaConfig> BuildArenaConfig()
       arenaConfig->DefaultTiles[i] = { true, true, true, false }; // passable in all ways except down
    }
 
-   arenaConfig->DefaultPlayerPositionX = ( arenaConfig->DefaultTileWidth * arenaConfig->DefaultHorizontalTiles ) / 2;
-   arenaConfig->DefaultPlayerPositionY = ( arenaConfig->DefaultTileHeight * arenaConfig->DefaultVerticalTiles ) / 2;
+   arenaConfig->DefaultPlayerPositionX = arenaConfig->DefaultTileWidth * 8;
+   arenaConfig->DefaultPlayerPositionY = arenaConfig->DefaultTileHeight * 9;
 
    return arenaConfig;
 }
@@ -301,12 +301,15 @@ shared_ptr<PlayerPhysicsConfig> BuildPlayerPhysicsConfig()
 {
    auto playerPhysicsConfig = make_shared<PlayerPhysicsConfig>();
 
-   playerPhysicsConfig->MaxPushVelocity = 1'000;
+   playerPhysicsConfig->MaxPushVelocity = 1'200;
    playerPhysicsConfig->MaxGravityVelocity = 4'000;
 
-   playerPhysicsConfig->PushAccelerationPerSecond = 8'000;
+   playerPhysicsConfig->PushAccelerationPerSecond = 8'500;
    playerPhysicsConfig->FrictionDecelerationPerSecond = 10'000;
+   playerPhysicsConfig->JumpAccelerationPerSecond = 2'000;
    playerPhysicsConfig->GravityAccelerationPerSecond = 10'000;
+
+   playerPhysicsConfig->MaxJumpExtensionSeconds = 0.25;
 
    return playerPhysicsConfig;
 }

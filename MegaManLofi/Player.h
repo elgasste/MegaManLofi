@@ -20,8 +20,10 @@ namespace MegaManLofi
               const std::shared_ptr<IFrameRateProvider> frameRateProvider );
 
       Direction GetDirection() const override { return _direction; }
+
       bool IsMoving() const override;
       bool IsStanding() const override { return _isStanding; }
+      bool IsJumping() const override { return _isJumping; }
 
       void SetDirection( Direction direction ) override { _direction = direction; }
 
@@ -34,9 +36,10 @@ namespace MegaManLofi
       void SetVelocityY( long long velocityY ) override { _velocityY = velocityY; }
 
       void SetIsStanding( bool isStanding ) override { _isStanding = isStanding; }
+      void SetIsJumping( bool isJumping ) override { _isJumping = isJumping; }
 
-      void StopX() override { _velocityX = 0; }
-      void StopY() override { _velocityY = 0; }
+      void StopX() override;
+      void StopY() override;
 
    private:
       const std::shared_ptr<IFrameActionRegistry> _frameActionRegistry;
@@ -50,5 +53,6 @@ namespace MegaManLofi
       Direction _direction;
 
       bool _isStanding;
+      bool _isJumping;
    };
 }

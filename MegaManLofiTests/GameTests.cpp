@@ -59,7 +59,7 @@ TEST_F( GameTests, ExecuteCommand_Quit_RaisesShutdownEvent )
 
 TEST_F( GameTests, ExecuteCommand_PushPlayer_PushesPlayerInSpecifiedDirection )
 {
-   EXPECT_CALL( *_playerPhysicsMock, Push( Direction::UpLeft ) );
+   EXPECT_CALL( *_playerPhysicsMock, PushTo( Direction::UpLeft ) );
 
    _game->ExecuteCommand( GameCommand::PushPlayer,
                           shared_ptr<PushPlayerCommandArgs>( new PushPlayerCommandArgs( Direction::UpLeft ) ) );
@@ -67,7 +67,7 @@ TEST_F( GameTests, ExecuteCommand_PushPlayer_PushesPlayerInSpecifiedDirection )
 
 TEST_F( GameTests, ExecuteCommand_PointPlayer_PointsPlayerInSpecifiedDirection )
 {
-   EXPECT_CALL( *_playerPhysicsMock, Point( Direction::DownLeft ) );
+   EXPECT_CALL( *_playerPhysicsMock, PointTo( Direction::DownLeft ) );
 
    _game->ExecuteCommand( GameCommand::PointPlayer,
                           shared_ptr<PointPlayerCommandArgs>( new PointPlayerCommandArgs( Direction::DownLeft ) ) );
@@ -80,22 +80,27 @@ TEST_F( GameTests, ExecuteCommand_Jump_Jumps )
    _game->ExecuteCommand( GameCommand::Jump );
 }
 
-TEST_F( GameTests, RunFrame_GameStateIsNotPlaying_DoesNotDoPlayerOrArenaActions )
+TEST_F( GameTests, ExecuteCommand_ExtendJump_ExtendsJump )
 {
-   EXPECT_CALL( *_playerPhysicsMock, ApplyFriction() ).Times( 0 );
-   EXPECT_CALL( *_playerPhysicsMock, ApplyGravity() ).Times( 0 );
-   EXPECT_CALL( *_arenaPhysicsMock, MovePlayer() ).Times( 0 );
+   EXPECT_CALL( *_playerPhysicsMock, ExtendJump() );
 
-   _game->RunFrame();
+   _game->ExecuteCommand( GameCommand::ExtendJump );
 }
 
-TEST_F( GameTests, RunFrame_GameStateIsPlaying_DoesPlayerAndArenaActions )
+TEST_F( GameTests, Tick_GameStateIsNotPlaying_DoesNotDoPlayerOrArenaActions )
+{
+   EXPECT_CALL( *_playerPhysicsMock, Tick() ).Times( 0 );
+   EXPECT_CALL( *_arenaPhysicsMock, Tick() ).Times( 0 );
+
+   _game->Tick();
+}
+
+TEST_F( GameTests, Tick_GameStateIsPlaying_DoesPlayerAndArenaActions )
 {
    _game->ExecuteCommand( GameCommand::Start );
 
-   EXPECT_CALL( *_playerPhysicsMock, ApplyFriction() );
-   EXPECT_CALL( *_playerPhysicsMock, ApplyGravity() );
-   EXPECT_CALL( *_arenaPhysicsMock, MovePlayer() );
+   EXPECT_CALL( *_playerPhysicsMock, Tick() );
+   EXPECT_CALL( *_arenaPhysicsMock, Tick() );
 
-   _game->RunFrame();
+   _game->Tick();
 }

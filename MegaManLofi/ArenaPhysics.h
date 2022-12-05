@@ -20,9 +20,10 @@ namespace MegaManLofi
                     const std::shared_ptr<IArena> arena,
                     const std::shared_ptr<IPlayer> player );
 
-      void MovePlayer() override;
+      void Tick() override;
 
    private:
+      void MovePlayer();
       void UpdatePlayerOccupyingTileIndices();
       void MovePlayerX();
       void MovePlayerY();

@@ -21,6 +21,7 @@ namespace MegaManLofi
       virtual void SetVelocityY( long long velocityY ) = 0;
 
       virtual void SetIsStanding( bool isStanding ) = 0;
+      virtual void SetIsJumping( bool isJumping ) = 0;
 
       virtual void StopX() = 0;
       virtual void StopY() = 0;

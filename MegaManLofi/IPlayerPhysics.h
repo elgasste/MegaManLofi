@@ -7,10 +7,11 @@ namespace MegaManLofi
    class __declspec( novtable ) IPlayerPhysics
    {
    public:
-      virtual void ApplyFriction() const = 0;
-      virtual void ApplyGravity() const = 0;
-      virtual void Point( Direction direction ) const = 0;
-      virtual void Push( Direction direction ) const = 0;
-      virtual void Jump() const = 0;
+      virtual void Tick() = 0;
+
+      virtual void PointTo( Direction direction ) const = 0;
+      virtual void PushTo( Direction direction ) const = 0;
+      virtual void Jump() = 0;
+      virtual void ExtendJump() = 0;
    };
 }

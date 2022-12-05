@@ -10,6 +10,9 @@ namespace MegaManLofi
 
       long long PushAccelerationPerSecond = 0;
       long long FrictionDecelerationPerSecond = 0;
+      long long JumpAccelerationPerSecond = 0;
       long long GravityAccelerationPerSecond = 0;
+
+      double MaxJumpExtensionSeconds = 0.;
    };
 }

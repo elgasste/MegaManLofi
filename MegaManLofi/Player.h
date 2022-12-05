@@ -26,11 +26,11 @@ namespace MegaManLofi
 
       const Rectangle& GetHitBox() const override { return _hitBox; }
 
-      double GetVelocityX() const override { return _velocityX; }
-      double GetVelocityY() const override { return _velocityY; }
+      long long GetVelocityX() const override { return _velocityX; }
+      long long GetVelocityY() const override { return _velocityY; }
 
-      void SetVelocityX( double velocityX ) override { _velocityX = velocityX; }
-      void SetVelocityY( double velocityY ) override { _velocityY = velocityY; }
+      void SetVelocityX( long long velocityX ) override { _velocityX = velocityX; }
+      void SetVelocityY( long long velocityY ) override { _velocityY = velocityY; }
 
       void StopX() override { _velocityX = 0; }
       void StopY() override { _velocityY = 0; }
@@ -41,8 +41,8 @@ namespace MegaManLofi
 
       Rectangle _hitBox;
 
-      double _velocityX;
-      double _velocityY;
+      long long _velocityX;
+      long long _velocityY;
 
       Direction _direction;
    };

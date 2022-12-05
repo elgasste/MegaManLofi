@@ -14,17 +14,17 @@ namespace MegaManLofi
    public:
       Arena( const std::shared_ptr<ArenaConfig> config );
 
-      double GetWidth() const override { return _width; }
-      double GetHeight() const override { return _height; }
+      long long GetWidth() const override { return _width; }
+      long long GetHeight() const override { return _height; }
 
-      double GetPlayerPositionX() const override { return _playerPositionX; }
-      double GetPlayerPositionY() const override { return _playerPositionY; }
+      long long GetPlayerPositionX() const override { return _playerPositionX; }
+      long long GetPlayerPositionY() const override { return _playerPositionY; }
 
-      void SetPlayerPositionX( double positionX ) override { _playerPositionX = positionX; }
-      void SetPlayerPositionY( double positionY ) override { _playerPositionY = positionY; }
+      void SetPlayerPositionX( long long positionX ) override { _playerPositionX = positionX; }
+      void SetPlayerPositionY( long long positionY ) override { _playerPositionY = positionY; }
 
-      double GetTileWidth() const override { return _tileWidth; }
-      double GetTileHeight() const override { return _tileHeight; }
+      long long GetTileWidth() const override { return _tileWidth; }
+      long long GetTileHeight() const override { return _tileHeight; }
 
       int GetHorizontalTiles() const override { return _horizontalTiles; }
       int GetVerticalTiles() const override { return _verticalTiles; }
@@ -34,14 +34,14 @@ namespace MegaManLofi
    private:
       std::vector<ArenaTile> _tiles;
 
-      double _width;
-      double _height;
+      long long _width;
+      long long _height;
 
-      double _playerPositionX;
-      double _playerPositionY;
+      long long _playerPositionX;
+      long long _playerPositionY;
 
-      double _tileWidth;
-      double _tileHeight;
+      long long _tileWidth;
+      long long _tileHeight;
 
       int _horizontalTiles;
       int _verticalTiles;

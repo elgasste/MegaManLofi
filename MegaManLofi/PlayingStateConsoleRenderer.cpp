@@ -19,8 +19,8 @@ PlayingStateConsoleRenderer::PlayingStateConsoleRenderer( const shared_ptr<ICons
    _renderConfig( renderConfig ),
    _playerInfoProvider( playerInfoProvider ),
    _arenaInfoProvider( arenaInfoProvider ),
-   _arenaCoordConverterX( renderConfig->ArenaCharWidth / arenaInfoProvider->GetWidth() ),
-   _arenaCoordConverterY( renderConfig->ArenaCharHeight / arenaInfoProvider->GetHeight() )
+   _arenaCoordConverterX( renderConfig->ArenaCharWidth / (double)arenaInfoProvider->GetWidth() ),
+   _arenaCoordConverterY( renderConfig->ArenaCharHeight / (double)arenaInfoProvider->GetHeight() )
 {
 }
 

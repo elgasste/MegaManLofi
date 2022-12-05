@@ -4,9 +4,9 @@ namespace MegaManLofi
 {
    struct Rectangle
    {
-      double Left = 0.;
-      double Top = 0.;
-      double Width = 0.;
-      double Height = 0.;
+      long long Left = 0;
+      long long Top = 0;
+      long long Width = 0;
+      long long Height = 0;
    };
 }

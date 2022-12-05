@@ -30,11 +30,11 @@ void GameClock::WaitForNextFrame()
    auto elapsedFrameTimeNano = frameEndTimeNano - _frameStartTimeNano;
    auto remainingFrameTimeNano = _nanoSecondsPerFrame - elapsedFrameTimeNano;
 
-   if ( remainingFrameTimeNano > 0ll )
+   if ( remainingFrameTimeNano > 0 )
    {
       _sleeper->Sleep( remainingFrameTimeNano );
    }
-   else if ( remainingFrameTimeNano < 0ll )
+   else if ( remainingFrameTimeNano < 0 )
    {
       _lagFrameCount++;
    }

@@ -33,16 +33,16 @@ void StartupStateConsoleRenderer::Render()
    _consoleBuffer->Draw( middleX - 30, 6, "They sky's the limit! Er, the console is the limit, I guess." );
    _consoleBuffer->Draw( middleX - 40, 7, "Just to get you started, here's a list of which keys are bound to which buttons:" );
 
-   int top = 9;
+   short top = 9;
 
    DrawKeyBindings( middleX, top );
 
-   top += (int)_inputConfig->KeyMap.size() + 1;
+   top += (short)_inputConfig->KeyMap.size() + 1;
    _consoleBuffer->Draw( middleX - 17, top, "Press any button to play the game!" );
    _consoleBuffer->Draw( middleX - 25, top + 1, "(remember, not every key is bound to a button....)" );
 }
 
-void StartupStateConsoleRenderer::DrawKeyBindings( int middleX, int top ) const
+void StartupStateConsoleRenderer::DrawKeyBindings( short middleX, short top ) const
 {
    auto leftOfMiddleX = middleX - 2;
 

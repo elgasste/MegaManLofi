@@ -252,10 +252,10 @@ shared_ptr<PlayerConfig> BuildPlayerConfig()
 
    // one character is 38 x 78 units, and our player sprites are 4 x 3 characters,
    // so this hit box should match the player's sprite size
-   playerConfig->DefaultHitBox = { 0., 0., 38. * 4., 78. * 3. };
+   playerConfig->DefaultHitBox = { 0, 0, 38 * 4, 78 * 3 };
 
-   playerConfig->DefaultVelocityX = 0.;
-   playerConfig->DefaultVelocityY = 0.;
+   playerConfig->DefaultVelocityX = 0;
+   playerConfig->DefaultVelocityY = 0;
 
    playerConfig->DefaultDirection = Direction::Right;
 
@@ -267,8 +267,8 @@ shared_ptr<ArenaConfig> BuildArenaConfig()
    auto arenaConfig = make_shared<ArenaConfig>();
 
    // this results in a 4332 x 1872 arena, which translates super well to a 120 x 30 console
-   arenaConfig->DefaultTileWidth = 38.;
-   arenaConfig->DefaultTileHeight = 78.;
+   arenaConfig->DefaultTileWidth = 38;
+   arenaConfig->DefaultTileHeight = 78;
 
    arenaConfig->DefaultHorizontalTiles = 114;
    arenaConfig->DefaultVerticalTiles = 24;
@@ -291,8 +291,8 @@ shared_ptr<ArenaConfig> BuildArenaConfig()
       arenaConfig->DefaultTiles[i] = { true, true, true, false }; // passable in all ways except down
    }
 
-   arenaConfig->DefaultPlayerPositionX = ( arenaConfig->DefaultTileWidth * arenaConfig->DefaultHorizontalTiles ) / 2.;
-   arenaConfig->DefaultPlayerPositionY = ( arenaConfig->DefaultTileHeight * arenaConfig->DefaultVerticalTiles ) / 2.;
+   arenaConfig->DefaultPlayerPositionX = ( arenaConfig->DefaultTileWidth * arenaConfig->DefaultHorizontalTiles ) / 2;
+   arenaConfig->DefaultPlayerPositionY = ( arenaConfig->DefaultTileHeight * arenaConfig->DefaultVerticalTiles ) / 2;
 
    return arenaConfig;
 }
@@ -301,12 +301,12 @@ shared_ptr<PlayerPhysicsConfig> BuildPlayerPhysicsConfig()
 {
    auto playerPhysicsConfig = make_shared<PlayerPhysicsConfig>();
 
-   playerPhysicsConfig->MaxPushVelocity = 1'000.;
-   playerPhysicsConfig->MaxGravityVelocity = 4'000.;
+   playerPhysicsConfig->MaxPushVelocity = 1'000;
+   playerPhysicsConfig->MaxGravityVelocity = 4'000;
 
-   playerPhysicsConfig->PushAccelerationPerSecond = 8'000.;
+   playerPhysicsConfig->PushAccelerationPerSecond = 8'000;
    playerPhysicsConfig->FrictionDecelerationPerSecond = 10'000;
-   playerPhysicsConfig->GravityAccelerationPerSecond = 10'000.;
+   playerPhysicsConfig->GravityAccelerationPerSecond = 10'000;
 
    return playerPhysicsConfig;
 }

@@ -23,11 +23,11 @@ public:
       _playerMock.reset( new NiceMock<mock_Player> );
       _config.reset( new PlayerPhysicsConfig );
 
-      _config->MaxPushVelocity = 10.;
-      _config->MaxGravityVelocity = 20.;
-      _config->PushAccelerationPerSecond = 2.;
-      _config->FrictionDecelerationPerSecond = 2.;
-      _config->GravityAccelerationPerSecond = 4.;
+      _config->MaxPushVelocity = 10;
+      _config->MaxGravityVelocity = 20;
+      _config->PushAccelerationPerSecond = 2;
+      _config->FrictionDecelerationPerSecond = 2;
+      _config->GravityAccelerationPerSecond = 4;
 
       ON_CALL( *_frameRateProviderMock, GetFramesPerSecond() ).WillByDefault( Return( 1 ) );
       ON_CALL( *_frameActionRegistryMock, ActionFlagged( FrameAction::PlayerPushed ) ).WillByDefault( Return( false ) );
@@ -54,18 +54,18 @@ TEST_F( PlayerPhysicsTests, ApplyFriction_PlayerWasPushed_DoesNotApplyFriction )
 
 TEST_F( PlayerPhysicsTests, ApplyFriction_PlayerIsMovingLeft_SlowsDownCorrectly )
 {
-   ON_CALL( *_playerMock, GetVelocityX() ).WillByDefault( Return( -4. ) );
+   ON_CALL( *_playerMock, GetVelocityX() ).WillByDefault( Return( -4 ) );
 
-   EXPECT_CALL( *_playerMock, SetVelocityX( -2. ) );
+   EXPECT_CALL( *_playerMock, SetVelocityX( -2 ) );
 
    _physics->ApplyFriction();
 }
 
 TEST_F( PlayerPhysicsTests, ApplyFriction_PlayerIsMovingRight_SlowsDownCorrectly )
 {
-   ON_CALL( *_playerMock, GetVelocityX() ).WillByDefault( Return( 4. ) );
+   ON_CALL( *_playerMock, GetVelocityX() ).WillByDefault( Return( 4 ) );
 
-   EXPECT_CALL( *_playerMock, SetVelocityX( 2. ) );
+   EXPECT_CALL( *_playerMock, SetVelocityX( 2 ) );
 
    _physics->ApplyFriction();
 }
@@ -81,34 +81,34 @@ TEST_F( PlayerPhysicsTests, ApplyGravity_PlayerIsJumping_DoesNotApplyGravity )
 
 TEST_F( PlayerPhysicsTests, ApplyGravity_PlayerIsMovingUp_DecreasesYVelocity )
 {
-   ON_CALL( *_playerMock, GetVelocityY() ).WillByDefault( Return( -10. ) );
+   ON_CALL( *_playerMock, GetVelocityY() ).WillByDefault( Return( -10 ) );
 
-   EXPECT_CALL( *_playerMock, SetVelocityY( -6. ) );
+   EXPECT_CALL( *_playerMock, SetVelocityY( -6 ) );
 
    _physics->ApplyGravity();
 }
 
 TEST_F( PlayerPhysicsTests, ApplyGravity_PlayerIsMovingDown_DecreasesYVelocity )
 {
-   ON_CALL( *_playerMock, GetVelocityY() ).WillByDefault( Return( 10. ) );
+   ON_CALL( *_playerMock, GetVelocityY() ).WillByDefault( Return( 10 ) );
 
-   EXPECT_CALL( *_playerMock, SetVelocityY( 14. ) );
+   EXPECT_CALL( *_playerMock, SetVelocityY( 14 ) );
 
    _physics->ApplyGravity();
 }
 
 TEST_F( PlayerPhysicsTests, ApplyGravity_PlayerIsNearTerminalVelocity_ClampsToTerminalVelocity )
 {
-   ON_CALL( *_playerMock, GetVelocityY() ).WillByDefault( Return( 19. ) );
+   ON_CALL( *_playerMock, GetVelocityY() ).WillByDefault( Return( 19 ) );
 
-   EXPECT_CALL( *_playerMock, SetVelocityY( 20. ) );
+   EXPECT_CALL( *_playerMock, SetVelocityY( 20 ) );
 
    _physics->ApplyGravity();
 }
 
 TEST_F( PlayerPhysicsTests, ApplyGravity_PlayerIsAtTerminalVelocity_DoesNotChangeYVelocity )
 {
-   ON_CALL( *_playerMock, GetVelocityY() ).WillByDefault( Return( 20. ) );
+   ON_CALL( *_playerMock, GetVelocityY() ).WillByDefault( Return( 20 ) );
 
    EXPECT_CALL( *_playerMock, SetVelocityY( _ ) ).Times( 0 );
 
@@ -138,25 +138,25 @@ TEST_F( PlayerPhysicsTests, Push_Right_FlagsAction )
 
 TEST_F( PlayerPhysicsTests, Push_Left_ChangesXVelocity )
 {
-   ON_CALL( *_playerMock, GetVelocityX() ).WillByDefault( Return( -6. ) );
+   ON_CALL( *_playerMock, GetVelocityX() ).WillByDefault( Return( -6 ) );
 
-   EXPECT_CALL( *_playerMock, SetVelocityX( -8. ) );
+   EXPECT_CALL( *_playerMock, SetVelocityX( -8 ) );
 
    _physics->Push( Direction::Left );
 }
 
 TEST_F( PlayerPhysicsTests, Push_LeftAndPushVelocityHasAlmostMaxedOut_ClampsToMaxPushVelocity )
 {
-   ON_CALL( *_playerMock, GetVelocityX() ).WillByDefault( Return( -9. ) );
+   ON_CALL( *_playerMock, GetVelocityX() ).WillByDefault( Return( -9 ) );
 
-   EXPECT_CALL( *_playerMock, SetVelocityX( -10. ) );
+   EXPECT_CALL( *_playerMock, SetVelocityX( -10 ) );
 
    _physics->Push( Direction::Left );
 }
 
 TEST_F( PlayerPhysicsTests, Push_LeftAndPushVelocityHasMaxedOut_DoesNotChangeXVelocity )
 {
-   ON_CALL( *_playerMock, GetVelocityX() ).WillByDefault( Return( -10. ) );
+   ON_CALL( *_playerMock, GetVelocityX() ).WillByDefault( Return( -10 ) );
 
    EXPECT_CALL( *_playerMock, SetVelocityX( _ ) ).Times( 0 );
 
@@ -165,25 +165,25 @@ TEST_F( PlayerPhysicsTests, Push_LeftAndPushVelocityHasMaxedOut_DoesNotChangeXVe
 
 TEST_F( PlayerPhysicsTests, Push_Right_ChangesXVelocity )
 {
-   ON_CALL( *_playerMock, GetVelocityX() ).WillByDefault( Return( 6. ) );
+   ON_CALL( *_playerMock, GetVelocityX() ).WillByDefault( Return( 6 ) );
 
-   EXPECT_CALL( *_playerMock, SetVelocityX( 8. ) );
+   EXPECT_CALL( *_playerMock, SetVelocityX( 8 ) );
 
    _physics->Push( Direction::Right );
 }
 
 TEST_F( PlayerPhysicsTests, Push_RightAndPushVelocityHasAlmostMaxedOut_ClampsToMaxPushVelocity )
 {
-   ON_CALL( *_playerMock, GetVelocityX() ).WillByDefault( Return( 9. ) );
+   ON_CALL( *_playerMock, GetVelocityX() ).WillByDefault( Return( 9 ) );
 
-   EXPECT_CALL( *_playerMock, SetVelocityX( 10. ) );
+   EXPECT_CALL( *_playerMock, SetVelocityX( 10 ) );
 
    _physics->Push( Direction::Right );
 }
 
 TEST_F( PlayerPhysicsTests, Push_RightAndPushVelocityHasMaxedOut_DoesNotChangeXVelocity )
 {
-   ON_CALL( *_playerMock, GetVelocityX() ).WillByDefault( Return( 10. ) );
+   ON_CALL( *_playerMock, GetVelocityX() ).WillByDefault( Return( 10 ) );
 
    EXPECT_CALL( *_playerMock, SetVelocityX( _ ) ).Times( 0 );
 
@@ -192,7 +192,7 @@ TEST_F( PlayerPhysicsTests, Push_RightAndPushVelocityHasMaxedOut_DoesNotChangeXV
 
 TEST_F( PlayerPhysicsTests, Jump_Always_SetsVelocityToUpwardGravityMaximum )
 {
-   EXPECT_CALL( *_playerMock, SetVelocityY( -20. ) );
+   EXPECT_CALL( *_playerMock, SetVelocityY( -20 ) );
 
    _physics->Jump();
 }

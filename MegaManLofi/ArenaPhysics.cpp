@@ -23,12 +23,12 @@ void ArenaPhysics::MovePlayer()
 {
    UpdatePlayerOccupyingTileIndices();
 
-   if ( _player->GetVelocityX() != 0. )
+   if ( _player->GetVelocityX() != 0 )
    {
       MovePlayerX();
    }
 
-   if ( _player->GetVelocityY() != 0. )
+   if ( _player->GetVelocityY() != 0 )
    {
       MovePlayerY();
    }
@@ -40,15 +40,21 @@ void ArenaPhysics::UpdatePlayerOccupyingTileIndices()
    auto playerPositionX = _arena->GetPlayerPositionX();
    auto playerPositionY = _arena->GetPlayerPositionY();
 
-   _playerOccupyingTileIndices.Left = (long long)( ( playerPositionX + hitBox.Left ) / _arena->GetTileWidth() );
-   _playerOccupyingTileIndices.Top = (long long)( ( playerPositionY + hitBox.Top ) / _arena->GetTileHeight() );
+   _playerOccupyingTileIndices.Left = ( playerPositionX + hitBox.Left ) / _arena->GetTileWidth();
+   _playerOccupyingTileIndices.Top = ( playerPositionY + hitBox.Top ) / _arena->GetTileHeight();
+   _playerOccupyingTileIndices.Right = (long long)( ( playerPositionX + hitBox.Left + hitBox.Width ) / _arena->GetTileWidth() );
+   _playerOccupyingTileIndices.Bottom = (long long)( ( playerPositionY + hitBox.Top + hitBox.Height ) / _arena->GetTileHeight() );
 
-   // if the hit box is exactly on a right or bottom tile edge, these will be incorrect,
-   // so a quick and dirty solution is to trim a tiny bit off the hit box width and height
-   // TODO: there must be a better way to do this, because this can still mess up in rare cases...
-   // how can we (quickly & easily) tell if the right/bottom edge perfectly matches a tile boundary?
-   _playerOccupyingTileIndices.Right = (long long)( ( playerPositionX + hitBox.Left + ( hitBox.Width - 0.001 ) ) / _arena->GetTileWidth() );
-   _playerOccupyingTileIndices.Bottom = (long long)( ( playerPositionY + hitBox.Top + hitBox.Height - 0.001 ) / _arena->GetTileHeight() );
+   // when the player is positioned exactly at the edge of the right or bottom tile,
+   // these indices will be incorrect, and need to be decremented.
+   if ( ( ( playerPositionX + hitBox.Left + hitBox.Width ) % _arena->GetTileWidth() ) == 0 )
+   {
+      _playerOccupyingTileIndices.Right--;
+   }
+   if ( ( ( playerPositionY + hitBox.Top + hitBox.Height ) % _arena->GetTileHeight() ) == 0 )
+   {
+      _playerOccupyingTileIndices.Bottom--;
+   }
 }
 
 void ArenaPhysics::MovePlayerX()
@@ -77,7 +83,7 @@ void ArenaPhysics::MovePlayerY()
    }
 }
 
-void ArenaPhysics::DetectPlayerTileCollisionX( double& newPositionX )
+void ArenaPhysics::DetectPlayerTileCollisionX( long long& newPositionX )
 {
    const auto& hitBox = _player->GetHitBox();
    auto currentPositionX = _arena->GetPlayerPositionX();
@@ -89,10 +95,10 @@ void ArenaPhysics::DetectPlayerTileCollisionX( double& newPositionX )
       {
          auto leftOccupyingTileLeftEdge = _playerOccupyingTileIndices.Left * _arena->GetTileWidth();
 
-         if ( newPositionX < 0. )
+         if ( newPositionX < 0 )
          {
             // we've collided with the left edge of the arena
-            newPositionX = 0.;
+            newPositionX = 0;
             _player->StopX();
             break;
          }
@@ -134,7 +140,7 @@ void ArenaPhysics::DetectPlayerTileCollisionX( double& newPositionX )
    }
 }
 
-void ArenaPhysics::DetectPlayerTileCollisionY( double& newPositionY )
+void ArenaPhysics::DetectPlayerTileCollisionY( long long& newPositionY )
 {
    const auto& hitBox = _player->GetHitBox();
    auto currentPositionY = _arena->GetPlayerPositionY();
@@ -146,10 +152,10 @@ void ArenaPhysics::DetectPlayerTileCollisionY( double& newPositionY )
       {
          auto topOccupyingTileTopEdge = _playerOccupyingTileIndices.Top * _arena->GetTileHeight();
 
-         if ( newPositionY < 0. )
+         if ( newPositionY < 0 )
          {
             // we've collided with the top edge of the arena
-            newPositionY = 0.;
+            newPositionY = 0;
             _player->StopY();
             break;
          }

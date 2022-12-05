@@ -21,12 +21,11 @@ Game::Game( const std::shared_ptr<IGameEventAggregator> eventAggregator,
 {
 }
 
-void Game::RunFrame()
+void Game::Tick()
 {
    if ( _state == GameState::Playing )
    {
-      _playerPhysics->ApplyFriction();
-      _playerPhysics->ApplyGravity();
+      _playerPhysics->Tick();
 
       _arenaPhysics->MovePlayer();
    }
@@ -48,10 +47,10 @@ void Game::ExecuteCommand( GameCommand command, const shared_ptr<GameCommandArgs
          _eventAggregator->RaiseEvent( GameEvent::Shutdown );
          break;
       case GameCommand::PushPlayer:
-         _playerPhysics->Push( static_pointer_cast<PushPlayerCommandArgs>( args )->Direction );
+         _playerPhysics->PushTo( static_pointer_cast<PushPlayerCommandArgs>( args )->Direction );
          break;
       case GameCommand::PointPlayer:
-         _playerPhysics->Point( static_pointer_cast<PointPlayerCommandArgs>( args )->Direction );
+         _playerPhysics->PointTo( static_pointer_cast<PointPlayerCommandArgs>( args )->Direction );
          break;
       case GameCommand::Jump:
          _playerPhysics->Jump();

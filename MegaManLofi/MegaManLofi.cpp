@@ -309,6 +309,8 @@ shared_ptr<PlayerPhysicsConfig> BuildPlayerPhysicsConfig()
    playerPhysicsConfig->JumpAccelerationPerSecond = 2'000;
    playerPhysicsConfig->GravityAccelerationPerSecond = 10'000;
 
+   playerPhysicsConfig->MaxJumpExtensionSeconds = 0.25;
+
    return playerPhysicsConfig;
 }
 

@@ -23,6 +23,8 @@ namespace MegaManLofi
       long long GetTotalFrameCount() const override { return _totalFrameCount; }
       long long GetLagFrameCount() const override { return _lagFrameCount; }
 
+      long long GetCurrentFrame() const override { return _totalFrameCount; }
+
    private:
       const std::shared_ptr<IHighResolutionClock> _highResolutionClock;
       const std::shared_ptr<ISleeper> _sleeper;

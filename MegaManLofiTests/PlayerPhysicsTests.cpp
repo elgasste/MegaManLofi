@@ -47,149 +47,151 @@ protected:
    shared_ptr<PlayerPhysics> _physics;
 };
 
-TEST_F( PlayerPhysicsTests, ApplyFriction_PlayerWasPushed_DoesNotApplyFriction )
+TEST_F( PlayerPhysicsTests, Tick_PlayerWasPushed_DoesNotApplyFriction )
 {
    ON_CALL( *_frameActionRegistryMock, ActionFlagged( FrameAction::PlayerPushed ) ).WillByDefault( Return( true ) );
 
    EXPECT_CALL( *_playerMock, SetVelocityX( _ ) ).Times( 0 );
+
+   _physics->Tick();
 }
 
-TEST_F( PlayerPhysicsTests, ApplyFriction_PlayerIsMovingLeft_SlowsDownCorrectly )
+TEST_F( PlayerPhysicsTests, Tick_PlayerIsMovingLeft_SlowsDownCorrectly )
 {
    ON_CALL( *_playerMock, GetVelocityX() ).WillByDefault( Return( -4 ) );
 
    EXPECT_CALL( *_playerMock, SetVelocityX( -2 ) );
 
-   _physics->ApplyFriction();
+   _physics->Tick();
 }
 
-TEST_F( PlayerPhysicsTests, ApplyFriction_PlayerIsMovingRight_SlowsDownCorrectly )
+TEST_F( PlayerPhysicsTests, Tick_PlayerIsMovingRight_SlowsDownCorrectly )
 {
    ON_CALL( *_playerMock, GetVelocityX() ).WillByDefault( Return( 4 ) );
 
    EXPECT_CALL( *_playerMock, SetVelocityX( 2 ) );
 
-   _physics->ApplyFriction();
+   _physics->Tick();
 }
 
-TEST_F( PlayerPhysicsTests, ApplyGravity_PlayerIsJumping_DoesNotApplyGravity )
+TEST_F( PlayerPhysicsTests, Tick_PlayerIsJumping_DoesNotApplyGravity )
 {
    ON_CALL( *_frameActionRegistryMock, ActionFlagged( FrameAction::PlayerJumping ) ).WillByDefault( Return( true ) );
 
    EXPECT_CALL( *_playerMock, SetVelocityY( _ ) ).Times( 0 );
 
-   _physics->ApplyGravity();
+   _physics->Tick();
 }
 
-TEST_F( PlayerPhysicsTests, ApplyGravity_PlayerIsMovingUp_DecreasesYVelocity )
+TEST_F( PlayerPhysicsTests, Tick_PlayerIsMovingUp_DecreasesYVelocity )
 {
    ON_CALL( *_playerMock, GetVelocityY() ).WillByDefault( Return( -10 ) );
 
    EXPECT_CALL( *_playerMock, SetVelocityY( -6 ) );
 
-   _physics->ApplyGravity();
+   _physics->Tick();
 }
 
-TEST_F( PlayerPhysicsTests, ApplyGravity_PlayerIsMovingDown_DecreasesYVelocity )
+TEST_F( PlayerPhysicsTests, Tick_PlayerIsMovingDown_DecreasesYVelocity )
 {
    ON_CALL( *_playerMock, GetVelocityY() ).WillByDefault( Return( 10 ) );
 
    EXPECT_CALL( *_playerMock, SetVelocityY( 14 ) );
 
-   _physics->ApplyGravity();
+   _physics->Tick();
 }
 
-TEST_F( PlayerPhysicsTests, ApplyGravity_PlayerIsNearTerminalVelocity_ClampsToTerminalVelocity )
+TEST_F( PlayerPhysicsTests, Tick_PlayerIsNearTerminalVelocity_ClampsToTerminalVelocity )
 {
    ON_CALL( *_playerMock, GetVelocityY() ).WillByDefault( Return( 19 ) );
 
    EXPECT_CALL( *_playerMock, SetVelocityY( 20 ) );
 
-   _physics->ApplyGravity();
+   _physics->Tick();
 }
 
-TEST_F( PlayerPhysicsTests, ApplyGravity_PlayerIsAtTerminalVelocity_DoesNotChangeYVelocity )
+TEST_F( PlayerPhysicsTests, Tick_PlayerIsAtTerminalVelocity_DoesNotChangeYVelocity )
 {
    ON_CALL( *_playerMock, GetVelocityY() ).WillByDefault( Return( 20 ) );
 
    EXPECT_CALL( *_playerMock, SetVelocityY( _ ) ).Times( 0 );
 
-   _physics->ApplyGravity();
+   _physics->Tick();
 }
 
-TEST_F( PlayerPhysicsTests, Point_Always_SetsPlayerDirection )
+TEST_F( PlayerPhysicsTests, PointTo_Always_SetsPlayerDirection )
 {
    EXPECT_CALL( *_playerMock, SetDirection( Direction::Down ) );
 
-   _physics->Point( Direction::Down );
+   _physics->PointTo( Direction::Down );
 }
 
-TEST_F( PlayerPhysicsTests, Push_Left_FlagsAction )
+TEST_F( PlayerPhysicsTests, PushTo_Left_FlagsAction )
 {
    EXPECT_CALL( *_frameActionRegistryMock, FlagAction( FrameAction::PlayerPushed ) );
 
-   _physics->Push( Direction::Left );
+   _physics->PushTo( Direction::Left );
 }
 
-TEST_F( PlayerPhysicsTests, Push_Right_FlagsAction )
+TEST_F( PlayerPhysicsTests, PushTo_Right_FlagsAction )
 {
    EXPECT_CALL( *_frameActionRegistryMock, FlagAction( FrameAction::PlayerPushed ) );
 
-   _physics->Push( Direction::Right );
+   _physics->PushTo( Direction::Right );
 }
 
-TEST_F( PlayerPhysicsTests, Push_Left_ChangesXVelocity )
+TEST_F( PlayerPhysicsTests, PushTo_Left_ChangesXVelocity )
 {
    ON_CALL( *_playerMock, GetVelocityX() ).WillByDefault( Return( -6 ) );
 
    EXPECT_CALL( *_playerMock, SetVelocityX( -8 ) );
 
-   _physics->Push( Direction::Left );
+   _physics->PushTo( Direction::Left );
 }
 
-TEST_F( PlayerPhysicsTests, Push_LeftAndPushVelocityHasAlmostMaxedOut_ClampsToMaxPushVelocity )
+TEST_F( PlayerPhysicsTests, PushTo_LeftAndPushVelocityHasAlmostMaxedOut_ClampsToMaxPushVelocity )
 {
    ON_CALL( *_playerMock, GetVelocityX() ).WillByDefault( Return( -9 ) );
 
    EXPECT_CALL( *_playerMock, SetVelocityX( -10 ) );
 
-   _physics->Push( Direction::Left );
+   _physics->PushTo( Direction::Left );
 }
 
-TEST_F( PlayerPhysicsTests, Push_LeftAndPushVelocityHasMaxedOut_DoesNotChangeXVelocity )
+TEST_F( PlayerPhysicsTests, PushTo_LeftAndPushVelocityHasMaxedOut_DoesNotChangeXVelocity )
 {
    ON_CALL( *_playerMock, GetVelocityX() ).WillByDefault( Return( -10 ) );
 
    EXPECT_CALL( *_playerMock, SetVelocityX( _ ) ).Times( 0 );
 
-   _physics->Push( Direction::Left );
+   _physics->PushTo( Direction::Left );
 }
 
-TEST_F( PlayerPhysicsTests, Push_Right_ChangesXVelocity )
+TEST_F( PlayerPhysicsTests, PushTo_Right_ChangesXVelocity )
 {
    ON_CALL( *_playerMock, GetVelocityX() ).WillByDefault( Return( 6 ) );
 
    EXPECT_CALL( *_playerMock, SetVelocityX( 8 ) );
 
-   _physics->Push( Direction::Right );
+   _physics->PushTo( Direction::Right );
 }
 
-TEST_F( PlayerPhysicsTests, Push_RightAndPushVelocityHasAlmostMaxedOut_ClampsToMaxPushVelocity )
+TEST_F( PlayerPhysicsTests, PushTo_RightAndPushVelocityHasAlmostMaxedOut_ClampsToMaxPushVelocity )
 {
    ON_CALL( *_playerMock, GetVelocityX() ).WillByDefault( Return( 9 ) );
 
    EXPECT_CALL( *_playerMock, SetVelocityX( 10 ) );
 
-   _physics->Push( Direction::Right );
+   _physics->PushTo( Direction::Right );
 }
 
-TEST_F( PlayerPhysicsTests, Push_RightAndPushVelocityHasMaxedOut_DoesNotChangeXVelocity )
+TEST_F( PlayerPhysicsTests, PushTo_RightAndPushVelocityHasMaxedOut_DoesNotChangeXVelocity )
 {
    ON_CALL( *_playerMock, GetVelocityX() ).WillByDefault( Return( 10 ) );
 
    EXPECT_CALL( *_playerMock, SetVelocityX( _ ) ).Times( 0 );
 
-   _physics->Push( Direction::Right );
+   _physics->PushTo( Direction::Right );
 }
 
 TEST_F( PlayerPhysicsTests, Jump_PlayerIsNotStanding_DoesNotChangeVelocity )

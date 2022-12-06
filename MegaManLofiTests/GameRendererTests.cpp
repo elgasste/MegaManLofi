@@ -35,6 +35,7 @@ public:
       _renderConfig->DefaultForegroundColor = ConsoleColor::Grey;
 
       ON_CALL( *_gameInfoProviderMock, GetGameState() ).WillByDefault( Return( GameState::Startup ) );
+      ON_CALL( *_startupStateRendererMock, HasFocus() ).WillByDefault( Return( false ) );
    }
 
    void BuildRenderer()
@@ -116,11 +117,20 @@ TEST_F( GameRendererTests, Render_StateWasRendered_FlipsConsoleBuffer )
    _renderer->Render();
 }
 
-TEST_F( GameRendererTests, HasFocus_Always_ReturnsFalse )
+TEST_F( GameRendererTests, HasFocus_StateRendererDoesNotHaveFocus_ReturnsFalse )
 {
    BuildRenderer();
 
    EXPECT_FALSE( _renderer->HasFocus() );
+}
+
+TEST_F( GameRendererTests, HasFocus_StateRendererHasFocus_ReturnsTrue )
+{
+   BuildRenderer();
+
+   EXPECT_CALL( *_startupStateRendererMock, HasFocus() ).WillOnce( Return( true ) );
+
+   EXPECT_TRUE( _renderer->HasFocus() );
 }
 
 TEST_F( GameRendererTests, ShutdownEventRaised_Always_CleansUpConsoleBuffer )

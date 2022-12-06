@@ -27,7 +27,7 @@ namespace MegaManLofi
       void AddRendererForGameState( GameState state, std::shared_ptr<IGameRenderer> renderer );
 
       void Render() override;
-      bool HasFocus() const override { return false; }
+      bool HasFocus() const override;
 
    private:
       void HandleShutdownEvent();

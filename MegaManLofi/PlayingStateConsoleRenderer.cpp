@@ -68,16 +68,12 @@ void PlayingStateConsoleRenderer::DrawGameStartAnimation()
 {
    _gameStartBlinkElapsedSeconds += 1 / (double)_frameRateProvider->GetFramesPerSecond();
 
-   auto totalBlinkSeconds = _renderConfig->GameStartSingleBlinkSeconds * _renderConfig->GameStartBlinkCount;
-   auto elapsedPercentage = _gameStartBlinkElapsedSeconds / totalBlinkSeconds;
-   bool isBlinkingOn = (int)( _renderConfig->GameStartBlinkCount * elapsedPercentage ) % 2 == 0;
-
-   if ( isBlinkingOn )
+   if ( (int)( _gameStartBlinkElapsedSeconds / _renderConfig->GameStartSingleBlinkSeconds ) % 2 == 0 )
    {
       _consoleBuffer->Draw( ( _renderConfig->ArenaCharWidth / 2 ) - 5, _renderConfig->ArenaCharHeight / 2, "GET READY!" );
    }
 
-   if ( _gameStartBlinkElapsedSeconds >= totalBlinkSeconds )
+   if ( _gameStartBlinkElapsedSeconds >= ( _renderConfig->GameStartSingleBlinkSeconds * _renderConfig->GameStartBlinkCount ) )
    {
       _isAnimatingGameStart = false;
    }

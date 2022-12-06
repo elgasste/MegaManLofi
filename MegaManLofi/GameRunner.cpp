@@ -36,10 +36,10 @@ void GameRunner::Run()
    while ( _isRunning )
    {
       _clock->StartFrame();
-      _inputHandler->HandleInput();
 
       if ( !_renderer->HasFocus() )
       {
+         _inputHandler->HandleInput();
          _game->Tick();
       }
 

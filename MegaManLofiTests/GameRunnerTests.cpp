@@ -106,7 +106,7 @@ TEST_F( GameRunnerTests, Run_EveryLoop_StartsFrameClock )
    runWorker.join();
 }
 
-TEST_F( GameRunnerTests, Run_EveryLoop_HandlesInput )
+TEST_F( GameRunnerTests, Run_EveryLoopWhenRendererDoesNotHaveFocus_HandlesInput )
 {
    thread runWorker( RunWorker, _runner );
    while( FrameCount < 10 ) { }
@@ -115,6 +115,19 @@ TEST_F( GameRunnerTests, Run_EveryLoop_HandlesInput )
    runWorker.join();
 
    EXPECT_EQ( HandleInputCount, FrameCount );
+}
+
+TEST_F( GameRunnerTests, Run_EveryLoopWhenRendererHasFocus_DoesNotHandleInput )
+{
+   ON_CALL( *_rendererMock, HasFocus() ).WillByDefault( Return( true ) );
+
+   thread runWorker( RunWorker, _runner );
+   while( FrameCount < 10 ) { }
+   _eventAggregator->RaiseEvent( GameEvent::Shutdown );
+
+   runWorker.join();
+
+   EXPECT_EQ( HandleInputCount, 0 );
 }
 
 TEST_F( GameRunnerTests, Run_EveryLoopWhenRendererDoesNotHaveFocus_TicksGame )
@@ -128,7 +141,7 @@ TEST_F( GameRunnerTests, Run_EveryLoopWhenRendererDoesNotHaveFocus_TicksGame )
    EXPECT_EQ( RunFrameCount, FrameCount );
 }
 
-TEST_F( GameRunnerTests, Run_EveryLoopWhenRendererHasFocus_TicksGame )
+TEST_F( GameRunnerTests, Run_EveryLoopWhenRendererHasFocus_DoesNotTickGame )
 {
    ON_CALL( *_rendererMock, HasFocus() ).WillByDefault( Return( true ) );
 

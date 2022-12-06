@@ -116,6 +116,13 @@ TEST_F( GameRendererTests, Render_StateWasRendered_FlipsConsoleBuffer )
    _renderer->Render();
 }
 
+TEST_F( GameRendererTests, HasFocus_Always_ReturnsFalse )
+{
+   BuildRenderer();
+
+   EXPECT_FALSE( _renderer->HasFocus() );
+}
+
 TEST_F( GameRendererTests, ShutdownEventRaised_Always_CleansUpConsoleBuffer )
 {
    BuildRenderer();

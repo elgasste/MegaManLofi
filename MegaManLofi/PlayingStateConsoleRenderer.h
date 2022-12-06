@@ -20,6 +20,7 @@ namespace MegaManLofi
                                    const std::shared_ptr<IArenaInfoProvider> arenaInfoProvider );
 
       void Render() override;
+      bool HasFocus() const override { return false; }
 
    private:
       void DrawArenaFence();

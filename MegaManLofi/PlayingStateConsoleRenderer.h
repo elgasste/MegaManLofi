@@ -11,6 +11,7 @@ namespace MegaManLofi
    class IPlayerInfoProvider;
    class IArenaInfoProvider;
    class IGameEventAggregator;
+   class IFrameRateProvider;
 
    class PlayingStateConsoleRenderer : public IGameRenderer
    {
@@ -19,13 +20,15 @@ namespace MegaManLofi
                                    const std::shared_ptr<ConsoleRenderConfig> renderConfig,
                                    const std::shared_ptr<IPlayerInfoProvider> playerInfoProvider,
                                    const std::shared_ptr<IArenaInfoProvider> arenaInfoProvider,
-                                   const std::shared_ptr<IGameEventAggregator> eventAggregator );
+                                   const std::shared_ptr<IGameEventAggregator> eventAggregator,
+                                   const std::shared_ptr<IFrameRateProvider> frameRateProvider );
 
       void Render() override;
-      bool HasFocus() const override { return false; }
+      bool HasFocus() const override;
 
    private:
       void HandleGameStartedEvent();
+      void DrawGameStartAnimation();
       void DrawArenaFence();
       void DrawArenaSprites();
       void DrawPlayer();
@@ -36,8 +39,12 @@ namespace MegaManLofi
       const std::shared_ptr<IPlayerInfoProvider> _playerInfoProvider;
       const std::shared_ptr<IArenaInfoProvider> _arenaInfoProvider;
       const std::shared_ptr<IGameEventAggregator> _eventAggregator;
+      const std::shared_ptr<IFrameRateProvider> _frameRateProvider;
 
       double _arenaCoordConverterX;
       double _arenaCoordConverterY;
+
+      bool _isAnimatingGameStart;
+      double _gameStartBlinkElapsedSeconds;
    };
 }

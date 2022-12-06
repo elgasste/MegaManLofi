@@ -142,11 +142,11 @@ shared_ptr<ConsoleRenderConfig> BuildConsoleRenderConfig()
    renderConfig->ConsoleWidth = 120;
    renderConfig->ConsoleHeight = 30;
 
-   renderConfig->ArenaCharWidth = 114;
-   renderConfig->ArenaCharHeight = 24;
+   renderConfig->ArenaX = 0;
+   renderConfig->ArenaY = 0;
 
-   renderConfig->ArenaFenceX = 2;
-   renderConfig->ArenaFenceY = 3;
+   renderConfig->ArenaCharWidth = 120;
+   renderConfig->ArenaCharHeight = 30;
 
    // "GET READY!" message should blink for 2 seconds
    renderConfig->GameStartSingleBlinkSeconds = .25;
@@ -169,13 +169,13 @@ shared_ptr<ConsoleRenderConfig> BuildConsoleRenderConfig()
    renderConfig->ArenaSprites[1].Pixels.push_back( { '-', ConsoleColor::DarkGrey } );
 
    // platform on the 13th row, extending 50 tiles from the left edge of the arena
-   for ( int i = ( 114 * 12 ); i < ( ( 114 * 12 ) + 50 ); i++ )
+   for ( int i = ( 120 * 12 ); i < ( ( 120 * 12 ) + 50 ); i++ )
    {
       renderConfig->ArenaSpriteMap[i] = 0;
    }
 
    // platform on the 21st row, extending 50 tiles from the right edge of the arena
-   for ( int i = ( ( 114 * 21 ) - 1 ); i > ( ( 114 * 21 ) - 50 ); i-- )
+   for ( int i = ( ( 120 * 21 ) - 1 ); i > ( ( 120 * 21 ) - 50 ); i-- )
    {
       renderConfig->ArenaSpriteMap[i] = 1;
    }
@@ -272,8 +272,8 @@ shared_ptr<ArenaConfig> BuildArenaConfig()
    arenaConfig->DefaultTileWidth = 38;
    arenaConfig->DefaultTileHeight = 78;
 
-   arenaConfig->DefaultHorizontalTiles = 114;
-   arenaConfig->DefaultVerticalTiles = 24;
+   arenaConfig->DefaultHorizontalTiles = 120;
+   arenaConfig->DefaultVerticalTiles = 30;
 
    // start with all passable tiles
    for ( int i = 0; i < arenaConfig->DefaultHorizontalTiles * arenaConfig->DefaultVerticalTiles; i++ )
@@ -282,13 +282,13 @@ shared_ptr<ArenaConfig> BuildArenaConfig()
    }
 
    // platform on the 13th row, extending 50 tiles from the left edge of the arena
-   for ( int i = ( 114 * 12 ); i < ( ( 114 * 12 ) + 50 ); i++ )
+   for ( int i = ( 120 * 12 ); i < ( ( 120 * 12 ) + 50 ); i++ )
    {
       arenaConfig->DefaultTiles[i] = { false, false, false, false };
    }
 
    // platform on the 21st row, extending 50 tiles from the right edge of the arena
-   for ( int i = ( ( 114 * 21 ) - 1 ); i > ( ( 114 * 21 ) - 50 ); i-- )
+   for ( int i = ( ( 120 * 21 ) - 1 ); i > ( ( 120 * 21 ) - 50 ); i-- )
    {
       arenaConfig->DefaultTiles[i] = { true, true, true, false }; // passable in all ways except down
    }

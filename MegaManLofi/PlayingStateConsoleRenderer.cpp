@@ -3,10 +3,12 @@
 #include "ConsoleRenderConfig.h"
 #include "IPlayerInfoProvider.h"
 #include "IArenaInfoProvider.h"
+#include "IGameEventAggregator.h"
 #include "ConsoleColor.h"
 #include "Direction.h"
 #include "ConsoleSprite.h"
 #include "ConsolePixel.h"
+#include "GameEvent.h"
 
 using namespace std;
 using namespace MegaManLofi;
@@ -14,14 +16,17 @@ using namespace MegaManLofi;
 PlayingStateConsoleRenderer::PlayingStateConsoleRenderer( const shared_ptr<IConsoleBuffer> consoleBuffer,
                                                           const shared_ptr<ConsoleRenderConfig> renderConfig,
                                                           const shared_ptr<IPlayerInfoProvider> playerInfoProvider,
-                                                          const shared_ptr<IArenaInfoProvider> arenaInfoProvider ) :
+                                                          const shared_ptr<IArenaInfoProvider> arenaInfoProvider,
+                                                          const shared_ptr<IGameEventAggregator> eventAggregator ) :
    _consoleBuffer( consoleBuffer ),
    _renderConfig( renderConfig ),
    _playerInfoProvider( playerInfoProvider ),
    _arenaInfoProvider( arenaInfoProvider ),
+   _eventAggregator( eventAggregator ),
    _arenaCoordConverterX( renderConfig->ArenaCharWidth / (double)arenaInfoProvider->GetWidth() ),
    _arenaCoordConverterY( renderConfig->ArenaCharHeight / (double)arenaInfoProvider->GetHeight() )
 {
+   eventAggregator->RegisterEventHandler( GameEvent::GameStarted, std::bind( &PlayingStateConsoleRenderer::HandleGameStartedEvent, this ) );
 }
 
 void PlayingStateConsoleRenderer::Render()
@@ -34,6 +39,11 @@ void PlayingStateConsoleRenderer::Render()
    DrawArenaFence();
    DrawArenaSprites();
    DrawPlayer();
+}
+
+void PlayingStateConsoleRenderer::HandleGameStartedEvent()
+{
+   // TODO: show a blinking animation
 }
 
 void PlayingStateConsoleRenderer::DrawArenaFence()

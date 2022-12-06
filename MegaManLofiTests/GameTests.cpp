@@ -65,9 +65,11 @@ TEST_F( GameTests, Constructor_Always_AssignsPhysicsObjects )
    BuildGame();
 }
 
-TEST_F( GameTests, ExecuteCommand_Start_SetsGameStateToPlaying )
+TEST_F( GameTests, ExecuteCommand_Start_SetsGameStateToPlayingAndRaisesEvent )
 {
    BuildGame();
+
+   EXPECT_CALL( *_eventAggregatorMock, RaiseEvent( GameEvent::GameStarted ) );
 
    _game->ExecuteCommand( GameCommand::Start );
 

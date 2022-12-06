@@ -45,6 +45,7 @@ void Game::ExecuteCommand( GameCommand command, const shared_ptr<GameCommandArgs
    {
       case GameCommand::Start:
          _state = GameState::Playing;
+         _eventAggregator->RaiseEvent( GameEvent::GameStarted );
          break;
       case GameCommand::Quit:
          _eventAggregator->RaiseEvent( GameEvent::Shutdown );

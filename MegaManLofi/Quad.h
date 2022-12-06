@@ -2,7 +2,7 @@
 
 namespace MegaManLofi
 {
-   struct TileIndices
+   struct Quad
    {
       long long Left = 0;
       long long Top = 0;

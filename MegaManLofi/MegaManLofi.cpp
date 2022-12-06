@@ -142,11 +142,14 @@ shared_ptr<ConsoleRenderConfig> BuildConsoleRenderConfig()
    renderConfig->ConsoleWidth = 120;
    renderConfig->ConsoleHeight = 30;
 
-   renderConfig->ArenaX = 0;
-   renderConfig->ArenaY = 0;
+   renderConfig->ArenaViewportX = 0;
+   renderConfig->ArenaViewportY = 0;
 
-   renderConfig->ArenaCharWidth = 120;
-   renderConfig->ArenaCharHeight = 30;
+   renderConfig->ArenaCharWidth = 38;
+   renderConfig->ArenaCharHeight = 78;
+
+   renderConfig->ArenaViewportWidthChar = 120;
+   renderConfig->ArenaViewportHeightChar = 30;
 
    // "GET READY!" message should blink for 2 seconds
    renderConfig->GameStartSingleBlinkSeconds = .25;
@@ -268,7 +271,7 @@ shared_ptr<ArenaConfig> BuildArenaConfig()
 {
    auto arenaConfig = make_shared<ArenaConfig>();
 
-   // this results in a 4332 x 1872 arena, which translates super well to a 120 x 30 console
+   // this results in a 4560 x 2340 arena, which translates super well to a 120 x 30 console
    arenaConfig->DefaultTileWidth = 38;
    arenaConfig->DefaultTileHeight = 78;
 

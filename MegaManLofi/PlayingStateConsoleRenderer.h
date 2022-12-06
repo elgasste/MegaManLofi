@@ -28,6 +28,7 @@ namespace MegaManLofi
 
    private:
       void HandleGameStartedEvent();
+      void CalculateViewportOffsets();
       void DrawGameStartAnimation();
       void DrawArenaSprites();
       void DrawPlayer();
@@ -40,8 +41,10 @@ namespace MegaManLofi
       const std::shared_ptr<IGameEventAggregator> _eventAggregator;
       const std::shared_ptr<IFrameRateProvider> _frameRateProvider;
 
-      double _arenaCoordConverterX;
-      double _arenaCoordConverterY;
+      long long _viewportWidth;
+      long long _viewportHeight;
+      long long _viewportOffsetX;
+      long long _viewportOffsetY;
 
       bool _isAnimatingGameStart;
       double _gameStartBlinkElapsedSeconds;

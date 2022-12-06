@@ -124,7 +124,7 @@ void LoadAndRun( const shared_ptr<IConsoleBuffer> consoleBuffer )
    // rendering objects
    auto diagnosticsRenderer = shared_ptr<DiagnosticsConsoleRenderer>( new DiagnosticsConsoleRenderer( consoleBuffer, clock, consoleRenderConfig ) );
    auto startupStateConsoleRenderer = shared_ptr<StartupStateConsoleRenderer>( new StartupStateConsoleRenderer( consoleBuffer, consoleRenderConfig, keyboardInputConfig ) );
-   auto playingStateConsoleRenderer = shared_ptr<PlayingStateConsoleRenderer>( new PlayingStateConsoleRenderer( consoleBuffer, consoleRenderConfig, player, arena ) );
+   auto playingStateConsoleRenderer = shared_ptr<PlayingStateConsoleRenderer>( new PlayingStateConsoleRenderer( consoleBuffer, consoleRenderConfig, player, arena, eventAggregator, clock ) );
    auto renderer = shared_ptr<GameRenderer>( new GameRenderer( consoleRenderConfig, consoleBuffer, game, diagnosticsRenderer, eventAggregator ) );
    renderer->AddRendererForGameState( GameState::Startup, startupStateConsoleRenderer );
    renderer->AddRendererForGameState( GameState::Playing, playingStateConsoleRenderer );
@@ -147,6 +147,10 @@ shared_ptr<ConsoleRenderConfig> BuildConsoleRenderConfig()
 
    renderConfig->ArenaFenceX = 2;
    renderConfig->ArenaFenceY = 3;
+
+   // "GET READY!" message should blink for 2 seconds
+   renderConfig->GameStartSingleBlinkSeconds = .25;
+   renderConfig->GameStartBlinkCount = 8;
 
    renderConfig->DefaultForegroundColor = ConsoleColor::Grey;
    renderConfig->DefaultBackgroundColor = ConsoleColor::Black;

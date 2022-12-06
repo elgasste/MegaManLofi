@@ -53,6 +53,11 @@ void GameRenderer::Render()
    _screenBuffer->Flip();
 }
 
+bool GameRenderer::HasFocus() const
+{
+   return _stateRenderers.at( _gameInfoProvider->GetGameState() )->HasFocus();
+}
+
 void GameRenderer::HandleShutdownEvent()
 {
    _isCleaningUp = true;

@@ -65,6 +65,7 @@ public:
       ON_CALL( *_clockMock, WaitForNextFrame() ).WillByDefault( Invoke( IncrementFrameCount ) );
       ON_CALL( *_inputHandlerMock, HandleInput() ).WillByDefault( Invoke( IncrementHandleInputCount ) );
       ON_CALL( *_gameMock, Tick() ).WillByDefault( Invoke( IncrementRunFrameCount ) );
+      ON_CALL( *_rendererMock, HasFocus() ).WillByDefault( Return( false ) );
       ON_CALL( *_rendererMock, Render() ).WillByDefault( Invoke( IncrementRenderCount ) );
       ON_CALL( *_frameActionRegistryMock, Clear() ).WillByDefault( Invoke( IncrementFrameActionRegistryClearCount ) );
    }
@@ -105,7 +106,7 @@ TEST_F( GameRunnerTests, Run_EveryLoop_StartsFrameClock )
    runWorker.join();
 }
 
-TEST_F( GameRunnerTests, Run_EveryLoop_HandlesInput )
+TEST_F( GameRunnerTests, Run_EveryLoopWhenRendererDoesNotHaveFocus_HandlesInput )
 {
    thread runWorker( RunWorker, _runner );
    while( FrameCount < 10 ) { }
@@ -116,7 +117,20 @@ TEST_F( GameRunnerTests, Run_EveryLoop_HandlesInput )
    EXPECT_EQ( HandleInputCount, FrameCount );
 }
 
-TEST_F( GameRunnerTests, Run_EveryLoop_TicksGame )
+TEST_F( GameRunnerTests, Run_EveryLoopWhenRendererHasFocus_DoesNotHandleInput )
+{
+   ON_CALL( *_rendererMock, HasFocus() ).WillByDefault( Return( true ) );
+
+   thread runWorker( RunWorker, _runner );
+   while( FrameCount < 10 ) { }
+   _eventAggregator->RaiseEvent( GameEvent::Shutdown );
+
+   runWorker.join();
+
+   EXPECT_EQ( HandleInputCount, 0 );
+}
+
+TEST_F( GameRunnerTests, Run_EveryLoopWhenRendererDoesNotHaveFocus_TicksGame )
 {
    thread runWorker( RunWorker, _runner );
    while( FrameCount < 10 ) { }
@@ -125,6 +139,19 @@ TEST_F( GameRunnerTests, Run_EveryLoop_TicksGame )
    runWorker.join();
 
    EXPECT_EQ( RunFrameCount, FrameCount );
+}
+
+TEST_F( GameRunnerTests, Run_EveryLoopWhenRendererHasFocus_DoesNotTickGame )
+{
+   ON_CALL( *_rendererMock, HasFocus() ).WillByDefault( Return( true ) );
+
+   thread runWorker( RunWorker, _runner );
+   while( FrameCount < 10 ) { }
+   _eventAggregator->RaiseEvent( GameEvent::Shutdown );
+
+   runWorker.join();
+
+   EXPECT_EQ( RunFrameCount, 0 );
 }
 
 TEST_F( GameRunnerTests, Run_EveryLoop_RendersGame )

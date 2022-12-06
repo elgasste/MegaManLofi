@@ -6,5 +6,6 @@ namespace MegaManLofi
    {
    public:
       virtual void Render() = 0;
+      virtual bool HasFocus() const = 0;
    };
 }

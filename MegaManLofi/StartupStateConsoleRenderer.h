@@ -18,6 +18,7 @@ namespace MegaManLofi
                                    const std::shared_ptr<KeyboardInputConfig> inputConfig );
 
       void Render() override;
+      bool HasFocus() const override { return false; }
 
    private:
       void DrawKeyBindings( short middleX, short top ) const;

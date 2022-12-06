@@ -1,7 +1,7 @@
 #pragma once
 
 #include "IArenaPhysics.h"
-#include "TileIndices.h"
+#include "Quad.h"
 
 namespace MegaManLofi
 {
@@ -33,6 +33,6 @@ namespace MegaManLofi
       std::shared_ptr<IArena> _arena;
       std::shared_ptr<IPlayer> _player;
 
-      TileIndices _playerOccupyingTileIndices;
+      Quad _playerOccupyingTileIndices;
    };
 }

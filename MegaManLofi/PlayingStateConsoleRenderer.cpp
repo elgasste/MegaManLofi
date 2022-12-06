@@ -36,6 +36,7 @@ PlayingStateConsoleRenderer::PlayingStateConsoleRenderer( const shared_ptr<ICons
 
 void PlayingStateConsoleRenderer::Render()
 {
+   // TODO: move these into a config somewhere
    _consoleBuffer->SetDefaultBackgroundColor( ConsoleColor::Black );
    _consoleBuffer->SetDefaultForegroundColor( ConsoleColor::White );
 
@@ -45,9 +46,6 @@ void PlayingStateConsoleRenderer::Render()
    }
    else
    {
-      _consoleBuffer->Draw( 2, 1, "Use the direction buttons to move around, or press the select button to quit." );
-
-      DrawArenaFence();
       DrawArenaSprites();
       DrawPlayer();
    }
@@ -79,29 +77,6 @@ void PlayingStateConsoleRenderer::DrawGameStartAnimation()
    }
 }
 
-void PlayingStateConsoleRenderer::DrawArenaFence()
-{
-   // corners
-   _consoleBuffer->Draw( _renderConfig->ArenaFenceX, _renderConfig->ArenaFenceY, ',');
-   _consoleBuffer->Draw( _renderConfig->ArenaFenceX + _renderConfig->ArenaCharWidth + 1, _renderConfig->ArenaFenceY, '.' );
-   _consoleBuffer->Draw( _renderConfig->ArenaFenceX, _renderConfig->ArenaFenceY + _renderConfig->ArenaCharHeight + 1, '\'' );
-   _consoleBuffer->Draw( _renderConfig->ArenaFenceX + _renderConfig->ArenaCharWidth + 1, _renderConfig->ArenaFenceY + _renderConfig->ArenaCharHeight + 1, '\'' );
-
-   // top and bottom fences
-   for ( int left = _renderConfig->ArenaFenceX; left < _renderConfig->ArenaCharWidth + 1; left++ )
-   {
-      _consoleBuffer->Draw( left + 1, _renderConfig->ArenaFenceY, '-' );
-      _consoleBuffer->Draw( left + 1, _renderConfig->ArenaFenceY + _renderConfig->ArenaCharHeight + 1, '-' );
-   }
-
-   // side fences
-   for ( int top = _renderConfig->ArenaFenceY + 1; top < _renderConfig->ArenaFenceY + _renderConfig->ArenaCharHeight + 1; top++ )
-   {
-      _consoleBuffer->Draw( _renderConfig->ArenaFenceX, top, '|' );
-      _consoleBuffer->Draw( _renderConfig->ArenaFenceX + _renderConfig->ArenaCharWidth + 1, top, '|' );
-   }
-}
-
 void PlayingStateConsoleRenderer::DrawArenaSprites()
 {
    for ( int i = 0; i < _renderConfig->ArenaCharHeight; i++ )
@@ -113,8 +88,8 @@ void PlayingStateConsoleRenderer::DrawArenaSprites()
 
          if ( spriteIterator != _renderConfig->ArenaSpriteMap.end() )
          {
-            auto x = _renderConfig->ArenaFenceX + j + 1;
-            auto y = _renderConfig->ArenaFenceY + i + 1;
+            auto x = _renderConfig->ArenaX + j;
+            auto y = _renderConfig->ArenaY + i;
             _consoleBuffer->Draw( x, y, _renderConfig->ArenaSprites[ spriteIterator->second ] );
          }
       }
@@ -126,8 +101,8 @@ void PlayingStateConsoleRenderer::DrawPlayer()
    auto convertedPlayerX = (short)( _arenaInfoProvider->GetPlayerPositionX() * _arenaCoordConverterX );
    auto convertedPlayerY = (short)( _arenaInfoProvider->GetPlayerPositionY() * _arenaCoordConverterY );
 
-   auto playerX = convertedPlayerX + _renderConfig->ArenaFenceX + 1;
-   auto playerY = convertedPlayerY + _renderConfig->ArenaFenceY + 1;
+   auto playerX = convertedPlayerX + _renderConfig->ArenaX;
+   auto playerY = convertedPlayerY + _renderConfig->ArenaY;
 
    auto direction = _playerInfoProvider->GetDirection();
    auto sprite = _playerInfoProvider->IsMoving() ? _renderConfig->PlayerMovingSpriteMap[direction] : _renderConfig->PlayerStaticSpriteMap[direction];

@@ -16,11 +16,11 @@ namespace MegaManLofi
       short ConsoleWidth = 0;
       short ConsoleHeight = 0;
 
+      short ArenaX = 0;
+      short ArenaY = 0;
+
       short ArenaCharWidth = 0;
       short ArenaCharHeight = 0;
-
-      short ArenaFenceX = 0;
-      short ArenaFenceY = 0;
 
       double GameStartSingleBlinkSeconds = 0;
       int GameStartBlinkCount = 0;

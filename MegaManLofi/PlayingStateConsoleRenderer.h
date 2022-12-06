@@ -29,7 +29,6 @@ namespace MegaManLofi
    private:
       void HandleGameStartedEvent();
       void DrawGameStartAnimation();
-      void DrawArenaFence();
       void DrawArenaSprites();
       void DrawPlayer();
 

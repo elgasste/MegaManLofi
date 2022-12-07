@@ -142,11 +142,14 @@ shared_ptr<ConsoleRenderConfig> BuildConsoleRenderConfig()
    renderConfig->ConsoleWidth = 120;
    renderConfig->ConsoleHeight = 30;
 
-   renderConfig->ArenaX = 0;
-   renderConfig->ArenaY = 0;
+   renderConfig->ArenaViewportX = 0;
+   renderConfig->ArenaViewportY = 0;
 
-   renderConfig->ArenaCharWidth = 120;
-   renderConfig->ArenaCharHeight = 30;
+   renderConfig->ArenaCharWidth = 38;
+   renderConfig->ArenaCharHeight = 78;
+
+   renderConfig->ArenaViewportWidthChar = 120;
+   renderConfig->ArenaViewportHeightChar = 30;
 
    // "GET READY!" message should blink for 2 seconds
    renderConfig->GameStartSingleBlinkSeconds = .25;
@@ -159,25 +162,30 @@ shared_ptr<ConsoleRenderConfig> BuildConsoleRenderConfig()
    renderConfig->PlayerMovingSpriteMap = PlayerSpriteGenerator::GenerateMovingSpriteMap();
 
    // ground that is impassable in all directions
-   renderConfig->ArenaSprites[0].Width = 1;
-   renderConfig->ArenaSprites[0].Height = 1;
-   renderConfig->ArenaSprites[0].Pixels.push_back( { '=', ConsoleColor::DarkGrey } );
+   renderConfig->ArenaSpriteMap[0].Width = 1;
+   renderConfig->ArenaSpriteMap[0].Height = 1;
+   renderConfig->ArenaSpriteMap[0].Pixels.push_back( { '=', ConsoleColor::DarkGrey } );
 
    // ground that is only impassable downward
-   renderConfig->ArenaSprites[1].Width = 1;
-   renderConfig->ArenaSprites[1].Height = 1;
-   renderConfig->ArenaSprites[1].Pixels.push_back( { '-', ConsoleColor::DarkGrey } );
+   renderConfig->ArenaSpriteMap[1].Width = 1;
+   renderConfig->ArenaSpriteMap[1].Height = 1;
+   renderConfig->ArenaSpriteMap[1].Pixels.push_back( { '-', ConsoleColor::DarkGrey } );
 
-   // platform on the 13th row, extending 50 tiles from the left edge of the arena
-   for ( int i = ( 120 * 12 ); i < ( ( 120 * 12 ) + 50 ); i++ )
+   for ( int i = 0; i < 360 * 30; i++ )
    {
-      renderConfig->ArenaSpriteMap[i] = 0;
+      renderConfig->ArenaSprites.push_back( -1 );
+   }
+
+   // platform on the 13th row, extending 100 tiles from the left edge of the arena
+   for ( int i = ( 360 * 12 ); i < ( ( 360 * 12 ) + 100 ); i++ )
+   {
+      renderConfig->ArenaSprites[i] = 0;
    }
 
    // platform on the 21st row, extending 50 tiles from the right edge of the arena
-   for ( int i = ( ( 120 * 21 ) - 1 ); i > ( ( 120 * 21 ) - 50 ); i-- )
+   for ( int i = ( ( 360 * 21 ) - 1 ); i > ( ( 360 * 21 ) - 50 ); i-- )
    {
-      renderConfig->ArenaSpriteMap[i] = 1;
+      renderConfig->ArenaSprites[i] = 1;
    }
 
    return renderConfig;
@@ -268,11 +276,11 @@ shared_ptr<ArenaConfig> BuildArenaConfig()
 {
    auto arenaConfig = make_shared<ArenaConfig>();
 
-   // this results in a 4332 x 1872 arena, which translates super well to a 120 x 30 console
+   // this results in a 4560 x 2340 unit viewport, which translates super well to a 120 x 30 character console
    arenaConfig->DefaultTileWidth = 38;
    arenaConfig->DefaultTileHeight = 78;
 
-   arenaConfig->DefaultHorizontalTiles = 120;
+   arenaConfig->DefaultHorizontalTiles = 360;
    arenaConfig->DefaultVerticalTiles = 30;
 
    // start with all passable tiles
@@ -281,14 +289,14 @@ shared_ptr<ArenaConfig> BuildArenaConfig()
       arenaConfig->DefaultTiles.push_back( { true, true, true, true } );
    }
 
-   // platform on the 13th row, extending 50 tiles from the left edge of the arena
-   for ( int i = ( 120 * 12 ); i < ( ( 120 * 12 ) + 50 ); i++ )
+   // platform on the 13th row, extending 100 tiles from the left edge of the arena
+   for ( int i = ( 360 * 12 ); i < ( ( 360 * 12 ) + 100 ); i++ )
    {
       arenaConfig->DefaultTiles[i] = { false, false, false, false };
    }
 
    // platform on the 21st row, extending 50 tiles from the right edge of the arena
-   for ( int i = ( ( 120 * 21 ) - 1 ); i > ( ( 120 * 21 ) - 50 ); i-- )
+   for ( int i = ( ( 360 * 21 ) - 1 ); i > ( ( 360 * 21 ) - 50 ); i-- )
    {
       arenaConfig->DefaultTiles[i] = { true, true, true, false }; // passable in all ways except down
    }

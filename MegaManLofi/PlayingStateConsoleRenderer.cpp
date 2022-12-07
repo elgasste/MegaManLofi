@@ -26,8 +26,10 @@ PlayingStateConsoleRenderer::PlayingStateConsoleRenderer( const shared_ptr<ICons
    _arenaInfoProvider( arenaInfoProvider ),
    _eventAggregator( eventAggregator ),
    _frameRateProvider( frameRateProvider ),
-   _arenaCoordConverterX( renderConfig->ArenaCharWidth / (double)arenaInfoProvider->GetWidth() ),
-   _arenaCoordConverterY( renderConfig->ArenaCharHeight / (double)arenaInfoProvider->GetHeight() ),
+   _viewportWidth( _renderConfig->ArenaViewportWidthChar * _renderConfig->ArenaCharWidth ),
+   _viewportHeight( _renderConfig->ArenaViewportHeightChar * _renderConfig->ArenaCharHeight ),
+   _viewportOffsetX( 0 ),
+   _viewportOffsetY( 0 ),
    _isAnimatingGameStart( false ),
    _gameStartBlinkElapsedSeconds( 0 )
 {
@@ -46,6 +48,7 @@ void PlayingStateConsoleRenderer::Render()
    }
    else
    {
+      CalculateViewportOffsets();
       DrawArenaSprites();
       DrawPlayer();
    }
@@ -62,13 +65,19 @@ void PlayingStateConsoleRenderer::HandleGameStartedEvent()
    _gameStartBlinkElapsedSeconds = 0;
 }
 
+void PlayingStateConsoleRenderer::CalculateViewportOffsets()
+{
+   _viewportOffsetX = _arenaInfoProvider->GetPlayerPositionX() - ( _viewportWidth / 2 );
+   _viewportOffsetY = _arenaInfoProvider->GetPlayerPositionY() - ( _viewportHeight / 2 );
+}
+
 void PlayingStateConsoleRenderer::DrawGameStartAnimation()
 {
    _gameStartBlinkElapsedSeconds += 1 / (double)_frameRateProvider->GetFramesPerSecond();
 
    if ( (int)( _gameStartBlinkElapsedSeconds / _renderConfig->GameStartSingleBlinkSeconds ) % 2 == 0 )
    {
-      _consoleBuffer->Draw( ( _renderConfig->ArenaCharWidth / 2 ) - 5, _renderConfig->ArenaCharHeight / 2, "GET READY!" );
+      _consoleBuffer->Draw( ( _renderConfig->ArenaViewportWidthChar / 2 ) - 5, _renderConfig->ArenaViewportHeightChar / 2, "GET READY!" );
    }
 
    if ( _gameStartBlinkElapsedSeconds >= ( _renderConfig->GameStartSingleBlinkSeconds * _renderConfig->GameStartBlinkCount ) )
@@ -79,18 +88,33 @@ void PlayingStateConsoleRenderer::DrawGameStartAnimation()
 
 void PlayingStateConsoleRenderer::DrawArenaSprites()
 {
-   for ( int i = 0; i < _renderConfig->ArenaCharHeight; i++ )
-   {
-      for ( int j = 0; j < _renderConfig->ArenaCharWidth; j++ )
-      {
-         auto arenaIndex = ( i * _renderConfig->ArenaCharWidth ) + j;
-         auto spriteIterator = _renderConfig->ArenaSpriteMap.find( arenaIndex );
+   auto spriteOffsetX = (int)max( _viewportOffsetX / _renderConfig->ArenaCharWidth, 0ll );
+   auto spriteOffsetY = (int)max( _viewportOffsetY / _renderConfig->ArenaCharHeight, 0ll );
+   auto arenaWidthChar = (int)( _arenaInfoProvider->GetWidth() / _renderConfig->ArenaCharWidth );
+   auto arenaHeightChar = (int)( _arenaInfoProvider->GetHeight() / _renderConfig->ArenaCharHeight );
 
-         if ( spriteIterator != _renderConfig->ArenaSpriteMap.end() )
+   if ( ( spriteOffsetX + _renderConfig->ArenaViewportWidthChar ) > arenaWidthChar )
+   {
+      spriteOffsetX = arenaWidthChar - _renderConfig->ArenaViewportWidthChar;
+   }
+   if ( ( spriteOffsetY + _renderConfig->ArenaViewportHeightChar ) > arenaHeightChar )
+   {
+      spriteOffsetY = arenaHeightChar - _renderConfig->ArenaViewportHeightChar;
+   }
+   
+   // TODO: this will probably crash if the arena is smaller than the viewport
+   for ( int y = 0; y < _renderConfig->ArenaViewportHeightChar; y++ )
+   {
+      for ( int x = 0; x < _renderConfig->ArenaViewportWidthChar; x++ )
+      {
+         auto spriteIndex = ( ( y + spriteOffsetY ) * arenaWidthChar ) + ( x + spriteOffsetX );
+         auto spriteId = _renderConfig->ArenaSprites[spriteIndex];
+
+         if ( spriteId != -1 )
          {
-            auto x = _renderConfig->ArenaX + j;
-            auto y = _renderConfig->ArenaY + i;
-            _consoleBuffer->Draw( x, y, _renderConfig->ArenaSprites[ spriteIterator->second ] );
+            auto viewportX = _renderConfig->ArenaViewportX + x;
+            auto viewportY = _renderConfig->ArenaViewportY + y;
+            _consoleBuffer->Draw( viewportX, viewportY, _renderConfig->ArenaSpriteMap[ spriteId ] );
          }
       }
    }
@@ -98,14 +122,32 @@ void PlayingStateConsoleRenderer::DrawArenaSprites()
 
 void PlayingStateConsoleRenderer::DrawPlayer()
 {
-   auto convertedPlayerX = (short)( _arenaInfoProvider->GetPlayerPositionX() * _arenaCoordConverterX );
-   auto convertedPlayerY = (short)( _arenaInfoProvider->GetPlayerPositionY() * _arenaCoordConverterY );
+   auto playerDrawX = _arenaInfoProvider->GetPlayerPositionX() - _viewportOffsetX;
+   auto playerDrawY = _arenaInfoProvider->GetPlayerPositionY() - _viewportOffsetY;
 
-   auto playerX = convertedPlayerX + _renderConfig->ArenaX;
-   auto playerY = convertedPlayerY + _renderConfig->ArenaY;
+   if ( _viewportOffsetX < 0 )
+   {
+      playerDrawX += _viewportOffsetX;
+   }
+   else if ( _viewportOffsetX + _viewportWidth > _arenaInfoProvider->GetWidth() )
+   {
+      playerDrawX += ( _viewportOffsetX + _viewportWidth ) - _arenaInfoProvider->GetWidth();
+   }
+
+   if ( _viewportOffsetY < 0 )
+   {
+      playerDrawY += _viewportOffsetY;
+   }
+   else if ( _viewportOffsetY + _viewportHeight > _arenaInfoProvider->GetHeight() )
+   {
+      playerDrawY += ( _viewportOffsetY + _viewportHeight ) - _arenaInfoProvider->GetHeight();
+   }
+
+   auto convertedPlayerDrawX = (short)( playerDrawX / _renderConfig->ArenaCharWidth );
+   auto convertedPlayerDrawY = (short)( playerDrawY / _renderConfig->ArenaCharHeight );
 
    auto direction = _playerInfoProvider->GetDirection();
    auto sprite = _playerInfoProvider->IsMoving() ? _renderConfig->PlayerMovingSpriteMap[direction] : _renderConfig->PlayerStaticSpriteMap[direction];
 
-   _consoleBuffer->Draw( playerX, playerY, sprite );
+   _consoleBuffer->Draw( convertedPlayerDrawX, convertedPlayerDrawY, sprite );
 }

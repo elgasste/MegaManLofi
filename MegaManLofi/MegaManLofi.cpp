@@ -162,25 +162,30 @@ shared_ptr<ConsoleRenderConfig> BuildConsoleRenderConfig()
    renderConfig->PlayerMovingSpriteMap = PlayerSpriteGenerator::GenerateMovingSpriteMap();
 
    // ground that is impassable in all directions
-   renderConfig->ArenaSprites[0].Width = 1;
-   renderConfig->ArenaSprites[0].Height = 1;
-   renderConfig->ArenaSprites[0].Pixels.push_back( { '=', ConsoleColor::DarkGrey } );
+   renderConfig->ArenaSpriteMap[0].Width = 1;
+   renderConfig->ArenaSpriteMap[0].Height = 1;
+   renderConfig->ArenaSpriteMap[0].Pixels.push_back( { '=', ConsoleColor::DarkGrey } );
 
    // ground that is only impassable downward
-   renderConfig->ArenaSprites[1].Width = 1;
-   renderConfig->ArenaSprites[1].Height = 1;
-   renderConfig->ArenaSprites[1].Pixels.push_back( { '-', ConsoleColor::DarkGrey } );
+   renderConfig->ArenaSpriteMap[1].Width = 1;
+   renderConfig->ArenaSpriteMap[1].Height = 1;
+   renderConfig->ArenaSpriteMap[1].Pixels.push_back( { '-', ConsoleColor::DarkGrey } );
+
+   for ( int i = 0; i < 360 * 30; i++ )
+   {
+      renderConfig->ArenaSprites.push_back( -1 );
+   }
 
    // platform on the 13th row, extending 100 tiles from the left edge of the arena
    for ( int i = ( 360 * 12 ); i < ( ( 360 * 12 ) + 100 ); i++ )
    {
-      renderConfig->ArenaSpriteMap[i] = 0;
+      renderConfig->ArenaSprites[i] = 0;
    }
 
    // platform on the 21st row, extending 50 tiles from the right edge of the arena
    for ( int i = ( ( 360 * 21 ) - 1 ); i > ( ( 360 * 21 ) - 50 ); i-- )
    {
-      renderConfig->ArenaSpriteMap[i] = 1;
+      renderConfig->ArenaSprites[i] = 1;
    }
 
    return renderConfig;

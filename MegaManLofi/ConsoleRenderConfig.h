@@ -1,6 +1,7 @@
 #pragma once
 
 #include <map>
+#include <vector>
 
 #include "IGameRenderConfig.h"
 #include "ConsoleSprite.h"
@@ -34,7 +35,7 @@ namespace MegaManLofi
       std::map<Direction, ConsoleSprite> PlayerStaticSpriteMap;
       std::map<Direction, ConsoleSprite> PlayerMovingSpriteMap;
 
-      std::map<int, ConsoleSprite> ArenaSprites;
-      std::map<int, int> ArenaSpriteMap;
+      std::map<int, ConsoleSprite> ArenaSpriteMap;
+      std::vector<int> ArenaSprites;
    };
 }

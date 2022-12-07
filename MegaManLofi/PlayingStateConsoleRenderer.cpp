@@ -108,13 +108,13 @@ void PlayingStateConsoleRenderer::DrawArenaSprites()
       for ( int x = 0; x < _renderConfig->ArenaViewportWidthChar; x++ )
       {
          auto spriteIndex = ( ( y + spriteOffsetY ) * arenaWidthChar ) + ( x + spriteOffsetX );
-         auto spriteIterator = _renderConfig->ArenaSpriteMap.find( spriteIndex );
+         auto spriteId = _renderConfig->ArenaSprites[spriteIndex];
 
-         if ( spriteIterator != _renderConfig->ArenaSpriteMap.end() )
+         if ( spriteId != -1 )
          {
             auto viewportX = _renderConfig->ArenaViewportX + x;
             auto viewportY = _renderConfig->ArenaViewportY + y;
-            _consoleBuffer->Draw( viewportX, viewportY, _renderConfig->ArenaSprites[ spriteIterator->second ] );
+            _consoleBuffer->Draw( viewportX, viewportY, _renderConfig->ArenaSpriteMap[ spriteId ] );
          }
       }
    }

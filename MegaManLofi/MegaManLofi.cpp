@@ -166,12 +166,12 @@ shared_ptr<ConsoleRenderConfig> BuildConsoleRenderConfig()
    // ground that is impassable in all directions
    renderConfig->ArenaSpriteMap[0].Width = 1;
    renderConfig->ArenaSpriteMap[0].Height = 1;
-   renderConfig->ArenaSpriteMap[0].Pixels.push_back( { '=', ConsoleColor::DarkGrey } );
+   renderConfig->ArenaSpriteMap[0].Pixels.push_back( { 'X', ConsoleColor::Yellow } );
 
    // ground that is only impassable downward
    renderConfig->ArenaSpriteMap[1].Width = 1;
    renderConfig->ArenaSpriteMap[1].Height = 1;
-   renderConfig->ArenaSpriteMap[1].Pixels.push_back( { '-', ConsoleColor::DarkGrey } );
+   renderConfig->ArenaSpriteMap[1].Pixels.push_back( { '-', ConsoleColor::Yellow } );
 
    renderConfig->ArenaSprites = ArenaConsoleSpriteGenerator::GenerateArenaSprites();
 

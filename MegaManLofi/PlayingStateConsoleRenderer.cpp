@@ -88,21 +88,33 @@ void PlayingStateConsoleRenderer::DrawGameStartAnimation()
 
 void PlayingStateConsoleRenderer::DrawArenaSprites()
 {
-   auto spriteOffsetX = (int)min( max( _viewportOffsetX / _renderConfig->ArenaCharWidth, 0ll ), _viewportOffsetX + _viewportWidth );
-   auto spriteOffsetY = (int)min( max( _viewportOffsetY / _renderConfig->ArenaCharHeight, 0ll ), _viewportOffsetY + _viewportHeight );
+   auto spriteOffsetX = (int)max( _viewportOffsetX / _renderConfig->ArenaCharWidth, 0ll );
+   auto spriteOffsetY = (int)max( _viewportOffsetY / _renderConfig->ArenaCharHeight, 0ll );
+   auto arenaWidthChar = (int)( _arenaInfoProvider->GetWidth() / _renderConfig->ArenaCharWidth );
+   auto arenaHeightChar = (int)( _arenaInfoProvider->GetHeight() / _renderConfig->ArenaCharHeight );
+
+   if ( ( spriteOffsetX + _renderConfig->ArenaViewportWidthChar ) > arenaWidthChar )
+   {
+      spriteOffsetX = arenaWidthChar - _renderConfig->ArenaViewportWidthChar;
+   }
+   if ( ( spriteOffsetY + _renderConfig->ArenaViewportHeightChar ) > arenaHeightChar )
+   {
+      spriteOffsetY = arenaHeightChar - _renderConfig->ArenaViewportHeightChar;
+   }
    
-   for ( int y = spriteOffsetY; y < _renderConfig->ArenaViewportHeightChar; y++ )
+   // TODO: this will probably crash if the arena is smaller than the viewport
+   for ( int y = 0; y < _renderConfig->ArenaViewportHeightChar; y++ )
    {
       for ( int x = 0; x < _renderConfig->ArenaViewportWidthChar; x++ )
       {
-         auto arenaIndex = ( y * _renderConfig->ArenaViewportWidthChar ) + x;
-         auto spriteIterator = _renderConfig->ArenaSpriteMap.find( arenaIndex );
+         auto spriteIndex = ( ( y + spriteOffsetY ) * arenaWidthChar ) + ( x + spriteOffsetX );
+         auto spriteIterator = _renderConfig->ArenaSpriteMap.find( spriteIndex );
 
          if ( spriteIterator != _renderConfig->ArenaSpriteMap.end() )
          {
-            auto spriteX = _renderConfig->ArenaViewportX + x;
-            auto spriteY = _renderConfig->ArenaViewportY + y;
-            _consoleBuffer->Draw( spriteX, spriteY, _renderConfig->ArenaSprites[ spriteIterator->second ] );
+            auto viewportX = _renderConfig->ArenaViewportX + x;
+            auto viewportY = _renderConfig->ArenaViewportY + y;
+            _consoleBuffer->Draw( viewportX, viewportY, _renderConfig->ArenaSprites[ spriteIterator->second ] );
          }
       }
    }

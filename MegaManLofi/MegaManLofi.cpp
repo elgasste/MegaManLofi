@@ -184,7 +184,7 @@ shared_ptr<ConsoleRenderConfig> BuildConsoleRenderConfig()
    // spike that is only impassable upward
    renderConfig->ArenaSpriteMap[2].Width = 1;
    renderConfig->ArenaSpriteMap[2].Height = 1;
-   renderConfig->ArenaSpriteMap[2].Pixels.push_back( { 'M', ConsoleColor::Red } );
+   renderConfig->ArenaSpriteMap[2].Pixels.push_back( { '+', ConsoleColor::Red } );
 
    renderConfig->ArenaSprites = ArenaConsoleSpriteGenerator::GenerateArenaSprites();
 

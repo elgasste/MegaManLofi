@@ -5,9 +5,11 @@
 #include <MegaManLofi/ArenaPhysics.h>
 #include <MegaManLofi/FrameAction.h>
 #include <MegaManLofi/Rectangle.h>
+#include <MegaManLofi/GameEvent.h>
 
 #include "mock_FrameRateProvider.h"
 #include "mock_FrameActionRegistry.h"
+#include "mock_GameEventAggregator.h"
 #include "mock_Arena.h"
 #include "mock_Player.h"
 
@@ -22,6 +24,7 @@ public:
    {
       _frameRateProviderMock.reset( new NiceMock<mock_FrameRateProvider> );
       _frameActionRegistryMock.reset( new NiceMock<mock_FrameActionRegistry> );
+      _eventAggregatorMock.reset( new NiceMock<mock_GameEventAggregator> );
       _arenaMock.reset( new NiceMock<mock_Arena> );
       _playerMock.reset( new NiceMock<mock_Player> );
       _defaultTile = { true, true, true, true };
@@ -46,13 +49,14 @@ public:
 
    void BuildArenaPhysics()
    {
-      _arenaPhysics.reset( new ArenaPhysics( _frameRateProviderMock, _frameActionRegistryMock ) );
+      _arenaPhysics.reset( new ArenaPhysics( _frameRateProviderMock, _frameActionRegistryMock, _eventAggregatorMock ) );
       _arenaPhysics->AssignTo( _arenaMock, _playerMock );
    }
 
 protected:
    shared_ptr<mock_FrameRateProvider> _frameRateProviderMock;
    shared_ptr<mock_FrameActionRegistry> _frameActionRegistryMock;
+   shared_ptr<mock_GameEventAggregator> _eventAggregatorMock;
    shared_ptr<mock_Arena> _arenaMock;
    shared_ptr<mock_Player> _playerMock;
 
@@ -427,26 +431,26 @@ TEST_F( ArenaPhysicsTests, Tick_DownWithCollidingNonPassableLowerRightTile_Stops
    _arenaPhysics->Tick();
 }
 
-TEST_F( ArenaPhysicsTests, Tick_DownCloseToArenaBoundary_StopsPlayerY )
+TEST_F( ArenaPhysicsTests, Tick_DownCloseToArenaBoundary_RaisesPitfallEvent )
 {
    ON_CALL( *_arenaMock, GetPlayerPositionY() ).WillByDefault( Return( 9 ) );
    ON_CALL( *_playerMock, GetVelocityY() ).WillByDefault( Return( 2 ) );
    BuildArenaPhysics();
 
    EXPECT_CALL( *_arenaMock, SetPlayerPositionY( 10 ) );
-   EXPECT_CALL( *_playerMock, StopY() );
+   EXPECT_CALL( *_eventAggregatorMock, RaiseEvent( GameEvent::Pitfall ) );
 
    _arenaPhysics->Tick();
 }
 
-TEST_F( ArenaPhysicsTests, Tick_DownAtArenaBoundary_StopsPlayerY )
+TEST_F( ArenaPhysicsTests, Tick_DownAtArenaBoundary_RaisesPitfallEvent )
 {
    ON_CALL( *_arenaMock, GetPlayerPositionY() ).WillByDefault( Return( 10 ) );
    ON_CALL( *_playerMock, GetVelocityY() ).WillByDefault( Return( 2 ) );
    BuildArenaPhysics();
 
    EXPECT_CALL( *_arenaMock, SetPlayerPositionY( _ ) ).Times( 0 );
-   EXPECT_CALL( *_playerMock, StopY() );
+   EXPECT_CALL( *_eventAggregatorMock, RaiseEvent( GameEvent::Pitfall ) );
 
    _arenaPhysics->Tick();
 }

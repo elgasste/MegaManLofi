@@ -48,14 +48,46 @@ protected:
 
 TEST_F( PlayerTests, Constructor_Always_SetsDefaultPropertiesFromConfig )
 {
+   _config->DefaultHitBox = { 1, 2, 3, 4 };
    _config->DefaultVelocityX = 100;
    _config->DefaultVelocityY = 200;
    _config->DefaultDirection = Direction::Right;
    BuildPlayer();
 
+   EXPECT_EQ( _player->GetHitBox().Left, 1 );
+   EXPECT_EQ( _player->GetHitBox().Top, 2 );
+   EXPECT_EQ( _player->GetHitBox().Width, 3 );
+   EXPECT_EQ( _player->GetHitBox().Height, 4 );
    EXPECT_EQ( _player->GetVelocityX(), 100 );
    EXPECT_EQ( _player->GetVelocityY(), 200 );
    EXPECT_EQ( _player->GetDirection(), Direction::Right );
+   EXPECT_FALSE( _player->IsStanding() );
+   EXPECT_FALSE( _player->IsJumping() );
+}
+
+TEST_F( PlayerTests, Reset_Always_ResetsDefaultPropertiesFromConfig )
+{
+   BuildPlayer();
+
+   _player->SetVelocityX( 100 );
+   _player->SetVelocityY( 200 );
+   _player->SetDirection( Direction::Right );
+   _player->SetIsStanding( true );
+   _player->SetIsJumping( true );
+
+   EXPECT_EQ( _player->GetVelocityX(), 100 );
+   EXPECT_EQ( _player->GetVelocityY(), 200 );
+   EXPECT_EQ( _player->GetDirection(), Direction::Right );
+   EXPECT_TRUE( _player->IsStanding() );
+   EXPECT_TRUE( _player->IsJumping() );
+
+   _player->Reset();
+
+   EXPECT_EQ( _player->GetVelocityX(), 0 );
+   EXPECT_EQ( _player->GetVelocityY(), 0 );
+   EXPECT_EQ( _player->GetDirection(), Direction::Left );
+   EXPECT_FALSE( _player->IsStanding() );
+   EXPECT_FALSE( _player->IsJumping() );
 }
 
 TEST_F( PlayerTests, GetDirection_Always_ReturnsDirection )

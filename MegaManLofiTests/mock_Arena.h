@@ -7,6 +7,7 @@
 class mock_Arena : public MegaManLofi::IArena
 {
 public:
+   MOCK_METHOD( void, Reset, ( ), ( override ) );
    MOCK_METHOD( long long, GetWidth, ( ), ( const, override ) );
    MOCK_METHOD( long long, GetHeight, ( ), ( const, override ) );
    MOCK_METHOD( long long, GetPlayerPositionX, ( ), ( const, override ) );

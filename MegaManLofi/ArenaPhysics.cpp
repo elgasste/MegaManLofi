@@ -1,17 +1,21 @@
 #include "ArenaPhysics.h"
 #include "IFrameRateProvider.h"
 #include "IFrameActionRegistry.h"
+#include "IGameEventAggregator.h"
 #include "IPlayer.h"
 #include "IArena.h"
 #include "FrameAction.h"
+#include "GameEvent.h"
 
 using namespace std;
 using namespace MegaManLofi;
 
 ArenaPhysics::ArenaPhysics( const shared_ptr<IFrameRateProvider> frameRateProvider,
-                            const shared_ptr<IFrameActionRegistry> frameActionRegistry ) :
+                            const shared_ptr<IFrameActionRegistry> frameActionRegistry,
+                            const shared_ptr<IGameEventAggregator> eventAggregator ) :
    _frameRateProvider( frameRateProvider ),
    _frameActionRegistry( frameActionRegistry ),
+   _eventAggregator( eventAggregator ),
    _arena( nullptr ),
    _player( nullptr )
 {
@@ -193,7 +197,7 @@ void ArenaPhysics::DetectPlayerTileCollisionY( long long& newPositionY )
          {
             // we've collided with the bottom edge of the arena
             newPositionY = arenaHeight - hitBox.Height;
-            _player->StopY();
+            _eventAggregator->RaiseEvent( GameEvent::Pitfall );
             break;
          }
          else if ( newPositionYBottom > bottomOccupyingTileBottomEdge )

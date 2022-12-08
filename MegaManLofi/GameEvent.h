@@ -7,6 +7,8 @@ namespace MegaManLofi
       Shutdown = 0,
       ToggleDiagnostics,
 
-      GameStarted
+      GameStarted,
+
+      Pitfall
    };
 }

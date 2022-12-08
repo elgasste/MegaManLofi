@@ -1,5 +1,7 @@
 #include "Game.h"
 #include "IGameEventAggregator.h"
+#include "IPlayer.h"
+#include "IArena.h"
 #include "IPlayerPhysics.h"
 #include "IArenaPhysics.h"
 #include "GameState.h"
@@ -17,16 +19,20 @@ Game::Game( const shared_ptr<IGameEventAggregator> eventAggregator,
             const shared_ptr<IPlayerPhysics> playerPhysics,
             const shared_ptr<IArenaPhysics> arenaPhysics ) :
    _eventAggregator( eventAggregator ),
+   _player( player ),
+   _arena( arena ),
    _playerPhysics( playerPhysics ),
    _arenaPhysics( arenaPhysics ),
-   _state( GameState::Startup )
+   _state( GameState::Startup ),
+   _nextState( GameState::Startup )
 {
-   _playerPhysics->AssignTo( player );
-   _arenaPhysics->AssignTo( arena, player );
+   _eventAggregator->RegisterEventHandler( GameEvent::Pitfall, std::bind( &Game::HandlePitfallEvent, this ) );
 }
 
 void Game::Tick()
 {
+   _state = _nextState;
+
    if ( _state == GameState::Playing )
    {
       _playerPhysics->Tick();
@@ -44,7 +50,11 @@ void Game::ExecuteCommand( GameCommand command, const shared_ptr<GameCommandArgs
    switch ( command )
    {
       case GameCommand::Start:
-         _state = GameState::Playing;
+         _player->Reset();
+         _arena->Reset();
+         _playerPhysics->AssignTo( _player );
+         _arenaPhysics->AssignTo( _arena, _player );
+         _nextState = GameState::Playing;
          _eventAggregator->RaiseEvent( GameEvent::GameStarted );
          break;
       case GameCommand::Quit:
@@ -63,4 +73,9 @@ void Game::ExecuteCommand( GameCommand command, const shared_ptr<GameCommandArgs
          _playerPhysics->ExtendJump();
          break;
    }
+}
+
+void Game::HandlePitfallEvent()
+{
+   _nextState = GameState::GameOver;
 }

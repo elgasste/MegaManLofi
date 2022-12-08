@@ -9,6 +9,7 @@
 #include <MegaManLofi/GameEvent.h>
 #include <MegaManLofi/PushPlayerCommandArgs.h>
 #include <MegaManLofi/PointPlayerCommandArgs.h>
+#include <MegaManLofi/GameEventAggregator.h>
 
 #include "mock_GameEventAggregator.h"
 #include "mock_Player.h"
@@ -54,26 +55,46 @@ TEST_F( GameTests, Constructor_Always_SetsGameStateToStartup )
    EXPECT_EQ( _game->GetGameState(), GameState::Startup );
 }
 
-TEST_F( GameTests, Constructor_Always_AssignsPhysicsObjects )
+TEST_F( GameTests, ExecuteCommand_Start_ResetsGameObjects )
 {
+   BuildGame();
+
+   EXPECT_CALL( *_playerMock, Reset() );
+   EXPECT_CALL( *_arenaMock, Reset() );
+
+   _game->ExecuteCommand( GameCommand::Start );
+}
+
+TEST_F( GameTests, ExecuteCommand_Start_AssignsObjectsToPhysics )
+{
+   BuildGame();
+
    auto basePlayer = static_pointer_cast<IPlayer>( _playerMock );
    auto baseArena = static_pointer_cast<IArena>( _arenaMock );
 
    EXPECT_CALL( *_playerPhysicsMock, AssignTo( basePlayer ) );
    EXPECT_CALL( *_arenaPhysicsMock, AssignTo( baseArena, basePlayer ) );
 
-   BuildGame();
+   _game->ExecuteCommand( GameCommand::Start );
 }
 
-TEST_F( GameTests, ExecuteCommand_Start_SetsGameStateToPlayingAndRaisesEvent )
+TEST_F( GameTests, ExecuteCommand_Start_SetsNextGameStateToPlaying )
+{
+   BuildGame();
+
+   _game->ExecuteCommand( GameCommand::Start );
+   _game->Tick();
+
+   EXPECT_EQ( _game->GetGameState(), GameState::Playing );
+}
+
+TEST_F( GameTests, ExecuteCommand_Start_RaisesGameStartedEvent )
 {
    BuildGame();
 
    EXPECT_CALL( *_eventAggregatorMock, RaiseEvent( GameEvent::GameStarted ) );
 
    _game->ExecuteCommand( GameCommand::Start );
-
-   EXPECT_EQ( _game->GetGameState(), GameState::Playing );
 }
 
 TEST_F( GameTests, ExecuteCommand_Quit_RaisesShutdownEvent )
@@ -142,4 +163,15 @@ TEST_F( GameTests, Tick_GameStateIsPlaying_DoesPlayerAndArenaActions )
    EXPECT_CALL( *_arenaPhysicsMock, Tick() );
 
    _game->Tick();
+}
+
+TEST_F( GameTests, EventHandling_PitfallEventRaised_ChangesNextGameStateToGameOver )
+{
+   auto eventAggregator = make_shared<GameEventAggregator>();
+   _game.reset( new Game( eventAggregator, _playerMock, _arenaMock, _playerPhysicsMock, _arenaPhysicsMock ) );
+
+   eventAggregator->RaiseEvent( GameEvent::Pitfall );
+   _game->Tick();
+
+   EXPECT_EQ( _game->GetGameState(), GameState::GameOver );
 }

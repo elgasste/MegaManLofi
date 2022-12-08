@@ -40,6 +40,8 @@
 #include "Direction.h"
 #include "ArenaTile.h"
 #include "PlayerSpriteGenerator.h"
+#include "ArenaTileGenerator.h"
+#include "ArenaConsoleSpriteGenerator.h"
 #include "ConsoleSprite.h"
 
 using namespace std;
@@ -164,29 +166,14 @@ shared_ptr<ConsoleRenderConfig> BuildConsoleRenderConfig()
    // ground that is impassable in all directions
    renderConfig->ArenaSpriteMap[0].Width = 1;
    renderConfig->ArenaSpriteMap[0].Height = 1;
-   renderConfig->ArenaSpriteMap[0].Pixels.push_back( { '=', ConsoleColor::DarkGrey } );
+   renderConfig->ArenaSpriteMap[0].Pixels.push_back( { 'X', ConsoleColor::Yellow } );
 
    // ground that is only impassable downward
    renderConfig->ArenaSpriteMap[1].Width = 1;
    renderConfig->ArenaSpriteMap[1].Height = 1;
-   renderConfig->ArenaSpriteMap[1].Pixels.push_back( { '-', ConsoleColor::DarkGrey } );
+   renderConfig->ArenaSpriteMap[1].Pixels.push_back( { '-', ConsoleColor::Yellow } );
 
-   for ( int i = 0; i < 360 * 30; i++ )
-   {
-      renderConfig->ArenaSprites.push_back( -1 );
-   }
-
-   // platform on the 13th row, extending 100 tiles from the left edge of the arena
-   for ( int i = ( 360 * 12 ); i < ( ( 360 * 12 ) + 100 ); i++ )
-   {
-      renderConfig->ArenaSprites[i] = 0;
-   }
-
-   // platform on the 21st row, extending 50 tiles from the right edge of the arena
-   for ( int i = ( ( 360 * 21 ) - 1 ); i > ( ( 360 * 21 ) - 50 ); i-- )
-   {
-      renderConfig->ArenaSprites[i] = 1;
-   }
+   renderConfig->ArenaSprites = ArenaConsoleSpriteGenerator::GenerateArenaSprites();
 
    return renderConfig;
 }
@@ -272,6 +259,7 @@ shared_ptr<PlayerConfig> BuildPlayerConfig()
    return playerConfig;
 }
 
+// TODO: move all of this into ArenaGenerator
 shared_ptr<ArenaConfig> BuildArenaConfig()
 {
    auto arenaConfig = make_shared<ArenaConfig>();
@@ -281,28 +269,12 @@ shared_ptr<ArenaConfig> BuildArenaConfig()
    arenaConfig->DefaultTileHeight = 78;
 
    arenaConfig->DefaultHorizontalTiles = 360;
-   arenaConfig->DefaultVerticalTiles = 30;
+   arenaConfig->DefaultVerticalTiles = 60;
 
-   // start with all passable tiles
-   for ( int i = 0; i < arenaConfig->DefaultHorizontalTiles * arenaConfig->DefaultVerticalTiles; i++ )
-   {
-      arenaConfig->DefaultTiles.push_back( { true, true, true, true } );
-   }
-
-   // platform on the 13th row, extending 100 tiles from the left edge of the arena
-   for ( int i = ( 360 * 12 ); i < ( ( 360 * 12 ) + 100 ); i++ )
-   {
-      arenaConfig->DefaultTiles[i] = { false, false, false, false };
-   }
-
-   // platform on the 21st row, extending 50 tiles from the right edge of the arena
-   for ( int i = ( ( 360 * 21 ) - 1 ); i > ( ( 360 * 21 ) - 50 ); i-- )
-   {
-      arenaConfig->DefaultTiles[i] = { true, true, true, false }; // passable in all ways except down
-   }
+   arenaConfig->DefaultTiles = ArenaTileGenerator::GenerateArenaTiles();
 
    arenaConfig->DefaultPlayerPositionX = arenaConfig->DefaultTileWidth * 8;
-   arenaConfig->DefaultPlayerPositionY = arenaConfig->DefaultTileHeight * 9;
+   arenaConfig->DefaultPlayerPositionY = arenaConfig->DefaultTileHeight * 6;
 
    return arenaConfig;
 }

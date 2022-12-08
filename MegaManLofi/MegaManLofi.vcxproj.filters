@@ -138,6 +138,12 @@
     <ClCompile Include="ArenaPhysics.cpp">
       <Filter>Source Files\Utilities</Filter>
     </ClCompile>
+    <ClCompile Include="ArenaTileGenerator.cpp">
+      <Filter>Source Files\ConfigGenerators</Filter>
+    </ClCompile>
+    <ClCompile Include="ArenaConsoleSpriteGenerator.cpp">
+      <Filter>Source Files\ConfigGenerators</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameRunner.h">
@@ -352,6 +358,15 @@
     </ClInclude>
     <ClInclude Include="PlayerPhysicsConfig.h">
       <Filter>Header Files\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="ArenaTileGenerator.h">
+      <Filter>Header Files\ConfigGenerators</Filter>
+    </ClInclude>
+    <ClInclude Include="ArenaGenerationDefs.h">
+      <Filter>Header Files\ConfigGenerators</Filter>
+    </ClInclude>
+    <ClInclude Include="ArenaConsoleSpriteGenerator.h">
+      <Filter>Header Files\ConfigGenerators</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

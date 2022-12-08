@@ -77,7 +77,7 @@ void PlayingStateConsoleRenderer::DrawGameStartAnimation()
 
    if ( (int)( _gameStartBlinkElapsedSeconds / _renderConfig->GameStartSingleBlinkSeconds ) % 2 == 0 )
    {
-      _consoleBuffer->Draw( ( _renderConfig->ArenaViewportWidthChar / 2 ) - 5, _renderConfig->ArenaViewportHeightChar / 2, "GET READY!" );
+      _consoleBuffer->Draw( ( _renderConfig->ArenaViewportWidthChar / 2 ) - 5, _renderConfig->ArenaViewportHeightChar / 2, "GET READY!", ConsoleColor::Cyan );
    }
 
    if ( _gameStartBlinkElapsedSeconds >= ( _renderConfig->GameStartSingleBlinkSeconds * _renderConfig->GameStartBlinkCount ) )

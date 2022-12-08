@@ -8,6 +8,8 @@ namespace MegaManLofi
       ToggleDiagnostics,
 
       GameStarted,
-      GameOver
+      GameOver,
+
+      Pitfall
    };
 }

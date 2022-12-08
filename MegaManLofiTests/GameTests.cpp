@@ -78,11 +78,12 @@ TEST_F( GameTests, ExecuteCommand_Start_AssignsObjectsToPhysics )
    _game->ExecuteCommand( GameCommand::Start );
 }
 
-TEST_F( GameTests, ExecuteCommand_Start_SetsGameStateToPlaying )
+TEST_F( GameTests, ExecuteCommand_Start_SetsNextGameStateToPlaying )
 {
    BuildGame();
 
    _game->ExecuteCommand( GameCommand::Start );
+   _game->Tick();
 
    EXPECT_EQ( _game->GetGameState(), GameState::Playing );
 }
@@ -164,12 +165,13 @@ TEST_F( GameTests, Tick_GameStateIsPlaying_DoesPlayerAndArenaActions )
    _game->Tick();
 }
 
-TEST_F( GameTests, EventHandling_PitfallEventRaised_ChangesGameStateToGameOver )
+TEST_F( GameTests, EventHandling_PitfallEventRaised_ChangesNextGameStateToGameOver )
 {
    auto eventAggregator = make_shared<GameEventAggregator>();
    _game.reset( new Game( eventAggregator, _playerMock, _arenaMock, _playerPhysicsMock, _arenaPhysicsMock ) );
 
    eventAggregator->RaiseEvent( GameEvent::Pitfall );
+   _game->Tick();
 
    EXPECT_EQ( _game->GetGameState(), GameState::GameOver );
 }

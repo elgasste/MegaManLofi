@@ -31,9 +31,12 @@ PlayingStateConsoleRenderer::PlayingStateConsoleRenderer( const shared_ptr<ICons
    _viewportOffsetX( 0 ),
    _viewportOffsetY( 0 ),
    _isAnimatingGameStart( false ),
-   _gameStartBlinkElapsedSeconds( 0 )
+   _isAnimatingPitfall( false ),
+   _gameStartElapsedSeconds( 0 ),
+   _pitfallElapsedSeconds( 0 )
 {
    eventAggregator->RegisterEventHandler( GameEvent::GameStarted, std::bind( &PlayingStateConsoleRenderer::HandleGameStartedEvent, this ) );
+   eventAggregator->RegisterEventHandler( GameEvent::Pitfall, std::bind( &PlayingStateConsoleRenderer::HandlePitfallEvent, this ) );
 }
 
 void PlayingStateConsoleRenderer::Render()
@@ -50,19 +53,32 @@ void PlayingStateConsoleRenderer::Render()
    {
       CalculateViewportOffsets();
       DrawArenaSprites();
-      DrawPlayer();
+      if ( _isAnimatingPitfall )
+      {
+         DrawPitfallAnimation();
+      }
+      else
+      {
+         DrawPlayer();
+      }
    }
 }
 
 bool PlayingStateConsoleRenderer::HasFocus() const
 {
-   return _isAnimatingGameStart;
+   return _isAnimatingGameStart || _isAnimatingPitfall;
 }
 
 void PlayingStateConsoleRenderer::HandleGameStartedEvent()
 {
    _isAnimatingGameStart = true;
-   _gameStartBlinkElapsedSeconds = 0;
+   _gameStartElapsedSeconds = 0;
+}
+
+void PlayingStateConsoleRenderer::HandlePitfallEvent()
+{
+   _isAnimatingPitfall = true;
+   _pitfallElapsedSeconds = 0;
 }
 
 void PlayingStateConsoleRenderer::CalculateViewportOffsets()
@@ -73,16 +89,26 @@ void PlayingStateConsoleRenderer::CalculateViewportOffsets()
 
 void PlayingStateConsoleRenderer::DrawGameStartAnimation()
 {
-   _gameStartBlinkElapsedSeconds += 1 / (double)_frameRateProvider->GetFramesPerSecond();
+   _gameStartElapsedSeconds += ( 1 / (double)_frameRateProvider->GetFramesPerSecond() );
 
-   if ( (int)( _gameStartBlinkElapsedSeconds / _renderConfig->GameStartSingleBlinkSeconds ) % 2 == 0 )
+   if ( (int)( _gameStartElapsedSeconds / _renderConfig->GameStartSingleBlinkSeconds ) % 2 == 0 )
    {
       _consoleBuffer->Draw( ( _renderConfig->ArenaViewportWidthChar / 2 ) - 5, _renderConfig->ArenaViewportHeightChar / 2, "GET READY!", ConsoleColor::Cyan );
    }
 
-   if ( _gameStartBlinkElapsedSeconds >= ( _renderConfig->GameStartSingleBlinkSeconds * _renderConfig->GameStartBlinkCount ) )
+   if ( _gameStartElapsedSeconds >= ( _renderConfig->GameStartSingleBlinkSeconds * _renderConfig->GameStartBlinkCount ) )
    {
       _isAnimatingGameStart = false;
+   }
+}
+
+void PlayingStateConsoleRenderer::DrawPitfallAnimation()
+{
+   _pitfallElapsedSeconds += ( 1 / (double)_frameRateProvider->GetFramesPerSecond() );
+
+   if ( _pitfallElapsedSeconds >= _renderConfig->PitfallAnimationSeconds )
+   {
+      _isAnimatingPitfall = false;
    }
 }
 

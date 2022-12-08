@@ -43,5 +43,6 @@ namespace MegaManLofi
       const std::shared_ptr<IArenaPhysics> _arenaPhysics;
 
       GameState _state;
+      GameState _nextState;
    };
 }

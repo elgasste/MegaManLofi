@@ -163,6 +163,8 @@ shared_ptr<ConsoleRenderConfig> BuildConsoleRenderConfig()
    renderConfig->GameStartSingleBlinkSeconds = .25;
    renderConfig->GameStartBlinkCount = 8;
 
+   renderConfig->PitfallAnimationSeconds = 2;
+
    renderConfig->DefaultForegroundColor = ConsoleColor::Grey;
    renderConfig->DefaultBackgroundColor = ConsoleColor::Black;
 

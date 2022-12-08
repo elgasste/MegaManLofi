@@ -29,6 +29,8 @@ namespace MegaManLofi
       double GameStartSingleBlinkSeconds = 0;
       int GameStartBlinkCount = 0;
 
+      double PitfallAnimationSeconds = 0;
+
       ConsoleColor DefaultForegroundColor = (ConsoleColor)0;
       ConsoleColor DefaultBackgroundColor = (ConsoleColor)0;
 

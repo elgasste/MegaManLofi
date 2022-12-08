@@ -28,8 +28,10 @@ namespace MegaManLofi
 
    private:
       void HandleGameStartedEvent();
+      void HandlePitfallEvent();
       void CalculateViewportOffsets();
       void DrawGameStartAnimation();
+      void DrawPitfallAnimation();
       void DrawArenaSprites();
       void DrawPlayer();
 
@@ -47,6 +49,9 @@ namespace MegaManLofi
       long long _viewportOffsetY;
 
       bool _isAnimatingGameStart;
-      double _gameStartBlinkElapsedSeconds;
+      bool _isAnimatingPitfall;
+
+      double _gameStartElapsedSeconds;
+      double _pitfallElapsedSeconds;
    };
 }

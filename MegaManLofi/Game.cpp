@@ -23,13 +23,16 @@ Game::Game( const shared_ptr<IGameEventAggregator> eventAggregator,
    _arena( arena ),
    _playerPhysics( playerPhysics ),
    _arenaPhysics( arenaPhysics ),
-   _state( GameState::Startup )
+   _state( GameState::Startup ),
+   _nextState( GameState::Startup )
 {
    _eventAggregator->RegisterEventHandler( GameEvent::Pitfall, std::bind( &Game::HandlePitfallEvent, this ) );
 }
 
 void Game::Tick()
 {
+   _state = _nextState;
+
    if ( _state == GameState::Playing )
    {
       _playerPhysics->Tick();
@@ -51,7 +54,7 @@ void Game::ExecuteCommand( GameCommand command, const shared_ptr<GameCommandArgs
          _arena->Reset();
          _playerPhysics->AssignTo( _player );
          _arenaPhysics->AssignTo( _arena, _player );
-         _state = GameState::Playing;
+         _nextState = GameState::Playing;
          _eventAggregator->RaiseEvent( GameEvent::GameStarted );
          break;
       case GameCommand::Quit:
@@ -74,5 +77,5 @@ void Game::ExecuteCommand( GameCommand command, const shared_ptr<GameCommandArgs
 
 void Game::HandlePitfallEvent()
 {
-   _state = GameState::GameOver;
+   _nextState = GameState::GameOver;
 }

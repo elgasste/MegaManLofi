@@ -37,6 +37,7 @@ namespace MegaManLofi
 
    private:
       const std::shared_ptr<IGameEventAggregator> _eventAggregator;
+      const std::shared_ptr<IArena> _arena;
       const std::shared_ptr<IPlayerPhysics> _playerPhysics;
       const std::shared_ptr<IArenaPhysics> _arenaPhysics;
 

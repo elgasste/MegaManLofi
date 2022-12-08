@@ -66,15 +66,31 @@ TEST_F( GameTests, Constructor_Always_AssignsPhysicsObjects )
    BuildGame();
 }
 
-TEST_F( GameTests, ExecuteCommand_Start_SetsGameStateToPlayingAndRaisesEvent )
+TEST_F( GameTests, ExecuteCommand_Start_ResetsArena )
+{
+   BuildGame();
+
+   EXPECT_CALL( *_arenaMock, Reset() );
+
+   _game->ExecuteCommand( GameCommand::Start );
+}
+
+TEST_F( GameTests, ExecuteCommand_Start_SetsGameStateToPlaying )
+{
+   BuildGame();
+
+   _game->ExecuteCommand( GameCommand::Start );
+
+   EXPECT_EQ( _game->GetGameState(), GameState::Playing );
+}
+
+TEST_F( GameTests, ExecuteCommand_Start_RaisesGameStartedEvent )
 {
    BuildGame();
 
    EXPECT_CALL( *_eventAggregatorMock, RaiseEvent( GameEvent::GameStarted ) );
 
    _game->ExecuteCommand( GameCommand::Start );
-
-   EXPECT_EQ( _game->GetGameState(), GameState::Playing );
 }
 
 TEST_F( GameTests, ExecuteCommand_Quit_RaisesShutdownEvent )

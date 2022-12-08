@@ -147,6 +147,9 @@
     <ClCompile Include="GameOverStateConsoleRenderer.cpp">
       <Filter>Source Files\Render</Filter>
     </ClCompile>
+    <ClCompile Include="GameOverStateInputHandler.cpp">
+      <Filter>Source Files\Input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameRunner.h">
@@ -373,6 +376,9 @@
     </ClInclude>
     <ClInclude Include="GameOverStateConsoleRenderer.h">
       <Filter>Header Files\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOverStateInputHandler.h">
+      <Filter>Header Files\Input</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

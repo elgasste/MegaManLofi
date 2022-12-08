@@ -29,6 +29,7 @@
 #include "DiagnosticsConsoleRenderer.h"
 #include "StartupStateInputHandler.h"
 #include "PlayingStateInputHandler.h"
+#include "GameOverStateInputHandler.h"
 #include "GameInputHandler.h"
 #include "ConsoleBuffer.h"
 #include "StartupStateConsoleRenderer.h"
@@ -120,9 +121,11 @@ void LoadAndRun( const shared_ptr<IConsoleBuffer> consoleBuffer )
    // input objects
    auto startupStateInputHandler = shared_ptr<StartupStateInputHandler>( new StartupStateInputHandler( keyboardInputReader, game ) );
    auto playingStateInputHandler = shared_ptr<PlayingStateInputHandler>( new PlayingStateInputHandler( keyboardInputReader, game ) );
+   auto gameOverStateInputHandler = shared_ptr<GameOverStateInputHandler>( new GameOverStateInputHandler( keyboardInputReader, game ) );
    auto inputHandler = shared_ptr<GameInputHandler>( new GameInputHandler( keyboardInputReader, game, eventAggregator ) );
    inputHandler->AddInputHandlerForGameState( GameState::Startup, startupStateInputHandler );
    inputHandler->AddInputHandlerForGameState( GameState::Playing, playingStateInputHandler );
+   inputHandler->AddInputHandlerForGameState( GameState::GameOver, gameOverStateInputHandler );
 
    // rendering objects
    auto diagnosticsRenderer = shared_ptr<DiagnosticsConsoleRenderer>( new DiagnosticsConsoleRenderer( consoleBuffer, clock, consoleRenderConfig ) );

@@ -156,6 +156,7 @@
     <ClCompile Include="ConsoleBuffer.cpp" />
     <ClCompile Include="FrameActionRegistry.cpp" />
     <ClCompile Include="GameOverStateConsoleRenderer.cpp" />
+    <ClCompile Include="GameOverStateInputHandler.cpp" />
     <ClCompile Include="MegaManLofi.cpp" />
     <ClCompile Include="DiagnosticsConsoleRenderer.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -200,6 +201,7 @@
     <ClInclude Include="GameCommandArgs.h" />
     <ClInclude Include="GameConfig.h" />
     <ClInclude Include="GameOverStateConsoleRenderer.h" />
+    <ClInclude Include="GameOverStateInputHandler.h" />
     <ClInclude Include="GameRenderer.h" />
     <ClInclude Include="GameEvent.h" />
     <ClInclude Include="GameEventAggregator.h" />

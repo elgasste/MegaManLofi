@@ -24,6 +24,7 @@ Game::Game( const shared_ptr<IGameEventAggregator> eventAggregator,
    _playerPhysics->AssignTo( player );
    _arenaPhysics->AssignTo( arena, player );
 
+   _eventAggregator->RegisterEventHandler( GameEvent::Pitfall, std::bind( &Game::HandlePitfallEvent, this ) );
    _eventAggregator->RegisterEventHandler( GameEvent::GameOver, std::bind( &Game::HandleGameOverEvent, this ) );
 }
 
@@ -65,6 +66,11 @@ void Game::ExecuteCommand( GameCommand command, const shared_ptr<GameCommandArgs
          _playerPhysics->ExtendJump();
          break;
    }
+}
+
+void Game::HandlePitfallEvent()
+{
+   _state = GameState::GameOver;
 }
 
 void Game::HandleGameOverEvent()

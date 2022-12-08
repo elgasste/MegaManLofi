@@ -33,6 +33,7 @@ namespace MegaManLofi
       void ExecuteCommand( GameCommand command, const std::shared_ptr<GameCommandArgs> args ) override;
 
    private:
+      void HandlePitfallEvent();
       void HandleGameOverEvent();
 
    private:

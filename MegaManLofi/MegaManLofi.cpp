@@ -33,6 +33,7 @@
 #include "ConsoleBuffer.h"
 #include "StartupStateConsoleRenderer.h"
 #include "PlayingStateConsoleRenderer.h"
+#include "GameOverStateConsoleRenderer.h"
 #include "GameRenderer.h"
 #include "GameRunner.h"
 #include "GameState.h"
@@ -127,9 +128,11 @@ void LoadAndRun( const shared_ptr<IConsoleBuffer> consoleBuffer )
    auto diagnosticsRenderer = shared_ptr<DiagnosticsConsoleRenderer>( new DiagnosticsConsoleRenderer( consoleBuffer, clock, consoleRenderConfig ) );
    auto startupStateConsoleRenderer = shared_ptr<StartupStateConsoleRenderer>( new StartupStateConsoleRenderer( consoleBuffer, consoleRenderConfig, keyboardInputConfig ) );
    auto playingStateConsoleRenderer = shared_ptr<PlayingStateConsoleRenderer>( new PlayingStateConsoleRenderer( consoleBuffer, consoleRenderConfig, player, arena, eventAggregator, clock ) );
+   auto gameOverStateConsoleRenderer = shared_ptr<GameOverStateConsoleRenderer>( new GameOverStateConsoleRenderer( consoleBuffer, consoleRenderConfig, keyboardInputConfig ) );
    auto renderer = shared_ptr<GameRenderer>( new GameRenderer( consoleRenderConfig, consoleBuffer, game, diagnosticsRenderer, eventAggregator ) );
    renderer->AddRendererForGameState( GameState::Startup, startupStateConsoleRenderer );
    renderer->AddRendererForGameState( GameState::Playing, playingStateConsoleRenderer );
+   renderer->AddRendererForGameState( GameState::GameOver, gameOverStateConsoleRenderer );
 
    // game loop
    auto runner = shared_ptr<GameRunner>( new GameRunner( eventAggregator, clock, inputHandler, renderer, frameActionRegistry, game, thread ) );

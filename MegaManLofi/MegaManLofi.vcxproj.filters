@@ -144,6 +144,9 @@
     <ClCompile Include="ArenaConsoleSpriteGenerator.cpp">
       <Filter>Source Files\ConfigGenerators</Filter>
     </ClCompile>
+    <ClCompile Include="GameOverStateConsoleRenderer.cpp">
+      <Filter>Source Files\Render</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameRunner.h">
@@ -367,6 +370,9 @@
     </ClInclude>
     <ClInclude Include="ArenaConsoleSpriteGenerator.h">
       <Filter>Header Files\ConfigGenerators</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOverStateConsoleRenderer.h">
+      <Filter>Header Files\Render</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

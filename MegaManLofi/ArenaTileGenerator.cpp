@@ -17,7 +17,10 @@ vector<ArenaTile> ArenaTileGenerator::GenerateArenaTiles()
             tiles.push_back( { false, false, false, false } );
             break;
          case 'p':
-            tiles.push_back( { true, true, true, false } ); // down-passable only
+            tiles.push_back( { true, true, true, false } ); // down-blocking only
+            break;
+         case 'x':
+            tiles.push_back( { false, false, false, true } ); // up-blocking only
             break;
          default:
             tiles.push_back( { true, true, true, true } );

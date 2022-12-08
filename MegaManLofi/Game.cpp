@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "IGameEventAggregator.h"
+#include "IPlayer.h"
 #include "IArena.h"
 #include "IPlayerPhysics.h"
 #include "IArenaPhysics.h"
@@ -18,6 +19,7 @@ Game::Game( const shared_ptr<IGameEventAggregator> eventAggregator,
             const shared_ptr<IPlayerPhysics> playerPhysics,
             const shared_ptr<IArenaPhysics> arenaPhysics ) :
    _eventAggregator( eventAggregator ),
+   _player( player ),
    _arena( arena ),
    _playerPhysics( playerPhysics ),
    _arenaPhysics( arenaPhysics ),
@@ -48,6 +50,7 @@ void Game::ExecuteCommand( GameCommand command, const shared_ptr<GameCommandArgs
    switch ( command )
    {
       case GameCommand::Start:
+         _player->Reset();
          _arena->Reset();
          _state = GameState::Playing;
          _eventAggregator->RaiseEvent( GameEvent::GameStarted );

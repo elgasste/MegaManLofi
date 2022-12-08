@@ -10,6 +10,8 @@ namespace MegaManLofi
    class __declspec( novtable ) IPlayer : public IPlayerInfoProvider
    {
    public:
+      virtual void Reset() = 0;
+
       virtual const Rectangle& GetHitBox() const = 0;
 
       virtual void SetDirection( Direction direction ) = 0;

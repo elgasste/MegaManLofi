@@ -13,15 +13,21 @@ using namespace MegaManLofi;
 Player::Player( const shared_ptr<PlayerConfig> config,
                 const shared_ptr<IFrameActionRegistry> frameActionRegistry,
                 const shared_ptr<IFrameRateProvider> frameRateProvider ) :
+   _config( config ),
    _frameActionRegistry( frameActionRegistry ),
-   _frameRateProvider( frameRateProvider ),
-   _hitBox( config->DefaultHitBox ),
-   _velocityX( config->DefaultVelocityX ),
-   _velocityY( config->DefaultVelocityY ),
-   _direction( config->DefaultDirection ),
-   _isStanding( false ),
-   _isJumping( false )
+   _frameRateProvider( frameRateProvider )
 {
+   Reset();
+}
+
+void Player::Reset()
+{
+   _hitBox = _config->DefaultHitBox;
+   _velocityX = _config->DefaultVelocityX;
+   _velocityY = _config->DefaultVelocityY;
+   _direction = _config->DefaultDirection;
+   _isStanding = false;
+   _isJumping = false;
 }
 
 bool Player::IsMoving() const

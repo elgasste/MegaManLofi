@@ -19,6 +19,8 @@ namespace MegaManLofi
               const std::shared_ptr<IFrameActionRegistry> frameActionRegistry,
               const std::shared_ptr<IFrameRateProvider> frameRateProvider );
 
+      void Reset();
+
       Direction GetDirection() const override { return _direction; }
 
       bool IsMoving() const override;
@@ -42,6 +44,7 @@ namespace MegaManLofi
       void StopY() override;
 
    private:
+      const std::shared_ptr<PlayerConfig> _config;
       const std::shared_ptr<IFrameActionRegistry> _frameActionRegistry;
       const std::shared_ptr<IFrameRateProvider> _frameRateProvider;
 

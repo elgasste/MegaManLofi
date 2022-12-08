@@ -33,6 +33,9 @@ namespace MegaManLofi
       void ExecuteCommand( GameCommand command, const std::shared_ptr<GameCommandArgs> args ) override;
 
    private:
+      void HandleGameOverEvent();
+
+   private:
       const std::shared_ptr<IGameEventAggregator> _eventAggregator;
       const std::shared_ptr<IPlayerPhysics> _playerPhysics;
       const std::shared_ptr<IArenaPhysics> _arenaPhysics;

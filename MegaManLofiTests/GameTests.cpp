@@ -9,6 +9,7 @@
 #include <MegaManLofi/GameEvent.h>
 #include <MegaManLofi/PushPlayerCommandArgs.h>
 #include <MegaManLofi/PointPlayerCommandArgs.h>
+#include <MegaManLofi/GameEventAggregator.h>
 
 #include "mock_GameEventAggregator.h"
 #include "mock_Player.h"
@@ -142,4 +143,14 @@ TEST_F( GameTests, Tick_GameStateIsPlaying_DoesPlayerAndArenaActions )
    EXPECT_CALL( *_arenaPhysicsMock, Tick() );
 
    _game->Tick();
+}
+
+TEST_F( GameTests, EventHandling_GameOverEventRaised_ChangesGameStateToGameOver )
+{
+   auto eventAggregator = make_shared<GameEventAggregator>();
+   _game.reset( new Game( eventAggregator, _playerMock, _arenaMock, _playerPhysicsMock, _arenaPhysicsMock ) );
+
+   eventAggregator->RaiseEvent( GameEvent::GameOver );
+
+   EXPECT_EQ( _game->GetGameState(), GameState::GameOver );
 }

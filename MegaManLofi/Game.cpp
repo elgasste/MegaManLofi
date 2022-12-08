@@ -23,6 +23,8 @@ Game::Game( const shared_ptr<IGameEventAggregator> eventAggregator,
 {
    _playerPhysics->AssignTo( player );
    _arenaPhysics->AssignTo( arena, player );
+
+   _eventAggregator->RegisterEventHandler( GameEvent::GameOver, std::bind( &Game::HandleGameOverEvent, this ) );
 }
 
 void Game::Tick()
@@ -63,4 +65,9 @@ void Game::ExecuteCommand( GameCommand command, const shared_ptr<GameCommandArgs
          _playerPhysics->ExtendJump();
          break;
    }
+}
+
+void Game::HandleGameOverEvent()
+{
+   _state = GameState::GameOver;
 }

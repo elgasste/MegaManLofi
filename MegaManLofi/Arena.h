@@ -14,6 +14,8 @@ namespace MegaManLofi
    public:
       Arena( const std::shared_ptr<ArenaConfig> config );
 
+      void Reset();
+
       long long GetWidth() const override { return _width; }
       long long GetHeight() const override { return _height; }
 
@@ -32,6 +34,8 @@ namespace MegaManLofi
       const ArenaTile& GetTile( long long index ) const override { return _tiles[index]; }
 
    private:
+      const std::shared_ptr<ArenaConfig> _config;
+
       std::vector<ArenaTile> _tiles;
 
       long long _width;

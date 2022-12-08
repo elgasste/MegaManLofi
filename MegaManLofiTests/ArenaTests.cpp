@@ -65,3 +65,19 @@ TEST_F( ArenaTests, Constructor_Always_SetsDefaultInfoBasedOnConfig )
    EXPECT_FALSE( _arena->GetTile( 5 ).RightPassable );
    EXPECT_TRUE( _arena->GetTile( 5 ).DownPassable );
 }
+
+TEST_F( ArenaTests, Reset_Always_ResetsPlayerPosition )
+{
+   BuildArena();
+
+   _arena->SetPlayerPositionX( -1'000'000 );
+   _arena->SetPlayerPositionY( -2'000'000 );
+
+   EXPECT_EQ( _arena->GetPlayerPositionX(), -1'000'000 );
+   EXPECT_EQ( _arena->GetPlayerPositionY(), -2'000'000 );
+
+   _arena->Reset();
+
+   EXPECT_EQ( _arena->GetPlayerPositionX(), 10 );
+   EXPECT_EQ( _arena->GetPlayerPositionY(), 8 );
+}

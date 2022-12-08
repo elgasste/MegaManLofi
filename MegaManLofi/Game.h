@@ -34,7 +34,6 @@ namespace MegaManLofi
 
    private:
       void HandlePitfallEvent();
-      void HandleGameOverEvent();
 
    private:
       const std::shared_ptr<IGameEventAggregator> _eventAggregator;

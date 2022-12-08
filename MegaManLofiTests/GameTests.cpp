@@ -154,13 +154,3 @@ TEST_F( GameTests, EventHandling_PitfallEventRaised_ChangesGameStateToGameOver )
 
    EXPECT_EQ( _game->GetGameState(), GameState::GameOver );
 }
-
-TEST_F( GameTests, EventHandling_GameOverEventRaised_ChangesGameStateToGameOver )
-{
-   auto eventAggregator = make_shared<GameEventAggregator>();
-   _game.reset( new Game( eventAggregator, _playerMock, _arenaMock, _playerPhysicsMock, _arenaPhysicsMock ) );
-
-   eventAggregator->RaiseEvent( GameEvent::GameOver );
-
-   EXPECT_EQ( _game->GetGameState(), GameState::GameOver );
-}

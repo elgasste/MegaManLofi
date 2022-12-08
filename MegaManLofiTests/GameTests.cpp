@@ -55,23 +55,25 @@ TEST_F( GameTests, Constructor_Always_SetsGameStateToStartup )
    EXPECT_EQ( _game->GetGameState(), GameState::Startup );
 }
 
-TEST_F( GameTests, Constructor_Always_AssignsPhysicsObjects )
-{
-   auto basePlayer = static_pointer_cast<IPlayer>( _playerMock );
-   auto baseArena = static_pointer_cast<IArena>( _arenaMock );
-
-   EXPECT_CALL( *_playerPhysicsMock, AssignTo( basePlayer ) );
-   EXPECT_CALL( *_arenaPhysicsMock, AssignTo( baseArena, basePlayer ) );
-
-   BuildGame();
-}
-
 TEST_F( GameTests, ExecuteCommand_Start_ResetsGameObjects )
 {
    BuildGame();
 
    EXPECT_CALL( *_playerMock, Reset() );
    EXPECT_CALL( *_arenaMock, Reset() );
+
+   _game->ExecuteCommand( GameCommand::Start );
+}
+
+TEST_F( GameTests, ExecuteCommand_Start_AssignsObjectsToPhysics )
+{
+   BuildGame();
+
+   auto basePlayer = static_pointer_cast<IPlayer>( _playerMock );
+   auto baseArena = static_pointer_cast<IArena>( _arenaMock );
+
+   EXPECT_CALL( *_playerPhysicsMock, AssignTo( basePlayer ) );
+   EXPECT_CALL( *_arenaPhysicsMock, AssignTo( baseArena, basePlayer ) );
 
    _game->ExecuteCommand( GameCommand::Start );
 }

@@ -25,9 +25,6 @@ Game::Game( const shared_ptr<IGameEventAggregator> eventAggregator,
    _arenaPhysics( arenaPhysics ),
    _state( GameState::Startup )
 {
-   _playerPhysics->AssignTo( player );
-   _arenaPhysics->AssignTo( arena, player );
-
    _eventAggregator->RegisterEventHandler( GameEvent::Pitfall, std::bind( &Game::HandlePitfallEvent, this ) );
 }
 
@@ -52,6 +49,8 @@ void Game::ExecuteCommand( GameCommand command, const shared_ptr<GameCommandArgs
       case GameCommand::Start:
          _player->Reset();
          _arena->Reset();
+         _playerPhysics->AssignTo( _player );
+         _arenaPhysics->AssignTo( _arena, _player );
          _state = GameState::Playing;
          _eventAggregator->RaiseEvent( GameEvent::GameStarted );
          break;

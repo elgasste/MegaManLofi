@@ -12,5 +12,6 @@ namespace MegaManLofi
       static std::vector<int> GenerateArenaSprites();
       static ConsoleSprite GenerateGetReadySprite();
       static ConsoleSprite GeneratePauseOverlaySprite();
+      static ConsoleSprite GenerateGameOverSprite();
    };
 }

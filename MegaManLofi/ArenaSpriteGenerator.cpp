@@ -68,3 +68,23 @@ ConsoleSprite ArenaSpriteGenerator::GeneratePauseOverlaySprite()
 
    return sprite;
 }
+
+ConsoleSprite ArenaSpriteGenerator::GenerateGameOverSprite()
+{
+   ConsoleSprite sprite;
+
+   sprite.Width = 30;
+   sprite.Height = 3;
+
+   string content =
+      "          GAME OVER!          " \
+      "                              " \
+      "(press any button to continue)";
+
+   for ( int i = 0; i < (int)content.size(); i++ )
+   {
+      sprite.Pixels.push_back( { content[i], true, ConsoleColor::White, ConsoleColor::Black } );
+   }
+
+   return sprite;
+}

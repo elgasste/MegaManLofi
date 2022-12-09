@@ -43,8 +43,11 @@ namespace MegaManLofi
       ConsoleColor ArenaForegroundColor = (ConsoleColor)0;
       ConsoleColor ArenaBackgroundColor = (ConsoleColor)0;
 
+      ConsoleColor GameOverBackgroundColor = (ConsoleColor)0;
+
       ConsoleSprite GetReadySprite;
       ConsoleSprite PauseOverlaySprite;
+      ConsoleSprite GameOverSprite;
 
       std::map<Direction, ConsoleSprite> PlayerStaticSpriteMap;
       std::map<Direction, ConsoleSprite> PlayerMovingSpriteMap;

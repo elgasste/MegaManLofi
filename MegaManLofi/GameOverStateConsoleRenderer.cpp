@@ -18,12 +18,10 @@ GameOverStateConsoleRenderer::GameOverStateConsoleRenderer( const shared_ptr<ICo
 
 void GameOverStateConsoleRenderer::Render()
 {
-   _consoleBuffer->SetDefaultBackgroundColor( ConsoleColor::DarkMagenta );
-   _consoleBuffer->SetDefaultForegroundColor( ConsoleColor::White );
+   _consoleBuffer->SetDefaultBackgroundColor( _renderConfig->GameOverBackgroundColor );
 
-   auto left = _renderConfig->ArenaViewportWidthChar / 2;
-   auto top = _renderConfig->ArenaViewportHeightChar / 2;
+   auto left = ( _renderConfig->ConsoleWidth / 2 ) - ( _renderConfig->GameOverSprite.Width / 2 );
+   auto top = ( _renderConfig->ConsoleHeight / 2 ) - ( _renderConfig->GameOverSprite.Height / 2 );
 
-   _consoleBuffer->Draw( left - 5, top - 1, "GAME OVER!" );
-   _consoleBuffer->Draw( left - 15, top + 1, "(press any button to continue)" );
+   _consoleBuffer->Draw( left, top, _renderConfig->GameOverSprite );
 }

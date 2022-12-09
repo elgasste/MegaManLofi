@@ -184,8 +184,11 @@ shared_ptr<ConsoleRenderConfig> BuildConsoleRenderConfig()
    renderConfig->ArenaForegroundColor = ConsoleColor::White;
    renderConfig->ArenaBackgroundColor = ConsoleColor::Black;
 
+   renderConfig->GameOverBackgroundColor = ConsoleColor::Black;
+
    renderConfig->GetReadySprite = ArenaSpriteGenerator::GenerateGetReadySprite();
    renderConfig->PauseOverlaySprite = ArenaSpriteGenerator::GeneratePauseOverlaySprite();
+   renderConfig->GameOverSprite = ArenaSpriteGenerator::GenerateGameOverSprite();
 
    renderConfig->PlayerStaticSpriteMap = PlayerSpriteGenerator::GenerateStaticSpriteMap();
    renderConfig->PlayerMovingSpriteMap = PlayerSpriteGenerator::GenerateMovingSpriteMap();

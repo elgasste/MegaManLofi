@@ -48,9 +48,8 @@ PlayingStateConsoleRenderer::PlayingStateConsoleRenderer( const shared_ptr<ICons
 
 void PlayingStateConsoleRenderer::Render()
 {
-   // TODO: move these into a config somewhere
-   _consoleBuffer->SetDefaultBackgroundColor( ConsoleColor::Black );
-   _consoleBuffer->SetDefaultForegroundColor( ConsoleColor::White );
+   _consoleBuffer->SetDefaultForegroundColor( _renderConfig->ArenaForegroundColor );
+   _consoleBuffer->SetDefaultBackgroundColor( _renderConfig->ArenaBackgroundColor );
 
    if ( _isAnimatingGameStart )
    {

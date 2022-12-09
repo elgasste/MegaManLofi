@@ -97,7 +97,7 @@ ConsoleSprite TitleSpriteGenerator::GenerateBuildingSprite()
 
    for ( int i = 0; i < (int)content.size(); i++ )
    {
-      sprite.Pixels.push_back( { content[i], true, ConsoleColor::Grey, ConsoleColor::Black } );
+      sprite.Pixels.push_back( { content[i], true, ConsoleColor::DarkGrey, ConsoleColor::Black } );
    }
 
    return sprite;

@@ -164,7 +164,19 @@ shared_ptr<ConsoleRenderConfig> BuildConsoleRenderConfig()
    renderConfig->GameStartBlinkCount = 8;
 
    renderConfig->PitfallAnimationSeconds = 2;
-   renderConfig->TileDeathAnimationSeconds = 3;
+
+   // player explosion should swap between two sprites in 1/4 second increments
+   renderConfig->PlayerExplosionAnimationSeconds = 3;
+   renderConfig->PlayerExplosionSpriteSwapSeconds = 0.25;
+   renderConfig->PlayerExplosionParticleVelocity = 1'000;
+
+   renderConfig->PlayerExplosionParticleSprite1.Width = 1;
+   renderConfig->PlayerExplosionParticleSprite1.Height = 1;
+   renderConfig->PlayerExplosionParticleSprite1.Pixels.push_back( { 'O', ConsoleColor::Blue } );
+
+   renderConfig->PlayerExplosionParticleSprite2.Width = 1;
+   renderConfig->PlayerExplosionParticleSprite2.Height = 1;
+   renderConfig->PlayerExplosionParticleSprite2.Pixels.push_back( { 'o', ConsoleColor::DarkBlue } );
 
    renderConfig->DefaultForegroundColor = ConsoleColor::Grey;
    renderConfig->DefaultBackgroundColor = ConsoleColor::Black;

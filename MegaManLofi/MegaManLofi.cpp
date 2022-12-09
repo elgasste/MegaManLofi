@@ -218,7 +218,6 @@ shared_ptr<KeyboardInputConfig> BuildKeyboardInputConfig()
    inputConfig->KeyMap[KeyCode::Tab] = GameButton::Select;
 
    inputConfig->KeyMap[KeyCode::A] = GameButton::A;
-   inputConfig->KeyMap[KeyCode::Return] = GameButton::A;
    inputConfig->KeyMap[KeyCode::Space] = GameButton::A;
    inputConfig->KeyMap[KeyCode::B] = GameButton::B;
    inputConfig->KeyMap[KeyCode::X] = GameButton::X;

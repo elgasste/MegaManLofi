@@ -2,11 +2,14 @@
 
 #include <vector>
 
+#include "ConsoleSprite.h"
+
 namespace MegaManLofi
 {
-   class ArenaConsoleSpriteGenerator
+   class ArenaSpriteGenerator
    {
    public:
       static std::vector<int> GenerateArenaSprites();
+      static ConsoleSprite GeneratePauseOverlaySprite();
    };
 }

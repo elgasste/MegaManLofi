@@ -141,7 +141,7 @@
     <ClCompile Include="ArenaTileGenerator.cpp">
       <Filter>Source Files\ConfigGenerators</Filter>
     </ClCompile>
-    <ClCompile Include="ArenaConsoleSpriteGenerator.cpp">
+    <ClCompile Include="ArenaSpriteGenerator.cpp">
       <Filter>Source Files\ConfigGenerators</Filter>
     </ClCompile>
     <ClCompile Include="GameOverStateConsoleRenderer.cpp">
@@ -371,7 +371,7 @@
     <ClInclude Include="ArenaGenerationDefs.h">
       <Filter>Header Files\ConfigGenerators</Filter>
     </ClInclude>
-    <ClInclude Include="ArenaConsoleSpriteGenerator.h">
+    <ClInclude Include="ArenaSpriteGenerator.h">
       <Filter>Header Files\ConfigGenerators</Filter>
     </ClInclude>
     <ClInclude Include="GameOverStateConsoleRenderer.h">

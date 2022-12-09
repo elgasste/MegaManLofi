@@ -1,6 +1,7 @@
 #include "PlayingStateConsoleRenderer.h"
 #include "IConsoleBuffer.h"
 #include "ConsoleRenderConfig.h"
+#include "IGameInfoProvider.h"
 #include "IPlayerInfoProvider.h"
 #include "IArenaInfoProvider.h"
 #include "IGameEventAggregator.h"
@@ -16,12 +17,14 @@ using namespace MegaManLofi;
 
 PlayingStateConsoleRenderer::PlayingStateConsoleRenderer( const shared_ptr<IConsoleBuffer> consoleBuffer,
                                                           const shared_ptr<ConsoleRenderConfig> renderConfig,
+                                                          const shared_ptr<IGameInfoProvider> gameInfoProvider,
                                                           const shared_ptr<IPlayerInfoProvider> playerInfoProvider,
                                                           const shared_ptr<IArenaInfoProvider> arenaInfoProvider,
                                                           const shared_ptr<IGameEventAggregator> eventAggregator,
                                                           const shared_ptr<IFrameRateProvider> frameRateProvider ) :
    _consoleBuffer( consoleBuffer ),
    _renderConfig( renderConfig ),
+   _gameInfoProvider( gameInfoProvider ),
    _playerInfoProvider( playerInfoProvider ),
    _arenaInfoProvider( arenaInfoProvider ),
    _eventAggregator( eventAggregator ),
@@ -64,6 +67,10 @@ void PlayingStateConsoleRenderer::Render()
       else if ( _isAnimatingPlayerExplosion )
       {
          DrawPlayerExplosionAnimation();
+      }
+      else if ( _gameInfoProvider->IsPaused() )
+      {
+         DrawPauseOverlay();
       }
       else
       {
@@ -205,6 +212,14 @@ void PlayingStateConsoleRenderer::DrawPlayer()
    auto sprite = _playerInfoProvider->IsMoving() ? _renderConfig->PlayerMovingSpriteMap[direction] : _renderConfig->PlayerStaticSpriteMap[direction];
 
    _consoleBuffer->Draw( playerDrawX, playerDrawY, sprite );
+}
+
+void PlayingStateConsoleRenderer::DrawPauseOverlay()
+{
+   auto left = ( _renderConfig->ArenaViewportWidthChar / 2 ) - ( _renderConfig->PauseOverlaySprite.Width / 2 );
+   auto top = ( _renderConfig->ArenaViewportHeightChar / 2 ) - ( _renderConfig->PauseOverlaySprite.Height / 2 );
+
+   _consoleBuffer->Draw( left, top, _renderConfig->PauseOverlaySprite );
 }
 
 short PlayingStateConsoleRenderer::GetPlayerViewportX() const

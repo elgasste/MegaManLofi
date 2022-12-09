@@ -150,7 +150,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Arena.cpp" />
-    <ClCompile Include="ArenaConsoleSpriteGenerator.cpp" />
+    <ClCompile Include="ArenaSpriteGenerator.cpp" />
     <ClCompile Include="ArenaTileGenerator.cpp" />
     <ClCompile Include="ArenaPhysics.cpp" />
     <ClCompile Include="ConsoleBuffer.cpp" />
@@ -182,7 +182,7 @@
   <ItemGroup>
     <ClInclude Include="Arena.h" />
     <ClInclude Include="ArenaConfig.h" />
-    <ClInclude Include="ArenaConsoleSpriteGenerator.h" />
+    <ClInclude Include="ArenaSpriteGenerator.h" />
     <ClInclude Include="ArenaGenerationDefs.h" />
     <ClInclude Include="ArenaTileGenerator.h" />
     <ClInclude Include="ArenaPhysics.h" />

@@ -1,10 +1,11 @@
-#include "ArenaConsoleSpriteGenerator.h"
+#include "ArenaSpriteGenerator.h"
 #include "ArenaGenerationDefs.h"
+#include "ConsoleColor.h"
 
 using namespace std;
 using namespace MegaManLofi;
 
-vector<int> ArenaConsoleSpriteGenerator::GenerateArenaSprites()
+vector<int> ArenaSpriteGenerator::GenerateArenaSprites()
 {
    vector<int> sprites;
    auto arenaTilesString = ArenaGenerationDefs::GetArenaTilesString();
@@ -29,4 +30,23 @@ vector<int> ArenaConsoleSpriteGenerator::GenerateArenaSprites()
    }
 
    return sprites;
+}
+
+ConsoleSprite ArenaSpriteGenerator::GeneratePauseOverlaySprite()
+{
+   ConsoleSprite sprite;
+
+   sprite.Width = 28;
+   sprite.Height = 3;
+
+   string content = "                            " \
+                    "          (PAUSED)          " \
+                    "                            ";
+
+   for ( int i = 0; i < (int)content.size(); i++ )
+   {
+      sprite.Pixels.push_back( { content[i], false, ConsoleColor::White, ConsoleColor::DarkMagenta } );
+   }
+
+   return sprite;
 }

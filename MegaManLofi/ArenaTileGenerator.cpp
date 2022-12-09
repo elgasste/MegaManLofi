@@ -14,16 +14,16 @@ vector<ArenaTile> ArenaTileGenerator::GenerateArenaTiles()
       switch ( arenaTilesString[i] )
       {
          case 's':
-            tiles.push_back( { false, false, false, false } );
+            tiles.push_back( { false, false, false, false, false } ); // fully-blocking, no death
             break;
          case 'p':
-            tiles.push_back( { true, true, true, false } ); // down-blocking only
+            tiles.push_back( { true, true, true, false, false } ); // down-blocking only, no death
             break;
          case 'x':
-            tiles.push_back( { false, false, false, true } ); // up-blocking only
+            tiles.push_back( { false, false, false, true, true } ); // up-blocking only, causes death
             break;
          default:
-            tiles.push_back( { true, true, true, true } );
+            tiles.push_back( { true, true, true, true } ); // non-blocking, no death
             break;
       }
    }

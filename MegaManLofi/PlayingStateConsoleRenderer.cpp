@@ -32,11 +32,14 @@ PlayingStateConsoleRenderer::PlayingStateConsoleRenderer( const shared_ptr<ICons
    _viewportOffsetY( 0 ),
    _isAnimatingGameStart( false ),
    _isAnimatingPitfall( false ),
+   _isAnimatingTileDeath( false ),
    _gameStartElapsedSeconds( 0 ),
-   _pitfallElapsedSeconds( 0 )
+   _pitfallElapsedSeconds( 0 ),
+   _tileDeathElapsedSeconds( 0 )
 {
    eventAggregator->RegisterEventHandler( GameEvent::GameStarted, std::bind( &PlayingStateConsoleRenderer::HandleGameStartedEvent, this ) );
    eventAggregator->RegisterEventHandler( GameEvent::Pitfall, std::bind( &PlayingStateConsoleRenderer::HandlePitfallEvent, this ) );
+   eventAggregator->RegisterEventHandler( GameEvent::TileDeath, std::bind( &PlayingStateConsoleRenderer::HandleTileDeathEvent, this ) );
 }
 
 void PlayingStateConsoleRenderer::Render()
@@ -57,6 +60,10 @@ void PlayingStateConsoleRenderer::Render()
       {
          DrawPitfallAnimation();
       }
+      else if ( _isAnimatingTileDeath )
+      {
+         DrawTileDeathAnimation();
+      }
       else
       {
          DrawPlayer();
@@ -66,7 +73,7 @@ void PlayingStateConsoleRenderer::Render()
 
 bool PlayingStateConsoleRenderer::HasFocus() const
 {
-   return _isAnimatingGameStart || _isAnimatingPitfall;
+   return _isAnimatingGameStart || _isAnimatingPitfall || _isAnimatingTileDeath;
 }
 
 void PlayingStateConsoleRenderer::HandleGameStartedEvent()
@@ -79,6 +86,12 @@ void PlayingStateConsoleRenderer::HandlePitfallEvent()
 {
    _isAnimatingPitfall = true;
    _pitfallElapsedSeconds = 0;
+}
+
+void PlayingStateConsoleRenderer::HandleTileDeathEvent()
+{
+   _isAnimatingTileDeath = true;
+   _tileDeathElapsedSeconds = 0;
 }
 
 void PlayingStateConsoleRenderer::CalculateViewportOffsets()
@@ -109,6 +122,16 @@ void PlayingStateConsoleRenderer::DrawPitfallAnimation()
    if ( _pitfallElapsedSeconds >= _renderConfig->PitfallAnimationSeconds )
    {
       _isAnimatingPitfall = false;
+   }
+}
+
+void PlayingStateConsoleRenderer::DrawTileDeathAnimation()
+{
+   _tileDeathElapsedSeconds += ( 1 / (double)_frameRateProvider->GetFramesPerSecond() );
+
+   if ( _tileDeathElapsedSeconds >= _renderConfig->TileDeathAnimationSeconds )
+   {
+      _isAnimatingTileDeath = false;
    }
 }
 

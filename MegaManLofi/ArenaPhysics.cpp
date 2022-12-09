@@ -48,7 +48,11 @@ void ArenaPhysics::MovePlayer()
    }
 
    UpdatePlayerOccupyingTileIndices();
-   DetectPlayerStanding();
+
+   if ( !DetectTileDeath() )
+   {
+      DetectPlayerStanding();
+   }
 }
 
 void ArenaPhysics::UpdatePlayerOccupyingTileIndices()
@@ -212,6 +216,25 @@ void ArenaPhysics::DetectPlayerTileCollisionY( long long& newPositionY )
          }
       }
    }
+}
+
+bool ArenaPhysics::DetectTileDeath() const
+{
+   for ( long long x = _playerOccupyingTileIndices.Left; x <= _playerOccupyingTileIndices.Right; x++ )
+   {
+      for ( long long y = _playerOccupyingTileIndices.Top; y <= _playerOccupyingTileIndices.Bottom; y++ )
+      {
+         auto tile = _arena->GetTile( ( y * _arena->GetHorizontalTiles() ) + x );
+
+         if ( tile.CausesDeath )
+         {
+            _eventAggregator->RaiseEvent( GameEvent::TileDeath );
+            return true;
+         }
+      }
+   }
+
+   return false;
 }
 
 void ArenaPhysics::DetectPlayerStanding()

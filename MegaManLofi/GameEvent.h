@@ -9,6 +9,7 @@ namespace MegaManLofi
 
       GameStarted,
 
-      Pitfall
+      Pitfall,
+      TileDeath
    };
 }

@@ -196,6 +196,7 @@ shared_ptr<ConsoleRenderConfig> BuildConsoleRenderConfig()
    renderConfig->TitleSubTextSprite = TitleSpriteGenerator::GenerateTitleSubTextSprite();
    renderConfig->TitlePlayerSprite = TitleSpriteGenerator::GeneratePlayerSprite();
    renderConfig->TitleBuildingSprite = TitleSpriteGenerator::GenerateBuildingSprite();
+   renderConfig->TitleStartMessageSprite = TitleSpriteGenerator::GenerateStartMessageSprite();
 
    renderConfig->TitleTextX = 6;
    renderConfig->TitleTextY = 1;
@@ -205,6 +206,8 @@ shared_ptr<ConsoleRenderConfig> BuildConsoleRenderConfig()
    renderConfig->TitleBuildingY = renderConfig->ConsoleHeight - renderConfig->TitleBuildingSprite.Height - 1;
    renderConfig->TitlePlayerX = renderConfig->TitleBuildingX + 6;
    renderConfig->TitlePlayerY = renderConfig->TitleBuildingY - renderConfig->TitlePlayerSprite.Height;
+   renderConfig->TitleStartMessageX = 55;
+   renderConfig->TitleStartMessageY = 15;
    renderConfig->TitleKeyBindingsMiddleX = 25;
    renderConfig->TitleKeyBindingsY = renderConfig->TitleTextY + renderConfig->TitleTextSprite.Height + 3;
 

@@ -28,6 +28,7 @@ void StartupStateConsoleRenderer::Render()
    _consoleBuffer->Draw( _renderConfig->TitleSubTextX, _renderConfig->TitleSubTextY, _renderConfig->TitleSubTextSprite );
    _consoleBuffer->Draw( _renderConfig->TitlePlayerX, _renderConfig->TitlePlayerY, _renderConfig->TitlePlayerSprite );
    _consoleBuffer->Draw( _renderConfig->TitleBuildingX, _renderConfig->TitleBuildingY, _renderConfig->TitleBuildingSprite );
+   _consoleBuffer->Draw( _renderConfig->TitleStartMessageX, _renderConfig->TitleStartMessageY, _renderConfig->TitleStartMessageSprite );
 
    DrawKeyBindings();
 }

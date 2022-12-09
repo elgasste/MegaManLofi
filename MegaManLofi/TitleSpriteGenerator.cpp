@@ -102,3 +102,22 @@ ConsoleSprite TitleSpriteGenerator::GenerateBuildingSprite()
 
    return sprite;
 }
+
+ConsoleSprite TitleSpriteGenerator::GenerateStartMessageSprite()
+{
+   ConsoleSprite sprite;
+
+   sprite.Width = 19;
+   sprite.Height = 2;
+
+   string content =
+      "Press any button to" \
+      "  start the game!  ";
+
+   for ( int i = 0; i < (int)content.size(); i++ )
+   {
+      sprite.Pixels.push_back( { content[i], true, ConsoleColor::White, ConsoleColor::Black } );
+   }
+
+   return sprite;
+}

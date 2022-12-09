@@ -24,7 +24,8 @@ Game::Game( const shared_ptr<IGameEventAggregator> eventAggregator,
    _playerPhysics( playerPhysics ),
    _arenaPhysics( arenaPhysics ),
    _state( GameState::Startup ),
-   _nextState( GameState::Startup )
+   _nextState( GameState::Startup ),
+   _isPaused( false )
 {
    _eventAggregator->RegisterEventHandler( GameEvent::Pitfall, std::bind( &Game::HandlePitfallEvent, this ) );
    _eventAggregator->RegisterEventHandler( GameEvent::TileDeath, std::bind( &Game::HandleTileDeathEvent, this ) );
@@ -34,7 +35,7 @@ void Game::Tick()
 {
    _state = _nextState;
 
-   if ( _state == GameState::Playing )
+   if ( _state == GameState::Playing && !_isPaused )
    {
       _playerPhysics->Tick();
       _arenaPhysics->Tick();
@@ -48,6 +49,7 @@ void Game::ExecuteCommand( GameCommand command )
 
 void Game::ExecuteCommand( GameCommand command, const shared_ptr<GameCommandArgs> args )
 {
+   // commands that don't observe _isPaused
    switch ( command )
    {
       case GameCommand::Start:
@@ -56,11 +58,28 @@ void Game::ExecuteCommand( GameCommand command, const shared_ptr<GameCommandArgs
          _playerPhysics->AssignTo( _player );
          _arenaPhysics->AssignTo( _arena, _player );
          _nextState = GameState::Playing;
+         _isPaused = false;
          _eventAggregator->RaiseEvent( GameEvent::GameStarted );
+         break;
+      case GameCommand::TogglePause:
+         if ( _nextState == GameState::Playing )
+         {
+            _isPaused = !_isPaused;
+         }
          break;
       case GameCommand::Quit:
          _eventAggregator->RaiseEvent( GameEvent::Shutdown );
          break;
+   }
+
+   if ( _isPaused )
+   {
+      return;
+   }
+
+   // commands that observe _isPaused
+   switch ( command )
+   {
       case GameCommand::PushPlayer:
          _playerPhysics->PushTo( static_pointer_cast<PushPlayerCommandArgs>( args )->Direction );
          break;

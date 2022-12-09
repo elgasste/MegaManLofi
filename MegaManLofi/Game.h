@@ -28,6 +28,7 @@ namespace MegaManLofi
       void Tick() override;
 
       GameState GetGameState() const override { return _state; }
+      bool IsPaused() const override { return _isPaused; }
 
       void ExecuteCommand( GameCommand command ) override;
       void ExecuteCommand( GameCommand command, const std::shared_ptr<GameCommandArgs> args ) override;
@@ -45,5 +46,7 @@ namespace MegaManLofi
 
       GameState _state;
       GameState _nextState;
+
+      bool _isPaused;
    };
 }

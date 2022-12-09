@@ -9,5 +9,6 @@ namespace MegaManLofi
    {
    public:
       virtual GameState GetGameState() const = 0;
+      virtual bool IsPaused() const = 0;
    };
 }

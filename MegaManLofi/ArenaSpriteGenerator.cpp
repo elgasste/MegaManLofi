@@ -32,6 +32,23 @@ vector<int> ArenaSpriteGenerator::GenerateArenaSprites()
    return sprites;
 }
 
+ConsoleSprite ArenaSpriteGenerator::GenerateGetReadySprite()
+{
+   ConsoleSprite sprite;
+
+   sprite.Width = 10;
+   sprite.Height = 1;
+
+   string content = "GET READY!";
+
+   for ( int i = 0; i < (int)content.size(); i++ )
+   {
+      sprite.Pixels.push_back( { content[i], false, ConsoleColor::Cyan, ConsoleColor::Black } );
+   }
+
+   return sprite;
+}
+
 ConsoleSprite ArenaSpriteGenerator::GeneratePauseOverlaySprite()
 {
    ConsoleSprite sprite;
@@ -39,9 +56,10 @@ ConsoleSprite ArenaSpriteGenerator::GeneratePauseOverlaySprite()
    sprite.Width = 28;
    sprite.Height = 3;
 
-   string content = "                            " \
-                    "          (PAUSED)          " \
-                    "                            ";
+   string content =
+      "                            " \
+      "          (PAUSED)          " \
+      "                            ";
 
    for ( int i = 0; i < (int)content.size(); i++ )
    {

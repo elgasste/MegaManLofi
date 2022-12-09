@@ -51,30 +51,28 @@ void PlayingStateConsoleRenderer::Render()
    _consoleBuffer->SetDefaultForegroundColor( _renderConfig->ArenaForegroundColor );
    _consoleBuffer->SetDefaultBackgroundColor( _renderConfig->ArenaBackgroundColor );
 
+   CalculateViewportOffsets();
+   DrawArenaSprites();
+
    if ( _isAnimatingGameStart )
    {
       DrawGameStartAnimation();
    }
+   else if ( _isAnimatingPitfall )
+   {
+      DrawPitfallAnimation();
+   }
+   else if ( _isAnimatingPlayerExplosion )
+   {
+      DrawPlayerExplosionAnimation();
+   }
+   else if ( _gameInfoProvider->IsPaused() )
+   {
+      DrawPauseOverlay();
+   }
    else
    {
-      CalculateViewportOffsets();
-      DrawArenaSprites();
-      if ( _isAnimatingPitfall )
-      {
-         DrawPitfallAnimation();
-      }
-      else if ( _isAnimatingPlayerExplosion )
-      {
-         DrawPlayerExplosionAnimation();
-      }
-      else if ( _gameInfoProvider->IsPaused() )
-      {
-         DrawPauseOverlay();
-      }
-      else
-      {
-         DrawPlayer();
-      }
+      DrawPlayer();
    }
 }
 
@@ -114,7 +112,10 @@ void PlayingStateConsoleRenderer::DrawGameStartAnimation()
 
    if ( (int)( _gameStartElapsedSeconds / _renderConfig->GameStartSingleBlinkSeconds ) % 2 == 0 )
    {
-      _consoleBuffer->Draw( ( _renderConfig->ArenaViewportWidthChar / 2 ) - 5, _renderConfig->ArenaViewportHeightChar / 2, "GET READY!", ConsoleColor::Cyan );
+      auto left = ( _renderConfig->ArenaViewportWidthChar / 2 ) - ( _renderConfig->GetReadySprite.Width / 2 ) + _renderConfig->ArenaViewportX;
+      auto top = ( _renderConfig->ArenaViewportHeightChar / 2 ) - ( _renderConfig->GetReadySprite.Height / 2 ) + _renderConfig->ArenaViewportY;
+
+      _consoleBuffer->Draw( left, top, _renderConfig->GetReadySprite );
    }
 
    if ( _gameStartElapsedSeconds >= ( _renderConfig->GameStartSingleBlinkSeconds * _renderConfig->GameStartBlinkCount ) )
@@ -142,8 +143,8 @@ void PlayingStateConsoleRenderer::DrawPlayerExplosionAnimation()
       _renderConfig->PlayerExplosionParticleSprite1 : _renderConfig->PlayerExplosionParticleSprite2;
 
    const auto& hitBox = _playerInfoProvider->GetHitBox();
-   auto particleStartX = GetPlayerViewportX() + (short)( hitBox.Width / 2 / _renderConfig->ArenaCharWidth );
-   auto particleStartY = GetPlayerViewportY() + (short)( hitBox.Height / 2 / _renderConfig->ArenaCharHeight );
+   auto particleStartX = GetPlayerViewportX() + (short)( hitBox.Width / 2 / _renderConfig->ArenaCharWidth ) + _renderConfig->ArenaViewportX;
+   auto particleStartY = GetPlayerViewportY() + (short)( hitBox.Height / 2 / _renderConfig->ArenaCharHeight ) + _renderConfig->ArenaViewportY;
    
    auto elapsedFrames = _frameRateProvider->GetCurrentFrame() - _playerExplosionStartFrame;
    auto particleIncrement = ( _renderConfig->PlayerExplosionParticleVelocity * frameRateScalar );
@@ -194,8 +195,8 @@ void PlayingStateConsoleRenderer::DrawArenaSprites()
 
          if ( spriteId != -1 )
          {
-            auto viewportX = _renderConfig->ArenaViewportX + x;
-            auto viewportY = _renderConfig->ArenaViewportY + y;
+            auto viewportX = x + _renderConfig->ArenaViewportX;
+            auto viewportY = y + _renderConfig->ArenaViewportY;
             _consoleBuffer->Draw( viewportX, viewportY, _renderConfig->ArenaSpriteMap[ spriteId ] );
          }
       }
@@ -204,8 +205,8 @@ void PlayingStateConsoleRenderer::DrawArenaSprites()
 
 void PlayingStateConsoleRenderer::DrawPlayer()
 {
-   auto playerDrawX = GetPlayerViewportX();
-   auto playerDrawY = GetPlayerViewportY();
+   auto playerDrawX = GetPlayerViewportX() + _renderConfig->ArenaViewportX;
+   auto playerDrawY = GetPlayerViewportY() + _renderConfig->ArenaViewportY;
 
    auto direction = _playerInfoProvider->GetDirection();
    auto sprite = _playerInfoProvider->IsMoving() ? _renderConfig->PlayerMovingSpriteMap[direction] : _renderConfig->PlayerStaticSpriteMap[direction];

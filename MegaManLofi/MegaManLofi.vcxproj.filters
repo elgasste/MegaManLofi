@@ -150,6 +150,9 @@
     <ClCompile Include="GameOverStateInputHandler.cpp">
       <Filter>Source Files\Input</Filter>
     </ClCompile>
+    <ClCompile Include="TitleSpriteGenerator.cpp">
+      <Filter>Source Files\ConfigGenerators</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameRunner.h">
@@ -379,6 +382,9 @@
     </ClInclude>
     <ClInclude Include="GameOverStateInputHandler.h">
       <Filter>Header Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleSpriteGenerator.h">
+      <Filter>Header Files\ConfigGenerators</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

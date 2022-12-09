@@ -178,6 +178,7 @@
     <ClCompile Include="StartupStateConsoleRenderer.cpp" />
     <ClCompile Include="StartupStateInputHandler.cpp" />
     <ClCompile Include="ThreadWrapper.cpp" />
+    <ClCompile Include="TitleSpriteGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Arena.h" />
@@ -256,6 +257,7 @@
     <ClInclude Include="StartupStateConsoleRenderer.h" />
     <ClInclude Include="ThreadWrapper.h" />
     <ClInclude Include="Quad.h" />
+    <ClInclude Include="TitleSpriteGenerator.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

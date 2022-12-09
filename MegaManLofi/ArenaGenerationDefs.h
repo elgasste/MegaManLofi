@@ -9,7 +9,7 @@ namespace MegaManLofi
    public:
       // 's': solid, blocks in all directions
       // 'p': platform, only blocks downward
-      // 'x': spikes only blocks upward
+      // 'x': spikes, only blocks upward
       static std::string GetArenaTilesString()
       {
          std::string tiles =

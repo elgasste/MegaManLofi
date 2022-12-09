@@ -73,13 +73,20 @@ ConsoleSprite ArenaSpriteGenerator::GenerateGameOverSprite()
 {
    ConsoleSprite sprite;
 
-   sprite.Width = 30;
-   sprite.Height = 3;
+   sprite.Width = 76;
+   sprite.Height = 10;
 
    string content =
-      "          GAME OVER!          " \
-      "                              " \
-      "(press any button to continue)";
+      " _______  _______  __   __  _______     _______  __   __  _______  ______   " \
+      "|       ||   _   ||  |_|  ||       |   |       ||  | |  ||       ||    _ |  " \
+      "|    ___||  |_|  ||       ||    ___|   |   _   ||  |_|  ||    ___||   | ||  " \
+      "|   | __ |       ||       ||   |___    |  | |  ||       ||   |___ |   |_||_ " \
+      "|   ||  ||       ||       ||    ___|   |  |_|  ||       ||    ___||    __  |" \
+      "|   |_| ||   _   || ||_|| ||   |___    |       | |     | |   |___ |   |  | |" \
+      "|_______||__| |__||_|   |_||_______|   |_______|  |___|  |_______||___|  |_|" \
+      "                                                                            " \
+      "                                                                            " \
+      "                        press any button to continue                        ";
 
    for ( int i = 0; i < (int)content.size(); i++ )
    {

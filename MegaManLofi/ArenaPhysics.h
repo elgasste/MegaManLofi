@@ -27,6 +27,7 @@ namespace MegaManLofi
       void MovePlayerY();
       void DetectPlayerTileCollisionX( long long& newPositionX );
       void DetectPlayerTileCollisionY( long long& newPositionY );
+      bool DetectTileDeath() const;
       void DetectPlayerStanding();
 
    private:

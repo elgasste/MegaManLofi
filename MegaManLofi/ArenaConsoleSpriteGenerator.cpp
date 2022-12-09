@@ -14,10 +14,13 @@ vector<int> ArenaConsoleSpriteGenerator::GenerateArenaSprites()
       switch ( arenaTilesString[i] )
       {
          case 's':
-            sprites.push_back( 0 ); // non-passable in any direction
+            sprites.push_back( 0 ); // passable in any direction
             break;
          case 'p':
-            sprites.push_back( 1 ); // only down-passable
+            sprites.push_back( 1 ); // passable in any direction but down
+            break;
+         case 'x':
+            sprites.push_back( 2 ); // passable in any direction but up
             break;
          default:
             sprites.push_back( -1 );

@@ -8,5 +8,7 @@ namespace MegaManLofi
       bool UpPassable = false;
       bool RightPassable = false;
       bool DownPassable = false;
+
+      bool CausesDeath = false;
    };
 }

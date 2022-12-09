@@ -32,11 +32,15 @@ PlayingStateConsoleRenderer::PlayingStateConsoleRenderer( const shared_ptr<ICons
    _viewportOffsetY( 0 ),
    _isAnimatingGameStart( false ),
    _isAnimatingPitfall( false ),
+   _isAnimatingPlayerExplosion( false ),
    _gameStartElapsedSeconds( 0 ),
-   _pitfallElapsedSeconds( 0 )
+   _pitfallElapsedSeconds( 0 ),
+   _playerExplosionElapsedSeconds( 0 ),
+   _playerExplosionStartFrame( 0 )
 {
    eventAggregator->RegisterEventHandler( GameEvent::GameStarted, std::bind( &PlayingStateConsoleRenderer::HandleGameStartedEvent, this ) );
    eventAggregator->RegisterEventHandler( GameEvent::Pitfall, std::bind( &PlayingStateConsoleRenderer::HandlePitfallEvent, this ) );
+   eventAggregator->RegisterEventHandler( GameEvent::TileDeath, std::bind( &PlayingStateConsoleRenderer::HandleTileDeathEvent, this ) );
 }
 
 void PlayingStateConsoleRenderer::Render()
@@ -57,6 +61,10 @@ void PlayingStateConsoleRenderer::Render()
       {
          DrawPitfallAnimation();
       }
+      else if ( _isAnimatingPlayerExplosion )
+      {
+         DrawPlayerExplosionAnimation();
+      }
       else
       {
          DrawPlayer();
@@ -66,7 +74,7 @@ void PlayingStateConsoleRenderer::Render()
 
 bool PlayingStateConsoleRenderer::HasFocus() const
 {
-   return _isAnimatingGameStart || _isAnimatingPitfall;
+   return _isAnimatingGameStart || _isAnimatingPitfall || _isAnimatingPlayerExplosion;
 }
 
 void PlayingStateConsoleRenderer::HandleGameStartedEvent()
@@ -79,6 +87,13 @@ void PlayingStateConsoleRenderer::HandlePitfallEvent()
 {
    _isAnimatingPitfall = true;
    _pitfallElapsedSeconds = 0;
+}
+
+void PlayingStateConsoleRenderer::HandleTileDeathEvent()
+{
+   _isAnimatingPlayerExplosion = true;
+   _playerExplosionElapsedSeconds = 0;
+   _playerExplosionStartFrame = _frameRateProvider->GetCurrentFrame();
 }
 
 void PlayingStateConsoleRenderer::CalculateViewportOffsets()
@@ -109,6 +124,41 @@ void PlayingStateConsoleRenderer::DrawPitfallAnimation()
    if ( _pitfallElapsedSeconds >= _renderConfig->PitfallAnimationSeconds )
    {
       _isAnimatingPitfall = false;
+   }
+}
+
+void PlayingStateConsoleRenderer::DrawPlayerExplosionAnimation()
+{
+   auto frameRateScalar = ( 1 / (double)_frameRateProvider->GetFramesPerSecond() );
+   _playerExplosionElapsedSeconds += frameRateScalar;
+
+   const auto& particleSprite = (int)( _playerExplosionElapsedSeconds / _renderConfig->PlayerExplosionSpriteSwapSeconds ) % 2 == 0 ?
+      _renderConfig->PlayerExplosionParticleSprite1 : _renderConfig->PlayerExplosionParticleSprite2;
+
+   const auto& hitBox = _playerInfoProvider->GetHitBox();
+   auto particleStartX = GetPlayerViewportX() + (short)( hitBox.Width / 2 / _renderConfig->ArenaCharWidth );
+   auto particleStartY = GetPlayerViewportY() + (short)( hitBox.Height / 2 / _renderConfig->ArenaCharHeight );
+   
+   auto elapsedFrames = _frameRateProvider->GetCurrentFrame() - _playerExplosionStartFrame;
+   auto particleIncrement = ( _renderConfig->PlayerExplosionParticleVelocity * frameRateScalar );
+   auto particleDeltaX = (short)( ( particleIncrement * elapsedFrames ) / _renderConfig->ArenaCharWidth );
+   auto particleDeltaY = (short)( ( particleIncrement * elapsedFrames ) / _renderConfig->ArenaCharHeight );
+
+   // horizontal and vertical particles
+   _consoleBuffer->Draw( particleStartX + particleDeltaX, particleStartY, particleSprite );
+   _consoleBuffer->Draw( particleStartX - particleDeltaX, particleStartY, particleSprite );
+   _consoleBuffer->Draw( particleStartX, particleStartY + particleDeltaY, particleSprite );
+   _consoleBuffer->Draw( particleStartX, particleStartY - particleDeltaY, particleSprite );
+
+   // diagonal particles
+   _consoleBuffer->Draw( particleStartX + (short)( particleDeltaX / 1.5 ), particleStartY + (short)( particleDeltaY / 1.5 ), particleSprite );
+   _consoleBuffer->Draw( particleStartX - (short)( particleDeltaX / 1.5 ), particleStartY + (short)( particleDeltaY / 1.5 ), particleSprite );
+   _consoleBuffer->Draw( particleStartX + (short)( particleDeltaX / 1.5 ), particleStartY - (short)( particleDeltaY / 1.5 ), particleSprite );
+   _consoleBuffer->Draw( particleStartX - (short)( particleDeltaX / 1.5 ), particleStartY - (short)( particleDeltaY / 1.5 ), particleSprite );
+
+   if ( _playerExplosionElapsedSeconds >= _renderConfig->PlayerExplosionAnimationSeconds )
+   {
+      _isAnimatingPlayerExplosion = false;
    }
 }
 
@@ -148,8 +198,18 @@ void PlayingStateConsoleRenderer::DrawArenaSprites()
 
 void PlayingStateConsoleRenderer::DrawPlayer()
 {
+   auto playerDrawX = GetPlayerViewportX();
+   auto playerDrawY = GetPlayerViewportY();
+
+   auto direction = _playerInfoProvider->GetDirection();
+   auto sprite = _playerInfoProvider->IsMoving() ? _renderConfig->PlayerMovingSpriteMap[direction] : _renderConfig->PlayerStaticSpriteMap[direction];
+
+   _consoleBuffer->Draw( playerDrawX, playerDrawY, sprite );
+}
+
+short PlayingStateConsoleRenderer::GetPlayerViewportX() const
+{
    auto playerDrawX = _arenaInfoProvider->GetPlayerPositionX() - _viewportOffsetX;
-   auto playerDrawY = _arenaInfoProvider->GetPlayerPositionY() - _viewportOffsetY;
 
    if ( _viewportOffsetX < 0 )
    {
@@ -160,6 +220,13 @@ void PlayingStateConsoleRenderer::DrawPlayer()
       playerDrawX += ( _viewportOffsetX + _viewportWidth ) - _arenaInfoProvider->GetWidth();
    }
 
+   return (short)( playerDrawX / _renderConfig->ArenaCharWidth );
+}
+
+short PlayingStateConsoleRenderer::GetPlayerViewportY() const
+{
+   auto playerDrawY = _arenaInfoProvider->GetPlayerPositionY() - _viewportOffsetY;
+
    if ( _viewportOffsetY < 0 )
    {
       playerDrawY += _viewportOffsetY;
@@ -169,11 +236,5 @@ void PlayingStateConsoleRenderer::DrawPlayer()
       playerDrawY += ( _viewportOffsetY + _viewportHeight ) - _arenaInfoProvider->GetHeight();
    }
 
-   auto convertedPlayerDrawX = (short)( playerDrawX / _renderConfig->ArenaCharWidth );
-   auto convertedPlayerDrawY = (short)( playerDrawY / _renderConfig->ArenaCharHeight );
-
-   auto direction = _playerInfoProvider->GetDirection();
-   auto sprite = _playerInfoProvider->IsMoving() ? _renderConfig->PlayerMovingSpriteMap[direction] : _renderConfig->PlayerStaticSpriteMap[direction];
-
-   _consoleBuffer->Draw( convertedPlayerDrawX, convertedPlayerDrawY, sprite );
+   return (short)( playerDrawY / _renderConfig->ArenaCharHeight );
 }

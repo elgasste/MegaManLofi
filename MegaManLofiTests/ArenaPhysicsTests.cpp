@@ -27,7 +27,7 @@ public:
       _eventAggregatorMock.reset( new NiceMock<mock_GameEventAggregator> );
       _arenaMock.reset( new NiceMock<mock_Arena> );
       _playerMock.reset( new NiceMock<mock_Player> );
-      _defaultTile = { true, true, true, true };
+      _defaultTile = { true, true, true, true, false };
 
       ON_CALL( *_arenaMock, GetWidth() ).WillByDefault( Return( 20 ) );
       ON_CALL( *_arenaMock, GetHeight() ).WillByDefault( Return( 16 ) );
@@ -535,6 +535,17 @@ TEST_F( ArenaPhysicsTests, Tick_AtLowerRightBottomTileBoundary_SetsIsStandingToT
 
    EXPECT_CALL( *_playerMock, SetIsStanding( false ) );
    EXPECT_CALL( *_playerMock, SetIsStanding( true ) );
+
+   _arenaPhysics->Tick();
+}
+
+TEST_F( ArenaPhysicsTests, Tick_InsideDeathTile_RaisesTileDeathEvent )
+{
+   ArenaTile deathTile = { true, true, true, true, true };
+   ON_CALL( *_arenaMock, GetTile( 45 ) ).WillByDefault( ReturnRef( deathTile ) );
+   BuildArenaPhysics();
+
+   EXPECT_CALL( *_eventAggregatorMock, RaiseEvent( GameEvent::TileDeath ) );
 
    _arenaPhysics->Tick();
 }

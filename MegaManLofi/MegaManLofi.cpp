@@ -165,6 +165,19 @@ shared_ptr<ConsoleRenderConfig> BuildConsoleRenderConfig()
 
    renderConfig->PitfallAnimationSeconds = 2;
 
+   // player explosion should swap between two sprites in 1/4 second increments
+   renderConfig->PlayerExplosionAnimationSeconds = 3;
+   renderConfig->PlayerExplosionSpriteSwapSeconds = 0.25;
+   renderConfig->PlayerExplosionParticleVelocity = 1'000;
+
+   renderConfig->PlayerExplosionParticleSprite1.Width = 1;
+   renderConfig->PlayerExplosionParticleSprite1.Height = 1;
+   renderConfig->PlayerExplosionParticleSprite1.Pixels.push_back( { 'O', ConsoleColor::Blue } );
+
+   renderConfig->PlayerExplosionParticleSprite2.Width = 1;
+   renderConfig->PlayerExplosionParticleSprite2.Height = 1;
+   renderConfig->PlayerExplosionParticleSprite2.Pixels.push_back( { 'o', ConsoleColor::DarkBlue } );
+
    renderConfig->DefaultForegroundColor = ConsoleColor::Grey;
    renderConfig->DefaultBackgroundColor = ConsoleColor::Black;
 
@@ -180,6 +193,11 @@ shared_ptr<ConsoleRenderConfig> BuildConsoleRenderConfig()
    renderConfig->ArenaSpriteMap[1].Width = 1;
    renderConfig->ArenaSpriteMap[1].Height = 1;
    renderConfig->ArenaSpriteMap[1].Pixels.push_back( { '-', ConsoleColor::Yellow } );
+
+   // spike that is only impassable upward
+   renderConfig->ArenaSpriteMap[2].Width = 1;
+   renderConfig->ArenaSpriteMap[2].Height = 1;
+   renderConfig->ArenaSpriteMap[2].Pixels.push_back( { '+', ConsoleColor::Red } );
 
    renderConfig->ArenaSprites = ArenaConsoleSpriteGenerator::GenerateArenaSprites();
 

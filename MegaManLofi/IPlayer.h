@@ -1,7 +1,6 @@
 #pragma once
 
 #include "IPlayerInfoProvider.h"
-#include "Rectangle.h"
 
 namespace MegaManLofi
 {
@@ -11,8 +10,6 @@ namespace MegaManLofi
    {
    public:
       virtual void Reset() = 0;
-
-      virtual const Rectangle& GetHitBox() const = 0;
 
       virtual void SetDirection( Direction direction ) = 0;
 

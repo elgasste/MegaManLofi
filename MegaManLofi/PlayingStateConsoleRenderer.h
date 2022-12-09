@@ -29,11 +29,16 @@ namespace MegaManLofi
    private:
       void HandleGameStartedEvent();
       void HandlePitfallEvent();
+      void HandleTileDeathEvent();
       void CalculateViewportOffsets();
       void DrawGameStartAnimation();
       void DrawPitfallAnimation();
+      void DrawPlayerExplosionAnimation();
       void DrawArenaSprites();
       void DrawPlayer();
+
+      short GetPlayerViewportX() const;
+      short GetPlayerViewportY() const;
 
    private:
       const std::shared_ptr<IConsoleBuffer> _consoleBuffer;
@@ -50,8 +55,12 @@ namespace MegaManLofi
 
       bool _isAnimatingGameStart;
       bool _isAnimatingPitfall;
+      bool _isAnimatingPlayerExplosion;
 
       double _gameStartElapsedSeconds;
       double _pitfallElapsedSeconds;
+      double _playerExplosionElapsedSeconds;
+
+      long long _playerExplosionStartFrame;
    };
 }

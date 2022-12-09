@@ -175,3 +175,14 @@ TEST_F( GameTests, EventHandling_PitfallEventRaised_ChangesNextGameStateToGameOv
 
    EXPECT_EQ( _game->GetGameState(), GameState::GameOver );
 }
+
+TEST_F( GameTests, EventHandling_TileDeathEventRaised_ChangesNextGameStateToGameOver )
+{
+   auto eventAggregator = make_shared<GameEventAggregator>();
+   _game.reset( new Game( eventAggregator, _playerMock, _arenaMock, _playerPhysicsMock, _arenaPhysicsMock ) );
+
+   eventAggregator->RaiseEvent( GameEvent::TileDeath );
+   _game->Tick();
+
+   EXPECT_EQ( _game->GetGameState(), GameState::GameOver );
+}

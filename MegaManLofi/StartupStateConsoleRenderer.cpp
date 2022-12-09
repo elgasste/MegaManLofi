@@ -21,37 +21,28 @@ StartupStateConsoleRenderer::StartupStateConsoleRenderer( const shared_ptr<ICons
 
 void StartupStateConsoleRenderer::Render()
 {
-   _consoleBuffer->SetDefaultBackgroundColor( ConsoleColor::DarkBlue );
-   _consoleBuffer->SetDefaultForegroundColor( ConsoleColor::White );
+   _consoleBuffer->SetDefaultForegroundColor( _renderConfig->TitleScreenForegroundColor );
+   _consoleBuffer->SetDefaultBackgroundColor( _renderConfig->TitleScreenBackgroundColor );
 
-   auto middleX = _renderConfig->ConsoleWidth / 2;
+   _consoleBuffer->Draw( _renderConfig->TitleTextX, _renderConfig->TitleTextY, _renderConfig->TitleTextSprite );
+   _consoleBuffer->Draw( _renderConfig->TitleSubTextX, _renderConfig->TitleSubTextY, _renderConfig->TitleSubTextSprite );
+   _consoleBuffer->Draw( _renderConfig->TitlePlayerX, _renderConfig->TitlePlayerY, _renderConfig->TitlePlayerSprite );
+   _consoleBuffer->Draw( _renderConfig->TitleBuildingX, _renderConfig->TitleBuildingY, _renderConfig->TitleBuildingSprite );
 
-   _consoleBuffer->Draw( middleX - 26, 1, ".==================================================." );
-   _consoleBuffer->Draw( middleX - 27, 2, "|        WELCOME TO MEGA MAN (LOFI EDITION)!!        |" );
-   _consoleBuffer->Draw( middleX - 26, 3, "`=================================================='" );
-
-   _consoleBuffer->Draw( middleX - 30, 6, "They sky's the limit! Er, the console is the limit, I guess." );
-   _consoleBuffer->Draw( middleX - 40, 7, "Just to get you started, here's a list of which keys are bound to which buttons:" );
-
-   short top = 9;
-
-   DrawKeyBindings( middleX, top );
-
-   top += (short)_inputConfig->KeyMap.size() + 1;
-   _consoleBuffer->Draw( middleX - 17, top, "Press any button to play the game!" );
-   _consoleBuffer->Draw( middleX - 25, top + 1, "(remember, not every key is bound to a button....)" );
+   DrawKeyBindings();
 }
 
-void StartupStateConsoleRenderer::DrawKeyBindings( short middleX, short top ) const
+void StartupStateConsoleRenderer::DrawKeyBindings() const
 {
-   auto leftOfMiddleX = middleX - 2;
+   auto leftOfMiddleX = _renderConfig->TitleKeyBindingsMiddleX - 2;
+   auto top = _renderConfig->TitleKeyBindingsY;
 
    for ( auto const& [keyCode, mappedButton] : _inputConfig->KeyMap )
    {
       string keyString( format( "{0} Key", _inputConfig->KeyNames.at(keyCode) ) );
       string buttonString( format( "{0} Button", _inputConfig->ButtonNames.at(mappedButton) ) );
 
-      _consoleBuffer->Draw( leftOfMiddleX - (int)keyString.length() - 2, top, format( "{0} -> {1}", keyString, buttonString ) );
+      _consoleBuffer->Draw( leftOfMiddleX - (int)keyString.length() - 2, top, format( "{0} -> {1}", keyString, buttonString ), _renderConfig->TitleKeyBindingsForegroundColor );
 
       top++;
    }

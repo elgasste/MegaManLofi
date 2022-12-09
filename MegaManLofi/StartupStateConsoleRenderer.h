@@ -21,7 +21,7 @@ namespace MegaManLofi
       bool HasFocus() const override { return false; }
 
    private:
-      void DrawKeyBindings( short middleX, short top ) const;
+      void DrawKeyBindings() const;
 
    private:
       const std::shared_ptr<IConsoleBuffer> _consoleBuffer;

@@ -10,30 +10,21 @@ ConsoleSprite TitleSpriteGenerator::GenerateTitleTextSprite()
 {
    ConsoleSprite sprite;
 
-   sprite.Width = 74;
+   sprite.Width = 75;
    sprite.Height = 7;
 
    string content =
-      " __   __  _______  _______  _______    __   __  _______  __    _  ___     " \
-      "|  |_|  ||       ||       ||   _   |  |  |_|  ||   _   ||  |  | ||   |    " \
-      "|       ||    ___||    ___||  |_|  |  |       ||  |_|  ||   |_| ||___|    " \
-      "|       ||   |___ |   | __ |       |  |       ||       ||       | ___     " \
-      "|       ||    ___||   ||  ||       |  |       ||       ||  _    ||   |    " \
-      "| ||_|| ||   |___ |   |_| ||   _   |  | ||_|| ||   _   || | |   ||___|    " \
-      "|_|   |_||_______||_______||__| |__|  |_|   |_||__| |__||_|  |__|         ";
-
-   string lofiContent =
-      " ___      _______  _______  ___ " \
-      "|   |    |       ||       ||   |" \
-      "|   |    |   _   ||    ___||   |" \
-      "|   |    |  | |  ||   |___ |   |" \
-      "|   |___ |  |_|  ||    ___||   |" \
-      "|       ||       ||   |    |   |" \
-      "|_______||_______||___|    |___|";
+      " __   __  _______  _______  _______     __   __  _______  __    _  ___     " \
+      "|  |_|  ||       ||       ||   _   |   |  |_|  ||   _   ||  |  | ||   |    " \
+      "|       ||    ___||    ___||  |_|  |   |       ||  |_|  ||   |_| ||___|    " \
+      "|       ||   |___ |   | __ |       |   |       ||       ||       | ___     " \
+      "|       ||    ___||   ||  ||       |   |       ||       ||  _    ||   |    " \
+      "| ||_|| ||   |___ |   |_| ||   _   |   | ||_|| ||   _   || | |   ||___|    " \
+      "|_|   |_||_______||_______||__| |__|   |_|   |_||__| |__||_|  |__|         ";
 
    for ( int i = 0; i < (int)content.size(); i++ )
    {
-      sprite.Pixels.push_back( { content[i], true, ConsoleColor::Cyan, ConsoleColor::Black } );
+      sprite.Pixels.push_back( { content[i], true, ConsoleColor::Blue, ConsoleColor::Black } );
    }
 
    return sprite;
@@ -57,7 +48,56 @@ ConsoleSprite TitleSpriteGenerator::GenerateTitleSubTextSprite()
 
    for ( int i = 0; i < (int)content.size(); i++ )
    {
-      sprite.Pixels.push_back( { content[i], true, ConsoleColor::Blue, ConsoleColor::Black } );
+      sprite.Pixels.push_back( { content[i], true, ConsoleColor::Cyan, ConsoleColor::Black } );
+   }
+
+   return sprite;
+}
+
+ConsoleSprite TitleSpriteGenerator::GeneratePlayerSprite()
+{
+   ConsoleSprite sprite;
+
+   sprite.Width = 3;
+   sprite.Height = 3;
+
+   string content =
+      " O " \
+      "/|\\" \
+      "/ \\";
+
+   for ( int i = 0; i < (int)content.size(); i++ )
+   {
+      sprite.Pixels.push_back( { content[i], true, ConsoleColor::Cyan, ConsoleColor::Black } );
+   }
+
+   return sprite;
+}
+
+ConsoleSprite TitleSpriteGenerator::GenerateBuildingSprite()
+{
+   ConsoleSprite sprite;
+
+   sprite.Width = 30;
+   sprite.Height = 12;
+
+   string content =
+      "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" \
+      "|       |       |       |     " \
+      "|       |       |       |     " \
+      "|       |       |       |     " \
+      "|       |       |       |     " \
+      "|       |       |       |     " \
+      "|       |       |       |     " \
+      "|       |       |       |     " \
+      "|       |       |       |     " \
+      "|       |       |       |     " \
+      "|       |       |       |     " \
+      "|       |       |       |     ";
+
+   for ( int i = 0; i < (int)content.size(); i++ )
+   {
+      sprite.Pixels.push_back( { content[i], true, ConsoleColor::Grey, ConsoleColor::Black } );
    }
 
    return sprite;

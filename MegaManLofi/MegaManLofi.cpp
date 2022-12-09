@@ -182,17 +182,31 @@ shared_ptr<ConsoleRenderConfig> BuildConsoleRenderConfig()
    renderConfig->DefaultForegroundColor = ConsoleColor::Grey;
    renderConfig->DefaultBackgroundColor = ConsoleColor::Black;
 
+   renderConfig->TitleScreenForegroundColor = ConsoleColor::White;
+   renderConfig->TitleScreenBackgroundColor = ConsoleColor::Black;
+
    renderConfig->ArenaForegroundColor = ConsoleColor::White;
    renderConfig->ArenaBackgroundColor = ConsoleColor::Black;
 
    renderConfig->GameOverBackgroundColor = ConsoleColor::DarkMagenta;
 
+   renderConfig->TitleKeyBindingsForegroundColor = ConsoleColor::DarkGrey;
+
    renderConfig->TitleTextSprite = TitleSpriteGenerator::GenerateTitleTextSprite();
    renderConfig->TitleSubTextSprite = TitleSpriteGenerator::GenerateTitleSubTextSprite();
-   renderConfig->TitleTextX = 0;
-   renderConfig->TitleTextY = 0;
+   renderConfig->TitlePlayerSprite = TitleSpriteGenerator::GeneratePlayerSprite();
+   renderConfig->TitleBuildingSprite = TitleSpriteGenerator::GenerateBuildingSprite();
+
+   renderConfig->TitleTextX = 6;
+   renderConfig->TitleTextY = 1;
    renderConfig->TitleSubTextX = renderConfig->TitleTextX + renderConfig->TitleTextSprite.Width;
    renderConfig->TitleSubTextY = renderConfig->TitleTextY;
+   renderConfig->TitleBuildingX = renderConfig->ConsoleWidth - renderConfig->TitleBuildingSprite.Width - 1;
+   renderConfig->TitleBuildingY = renderConfig->ConsoleHeight - renderConfig->TitleBuildingSprite.Height - 1;
+   renderConfig->TitlePlayerX = renderConfig->TitleBuildingX + 6;
+   renderConfig->TitlePlayerY = renderConfig->TitleBuildingY - renderConfig->TitlePlayerSprite.Height;
+   renderConfig->TitleKeyBindingsMiddleX = 25;
+   renderConfig->TitleKeyBindingsY = renderConfig->TitleTextY + renderConfig->TitleTextSprite.Height + 3;
 
    renderConfig->GetReadySprite = ArenaSpriteGenerator::GenerateGetReadySprite();
    renderConfig->PauseOverlaySprite = ArenaSpriteGenerator::GeneratePauseOverlaySprite();

@@ -44,6 +44,7 @@
 #include "PlayerSpriteGenerator.h"
 #include "ArenaTileGenerator.h"
 #include "ArenaSpriteGenerator.h"
+#include "TitleSpriteGenerator.h"
 #include "ConsoleSprite.h"
 
 using namespace std;
@@ -185,6 +186,13 @@ shared_ptr<ConsoleRenderConfig> BuildConsoleRenderConfig()
    renderConfig->ArenaBackgroundColor = ConsoleColor::Black;
 
    renderConfig->GameOverBackgroundColor = ConsoleColor::DarkMagenta;
+
+   renderConfig->TitleTextSprite = TitleSpriteGenerator::GenerateTitleTextSprite();
+   renderConfig->TitleSubTextSprite = TitleSpriteGenerator::GenerateTitleSubTextSprite();
+   renderConfig->TitleTextX = 0;
+   renderConfig->TitleTextY = 0;
+   renderConfig->TitleSubTextX = renderConfig->TitleTextX + renderConfig->TitleTextSprite.Width;
+   renderConfig->TitleSubTextY = renderConfig->TitleTextY;
 
    renderConfig->GetReadySprite = ArenaSpriteGenerator::GenerateGetReadySprite();
    renderConfig->PauseOverlaySprite = ArenaSpriteGenerator::GeneratePauseOverlaySprite();

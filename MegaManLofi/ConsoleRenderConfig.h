@@ -45,6 +45,13 @@ namespace MegaManLofi
 
       ConsoleColor GameOverBackgroundColor = (ConsoleColor)0;
 
+      ConsoleSprite TitleTextSprite;
+      ConsoleSprite TitleSubTextSprite;
+      short TitleTextX = 0;
+      short TitleTextY = 0;
+      short TitleSubTextX = 0;
+      short TitleSubTextY = 0;
+
       ConsoleSprite GetReadySprite;
       ConsoleSprite PauseOverlaySprite;
       ConsoleSprite GameOverSprite;

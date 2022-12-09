@@ -8,6 +8,7 @@ namespace MegaManLofi
 {
    class IConsoleBuffer;
    class ConsoleRenderConfig;
+   class IGameInfoProvider;
    class IPlayerInfoProvider;
    class IArenaInfoProvider;
    class IGameEventAggregator;
@@ -18,6 +19,7 @@ namespace MegaManLofi
    public:
       PlayingStateConsoleRenderer( const std::shared_ptr<IConsoleBuffer> consoleBuffer,
                                    const std::shared_ptr<ConsoleRenderConfig> renderConfig,
+                                   const std::shared_ptr<IGameInfoProvider> gameInfoProvider,
                                    const std::shared_ptr<IPlayerInfoProvider> playerInfoProvider,
                                    const std::shared_ptr<IArenaInfoProvider> arenaInfoProvider,
                                    const std::shared_ptr<IGameEventAggregator> eventAggregator,
@@ -36,6 +38,7 @@ namespace MegaManLofi
       void DrawPlayerExplosionAnimation();
       void DrawArenaSprites();
       void DrawPlayer();
+      void DrawPauseOverlay();
 
       short GetPlayerViewportX() const;
       short GetPlayerViewportY() const;
@@ -44,6 +47,7 @@ namespace MegaManLofi
       const std::shared_ptr<IConsoleBuffer> _consoleBuffer;
       const std::shared_ptr<ConsoleRenderConfig> _renderConfig;
       const std::shared_ptr<IPlayerInfoProvider> _playerInfoProvider;
+      const std::shared_ptr<IGameInfoProvider> _gameInfoProvider;
       const std::shared_ptr<IArenaInfoProvider> _arenaInfoProvider;
       const std::shared_ptr<IGameEventAggregator> _eventAggregator;
       const std::shared_ptr<IFrameRateProvider> _frameRateProvider;

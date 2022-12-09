@@ -43,7 +43,7 @@
 #include "ArenaTile.h"
 #include "PlayerSpriteGenerator.h"
 #include "ArenaTileGenerator.h"
-#include "ArenaConsoleSpriteGenerator.h"
+#include "ArenaSpriteGenerator.h"
 #include "ConsoleSprite.h"
 
 using namespace std;
@@ -130,7 +130,7 @@ void LoadAndRun( const shared_ptr<IConsoleBuffer> consoleBuffer )
    // rendering objects
    auto diagnosticsRenderer = shared_ptr<DiagnosticsConsoleRenderer>( new DiagnosticsConsoleRenderer( consoleBuffer, clock, consoleRenderConfig ) );
    auto startupStateConsoleRenderer = shared_ptr<StartupStateConsoleRenderer>( new StartupStateConsoleRenderer( consoleBuffer, consoleRenderConfig, keyboardInputConfig ) );
-   auto playingStateConsoleRenderer = shared_ptr<PlayingStateConsoleRenderer>( new PlayingStateConsoleRenderer( consoleBuffer, consoleRenderConfig, player, arena, eventAggregator, clock ) );
+   auto playingStateConsoleRenderer = shared_ptr<PlayingStateConsoleRenderer>( new PlayingStateConsoleRenderer( consoleBuffer, consoleRenderConfig, game, player, arena, eventAggregator, clock ) );
    auto gameOverStateConsoleRenderer = shared_ptr<GameOverStateConsoleRenderer>( new GameOverStateConsoleRenderer( consoleBuffer, consoleRenderConfig, keyboardInputConfig ) );
    auto renderer = shared_ptr<GameRenderer>( new GameRenderer( consoleRenderConfig, consoleBuffer, game, diagnosticsRenderer, eventAggregator ) );
    renderer->AddRendererForGameState( GameState::Startup, startupStateConsoleRenderer );
@@ -172,34 +172,41 @@ shared_ptr<ConsoleRenderConfig> BuildConsoleRenderConfig()
 
    renderConfig->PlayerExplosionParticleSprite1.Width = 1;
    renderConfig->PlayerExplosionParticleSprite1.Height = 1;
-   renderConfig->PlayerExplosionParticleSprite1.Pixels.push_back( { 'O', ConsoleColor::Blue } );
+   renderConfig->PlayerExplosionParticleSprite1.Pixels.push_back( { 'O', true, ConsoleColor::Blue, ConsoleColor::Black } );
 
    renderConfig->PlayerExplosionParticleSprite2.Width = 1;
    renderConfig->PlayerExplosionParticleSprite2.Height = 1;
-   renderConfig->PlayerExplosionParticleSprite2.Pixels.push_back( { 'o', ConsoleColor::DarkBlue } );
+   renderConfig->PlayerExplosionParticleSprite2.Pixels.push_back( { 'o', true, ConsoleColor::DarkBlue, ConsoleColor::Black } );
 
    renderConfig->DefaultForegroundColor = ConsoleColor::Grey;
    renderConfig->DefaultBackgroundColor = ConsoleColor::Black;
 
+   renderConfig->ArenaForegroundColor = ConsoleColor::White;
+   renderConfig->ArenaBackgroundColor = ConsoleColor::Black;
+
+   renderConfig->GetReadySprite = ArenaSpriteGenerator::GenerateGetReadySprite();
+   renderConfig->PauseOverlaySprite = ArenaSpriteGenerator::GeneratePauseOverlaySprite();
+
    renderConfig->PlayerStaticSpriteMap = PlayerSpriteGenerator::GenerateStaticSpriteMap();
    renderConfig->PlayerMovingSpriteMap = PlayerSpriteGenerator::GenerateMovingSpriteMap();
 
+   // TODO: move this stuff into the generator
    // ground that is impassable in all directions
    renderConfig->ArenaSpriteMap[0].Width = 1;
    renderConfig->ArenaSpriteMap[0].Height = 1;
-   renderConfig->ArenaSpriteMap[0].Pixels.push_back( { 'X', ConsoleColor::Yellow } );
+   renderConfig->ArenaSpriteMap[0].Pixels.push_back( { 'X', true, ConsoleColor::Yellow, ConsoleColor::Black } );
 
    // ground that is only impassable downward
    renderConfig->ArenaSpriteMap[1].Width = 1;
    renderConfig->ArenaSpriteMap[1].Height = 1;
-   renderConfig->ArenaSpriteMap[1].Pixels.push_back( { '-', ConsoleColor::Yellow } );
+   renderConfig->ArenaSpriteMap[1].Pixels.push_back( { '-', true, ConsoleColor::Yellow, ConsoleColor::Black } );
 
    // spike that is only impassable upward
    renderConfig->ArenaSpriteMap[2].Width = 1;
    renderConfig->ArenaSpriteMap[2].Height = 1;
-   renderConfig->ArenaSpriteMap[2].Pixels.push_back( { '+', ConsoleColor::Red } );
+   renderConfig->ArenaSpriteMap[2].Pixels.push_back( { '+', true, ConsoleColor::Red, ConsoleColor::Black } );
 
-   renderConfig->ArenaSprites = ArenaConsoleSpriteGenerator::GenerateArenaSprites();
+   renderConfig->ArenaSprites = ArenaSpriteGenerator::GenerateArenaSprites();
 
    return renderConfig;
 }
@@ -218,7 +225,6 @@ shared_ptr<KeyboardInputConfig> BuildKeyboardInputConfig()
    inputConfig->KeyMap[KeyCode::Tab] = GameButton::Select;
 
    inputConfig->KeyMap[KeyCode::A] = GameButton::A;
-   inputConfig->KeyMap[KeyCode::Return] = GameButton::A;
    inputConfig->KeyMap[KeyCode::Space] = GameButton::A;
    inputConfig->KeyMap[KeyCode::B] = GameButton::B;
    inputConfig->KeyMap[KeyCode::X] = GameButton::X;

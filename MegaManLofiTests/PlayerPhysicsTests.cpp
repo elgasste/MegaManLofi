@@ -52,11 +52,6 @@ protected:
    shared_ptr<PlayerPhysics> _physics;
 };
 
-TEST_F( PlayerPhysicsTests, AssignTo_Always_ResetsExtendJumpParameters )
-{
-   // MUFFINS
-}
-
 TEST_F( PlayerPhysicsTests, Tick_PlayerWasPushed_DoesNotApplyFriction )
 {
    BuildPhysics();

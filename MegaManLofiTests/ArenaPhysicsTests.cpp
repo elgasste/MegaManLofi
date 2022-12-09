@@ -66,11 +66,6 @@ protected:
    shared_ptr<ArenaPhysics> _arenaPhysics;
 };
 
-TEST_F( ArenaPhysicsTests, AssignTo_Always_UpdatesPlayerOccupyingTileIndices )
-{
-   // MUFFINS
-}
-
 TEST_F( ArenaPhysicsTests, Tick_PlayerDidNotMove_DoesNotFlagMoveActions )
 {
    BuildArenaPhysics();

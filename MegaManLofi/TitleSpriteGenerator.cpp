@@ -121,3 +121,14 @@ ConsoleSprite TitleSpriteGenerator::GenerateStartMessageSprite()
 
    return sprite;
 }
+
+ConsoleSprite TitleSpriteGenerator::GenerateStarSprite()
+{
+   ConsoleSprite sprite;
+
+   sprite.Width = 1;
+   sprite.Height = 1;
+   sprite.Pixels.push_back( { '.', true, ConsoleColor::DarkBlue, ConsoleColor::Black } );
+
+   return sprite;
+}

@@ -3,6 +3,8 @@
 
 #include "StartupStateConsoleRenderer.h"
 #include "IConsoleBuffer.h"
+#include "IRandom.h"
+#include "IFrameRateProvider.h"
 #include "ConsoleRenderConfig.h"
 #include "KeyboardInputConfig.h"
 #include "ConsoleColor.h"
@@ -11,18 +13,31 @@ using namespace std;
 using namespace MegaManLofi;
 
 StartupStateConsoleRenderer::StartupStateConsoleRenderer( const shared_ptr<IConsoleBuffer> consoleBuffer,
+                                                          const shared_ptr<IRandom> random,
+                                                          const shared_ptr<IFrameRateProvider> frameRateProvider,
                                                           const shared_ptr<ConsoleRenderConfig> renderConfig,
                                                           const shared_ptr<KeyboardInputConfig> inputConfig ) :
    _consoleBuffer( consoleBuffer ),
+   _random( random ),
+   _frameRateProvider( frameRateProvider ),
    _renderConfig( renderConfig ),
    _inputConfig( inputConfig )
 {
+   for ( int i = 0; i < renderConfig->TitleStarCount; i++ )
+   {
+      _starCoordinates.push_back( { random->GetUnsignedInt( 0, (unsigned int)( ( renderConfig->ConsoleWidth - 1 ) * renderConfig->ArenaCharWidth ) ),
+                                    random->GetUnsignedInt( 0, (unsigned int)( ( renderConfig->ConsoleHeight - 1 ) * renderConfig->ArenaCharHeight ) ) } );
+      _starVelocities.push_back( random->GetUnsignedInt( (unsigned int)renderConfig->MinTitleStarVelocity,
+                                                         (unsigned int)renderConfig->MaxTitleStarVelocity ) );
+   }
 }
 
 void StartupStateConsoleRenderer::Render()
 {
    _consoleBuffer->SetDefaultForegroundColor( _renderConfig->TitleScreenForegroundColor );
    _consoleBuffer->SetDefaultBackgroundColor( _renderConfig->TitleScreenBackgroundColor );
+
+   DrawStars();
 
    _consoleBuffer->Draw( _renderConfig->TitleTextX, _renderConfig->TitleTextY, _renderConfig->TitleTextSprite );
    _consoleBuffer->Draw( _renderConfig->TitleSubTextX, _renderConfig->TitleSubTextY, _renderConfig->TitleSubTextSprite );
@@ -31,6 +46,25 @@ void StartupStateConsoleRenderer::Render()
    _consoleBuffer->Draw( _renderConfig->TitleStartMessageX, _renderConfig->TitleStartMessageY, _renderConfig->TitleStartMessageSprite );
 
    DrawKeyBindings();
+}
+
+void StartupStateConsoleRenderer::DrawStars()
+{
+   for ( int i = 0; i < (int)_starCoordinates.size(); i++ )
+   {
+      auto left = (short)( _starCoordinates[i].X / _renderConfig->ArenaCharWidth );
+      auto top = (short)( _starCoordinates[i].Y / _renderConfig->ArenaCharHeight );
+      _consoleBuffer->Draw( left, top, _renderConfig->TitleStarSprite );
+
+      _starCoordinates[i].X += ( _starVelocities[i] / _frameRateProvider->GetFramesPerSecond() );
+
+      // if it's flown off the screen, generate a new star
+      if ( _starCoordinates[i].X >= ( _renderConfig->ArenaCharWidth * _renderConfig->ConsoleWidth ) )
+      {
+         _starCoordinates[i] = { 0, _random->GetUnsignedInt( 0, (unsigned int)( ( _renderConfig->ConsoleHeight - 1 ) * _renderConfig->ArenaCharHeight ) ) };
+         _starVelocities[i] = _random->GetUnsignedInt( (unsigned int)_renderConfig->MinTitleStarVelocity, (unsigned int)_renderConfig->MaxTitleStarVelocity );
+      }
+   }
 }
 
 void StartupStateConsoleRenderer::DrawKeyBindings() const

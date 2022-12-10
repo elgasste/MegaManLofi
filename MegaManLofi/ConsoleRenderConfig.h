@@ -55,6 +55,7 @@ namespace MegaManLofi
       ConsoleSprite TitlePlayerSprite;
       ConsoleSprite TitleBuildingSprite;
       ConsoleSprite TitleStartMessageSprite;
+      ConsoleSprite TitleStarSprite;
 
       short TitleTextX = 0;
       short TitleTextY = 0;
@@ -68,6 +69,9 @@ namespace MegaManLofi
       short TitleStartMessageY = 0;
       short TitleKeyBindingsMiddleX = 0;
       short TitleKeyBindingsY = 0;
+      int TitleStarCount = 0;
+      long long MinTitleStarVelocity = 0;
+      long long MaxTitleStarVelocity = 0;
 
       ConsoleSprite GetReadySprite;
       ConsoleSprite PauseOverlaySprite;

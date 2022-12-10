@@ -14,5 +14,6 @@ namespace MegaManLofi
       static ConsoleSprite GeneratePlayerSprite();
       static ConsoleSprite GenerateBuildingSprite();
       static ConsoleSprite GenerateStartMessageSprite();
+      static ConsoleSprite GenerateStarSprite();
    };
 }

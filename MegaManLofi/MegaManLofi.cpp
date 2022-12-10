@@ -17,6 +17,7 @@
 #include "SleeperWrapper.h"
 #include "KeyboardWrapper.h"
 #include "ThreadWrapper.h"
+#include "RandomWrapper.h"
 #include "GameEventAggregator.h"
 #include "GameClock.h"
 #include "KeyboardInputReader.h"
@@ -99,13 +100,14 @@ void LoadAndRun( const shared_ptr<IConsoleBuffer> consoleBuffer )
    auto keyboardInputConfig = static_pointer_cast<KeyboardInputConfig>( config->InputConfig );
 
    // wrappers
-   auto highResolutionClock = shared_ptr<HighResolutionClockWrapper>( new HighResolutionClockWrapper() );
-   auto sleeper = shared_ptr<SleeperWrapper>( new SleeperWrapper() );
-   auto keyboard = shared_ptr<IKeyboard>( new KeyboardWrapper() );
-   auto thread = shared_ptr<IThread>( new ThreadWrapper() );
+   auto highResolutionClock = make_shared<HighResolutionClockWrapper>();
+   auto sleeper = make_shared<SleeperWrapper>();
+   auto keyboard = make_shared<KeyboardWrapper>();
+   auto thread = make_shared<ThreadWrapper>();
+   auto random = make_shared<RandomWrapper>();
 
    // auxiliary objects
-   auto eventAggregator = shared_ptr<GameEventAggregator>( new GameEventAggregator() );
+   auto eventAggregator = make_shared<GameEventAggregator>();
    auto frameActionRegistry = make_shared<FrameActionRegistry>();
    auto clock = shared_ptr<GameClock>( new GameClock( highResolutionClock, sleeper, config->FramesPerSecond ) );
    auto keyboardInputReader = shared_ptr<KeyboardInputReader>( new KeyboardInputReader( keyboardInputConfig, keyboard ) );
@@ -130,7 +132,7 @@ void LoadAndRun( const shared_ptr<IConsoleBuffer> consoleBuffer )
 
    // rendering objects
    auto diagnosticsRenderer = shared_ptr<DiagnosticsConsoleRenderer>( new DiagnosticsConsoleRenderer( consoleBuffer, clock, consoleRenderConfig ) );
-   auto startupStateConsoleRenderer = shared_ptr<StartupStateConsoleRenderer>( new StartupStateConsoleRenderer( consoleBuffer, consoleRenderConfig, keyboardInputConfig ) );
+   auto startupStateConsoleRenderer = shared_ptr<StartupStateConsoleRenderer>( new StartupStateConsoleRenderer( consoleBuffer, random, clock, consoleRenderConfig, keyboardInputConfig ) );
    auto playingStateConsoleRenderer = shared_ptr<PlayingStateConsoleRenderer>( new PlayingStateConsoleRenderer( consoleBuffer, consoleRenderConfig, game, player, arena, eventAggregator, clock ) );
    auto gameOverStateConsoleRenderer = shared_ptr<GameOverStateConsoleRenderer>( new GameOverStateConsoleRenderer( consoleBuffer, consoleRenderConfig, keyboardInputConfig ) );
    auto renderer = shared_ptr<GameRenderer>( new GameRenderer( consoleRenderConfig, consoleBuffer, game, diagnosticsRenderer, eventAggregator ) );
@@ -197,6 +199,7 @@ shared_ptr<ConsoleRenderConfig> BuildConsoleRenderConfig()
    renderConfig->TitlePlayerSprite = TitleSpriteGenerator::GeneratePlayerSprite();
    renderConfig->TitleBuildingSprite = TitleSpriteGenerator::GenerateBuildingSprite();
    renderConfig->TitleStartMessageSprite = TitleSpriteGenerator::GenerateStartMessageSprite();
+   renderConfig->TitleStarSprite = TitleSpriteGenerator::GenerateStarSprite();
 
    renderConfig->TitleTextX = 6;
    renderConfig->TitleTextY = 1;
@@ -210,6 +213,9 @@ shared_ptr<ConsoleRenderConfig> BuildConsoleRenderConfig()
    renderConfig->TitleStartMessageY = 15;
    renderConfig->TitleKeyBindingsMiddleX = 25;
    renderConfig->TitleKeyBindingsY = renderConfig->TitleTextY + renderConfig->TitleTextSprite.Height + 3;
+   renderConfig->TitleStarCount = 20;
+   renderConfig->MinTitleStarVelocity = 200;
+   renderConfig->MaxTitleStarVelocity = 2'000;
 
    renderConfig->GetReadySprite = ArenaSpriteGenerator::GenerateGetReadySprite();
    renderConfig->PauseOverlaySprite = ArenaSpriteGenerator::GeneratePauseOverlaySprite();

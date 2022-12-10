@@ -40,11 +40,42 @@ namespace MegaManLofi
       ConsoleColor DefaultForegroundColor = (ConsoleColor)0;
       ConsoleColor DefaultBackgroundColor = (ConsoleColor)0;
 
+      ConsoleColor TitleScreenForegroundColor = (ConsoleColor)0;
+      ConsoleColor TitleScreenBackgroundColor = (ConsoleColor)0;
+
       ConsoleColor ArenaForegroundColor = (ConsoleColor)0;
       ConsoleColor ArenaBackgroundColor = (ConsoleColor)0;
 
+      ConsoleColor GameOverBackgroundColor = (ConsoleColor)0;
+
+      ConsoleColor TitleKeyBindingsForegroundColor = (ConsoleColor)0;
+
+      ConsoleSprite TitleTextSprite;
+      ConsoleSprite TitleSubTextSprite;
+      ConsoleSprite TitlePlayerSprite;
+      ConsoleSprite TitleBuildingSprite;
+      ConsoleSprite TitleStartMessageSprite;
+      ConsoleSprite TitleStarSprite;
+
+      short TitleTextX = 0;
+      short TitleTextY = 0;
+      short TitleSubTextX = 0;
+      short TitleSubTextY = 0;
+      short TitlePlayerX = 0;
+      short TitlePlayerY = 0;
+      short TitleBuildingX = 0;
+      short TitleBuildingY = 0;
+      short TitleStartMessageX = 0;
+      short TitleStartMessageY = 0;
+      short TitleKeyBindingsMiddleX = 0;
+      short TitleKeyBindingsY = 0;
+      int TitleStarCount = 0;
+      long long MinTitleStarVelocity = 0;
+      long long MaxTitleStarVelocity = 0;
+
       ConsoleSprite GetReadySprite;
       ConsoleSprite PauseOverlaySprite;
+      ConsoleSprite GameOverSprite;
 
       std::map<Direction, ConsoleSprite> PlayerStaticSpriteMap;
       std::map<Direction, ConsoleSprite> PlayerMovingSpriteMap;

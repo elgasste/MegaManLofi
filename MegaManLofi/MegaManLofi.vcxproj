@@ -173,11 +173,13 @@
     <ClCompile Include="PlayerSpriteGenerator.cpp" />
     <ClCompile Include="PlayingStateConsoleRenderer.cpp" />
     <ClCompile Include="PlayingStateInputHandler.cpp" />
+    <ClCompile Include="RandomWrapper.cpp" />
     <ClCompile Include="RectangleUtilities.cpp" />
     <ClCompile Include="SleeperWrapper.cpp" />
     <ClCompile Include="StartupStateConsoleRenderer.cpp" />
     <ClCompile Include="StartupStateInputHandler.cpp" />
     <ClCompile Include="ThreadWrapper.cpp" />
+    <ClCompile Include="TitleSpriteGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Arena.h" />
@@ -190,6 +192,7 @@
     <ClInclude Include="ConsoleColor.h" />
     <ClInclude Include="ConsoleBuffer.h" />
     <ClInclude Include="ConsoleSprite.h" />
+    <ClInclude Include="Coordinate.h" />
     <ClInclude Include="DiagnosticsConsoleRenderer.h" />
     <ClInclude Include="Direction.h" />
     <ClInclude Include="FrameAction.h" />
@@ -220,6 +223,7 @@
     <ClInclude Include="IPlayerPhysics.h" />
     <ClInclude Include="IPlayer.h" />
     <ClInclude Include="IPlayerInfoProvider.h" />
+    <ClInclude Include="IRandom.h" />
     <ClInclude Include="IScreenBuffer.h" />
     <ClInclude Include="IThread.h" />
     <ClInclude Include="KeyboardWrapper.h" />
@@ -249,6 +253,7 @@
     <ClInclude Include="PlayerConfig.h" />
     <ClInclude Include="PlayingStateConsoleRenderer.h" />
     <ClInclude Include="PlayingStateInputHandler.h" />
+    <ClInclude Include="RandomWrapper.h" />
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="RectangleUtilities.h" />
     <ClInclude Include="SleeperWrapper.h" />
@@ -256,6 +261,7 @@
     <ClInclude Include="StartupStateConsoleRenderer.h" />
     <ClInclude Include="ThreadWrapper.h" />
     <ClInclude Include="Quad.h" />
+    <ClInclude Include="TitleSpriteGenerator.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -150,6 +150,12 @@
     <ClCompile Include="GameOverStateInputHandler.cpp">
       <Filter>Source Files\Input</Filter>
     </ClCompile>
+    <ClCompile Include="TitleSpriteGenerator.cpp">
+      <Filter>Source Files\ConfigGenerators</Filter>
+    </ClCompile>
+    <ClCompile Include="RandomWrapper.cpp">
+      <Filter>Source Files\Wrappers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameRunner.h">
@@ -379,6 +385,18 @@
     </ClInclude>
     <ClInclude Include="GameOverStateInputHandler.h">
       <Filter>Header Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleSpriteGenerator.h">
+      <Filter>Header Files\ConfigGenerators</Filter>
+    </ClInclude>
+    <ClInclude Include="IRandom.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="RandomWrapper.h">
+      <Filter>Header Files\Wrappers</Filter>
+    </ClInclude>
+    <ClInclude Include="Coordinate.h">
+      <Filter>Header Files\DataTypes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

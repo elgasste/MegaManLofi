@@ -176,7 +176,10 @@ void ConsoleBuffer::Draw( short left, short top, const ConsoleSprite& sprite )
    {
       if ( pixel.HasTransparency )
       {
-         Draw( left + i, top + j, pixel.Value, pixel.ForegroundColor );
+         if ( pixel.Value != ' ' )
+         {
+            Draw( left + i, top + j, pixel.Value, pixel.ForegroundColor );
+         }
       }
       else
       {

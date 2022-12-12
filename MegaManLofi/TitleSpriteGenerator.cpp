@@ -83,21 +83,21 @@ ConsoleSprite TitleSpriteGenerator::GenerateBuildingSprite()
 
    string content =
       "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" \
-      "|       |       |       |     " \
-      "|       |       |       |     " \
-      "|       |       |       |     " \
-      "|       |       |       |     " \
-      "|       |       |       |     " \
-      "|       |       |       |     " \
-      "|       |       |       |     " \
-      "|       |       |       |     " \
-      "|       |       |       |     " \
-      "|       |       |       |     " \
-      "|       |       |       |     ";
+      "|,.,.,.,|,.,.,.,|,.,.,.,|,.,.," \
+      "|,.,.,.,|,.,.,.,|,.,.,.,|,.,.," \
+      "|,.,.,.,|,.,.,.,|,.,.,.,|,.,.," \
+      "|,.,.,.,|,.,.,.,|,.,.,.,|,.,.," \
+      "|,.,.,.,|,.,.,.,|,.,.,.,|,.,.," \
+      "|,.,.,.,|,.,.,.,|,.,.,.,|,.,.," \
+      "|,.,.,.,|,.,.,.,|,.,.,.,|,.,.," \
+      "|,.,.,.,|,.,.,.,|,.,.,.,|,.,.," \
+      "|,.,.,.,|,.,.,.,|,.,.,.,|,.,.," \
+      "|,.,.,.,|,.,.,.,|,.,.,.,|,.,.," \
+      "|,.,.,.,|,.,.,.,|,.,.,.,|,.,.,";
 
    for ( int i = 0; i < (int)content.size(); i++ )
    {
-      sprite.Pixels.push_back( { content[i], true, ConsoleColor::DarkGrey, ConsoleColor::Black } );
+      sprite.Pixels.push_back( { content[i], false, ConsoleColor::DarkGrey, ConsoleColor::Black } );
    }
 
    return sprite;

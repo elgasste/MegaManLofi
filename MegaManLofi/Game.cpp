@@ -52,7 +52,7 @@ void Game::ExecuteCommand( GameCommand command, const shared_ptr<GameCommandArgs
    // commands that don't observe _isPaused
    switch ( command )
    {
-      case GameCommand::Start:
+      case GameCommand::StartStage:
          _player->Reset();
          _arena->Reset();
          _playerPhysics->AssignTo( _player );

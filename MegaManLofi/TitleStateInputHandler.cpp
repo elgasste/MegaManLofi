@@ -17,6 +17,6 @@ void TitleStateInputHandler::HandleInput()
 {
    if ( _inputReader->WasAnyButtonPressed() )
    {
-      _commandExecutor->ExecuteCommand( GameCommand::Start );
+      _commandExecutor->ExecuteCommand( GameCommand::StartStage );
    }
 }

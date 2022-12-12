@@ -55,17 +55,17 @@ TEST_F( GameTests, Constructor_Always_SetsGameStateToTitle )
    EXPECT_EQ( _game->GetGameState(), GameState::Title );
 }
 
-TEST_F( GameTests, ExecuteCommand_Start_ResetsGameObjects )
+TEST_F( GameTests, ExecuteCommand_StartStage_ResetsGameObjects )
 {
    BuildGame();
 
    EXPECT_CALL( *_playerMock, Reset() );
    EXPECT_CALL( *_arenaMock, Reset() );
 
-   _game->ExecuteCommand( GameCommand::Start );
+   _game->ExecuteCommand( GameCommand::StartStage );
 }
 
-TEST_F( GameTests, ExecuteCommand_Start_AssignsObjectsToPhysics )
+TEST_F( GameTests, ExecuteCommand_StartStage_AssignsObjectsToPhysics )
 {
    BuildGame();
 
@@ -75,26 +75,26 @@ TEST_F( GameTests, ExecuteCommand_Start_AssignsObjectsToPhysics )
    EXPECT_CALL( *_playerPhysicsMock, AssignTo( basePlayer ) );
    EXPECT_CALL( *_arenaPhysicsMock, AssignTo( baseArena, basePlayer ) );
 
-   _game->ExecuteCommand( GameCommand::Start );
+   _game->ExecuteCommand( GameCommand::StartStage );
 }
 
-TEST_F( GameTests, ExecuteCommand_Start_SetsNextGameStateToPlaying )
+TEST_F( GameTests, ExecuteCommand_StartStage_SetsNextGameStateToPlaying )
 {
    BuildGame();
 
-   _game->ExecuteCommand( GameCommand::Start );
+   _game->ExecuteCommand( GameCommand::StartStage );
    _game->Tick();
 
    EXPECT_EQ( _game->GetGameState(), GameState::Playing );
 }
 
-TEST_F( GameTests, ExecuteCommand_Start_RaisesGameStartedEvent )
+TEST_F( GameTests, ExecuteCommand_StartStage_RaisesGameStartedEvent )
 {
    BuildGame();
 
    EXPECT_CALL( *_eventAggregatorMock, RaiseEvent( GameEvent::GameStarted ) );
 
-   _game->ExecuteCommand( GameCommand::Start );
+   _game->ExecuteCommand( GameCommand::StartStage );
 }
 
 TEST_F( GameTests, ExecuteCommand_TogglePauseAndNotInPlayingState_DoesNotTogglePause )
@@ -111,7 +111,7 @@ TEST_F( GameTests, ExecuteCommand_TogglePauseAndNotInPlayingState_DoesNotToggleP
 TEST_F( GameTests, ExecuteCommand_TogglePauseAndInPlayingState_TogglesPause )
 {
    BuildGame();
-   _game->ExecuteCommand( GameCommand::Start );
+   _game->ExecuteCommand( GameCommand::StartStage );
 
    EXPECT_FALSE( _game->IsPaused() );
 
@@ -132,7 +132,7 @@ TEST_F( GameTests, ExecuteCommand_Quit_RaisesShutdownEvent )
 TEST_F( GameTests, ExecuteCommand_PushPlayerAndGameIsPaused_DoesNotPushPlayer )
 {
    BuildGame();
-   _game->ExecuteCommand( GameCommand::Start );
+   _game->ExecuteCommand( GameCommand::StartStage );
    _game->ExecuteCommand( GameCommand::TogglePause );
 
    EXPECT_CALL( *_playerPhysicsMock, PushTo( _ ) ).Times( 0 );
@@ -144,7 +144,7 @@ TEST_F( GameTests, ExecuteCommand_PushPlayerAndGameIsPaused_DoesNotPushPlayer )
 TEST_F( GameTests, ExecuteCommand_PushPlayerAndGameIsNotPaused_PushesPlayerInSpecifiedDirection )
 {
    BuildGame();
-   _game->ExecuteCommand( GameCommand::Start );
+   _game->ExecuteCommand( GameCommand::StartStage );
 
    EXPECT_CALL( *_playerPhysicsMock, PushTo( Direction::UpLeft ) );
 
@@ -155,7 +155,7 @@ TEST_F( GameTests, ExecuteCommand_PushPlayerAndGameIsNotPaused_PushesPlayerInSpe
 TEST_F( GameTests, ExecuteCommand_PointPlayerAndGameIsPaused_DoesNotPointPlayer )
 {
    BuildGame();
-   _game->ExecuteCommand( GameCommand::Start );
+   _game->ExecuteCommand( GameCommand::StartStage );
    _game->ExecuteCommand( GameCommand::TogglePause );
 
    EXPECT_CALL( *_playerPhysicsMock, PointTo( _ ) ).Times( 0 );
@@ -167,7 +167,7 @@ TEST_F( GameTests, ExecuteCommand_PointPlayerAndGameIsPaused_DoesNotPointPlayer 
 TEST_F( GameTests, ExecuteCommand_PointPlayerAndGameIsNotPaused_PointsPlayerInSpecifiedDirection )
 {
    BuildGame();
-   _game->ExecuteCommand( GameCommand::Start );
+   _game->ExecuteCommand( GameCommand::StartStage );
 
    EXPECT_CALL( *_playerPhysicsMock, PointTo( Direction::DownLeft ) );
 
@@ -178,7 +178,7 @@ TEST_F( GameTests, ExecuteCommand_PointPlayerAndGameIsNotPaused_PointsPlayerInSp
 TEST_F( GameTests, ExecuteCommand_JumpAndGameIsPaused_DoesNotJump )
 {
    BuildGame();
-   _game->ExecuteCommand( GameCommand::Start );
+   _game->ExecuteCommand( GameCommand::StartStage );
    _game->ExecuteCommand( GameCommand::TogglePause );
 
    EXPECT_CALL( *_playerPhysicsMock, Jump() ).Times( 0 );
@@ -189,7 +189,7 @@ TEST_F( GameTests, ExecuteCommand_JumpAndGameIsPaused_DoesNotJump )
 TEST_F( GameTests, ExecuteCommand_JumpAndGameIsNotPaused_Jumps )
 {
    BuildGame();
-   _game->ExecuteCommand( GameCommand::Start );
+   _game->ExecuteCommand( GameCommand::StartStage );
 
    EXPECT_CALL( *_playerPhysicsMock, Jump() );
 
@@ -199,7 +199,7 @@ TEST_F( GameTests, ExecuteCommand_JumpAndGameIsNotPaused_Jumps )
 TEST_F( GameTests, ExecuteCommand_ExtendJumpAndGameIsPaused_DoesNotExtendJump )
 {
    BuildGame();
-   _game->ExecuteCommand( GameCommand::Start );
+   _game->ExecuteCommand( GameCommand::StartStage );
    _game->ExecuteCommand( GameCommand::TogglePause );
 
    EXPECT_CALL( *_playerPhysicsMock, ExtendJump() ).Times( 0 );
@@ -210,7 +210,7 @@ TEST_F( GameTests, ExecuteCommand_ExtendJumpAndGameIsPaused_DoesNotExtendJump )
 TEST_F( GameTests, ExecuteCommand_ExtendJumpAndGameIsNotPaused_ExtendsJump )
 {
    BuildGame();
-   _game->ExecuteCommand( GameCommand::Start );
+   _game->ExecuteCommand( GameCommand::StartStage );
 
    EXPECT_CALL( *_playerPhysicsMock, ExtendJump() );
 
@@ -230,7 +230,7 @@ TEST_F( GameTests, Tick_GameStateIsNotPlaying_DoesNotDoPlayerOrArenaActions )
 TEST_F( GameTests, Tick_GameIsPaused_DoesNotDoPlayerOrArenaActions )
 {
    BuildGame();
-   _game->ExecuteCommand( GameCommand::Start );
+   _game->ExecuteCommand( GameCommand::StartStage );
    _game->ExecuteCommand( GameCommand::TogglePause );
 
    EXPECT_CALL( *_playerPhysicsMock, Tick() ).Times( 0 );
@@ -242,7 +242,7 @@ TEST_F( GameTests, Tick_GameIsPaused_DoesNotDoPlayerOrArenaActions )
 TEST_F( GameTests, Tick_GameStateIsPlayingAndNotPaused_DoesPlayerAndArenaActions )
 {
    BuildGame();
-   _game->ExecuteCommand( GameCommand::Start );
+   _game->ExecuteCommand( GameCommand::StartStage );
 
    EXPECT_CALL( *_playerPhysicsMock, Tick() );
    EXPECT_CALL( *_arenaPhysicsMock, Tick() );

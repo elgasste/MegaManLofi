@@ -320,6 +320,7 @@ shared_ptr<PlayerConfig> BuildPlayerConfig()
    playerConfig->DefaultVelocityX = 0;
    playerConfig->DefaultVelocityY = 0;
 
+   playerConfig->DefaultLives = 3;
    playerConfig->DefaultDirection = Direction::Right;
 
    return playerConfig;

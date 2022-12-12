@@ -9,8 +9,8 @@ namespace MegaManLofi
    class __declspec( novtable ) IPlayerInfoProvider
    {
    public:
+      virtual unsigned int GetLivesRemaining() const = 0;
       virtual Direction GetDirection() const = 0;
-
       virtual const Rectangle& GetHitBox() const = 0;
 
       virtual bool IsMoving() const = 0;

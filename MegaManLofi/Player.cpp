@@ -25,6 +25,7 @@ void Player::Reset()
    _hitBox = _config->DefaultHitBox;
    _velocityX = _config->DefaultVelocityX;
    _velocityY = _config->DefaultVelocityY;
+   _lives = _config->DefaultLives;
    _direction = _config->DefaultDirection;
    _isStanding = false;
    _isJumping = false;

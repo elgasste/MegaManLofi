@@ -21,15 +21,15 @@ namespace MegaManLofi
 
       void Reset();
 
+      unsigned int GetLivesRemaining() const override { return _lives; }
       Direction GetDirection() const override { return _direction; }
+      const Rectangle& GetHitBox() const override { return _hitBox; }
 
       bool IsMoving() const override;
       bool IsStanding() const override { return _isStanding; }
       bool IsJumping() const override { return _isJumping; }
 
       void SetDirection( Direction direction ) override { _direction = direction; }
-
-      const Rectangle& GetHitBox() const override { return _hitBox; }
 
       long long GetVelocityX() const override { return _velocityX; }
       long long GetVelocityY() const override { return _velocityY; }
@@ -48,12 +48,12 @@ namespace MegaManLofi
       const std::shared_ptr<IFrameActionRegistry> _frameActionRegistry;
       const std::shared_ptr<IFrameRateProvider> _frameRateProvider;
 
-      Rectangle _hitBox;
-
       long long _velocityX;
       long long _velocityY;
 
+      unsigned int _lives;
       Direction _direction;
+      Rectangle _hitBox;
 
       bool _isStanding;
       bool _isJumping;

@@ -73,7 +73,7 @@
     <ClCompile Include="PlayerTests.cpp" />
     <ClCompile Include="PlayingStateInputHandlerTests.cpp" />
     <ClCompile Include="RectangleUtilitiesTests.cpp" />
-    <ClCompile Include="StartupStateInputHandlerTests.cpp" />
+    <ClCompile Include="TitleStateInputHandlerTests.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MegaManLofi\MegaManLofi.vcxproj">

@@ -1,4 +1,4 @@
-#include "StartupStateInputHandler.h"
+#include "TitleStateInputHandler.h"
 #include "IGameInputReader.h"
 #include "IGameCommandExecutor.h"
 #include "GameCommand.h"
@@ -6,14 +6,14 @@
 using namespace std;
 using namespace MegaManLofi;
 
-StartupStateInputHandler::StartupStateInputHandler( const shared_ptr<IGameInputReader> inputReader,
-                                                    const shared_ptr<IGameCommandExecutor> commandExecutor ) :
+TitleStateInputHandler::TitleStateInputHandler( const shared_ptr<IGameInputReader> inputReader,
+                                                const shared_ptr<IGameCommandExecutor> commandExecutor ) :
    _inputReader( inputReader ),
    _commandExecutor( commandExecutor )
 {
 }
 
-void StartupStateInputHandler::HandleInput()
+void TitleStateInputHandler::HandleInput()
 {
    if ( _inputReader->WasAnyButtonPressed() )
    {

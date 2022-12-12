@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include <MegaManLofi/StartupStateInputHandler.h>
+#include <MegaManLofi/TitleStateInputHandler.h>
 #include <MegaManLofi/GameButton.h>
 #include <MegaManLofi/GameCommand.h>
 #include <MegaManLofi/GameCommandArgs.h>
@@ -14,7 +14,7 @@ using namespace std;
 using namespace testing;
 using namespace MegaManLofi;
 
-class StartupStateInputHandlerTests : public Test
+class TitleStateInputHandlerTests : public Test
 {
 public:
    void SetUp() override
@@ -22,18 +22,18 @@ public:
       _inputReaderMock.reset( new NiceMock<mock_GameInputReader> );
       _commandExecutorMock.reset( new NiceMock<mock_GameCommandExecutor> );
 
-      _inputHandler.reset( new StartupStateInputHandler( _inputReaderMock,
-                                                         _commandExecutorMock ) );
+      _inputHandler.reset( new TitleStateInputHandler( _inputReaderMock,
+                                                       _commandExecutorMock ) );
    }
 
 protected:
    shared_ptr<mock_GameInputReader> _inputReaderMock;
    shared_ptr<mock_GameCommandExecutor> _commandExecutorMock;
 
-   shared_ptr<StartupStateInputHandler> _inputHandler;
+   shared_ptr<TitleStateInputHandler> _inputHandler;
 };
 
-TEST_F( StartupStateInputHandlerTests, HandleInput_NoButtonsWerePressed_DoesNotExecuteAnyCommand )
+TEST_F( TitleStateInputHandlerTests, HandleInput_NoButtonsWerePressed_DoesNotExecuteAnyCommand )
 {
    ON_CALL( *_inputReaderMock, WasAnyButtonPressed() ).WillByDefault( Return( false ) );
 
@@ -42,7 +42,7 @@ TEST_F( StartupStateInputHandlerTests, HandleInput_NoButtonsWerePressed_DoesNotE
    _inputHandler->HandleInput();
 }
 
-TEST_F( StartupStateInputHandlerTests, HandleInput_ButtonWasPressed_ExecutesStartCommand )
+TEST_F( TitleStateInputHandlerTests, HandleInput_ButtonWasPressed_ExecutesStartCommand )
 {
    ON_CALL( *_inputReaderMock, WasAnyButtonPressed() ).WillByDefault( Return( true ) );
 

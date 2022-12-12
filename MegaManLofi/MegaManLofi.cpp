@@ -28,12 +28,12 @@
 #include "ArenaPhysics.h"
 #include "Game.h"
 #include "DiagnosticsConsoleRenderer.h"
-#include "StartupStateInputHandler.h"
+#include "TitleStateInputHandler.h"
 #include "PlayingStateInputHandler.h"
 #include "GameOverStateInputHandler.h"
 #include "GameInputHandler.h"
 #include "ConsoleBuffer.h"
-#include "StartupStateConsoleRenderer.h"
+#include "TitleStateConsoleRenderer.h"
 #include "PlayingStateConsoleRenderer.h"
 #include "GameOverStateConsoleRenderer.h"
 #include "GameRenderer.h"
@@ -122,21 +122,21 @@ void LoadAndRun( const shared_ptr<IConsoleBuffer> consoleBuffer )
    auto game = shared_ptr<Game>( new Game( eventAggregator, player, arena, playerPhysics, arenaPhysics ) );
 
    // input objects
-   auto startupStateInputHandler = shared_ptr<StartupStateInputHandler>( new StartupStateInputHandler( keyboardInputReader, game ) );
+   auto startupStateInputHandler = shared_ptr<TitleStateInputHandler>( new TitleStateInputHandler( keyboardInputReader, game ) );
    auto playingStateInputHandler = shared_ptr<PlayingStateInputHandler>( new PlayingStateInputHandler( keyboardInputReader, game ) );
    auto gameOverStateInputHandler = shared_ptr<GameOverStateInputHandler>( new GameOverStateInputHandler( keyboardInputReader, game ) );
    auto inputHandler = shared_ptr<GameInputHandler>( new GameInputHandler( keyboardInputReader, game, eventAggregator ) );
-   inputHandler->AddInputHandlerForGameState( GameState::Startup, startupStateInputHandler );
+   inputHandler->AddInputHandlerForGameState( GameState::Title, startupStateInputHandler );
    inputHandler->AddInputHandlerForGameState( GameState::Playing, playingStateInputHandler );
    inputHandler->AddInputHandlerForGameState( GameState::GameOver, gameOverStateInputHandler );
 
    // rendering objects
    auto diagnosticsRenderer = shared_ptr<DiagnosticsConsoleRenderer>( new DiagnosticsConsoleRenderer( consoleBuffer, clock, consoleRenderConfig ) );
-   auto startupStateConsoleRenderer = shared_ptr<StartupStateConsoleRenderer>( new StartupStateConsoleRenderer( consoleBuffer, random, clock, consoleRenderConfig, keyboardInputConfig ) );
+   auto titleStateConsoleRenderer = shared_ptr<TitleStateConsoleRenderer>( new TitleStateConsoleRenderer( consoleBuffer, random, clock, consoleRenderConfig, keyboardInputConfig ) );
    auto playingStateConsoleRenderer = shared_ptr<PlayingStateConsoleRenderer>( new PlayingStateConsoleRenderer( consoleBuffer, consoleRenderConfig, game, player, arena, eventAggregator, clock ) );
    auto gameOverStateConsoleRenderer = shared_ptr<GameOverStateConsoleRenderer>( new GameOverStateConsoleRenderer( consoleBuffer, consoleRenderConfig, keyboardInputConfig ) );
    auto renderer = shared_ptr<GameRenderer>( new GameRenderer( consoleRenderConfig, consoleBuffer, game, diagnosticsRenderer, eventAggregator ) );
-   renderer->AddRendererForGameState( GameState::Startup, startupStateConsoleRenderer );
+   renderer->AddRendererForGameState( GameState::Title, titleStateConsoleRenderer );
    renderer->AddRendererForGameState( GameState::Playing, playingStateConsoleRenderer );
    renderer->AddRendererForGameState( GameState::GameOver, gameOverStateConsoleRenderer );
 

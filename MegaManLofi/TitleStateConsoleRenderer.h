@@ -14,14 +14,14 @@ namespace MegaManLofi
    class ConsoleRenderConfig;
    class KeyboardInputConfig;
 
-   class StartupStateConsoleRenderer : public IGameRenderer
+   class TitleStateConsoleRenderer : public IGameRenderer
    {
    public:
-      StartupStateConsoleRenderer( const std::shared_ptr<IConsoleBuffer> consoleBuffer,
-                                   const std::shared_ptr<IRandom> random,
-                                   const std::shared_ptr<IFrameRateProvider> frameRateProvider,
-                                   const std::shared_ptr<ConsoleRenderConfig> renderConfig,
-                                   const std::shared_ptr<KeyboardInputConfig> inputConfig );
+      TitleStateConsoleRenderer( const std::shared_ptr<IConsoleBuffer> consoleBuffer,
+                                 const std::shared_ptr<IRandom> random,
+                                 const std::shared_ptr<IFrameRateProvider> frameRateProvider,
+                                 const std::shared_ptr<ConsoleRenderConfig> renderConfig,
+                                 const std::shared_ptr<KeyboardInputConfig> inputConfig );
 
       void Render() override;
       bool HasFocus() const override { return false; }

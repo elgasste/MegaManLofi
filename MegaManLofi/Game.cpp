@@ -23,8 +23,8 @@ Game::Game( const shared_ptr<IGameEventAggregator> eventAggregator,
    _arena( arena ),
    _playerPhysics( playerPhysics ),
    _arenaPhysics( arenaPhysics ),
-   _state( GameState::Startup ),
-   _nextState( GameState::Startup ),
+   _state( GameState::Title ),
+   _nextState( GameState::Title ),
    _isPaused( false )
 {
    _eventAggregator->RegisterEventHandler( GameEvent::Pitfall, std::bind( &Game::HandlePitfallEvent, this ) );

@@ -48,11 +48,11 @@ protected:
    shared_ptr<Game> _game;
 };
 
-TEST_F( GameTests, Constructor_Always_SetsGameStateToStartup )
+TEST_F( GameTests, Constructor_Always_SetsGameStateToTitle )
 {
    BuildGame();
 
-   EXPECT_EQ( _game->GetGameState(), GameState::Startup );
+   EXPECT_EQ( _game->GetGameState(), GameState::Title );
 }
 
 TEST_F( GameTests, ExecuteCommand_Start_ResetsGameObjects )

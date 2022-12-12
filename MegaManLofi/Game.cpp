@@ -27,8 +27,8 @@ Game::Game( const shared_ptr<IGameEventAggregator> eventAggregator,
    _nextState( GameState::Title ),
    _isPaused( false )
 {
-   _eventAggregator->RegisterEventHandler( GameEvent::Pitfall, std::bind( &Game::HandlePitfallEvent, this ) );
-   _eventAggregator->RegisterEventHandler( GameEvent::TileDeath, std::bind( &Game::HandleTileDeathEvent, this ) );
+   _eventAggregator->RegisterEventHandler( GameEvent::Pitfall, std::bind( &Game::KillPlayer, this ) );
+   _eventAggregator->RegisterEventHandler( GameEvent::TileDeath, std::bind( &Game::KillPlayer, this ) );
 }
 
 void Game::Tick()
@@ -95,12 +95,7 @@ void Game::ExecuteCommand( GameCommand command, const shared_ptr<GameCommandArgs
    }
 }
 
-void Game::HandlePitfallEvent()
-{
-   _nextState = GameState::GameOver;
-}
-
-void Game::HandleTileDeathEvent()
+void Game::KillPlayer()
 {
    _nextState = GameState::GameOver;
 }

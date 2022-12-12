@@ -34,8 +34,7 @@ namespace MegaManLofi
       void ExecuteCommand( GameCommand command, const std::shared_ptr<GameCommandArgs> args ) override;
 
    private:
-      void HandlePitfallEvent();
-      void HandleTileDeathEvent();
+      void KillPlayer();
 
    private:
       const std::shared_ptr<IGameEventAggregator> _eventAggregator;

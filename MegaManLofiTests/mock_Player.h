@@ -14,6 +14,7 @@ public:
    MOCK_METHOD( bool, IsMoving, ( ), ( const, override ) );
    MOCK_METHOD( bool, IsStanding, ( ), ( const, override ) );
    MOCK_METHOD( bool, IsJumping, ( ), ( const, override ) );
+   MOCK_METHOD( void, SetLivesRemaining, ( unsigned int ), ( override ) );
    MOCK_METHOD( void, SetDirection, ( MegaManLofi::Direction ), ( override ) );
    MOCK_METHOD( long long, GetVelocityX, ( ), ( const, override ) );
    MOCK_METHOD( long long, GetVelocityY, ( ), ( const, override ) );

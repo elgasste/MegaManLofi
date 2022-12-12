@@ -29,6 +29,7 @@ namespace MegaManLofi
       bool IsStanding() const override { return _isStanding; }
       bool IsJumping() const override { return _isJumping; }
 
+      void SetLivesRemaining( unsigned int lives ) override { _lives = lives; };
       void SetDirection( Direction direction ) override { _direction = direction; }
 
       long long GetVelocityX() const override { return _velocityX; }

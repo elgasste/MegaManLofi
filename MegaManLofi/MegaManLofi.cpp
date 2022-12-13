@@ -205,6 +205,8 @@ shared_ptr<ConsoleRenderConfig> BuildConsoleRenderConfig()
    renderConfig->TitleStartMessageSprite = TitleSpriteGenerator::GenerateStartMessageSprite();
    renderConfig->TitleStarSprite = TitleSpriteGenerator::GenerateStarSprite();
 
+   renderConfig->PlayerThwipSprite = PlayerSpriteGenerator::GeneratePlayerThwipSprite();
+
    renderConfig->TitleTextX = 6;
    renderConfig->TitleTextY = 1;
    renderConfig->TitleSubTextX = renderConfig->TitleTextX + renderConfig->TitleTextSprite.Width;

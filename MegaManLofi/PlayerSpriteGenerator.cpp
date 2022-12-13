@@ -1,9 +1,7 @@
 #include <string>
 
 #include "PlayerSpriteGenerator.h"
-#include "ConsoleSprite.h"
 #include "Direction.h"
-#include "ConsoleColor.h"
 
 using namespace std;
 using namespace MegaManLofi;
@@ -75,4 +73,18 @@ map<Direction, ConsoleSprite> PlayerSpriteGenerator::GenerateMovingSpriteMap()
 {
    // TODO: figure out how to do sprite swapping based on frame count
    return GenerateStaticSpriteMap();
+}
+
+ConsoleSprite PlayerSpriteGenerator::GeneratePlayerThwipSprite()
+{
+   ConsoleSprite thwipSprite;
+
+   thwipSprite.Width = 1;
+   thwipSprite.Height = 3;
+   for ( int i = 0; i < thwipSprite.Height; i++ )
+   {
+      thwipSprite.Pixels.push_back( { '|', true, ConsoleColor::Blue, ConsoleColor::Black } );
+   }
+
+   return thwipSprite;
 }

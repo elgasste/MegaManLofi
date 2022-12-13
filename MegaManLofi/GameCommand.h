@@ -10,6 +10,7 @@ namespace MegaManLofi
       Jump,
       ExtendJump,
       TogglePause,
+      ExitToTitle,
       Quit
    };
 }

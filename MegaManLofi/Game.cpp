@@ -77,6 +77,9 @@ void Game::ExecuteCommand( GameCommand command, const shared_ptr<GameCommandArgs
             _isPaused = !_isPaused;
          }
          break;
+      case GameCommand::ExitToTitle:
+         _nextState = GameState::Title;
+         break;
       case GameCommand::Quit:
          _eventAggregator->RaiseEvent( GameEvent::Shutdown );
          break;

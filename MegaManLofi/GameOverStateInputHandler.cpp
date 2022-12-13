@@ -17,6 +17,6 @@ void GameOverStateInputHandler::HandleInput()
 {
    if ( _inputReader->WasAnyButtonPressed() )
    {
-      _commandExecutor->ExecuteCommand( GameCommand::StartStage );
+      _commandExecutor->ExecuteCommand( GameCommand::ExitToTitle );
    }
 }

@@ -122,6 +122,15 @@ TEST_F( GameTests, ExecuteCommand_TogglePauseAndInPlayingState_TogglesPause )
    EXPECT_TRUE( _game->IsPaused() );
 }
 
+TEST_F( GameTests, ExecuteCommand_ExitToTitle_SetsNextStateToExitToTitle )
+{
+   BuildGame();
+   _game->ExecuteCommand( GameCommand::ExitToTitle );
+   _game->Tick();
+
+   EXPECT_EQ( _game->GetGameState(), GameState::Title );
+}
+
 TEST_F( GameTests, ExecuteCommand_Quit_RaisesShutdownEvent )
 {
    BuildGame();
@@ -217,6 +226,12 @@ TEST_F( GameTests, ExecuteCommand_ExtendJumpAndGameIsNotPaused_ExtendsJump )
    EXPECT_CALL( *_playerPhysicsMock, ExtendJump() );
 
    _game->ExecuteCommand( GameCommand::ExtendJump );
+}
+
+TEST_F( GameTests, Tick_RestartingStageNextFrame_ResetsAllAppropriateObjects )
+{
+   // MUFFINS: need to kill the player...
+   BuildGame();
 }
 
 TEST_F( GameTests, Tick_GameStateIsNotPlaying_DoesNotDoPlayerOrArenaActions )

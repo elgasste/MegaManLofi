@@ -26,6 +26,10 @@ namespace MegaManLofi
       short ArenaViewportWidthChar = 0;
       short ArenaViewportHeightChar = 0;
 
+      short ArenaStatusBarX = 0;
+      short ArenaStatusBarY = 0;
+      short ArenaStatusBarWidth = 0;
+
       double GameStartSingleBlinkSeconds = 0;
       int GameStartBlinkCount = 0;
 

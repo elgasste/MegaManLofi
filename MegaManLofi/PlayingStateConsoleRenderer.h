@@ -38,6 +38,7 @@ namespace MegaManLofi
       void DrawPlayerExplosionAnimation();
       void DrawArenaSprites();
       void DrawPlayer();
+      void DrawStatusBar();
       void DrawPauseOverlay();
 
       short GetPlayerViewportX() const;

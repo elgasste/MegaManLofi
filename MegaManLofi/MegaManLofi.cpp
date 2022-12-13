@@ -162,6 +162,10 @@ shared_ptr<ConsoleRenderConfig> BuildConsoleRenderConfig()
    renderConfig->ArenaViewportWidthChar = 120;
    renderConfig->ArenaViewportHeightChar = 30;
 
+   renderConfig->ArenaStatusBarX = renderConfig->ArenaViewportX;
+   renderConfig->ArenaStatusBarY = renderConfig->ArenaViewportY;
+   renderConfig->ArenaStatusBarWidth = 20;
+
    // "GET READY!" message should blink for 2 seconds
    renderConfig->GameStartSingleBlinkSeconds = .25;
    renderConfig->GameStartBlinkCount = 8;

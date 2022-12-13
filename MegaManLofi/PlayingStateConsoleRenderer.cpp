@@ -1,3 +1,5 @@
+#include <format>
+
 #include "PlayingStateConsoleRenderer.h"
 #include "IConsoleBuffer.h"
 #include "ConsoleRenderConfig.h"
@@ -73,6 +75,7 @@ void PlayingStateConsoleRenderer::Render()
    else
    {
       DrawPlayer();
+      DrawStatusBar();
    }
 }
 
@@ -212,6 +215,11 @@ void PlayingStateConsoleRenderer::DrawPlayer()
    auto sprite = _playerInfoProvider->IsMoving() ? _renderConfig->PlayerMovingSpriteMap[direction] : _renderConfig->PlayerStaticSpriteMap[direction];
 
    _consoleBuffer->Draw( playerDrawX, playerDrawY, sprite );
+}
+
+void PlayingStateConsoleRenderer::DrawStatusBar()
+{
+   _consoleBuffer->Draw( _renderConfig->ArenaStatusBarX, _renderConfig->ArenaStatusBarY, format( "Lives: {}", _playerInfoProvider->GetLivesRemaining() ) );
 }
 
 void PlayingStateConsoleRenderer::DrawPauseOverlay()

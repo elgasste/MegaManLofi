@@ -25,7 +25,8 @@ Game::Game( const shared_ptr<IGameEventAggregator> eventAggregator,
    _arenaPhysics( arenaPhysics ),
    _state( GameState::Title ),
    _nextState( GameState::Title ),
-   _isPaused( false )
+   _isPaused( false ),
+   _restartStageNextFrame( false )
 {
    _eventAggregator->RegisterEventHandler( GameEvent::Pitfall, std::bind( &Game::KillPlayer, this ) );
    _eventAggregator->RegisterEventHandler( GameEvent::TileDeath, std::bind( &Game::KillPlayer, this ) );
@@ -33,6 +34,15 @@ Game::Game( const shared_ptr<IGameEventAggregator> eventAggregator,
 
 void Game::Tick()
 {
+   if ( _restartStageNextFrame )
+   {
+      _player->ResetPhysics();
+      _arena->Reset();
+      _arenaPhysics->AssignTo( _arena, _player );
+      _restartStageNextFrame = false;
+      _eventAggregator->RaiseEvent( GameEvent::GameStarted );
+   }
+
    _state = _nextState;
 
    if ( _state == GameState::Playing && !_isPaused )
@@ -97,5 +107,14 @@ void Game::ExecuteCommand( GameCommand command, const shared_ptr<GameCommandArgs
 
 void Game::KillPlayer()
 {
-   _nextState = GameState::GameOver;
+   _player->SetLivesRemaining( _player->GetLivesRemaining() - 1 );
+
+   if ( _player->GetLivesRemaining() > 0 )
+   {
+      _restartStageNextFrame = true;
+   }
+   else
+   {
+      _nextState = GameState::GameOver;
+   }
 }

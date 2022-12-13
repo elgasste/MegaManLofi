@@ -31,6 +31,8 @@ public:
       _arenaMock.reset( new NiceMock<mock_Arena> );
       _playerPhysicsMock.reset( new NiceMock<mock_PlayerPhysics> );
       _arenaPhysicsMock.reset( new NiceMock<mock_ArenaPhysics> );
+
+      ON_CALL( *_playerMock, GetLivesRemaining() ).WillByDefault( Return( 5 ) );
    }
 
    void BuildGame()
@@ -250,8 +252,20 @@ TEST_F( GameTests, Tick_GameStateIsPlayingAndNotPaused_DoesPlayerAndArenaActions
    _game->Tick();
 }
 
-TEST_F( GameTests, EventHandling_PitfallEventRaised_ChangesNextGameStateToGameOver )
+TEST_F( GameTests, EventHandling_PitfallEventRaisedWithLivesLeft_DecrementsPlayerLivesRemaining )
 {
+   auto eventAggregator = make_shared<GameEventAggregator>();
+   _game.reset( new Game( eventAggregator, _playerMock, _arenaMock, _playerPhysicsMock, _arenaPhysicsMock ) );
+
+   EXPECT_CALL( *_playerMock, SetLivesRemaining( 4 ) );
+
+   eventAggregator->RaiseEvent( GameEvent::Pitfall );
+   _game->Tick();
+}
+
+TEST_F( GameTests, EventHandling_PitfallEventRaisedWithNoLivesLeft_ChangesNextGameStateToGameOver )
+{
+   ON_CALL( *_playerMock, GetLivesRemaining() ).WillByDefault( Return( 0 ) );
    auto eventAggregator = make_shared<GameEventAggregator>();
    _game.reset( new Game( eventAggregator, _playerMock, _arenaMock, _playerPhysicsMock, _arenaPhysicsMock ) );
 
@@ -261,8 +275,20 @@ TEST_F( GameTests, EventHandling_PitfallEventRaised_ChangesNextGameStateToGameOv
    EXPECT_EQ( _game->GetGameState(), GameState::GameOver );
 }
 
+TEST_F( GameTests, EventHandling_TileDeathEventRaisedWithLivesLeft_DecrementsPlayerLivesRemaining )
+{
+   auto eventAggregator = make_shared<GameEventAggregator>();
+   _game.reset( new Game( eventAggregator, _playerMock, _arenaMock, _playerPhysicsMock, _arenaPhysicsMock ) );
+
+   EXPECT_CALL( *_playerMock, SetLivesRemaining( 4 ) );
+
+   eventAggregator->RaiseEvent( GameEvent::TileDeath );
+   _game->Tick();
+}
+
 TEST_F( GameTests, EventHandling_TileDeathEventRaised_ChangesNextGameStateToGameOver )
 {
+   ON_CALL( *_playerMock, GetLivesRemaining() ).WillByDefault( Return( 0 ) );
    auto eventAggregator = make_shared<GameEventAggregator>();
    _game.reset( new Game( eventAggregator, _playerMock, _arenaMock, _playerPhysicsMock, _arenaPhysicsMock ) );
 

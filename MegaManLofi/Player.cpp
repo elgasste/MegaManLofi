@@ -22,10 +22,15 @@ Player::Player( const shared_ptr<PlayerConfig> config,
 
 void Player::Reset()
 {
+   ResetPhysics();
+   _lives = _config->DefaultLives;
+}
+
+void Player::ResetPhysics()
+{
    _hitBox = _config->DefaultHitBox;
    _velocityX = _config->DefaultVelocityX;
    _velocityY = _config->DefaultVelocityY;
-   _lives = _config->DefaultLives;
    _direction = _config->DefaultDirection;
    _isStanding = false;
    _isJumping = false;

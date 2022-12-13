@@ -20,6 +20,7 @@ namespace MegaManLofi
               const std::shared_ptr<IFrameRateProvider> frameRateProvider );
 
       void Reset();
+      void ResetPhysics();
 
       unsigned int GetLivesRemaining() const override { return _lives; }
       Direction GetDirection() const override { return _direction; }

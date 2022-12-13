@@ -8,6 +8,7 @@ class mock_Player : public MegaManLofi::IPlayer
 {
 public:
    MOCK_METHOD( void, Reset, ( ), ( override ) );
+   MOCK_METHOD( void, ResetPhysics, ( ), ( override ) );
    MOCK_METHOD( unsigned int, GetLivesRemaining, ( ), ( const, override ) );
    MOCK_METHOD( MegaManLofi::Direction, GetDirection, ( ), ( const, override ) );
    MOCK_METHOD( const MegaManLofi::Rectangle&, GetHitBox, ( ), ( const, override ) );

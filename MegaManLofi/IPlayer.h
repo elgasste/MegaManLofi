@@ -10,6 +10,7 @@ namespace MegaManLofi
    {
    public:
       virtual void Reset() = 0;
+      virtual void ResetPhysics() = 0;
 
       virtual void SetLivesRemaining( unsigned int lives ) = 0;
       virtual void SetDirection( Direction direction ) = 0;

@@ -34,6 +34,7 @@ namespace MegaManLofi
       void ExecuteCommand( GameCommand command, const std::shared_ptr<GameCommandArgs> args ) override;
 
    private:
+      void StartStage();
       void KillPlayer();
 
    private:
@@ -47,5 +48,6 @@ namespace MegaManLofi
       GameState _nextState;
 
       bool _isPaused;
+      bool _restartStageNextFrame;
    };
 }

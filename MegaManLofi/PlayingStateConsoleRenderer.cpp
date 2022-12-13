@@ -33,15 +33,15 @@ PlayingStateConsoleRenderer::PlayingStateConsoleRenderer( const shared_ptr<ICons
    _viewportHeight( _renderConfig->ArenaViewportHeightChar * _renderConfig->ArenaCharHeight ),
    _viewportOffsetX( 0 ),
    _viewportOffsetY( 0 ),
-   _isAnimatingGameStart( false ),
+   _isAnimatingStageStart( false ),
    _isAnimatingPitfall( false ),
    _isAnimatingPlayerExplosion( false ),
-   _gameStartElapsedSeconds( 0 ),
-   _pitfallElapsedSeconds( 0 ),
-   _playerExplosionElapsedSeconds( 0 ),
+   _stageStartAnimationElapsedSeconds( 0 ),
+   _pitfallAnimationElapsedSeconds( 0 ),
+   _playerExplosionAnimationElapsedSeconds( 0 ),
    _playerExplosionStartFrame( 0 )
 {
-   eventAggregator->RegisterEventHandler( GameEvent::GameStarted, std::bind( &PlayingStateConsoleRenderer::HandleGameStartedEvent, this ) );
+   eventAggregator->RegisterEventHandler( GameEvent::StageStarted, std::bind( &PlayingStateConsoleRenderer::HandleStageStartedEvent, this ) );
    eventAggregator->RegisterEventHandler( GameEvent::Pitfall, std::bind( &PlayingStateConsoleRenderer::HandlePitfallEvent, this ) );
    eventAggregator->RegisterEventHandler( GameEvent::TileDeath, std::bind( &PlayingStateConsoleRenderer::HandleTileDeathEvent, this ) );
 }
@@ -54,7 +54,7 @@ void PlayingStateConsoleRenderer::Render()
    CalculateViewportOffsets();
    DrawArenaSprites();
 
-   if ( _isAnimatingGameStart )
+   if ( _isAnimatingStageStart )
    {
       DrawGameStartAnimation();
    }
@@ -78,25 +78,25 @@ void PlayingStateConsoleRenderer::Render()
 
 bool PlayingStateConsoleRenderer::HasFocus() const
 {
-   return _isAnimatingGameStart || _isAnimatingPitfall || _isAnimatingPlayerExplosion;
+   return _isAnimatingStageStart || _isAnimatingPitfall || _isAnimatingPlayerExplosion;
 }
 
-void PlayingStateConsoleRenderer::HandleGameStartedEvent()
+void PlayingStateConsoleRenderer::HandleStageStartedEvent()
 {
-   _isAnimatingGameStart = true;
-   _gameStartElapsedSeconds = 0;
+   _isAnimatingStageStart = true;
+   _stageStartAnimationElapsedSeconds = 0;
 }
 
 void PlayingStateConsoleRenderer::HandlePitfallEvent()
 {
    _isAnimatingPitfall = true;
-   _pitfallElapsedSeconds = 0;
+   _pitfallAnimationElapsedSeconds = 0;
 }
 
 void PlayingStateConsoleRenderer::HandleTileDeathEvent()
 {
    _isAnimatingPlayerExplosion = true;
-   _playerExplosionElapsedSeconds = 0;
+   _playerExplosionAnimationElapsedSeconds = 0;
    _playerExplosionStartFrame = _frameRateProvider->GetCurrentFrame();
 }
 
@@ -108,9 +108,9 @@ void PlayingStateConsoleRenderer::CalculateViewportOffsets()
 
 void PlayingStateConsoleRenderer::DrawGameStartAnimation()
 {
-   _gameStartElapsedSeconds += ( 1 / (double)_frameRateProvider->GetFramesPerSecond() );
+   _stageStartAnimationElapsedSeconds += ( 1 / (double)_frameRateProvider->GetFramesPerSecond() );
 
-   if ( (int)( _gameStartElapsedSeconds / _renderConfig->GameStartSingleBlinkSeconds ) % 2 == 0 )
+   if ( (int)( _stageStartAnimationElapsedSeconds / _renderConfig->GameStartSingleBlinkSeconds ) % 2 == 0 )
    {
       auto left = ( _renderConfig->ArenaViewportWidthChar / 2 ) - ( _renderConfig->GetReadySprite.Width / 2 ) + _renderConfig->ArenaViewportX;
       auto top = ( _renderConfig->ArenaViewportHeightChar / 2 ) - ( _renderConfig->GetReadySprite.Height / 2 ) + _renderConfig->ArenaViewportY;
@@ -118,17 +118,17 @@ void PlayingStateConsoleRenderer::DrawGameStartAnimation()
       _consoleBuffer->Draw( left, top, _renderConfig->GetReadySprite );
    }
 
-   if ( _gameStartElapsedSeconds >= ( _renderConfig->GameStartSingleBlinkSeconds * _renderConfig->GameStartBlinkCount ) )
+   if ( _stageStartAnimationElapsedSeconds >= ( _renderConfig->GameStartSingleBlinkSeconds * _renderConfig->GameStartBlinkCount ) )
    {
-      _isAnimatingGameStart = false;
+      _isAnimatingStageStart = false;
    }
 }
 
 void PlayingStateConsoleRenderer::DrawPitfallAnimation()
 {
-   _pitfallElapsedSeconds += ( 1 / (double)_frameRateProvider->GetFramesPerSecond() );
+   _pitfallAnimationElapsedSeconds += ( 1 / (double)_frameRateProvider->GetFramesPerSecond() );
 
-   if ( _pitfallElapsedSeconds >= _renderConfig->PitfallAnimationSeconds )
+   if ( _pitfallAnimationElapsedSeconds >= _renderConfig->PitfallAnimationSeconds )
    {
       _isAnimatingPitfall = false;
    }
@@ -137,9 +137,9 @@ void PlayingStateConsoleRenderer::DrawPitfallAnimation()
 void PlayingStateConsoleRenderer::DrawPlayerExplosionAnimation()
 {
    auto frameRateScalar = ( 1 / (double)_frameRateProvider->GetFramesPerSecond() );
-   _playerExplosionElapsedSeconds += frameRateScalar;
+   _playerExplosionAnimationElapsedSeconds += frameRateScalar;
 
-   const auto& particleSprite = (int)( _playerExplosionElapsedSeconds / _renderConfig->PlayerExplosionSpriteSwapSeconds ) % 2 == 0 ?
+   const auto& particleSprite = (int)( _playerExplosionAnimationElapsedSeconds / _renderConfig->PlayerExplosionSpriteSwapSeconds ) % 2 == 0 ?
       _renderConfig->PlayerExplosionParticleSprite1 : _renderConfig->PlayerExplosionParticleSprite2;
 
    const auto& hitBox = _playerInfoProvider->GetHitBox();
@@ -163,7 +163,7 @@ void PlayingStateConsoleRenderer::DrawPlayerExplosionAnimation()
    _consoleBuffer->Draw( particleStartX + (short)( particleDeltaX / 1.5 ), particleStartY - (short)( particleDeltaY / 1.5 ), particleSprite );
    _consoleBuffer->Draw( particleStartX - (short)( particleDeltaX / 1.5 ), particleStartY - (short)( particleDeltaY / 1.5 ), particleSprite );
 
-   if ( _playerExplosionElapsedSeconds >= _renderConfig->PlayerExplosionAnimationSeconds )
+   if ( _playerExplosionAnimationElapsedSeconds >= _renderConfig->PlayerExplosionAnimationSeconds )
    {
       _isAnimatingPlayerExplosion = false;
    }

@@ -29,7 +29,7 @@ namespace MegaManLofi
       bool HasFocus() const override;
 
    private:
-      void HandleGameStartedEvent();
+      void HandleStageStartedEvent();
       void HandlePitfallEvent();
       void HandleTileDeathEvent();
       void CalculateViewportOffsets();
@@ -57,13 +57,13 @@ namespace MegaManLofi
       long long _viewportOffsetX;
       long long _viewportOffsetY;
 
-      bool _isAnimatingGameStart;
+      bool _isAnimatingStageStart;
       bool _isAnimatingPitfall;
       bool _isAnimatingPlayerExplosion;
 
-      double _gameStartElapsedSeconds;
-      double _pitfallElapsedSeconds;
-      double _playerExplosionElapsedSeconds;
+      double _stageStartAnimationElapsedSeconds;
+      double _pitfallAnimationElapsedSeconds;
+      double _playerExplosionAnimationElapsedSeconds;
 
       long long _playerExplosionStartFrame;
    };

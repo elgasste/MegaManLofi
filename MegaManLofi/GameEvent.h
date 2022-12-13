@@ -7,7 +7,7 @@ namespace MegaManLofi
       Shutdown = 0,
       ToggleDiagnostics,
 
-      GameStarted,
+      StageStarted,
 
       Pitfall,
       TileDeath

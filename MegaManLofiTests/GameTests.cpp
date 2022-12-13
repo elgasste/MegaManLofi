@@ -90,11 +90,11 @@ TEST_F( GameTests, ExecuteCommand_StartStage_SetsNextGameStateToPlaying )
    EXPECT_EQ( _game->GetGameState(), GameState::Playing );
 }
 
-TEST_F( GameTests, ExecuteCommand_StartStage_RaisesGameStartedEvent )
+TEST_F( GameTests, ExecuteCommand_StartStage_RaisesStageStartedEvent )
 {
    BuildGame();
 
-   EXPECT_CALL( *_eventAggregatorMock, RaiseEvent( GameEvent::GameStarted ) );
+   EXPECT_CALL( *_eventAggregatorMock, RaiseEvent( GameEvent::StageStarted ) );
 
    _game->ExecuteCommand( GameCommand::StartStage );
 }

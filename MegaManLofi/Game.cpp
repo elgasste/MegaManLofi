@@ -40,7 +40,7 @@ void Game::Tick()
       _arena->Reset();
       _arenaPhysics->AssignTo( _arena, _player );
       _restartStageNextFrame = false;
-      _eventAggregator->RaiseEvent( GameEvent::GameStarted );
+      _eventAggregator->RaiseEvent( GameEvent::StageStarted );
    }
 
    _state = _nextState;
@@ -69,7 +69,7 @@ void Game::ExecuteCommand( GameCommand command, const shared_ptr<GameCommandArgs
          _arenaPhysics->AssignTo( _arena, _player );
          _nextState = GameState::Playing;
          _isPaused = false;
-         _eventAggregator->RaiseEvent( GameEvent::GameStarted );
+         _eventAggregator->RaiseEvent( GameEvent::StageStarted );
          break;
       case GameCommand::TogglePause:
          if ( _nextState == GameState::Playing )

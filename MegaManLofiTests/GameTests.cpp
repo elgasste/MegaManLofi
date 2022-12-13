@@ -228,10 +228,18 @@ TEST_F( GameTests, ExecuteCommand_ExtendJumpAndGameIsNotPaused_ExtendsJump )
    _game->ExecuteCommand( GameCommand::ExtendJump );
 }
 
-TEST_F( GameTests, Tick_RestartingStageNextFrame_ResetsAllAppropriateObjects )
+TEST_F( GameTests, Tick_RestartingStageNextFrame_ResetsGameObjects )
 {
-   // MUFFINS: need to kill the player...
-   BuildGame();
+   EXPECT_CALL( *_playerMock, SetLivesRemaining( 4 ) );
+
+   auto eventAggregator = make_shared<GameEventAggregator>();
+   _game.reset( new Game( eventAggregator, _playerMock, _arenaMock, _playerPhysicsMock, _arenaPhysicsMock ) );
+   eventAggregator->RaiseEvent( GameEvent::TileDeath );
+
+   EXPECT_CALL( *_playerMock, ResetPhysics() );
+   EXPECT_CALL( *_arenaMock, Reset() );
+
+   _game->Tick();
 }
 
 TEST_F( GameTests, Tick_GameStateIsNotPlaying_DoesNotDoPlayerOrArenaActions )

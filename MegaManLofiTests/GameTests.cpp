@@ -31,6 +31,8 @@ public:
       _arenaMock.reset( new NiceMock<mock_Arena> );
       _playerPhysicsMock.reset( new NiceMock<mock_PlayerPhysics> );
       _arenaPhysicsMock.reset( new NiceMock<mock_ArenaPhysics> );
+
+      ON_CALL( *_playerMock, GetLivesRemaining() ).WillByDefault( Return( 5 ) );
    }
 
    void BuildGame()
@@ -48,24 +50,24 @@ protected:
    shared_ptr<Game> _game;
 };
 
-TEST_F( GameTests, Constructor_Always_SetsGameStateToStartup )
+TEST_F( GameTests, Constructor_Always_SetsGameStateToTitle )
 {
    BuildGame();
 
-   EXPECT_EQ( _game->GetGameState(), GameState::Startup );
+   EXPECT_EQ( _game->GetGameState(), GameState::Title );
 }
 
-TEST_F( GameTests, ExecuteCommand_Start_ResetsGameObjects )
+TEST_F( GameTests, ExecuteCommand_StartStage_ResetsGameObjects )
 {
    BuildGame();
 
    EXPECT_CALL( *_playerMock, Reset() );
    EXPECT_CALL( *_arenaMock, Reset() );
 
-   _game->ExecuteCommand( GameCommand::Start );
+   _game->ExecuteCommand( GameCommand::StartStage );
 }
 
-TEST_F( GameTests, ExecuteCommand_Start_AssignsObjectsToPhysics )
+TEST_F( GameTests, ExecuteCommand_StartStage_AssignsObjectsToPhysics )
 {
    BuildGame();
 
@@ -75,26 +77,26 @@ TEST_F( GameTests, ExecuteCommand_Start_AssignsObjectsToPhysics )
    EXPECT_CALL( *_playerPhysicsMock, AssignTo( basePlayer ) );
    EXPECT_CALL( *_arenaPhysicsMock, AssignTo( baseArena, basePlayer ) );
 
-   _game->ExecuteCommand( GameCommand::Start );
+   _game->ExecuteCommand( GameCommand::StartStage );
 }
 
-TEST_F( GameTests, ExecuteCommand_Start_SetsNextGameStateToPlaying )
+TEST_F( GameTests, ExecuteCommand_StartStage_SetsNextGameStateToPlaying )
 {
    BuildGame();
 
-   _game->ExecuteCommand( GameCommand::Start );
+   _game->ExecuteCommand( GameCommand::StartStage );
    _game->Tick();
 
    EXPECT_EQ( _game->GetGameState(), GameState::Playing );
 }
 
-TEST_F( GameTests, ExecuteCommand_Start_RaisesGameStartedEvent )
+TEST_F( GameTests, ExecuteCommand_StartStage_RaisesStageStartedEvent )
 {
    BuildGame();
 
-   EXPECT_CALL( *_eventAggregatorMock, RaiseEvent( GameEvent::GameStarted ) );
+   EXPECT_CALL( *_eventAggregatorMock, RaiseEvent( GameEvent::StageStarted ) );
 
-   _game->ExecuteCommand( GameCommand::Start );
+   _game->ExecuteCommand( GameCommand::StartStage );
 }
 
 TEST_F( GameTests, ExecuteCommand_TogglePauseAndNotInPlayingState_DoesNotTogglePause )
@@ -111,13 +113,22 @@ TEST_F( GameTests, ExecuteCommand_TogglePauseAndNotInPlayingState_DoesNotToggleP
 TEST_F( GameTests, ExecuteCommand_TogglePauseAndInPlayingState_TogglesPause )
 {
    BuildGame();
-   _game->ExecuteCommand( GameCommand::Start );
+   _game->ExecuteCommand( GameCommand::StartStage );
 
    EXPECT_FALSE( _game->IsPaused() );
 
    _game->ExecuteCommand( GameCommand::TogglePause );
 
    EXPECT_TRUE( _game->IsPaused() );
+}
+
+TEST_F( GameTests, ExecuteCommand_ExitToTitle_SetsNextStateToExitToTitle )
+{
+   BuildGame();
+   _game->ExecuteCommand( GameCommand::ExitToTitle );
+   _game->Tick();
+
+   EXPECT_EQ( _game->GetGameState(), GameState::Title );
 }
 
 TEST_F( GameTests, ExecuteCommand_Quit_RaisesShutdownEvent )
@@ -132,7 +143,7 @@ TEST_F( GameTests, ExecuteCommand_Quit_RaisesShutdownEvent )
 TEST_F( GameTests, ExecuteCommand_PushPlayerAndGameIsPaused_DoesNotPushPlayer )
 {
    BuildGame();
-   _game->ExecuteCommand( GameCommand::Start );
+   _game->ExecuteCommand( GameCommand::StartStage );
    _game->ExecuteCommand( GameCommand::TogglePause );
 
    EXPECT_CALL( *_playerPhysicsMock, PushTo( _ ) ).Times( 0 );
@@ -144,7 +155,7 @@ TEST_F( GameTests, ExecuteCommand_PushPlayerAndGameIsPaused_DoesNotPushPlayer )
 TEST_F( GameTests, ExecuteCommand_PushPlayerAndGameIsNotPaused_PushesPlayerInSpecifiedDirection )
 {
    BuildGame();
-   _game->ExecuteCommand( GameCommand::Start );
+   _game->ExecuteCommand( GameCommand::StartStage );
 
    EXPECT_CALL( *_playerPhysicsMock, PushTo( Direction::UpLeft ) );
 
@@ -155,7 +166,7 @@ TEST_F( GameTests, ExecuteCommand_PushPlayerAndGameIsNotPaused_PushesPlayerInSpe
 TEST_F( GameTests, ExecuteCommand_PointPlayerAndGameIsPaused_DoesNotPointPlayer )
 {
    BuildGame();
-   _game->ExecuteCommand( GameCommand::Start );
+   _game->ExecuteCommand( GameCommand::StartStage );
    _game->ExecuteCommand( GameCommand::TogglePause );
 
    EXPECT_CALL( *_playerPhysicsMock, PointTo( _ ) ).Times( 0 );
@@ -167,7 +178,7 @@ TEST_F( GameTests, ExecuteCommand_PointPlayerAndGameIsPaused_DoesNotPointPlayer 
 TEST_F( GameTests, ExecuteCommand_PointPlayerAndGameIsNotPaused_PointsPlayerInSpecifiedDirection )
 {
    BuildGame();
-   _game->ExecuteCommand( GameCommand::Start );
+   _game->ExecuteCommand( GameCommand::StartStage );
 
    EXPECT_CALL( *_playerPhysicsMock, PointTo( Direction::DownLeft ) );
 
@@ -178,7 +189,7 @@ TEST_F( GameTests, ExecuteCommand_PointPlayerAndGameIsNotPaused_PointsPlayerInSp
 TEST_F( GameTests, ExecuteCommand_JumpAndGameIsPaused_DoesNotJump )
 {
    BuildGame();
-   _game->ExecuteCommand( GameCommand::Start );
+   _game->ExecuteCommand( GameCommand::StartStage );
    _game->ExecuteCommand( GameCommand::TogglePause );
 
    EXPECT_CALL( *_playerPhysicsMock, Jump() ).Times( 0 );
@@ -189,7 +200,7 @@ TEST_F( GameTests, ExecuteCommand_JumpAndGameIsPaused_DoesNotJump )
 TEST_F( GameTests, ExecuteCommand_JumpAndGameIsNotPaused_Jumps )
 {
    BuildGame();
-   _game->ExecuteCommand( GameCommand::Start );
+   _game->ExecuteCommand( GameCommand::StartStage );
 
    EXPECT_CALL( *_playerPhysicsMock, Jump() );
 
@@ -199,7 +210,7 @@ TEST_F( GameTests, ExecuteCommand_JumpAndGameIsNotPaused_Jumps )
 TEST_F( GameTests, ExecuteCommand_ExtendJumpAndGameIsPaused_DoesNotExtendJump )
 {
    BuildGame();
-   _game->ExecuteCommand( GameCommand::Start );
+   _game->ExecuteCommand( GameCommand::StartStage );
    _game->ExecuteCommand( GameCommand::TogglePause );
 
    EXPECT_CALL( *_playerPhysicsMock, ExtendJump() ).Times( 0 );
@@ -210,11 +221,17 @@ TEST_F( GameTests, ExecuteCommand_ExtendJumpAndGameIsPaused_DoesNotExtendJump )
 TEST_F( GameTests, ExecuteCommand_ExtendJumpAndGameIsNotPaused_ExtendsJump )
 {
    BuildGame();
-   _game->ExecuteCommand( GameCommand::Start );
+   _game->ExecuteCommand( GameCommand::StartStage );
 
    EXPECT_CALL( *_playerPhysicsMock, ExtendJump() );
 
    _game->ExecuteCommand( GameCommand::ExtendJump );
+}
+
+TEST_F( GameTests, Tick_RestartingStageNextFrame_ResetsAllAppropriateObjects )
+{
+   // MUFFINS: need to kill the player...
+   BuildGame();
 }
 
 TEST_F( GameTests, Tick_GameStateIsNotPlaying_DoesNotDoPlayerOrArenaActions )
@@ -230,7 +247,7 @@ TEST_F( GameTests, Tick_GameStateIsNotPlaying_DoesNotDoPlayerOrArenaActions )
 TEST_F( GameTests, Tick_GameIsPaused_DoesNotDoPlayerOrArenaActions )
 {
    BuildGame();
-   _game->ExecuteCommand( GameCommand::Start );
+   _game->ExecuteCommand( GameCommand::StartStage );
    _game->ExecuteCommand( GameCommand::TogglePause );
 
    EXPECT_CALL( *_playerPhysicsMock, Tick() ).Times( 0 );
@@ -242,7 +259,7 @@ TEST_F( GameTests, Tick_GameIsPaused_DoesNotDoPlayerOrArenaActions )
 TEST_F( GameTests, Tick_GameStateIsPlayingAndNotPaused_DoesPlayerAndArenaActions )
 {
    BuildGame();
-   _game->ExecuteCommand( GameCommand::Start );
+   _game->ExecuteCommand( GameCommand::StartStage );
 
    EXPECT_CALL( *_playerPhysicsMock, Tick() );
    EXPECT_CALL( *_arenaPhysicsMock, Tick() );
@@ -250,8 +267,20 @@ TEST_F( GameTests, Tick_GameStateIsPlayingAndNotPaused_DoesPlayerAndArenaActions
    _game->Tick();
 }
 
-TEST_F( GameTests, EventHandling_PitfallEventRaised_ChangesNextGameStateToGameOver )
+TEST_F( GameTests, EventHandling_PitfallEventRaisedWithLivesLeft_DecrementsPlayerLivesRemaining )
 {
+   auto eventAggregator = make_shared<GameEventAggregator>();
+   _game.reset( new Game( eventAggregator, _playerMock, _arenaMock, _playerPhysicsMock, _arenaPhysicsMock ) );
+
+   EXPECT_CALL( *_playerMock, SetLivesRemaining( 4 ) );
+
+   eventAggregator->RaiseEvent( GameEvent::Pitfall );
+   _game->Tick();
+}
+
+TEST_F( GameTests, EventHandling_PitfallEventRaisedWithNoLivesLeft_ChangesNextGameStateToGameOver )
+{
+   ON_CALL( *_playerMock, GetLivesRemaining() ).WillByDefault( Return( 0 ) );
    auto eventAggregator = make_shared<GameEventAggregator>();
    _game.reset( new Game( eventAggregator, _playerMock, _arenaMock, _playerPhysicsMock, _arenaPhysicsMock ) );
 
@@ -261,8 +290,20 @@ TEST_F( GameTests, EventHandling_PitfallEventRaised_ChangesNextGameStateToGameOv
    EXPECT_EQ( _game->GetGameState(), GameState::GameOver );
 }
 
+TEST_F( GameTests, EventHandling_TileDeathEventRaisedWithLivesLeft_DecrementsPlayerLivesRemaining )
+{
+   auto eventAggregator = make_shared<GameEventAggregator>();
+   _game.reset( new Game( eventAggregator, _playerMock, _arenaMock, _playerPhysicsMock, _arenaPhysicsMock ) );
+
+   EXPECT_CALL( *_playerMock, SetLivesRemaining( 4 ) );
+
+   eventAggregator->RaiseEvent( GameEvent::TileDeath );
+   _game->Tick();
+}
+
 TEST_F( GameTests, EventHandling_TileDeathEventRaised_ChangesNextGameStateToGameOver )
 {
+   ON_CALL( *_playerMock, GetLivesRemaining() ).WillByDefault( Return( 0 ) );
    auto eventAggregator = make_shared<GameEventAggregator>();
    _game.reset( new Game( eventAggregator, _playerMock, _arenaMock, _playerPhysicsMock, _arenaPhysicsMock ) );
 

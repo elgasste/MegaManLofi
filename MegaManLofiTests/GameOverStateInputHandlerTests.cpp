@@ -42,12 +42,12 @@ TEST_F( GameOverStateInputHandlerTests, HandleInput_NoButtonsWerePressed_DoesNot
    _inputHandler->HandleInput();
 }
 
-TEST_F( GameOverStateInputHandlerTests, HandleInput_ButtonWasPressed_ExecutesStartCommand )
+TEST_F( GameOverStateInputHandlerTests, HandleInput_ButtonWasPressed_ExecutesStartStageCommand )
 {
    ON_CALL( *_inputReaderMock, WasAnyButtonPressed() ).WillByDefault( Return( true ) );
 
    auto args = shared_ptr<GameCommandArgs>();
-   EXPECT_CALL( *_commandExecutorMock, ExecuteCommand( GameCommand::Start ) );
+   EXPECT_CALL( *_commandExecutorMock, ExecuteCommand( GameCommand::ExitToTitle ) );
 
    _inputHandler->HandleInput();
 }

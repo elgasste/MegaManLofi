@@ -34,7 +34,7 @@ public:
       _renderConfig->DefaultBackgroundColor = ConsoleColor::Black;
       _renderConfig->DefaultForegroundColor = ConsoleColor::Grey;
 
-      ON_CALL( *_gameInfoProviderMock, GetGameState() ).WillByDefault( Return( GameState::Startup ) );
+      ON_CALL( *_gameInfoProviderMock, GetGameState() ).WillByDefault( Return( GameState::Title ) );
       ON_CALL( *_startupStateRendererMock, HasFocus() ).WillByDefault( Return( false ) );
    }
 
@@ -46,7 +46,7 @@ public:
                                          _diagnosticsRendererMock,
                                          _eventAggregator ) );
 
-      _renderer->AddRendererForGameState( GameState::Startup, _startupStateRendererMock );
+      _renderer->AddRendererForGameState( GameState::Title, _startupStateRendererMock );
    }
 
 protected:

@@ -87,10 +87,10 @@
     <ClCompile Include="ConsoleBuffer.cpp">
       <Filter>Source Files\Render</Filter>
     </ClCompile>
-    <ClCompile Include="StartupStateInputHandler.cpp">
+    <ClCompile Include="TitleStateInputHandler.cpp">
       <Filter>Source Files\Input</Filter>
     </ClCompile>
-    <ClCompile Include="StartupStateConsoleRenderer.cpp">
+    <ClCompile Include="TitleStateConsoleRenderer.cpp">
       <Filter>Source Files\Render</Filter>
     </ClCompile>
     <ClCompile Include="DiagnosticsConsoleRenderer.cpp">
@@ -215,10 +215,10 @@
     <ClInclude Include="KeyCode.h">
       <Filter>Header Files\DataTypes</Filter>
     </ClInclude>
-    <ClInclude Include="StartupStateInputHandler.h">
+    <ClInclude Include="TitleStateInputHandler.h">
       <Filter>Header Files\Input</Filter>
     </ClInclude>
-    <ClInclude Include="StartupStateConsoleRenderer.h">
+    <ClInclude Include="TitleStateConsoleRenderer.h">
       <Filter>Header Files\Render</Filter>
     </ClInclude>
     <ClInclude Include="GameConfig.h">

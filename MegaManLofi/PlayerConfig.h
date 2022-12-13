@@ -8,11 +8,11 @@ namespace MegaManLofi
    class PlayerConfig
    {
    public:
-      Rectangle DefaultHitBox = { 0, 0, 0, 0 };
-
       long long DefaultVelocityX = 0;
       long long DefaultVelocityY = 0;
 
+      unsigned int DefaultLives = 0;
       Direction DefaultDirection = (Direction)0;
+      Rectangle DefaultHitBox = { 0, 0, 0, 0 };
    };
 }

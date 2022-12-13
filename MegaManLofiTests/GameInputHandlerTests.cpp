@@ -30,9 +30,9 @@ public:
                                                  _gameInfoProviderMock,
                                                  _eventAggregatorMock ) );
 
-      _inputHandler->AddInputHandlerForGameState( GameState::Startup, _startupInputHandlerMock );
+      _inputHandler->AddInputHandlerForGameState( GameState::Title, _startupInputHandlerMock );
 
-      ON_CALL( *_gameInfoProviderMock, GetGameState() ).WillByDefault( Return( GameState::Startup ) );
+      ON_CALL( *_gameInfoProviderMock, GetGameState() ).WillByDefault( Return( GameState::Title ) );
       ON_CALL( *_inputReaderMock, WasButtonPressed( _ ) ).WillByDefault( Return( false ) );
    }
 

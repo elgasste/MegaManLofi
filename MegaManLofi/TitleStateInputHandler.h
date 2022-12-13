@@ -9,11 +9,11 @@ namespace MegaManLofi
    class IGameInputReader;
    class IGameCommandExecutor;
 
-   class StartupStateInputHandler : public IGameInputHandler
+   class TitleStateInputHandler : public IGameInputHandler
    {
    public:
-      StartupStateInputHandler( const std::shared_ptr<IGameInputReader> inputReader,
-                                const std::shared_ptr<IGameCommandExecutor> commandExecutor );
+      TitleStateInputHandler( const std::shared_ptr<IGameInputReader> inputReader,
+                              const std::shared_ptr<IGameCommandExecutor> commandExecutor );
 
       void HandleInput() override;
 

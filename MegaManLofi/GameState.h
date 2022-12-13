@@ -4,7 +4,7 @@ namespace MegaManLofi
 {
    enum class GameState
    {
-      Startup = 0,
+      Title = 0,
       Playing,
       GameOver
    };

@@ -34,8 +34,8 @@ namespace MegaManLofi
       void ExecuteCommand( GameCommand command, const std::shared_ptr<GameCommandArgs> args ) override;
 
    private:
-      void HandlePitfallEvent();
-      void HandleTileDeathEvent();
+      void StartStage();
+      void KillPlayer();
 
    private:
       const std::shared_ptr<IGameEventAggregator> _eventAggregator;
@@ -48,5 +48,6 @@ namespace MegaManLofi
       GameState _nextState;
 
       bool _isPaused;
+      bool _restartStageNextFrame;
    };
 }

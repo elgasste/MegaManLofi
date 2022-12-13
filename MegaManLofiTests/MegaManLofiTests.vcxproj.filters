@@ -13,7 +13,7 @@
     <ClCompile Include="PlayingStateInputHandlerTests.cpp">
       <Filter>Tests\Input</Filter>
     </ClCompile>
-    <ClCompile Include="StartupStateInputHandlerTests.cpp">
+    <ClCompile Include="TitleStateInputHandlerTests.cpp">
       <Filter>Tests\Input</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\gtest-all.cc" />

@@ -1,7 +1,7 @@
 #include <string>
 #include <format>
 
-#include "StartupStateConsoleRenderer.h"
+#include "TitleStateConsoleRenderer.h"
 #include "IConsoleBuffer.h"
 #include "IRandom.h"
 #include "IFrameRateProvider.h"
@@ -12,11 +12,11 @@
 using namespace std;
 using namespace MegaManLofi;
 
-StartupStateConsoleRenderer::StartupStateConsoleRenderer( const shared_ptr<IConsoleBuffer> consoleBuffer,
-                                                          const shared_ptr<IRandom> random,
-                                                          const shared_ptr<IFrameRateProvider> frameRateProvider,
-                                                          const shared_ptr<ConsoleRenderConfig> renderConfig,
-                                                          const shared_ptr<KeyboardInputConfig> inputConfig ) :
+TitleStateConsoleRenderer::TitleStateConsoleRenderer( const shared_ptr<IConsoleBuffer> consoleBuffer,
+                                                      const shared_ptr<IRandom> random,
+                                                      const shared_ptr<IFrameRateProvider> frameRateProvider,
+                                                      const shared_ptr<ConsoleRenderConfig> renderConfig,
+                                                      const shared_ptr<KeyboardInputConfig> inputConfig ) :
    _consoleBuffer( consoleBuffer ),
    _random( random ),
    _frameRateProvider( frameRateProvider ),
@@ -32,7 +32,7 @@ StartupStateConsoleRenderer::StartupStateConsoleRenderer( const shared_ptr<ICons
    }
 }
 
-void StartupStateConsoleRenderer::Render()
+void TitleStateConsoleRenderer::Render()
 {
    _consoleBuffer->SetDefaultForegroundColor( _renderConfig->TitleScreenForegroundColor );
    _consoleBuffer->SetDefaultBackgroundColor( _renderConfig->TitleScreenBackgroundColor );
@@ -48,7 +48,7 @@ void StartupStateConsoleRenderer::Render()
    DrawKeyBindings();
 }
 
-void StartupStateConsoleRenderer::DrawStars()
+void TitleStateConsoleRenderer::DrawStars()
 {
    for ( int i = 0; i < (int)_starCoordinates.size(); i++ )
    {
@@ -67,7 +67,7 @@ void StartupStateConsoleRenderer::DrawStars()
    }
 }
 
-void StartupStateConsoleRenderer::DrawKeyBindings() const
+void TitleStateConsoleRenderer::DrawKeyBindings() const
 {
    auto leftOfMiddleX = _renderConfig->TitleKeyBindingsMiddleX - 2;
    auto top = _renderConfig->TitleKeyBindingsY;

@@ -23,10 +23,11 @@ public:
       _frameActionRegistryMock.reset( new NiceMock<mock_FrameActionRegistry> );
       _frameRateProviderMock.reset( new NiceMock<mock_FrameRateProvider> );
 
-      _config->DefaultHitBox = { 0, 0, 4, 4 };
       _config->DefaultVelocityX = 0;
       _config->DefaultVelocityY = 0;
+      _config->DefaultLives = 5;
       _config->DefaultDirection = Direction::Left;
+      _config->DefaultHitBox = { 0, 0, 4, 4 };
 
       ON_CALL( *_frameRateProviderMock, GetFramesPerSecond() ).WillByDefault( Return( 100 ) );
    }
@@ -48,19 +49,21 @@ protected:
 
 TEST_F( PlayerTests, Constructor_Always_SetsDefaultPropertiesFromConfig )
 {
-   _config->DefaultHitBox = { 1, 2, 3, 4 };
    _config->DefaultVelocityX = 100;
    _config->DefaultVelocityY = 200;
+   _config->DefaultLives = 10;
    _config->DefaultDirection = Direction::Right;
+   _config->DefaultHitBox = { 1, 2, 3, 4 };
    BuildPlayer();
 
+   EXPECT_EQ( _player->GetVelocityX(), 100 );
+   EXPECT_EQ( _player->GetVelocityY(), 200 );
+   EXPECT_EQ( _player->GetLivesRemaining(), 10 );
+   EXPECT_EQ( _player->GetDirection(), Direction::Right );
    EXPECT_EQ( _player->GetHitBox().Left, 1 );
    EXPECT_EQ( _player->GetHitBox().Top, 2 );
    EXPECT_EQ( _player->GetHitBox().Width, 3 );
    EXPECT_EQ( _player->GetHitBox().Height, 4 );
-   EXPECT_EQ( _player->GetVelocityX(), 100 );
-   EXPECT_EQ( _player->GetVelocityY(), 200 );
-   EXPECT_EQ( _player->GetDirection(), Direction::Right );
    EXPECT_FALSE( _player->IsStanding() );
    EXPECT_FALSE( _player->IsJumping() );
 }
@@ -88,6 +91,13 @@ TEST_F( PlayerTests, Reset_Always_ResetsDefaultPropertiesFromConfig )
    EXPECT_EQ( _player->GetDirection(), Direction::Left );
    EXPECT_FALSE( _player->IsStanding() );
    EXPECT_FALSE( _player->IsJumping() );
+}
+
+TEST_F( PlayerTests, GetLivesRemaining_Always_ReturnsLivesRemaining )
+{
+   BuildPlayer();
+
+   EXPECT_EQ( _player->GetLivesRemaining(), 5 );
 }
 
 TEST_F( PlayerTests, GetDirection_Always_ReturnsDirection )

@@ -37,6 +37,6 @@ namespace MegaManLofi
       std::shared_ptr<IArena> _arena;
       std::shared_ptr<IPlayer> _player;
 
-      Quad _playerOccupyingTileIndices;
+      Quad<long long> _playerOccupyingTileIndices;
    };
 }

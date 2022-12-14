@@ -1,9 +1,9 @@
 #pragma once
 
+#include "ConsoleColor.h"
+
 namespace MegaManLofi
 {
-   enum class ConsoleColor;
-
    struct ConsolePixel
    {
       char Value = '\0';

@@ -11,7 +11,7 @@ public:
    MOCK_METHOD( void, ResetPhysics, ( ), ( override ) );
    MOCK_METHOD( unsigned int, GetLivesRemaining, ( ), ( const, override ) );
    MOCK_METHOD( MegaManLofi::Direction, GetDirection, ( ), ( const, override ) );
-   MOCK_METHOD( const MegaManLofi::Rectangle&, GetHitBox, ( ), ( const, override ) );
+   MOCK_METHOD( const MegaManLofi::Rectangle<long long>&, GetHitBox, ( ), ( const, override ) );
    MOCK_METHOD( bool, IsMoving, ( ), ( const, override ) );
    MOCK_METHOD( bool, IsStanding, ( ), ( const, override ) );
    MOCK_METHOD( bool, IsJumping, ( ), ( const, override ) );

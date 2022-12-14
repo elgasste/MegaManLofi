@@ -2,9 +2,10 @@
 
 #include <map>
 
+#include "ConsoleSprite.h"
+
 namespace MegaManLofi
 {
-   struct ConsoleSprite;
    enum class Direction;
 
    class PlayerSpriteGenerator
@@ -12,5 +13,6 @@ namespace MegaManLofi
    public:
       static std::map<Direction, ConsoleSprite> GenerateStaticSpriteMap();
       static std::map<Direction, ConsoleSprite> GenerateMovingSpriteMap();
+      static ConsoleSprite GeneratePlayerThwipSprite();
    };
 }

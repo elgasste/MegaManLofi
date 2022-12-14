@@ -1,10 +1,9 @@
 #include "RectangleUtilities.h"
-#include "Rectangle.h"
 
 using namespace std;
 using namespace MegaManLofi;
 
-bool RectangleUtilities::RectanglesIntersect( const Rectangle& rect1, const Rectangle& rect2 )
+bool RectangleUtilities::RectanglesIntersect( const Rectangle<long long>& rect1, const Rectangle<long long>& rect2 )
 {
    auto rect1Right = rect1.Left + rect1.Width;
    auto rect2Right = rect2.Left + rect2.Width;
@@ -20,7 +19,7 @@ bool RectangleUtilities::RectanglesIntersect( const Rectangle& rect1, const Rect
           ( leftInBounds && bottomInBounds ) || ( rightInBounds && bottomInBounds );
 }
 
-void RectangleUtilities::UnclipHorizontal( Rectangle& clippingRect, const Rectangle& clippedRect )
+void RectangleUtilities::UnclipHorizontal( Rectangle<long long>& clippingRect, const Rectangle<long long>& clippedRect )
 {
    auto clippingRectMiddle = clippingRect.Left + ( clippingRect.Width / 2 );
    auto clippedRectMiddle = clippedRect.Left + ( clippedRect.Width / 2 );
@@ -35,7 +34,7 @@ void RectangleUtilities::UnclipHorizontal( Rectangle& clippingRect, const Rectan
    }
 }
 
-void RectangleUtilities::UnclipVertical( Rectangle& clippingRect, const Rectangle& clippedRect )
+void RectangleUtilities::UnclipVertical( Rectangle<long long>& clippingRect, const Rectangle<long long>& clippedRect )
 {
    auto clippingRectMiddle = clippingRect.Top + ( clippingRect.Height / 2 );
    auto clippedRectMiddle = clippedRect.Top + ( clippedRect.Height / 2 );

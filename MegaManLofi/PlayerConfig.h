@@ -13,6 +13,6 @@ namespace MegaManLofi
 
       unsigned int DefaultLives = 0;
       Direction DefaultDirection = (Direction)0;
-      Rectangle DefaultHitBox = { 0, 0, 0, 0 };
+      Rectangle<long long> DefaultHitBox = { 0, 0, 0, 0 };
    };
 }

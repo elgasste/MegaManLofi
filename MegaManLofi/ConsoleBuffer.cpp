@@ -76,10 +76,10 @@ void ConsoleBuffer::LoadRenderConfig( const shared_ptr<IGameRenderConfig> config
 {
    auto consoleConfig = static_pointer_cast<ConsoleRenderConfig>( config );
 
-   _bufferInfo->ConsoleSize = { consoleConfig->ConsoleWidth, consoleConfig->ConsoleHeight };
-   _bufferInfo->DrawBufferSize = consoleConfig->ConsoleWidth * consoleConfig->ConsoleHeight;
+   _bufferInfo->ConsoleSize = { consoleConfig->ConsoleWidthChars, consoleConfig->ConsoleHeightChars };
+   _bufferInfo->DrawBufferSize = consoleConfig->ConsoleWidthChars * consoleConfig->ConsoleHeightChars;
    _bufferInfo->DrawBuffer = new CHAR_INFO[_bufferInfo->DrawBufferSize];
-   _bufferInfo->OutputRect = { 0, 0, consoleConfig->ConsoleWidth, consoleConfig->ConsoleHeight };
+   _bufferInfo->OutputRect = { 0, 0, consoleConfig->ConsoleWidthChars, consoleConfig->ConsoleHeightChars };
 
    ResetDrawBuffer();
 

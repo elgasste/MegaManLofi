@@ -2,11 +2,12 @@
 
 namespace MegaManLofi
 {
+   template<typename T>
    struct Rectangle
    {
-      long long Left = 0;
-      long long Top = 0;
-      long long Width = 0;
-      long long Height = 0;
+      T Left = 0;
+      T Top = 0;
+      T Width = 0;
+      T Height = 0;
    };
 }

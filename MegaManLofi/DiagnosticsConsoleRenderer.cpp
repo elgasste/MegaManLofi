@@ -22,7 +22,7 @@ DiagnosticsConsoleRenderer::DiagnosticsConsoleRenderer( const shared_ptr<IConsol
 
 void DiagnosticsConsoleRenderer::Render()
 {
-   auto left = _renderConfig->ConsoleWidth - DIAGNOSTICS_WIDTH;
+   auto left = _renderConfig->ConsoleWidthChars - DIAGNOSTICS_WIDTH;
 
    auto framesPerSecondString = format( " Frames per second: {0} ", _clock->GetFramesPerSecond() );
    auto totalFramesString = format( " Total frames:      {0} ", _clock->GetTotalFrameCount() );

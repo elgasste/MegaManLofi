@@ -3,6 +3,7 @@
 #include <memory>
 
 #include "IGameRenderer.h"
+#include "Quad.h"
 #include "Rectangle.h"
 #include "Coordinate.h"
 
@@ -55,6 +56,7 @@ namespace MegaManLofi
       const std::shared_ptr<IGameEventAggregator> _eventAggregator;
       const std::shared_ptr<IFrameRateProvider> _frameRateProvider;
 
+      Quad<long long> _viewportQuadUnits;
       Rectangle<short> _viewportRectChars;
       Coordinate<short> _viewportOffsetChars;
       Coordinate<short> _playerViewportChars;

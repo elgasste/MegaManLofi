@@ -31,6 +31,7 @@ PlayingStateConsoleRenderer::PlayingStateConsoleRenderer( const shared_ptr<ICons
    _arenaInfoProvider( arenaInfoProvider ),
    _eventAggregator( eventAggregator ),
    _frameRateProvider( frameRateProvider ),
+   _viewportQuadUnits( { 0, 0, 0, 0 } ),
    _viewportRectChars( { 0, 0, 0, 0 } ),
    _viewportOffsetChars( { 0, 0 } ),
    _playerViewportChars( { 0, 0 } ),
@@ -113,27 +114,27 @@ void PlayingStateConsoleRenderer::UpdateCaches()
    auto viewportWidthUnits = _renderConfig->ArenaViewportWidthChars * _renderConfig->ArenaCharWidth;
    auto viewportHeightUnits = _renderConfig->ArenaViewportHeightChars * _renderConfig->ArenaCharHeight;
 
-   auto viewportLeftUnits = max( _arenaInfoProvider->GetPlayerPositionX() - ( viewportWidthUnits / 2 ), 0ll );
-   auto viewportTopUnits = max( _arenaInfoProvider->GetPlayerPositionY() - ( viewportHeightUnits / 2 ), 0ll );
-   auto viewportRightUnits = viewportLeftUnits + viewportWidthUnits;
-   auto viewportBottomUnits = viewportTopUnits + viewportHeightUnits;
+   _viewportQuadUnits.Left = max( _arenaInfoProvider->GetPlayerPositionX() - ( viewportWidthUnits / 2 ), 0ll );
+   _viewportQuadUnits.Top = max( _arenaInfoProvider->GetPlayerPositionY() - ( viewportHeightUnits / 2 ), 0ll );
+   _viewportQuadUnits.Right = _viewportQuadUnits.Left + viewportWidthUnits;
+   _viewportQuadUnits.Bottom = _viewportQuadUnits.Top + viewportHeightUnits;
 
    auto arenaWidth = _arenaInfoProvider->GetWidth();
-   if ( viewportRightUnits > arenaWidth )
+   if ( _viewportQuadUnits.Right > arenaWidth )
    {
-      viewportRightUnits = arenaWidth;
-      viewportLeftUnits = max( 0ll, viewportRightUnits - viewportWidthUnits );
+      _viewportQuadUnits.Right = arenaWidth;
+      _viewportQuadUnits.Left = max( 0ll, _viewportQuadUnits.Right - viewportWidthUnits );
    }
 
    auto arenaHeight = _arenaInfoProvider->GetHeight();
-   if ( viewportBottomUnits > arenaHeight )
+   if ( _viewportQuadUnits.Bottom > arenaHeight )
    {
-      viewportBottomUnits = arenaHeight;
-      viewportTopUnits = max( 0ll, viewportBottomUnits - viewportHeightUnits );
+      _viewportQuadUnits.Bottom = arenaHeight;
+      _viewportQuadUnits.Top = max( 0ll, _viewportQuadUnits.Bottom - viewportHeightUnits );
    }
 
-   _viewportRectChars.Left = (short)( viewportLeftUnits / _renderConfig->ArenaCharWidth );
-   _viewportRectChars.Top = (short)( viewportTopUnits / _renderConfig->ArenaCharHeight );
+   _viewportRectChars.Left = (short)( _viewportQuadUnits.Left / _renderConfig->ArenaCharWidth );
+   _viewportRectChars.Top = (short)( _viewportQuadUnits.Top / _renderConfig->ArenaCharHeight );
    _viewportRectChars.Width = (short)( viewportWidthUnits / _renderConfig->ArenaCharWidth );
    _viewportRectChars.Height = (short)( viewportHeightUnits / _renderConfig->ArenaCharHeight );
 
@@ -141,8 +142,8 @@ void PlayingStateConsoleRenderer::UpdateCaches()
    _viewportOffsetChars.Left = _renderConfig->ArenaViewportLeftChars + ( ( _renderConfig->ArenaViewportWidthChars - _viewportRectChars.Width ) / 2 );
    _viewportOffsetChars.Top = _renderConfig->ArenaViewportTopChars + ( ( _renderConfig->ArenaViewportHeightChars - _viewportRectChars.Height ) / 2 );
 
-   _playerViewportChars.Left = (short)( ( _arenaInfoProvider->GetPlayerPositionX() - viewportLeftUnits ) / _renderConfig->ArenaCharWidth );
-   _playerViewportChars.Top = (short)( ( _arenaInfoProvider->GetPlayerPositionY() - viewportTopUnits ) / _renderConfig->ArenaCharHeight );
+   _playerViewportChars.Left = (short)( ( _arenaInfoProvider->GetPlayerPositionX() - _viewportQuadUnits.Left ) / _renderConfig->ArenaCharWidth );
+   _playerViewportChars.Top = (short)( ( _arenaInfoProvider->GetPlayerPositionY() - _viewportQuadUnits.Top ) / _renderConfig->ArenaCharHeight );
 }
 
 void PlayingStateConsoleRenderer::DrawGameStartAnimation()
@@ -160,55 +161,30 @@ void PlayingStateConsoleRenderer::DrawGameStartAnimation()
    if ( _stageStartAnimationElapsedSeconds >= ( _renderConfig->GameStartSingleBlinkSeconds * _renderConfig->GameStartBlinkCount ) )
    {
       _isAnimatingStageStart = false;
-      // MUFFINS
-      //_isAnimatingPlayerThwipIn = true;
-      //_playerThwipBottom = _viewportOffsetY;
+      _isAnimatingPlayerThwipIn = true;
+      _playerThwipBottom = _viewportQuadUnits.Top;
    }
 }
 
 void PlayingStateConsoleRenderer::DrawPlayerThwipInAnimation()
 {
-   /*auto thwipSpriteHeightUnits = _renderConfig->PlayerThwipSprite.Height * _renderConfig->ArenaCharHeight;
-   auto thwipSpriteTopUnits = _playerThwipBottom - thwipSpriteHeightUnits;
-
-   auto thwipDelta = ( _renderConfig->PlayerThwipVelocity / _frameRateProvider->GetFramesPerSecond() );
-   thwipSpriteTopUnits += thwipDelta;
-   _playerThwipBottom += thwipDelta;
+   auto thwipDeltaUnits = ( _renderConfig->PlayerThwipVelocity / _frameRateProvider->GetFramesPerSecond() );
+   _playerThwipBottom += thwipDeltaUnits;
 
    auto playerSprite = _renderConfig->PlayerStaticSpriteMap[_playerInfoProvider->GetDirection()];
-   auto thwipSpriteLeftOffsetChars = (short)( ( playerSprite.Width - _renderConfig->PlayerThwipSprite.Width ) / 2 );*/
+   auto thwipSpriteLeftOffsetChars = (short)( ( playerSprite.Width - _renderConfig->PlayerThwipSprite.Width ) / 2 );
 
-   // MUFFINS: we know where the player is going to be drawn in the viewport, so now:
-   // - figure out the Y location in the viewport to draw the sprite (in chars)
-   // - if the bottom of the thwip sprite is still higher than the bottom of the player's sprite,
-   //   draw the thwip sprite and keep going
-   // - if the bottom of the thwip sprite matches or is beyond the bottom of the player's sprite,
-   //   don't draw, and end the animation
-
-   // MUFFINS: this gets all messed up when viewport offsets are negative...
-   // maybe this whole class needs to be updated? It would be nice to have:
-   // - _viewportX/_viewportY: the actual coordinates in units of the viewport
-   // - _viewportWidth/_viewportHeight: the actual width and height in units of the viewport
-   // - _
-
-   /*auto thwipSpriteYUnits = thwipSpriteTopUnits - _viewportOffsetY;
-
-   if ( _viewportOffsetY < 0 )
+   const auto& hitBox = _playerInfoProvider->GetHitBox();
+   if ( _playerThwipBottom >= ( _arenaInfoProvider->GetPlayerPositionY() + hitBox.Height ) )
    {
-      thwipSpriteYUnits += _viewportOffsetY;
-   }
-   else if ( _viewportOffsetY + _viewportHeight > _arenaInfoProvider->GetHeight() )
-   {
-      thwipSpriteYUnits += ( _viewportOffsetY + _viewportHeight ) - _arenaInfoProvider->GetHeight();
+      _isAnimatingPlayerThwipIn = false;
+      return;
    }
 
-   auto thwipSpriteYChars = (short)( thwipSpriteYUnits / _renderConfig->ArenaCharHeight );*/
-
-   // END MUFFINS
-
-   // MUFFINS: we don't need this unless we're actually drawing the sprite
-   /*auto playerDrawX = GetPlayerViewportX() + _renderConfig->ArenaViewportX;
-   auto thwipSpriteDrawX = playerDrawX + thwipSpriteLeftOffsetChars;*/
+   auto playerThwipBottomViewportChars = (short)( ( _playerThwipBottom - _viewportQuadUnits.Top ) / _renderConfig->ArenaCharHeight );
+   _consoleBuffer->Draw( _playerViewportChars.Left + thwipSpriteLeftOffsetChars + _viewportOffsetChars.Left,
+                         ( playerThwipBottomViewportChars - _renderConfig->PlayerThwipSprite.Height ) + _viewportOffsetChars.Top,
+                         _renderConfig->PlayerThwipSprite );
 }
 
 void PlayingStateConsoleRenderer::DrawPitfallAnimation()

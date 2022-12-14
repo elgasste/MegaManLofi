@@ -4,6 +4,7 @@
 
 #include "IGameRenderer.h"
 #include "Rectangle.h"
+#include "Coordinate.h"
 
 namespace MegaManLofi
 {
@@ -55,12 +56,8 @@ namespace MegaManLofi
       const std::shared_ptr<IFrameRateProvider> _frameRateProvider;
 
       Rectangle<short> _viewportRectChars;
-
-      short _viewportOffsetLeftChars;
-      short _viewportOffsetTopChars;
-
-      short _playerViewportLeftChars;
-      short _playerViewportTopChars;
+      Coordinate<short> _viewportOffsetChars;
+      Coordinate<short> _playerViewportChars;
 
       bool _isAnimatingStageStart;
       bool _isAnimatingPlayerThwipIn;

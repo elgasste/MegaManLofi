@@ -32,10 +32,8 @@ PlayingStateConsoleRenderer::PlayingStateConsoleRenderer( const shared_ptr<ICons
    _eventAggregator( eventAggregator ),
    _frameRateProvider( frameRateProvider ),
    _viewportRectChars( { 0, 0, 0, 0 } ),
-   _viewportOffsetLeftChars( 0 ),
-   _viewportOffsetTopChars( 0 ),
-   _playerViewportLeftChars( 0 ),
-   _playerViewportTopChars( 0 ),
+   _viewportOffsetChars( { 0, 0 } ),
+   _playerViewportChars( { 0, 0 } ),
    _isAnimatingStageStart( false ),
    _isAnimatingPlayerThwipIn( false ),
    _isAnimatingPitfall( false ),
@@ -140,11 +138,11 @@ void PlayingStateConsoleRenderer::UpdateCaches()
    _viewportRectChars.Height = (short)( viewportHeightUnits / _renderConfig->ArenaCharHeight );
 
    // this accounts for the case where the arena is smaller than the viewport
-   _viewportOffsetLeftChars = _renderConfig->ArenaViewportLeftChars + ( ( _renderConfig->ArenaViewportWidthChars - _viewportRectChars.Width ) / 2 );
-   _viewportOffsetTopChars = _renderConfig->ArenaViewportTopChars + ( ( _renderConfig->ArenaViewportHeightChars - _viewportRectChars.Height ) / 2 );
+   _viewportOffsetChars.Left = _renderConfig->ArenaViewportLeftChars + ( ( _renderConfig->ArenaViewportWidthChars - _viewportRectChars.Width ) / 2 );
+   _viewportOffsetChars.Top = _renderConfig->ArenaViewportTopChars + ( ( _renderConfig->ArenaViewportHeightChars - _viewportRectChars.Height ) / 2 );
 
-   _playerViewportLeftChars = (short)( ( _arenaInfoProvider->GetPlayerPositionX() - viewportLeftUnits ) / _renderConfig->ArenaCharWidth );
-   _playerViewportTopChars = (short)( ( _arenaInfoProvider->GetPlayerPositionY() - viewportTopUnits ) / _renderConfig->ArenaCharHeight );
+   _playerViewportChars.Left = (short)( ( _arenaInfoProvider->GetPlayerPositionX() - viewportLeftUnits ) / _renderConfig->ArenaCharWidth );
+   _playerViewportChars.Top = (short)( ( _arenaInfoProvider->GetPlayerPositionY() - viewportTopUnits ) / _renderConfig->ArenaCharHeight );
 }
 
 void PlayingStateConsoleRenderer::DrawGameStartAnimation()
@@ -153,8 +151,8 @@ void PlayingStateConsoleRenderer::DrawGameStartAnimation()
 
    if ( (int)( _stageStartAnimationElapsedSeconds / _renderConfig->GameStartSingleBlinkSeconds ) % 2 == 0 )
    {
-      auto left = ( _viewportRectChars.Width / 2 ) - ( _renderConfig->GetReadySprite.Width / 2 ) + _viewportOffsetLeftChars;
-      auto top = ( _viewportRectChars.Height / 2 ) - ( _renderConfig->GetReadySprite.Height / 2 ) + _viewportOffsetTopChars;
+      auto left = ( _viewportRectChars.Width / 2 ) - ( _renderConfig->GetReadySprite.Width / 2 ) + _viewportOffsetChars.Left;
+      auto top = ( _viewportRectChars.Height / 2 ) - ( _renderConfig->GetReadySprite.Height / 2 ) + _viewportOffsetChars.Top;
 
       _consoleBuffer->Draw( left, top, _renderConfig->GetReadySprite );
    }
@@ -232,8 +230,8 @@ void PlayingStateConsoleRenderer::DrawPlayerExplosionAnimation()
       _renderConfig->PlayerExplosionParticleSprite1 : _renderConfig->PlayerExplosionParticleSprite2;
 
    const auto& hitBox = _playerInfoProvider->GetHitBox();
-   auto particleStartLeftChars = _playerViewportLeftChars + (short)( hitBox.Width / 2 / _renderConfig->ArenaCharWidth ) + _viewportOffsetLeftChars;
-   auto particleStartTopChars = _playerViewportTopChars + (short)( hitBox.Height / 2 / _renderConfig->ArenaCharHeight ) + _viewportOffsetTopChars;
+   auto particleStartLeftChars = _playerViewportChars.Left + (short)( hitBox.Width / 2 / _renderConfig->ArenaCharWidth ) + _viewportOffsetChars.Left;
+   auto particleStartTopChars = _playerViewportChars.Top + (short)( hitBox.Height / 2 / _renderConfig->ArenaCharHeight ) + _viewportOffsetChars.Top;
    
    auto elapsedFrames = _frameRateProvider->GetCurrentFrame() - _playerExplosionStartFrame;
    auto particleIncrement = ( _renderConfig->PlayerExplosionParticleVelocity * frameRateScalar );
@@ -271,7 +269,7 @@ void PlayingStateConsoleRenderer::DrawArenaSprites()
 
          if ( spriteId != -1 )
          {
-            _consoleBuffer->Draw( x + _viewportOffsetLeftChars, y + _viewportOffsetTopChars, _renderConfig->ArenaSpriteMap[ spriteId ] );
+            _consoleBuffer->Draw( x + _viewportOffsetChars.Left, y + _viewportOffsetChars.Top, _renderConfig->ArenaSpriteMap[ spriteId ] );
          }
       }
    }
@@ -282,7 +280,7 @@ void PlayingStateConsoleRenderer::DrawPlayer()
    auto direction = _playerInfoProvider->GetDirection();
    auto sprite = _playerInfoProvider->IsMoving() ? _renderConfig->PlayerMovingSpriteMap[direction] : _renderConfig->PlayerStaticSpriteMap[direction];
 
-   _consoleBuffer->Draw( _playerViewportLeftChars + _viewportOffsetLeftChars, _playerViewportTopChars + _viewportOffsetTopChars, sprite );
+   _consoleBuffer->Draw( _playerViewportChars.Left + _viewportOffsetChars.Left, _playerViewportChars.Top + _viewportOffsetChars.Top, sprite );
 }
 
 void PlayingStateConsoleRenderer::DrawStatusBar()
@@ -295,5 +293,5 @@ void PlayingStateConsoleRenderer::DrawPauseOverlay()
    auto left = ( _viewportRectChars.Width / 2 ) - ( _renderConfig->PauseOverlaySprite.Width / 2 );
    auto top = ( _viewportRectChars.Height / 2 ) - ( _renderConfig->PauseOverlaySprite.Height / 2 );
 
-   _consoleBuffer->Draw( left + _viewportOffsetLeftChars, top + _viewportOffsetTopChars, _renderConfig->PauseOverlaySprite );
+   _consoleBuffer->Draw( left + _viewportOffsetChars.Left, top + _viewportOffsetChars.Top, _renderConfig->PauseOverlaySprite );
 }

@@ -52,14 +52,14 @@ void TitleStateConsoleRenderer::DrawStars()
 {
    for ( int i = 0; i < (int)_starCoordinates.size(); i++ )
    {
-      auto left = (short)( _starCoordinates[i].X / _renderConfig->ArenaCharWidth );
-      auto top = (short)( _starCoordinates[i].Y / _renderConfig->ArenaCharHeight );
+      auto left = (short)( _starCoordinates[i].Left / _renderConfig->ArenaCharWidth );
+      auto top = (short)( _starCoordinates[i].Top / _renderConfig->ArenaCharHeight );
       _consoleBuffer->Draw( left, top, _renderConfig->TitleStarSprite );
 
-      _starCoordinates[i].X += ( _starVelocities[i] / _frameRateProvider->GetFramesPerSecond() );
+      _starCoordinates[i].Left += ( _starVelocities[i] / _frameRateProvider->GetFramesPerSecond() );
 
       // if it's flown off the screen, generate a new star
-      if ( _starCoordinates[i].X >= ( _renderConfig->ArenaCharWidth * _renderConfig->ConsoleWidthChars ) )
+      if ( _starCoordinates[i].Left >= ( _renderConfig->ArenaCharWidth * _renderConfig->ConsoleWidthChars ) )
       {
          _starCoordinates[i] = { 0, _random->GetUnsignedInt( 0, (unsigned int)( ( _renderConfig->ConsoleHeightChars - 1 ) * _renderConfig->ArenaCharHeight ) ) };
          _starVelocities[i] = _random->GetUnsignedInt( (unsigned int)_renderConfig->MinTitleStarVelocity, (unsigned int)_renderConfig->MaxTitleStarVelocity );

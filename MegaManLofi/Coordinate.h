@@ -2,9 +2,10 @@
 
 namespace MegaManLofi
 {
+   template<typename T>
    struct Coordinate
    {
-      long long X = 0;
-      long long Y = 0;
+      T Left = 0;
+      T Top = 0;
    };
 }

@@ -34,7 +34,7 @@ namespace MegaManLofi
       void HandlePitfallEvent();
       void HandleTileDeathEvent();
 
-      void UpdateLocations();
+      void UpdateCaches();
 
       void DrawGameStartAnimation();
       void DrawPlayerThwipInAnimation();

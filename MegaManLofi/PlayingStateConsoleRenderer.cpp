@@ -56,7 +56,7 @@ void PlayingStateConsoleRenderer::Render()
    _consoleBuffer->SetDefaultForegroundColor( _renderConfig->ArenaForegroundColor );
    _consoleBuffer->SetDefaultBackgroundColor( _renderConfig->ArenaBackgroundColor );
 
-   UpdateLocations();
+   UpdateCaches();
    DrawArenaSprites();
 
    if ( _isAnimatingStageStart )
@@ -110,7 +110,7 @@ void PlayingStateConsoleRenderer::HandleTileDeathEvent()
    _playerExplosionStartFrame = _frameRateProvider->GetCurrentFrame();
 }
 
-void PlayingStateConsoleRenderer::UpdateLocations()
+void PlayingStateConsoleRenderer::UpdateCaches()
 {
    auto viewportWidthUnits = _renderConfig->ArenaViewportWidthChars * _renderConfig->ArenaCharWidth;
    auto viewportHeightUnits = _renderConfig->ArenaViewportHeightChars * _renderConfig->ArenaCharHeight;

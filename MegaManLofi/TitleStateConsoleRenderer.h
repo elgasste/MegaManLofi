@@ -37,7 +37,7 @@ namespace MegaManLofi
       const std::shared_ptr<ConsoleRenderConfig> _renderConfig;
       const std::shared_ptr<KeyboardInputConfig> _inputConfig;
 
-      std::vector<Coordinate> _starCoordinates;
+      std::vector<Coordinate<long long>> _starCoordinates;
       std::vector<long long> _starVelocities;
    };
 }

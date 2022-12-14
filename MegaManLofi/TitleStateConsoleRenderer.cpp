@@ -5,6 +5,7 @@
 #include "IConsoleBuffer.h"
 #include "IRandom.h"
 #include "IFrameRateProvider.h"
+#include "IGameEventAggregator.h"
 #include "ConsoleRenderConfig.h"
 #include "KeyboardInputConfig.h"
 #include "ConsoleColor.h"
@@ -15,13 +16,16 @@ using namespace MegaManLofi;
 TitleStateConsoleRenderer::TitleStateConsoleRenderer( const shared_ptr<IConsoleBuffer> consoleBuffer,
                                                       const shared_ptr<IRandom> random,
                                                       const shared_ptr<IFrameRateProvider> frameRateProvider,
+                                                      const shared_ptr<IGameEventAggregator> eventAggregator,
                                                       const shared_ptr<ConsoleRenderConfig> renderConfig,
                                                       const shared_ptr<KeyboardInputConfig> inputConfig ) :
    _consoleBuffer( consoleBuffer ),
    _random( random ),
    _frameRateProvider( frameRateProvider ),
+   _eventAggregator( eventAggregator ),
    _renderConfig( renderConfig ),
-   _inputConfig( inputConfig )
+   _inputConfig( inputConfig ),
+   _isAnimatingPlayerThwipOut( false )
 {
    for ( int i = 0; i < renderConfig->TitleStarCount; i++ )
    {
@@ -30,6 +34,11 @@ TitleStateConsoleRenderer::TitleStateConsoleRenderer( const shared_ptr<IConsoleB
       _starVelocities.push_back( random->GetUnsignedInt( (unsigned int)renderConfig->MinTitleStarVelocity,
                                                          (unsigned int)renderConfig->MaxTitleStarVelocity ) );
    }
+}
+
+void TitleStateConsoleRenderer::HandleStageStartedEvent()
+{
+   // MUFFINS: start the thwip animation
 }
 
 void TitleStateConsoleRenderer::Render()
@@ -46,6 +55,11 @@ void TitleStateConsoleRenderer::Render()
    _consoleBuffer->Draw( _renderConfig->TitleStartMessageLeftChars, _renderConfig->TitleStartMessageTopChars, _renderConfig->TitleStartMessageSprite );
 
    DrawKeyBindings();
+}
+
+bool TitleStateConsoleRenderer::HasFocus() const
+{
+   return _isAnimatingPlayerThwipOut;
 }
 
 void TitleStateConsoleRenderer::DrawStars()

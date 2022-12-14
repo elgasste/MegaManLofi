@@ -24,7 +24,7 @@ namespace MegaManLofi
 
       unsigned int GetLivesRemaining() const override { return _lives; }
       Direction GetDirection() const override { return _direction; }
-      const Rectangle& GetHitBox() const override { return _hitBox; }
+      const Rectangle<long long>& GetHitBox() const override { return _hitBox; }
 
       bool IsMoving() const override;
       bool IsStanding() const override { return _isStanding; }
@@ -55,7 +55,7 @@ namespace MegaManLofi
 
       unsigned int _lives;
       Direction _direction;
-      Rectangle _hitBox;
+      Rectangle<long long> _hitBox;
 
       bool _isStanding;
       bool _isJumping;

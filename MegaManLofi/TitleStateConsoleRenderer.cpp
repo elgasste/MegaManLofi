@@ -25,8 +25,8 @@ TitleStateConsoleRenderer::TitleStateConsoleRenderer( const shared_ptr<IConsoleB
 {
    for ( int i = 0; i < renderConfig->TitleStarCount; i++ )
    {
-      _starCoordinates.push_back( { random->GetUnsignedInt( 0, (unsigned int)( ( renderConfig->ConsoleWidth - 1 ) * renderConfig->ArenaCharWidth ) ),
-                                    random->GetUnsignedInt( 0, (unsigned int)( ( renderConfig->ConsoleHeight - 1 ) * renderConfig->ArenaCharHeight ) ) } );
+      _starCoordinates.push_back( { random->GetUnsignedInt( 0, (unsigned int)( ( renderConfig->ConsoleWidthChars - 1 ) * renderConfig->ArenaCharWidth ) ),
+                                    random->GetUnsignedInt( 0, (unsigned int)( ( renderConfig->ConsoleHeightChars - 1 ) * renderConfig->ArenaCharHeight ) ) } );
       _starVelocities.push_back( random->GetUnsignedInt( (unsigned int)renderConfig->MinTitleStarVelocity,
                                                          (unsigned int)renderConfig->MaxTitleStarVelocity ) );
    }
@@ -39,11 +39,11 @@ void TitleStateConsoleRenderer::Render()
 
    DrawStars();
 
-   _consoleBuffer->Draw( _renderConfig->TitleTextX, _renderConfig->TitleTextY, _renderConfig->TitleTextSprite );
-   _consoleBuffer->Draw( _renderConfig->TitleSubTextX, _renderConfig->TitleSubTextY, _renderConfig->TitleSubTextSprite );
-   _consoleBuffer->Draw( _renderConfig->TitlePlayerX, _renderConfig->TitlePlayerY, _renderConfig->TitlePlayerSprite );
-   _consoleBuffer->Draw( _renderConfig->TitleBuildingX, _renderConfig->TitleBuildingY, _renderConfig->TitleBuildingSprite );
-   _consoleBuffer->Draw( _renderConfig->TitleStartMessageX, _renderConfig->TitleStartMessageY, _renderConfig->TitleStartMessageSprite );
+   _consoleBuffer->Draw( _renderConfig->TitleTextLeftChars, _renderConfig->TitleTextTopChars, _renderConfig->TitleTextSprite );
+   _consoleBuffer->Draw( _renderConfig->TitleSubTextLeftChars, _renderConfig->TitleSubTextTopChars, _renderConfig->TitleSubTextSprite );
+   _consoleBuffer->Draw( _renderConfig->TitlePlayerLeftChars, _renderConfig->TitlePlayerTopChars, _renderConfig->TitlePlayerSprite );
+   _consoleBuffer->Draw( _renderConfig->TitleBuildingLeftChars, _renderConfig->TitleBuildingTopChars, _renderConfig->TitleBuildingSprite );
+   _consoleBuffer->Draw( _renderConfig->TitleStartMessageLeftChars, _renderConfig->TitleStartMessageTopChars, _renderConfig->TitleStartMessageSprite );
 
    DrawKeyBindings();
 }
@@ -59,9 +59,9 @@ void TitleStateConsoleRenderer::DrawStars()
       _starCoordinates[i].X += ( _starVelocities[i] / _frameRateProvider->GetFramesPerSecond() );
 
       // if it's flown off the screen, generate a new star
-      if ( _starCoordinates[i].X >= ( _renderConfig->ArenaCharWidth * _renderConfig->ConsoleWidth ) )
+      if ( _starCoordinates[i].X >= ( _renderConfig->ArenaCharWidth * _renderConfig->ConsoleWidthChars ) )
       {
-         _starCoordinates[i] = { 0, _random->GetUnsignedInt( 0, (unsigned int)( ( _renderConfig->ConsoleHeight - 1 ) * _renderConfig->ArenaCharHeight ) ) };
+         _starCoordinates[i] = { 0, _random->GetUnsignedInt( 0, (unsigned int)( ( _renderConfig->ConsoleHeightChars - 1 ) * _renderConfig->ArenaCharHeight ) ) };
          _starVelocities[i] = _random->GetUnsignedInt( (unsigned int)_renderConfig->MinTitleStarVelocity, (unsigned int)_renderConfig->MaxTitleStarVelocity );
       }
    }
@@ -69,8 +69,8 @@ void TitleStateConsoleRenderer::DrawStars()
 
 void TitleStateConsoleRenderer::DrawKeyBindings() const
 {
-   auto leftOfMiddleX = _renderConfig->TitleKeyBindingsMiddleX - 2;
-   auto top = _renderConfig->TitleKeyBindingsY;
+   auto leftOfMiddleX = _renderConfig->TitleKeyBindingsMiddleXChars - 2;
+   auto top = _renderConfig->TitleKeyBindingsTopChars;
 
    for ( auto const& [keyCode, mappedButton] : _inputConfig->KeyMap )
    {

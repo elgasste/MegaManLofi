@@ -61,7 +61,7 @@ protected:
    shared_ptr<mock_Player> _playerMock;
 
    ArenaTile _defaultTile;
-   Rectangle _playerHitBox;
+   Rectangle<long long> _playerHitBox;
 
    shared_ptr<ArenaPhysics> _arenaPhysics;
 };

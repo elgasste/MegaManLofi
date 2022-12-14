@@ -3,6 +3,7 @@
 #include <memory>
 
 #include "IGameRenderer.h"
+#include "Rectangle.h"
 
 namespace MegaManLofi
 {
@@ -32,17 +33,17 @@ namespace MegaManLofi
       void HandleStageStartedEvent();
       void HandlePitfallEvent();
       void HandleTileDeathEvent();
-      void CalculateViewportOffsets();
+
+      void UpdateLocations();
+
       void DrawGameStartAnimation();
+      void DrawPlayerThwipInAnimation();
       void DrawPitfallAnimation();
       void DrawPlayerExplosionAnimation();
       void DrawArenaSprites();
       void DrawPlayer();
       void DrawStatusBar();
       void DrawPauseOverlay();
-
-      short GetPlayerViewportX() const;
-      short GetPlayerViewportY() const;
 
    private:
       const std::shared_ptr<IConsoleBuffer> _consoleBuffer;
@@ -53,12 +54,16 @@ namespace MegaManLofi
       const std::shared_ptr<IGameEventAggregator> _eventAggregator;
       const std::shared_ptr<IFrameRateProvider> _frameRateProvider;
 
-      long long _viewportWidth;
-      long long _viewportHeight;
-      long long _viewportOffsetX;
-      long long _viewportOffsetY;
+      Rectangle<short> _viewportRectChars;
+
+      short _viewportOffsetLeftChars;
+      short _viewportOffsetTopChars;
+
+      short _playerViewportLeftChars;
+      short _playerViewportTopChars;
 
       bool _isAnimatingStageStart;
+      bool _isAnimatingPlayerThwipIn;
       bool _isAnimatingPitfall;
       bool _isAnimatingPlayerExplosion;
 
@@ -66,6 +71,7 @@ namespace MegaManLofi
       double _pitfallAnimationElapsedSeconds;
       double _playerExplosionAnimationElapsedSeconds;
 
+      long long _playerThwipBottom;
       long long _playerExplosionStartFrame;
    };
 }

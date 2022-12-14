@@ -150,21 +150,21 @@ shared_ptr<ConsoleRenderConfig> BuildConsoleRenderConfig()
 {
    auto renderConfig = make_shared<ConsoleRenderConfig>();
 
-   renderConfig->ConsoleWidth = 120;
-   renderConfig->ConsoleHeight = 30;
+   renderConfig->ConsoleWidthChars = 120;
+   renderConfig->ConsoleHeightChars = 30;
 
-   renderConfig->ArenaViewportX = 0;
-   renderConfig->ArenaViewportY = 0;
+   renderConfig->ArenaViewportLeftChars = 0;
+   renderConfig->ArenaViewportTopChars = 0;
 
    renderConfig->ArenaCharWidth = 38;
    renderConfig->ArenaCharHeight = 78;
 
-   renderConfig->ArenaViewportWidthChar = 120;
-   renderConfig->ArenaViewportHeightChar = 30;
+   renderConfig->ArenaViewportWidthChars = 120;
+   renderConfig->ArenaViewportHeightChars = 30;
 
-   renderConfig->ArenaStatusBarX = renderConfig->ArenaViewportX;
-   renderConfig->ArenaStatusBarY = renderConfig->ArenaViewportY;
-   renderConfig->ArenaStatusBarWidth = 20;
+   renderConfig->ArenaStatusBarLeftChars = renderConfig->ArenaViewportLeftChars;
+   renderConfig->ArenaStatusBarTopChars = renderConfig->ArenaViewportTopChars;
+   renderConfig->ArenaStatusBarWidthChars = 20;
 
    // "GET READY!" message should blink for 2 seconds
    renderConfig->GameStartSingleBlinkSeconds = .25;
@@ -206,19 +206,20 @@ shared_ptr<ConsoleRenderConfig> BuildConsoleRenderConfig()
    renderConfig->TitleStarSprite = TitleSpriteGenerator::GenerateStarSprite();
 
    renderConfig->PlayerThwipSprite = PlayerSpriteGenerator::GeneratePlayerThwipSprite();
+   renderConfig->PlayerThwipVelocity = 12'000;
 
-   renderConfig->TitleTextX = 6;
-   renderConfig->TitleTextY = 1;
-   renderConfig->TitleSubTextX = renderConfig->TitleTextX + renderConfig->TitleTextSprite.Width;
-   renderConfig->TitleSubTextY = renderConfig->TitleTextY;
-   renderConfig->TitleBuildingX = renderConfig->ConsoleWidth - renderConfig->TitleBuildingSprite.Width - 1;
-   renderConfig->TitleBuildingY = renderConfig->ConsoleHeight - renderConfig->TitleBuildingSprite.Height - 1;
-   renderConfig->TitlePlayerX = renderConfig->TitleBuildingX + 6;
-   renderConfig->TitlePlayerY = renderConfig->TitleBuildingY - renderConfig->TitlePlayerSprite.Height;
-   renderConfig->TitleStartMessageX = 55;
-   renderConfig->TitleStartMessageY = 15;
-   renderConfig->TitleKeyBindingsMiddleX = 25;
-   renderConfig->TitleKeyBindingsY = renderConfig->TitleTextY + renderConfig->TitleTextSprite.Height + 3;
+   renderConfig->TitleTextLeftChars = 6;
+   renderConfig->TitleTextTopChars = 1;
+   renderConfig->TitleSubTextLeftChars = renderConfig->TitleTextLeftChars + renderConfig->TitleTextSprite.Width;
+   renderConfig->TitleSubTextTopChars = renderConfig->TitleTextTopChars;
+   renderConfig->TitleBuildingLeftChars = renderConfig->ConsoleWidthChars - renderConfig->TitleBuildingSprite.Width - 1;
+   renderConfig->TitleBuildingTopChars = renderConfig->ConsoleHeightChars - renderConfig->TitleBuildingSprite.Height - 1;
+   renderConfig->TitlePlayerLeftChars = renderConfig->TitleBuildingLeftChars + 6;
+   renderConfig->TitlePlayerTopChars = renderConfig->TitleBuildingTopChars - renderConfig->TitlePlayerSprite.Height;
+   renderConfig->TitleStartMessageLeftChars = 55;
+   renderConfig->TitleStartMessageTopChars = 15;
+   renderConfig->TitleKeyBindingsMiddleXChars = 25;
+   renderConfig->TitleKeyBindingsTopChars = renderConfig->TitleTextTopChars + renderConfig->TitleTextSprite.Height + 3;
    renderConfig->TitleStarCount = 20;
    renderConfig->MinTitleStarVelocity = 200;
    renderConfig->MaxTitleStarVelocity = 2'000;

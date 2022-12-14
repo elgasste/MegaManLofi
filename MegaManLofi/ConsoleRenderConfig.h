@@ -14,21 +14,21 @@ namespace MegaManLofi
    class ConsoleRenderConfig : public IGameRenderConfig
    {
    public:
-      short ConsoleWidth = 0;
-      short ConsoleHeight = 0;
+      short ConsoleWidthChars = 0;
+      short ConsoleHeightChars = 0;
 
-      short ArenaViewportX = 0;
-      short ArenaViewportY = 0;
+      short ArenaViewportLeftChars = 0;
+      short ArenaViewportTopChars = 0;
 
       long long ArenaCharWidth = 0;
       long long ArenaCharHeight = 0;
 
-      short ArenaViewportWidthChar = 0;
-      short ArenaViewportHeightChar = 0;
+      short ArenaViewportWidthChars = 0;
+      short ArenaViewportHeightChars = 0;
 
-      short ArenaStatusBarX = 0;
-      short ArenaStatusBarY = 0;
-      short ArenaStatusBarWidth = 0;
+      short ArenaStatusBarLeftChars = 0;
+      short ArenaStatusBarTopChars = 0;
+      short ArenaStatusBarWidthChars = 0;
 
       double GameStartSingleBlinkSeconds = 0;
       int GameStartBlinkCount = 0;
@@ -62,19 +62,20 @@ namespace MegaManLofi
       ConsoleSprite TitleStarSprite;
 
       ConsoleSprite PlayerThwipSprite;
+      long long PlayerThwipVelocity = 0;
 
-      short TitleTextX = 0;
-      short TitleTextY = 0;
-      short TitleSubTextX = 0;
-      short TitleSubTextY = 0;
-      short TitlePlayerX = 0;
-      short TitlePlayerY = 0;
-      short TitleBuildingX = 0;
-      short TitleBuildingY = 0;
-      short TitleStartMessageX = 0;
-      short TitleStartMessageY = 0;
-      short TitleKeyBindingsMiddleX = 0;
-      short TitleKeyBindingsY = 0;
+      short TitleTextLeftChars = 0;
+      short TitleTextTopChars = 0;
+      short TitleSubTextLeftChars = 0;
+      short TitleSubTextTopChars = 0;
+      short TitlePlayerLeftChars = 0;
+      short TitlePlayerTopChars = 0;
+      short TitleBuildingLeftChars = 0;
+      short TitleBuildingTopChars = 0;
+      short TitleStartMessageLeftChars = 0;
+      short TitleStartMessageTopChars = 0;
+      short TitleKeyBindingsMiddleXChars = 0;
+      short TitleKeyBindingsTopChars = 0;
       int TitleStarCount = 0;
       long long MinTitleStarVelocity = 0;
       long long MaxTitleStarVelocity = 0;

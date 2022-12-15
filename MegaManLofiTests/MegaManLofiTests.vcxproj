@@ -60,6 +60,7 @@
   <ItemGroup>
     <ClCompile Include="ArenaPhysicsTests.cpp" />
     <ClCompile Include="ArenaTests.cpp" />
+    <ClCompile Include="ConsoleSpriteTests.cpp" />
     <ClCompile Include="FrameActionRegistryTests.cpp" />
     <ClCompile Include="GameClockTests.cpp" />
     <ClCompile Include="GameOverStateInputHandlerTests.cpp" />

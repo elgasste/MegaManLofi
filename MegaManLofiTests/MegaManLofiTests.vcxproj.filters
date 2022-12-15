@@ -51,6 +51,9 @@
     <ClCompile Include="GameOverStateInputHandlerTests.cpp">
       <Filter>Tests\Input</Filter>
     </ClCompile>
+    <ClCompile Include="ConsoleSpriteTests.cpp">
+      <Filter>Tests\Render</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="mock_GameEventAggregator.h">

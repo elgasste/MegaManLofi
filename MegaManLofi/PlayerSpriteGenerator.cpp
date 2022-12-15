@@ -88,3 +88,18 @@ ConsoleImage PlayerSpriteGenerator::GeneratePlayerThwipSprite()
 
    return thwipSprite;
 }
+
+shared_ptr<ConsoleSprite> PlayerSpriteGenerator::GenerateExplosionParticleSprite()
+{
+   auto particleSprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( .25 ) );
+
+   ConsoleImage image0 = { 1, 1 };
+   image0.Pixels.push_back( { 'O', true, ConsoleColor::Blue, ConsoleColor::Black } );
+   particleSprite->AddImage( image0 );
+
+   ConsoleImage image1 = { 1, 1 };
+   image1.Pixels.push_back( { 'o', true, ConsoleColor::DarkBlue, ConsoleColor::Black } );
+   particleSprite->AddImage( image1 );
+
+   return particleSprite;
+}

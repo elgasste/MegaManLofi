@@ -32,9 +32,7 @@ namespace MegaManLofi
       double PitfallAnimationSeconds = 0;
 
       double PlayerExplosionAnimationSeconds = 0;
-      double PlayerExplosionSpriteSwapSeconds = 0;
-      ConsoleImage PlayerExplosionParticleSprite1;
-      ConsoleImage PlayerExplosionParticleSprite2;
+      std::shared_ptr<ConsoleSprite> PlayerExplosionParticleSprite;
       long long PlayerExplosionParticleVelocity = 0;
 
       ConsoleColor DefaultForegroundColor = (ConsoleColor)0;

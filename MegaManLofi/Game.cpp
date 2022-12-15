@@ -62,20 +62,15 @@ void Game::ExecuteCommand( GameCommand command, const shared_ptr<GameCommandArgs
    // commands that don't observe _isPaused
    switch ( command )
    {
+      case GameCommand::StartGame:
+         StartStage();
+         _eventAggregator->RaiseEvent( GameEvent::GameStarted );
+         break;
       case GameCommand::StartStage:
-         _player->Reset();
-         _arena->Reset();
-         _playerPhysics->AssignTo( _player );
-         _arenaPhysics->AssignTo( _arena, _player );
-         _nextState = GameState::Playing;
-         _isPaused = false;
-         _eventAggregator->RaiseEvent( GameEvent::StageStarted );
+         StartStage();
          break;
       case GameCommand::TogglePause:
-         if ( _nextState == GameState::Playing )
-         {
-            _isPaused = !_isPaused;
-         }
+         TogglePause();
          break;
       case GameCommand::ExitToTitle:
          _nextState = GameState::Title;
@@ -105,6 +100,25 @@ void Game::ExecuteCommand( GameCommand command, const shared_ptr<GameCommandArgs
       case GameCommand::ExtendJump:
          _playerPhysics->ExtendJump();
          break;
+   }
+}
+
+void Game::StartStage()
+{
+   _player->Reset();
+   _arena->Reset();
+   _playerPhysics->AssignTo( _player );
+   _arenaPhysics->AssignTo( _arena, _player );
+   _nextState = GameState::Playing;
+   _isPaused = false;
+   _eventAggregator->RaiseEvent( GameEvent::StageStarted );
+}
+
+void Game::TogglePause()
+{
+   if ( _nextState == GameState::Playing )
+   {
+      _isPaused = !_isPaused;
    }
 }
 

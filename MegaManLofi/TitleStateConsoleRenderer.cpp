@@ -5,9 +5,11 @@
 #include "IConsoleBuffer.h"
 #include "IRandom.h"
 #include "IFrameRateProvider.h"
+#include "IGameEventAggregator.h"
 #include "ConsoleRenderConfig.h"
 #include "KeyboardInputConfig.h"
 #include "ConsoleColor.h"
+#include "GameEvent.h"
 
 using namespace std;
 using namespace MegaManLofi;
@@ -15,13 +17,19 @@ using namespace MegaManLofi;
 TitleStateConsoleRenderer::TitleStateConsoleRenderer( const shared_ptr<IConsoleBuffer> consoleBuffer,
                                                       const shared_ptr<IRandom> random,
                                                       const shared_ptr<IFrameRateProvider> frameRateProvider,
+                                                      const shared_ptr<IGameEventAggregator> eventAggregator,
                                                       const shared_ptr<ConsoleRenderConfig> renderConfig,
                                                       const shared_ptr<KeyboardInputConfig> inputConfig ) :
    _consoleBuffer( consoleBuffer ),
    _random( random ),
    _frameRateProvider( frameRateProvider ),
+   _eventAggregator( eventAggregator ),
    _renderConfig( renderConfig ),
-   _inputConfig( inputConfig )
+   _inputConfig( inputConfig ),
+   _isAnimatingPlayerThwipOut( false ),
+   _isAnimatingPostThwipDelay( false ),
+   _playerThwipBottomUnits( 0 ),
+   _postThwipElapsedSeconds( 0 )
 {
    for ( int i = 0; i < renderConfig->TitleStarCount; i++ )
    {
@@ -30,6 +38,14 @@ TitleStateConsoleRenderer::TitleStateConsoleRenderer( const shared_ptr<IConsoleB
       _starVelocities.push_back( random->GetUnsignedInt( (unsigned int)renderConfig->MinTitleStarVelocity,
                                                          (unsigned int)renderConfig->MaxTitleStarVelocity ) );
    }
+
+   _eventAggregator->RegisterEventHandler( GameEvent::GameStarted, std::bind( &TitleStateConsoleRenderer::HandleGameStartedEvent, this ) );
+}
+
+void TitleStateConsoleRenderer::HandleGameStartedEvent()
+{
+   _isAnimatingPlayerThwipOut = true;
+   _playerThwipBottomUnits = ( (long long)_renderConfig->TitlePlayerTopChars + (long long)_renderConfig->TitlePlayerSprite.Height ) * _renderConfig->ArenaCharHeight;
 }
 
 void TitleStateConsoleRenderer::Render()
@@ -41,11 +57,28 @@ void TitleStateConsoleRenderer::Render()
 
    _consoleBuffer->Draw( _renderConfig->TitleTextLeftChars, _renderConfig->TitleTextTopChars, _renderConfig->TitleTextSprite );
    _consoleBuffer->Draw( _renderConfig->TitleSubTextLeftChars, _renderConfig->TitleSubTextTopChars, _renderConfig->TitleSubTextSprite );
-   _consoleBuffer->Draw( _renderConfig->TitlePlayerLeftChars, _renderConfig->TitlePlayerTopChars, _renderConfig->TitlePlayerSprite );
    _consoleBuffer->Draw( _renderConfig->TitleBuildingLeftChars, _renderConfig->TitleBuildingTopChars, _renderConfig->TitleBuildingSprite );
    _consoleBuffer->Draw( _renderConfig->TitleStartMessageLeftChars, _renderConfig->TitleStartMessageTopChars, _renderConfig->TitleStartMessageSprite );
 
+   if ( _isAnimatingPlayerThwipOut )
+   {
+      DrawPlayerThwipOutAnimation();
+   }
+   else if ( _isAnimatingPostThwipDelay )
+   {
+      DrawPostThwipDelayAnimation();
+   }
+   else
+   {
+      _consoleBuffer->Draw( _renderConfig->TitlePlayerLeftChars, _renderConfig->TitlePlayerTopChars, _renderConfig->TitlePlayerSprite );
+   }
+
    DrawKeyBindings();
+}
+
+bool TitleStateConsoleRenderer::HasFocus() const
+{
+   return _isAnimatingPlayerThwipOut || _isAnimatingPostThwipDelay;
 }
 
 void TitleStateConsoleRenderer::DrawStars()
@@ -80,5 +113,39 @@ void TitleStateConsoleRenderer::DrawKeyBindings() const
       _consoleBuffer->Draw( leftOfMiddleX - (int)keyString.length() - 2, top, format( "{0} -> {1}", keyString, buttonString ), _renderConfig->TitleKeyBindingsForegroundColor );
 
       top++;
+   }
+}
+
+void TitleStateConsoleRenderer::DrawPlayerThwipOutAnimation()
+{
+   auto thwipDeltaUnits = ( _renderConfig->PlayerThwipVelocity / _frameRateProvider->GetFramesPerSecond() );
+   _playerThwipBottomUnits -= thwipDeltaUnits;
+
+   auto playerSprite = _renderConfig->TitlePlayerSprite;
+   auto thwipSpriteLeftOffsetChars = (short)( ( playerSprite.Width - _renderConfig->PlayerThwipSprite.Width ) / 2 );
+   auto playerThwipBottomChars = (short)( _playerThwipBottomUnits / _renderConfig->ArenaCharHeight );
+
+   if ( playerThwipBottomChars <= 0 )
+   {
+      _isAnimatingPlayerThwipOut = false;
+
+      _postThwipElapsedSeconds = 0;
+      _isAnimatingPostThwipDelay = true;
+
+      return;
+   }
+
+   _consoleBuffer->Draw( _renderConfig->TitlePlayerLeftChars + thwipSpriteLeftOffsetChars,
+                         playerThwipBottomChars - _renderConfig->PlayerThwipSprite.Height,
+                         _renderConfig->PlayerThwipSprite );
+}
+
+void TitleStateConsoleRenderer::DrawPostThwipDelayAnimation()
+{
+   _postThwipElapsedSeconds += ( 1 / (double)_frameRateProvider->GetFramesPerSecond() );
+
+   if ( _postThwipElapsedSeconds >= _renderConfig->TitlePostThwipDelaySeconds )
+   {
+      _isAnimatingPostThwipDelay = false;
    }
 }

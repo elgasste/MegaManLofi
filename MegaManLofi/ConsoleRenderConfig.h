@@ -79,6 +79,7 @@ namespace MegaManLofi
       int TitleStarCount = 0;
       long long MinTitleStarVelocity = 0;
       long long MaxTitleStarVelocity = 0;
+      double TitlePostThwipDelaySeconds = 0;
 
       ConsoleSprite GetReadySprite;
       ConsoleSprite PauseOverlaySprite;

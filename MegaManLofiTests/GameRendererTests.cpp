@@ -29,13 +29,13 @@ public:
       _gameInfoProviderMock.reset( new NiceMock<mock_GameInfoProvider> );
       _diagnosticsRendererMock.reset( new NiceMock<mock_GameRenderer> );
       _eventAggregator.reset( new GameEventAggregator );
-      _startupStateRendererMock.reset( new NiceMock<mock_GameRenderer> );
+      _titleStateRendererMock.reset( new NiceMock<mock_GameRenderer> );
 
       _renderConfig->DefaultBackgroundColor = ConsoleColor::Black;
       _renderConfig->DefaultForegroundColor = ConsoleColor::Grey;
 
       ON_CALL( *_gameInfoProviderMock, GetGameState() ).WillByDefault( Return( GameState::Title ) );
-      ON_CALL( *_startupStateRendererMock, HasFocus() ).WillByDefault( Return( false ) );
+      ON_CALL( *_titleStateRendererMock, HasFocus() ).WillByDefault( Return( false ) );
    }
 
    void BuildRenderer()
@@ -46,7 +46,7 @@ public:
                                          _diagnosticsRendererMock,
                                          _eventAggregator ) );
 
-      _renderer->AddRendererForGameState( GameState::Title, _startupStateRendererMock );
+      _renderer->AddRendererForGameState( GameState::Title, _titleStateRendererMock );
    }
 
 protected:
@@ -55,7 +55,7 @@ protected:
    shared_ptr<mock_GameInfoProvider> _gameInfoProviderMock;
    shared_ptr<mock_GameRenderer> _diagnosticsRendererMock;
    shared_ptr<GameEventAggregator> _eventAggregator;
-   shared_ptr<mock_GameRenderer> _startupStateRendererMock;
+   shared_ptr<mock_GameRenderer> _titleStateRendererMock;
 
    shared_ptr<GameRenderer> _renderer;
 };
@@ -75,7 +75,7 @@ TEST_F( GameRendererTests, Render_IsCleaningUp_DoesNotRenderAnything )
    _eventAggregator->RaiseEvent( GameEvent::Shutdown );
 
    EXPECT_CALL( *_screenBufferMock, Clear() ).Times( 0 );
-   EXPECT_CALL( *_startupStateRendererMock, Render() ).Times( 0 );
+   EXPECT_CALL( *_titleStateRendererMock, Render() ).Times( 0 );
    EXPECT_CALL( *_screenBufferMock, Flip() ).Times( 0 );
 
    _renderer->Render();
@@ -103,7 +103,7 @@ TEST_F( GameRendererTests, Render_RendererFoundForState_RendersState )
 {
    BuildRenderer();
 
-   EXPECT_CALL( *_startupStateRendererMock, Render() );
+   EXPECT_CALL( *_titleStateRendererMock, Render() );
 
    _renderer->Render();
 }
@@ -113,6 +113,42 @@ TEST_F( GameRendererTests, Render_StateWasRendered_FlipsConsoleBuffer )
    BuildRenderer();
 
    EXPECT_CALL( *_screenBufferMock, Flip() );
+
+   _renderer->Render();
+}
+
+TEST_F( GameRendererTests, Render_NewStateAndCachedRendererDoesNotHaveFocus_RendersNewState )
+{
+   auto playingStateRendererMock = shared_ptr<mock_GameRenderer>( new NiceMock<mock_GameRenderer> );
+   ON_CALL( *playingStateRendererMock, HasFocus() ).WillByDefault( Return( false ) );
+   BuildRenderer();
+   _renderer->AddRendererForGameState( GameState::Playing, playingStateRendererMock );
+
+   EXPECT_CALL( *_titleStateRendererMock, Render() );
+
+   _renderer->Render();
+
+   ON_CALL( *_gameInfoProviderMock, GetGameState() ).WillByDefault( Return( GameState::Playing ) );
+   EXPECT_CALL( *playingStateRendererMock, Render() );
+
+   _renderer->Render();
+}
+
+TEST_F( GameRendererTests, Render_NewStateAndCachedRendererHasFocus_RendersCachedState )
+{
+   auto playingStateRendererMock = shared_ptr<mock_GameRenderer>( new NiceMock<mock_GameRenderer> );
+   ON_CALL( *playingStateRendererMock, HasFocus() ).WillByDefault( Return( false ) );
+   ON_CALL( *_titleStateRendererMock, HasFocus() ).WillByDefault( Return( true ) );
+   BuildRenderer();
+   _renderer->AddRendererForGameState( GameState::Playing, playingStateRendererMock );
+
+   EXPECT_CALL( *_titleStateRendererMock, Render() );
+
+   _renderer->Render();
+
+   ON_CALL( *_gameInfoProviderMock, GetGameState() ).WillByDefault( Return( GameState::Playing ) );
+   EXPECT_CALL( *playingStateRendererMock, Render() ).Times( 0 );
+   EXPECT_CALL( *_titleStateRendererMock, Render() );
 
    _renderer->Render();
 }
@@ -128,7 +164,7 @@ TEST_F( GameRendererTests, HasFocus_StateRendererHasFocus_ReturnsTrue )
 {
    BuildRenderer();
 
-   EXPECT_CALL( *_startupStateRendererMock, HasFocus() ).WillOnce( Return( true ) );
+   EXPECT_CALL( *_titleStateRendererMock, HasFocus() ).WillOnce( Return( true ) );
 
    EXPECT_TRUE( _renderer->HasFocus() );
 }

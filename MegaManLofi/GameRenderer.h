@@ -39,6 +39,7 @@ namespace MegaManLofi
       const std::shared_ptr<IGameRenderer> _diagnosticsRenderer;
 
       std::map<GameState, std::shared_ptr<IGameRenderer>> _stateRenderers;
+      std::shared_ptr<IGameRenderer> _stateRendererCache;
 
       bool _showDiagnostics;
       bool _isCleaningUp;

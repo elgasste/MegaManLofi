@@ -4,7 +4,8 @@ namespace MegaManLofi
 {
    enum class GameCommand
    {
-      StartStage = 0,
+      StartGame = 0,
+      StartStage,
       PushPlayer,
       PointPlayer,
       Jump,

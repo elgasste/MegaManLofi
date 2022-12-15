@@ -41,6 +41,7 @@
 #include "GameState.h"
 #include "Direction.h"
 #include "ArenaTile.h"
+#include "ConsoleSprite.h"
 #include "PlayerSpriteGenerator.h"
 #include "ArenaTileGenerator.h"
 #include "ArenaSpriteGenerator.h"
@@ -164,10 +165,6 @@ shared_ptr<ConsoleRenderConfig> BuildConsoleRenderConfig()
    renderConfig->ArenaStatusBarTopChars = renderConfig->ArenaViewportTopChars;
    renderConfig->ArenaStatusBarWidthChars = 20;
 
-   // "GET READY!" message should blink for 2 seconds
-   renderConfig->GameStartSingleBlinkSeconds = .25;
-   renderConfig->GameStartBlinkCount = 8;
-
    renderConfig->PitfallAnimationSeconds = 2;
 
    // player explosion should swap between two sprites in 1/4 second increments
@@ -224,6 +221,8 @@ shared_ptr<ConsoleRenderConfig> BuildConsoleRenderConfig()
    renderConfig->TitlePostThwipDelaySeconds = 1;
 
    renderConfig->GetReadySprite = ArenaSpriteGenerator::GenerateGetReadySprite();
+   renderConfig->GetReadyAnimationSeconds = 2;
+
    renderConfig->PauseOverlaySprite = ArenaSpriteGenerator::GeneratePauseOverlaySprite();
    renderConfig->GameOverSprite = ArenaSpriteGenerator::GenerateGameOverSprite();
 

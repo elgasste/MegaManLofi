@@ -1,8 +1,9 @@
 #pragma once
 
+#include <memory>
 #include <vector>
 
-#include "ConsoleImage.h"
+#include "ConsoleSprite.h"
 
 namespace MegaManLofi
 {
@@ -10,7 +11,7 @@ namespace MegaManLofi
    {
    public:
       static std::vector<int> GenerateArenaSprites();
-      static ConsoleImage GenerateGetReadySprite();
+      static std::shared_ptr<ConsoleSprite> GenerateGetReadySprite();
       static ConsoleImage GeneratePauseOverlaySprite();
       static ConsoleImage GenerateGameOverSprite();
    };

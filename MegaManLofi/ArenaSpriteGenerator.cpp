@@ -1,5 +1,6 @@
 #include "ArenaSpriteGenerator.h"
 #include "ArenaGenerationDefs.h"
+#include "ConsoleSprite.h"
 
 using namespace std;
 using namespace MegaManLofi;
@@ -31,21 +32,21 @@ vector<int> ArenaSpriteGenerator::GenerateArenaSprites()
    return sprites;
 }
 
-ConsoleImage ArenaSpriteGenerator::GenerateGetReadySprite()
+shared_ptr<ConsoleSprite> ArenaSpriteGenerator::GenerateGetReadySprite()
 {
-   ConsoleImage sprite;
+   auto getReadySprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( .25 ) );
 
-   sprite.Width = 10;
-   sprite.Height = 1;
-
-   string content = "GET READY!";
-
-   for ( int i = 0; i < (int)content.size(); i++ )
+   ConsoleImage getReadyImage = { 10, 1 };
+   string message = "GET READY!";
+   for ( int i = 0; i < (int)message.size(); i++ )
    {
-      sprite.Pixels.push_back( { content[i], false, ConsoleColor::Cyan, ConsoleColor::Black } );
+      getReadyImage.Pixels.push_back( { message[i], false, ConsoleColor::Cyan, ConsoleColor::Black } );
    }
 
-   return sprite;
+   getReadySprite->AddImage( getReadyImage );
+   getReadySprite->AddImage( { 0, 0 } );
+
+   return getReadySprite;
 }
 
 ConsoleImage ArenaSpriteGenerator::GeneratePauseOverlaySprite()

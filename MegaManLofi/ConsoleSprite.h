@@ -1,30 +1,24 @@
 #pragma once
 
-#include <memory>
 #include <vector>
 
 #include "ConsoleImage.h"
 
 namespace MegaManLofi
 {
-   class IFrameRateProvider;
-
    class ConsoleSprite
    {
    public:
-      ConsoleSprite( const std::shared_ptr<IFrameRateProvider> frameRateProvider,
-                     double imageTraversalSeconds );
+      ConsoleSprite( double imageTraversalSeconds );
 
       void AddImage( ConsoleImage image );
-      void Tick();
+      void Tick( int framesPerSecond );
 
       short GetWidth() const;
       short GetHeight() const;
       const ConsoleImage& GetCurrentImage() const;
 
    private:
-      const std::shared_ptr<IFrameRateProvider> _frameRateProvider;
-
       std::vector<ConsoleImage> _images;
       int _currentImageIndex;
       double _imageTraversalSeconds;

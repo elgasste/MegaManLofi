@@ -1,10 +1,11 @@
 #pragma once
 
+#include <memory>
 #include <map>
 #include <vector>
 
 #include "IGameRenderConfig.h"
-#include "ConsoleImage.h"
+#include "ConsoleSprite.h"
 #include "Direction.h"
 
 namespace MegaManLofi
@@ -27,9 +28,6 @@ namespace MegaManLofi
       short ArenaStatusBarLeftChars = 0;
       short ArenaStatusBarTopChars = 0;
       short ArenaStatusBarWidthChars = 0;
-
-      double GameStartSingleBlinkSeconds = 0;
-      int GameStartBlinkCount = 0;
 
       double PitfallAnimationSeconds = 0;
 
@@ -79,7 +77,9 @@ namespace MegaManLofi
       long long MaxTitleStarVelocity = 0;
       double TitlePostThwipDelaySeconds = 0;
 
-      ConsoleImage GetReadySprite;
+      std::shared_ptr<ConsoleSprite> GetReadySprite;
+      double GetReadyAnimationSeconds = 0;
+
       ConsoleImage PauseOverlaySprite;
       ConsoleImage GameOverSprite;
 

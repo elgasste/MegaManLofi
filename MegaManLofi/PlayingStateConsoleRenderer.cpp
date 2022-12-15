@@ -146,16 +146,14 @@ void PlayingStateConsoleRenderer::UpdateCaches()
 void PlayingStateConsoleRenderer::DrawGameStartAnimation()
 {
    _stageStartAnimationElapsedSeconds += ( 1 / (double)_frameRateProvider->GetFramesPerSecond() );
+   _renderConfig->GetReadySprite->Tick( _frameRateProvider->GetFramesPerSecond() );
 
-   if ( (int)( _stageStartAnimationElapsedSeconds / _renderConfig->GameStartSingleBlinkSeconds ) % 2 == 0 )
-   {
-      auto left = ( _viewportRectChars.Width / 2 ) - ( _renderConfig->GetReadySprite.Width / 2 ) + _viewportOffsetChars.Left;
-      auto top = ( _viewportRectChars.Height / 2 ) - ( _renderConfig->GetReadySprite.Height / 2 ) + _viewportOffsetChars.Top;
+   auto left = ( _viewportRectChars.Width / 2 ) - ( _renderConfig->GetReadySprite->GetCurrentImage().Width / 2 ) + _viewportOffsetChars.Left;
+   auto top = ( _viewportRectChars.Height / 2 ) - ( _renderConfig->GetReadySprite->GetCurrentImage().Height / 2 ) + _viewportOffsetChars.Top;
 
-      _consoleBuffer->Draw( left, top, _renderConfig->GetReadySprite );
-   }
+   _consoleBuffer->Draw( left, top, _renderConfig->GetReadySprite->GetCurrentImage() );
 
-   if ( _stageStartAnimationElapsedSeconds >= ( _renderConfig->GameStartSingleBlinkSeconds * _renderConfig->GameStartBlinkCount ) )
+   if ( _stageStartAnimationElapsedSeconds >= _renderConfig->GetReadyAnimationSeconds )
    {
       _isAnimatingStageStart = false;
       _isAnimatingPlayerThwipIn = true;

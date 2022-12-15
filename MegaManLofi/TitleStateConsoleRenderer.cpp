@@ -122,7 +122,7 @@ void TitleStateConsoleRenderer::DrawPlayerThwipOutAnimation()
    _playerThwipBottomUnits -= thwipDeltaUnits;
 
    auto playerSprite = _renderConfig->TitlePlayerSprite;
-   auto thwipSpriteLeftOffsetChars = (short)( ( playerSprite.Width - _renderConfig->PlayerThwipSprite.Width ) / 2 );
+   auto thwipSpriteLeftOffsetChars = (short)( ( playerSprite.Width - _renderConfig->PlayerThwipSprite->GetWidth() ) / 2 );
    auto playerThwipBottomChars = (short)( _playerThwipBottomUnits / _renderConfig->ArenaCharHeight );
 
    if ( playerThwipBottomChars <= 0 )
@@ -136,8 +136,9 @@ void TitleStateConsoleRenderer::DrawPlayerThwipOutAnimation()
    }
 
    _consoleBuffer->Draw( _renderConfig->TitlePlayerLeftChars + thwipSpriteLeftOffsetChars,
-                         playerThwipBottomChars - _renderConfig->PlayerThwipSprite.Height,
-                         _renderConfig->PlayerThwipSprite );
+                         playerThwipBottomChars - _renderConfig->PlayerThwipSprite->GetHeight(),
+                         _renderConfig->PlayerThwipSprite->GetCurrentImage() );
+   _renderConfig->PlayerThwipSprite->Tick( _frameRateProvider->GetFramesPerSecond() );
 }
 
 void TitleStateConsoleRenderer::DrawPostThwipDelayAnimation()

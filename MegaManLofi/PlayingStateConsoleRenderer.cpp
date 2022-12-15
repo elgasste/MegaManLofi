@@ -167,7 +167,7 @@ void PlayingStateConsoleRenderer::DrawPlayerThwipInAnimation()
    _playerThwipBottom += thwipDeltaUnits;
 
    auto playerSprite = _renderConfig->PlayerStaticSpriteMap[_playerInfoProvider->GetDirection()];
-   auto thwipSpriteLeftOffsetChars = (short)( ( playerSprite.Width - _renderConfig->PlayerThwipSprite.Width ) / 2 );
+   auto thwipSpriteLeftOffsetChars = (short)( ( playerSprite.Width - _renderConfig->PlayerThwipSprite->GetWidth() ) / 2 );
 
    const auto& hitBox = _playerInfoProvider->GetHitBox();
    if ( _playerThwipBottom >= ( _arenaInfoProvider->GetPlayerPositionY() + hitBox.Height ) )
@@ -178,8 +178,9 @@ void PlayingStateConsoleRenderer::DrawPlayerThwipInAnimation()
 
    auto playerThwipBottomViewportChars = (short)( ( _playerThwipBottom - _viewportQuadUnits.Top ) / _renderConfig->ArenaCharHeight );
    _consoleBuffer->Draw( _playerViewportChars.Left + thwipSpriteLeftOffsetChars + _viewportOffsetChars.Left,
-                         ( playerThwipBottomViewportChars - _renderConfig->PlayerThwipSprite.Height ) + _viewportOffsetChars.Top,
-                         _renderConfig->PlayerThwipSprite );
+                         ( playerThwipBottomViewportChars - _renderConfig->PlayerThwipSprite->GetHeight() ) + _viewportOffsetChars.Top,
+                         _renderConfig->PlayerThwipSprite->GetCurrentImage() );
+   _renderConfig->PlayerThwipSprite->Tick( _frameRateProvider->GetFramesPerSecond() );
 }
 
 void PlayingStateConsoleRenderer::DrawPitfallAnimation()

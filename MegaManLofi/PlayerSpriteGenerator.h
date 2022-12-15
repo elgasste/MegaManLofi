@@ -14,7 +14,7 @@ namespace MegaManLofi
    public:
       static std::map<Direction, ConsoleImage> GenerateStaticSpriteMap();
       static std::map<Direction, ConsoleImage> GenerateMovingSpriteMap();
-      static ConsoleImage GeneratePlayerThwipSprite();
+      static std::shared_ptr<ConsoleSprite> GeneratePlayerThwipSprite();
       static std::shared_ptr<ConsoleSprite> GenerateExplosionParticleSprite();
    };
 }

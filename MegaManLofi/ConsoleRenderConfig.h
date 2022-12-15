@@ -55,7 +55,7 @@ namespace MegaManLofi
       ConsoleImage TitleStartMessageSprite;
       ConsoleImage TitleStarSprite;
 
-      ConsoleImage PlayerThwipSprite;
+      std::shared_ptr<ConsoleSprite> PlayerThwipSprite;
       long long PlayerThwipVelocity = 0;
 
       short TitleTextLeftChars = 0;

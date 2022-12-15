@@ -75,16 +75,21 @@ map<Direction, ConsoleImage> PlayerSpriteGenerator::GenerateMovingSpriteMap()
    return GenerateStaticSpriteMap();
 }
 
-ConsoleImage PlayerSpriteGenerator::GeneratePlayerThwipSprite()
+shared_ptr<ConsoleSprite> PlayerSpriteGenerator::GeneratePlayerThwipSprite()
 {
-   ConsoleImage thwipSprite;
+   auto thwipSprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( .05 ) );
 
-   thwipSprite.Width = 1;
-   thwipSprite.Height = 3;
-   for ( int i = 0; i < thwipSprite.Height; i++ )
-   {
-      thwipSprite.Pixels.push_back( { '|', true, ConsoleColor::Blue, ConsoleColor::Black } );
-   }
+   ConsoleImage image0 = { 1, 3 };
+   image0.Pixels.push_back( { '|', true, ConsoleColor::Blue, ConsoleColor::Black } );
+   image0.Pixels.push_back( { '|', true, ConsoleColor::DarkBlue, ConsoleColor::Black } );
+   image0.Pixels.push_back( { '|', true, ConsoleColor::Blue, ConsoleColor::Black } );
+   thwipSprite->AddImage( image0 );
+
+   ConsoleImage image1 = { 1, 3 };
+   image1.Pixels.push_back( { '|', true, ConsoleColor::DarkBlue, ConsoleColor::Black } );
+   image1.Pixels.push_back( { '|', true, ConsoleColor::Blue, ConsoleColor::Black } );
+   image1.Pixels.push_back( { '|', true, ConsoleColor::DarkBlue, ConsoleColor::Black } );
+   thwipSprite->AddImage( image1 );
 
    return thwipSprite;
 }

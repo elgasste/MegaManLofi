@@ -193,7 +193,7 @@ shared_ptr<ConsoleRenderConfig> BuildConsoleRenderConfig()
    renderConfig->TitleStarSprite = TitleSpriteGenerator::GenerateStarSprite();
 
    renderConfig->PlayerThwipSprite = PlayerSpriteGenerator::GeneratePlayerThwipSprite();
-   renderConfig->PlayerThwipVelocity = 6'000;
+   renderConfig->PlayerThwipVelocity = 3'000;
 
    renderConfig->TitleTextLeftChars = 6;
    renderConfig->TitleTextTopChars = 1;

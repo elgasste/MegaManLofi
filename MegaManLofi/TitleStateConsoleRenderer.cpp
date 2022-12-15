@@ -27,7 +27,9 @@ TitleStateConsoleRenderer::TitleStateConsoleRenderer( const shared_ptr<IConsoleB
    _renderConfig( renderConfig ),
    _inputConfig( inputConfig ),
    _isAnimatingPlayerThwipOut( false ),
-   _playerThwipBottomUnits( 0 )
+   _isAnimatingPostThwipDelay( false ),
+   _playerThwipBottomUnits( 0 ),
+   _postThwipElapsedSeconds( 0 )
 {
    for ( int i = 0; i < renderConfig->TitleStarCount; i++ )
    {
@@ -62,6 +64,10 @@ void TitleStateConsoleRenderer::Render()
    {
       DrawPlayerThwipOutAnimation();
    }
+   else if ( _isAnimatingPostThwipDelay )
+   {
+      DrawPostThwipDelayAnimation();
+   }
    else
    {
       _consoleBuffer->Draw( _renderConfig->TitlePlayerLeftChars, _renderConfig->TitlePlayerTopChars, _renderConfig->TitlePlayerSprite );
@@ -72,7 +78,7 @@ void TitleStateConsoleRenderer::Render()
 
 bool TitleStateConsoleRenderer::HasFocus() const
 {
-   return _isAnimatingPlayerThwipOut;
+   return _isAnimatingPlayerThwipOut || _isAnimatingPostThwipDelay;
 }
 
 void TitleStateConsoleRenderer::DrawStars()
@@ -122,10 +128,24 @@ void TitleStateConsoleRenderer::DrawPlayerThwipOutAnimation()
    if ( playerThwipBottomChars <= 0 )
    {
       _isAnimatingPlayerThwipOut = false;
+
+      _postThwipElapsedSeconds = 0;
+      _isAnimatingPostThwipDelay = true;
+
       return;
    }
 
    _consoleBuffer->Draw( _renderConfig->TitlePlayerLeftChars + thwipSpriteLeftOffsetChars,
                          playerThwipBottomChars - _renderConfig->PlayerThwipSprite.Height,
                          _renderConfig->PlayerThwipSprite );
+}
+
+void TitleStateConsoleRenderer::DrawPostThwipDelayAnimation()
+{
+   _postThwipElapsedSeconds += ( 1 / (double)_frameRateProvider->GetFramesPerSecond() );
+
+   if ( _postThwipElapsedSeconds >= _renderConfig->TitlePostThwipDelaySeconds )
+   {
+      _isAnimatingPostThwipDelay = false;
+   }
 }

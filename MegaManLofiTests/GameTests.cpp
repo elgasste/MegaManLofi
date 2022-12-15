@@ -57,6 +57,49 @@ TEST_F( GameTests, Constructor_Always_SetsGameStateToTitle )
    EXPECT_EQ( _game->GetGameState(), GameState::Title );
 }
 
+TEST_F( GameTests, ExecuteCommand_StartGame_ResetsGameObjects )
+{
+   BuildGame();
+
+   EXPECT_CALL( *_playerMock, Reset() );
+   EXPECT_CALL( *_arenaMock, Reset() );
+
+   _game->ExecuteCommand( GameCommand::StartGame );
+}
+
+TEST_F( GameTests, ExecuteCommand_StartGame_AssignsObjectsToPhysics )
+{
+   BuildGame();
+
+   auto basePlayer = static_pointer_cast<IPlayer>( _playerMock );
+   auto baseArena = static_pointer_cast<IArena>( _arenaMock );
+
+   EXPECT_CALL( *_playerPhysicsMock, AssignTo( basePlayer ) );
+   EXPECT_CALL( *_arenaPhysicsMock, AssignTo( baseArena, basePlayer ) );
+
+   _game->ExecuteCommand( GameCommand::StartGame );
+}
+
+TEST_F( GameTests, ExecuteCommand_StartGame_SetsNextGameStateToPlaying )
+{
+   BuildGame();
+
+   _game->ExecuteCommand( GameCommand::StartGame );
+   _game->Tick();
+
+   EXPECT_EQ( _game->GetGameState(), GameState::Playing );
+}
+
+TEST_F( GameTests, ExecuteCommand_StartGame_RaisesGameStartedAndStageStartedEvents )
+{
+   BuildGame();
+
+   EXPECT_CALL( *_eventAggregatorMock, RaiseEvent( GameEvent::GameStarted ) );
+   EXPECT_CALL( *_eventAggregatorMock, RaiseEvent( GameEvent::StageStarted ) );
+
+   _game->ExecuteCommand( GameCommand::StartGame );
+}
+
 TEST_F( GameTests, ExecuteCommand_StartStage_ResetsGameObjects )
 {
    BuildGame();

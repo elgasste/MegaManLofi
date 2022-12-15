@@ -39,10 +39,10 @@ TitleStateConsoleRenderer::TitleStateConsoleRenderer( const shared_ptr<IConsoleB
                                                          (unsigned int)renderConfig->MaxTitleStarVelocity ) );
    }
 
-   _eventAggregator->RegisterEventHandler( GameEvent::StageStarted, std::bind( &TitleStateConsoleRenderer::HandleStageStartedEvent, this ) );
+   _eventAggregator->RegisterEventHandler( GameEvent::GameStarted, std::bind( &TitleStateConsoleRenderer::HandleGameStartedEvent, this ) );
 }
 
-void TitleStateConsoleRenderer::HandleStageStartedEvent()
+void TitleStateConsoleRenderer::HandleGameStartedEvent()
 {
    _isAnimatingPlayerThwipOut = true;
    _playerThwipBottomUnits = ( (long long)_renderConfig->TitlePlayerTopChars + (long long)_renderConfig->TitlePlayerSprite.Height ) * _renderConfig->ArenaCharHeight;

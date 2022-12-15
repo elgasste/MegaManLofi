@@ -25,7 +25,7 @@ namespace MegaManLofi
                                  const std::shared_ptr<ConsoleRenderConfig> renderConfig,
                                  const std::shared_ptr<KeyboardInputConfig> inputConfig );
 
-      void HandleStageStartedEvent();
+      void HandleGameStartedEvent();
       void Render() override;
       bool HasFocus() const override;
 

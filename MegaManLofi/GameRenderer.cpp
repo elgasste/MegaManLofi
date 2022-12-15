@@ -20,6 +20,7 @@ GameRenderer::GameRenderer( const shared_ptr<ConsoleRenderConfig> renderConfig,
    _screenBuffer( screenBuffer ),
    _gameInfoProvider( gameInfoProvider ),
    _diagnosticsRenderer( diagnosticsRenderer ),
+   _stateRendererCache( nullptr ),
    _showDiagnostics( false ),
    _isCleaningUp( false )
 {
@@ -43,7 +44,13 @@ void GameRenderer::Render()
 
    _screenBuffer->Clear();
 
-   _stateRenderers.at( _gameInfoProvider->GetGameState() )->Render();
+   // if the cached renderer still has focus, let it finish before swapping
+   if ( _stateRendererCache == nullptr || !_stateRendererCache->HasFocus() )
+   {
+      _stateRendererCache = _stateRenderers.at( _gameInfoProvider->GetGameState() );
+   }
+
+   _stateRendererCache->Render();
 
    if ( _showDiagnostics )
    {
@@ -55,7 +62,8 @@ void GameRenderer::Render()
 
 bool GameRenderer::HasFocus() const
 {
-   return _stateRenderers.at( _gameInfoProvider->GetGameState() )->HasFocus();
+   // the cached renderer will be null on the first frame
+   return !_stateRendererCache ? _stateRenderers.at( _gameInfoProvider->GetGameState() )->HasFocus() : _stateRendererCache->HasFocus();
 }
 
 void GameRenderer::HandleShutdownEvent()

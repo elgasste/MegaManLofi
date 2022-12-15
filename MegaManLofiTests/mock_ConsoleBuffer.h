@@ -20,7 +20,7 @@ public:
    MOCK_METHOD( void, Draw, ( short, short, const std::string& ), ( override ) );
    MOCK_METHOD( void, Draw, ( short, short, const std::string&, MegaManLofi::ConsoleColor ), ( override ) );
    MOCK_METHOD( void, Draw, ( short, short, const std::string&, MegaManLofi::ConsoleColor, MegaManLofi::ConsoleColor ), ( override ) );
-   MOCK_METHOD( void, Draw, ( short, short, const MegaManLofi::ConsoleSprite& ), ( override ) );
+   MOCK_METHOD( void, Draw, ( short, short, const MegaManLofi::ConsoleImage& ), ( override ) );
 
    MOCK_METHOD( void, Flip, ( ), ( override ) );
 };

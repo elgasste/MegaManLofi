@@ -39,14 +39,12 @@
 #include "GameRenderer.h"
 #include "GameRunner.h"
 #include "GameState.h"
-#include "ConsoleColor.h"
 #include "Direction.h"
 #include "ArenaTile.h"
 #include "PlayerSpriteGenerator.h"
 #include "ArenaTileGenerator.h"
 #include "ArenaSpriteGenerator.h"
 #include "TitleSpriteGenerator.h"
-#include "ConsoleSprite.h"
 
 using namespace std;
 using namespace MegaManLofi;

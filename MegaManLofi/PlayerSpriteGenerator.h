@@ -2,7 +2,7 @@
 
 #include <map>
 
-#include "ConsoleSprite.h"
+#include "ConsoleImage.h"
 
 namespace MegaManLofi
 {
@@ -11,8 +11,8 @@ namespace MegaManLofi
    class PlayerSpriteGenerator
    {
    public:
-      static std::map<Direction, ConsoleSprite> GenerateStaticSpriteMap();
-      static std::map<Direction, ConsoleSprite> GenerateMovingSpriteMap();
-      static ConsoleSprite GeneratePlayerThwipSprite();
+      static std::map<Direction, ConsoleImage> GenerateStaticSpriteMap();
+      static std::map<Direction, ConsoleImage> GenerateMovingSpriteMap();
+      static ConsoleImage GeneratePlayerThwipSprite();
    };
 }

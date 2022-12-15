@@ -275,7 +275,7 @@
     <ClInclude Include="ConsolePixel.h">
       <Filter>Header Files\DataTypes</Filter>
     </ClInclude>
-    <ClInclude Include="ConsoleSprite.h">
+    <ClInclude Include="ConsoleImage.h">
       <Filter>Header Files\DataTypes</Filter>
     </ClInclude>
     <ClInclude Include="IGameRenderConfig.h">

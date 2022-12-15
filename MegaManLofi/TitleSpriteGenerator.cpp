@@ -1,14 +1,13 @@
 #include <string>
 
 #include "TitleSpriteGenerator.h"
-#include "ConsoleColor.h"
 
 using namespace std;
 using namespace MegaManLofi;
 
-ConsoleSprite TitleSpriteGenerator::GenerateTitleTextSprite()
+ConsoleImage TitleSpriteGenerator::GenerateTitleTextSprite()
 {
-   ConsoleSprite sprite;
+   ConsoleImage sprite;
 
    sprite.Width = 75;
    sprite.Height = 7;
@@ -30,9 +29,9 @@ ConsoleSprite TitleSpriteGenerator::GenerateTitleTextSprite()
    return sprite;
 }
 
-ConsoleSprite TitleSpriteGenerator::GenerateTitleSubTextSprite()
+ConsoleImage TitleSpriteGenerator::GenerateTitleSubTextSprite()
 {
-   ConsoleSprite sprite;
+   ConsoleImage sprite;
 
    sprite.Width = 32;
    sprite.Height = 7;
@@ -54,9 +53,9 @@ ConsoleSprite TitleSpriteGenerator::GenerateTitleSubTextSprite()
    return sprite;
 }
 
-ConsoleSprite TitleSpriteGenerator::GeneratePlayerSprite()
+ConsoleImage TitleSpriteGenerator::GeneratePlayerSprite()
 {
-   ConsoleSprite sprite;
+   ConsoleImage sprite;
 
    sprite.Width = 3;
    sprite.Height = 3;
@@ -74,9 +73,9 @@ ConsoleSprite TitleSpriteGenerator::GeneratePlayerSprite()
    return sprite;
 }
 
-ConsoleSprite TitleSpriteGenerator::GenerateBuildingSprite()
+ConsoleImage TitleSpriteGenerator::GenerateBuildingSprite()
 {
-   ConsoleSprite sprite;
+   ConsoleImage sprite;
 
    sprite.Width = 30;
    sprite.Height = 12;
@@ -103,9 +102,9 @@ ConsoleSprite TitleSpriteGenerator::GenerateBuildingSprite()
    return sprite;
 }
 
-ConsoleSprite TitleSpriteGenerator::GenerateStartMessageSprite()
+ConsoleImage TitleSpriteGenerator::GenerateStartMessageSprite()
 {
-   ConsoleSprite sprite;
+   ConsoleImage sprite;
 
    sprite.Width = 19;
    sprite.Height = 2;
@@ -122,9 +121,9 @@ ConsoleSprite TitleSpriteGenerator::GenerateStartMessageSprite()
    return sprite;
 }
 
-ConsoleSprite TitleSpriteGenerator::GenerateStarSprite()
+ConsoleImage TitleSpriteGenerator::GenerateStarSprite()
 {
-   ConsoleSprite sprite;
+   ConsoleImage sprite;
 
    sprite.Width = 1;
    sprite.Height = 1;

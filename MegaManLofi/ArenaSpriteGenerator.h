@@ -2,7 +2,7 @@
 
 #include <vector>
 
-#include "ConsoleSprite.h"
+#include "ConsoleImage.h"
 
 namespace MegaManLofi
 {
@@ -10,8 +10,8 @@ namespace MegaManLofi
    {
    public:
       static std::vector<int> GenerateArenaSprites();
-      static ConsoleSprite GenerateGetReadySprite();
-      static ConsoleSprite GeneratePauseOverlaySprite();
-      static ConsoleSprite GenerateGameOverSprite();
+      static ConsoleImage GenerateGetReadySprite();
+      static ConsoleImage GeneratePauseOverlaySprite();
+      static ConsoleImage GenerateGameOverSprite();
    };
 }

@@ -4,13 +4,11 @@
 #include <vector>
 
 #include "IGameRenderConfig.h"
-#include "ConsoleSprite.h"
+#include "ConsoleImage.h"
+#include "Direction.h"
 
 namespace MegaManLofi
 {
-   enum class ConsoleColor;
-   enum class Direction;
-
    class ConsoleRenderConfig : public IGameRenderConfig
    {
    public:
@@ -37,8 +35,8 @@ namespace MegaManLofi
 
       double PlayerExplosionAnimationSeconds = 0;
       double PlayerExplosionSpriteSwapSeconds = 0;
-      ConsoleSprite PlayerExplosionParticleSprite1;
-      ConsoleSprite PlayerExplosionParticleSprite2;
+      ConsoleImage PlayerExplosionParticleSprite1;
+      ConsoleImage PlayerExplosionParticleSprite2;
       long long PlayerExplosionParticleVelocity = 0;
 
       ConsoleColor DefaultForegroundColor = (ConsoleColor)0;
@@ -54,14 +52,14 @@ namespace MegaManLofi
 
       ConsoleColor TitleKeyBindingsForegroundColor = (ConsoleColor)0;
 
-      ConsoleSprite TitleTextSprite;
-      ConsoleSprite TitleSubTextSprite;
-      ConsoleSprite TitlePlayerSprite;
-      ConsoleSprite TitleBuildingSprite;
-      ConsoleSprite TitleStartMessageSprite;
-      ConsoleSprite TitleStarSprite;
+      ConsoleImage TitleTextSprite;
+      ConsoleImage TitleSubTextSprite;
+      ConsoleImage TitlePlayerSprite;
+      ConsoleImage TitleBuildingSprite;
+      ConsoleImage TitleStartMessageSprite;
+      ConsoleImage TitleStarSprite;
 
-      ConsoleSprite PlayerThwipSprite;
+      ConsoleImage PlayerThwipSprite;
       long long PlayerThwipVelocity = 0;
 
       short TitleTextLeftChars = 0;
@@ -81,14 +79,14 @@ namespace MegaManLofi
       long long MaxTitleStarVelocity = 0;
       double TitlePostThwipDelaySeconds = 0;
 
-      ConsoleSprite GetReadySprite;
-      ConsoleSprite PauseOverlaySprite;
-      ConsoleSprite GameOverSprite;
+      ConsoleImage GetReadySprite;
+      ConsoleImage PauseOverlaySprite;
+      ConsoleImage GameOverSprite;
 
-      std::map<Direction, ConsoleSprite> PlayerStaticSpriteMap;
-      std::map<Direction, ConsoleSprite> PlayerMovingSpriteMap;
+      std::map<Direction, ConsoleImage> PlayerStaticSpriteMap;
+      std::map<Direction, ConsoleImage> PlayerMovingSpriteMap;
 
-      std::map<int, ConsoleSprite> ArenaSpriteMap;
+      std::map<int, ConsoleImage> ArenaSpriteMap;
       std::vector<int> ArenaSprites;
    };
 }

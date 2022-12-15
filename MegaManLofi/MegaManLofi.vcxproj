@@ -191,7 +191,7 @@
     <ClInclude Include="ArenaTile.h" />
     <ClInclude Include="ConsoleColor.h" />
     <ClInclude Include="ConsoleBuffer.h" />
-    <ClInclude Include="ConsoleSprite.h" />
+    <ClInclude Include="ConsoleImage.h" />
     <ClInclude Include="Coordinate.h" />
     <ClInclude Include="DiagnosticsConsoleRenderer.h" />
     <ClInclude Include="Direction.h" />

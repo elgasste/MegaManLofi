@@ -6,7 +6,7 @@
 
 namespace MegaManLofi
 {
-   struct ConsoleSprite
+   struct ConsoleImage
    {
       short Width = 0;
       short Height = 0;

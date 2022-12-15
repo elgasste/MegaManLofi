@@ -3,12 +3,10 @@
 #include <string>
 
 #include "IScreenBuffer.h"
+#include "ConsoleImage.h"
 
 namespace MegaManLofi
 {
-   enum class ConsoleColor;
-   struct ConsoleSprite;
-
    class __declspec( novtable ) IConsoleBuffer : public IScreenBuffer
    {
    public:
@@ -25,7 +23,7 @@ namespace MegaManLofi
       virtual void Draw( short left, short top, const std::string& buffer ) = 0;
       virtual void Draw( short left, short top, const std::string& buffer, ConsoleColor foregroundColor ) = 0;
       virtual void Draw( short left, short top, const std::string& buffer, ConsoleColor foregroundColor, ConsoleColor backgroundColor ) = 0;
-      virtual void Draw( short left, short top, const ConsoleSprite& sprite ) = 0;
+      virtual void Draw( short left, short top, const ConsoleImage& sprite ) = 0;
 
       virtual void Flip() override = 0;
    };

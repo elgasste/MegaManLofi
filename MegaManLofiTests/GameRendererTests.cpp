@@ -9,7 +9,6 @@
 #include <MegaManLofi/GameEventAggregator.h>
 #include <MegaManLofi/ConsoleColor.h>
 #include <MegaManLofi/GameState.h>
-#include <MegaManLofi/ConsoleSprite.h>
 
 #include "mock_ScreenBuffer.h"
 #include "mock_GameInfoProvider.h"

@@ -8,10 +8,7 @@
 #include "IArenaInfoProvider.h"
 #include "IGameEventAggregator.h"
 #include "IFrameRateProvider.h"
-#include "ConsoleColor.h"
 #include "Direction.h"
-#include "ConsoleSprite.h"
-#include "ConsolePixel.h"
 #include "GameEvent.h"
 
 using namespace std;

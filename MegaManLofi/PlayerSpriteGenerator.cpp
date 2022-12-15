@@ -6,9 +6,9 @@
 using namespace std;
 using namespace MegaManLofi;
 
-map<Direction, ConsoleSprite> PlayerSpriteGenerator::GenerateStaticSpriteMap()
+map<Direction, ConsoleImage> PlayerSpriteGenerator::GenerateStaticSpriteMap()
 {
-   auto spriteMap = map<Direction, ConsoleSprite>();
+   auto spriteMap = map<Direction, ConsoleImage>();
 
    // facing left without firing
    spriteMap[Direction::Left].Width = 4;
@@ -69,15 +69,15 @@ map<Direction, ConsoleSprite> PlayerSpriteGenerator::GenerateStaticSpriteMap()
    return spriteMap;
 }
 
-map<Direction, ConsoleSprite> PlayerSpriteGenerator::GenerateMovingSpriteMap()
+map<Direction, ConsoleImage> PlayerSpriteGenerator::GenerateMovingSpriteMap()
 {
    // TODO: figure out how to do sprite swapping based on frame count
    return GenerateStaticSpriteMap();
 }
 
-ConsoleSprite PlayerSpriteGenerator::GeneratePlayerThwipSprite()
+ConsoleImage PlayerSpriteGenerator::GeneratePlayerThwipSprite()
 {
-   ConsoleSprite thwipSprite;
+   ConsoleImage thwipSprite;
 
    thwipSprite.Width = 1;
    thwipSprite.Height = 3;

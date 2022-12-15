@@ -5,9 +5,6 @@
 
 #include "ConsoleBuffer.h"
 #include "ConsoleRenderConfig.h"
-#include "ConsoleColor.h"
-#include "ConsoleSprite.h"
-#include "ConsolePixel.h"
 
 namespace MegaManLofi
 {
@@ -168,7 +165,7 @@ void ConsoleBuffer::Draw( short left, short top, const string& buffer, ConsoleCo
    }
 }
 
-void ConsoleBuffer::Draw( short left, short top, const ConsoleSprite& sprite )
+void ConsoleBuffer::Draw( short left, short top, const ConsoleImage& sprite )
 {
    int i = 0, j = 0;
 

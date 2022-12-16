@@ -16,6 +16,7 @@ namespace MegaManLofi
 
       short GetWidth() const;
       short GetHeight() const;
+      double GetTotalTraversalSeconds() const { return _totalSpriteSeconds; }
       const ConsoleImage& GetCurrentImage() const;
 
    private:

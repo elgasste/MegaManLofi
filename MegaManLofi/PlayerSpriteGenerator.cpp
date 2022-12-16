@@ -27,7 +27,7 @@ shared_ptr<ConsoleSprite> PlayerSpriteGenerator::GenerateThwipSprite()
 
 shared_ptr<ConsoleSprite> PlayerSpriteGenerator::GenerateThwipInTransitionSprite()
 {
-   auto sprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( .1 ) );
+   auto sprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( .05 ) );
 
    string chars0 =
       "    " \
@@ -40,6 +40,7 @@ shared_ptr<ConsoleSprite> PlayerSpriteGenerator::GenerateThwipInTransitionSprite
    ConsoleImage image0 = { 4, 3 };
    ConsoleImage image1 = { 4, 3 };
    for ( int i = 0; i < (int)chars0.size(); i++ ) { image0.Pixels.push_back( { chars0[i], true, ConsoleColor::DarkBlue, ConsoleColor::Black } ); }
+   for ( int i = 0; i < (int)chars1.size(); i++ ) { image1.Pixels.push_back( { chars1[i], true, ConsoleColor::Blue, ConsoleColor::Black } ); }
    sprite->AddImage( image0 );
    sprite->AddImage( image1 );
 
@@ -48,7 +49,7 @@ shared_ptr<ConsoleSprite> PlayerSpriteGenerator::GenerateThwipInTransitionSprite
 
 shared_ptr<ConsoleSprite> PlayerSpriteGenerator::GenerateThwipOutTransitionSprite()
 {
-   auto sprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( .1 ) );
+   auto sprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( .05 ) );
 
    string chars0 =
       " ** " \
@@ -60,7 +61,8 @@ shared_ptr<ConsoleSprite> PlayerSpriteGenerator::GenerateThwipOutTransitionSprit
       "    ";
    ConsoleImage image0 = { 4, 3 };
    ConsoleImage image1 = { 4, 3 };
-   for ( int i = 0; i < (int)chars0.size(); i++ ) { image0.Pixels.push_back( { chars0[i], true, ConsoleColor::DarkBlue, ConsoleColor::Black } ); }
+   for ( int i = 0; i < (int)chars0.size(); i++ ) { image0.Pixels.push_back( { chars0[i], true, ConsoleColor::Blue, ConsoleColor::Black } ); }
+   for ( int i = 0; i < (int)chars1.size(); i++ ) { image1.Pixels.push_back( { chars1[i], true, ConsoleColor::DarkBlue, ConsoleColor::Black } ); }
    sprite->AddImage( image0 );
    sprite->AddImage( image1 );
 

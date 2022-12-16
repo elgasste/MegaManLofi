@@ -195,7 +195,7 @@ shared_ptr<ConsoleRenderConfig> BuildConsoleRenderConfig()
    renderConfig->PlayerThwipSprite = PlayerSpriteGenerator::GenerateThwipSprite();
    renderConfig->PlayerThwipInTransitionSprite = PlayerSpriteGenerator::GenerateThwipInTransitionSprite();
    renderConfig->PlayerThwipOutTransitionSprite = PlayerSpriteGenerator::GenerateThwipOutTransitionSprite();
-   renderConfig->PlayerThwipVelocity = 3'000;
+   renderConfig->PlayerThwipVelocity = 5'000;
 
    renderConfig->TitleTextLeftChars = 6;
    renderConfig->TitleTextTopChars = 1;

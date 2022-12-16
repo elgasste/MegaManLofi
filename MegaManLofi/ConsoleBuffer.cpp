@@ -5,6 +5,7 @@
 
 #include "ConsoleBuffer.h"
 #include "ConsoleRenderConfig.h"
+#include "ConsoleSprite.h"
 
 namespace MegaManLofi
 {
@@ -191,6 +192,11 @@ void ConsoleBuffer::Draw( short left, short top, const ConsoleImage& image )
          j++;
       }
    }
+}
+
+void ConsoleBuffer::Draw( short left, short top, const std::shared_ptr<ConsoleSprite> sprite )
+{
+   Draw( left, top, sprite->GetCurrentImage() );
 }
 
 void ConsoleBuffer::Flip()

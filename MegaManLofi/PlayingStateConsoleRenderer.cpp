@@ -149,10 +149,11 @@ void PlayingStateConsoleRenderer::DrawGameStartAnimation()
    _stageStartAnimationElapsedSeconds += ( 1 / (double)_frameRateProvider->GetFramesPerSecond() );
    _renderConfig->GetReadySprite->Tick( _frameRateProvider->GetFramesPerSecond() );
 
-   auto left = ( _viewportRectChars.Width / 2 ) - ( _renderConfig->GetReadySprite->GetCurrentImage().Width / 2 ) + _viewportOffsetChars.Left;
-   auto top = ( _viewportRectChars.Height / 2 ) - ( _renderConfig->GetReadySprite->GetCurrentImage().Height / 2 ) + _viewportOffsetChars.Top;
+   auto image = _renderConfig->GetReadySprite->GetCurrentImage();
+   auto left = ( _viewportRectChars.Width / 2 ) - ( image.Width / 2 ) + _viewportOffsetChars.Left;
+   auto top = ( _viewportRectChars.Height / 2 ) - ( image.Height / 2 ) + _viewportOffsetChars.Top;
 
-   _consoleBuffer->Draw( left, top, _renderConfig->GetReadySprite->GetCurrentImage() );
+   _consoleBuffer->Draw( left, top, image );
 
    if ( _stageStartAnimationElapsedSeconds >= _renderConfig->GetReadyAnimationSeconds )
    {
@@ -180,7 +181,7 @@ void PlayingStateConsoleRenderer::DrawPlayerThwipInAnimation()
    auto playerThwipBottomViewportChars = (short)( ( _playerThwipBottom - _viewportQuadUnits.Top ) / _renderConfig->ArenaCharHeight );
    _consoleBuffer->Draw( _playerViewportChars.Left + thwipSpriteLeftOffsetChars + _viewportOffsetChars.Left,
                          ( playerThwipBottomViewportChars - _renderConfig->PlayerThwipSprite->GetHeight() ) + _viewportOffsetChars.Top,
-                         _renderConfig->PlayerThwipSprite->GetCurrentImage() );
+                         _renderConfig->PlayerThwipSprite );
    _renderConfig->PlayerThwipSprite->Tick( _frameRateProvider->GetFramesPerSecond() );
 }
 
@@ -199,9 +200,6 @@ void PlayingStateConsoleRenderer::DrawPlayerExplosionAnimation()
    auto frameRateScalar = ( 1 / (double)_frameRateProvider->GetFramesPerSecond() );
    _playerExplosionAnimationElapsedSeconds += frameRateScalar;
 
-   auto particleSprite = _renderConfig->PlayerExplosionParticleSprite;
-   auto particleImage = particleSprite->GetCurrentImage();
-
    const auto& hitBox = _playerInfoProvider->GetHitBox();
    auto particleStartLeftChars = _playerViewportChars.Left + (short)( hitBox.Width / 2 / _renderConfig->ArenaCharWidth ) + _viewportOffsetChars.Left;
    auto particleStartTopChars = _playerViewportChars.Top + (short)( hitBox.Height / 2 / _renderConfig->ArenaCharHeight ) + _viewportOffsetChars.Top;
@@ -211,25 +209,27 @@ void PlayingStateConsoleRenderer::DrawPlayerExplosionAnimation()
    auto particleDeltaXChars = (short)( ( particleIncrement * elapsedFrames ) / _renderConfig->ArenaCharWidth );
    auto particleDeltaYChars = (short)( ( particleIncrement * elapsedFrames ) / _renderConfig->ArenaCharHeight );
 
+   auto particleSprite = _renderConfig->PlayerExplosionParticleSprite;
+
    // horizontal and vertical particles
-   _consoleBuffer->Draw( particleStartLeftChars + particleDeltaXChars, particleStartTopChars, particleImage );
-   _consoleBuffer->Draw( particleStartLeftChars + ( particleDeltaXChars / 2 ), particleStartTopChars, particleImage );
-   _consoleBuffer->Draw( particleStartLeftChars - particleDeltaXChars, particleStartTopChars, particleImage );
-   _consoleBuffer->Draw( particleStartLeftChars - ( particleDeltaXChars / 2 ), particleStartTopChars, particleImage );
-   _consoleBuffer->Draw( particleStartLeftChars, particleStartTopChars + particleDeltaYChars, particleImage );
-   _consoleBuffer->Draw( particleStartLeftChars, particleStartTopChars + ( particleDeltaYChars / 2 ), particleImage );
-   _consoleBuffer->Draw( particleStartLeftChars, particleStartTopChars - particleDeltaYChars, particleImage );
-   _consoleBuffer->Draw( particleStartLeftChars, particleStartTopChars - ( particleDeltaYChars / 2 ), particleImage );
+   _consoleBuffer->Draw( particleStartLeftChars + particleDeltaXChars, particleStartTopChars, particleSprite );
+   _consoleBuffer->Draw( particleStartLeftChars + ( particleDeltaXChars / 2 ), particleStartTopChars, particleSprite );
+   _consoleBuffer->Draw( particleStartLeftChars - particleDeltaXChars, particleStartTopChars, particleSprite );
+   _consoleBuffer->Draw( particleStartLeftChars - ( particleDeltaXChars / 2 ), particleStartTopChars, particleSprite );
+   _consoleBuffer->Draw( particleStartLeftChars, particleStartTopChars + particleDeltaYChars, particleSprite );
+   _consoleBuffer->Draw( particleStartLeftChars, particleStartTopChars + ( particleDeltaYChars / 2 ), particleSprite );
+   _consoleBuffer->Draw( particleStartLeftChars, particleStartTopChars - particleDeltaYChars, particleSprite );
+   _consoleBuffer->Draw( particleStartLeftChars, particleStartTopChars - ( particleDeltaYChars / 2 ), particleSprite );
 
    // diagonal particles
-   _consoleBuffer->Draw( particleStartLeftChars + (short)( particleDeltaXChars / 1.5 ), particleStartTopChars + (short)( particleDeltaYChars / 1.5 ), particleImage );
-   _consoleBuffer->Draw( particleStartLeftChars + (short)( particleDeltaXChars / 3 ), particleStartTopChars + (short)( particleDeltaYChars / 3 ), particleImage );
-   _consoleBuffer->Draw( particleStartLeftChars - (short)( particleDeltaXChars / 1.5 ), particleStartTopChars + (short)( particleDeltaYChars / 1.5 ), particleImage );
-   _consoleBuffer->Draw( particleStartLeftChars - (short)( particleDeltaXChars / 3 ), particleStartTopChars + (short)( particleDeltaYChars / 3 ), particleImage );
-   _consoleBuffer->Draw( particleStartLeftChars + (short)( particleDeltaXChars / 1.5 ), particleStartTopChars - (short)( particleDeltaYChars / 1.5 ), particleImage );
-   _consoleBuffer->Draw( particleStartLeftChars + (short)( particleDeltaXChars / 3 ), particleStartTopChars - (short)( particleDeltaYChars / 3 ), particleImage );
-   _consoleBuffer->Draw( particleStartLeftChars - (short)( particleDeltaXChars / 1.5 ), particleStartTopChars - (short)( particleDeltaYChars / 1.5 ), particleImage );
-   _consoleBuffer->Draw( particleStartLeftChars - (short)( particleDeltaXChars / 3 ), particleStartTopChars - (short)( particleDeltaYChars / 3 ), particleImage );
+   _consoleBuffer->Draw( particleStartLeftChars + (short)( particleDeltaXChars / 1.5 ), particleStartTopChars + (short)( particleDeltaYChars / 1.5 ), particleSprite );
+   _consoleBuffer->Draw( particleStartLeftChars + (short)( particleDeltaXChars / 3 ), particleStartTopChars + (short)( particleDeltaYChars / 3 ), particleSprite );
+   _consoleBuffer->Draw( particleStartLeftChars - (short)( particleDeltaXChars / 1.5 ), particleStartTopChars + (short)( particleDeltaYChars / 1.5 ), particleSprite );
+   _consoleBuffer->Draw( particleStartLeftChars - (short)( particleDeltaXChars / 3 ), particleStartTopChars + (short)( particleDeltaYChars / 3 ), particleSprite );
+   _consoleBuffer->Draw( particleStartLeftChars + (short)( particleDeltaXChars / 1.5 ), particleStartTopChars - (short)( particleDeltaYChars / 1.5 ), particleSprite );
+   _consoleBuffer->Draw( particleStartLeftChars + (short)( particleDeltaXChars / 3 ), particleStartTopChars - (short)( particleDeltaYChars / 3 ), particleSprite );
+   _consoleBuffer->Draw( particleStartLeftChars - (short)( particleDeltaXChars / 1.5 ), particleStartTopChars - (short)( particleDeltaYChars / 1.5 ), particleSprite );
+   _consoleBuffer->Draw( particleStartLeftChars - (short)( particleDeltaXChars / 3 ), particleStartTopChars - (short)( particleDeltaYChars / 3 ), particleSprite );
 
    if ( _playerExplosionAnimationElapsedSeconds >= _renderConfig->PlayerExplosionAnimationSeconds )
    {
@@ -263,7 +263,7 @@ void PlayingStateConsoleRenderer::DrawArenaSprites()
 void PlayingStateConsoleRenderer::DrawPlayer()
 {
    auto sprite = GetPlayerSprite();
-   _consoleBuffer->Draw( _playerViewportChars.Left + _viewportOffsetChars.Left, _playerViewportChars.Top + _viewportOffsetChars.Top, sprite->GetCurrentImage() );
+   _consoleBuffer->Draw( _playerViewportChars.Left + _viewportOffsetChars.Left, _playerViewportChars.Top + _viewportOffsetChars.Top, sprite );
    sprite->Tick( _frameRateProvider->GetFramesPerSecond() );
 }
 

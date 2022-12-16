@@ -137,7 +137,7 @@ void TitleStateConsoleRenderer::DrawPlayerThwipOutAnimation()
 
    _consoleBuffer->Draw( _renderConfig->TitlePlayerLeftChars + thwipSpriteLeftOffsetChars,
                          playerThwipBottomChars - _renderConfig->PlayerThwipSprite->GetHeight(),
-                         _renderConfig->PlayerThwipSprite->GetCurrentImage() );
+                         _renderConfig->PlayerThwipSprite );
    _renderConfig->PlayerThwipSprite->Tick( _frameRateProvider->GetFramesPerSecond() );
 }
 

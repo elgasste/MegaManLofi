@@ -19,16 +19,27 @@ void ConsoleSprite::AddImage( ConsoleImage image )
 
 void ConsoleSprite::Tick( int framesPerSecond )
 {
-   _spriteElapsedSeconds += ( 1 / (double)framesPerSecond );
-
-   while ( _spriteElapsedSeconds > _totalSpriteSeconds )
+   //  MUFFINS: test the changes in here
+   if ( _images.size() == 1 )
    {
-      _spriteElapsedSeconds -= _totalSpriteSeconds;
+      return;
+   }
+   else if ( _totalSpriteSeconds > 0 )
+   {
+      _spriteElapsedSeconds += ( 1 / (double)framesPerSecond );
+
+      while ( _spriteElapsedSeconds > _totalSpriteSeconds )
+      {
+         _spriteElapsedSeconds -= _totalSpriteSeconds;
+      }
+
+      _currentImageIndex = (int)( _spriteElapsedSeconds / _imageTraversalSeconds );
+   }
+   else
+   {
+      _currentImageIndex++;
    }
 
-   _currentImageIndex = (int)( _spriteElapsedSeconds / _imageTraversalSeconds );
-
-   // this can happen if elapsed seconds exactly matches total sprite seconds
    if ( _currentImageIndex >= _images.size() )
    {
       _currentImageIndex = 0;

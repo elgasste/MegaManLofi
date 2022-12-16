@@ -66,3 +66,18 @@ TEST_F( ConsoleSpriteTests, GetHeight_Always_ReturnsHeightOfCurrentImage )
 
    EXPECT_EQ( sprite->GetCurrentImage().Height, 5 );
 }
+
+TEST_F( ConsoleSpriteTests, Tick_ImageTraversalIsZeroSeconds_MovesDirectlyToTheNextImage )
+{
+   auto sprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( 0 ) );
+   sprite->AddImage( { 0, 1 } );
+   sprite->AddImage( { 2, 3 } );
+   sprite->AddImage( { 4, 5 } );
+   sprite->AddImage( { 6, 7 } );
+
+   sprite->Tick( 1 ); // should be on second image
+   sprite->Tick( 1 ); // should be on third image
+   sprite->Tick( 1 ); // should be on fourth image
+
+   EXPECT_EQ( sprite->GetCurrentImage().Width, 6 );
+}

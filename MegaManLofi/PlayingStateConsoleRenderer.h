@@ -41,6 +41,7 @@ namespace MegaManLofi
 
       void DrawGameStartAnimation();
       void DrawPlayerThwipInAnimation();
+      void DrawPlayerThwipInTransitionAnimation();
       void DrawPitfallAnimation();
       void DrawPlayerExplosionAnimation();
       void DrawArenaSprites();
@@ -66,10 +67,12 @@ namespace MegaManLofi
 
       bool _isAnimatingStageStart;
       bool _isAnimatingPlayerThwipIn;
+      bool _isAnimatingPlayerThwipTransition;
       bool _isAnimatingPitfall;
       bool _isAnimatingPlayerExplosion;
 
       double _stageStartAnimationElapsedSeconds;
+      double _playerThwipTransitionElapsedSeconds;
       double _pitfallAnimationElapsedSeconds;
       double _playerExplosionAnimationElapsedSeconds;
 

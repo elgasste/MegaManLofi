@@ -5,9 +5,7 @@
 
 #include "ConsoleBuffer.h"
 #include "ConsoleRenderConfig.h"
-#include "ConsoleColor.h"
 #include "ConsoleSprite.h"
-#include "ConsolePixel.h"
 
 namespace MegaManLofi
 {
@@ -168,11 +166,11 @@ void ConsoleBuffer::Draw( short left, short top, const string& buffer, ConsoleCo
    }
 }
 
-void ConsoleBuffer::Draw( short left, short top, const ConsoleSprite& sprite )
+void ConsoleBuffer::Draw( short left, short top, const ConsoleImage& image )
 {
    int i = 0, j = 0;
 
-   for ( auto pixel : sprite.Pixels )
+   for ( auto pixel : image.Pixels )
    {
       if ( pixel.HasTransparency )
       {
@@ -188,12 +186,17 @@ void ConsoleBuffer::Draw( short left, short top, const ConsoleSprite& sprite )
 
       i++;
 
-      if ( i == sprite.Width )
+      if ( i == image.Width )
       {
          i = 0;
          j++;
       }
    }
+}
+
+void ConsoleBuffer::Draw( short left, short top, const std::shared_ptr<ConsoleSprite> sprite )
+{
+   Draw( left, top, sprite->GetCurrentImage() );
 }
 
 void ConsoleBuffer::Flip()

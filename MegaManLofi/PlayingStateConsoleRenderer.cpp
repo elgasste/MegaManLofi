@@ -8,11 +8,9 @@
 #include "IArenaInfoProvider.h"
 #include "IGameEventAggregator.h"
 #include "IFrameRateProvider.h"
-#include "ConsoleColor.h"
 #include "Direction.h"
-#include "ConsoleSprite.h"
-#include "ConsolePixel.h"
 #include "GameEvent.h"
+#include "ConsoleSprite.h"
 
 using namespace std;
 using namespace MegaManLofi;
@@ -149,16 +147,15 @@ void PlayingStateConsoleRenderer::UpdateCaches()
 void PlayingStateConsoleRenderer::DrawGameStartAnimation()
 {
    _stageStartAnimationElapsedSeconds += ( 1 / (double)_frameRateProvider->GetFramesPerSecond() );
+   _renderConfig->GetReadySprite->Tick( _frameRateProvider->GetFramesPerSecond() );
 
-   if ( (int)( _stageStartAnimationElapsedSeconds / _renderConfig->GameStartSingleBlinkSeconds ) % 2 == 0 )
-   {
-      auto left = ( _viewportRectChars.Width / 2 ) - ( _renderConfig->GetReadySprite.Width / 2 ) + _viewportOffsetChars.Left;
-      auto top = ( _viewportRectChars.Height / 2 ) - ( _renderConfig->GetReadySprite.Height / 2 ) + _viewportOffsetChars.Top;
+   auto image = _renderConfig->GetReadySprite->GetCurrentImage();
+   auto left = ( _viewportRectChars.Width / 2 ) - ( image.Width / 2 ) + _viewportOffsetChars.Left;
+   auto top = ( _viewportRectChars.Height / 2 ) - ( image.Height / 2 ) + _viewportOffsetChars.Top;
 
-      _consoleBuffer->Draw( left, top, _renderConfig->GetReadySprite );
-   }
+   _consoleBuffer->Draw( left, top, image );
 
-   if ( _stageStartAnimationElapsedSeconds >= ( _renderConfig->GameStartSingleBlinkSeconds * _renderConfig->GameStartBlinkCount ) )
+   if ( _stageStartAnimationElapsedSeconds >= _renderConfig->GetReadyAnimationSeconds )
    {
       _isAnimatingStageStart = false;
       _isAnimatingPlayerThwipIn = true;
@@ -171,8 +168,8 @@ void PlayingStateConsoleRenderer::DrawPlayerThwipInAnimation()
    auto thwipDeltaUnits = ( _renderConfig->PlayerThwipVelocity / _frameRateProvider->GetFramesPerSecond() );
    _playerThwipBottom += thwipDeltaUnits;
 
-   auto playerSprite = _renderConfig->PlayerStaticSpriteMap[_playerInfoProvider->GetDirection()];
-   auto thwipSpriteLeftOffsetChars = (short)( ( playerSprite.Width - _renderConfig->PlayerThwipSprite.Width ) / 2 );
+   auto playerSprite = GetPlayerSprite();
+   auto thwipSpriteLeftOffsetChars = (short)( ( playerSprite->GetWidth() - _renderConfig->PlayerThwipSprite->GetWidth() ) / 2 );
 
    const auto& hitBox = _playerInfoProvider->GetHitBox();
    if ( _playerThwipBottom >= ( _arenaInfoProvider->GetPlayerPositionY() + hitBox.Height ) )
@@ -183,8 +180,9 @@ void PlayingStateConsoleRenderer::DrawPlayerThwipInAnimation()
 
    auto playerThwipBottomViewportChars = (short)( ( _playerThwipBottom - _viewportQuadUnits.Top ) / _renderConfig->ArenaCharHeight );
    _consoleBuffer->Draw( _playerViewportChars.Left + thwipSpriteLeftOffsetChars + _viewportOffsetChars.Left,
-                         ( playerThwipBottomViewportChars - _renderConfig->PlayerThwipSprite.Height ) + _viewportOffsetChars.Top,
+                         ( playerThwipBottomViewportChars - _renderConfig->PlayerThwipSprite->GetHeight() ) + _viewportOffsetChars.Top,
                          _renderConfig->PlayerThwipSprite );
+   _renderConfig->PlayerThwipSprite->Tick( _frameRateProvider->GetFramesPerSecond() );
 }
 
 void PlayingStateConsoleRenderer::DrawPitfallAnimation()
@@ -202,9 +200,6 @@ void PlayingStateConsoleRenderer::DrawPlayerExplosionAnimation()
    auto frameRateScalar = ( 1 / (double)_frameRateProvider->GetFramesPerSecond() );
    _playerExplosionAnimationElapsedSeconds += frameRateScalar;
 
-   const auto& particleSprite = (int)( _playerExplosionAnimationElapsedSeconds / _renderConfig->PlayerExplosionSpriteSwapSeconds ) % 2 == 0 ?
-      _renderConfig->PlayerExplosionParticleSprite1 : _renderConfig->PlayerExplosionParticleSprite2;
-
    const auto& hitBox = _playerInfoProvider->GetHitBox();
    auto particleStartLeftChars = _playerViewportChars.Left + (short)( hitBox.Width / 2 / _renderConfig->ArenaCharWidth ) + _viewportOffsetChars.Left;
    auto particleStartTopChars = _playerViewportChars.Top + (short)( hitBox.Height / 2 / _renderConfig->ArenaCharHeight ) + _viewportOffsetChars.Top;
@@ -213,6 +208,8 @@ void PlayingStateConsoleRenderer::DrawPlayerExplosionAnimation()
    auto particleIncrement = ( _renderConfig->PlayerExplosionParticleVelocity * frameRateScalar );
    auto particleDeltaXChars = (short)( ( particleIncrement * elapsedFrames ) / _renderConfig->ArenaCharWidth );
    auto particleDeltaYChars = (short)( ( particleIncrement * elapsedFrames ) / _renderConfig->ArenaCharHeight );
+
+   auto particleSprite = _renderConfig->PlayerExplosionParticleSprite;
 
    // horizontal and vertical particles
    _consoleBuffer->Draw( particleStartLeftChars + particleDeltaXChars, particleStartTopChars, particleSprite );
@@ -238,6 +235,10 @@ void PlayingStateConsoleRenderer::DrawPlayerExplosionAnimation()
    {
       _isAnimatingPlayerExplosion = false;
    }
+   else
+   {
+      particleSprite->Tick( _frameRateProvider->GetFramesPerSecond() );
+   }
 }
 
 void PlayingStateConsoleRenderer::DrawArenaSprites()
@@ -248,12 +249,12 @@ void PlayingStateConsoleRenderer::DrawArenaSprites()
    {
       for ( short x = 0; x < _viewportRectChars.Width; x++ )
       {
-         auto spriteIndex = ( ( _viewportRectChars.Top + y ) * arenaWidthChars ) + ( _viewportRectChars.Left + x );
-         auto spriteId = _renderConfig->ArenaSprites[spriteIndex];
+         auto tileIndex = ( ( _viewportRectChars.Top + y ) * arenaWidthChars ) + ( _viewportRectChars.Left + x );
+         auto imageId = _renderConfig->ArenaTiles[tileIndex];
 
-         if ( spriteId != -1 )
+         if ( imageId != -1 )
          {
-            _consoleBuffer->Draw( x + _viewportOffsetChars.Left, y + _viewportOffsetChars.Top, _renderConfig->ArenaSpriteMap[ spriteId ] );
+            _consoleBuffer->Draw( x + _viewportOffsetChars.Left, y + _viewportOffsetChars.Top, _renderConfig->ArenaImageMap[ imageId ] );
          }
       }
    }
@@ -261,10 +262,9 @@ void PlayingStateConsoleRenderer::DrawArenaSprites()
 
 void PlayingStateConsoleRenderer::DrawPlayer()
 {
-   auto direction = _playerInfoProvider->GetDirection();
-   auto sprite = _playerInfoProvider->IsMoving() ? _renderConfig->PlayerMovingSpriteMap[direction] : _renderConfig->PlayerStaticSpriteMap[direction];
-
+   auto sprite = GetPlayerSprite();
    _consoleBuffer->Draw( _playerViewportChars.Left + _viewportOffsetChars.Left, _playerViewportChars.Top + _viewportOffsetChars.Top, sprite );
+   sprite->Tick( _frameRateProvider->GetFramesPerSecond() );
 }
 
 void PlayingStateConsoleRenderer::DrawStatusBar()
@@ -274,8 +274,22 @@ void PlayingStateConsoleRenderer::DrawStatusBar()
 
 void PlayingStateConsoleRenderer::DrawPauseOverlay()
 {
-   auto left = ( _viewportRectChars.Width / 2 ) - ( _renderConfig->PauseOverlaySprite.Width / 2 );
-   auto top = ( _viewportRectChars.Height / 2 ) - ( _renderConfig->PauseOverlaySprite.Height / 2 );
+   auto left = ( _viewportRectChars.Width / 2 ) - ( _renderConfig->PauseOverlayImage.Width / 2 );
+   auto top = ( _viewportRectChars.Height / 2 ) - ( _renderConfig->PauseOverlayImage.Height / 2 );
 
-   _consoleBuffer->Draw( left + _viewportOffsetChars.Left, top + _viewportOffsetChars.Top, _renderConfig->PauseOverlaySprite );
+   _consoleBuffer->Draw( left + _viewportOffsetChars.Left, top + _viewportOffsetChars.Top, _renderConfig->PauseOverlayImage );
+}
+
+const shared_ptr<ConsoleSprite> PlayingStateConsoleRenderer::GetPlayerSprite() const
+{
+   auto direction = _playerInfoProvider->GetDirection();
+
+   if ( _playerInfoProvider->IsStanding() )
+   {
+      return _playerInfoProvider->IsMoving() ? _renderConfig->PlayerWalkingSpriteMap[direction] : _renderConfig->PlayerStandingSpriteMap[direction];
+   }
+   else
+   {
+      return _renderConfig->PlayerFallingSpriteMap[direction];
+   }
 }

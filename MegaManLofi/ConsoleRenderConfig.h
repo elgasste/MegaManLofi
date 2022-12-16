@@ -1,16 +1,15 @@
 #pragma once
 
+#include <memory>
 #include <map>
 #include <vector>
 
 #include "IGameRenderConfig.h"
 #include "ConsoleSprite.h"
+#include "Direction.h"
 
 namespace MegaManLofi
 {
-   enum class ConsoleColor;
-   enum class Direction;
-
    class ConsoleRenderConfig : public IGameRenderConfig
    {
    public:
@@ -30,15 +29,10 @@ namespace MegaManLofi
       short ArenaStatusBarTopChars = 0;
       short ArenaStatusBarWidthChars = 0;
 
-      double GameStartSingleBlinkSeconds = 0;
-      int GameStartBlinkCount = 0;
-
       double PitfallAnimationSeconds = 0;
 
       double PlayerExplosionAnimationSeconds = 0;
-      double PlayerExplosionSpriteSwapSeconds = 0;
-      ConsoleSprite PlayerExplosionParticleSprite1;
-      ConsoleSprite PlayerExplosionParticleSprite2;
+      std::shared_ptr<ConsoleSprite> PlayerExplosionParticleSprite;
       long long PlayerExplosionParticleVelocity = 0;
 
       ConsoleColor DefaultForegroundColor = (ConsoleColor)0;
@@ -54,14 +48,14 @@ namespace MegaManLofi
 
       ConsoleColor TitleKeyBindingsForegroundColor = (ConsoleColor)0;
 
-      ConsoleSprite TitleTextSprite;
-      ConsoleSprite TitleSubTextSprite;
-      ConsoleSprite TitlePlayerSprite;
-      ConsoleSprite TitleBuildingSprite;
-      ConsoleSprite TitleStartMessageSprite;
-      ConsoleSprite TitleStarSprite;
+      ConsoleImage TitleTextImage;
+      ConsoleImage TitleSubTextImage;
+      ConsoleImage TitlePlayerImage;
+      ConsoleImage TitleBuildingImage;
+      ConsoleImage TitleStartMessageImage;
+      ConsoleImage TitleStarImage;
 
-      ConsoleSprite PlayerThwipSprite;
+      std::shared_ptr<ConsoleSprite> PlayerThwipSprite;
       long long PlayerThwipVelocity = 0;
 
       short TitleTextLeftChars = 0;
@@ -81,14 +75,17 @@ namespace MegaManLofi
       long long MaxTitleStarVelocity = 0;
       double TitlePostThwipDelaySeconds = 0;
 
-      ConsoleSprite GetReadySprite;
-      ConsoleSprite PauseOverlaySprite;
-      ConsoleSprite GameOverSprite;
+      std::shared_ptr<ConsoleSprite> GetReadySprite;
+      double GetReadyAnimationSeconds = 0;
 
-      std::map<Direction, ConsoleSprite> PlayerStaticSpriteMap;
-      std::map<Direction, ConsoleSprite> PlayerMovingSpriteMap;
+      ConsoleImage PauseOverlayImage;
+      ConsoleImage GameOverImage;
 
-      std::map<int, ConsoleSprite> ArenaSpriteMap;
-      std::vector<int> ArenaSprites;
+      std::map<Direction, std::shared_ptr<ConsoleSprite>> PlayerStandingSpriteMap;
+      std::map<Direction, std::shared_ptr<ConsoleSprite>> PlayerWalkingSpriteMap;
+      std::map<Direction, std::shared_ptr<ConsoleSprite>> PlayerFallingSpriteMap;
+
+      std::map<int, ConsoleImage> ArenaImageMap;
+      std::vector<int> ArenaTiles;
    };
 }

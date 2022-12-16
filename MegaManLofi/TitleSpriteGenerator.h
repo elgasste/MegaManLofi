@@ -2,18 +2,18 @@
 
 #include <vector>
 
-#include "ConsoleSprite.h"
+#include "ConsoleImage.h"
 
 namespace MegaManLofi
 {
    class TitleSpriteGenerator
    {
    public:
-      static ConsoleSprite GenerateTitleTextSprite();
-      static ConsoleSprite GenerateTitleSubTextSprite();
-      static ConsoleSprite GeneratePlayerSprite();
-      static ConsoleSprite GenerateBuildingSprite();
-      static ConsoleSprite GenerateStartMessageSprite();
-      static ConsoleSprite GenerateStarSprite();
+      static ConsoleImage GenerateTitleTextImage();
+      static ConsoleImage GenerateTitleSubTextImage();
+      static ConsoleImage GeneratePlayerImage();
+      static ConsoleImage GenerateBuildingImage();
+      static ConsoleImage GenerateStartMessageImage();
+      static ConsoleImage GenerateStarImage();
    };
 }

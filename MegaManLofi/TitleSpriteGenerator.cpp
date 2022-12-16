@@ -1,17 +1,16 @@
 #include <string>
 
 #include "TitleSpriteGenerator.h"
-#include "ConsoleColor.h"
 
 using namespace std;
 using namespace MegaManLofi;
 
-ConsoleSprite TitleSpriteGenerator::GenerateTitleTextSprite()
+ConsoleImage TitleSpriteGenerator::GenerateTitleTextImage()
 {
-   ConsoleSprite sprite;
+   ConsoleImage image;
 
-   sprite.Width = 75;
-   sprite.Height = 7;
+   image.Width = 75;
+   image.Height = 7;
 
    string content =
       " __   __  _______  _______  _______     __   __  _______  __    _  ___     " \
@@ -24,18 +23,18 @@ ConsoleSprite TitleSpriteGenerator::GenerateTitleTextSprite()
 
    for ( int i = 0; i < (int)content.size(); i++ )
    {
-      sprite.Pixels.push_back( { content[i], true, ConsoleColor::Blue, ConsoleColor::Black } );
+      image.Pixels.push_back( { content[i], true, ConsoleColor::Blue, ConsoleColor::Black } );
    }
 
-   return sprite;
+   return image;
 }
 
-ConsoleSprite TitleSpriteGenerator::GenerateTitleSubTextSprite()
+ConsoleImage TitleSpriteGenerator::GenerateTitleSubTextImage()
 {
-   ConsoleSprite sprite;
+   ConsoleImage image;
 
-   sprite.Width = 32;
-   sprite.Height = 7;
+   image.Width = 32;
+   image.Height = 7;
 
    string content =
       " ___      _______  _______  ___ " \
@@ -48,18 +47,18 @@ ConsoleSprite TitleSpriteGenerator::GenerateTitleSubTextSprite()
 
    for ( int i = 0; i < (int)content.size(); i++ )
    {
-      sprite.Pixels.push_back( { content[i], true, ConsoleColor::Cyan, ConsoleColor::Black } );
+      image.Pixels.push_back( { content[i], true, ConsoleColor::Cyan, ConsoleColor::Black } );
    }
 
-   return sprite;
+   return image;
 }
 
-ConsoleSprite TitleSpriteGenerator::GeneratePlayerSprite()
+ConsoleImage TitleSpriteGenerator::GeneratePlayerImage()
 {
-   ConsoleSprite sprite;
+   ConsoleImage image;
 
-   sprite.Width = 3;
-   sprite.Height = 3;
+   image.Width = 3;
+   image.Height = 3;
 
    string content =
       " O " \
@@ -68,18 +67,18 @@ ConsoleSprite TitleSpriteGenerator::GeneratePlayerSprite()
 
    for ( int i = 0; i < (int)content.size(); i++ )
    {
-      sprite.Pixels.push_back( { content[i], true, ConsoleColor::Cyan, ConsoleColor::Black } );
+      image.Pixels.push_back( { content[i], true, ConsoleColor::Cyan, ConsoleColor::Black } );
    }
 
-   return sprite;
+   return image;
 }
 
-ConsoleSprite TitleSpriteGenerator::GenerateBuildingSprite()
+ConsoleImage TitleSpriteGenerator::GenerateBuildingImage()
 {
-   ConsoleSprite sprite;
+   ConsoleImage image;
 
-   sprite.Width = 30;
-   sprite.Height = 12;
+   image.Width = 30;
+   image.Height = 12;
 
    string content =
       "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" \
@@ -97,18 +96,18 @@ ConsoleSprite TitleSpriteGenerator::GenerateBuildingSprite()
 
    for ( int i = 0; i < (int)content.size(); i++ )
    {
-      sprite.Pixels.push_back( { content[i], false, ConsoleColor::DarkGrey, ConsoleColor::Black } );
+      image.Pixels.push_back( { content[i], false, ConsoleColor::DarkGrey, ConsoleColor::Black } );
    }
 
-   return sprite;
+   return image;
 }
 
-ConsoleSprite TitleSpriteGenerator::GenerateStartMessageSprite()
+ConsoleImage TitleSpriteGenerator::GenerateStartMessageImage()
 {
-   ConsoleSprite sprite;
+   ConsoleImage image;
 
-   sprite.Width = 19;
-   sprite.Height = 2;
+   image.Width = 19;
+   image.Height = 2;
 
    string content =
       "Press any button to" \
@@ -116,19 +115,19 @@ ConsoleSprite TitleSpriteGenerator::GenerateStartMessageSprite()
 
    for ( int i = 0; i < (int)content.size(); i++ )
    {
-      sprite.Pixels.push_back( { content[i], true, ConsoleColor::White, ConsoleColor::Black } );
+      image.Pixels.push_back( { content[i], true, ConsoleColor::White, ConsoleColor::Black } );
    }
 
-   return sprite;
+   return image;
 }
 
-ConsoleSprite TitleSpriteGenerator::GenerateStarSprite()
+ConsoleImage TitleSpriteGenerator::GenerateStarImage()
 {
-   ConsoleSprite sprite;
+   ConsoleImage image;
 
-   sprite.Width = 1;
-   sprite.Height = 1;
-   sprite.Pixels.push_back( { '.', true, ConsoleColor::DarkBlue, ConsoleColor::Black } );
+   image.Width = 1;
+   image.Height = 1;
+   image.Pixels.push_back( { '.', true, ConsoleColor::DarkBlue, ConsoleColor::Black } );
 
-   return sprite;
+   return image;
 }

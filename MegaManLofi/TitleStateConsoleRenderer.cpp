@@ -45,7 +45,7 @@ TitleStateConsoleRenderer::TitleStateConsoleRenderer( const shared_ptr<IConsoleB
 void TitleStateConsoleRenderer::HandleGameStartedEvent()
 {
    _isAnimatingPlayerThwipOut = true;
-   _playerThwipBottomUnits = ( (long long)_renderConfig->TitlePlayerTopChars + (long long)_renderConfig->TitlePlayerSprite.Height ) * _renderConfig->ArenaCharHeight;
+   _playerThwipBottomUnits = ( (long long)_renderConfig->TitlePlayerTopChars + (long long)_renderConfig->TitlePlayerImage.Height ) * _renderConfig->ArenaCharHeight;
 }
 
 void TitleStateConsoleRenderer::Render()
@@ -55,10 +55,10 @@ void TitleStateConsoleRenderer::Render()
 
    DrawStars();
 
-   _consoleBuffer->Draw( _renderConfig->TitleTextLeftChars, _renderConfig->TitleTextTopChars, _renderConfig->TitleTextSprite );
-   _consoleBuffer->Draw( _renderConfig->TitleSubTextLeftChars, _renderConfig->TitleSubTextTopChars, _renderConfig->TitleSubTextSprite );
-   _consoleBuffer->Draw( _renderConfig->TitleBuildingLeftChars, _renderConfig->TitleBuildingTopChars, _renderConfig->TitleBuildingSprite );
-   _consoleBuffer->Draw( _renderConfig->TitleStartMessageLeftChars, _renderConfig->TitleStartMessageTopChars, _renderConfig->TitleStartMessageSprite );
+   _consoleBuffer->Draw( _renderConfig->TitleTextLeftChars, _renderConfig->TitleTextTopChars, _renderConfig->TitleTextImage );
+   _consoleBuffer->Draw( _renderConfig->TitleSubTextLeftChars, _renderConfig->TitleSubTextTopChars, _renderConfig->TitleSubTextImage );
+   _consoleBuffer->Draw( _renderConfig->TitleBuildingLeftChars, _renderConfig->TitleBuildingTopChars, _renderConfig->TitleBuildingImage );
+   _consoleBuffer->Draw( _renderConfig->TitleStartMessageLeftChars, _renderConfig->TitleStartMessageTopChars, _renderConfig->TitleStartMessageImage );
 
    if ( _isAnimatingPlayerThwipOut )
    {
@@ -70,7 +70,7 @@ void TitleStateConsoleRenderer::Render()
    }
    else
    {
-      _consoleBuffer->Draw( _renderConfig->TitlePlayerLeftChars, _renderConfig->TitlePlayerTopChars, _renderConfig->TitlePlayerSprite );
+      _consoleBuffer->Draw( _renderConfig->TitlePlayerLeftChars, _renderConfig->TitlePlayerTopChars, _renderConfig->TitlePlayerImage );
    }
 
    DrawKeyBindings();
@@ -87,7 +87,7 @@ void TitleStateConsoleRenderer::DrawStars()
    {
       auto left = (short)( _starCoordinates[i].Left / _renderConfig->ArenaCharWidth );
       auto top = (short)( _starCoordinates[i].Top / _renderConfig->ArenaCharHeight );
-      _consoleBuffer->Draw( left, top, _renderConfig->TitleStarSprite );
+      _consoleBuffer->Draw( left, top, _renderConfig->TitleStarImage );
 
       _starCoordinates[i].Left += ( _starVelocities[i] / _frameRateProvider->GetFramesPerSecond() );
 
@@ -121,8 +121,8 @@ void TitleStateConsoleRenderer::DrawPlayerThwipOutAnimation()
    auto thwipDeltaUnits = ( _renderConfig->PlayerThwipVelocity / _frameRateProvider->GetFramesPerSecond() );
    _playerThwipBottomUnits -= thwipDeltaUnits;
 
-   auto playerSprite = _renderConfig->TitlePlayerSprite;
-   auto thwipSpriteLeftOffsetChars = (short)( ( playerSprite.Width - _renderConfig->PlayerThwipSprite.Width ) / 2 );
+   auto playerSprite = _renderConfig->TitlePlayerImage;
+   auto thwipSpriteLeftOffsetChars = (short)( ( playerSprite.Width - _renderConfig->PlayerThwipSprite->GetWidth() ) / 2 );
    auto playerThwipBottomChars = (short)( _playerThwipBottomUnits / _renderConfig->ArenaCharHeight );
 
    if ( playerThwipBottomChars <= 0 )
@@ -136,8 +136,9 @@ void TitleStateConsoleRenderer::DrawPlayerThwipOutAnimation()
    }
 
    _consoleBuffer->Draw( _renderConfig->TitlePlayerLeftChars + thwipSpriteLeftOffsetChars,
-                         playerThwipBottomChars - _renderConfig->PlayerThwipSprite.Height,
+                         playerThwipBottomChars - _renderConfig->PlayerThwipSprite->GetHeight(),
                          _renderConfig->PlayerThwipSprite );
+   _renderConfig->PlayerThwipSprite->Tick( _frameRateProvider->GetFramesPerSecond() );
 }
 
 void TitleStateConsoleRenderer::DrawPostThwipDelayAnimation()

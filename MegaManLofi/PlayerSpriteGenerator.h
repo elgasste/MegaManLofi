@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory>
 #include <map>
 
 #include "ConsoleSprite.h"
@@ -11,8 +12,11 @@ namespace MegaManLofi
    class PlayerSpriteGenerator
    {
    public:
-      static std::map<Direction, ConsoleSprite> GenerateStaticSpriteMap();
-      static std::map<Direction, ConsoleSprite> GenerateMovingSpriteMap();
-      static ConsoleSprite GeneratePlayerThwipSprite();
+      static std::shared_ptr<ConsoleSprite> GenerateThwipSprite();
+      static std::shared_ptr<ConsoleSprite> GenerateExplosionParticleSprite();
+
+      static std::map<Direction, std::shared_ptr<ConsoleSprite>> GenerateStandingSpriteMap();
+      static std::map<Direction, std::shared_ptr<ConsoleSprite>> GenerateWalkingSpriteMap();
+      static std::map<Direction, std::shared_ptr<ConsoleSprite>> GenerateFallingSpriteMap();
    };
 }

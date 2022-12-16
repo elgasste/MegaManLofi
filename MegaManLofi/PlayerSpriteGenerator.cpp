@@ -6,85 +6,185 @@
 using namespace std;
 using namespace MegaManLofi;
 
-map<Direction, ConsoleSprite> PlayerSpriteGenerator::GenerateStaticSpriteMap()
+shared_ptr<ConsoleSprite> PlayerSpriteGenerator::GenerateThwipSprite()
 {
-   auto spriteMap = map<Direction, ConsoleSprite>();
+   auto thwipSprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( .05 ) );
 
-   // facing left without firing
-   spriteMap[Direction::Left].Width = 4;
-   spriteMap[Direction::Left].Height = 3;
-   for ( auto line : { "  O ",
-                       "o-|\\",
-                       " / \\" } ) { for ( int i = 0; i < spriteMap[Direction::Left].Width; i++ ) { spriteMap[Direction::Left].Pixels.push_back( { line[i], true, ConsoleColor::Cyan, ConsoleColor::Black } ); } }
+   ConsoleImage image0 = { 1, 3 };
+   image0.Pixels.push_back( { '#', true, ConsoleColor::Blue, ConsoleColor::Black } );
+   image0.Pixels.push_back( { '#', true, ConsoleColor::DarkBlue, ConsoleColor::Black } );
+   image0.Pixels.push_back( { '#', true, ConsoleColor::Blue, ConsoleColor::Black } );
+   thwipSprite->AddImage( image0 );
 
-   // facing up-left without firing
-   spriteMap[Direction::UpLeft].Width = 4;
-   spriteMap[Direction::UpLeft].Height = 3;
-   for ( auto line : { "o O ",
-                       " `|\\",
-                       " / \\" } ) { for ( int i = 0; i < spriteMap[Direction::UpLeft].Width; i++ ) { spriteMap[Direction::UpLeft].Pixels.push_back( { line[i], true, ConsoleColor::Cyan, ConsoleColor::Black } ); } }
+   ConsoleImage image1 = { 1, 3 };
+   image1.Pixels.push_back( { '#', true, ConsoleColor::DarkBlue, ConsoleColor::Black } );
+   image1.Pixels.push_back( { '#', true, ConsoleColor::Blue, ConsoleColor::Black } );
+   image1.Pixels.push_back( { '#', true, ConsoleColor::DarkBlue, ConsoleColor::Black } );
+   thwipSprite->AddImage( image1 );
 
-   // facing down-left without firing
-   spriteMap[Direction::DownLeft].Width = 4;
-   spriteMap[Direction::DownLeft].Height = 3;
-   for ( auto line : { "  O ",
-                       " ,|\\",
-                       "o/ \\" } ) { for ( int i = 0; i < spriteMap[Direction::DownLeft].Width; i++ ) { spriteMap[Direction::DownLeft].Pixels.push_back( { line[i], true, ConsoleColor::Cyan, ConsoleColor::Black } ); } }
+   return thwipSprite;
+}
 
-   // facing right without firing
-   spriteMap[Direction::Right].Width = 4;
-   spriteMap[Direction::Right].Height = 3;
-   for ( auto line : { " O  ",
-                       "/|-o",
-                       "/ \\ " } ) { for ( int i = 0; i < spriteMap[Direction::Right].Width; i++ ) { spriteMap[Direction::Right].Pixels.push_back( { line[i], true, ConsoleColor::Cyan, ConsoleColor::Black } ); } }
+shared_ptr<ConsoleSprite> PlayerSpriteGenerator::GenerateExplosionParticleSprite()
+{
+   auto particleSprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( .25 ) );
 
-   // facing up-right without firing
-   spriteMap[Direction::UpRight].Width = 4;
-   spriteMap[Direction::UpRight].Height = 3;
-   for ( auto line : { " O o",
-                       "/|' ",
-                       "/ \\ " } ) { for ( int i = 0; i < spriteMap[Direction::UpRight].Width; i++ ) { spriteMap[Direction::UpRight].Pixels.push_back( { line[i], true, ConsoleColor::Cyan, ConsoleColor::Black } ); } }
+   ConsoleImage image0 = { 1, 1 };
+   image0.Pixels.push_back( { 'O', true, ConsoleColor::Blue, ConsoleColor::Black } );
+   particleSprite->AddImage( image0 );
 
-   // facing down-right without firing
-   spriteMap[Direction::DownRight].Width = 4;
-   spriteMap[Direction::DownRight].Height = 3;
-   for ( auto line : { " O  ",
-                       "/|. ",
-                       "/ \\o" } ) { for ( int i = 0; i < spriteMap[Direction::DownRight].Width; i++ ) { spriteMap[Direction::DownRight].Pixels.push_back( { line[i], true, ConsoleColor::Cyan, ConsoleColor::Black } ); } }
+   ConsoleImage image1 = { 1, 1 };
+   image1.Pixels.push_back( { 'o', true, ConsoleColor::DarkBlue, ConsoleColor::Black } );
+   particleSprite->AddImage( image1 );
 
-   // facing up without firing
-   spriteMap[Direction::Up].Width = 4;
-   spriteMap[Direction::Up].Height = 3;
-   for ( auto line : { " Oo ",
-                       "/|' ",
-                       "/ \\ " } ) { for ( int i = 0; i < spriteMap[Direction::Up].Width; i++ ) { spriteMap[Direction::Up].Pixels.push_back( { line[i], true, ConsoleColor::Cyan, ConsoleColor::Black } ); } }
+   return particleSprite;
+}
 
-   // facing down without firing
-   spriteMap[Direction::Down].Width = 4;
-   spriteMap[Direction::Down].Height = 3;
-   for ( auto line : { " O  ",
-                       "/|. ",
-                       "/`o " } ) { for ( int i = 0; i < spriteMap[Direction::Down].Width; i++ ) { spriteMap[Direction::Down].Pixels.push_back( { line[i], true, ConsoleColor::Cyan, ConsoleColor::Black } ); } }
+map<Direction, shared_ptr<ConsoleSprite>> PlayerSpriteGenerator::GenerateStandingSpriteMap()
+{
+   auto spriteMap = map<Direction, shared_ptr<ConsoleSprite>>();
+
+   // facing left
+   auto leftSprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( 0 ) );
+   string leftChars =
+      "  O " \
+      "o-|\\" \
+      " / \\";
+   ConsoleImage leftImage = { 4, 3 };
+   for ( int i = 0; i < (int)leftChars.size(); i++ ) { leftImage.Pixels.push_back( { leftChars[i], true, ConsoleColor::Cyan, ConsoleColor::Black } ); }
+   leftSprite->AddImage( leftImage );
+   spriteMap[Direction::UpLeft] = leftSprite;
+   spriteMap[Direction::Left] = leftSprite;
+   spriteMap[Direction::DownLeft] = leftSprite;
+
+   // facing right
+   auto rightSprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( 0 ) );
+   string rightChars =
+      " O  " \
+      "/|-o" \
+      "/ \\ ";
+   ConsoleImage rightImage = { 4, 3 };
+   for ( int i = 0; i < (int)rightChars.size(); i++ ) { rightImage.Pixels.push_back( { rightChars[i], true, ConsoleColor::Cyan, ConsoleColor::Black } ); }
+   rightSprite->AddImage( rightImage );
+   spriteMap[Direction::UpRight] = rightSprite;
+   spriteMap[Direction::Right] = rightSprite;
+   spriteMap[Direction::DownRight] = rightSprite;
+
+   // facing up or down
+   auto verticalSprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( 0 ) );
+   string verticalChars =
+      " O  " \
+      "/|\\ " \
+      "/ \\ ";
+   ConsoleImage verticalImage = { 4, 3 };
+   for ( int i = 0; i < (int)verticalChars.size(); i++ ) { verticalImage.Pixels.push_back( { verticalChars[i], true, ConsoleColor::Cyan, ConsoleColor::Black } ); }
+   verticalSprite->AddImage( verticalImage );
+   spriteMap[Direction::Up] = verticalSprite;
+   spriteMap[Direction::Down] = verticalSprite;
 
    return spriteMap;
 }
 
-map<Direction, ConsoleSprite> PlayerSpriteGenerator::GenerateMovingSpriteMap()
+map<Direction, shared_ptr<ConsoleSprite>> PlayerSpriteGenerator::GenerateWalkingSpriteMap()
 {
-   // TODO: figure out how to do sprite swapping based on frame count
-   return GenerateStaticSpriteMap();
+   auto spriteMap = map<Direction, shared_ptr<ConsoleSprite>>();
+
+   // facing left
+   auto leftSprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( .15 ) );
+   string leftChars0 =
+      "  O " \
+      "o-|\\" \
+      " / <";
+   string leftChars1 =
+      "  O " \
+      "o-|\\" \
+      "  |\\";
+   ConsoleImage leftImage0 = { 4, 3 };
+   ConsoleImage leftImage1 = { 4, 3 };
+   for ( int i = 0; i < (int)leftChars0.size(); i++ ) { leftImage0.Pixels.push_back( { leftChars0[i], true, ConsoleColor::Cyan, ConsoleColor::Black } ); }
+   for ( int i = 0; i < (int)leftChars1.size(); i++ ) { leftImage1.Pixels.push_back( { leftChars1[i], true, ConsoleColor::Cyan, ConsoleColor::Black } ); }
+   leftSprite->AddImage( leftImage0 );
+   leftSprite->AddImage( leftImage1 );
+   spriteMap[Direction::UpLeft] = leftSprite;
+   spriteMap[Direction::Left] = leftSprite;
+   spriteMap[Direction::DownLeft] = leftSprite;
+
+   // facing right
+   auto rightSprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( .15 ) );
+   string rightChars0 =
+      " O  " \
+      "/|-o" \
+      "> \\ ";
+   string rightChars1 =
+      " O  " \
+      "/|-o" \
+      "/|  ";
+   ConsoleImage rightImage0 = { 4, 3 };
+   ConsoleImage rightImage1 = { 4, 3 };
+   for ( int i = 0; i < (int)rightChars0.size(); i++ ) { rightImage0.Pixels.push_back( { rightChars0[i], true, ConsoleColor::Cyan, ConsoleColor::Black } ); }
+   for ( int i = 0; i < (int)rightChars1.size(); i++ ) { rightImage1.Pixels.push_back( { rightChars1[i], true, ConsoleColor::Cyan, ConsoleColor::Black } ); }
+   rightSprite->AddImage( rightImage0 );
+   rightSprite->AddImage( rightImage1 );
+   spriteMap[Direction::UpRight] = rightSprite;
+   spriteMap[Direction::Right] = rightSprite;
+   spriteMap[Direction::DownRight] = rightSprite;
+
+   // facing up or down (this will probably very rarely happen)
+   auto verticalSprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( 0 ) );
+   string verticalChars =
+      " O  " \
+      "/|\\ " \
+      "/ \\ ";
+   ConsoleImage verticalImage = { 4, 3 };
+   for ( int i = 0; i < (int)verticalChars.size(); i++ ) { verticalImage.Pixels.push_back( { verticalChars[i], true, ConsoleColor::Cyan, ConsoleColor::Black } ); }
+   verticalSprite->AddImage( verticalImage );
+   spriteMap[Direction::Up] = verticalSprite;
+   spriteMap[Direction::Down] = verticalSprite;
+
+   return spriteMap;
 }
 
-ConsoleSprite PlayerSpriteGenerator::GeneratePlayerThwipSprite()
+map<Direction, shared_ptr<ConsoleSprite>> PlayerSpriteGenerator::GenerateFallingSpriteMap()
 {
-   ConsoleSprite thwipSprite;
+   auto spriteMap = map<Direction, shared_ptr<ConsoleSprite>>();
 
-   thwipSprite.Width = 1;
-   thwipSprite.Height = 3;
-   for ( int i = 0; i < thwipSprite.Height; i++ )
-   {
-      thwipSprite.Pixels.push_back( { '|', true, ConsoleColor::Blue, ConsoleColor::Black } );
-   }
+   // facing left
+   auto leftSprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( 0 ) );
+   string leftChars =
+      "  O/" \
+      "o-| " \
+      " / \\";
+   ConsoleImage leftImage = { 4, 3 };
+   for ( int i = 0; i < (int)leftChars.size(); i++ ) { leftImage.Pixels.push_back( { leftChars[i], true, ConsoleColor::Cyan, ConsoleColor::Black } ); }
+   leftSprite->AddImage( leftImage );
+   spriteMap[Direction::UpLeft] = leftSprite;
+   spriteMap[Direction::Left] = leftSprite;
+   spriteMap[Direction::DownLeft] = leftSprite;
 
-   return thwipSprite;
+   // facing right
+   auto rightSprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( 0 ) );
+   string rightChars =
+      "\\O  " \
+      " |-o" \
+      "/ \\ ";
+   ConsoleImage rightImage = { 4, 3 };
+   for ( int i = 0; i < (int)rightChars.size(); i++ ) { rightImage.Pixels.push_back( { rightChars[i], true, ConsoleColor::Cyan, ConsoleColor::Black } ); }
+   rightSprite->AddImage( rightImage );
+   spriteMap[Direction::UpRight] = rightSprite;
+   spriteMap[Direction::Right] = rightSprite;
+   spriteMap[Direction::DownRight] = rightSprite;
+
+   // facing up or down
+   auto verticalSprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( 0 ) );
+   string verticalChars =
+      "\\O/ " \
+      " |  " \
+      "/ \\ ";
+   ConsoleImage verticalImage = { 4, 3 };
+   for ( int i = 0; i < (int)verticalChars.size(); i++ ) { verticalImage.Pixels.push_back( { verticalChars[i], true, ConsoleColor::Cyan, ConsoleColor::Black } ); }
+   verticalSprite->AddImage( verticalImage );
+   spriteMap[Direction::Up] = verticalSprite;
+   spriteMap[Direction::Down] = verticalSprite;
+
+   return spriteMap;
 }

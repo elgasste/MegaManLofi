@@ -1,13 +1,14 @@
 #pragma once
 
+#include <memory>
 #include <string>
 
 #include "IScreenBuffer.h"
+#include "ConsoleImage.h"
 
 namespace MegaManLofi
 {
-   enum class ConsoleColor;
-   struct ConsoleSprite;
+   class ConsoleSprite;
 
    class __declspec( novtable ) IConsoleBuffer : public IScreenBuffer
    {
@@ -25,7 +26,8 @@ namespace MegaManLofi
       virtual void Draw( short left, short top, const std::string& buffer ) = 0;
       virtual void Draw( short left, short top, const std::string& buffer, ConsoleColor foregroundColor ) = 0;
       virtual void Draw( short left, short top, const std::string& buffer, ConsoleColor foregroundColor, ConsoleColor backgroundColor ) = 0;
-      virtual void Draw( short left, short top, const ConsoleSprite& sprite ) = 0;
+      virtual void Draw( short left, short top, const ConsoleImage& image ) = 0;
+      virtual void Draw( short left, short top, const std::shared_ptr<ConsoleSprite> sprite ) = 0;
 
       virtual void Flip() override = 0;
    };

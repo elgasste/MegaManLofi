@@ -156,6 +156,9 @@
     <ClCompile Include="RandomWrapper.cpp">
       <Filter>Source Files\Wrappers</Filter>
     </ClCompile>
+    <ClCompile Include="ConsoleSprite.cpp">
+      <Filter>Source Files\Render</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameRunner.h">
@@ -275,7 +278,7 @@
     <ClInclude Include="ConsolePixel.h">
       <Filter>Header Files\DataTypes</Filter>
     </ClInclude>
-    <ClInclude Include="ConsoleSprite.h">
+    <ClInclude Include="ConsoleImage.h">
       <Filter>Header Files\DataTypes</Filter>
     </ClInclude>
     <ClInclude Include="IGameRenderConfig.h">
@@ -397,6 +400,9 @@
     </ClInclude>
     <ClInclude Include="Coordinate.h">
       <Filter>Header Files\DataTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="ConsoleSprite.h">
+      <Filter>Header Files\Render</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

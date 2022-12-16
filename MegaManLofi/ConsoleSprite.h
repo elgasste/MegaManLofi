@@ -2,15 +2,27 @@
 
 #include <vector>
 
-#include "ConsolePixel.h"
+#include "ConsoleImage.h"
 
 namespace MegaManLofi
 {
-   struct ConsoleSprite
+   class ConsoleSprite
    {
-      short Width = 0;
-      short Height = 0;
+   public:
+      ConsoleSprite( double imageTraversalSeconds );
 
-      std::vector<ConsolePixel> Pixels;
+      void AddImage( ConsoleImage image );
+      void Tick( int framesPerSecond );
+
+      short GetWidth() const;
+      short GetHeight() const;
+      const ConsoleImage& GetCurrentImage() const;
+
+   private:
+      std::vector<ConsoleImage> _images;
+      int _currentImageIndex;
+      double _imageTraversalSeconds;
+      double _totalSpriteSeconds;
+      double _spriteElapsedSeconds;
    };
 }

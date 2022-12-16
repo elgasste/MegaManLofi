@@ -10,6 +10,7 @@
 #include "IFrameRateProvider.h"
 #include "Direction.h"
 #include "GameEvent.h"
+#include "ConsoleSprite.h"
 
 using namespace std;
 using namespace MegaManLofi;
@@ -166,8 +167,8 @@ void PlayingStateConsoleRenderer::DrawPlayerThwipInAnimation()
    auto thwipDeltaUnits = ( _renderConfig->PlayerThwipVelocity / _frameRateProvider->GetFramesPerSecond() );
    _playerThwipBottom += thwipDeltaUnits;
 
-   auto playerSprite = _renderConfig->PlayerStaticSpriteMap[_playerInfoProvider->GetDirection()];
-   auto thwipSpriteLeftOffsetChars = (short)( ( playerSprite.Width - _renderConfig->PlayerThwipSprite->GetWidth() ) / 2 );
+   auto playerSprite = GetPlayerSprite();
+   auto thwipSpriteLeftOffsetChars = (short)( ( playerSprite->GetWidth() - _renderConfig->PlayerThwipSprite->GetWidth() ) / 2 );
 
    const auto& hitBox = _playerInfoProvider->GetHitBox();
    if ( _playerThwipBottom >= ( _arenaInfoProvider->GetPlayerPositionY() + hitBox.Height ) )
@@ -261,10 +262,9 @@ void PlayingStateConsoleRenderer::DrawArenaSprites()
 
 void PlayingStateConsoleRenderer::DrawPlayer()
 {
-   auto direction = _playerInfoProvider->GetDirection();
-   auto sprite = _playerInfoProvider->IsMoving() ? _renderConfig->PlayerMovingSpriteMap[direction] : _renderConfig->PlayerStaticSpriteMap[direction];
-
-   _consoleBuffer->Draw( _playerViewportChars.Left + _viewportOffsetChars.Left, _playerViewportChars.Top + _viewportOffsetChars.Top, sprite );
+   auto sprite = GetPlayerSprite();
+   _consoleBuffer->Draw( _playerViewportChars.Left + _viewportOffsetChars.Left, _playerViewportChars.Top + _viewportOffsetChars.Top, sprite->GetCurrentImage() );
+   sprite->Tick( _frameRateProvider->GetFramesPerSecond() );
 }
 
 void PlayingStateConsoleRenderer::DrawStatusBar()
@@ -278,4 +278,18 @@ void PlayingStateConsoleRenderer::DrawPauseOverlay()
    auto top = ( _viewportRectChars.Height / 2 ) - ( _renderConfig->PauseOverlaySprite.Height / 2 );
 
    _consoleBuffer->Draw( left + _viewportOffsetChars.Left, top + _viewportOffsetChars.Top, _renderConfig->PauseOverlaySprite );
+}
+
+const shared_ptr<ConsoleSprite> PlayingStateConsoleRenderer::GetPlayerSprite() const
+{
+   auto direction = _playerInfoProvider->GetDirection();
+
+   if ( _playerInfoProvider->IsStanding() )
+   {
+      return _playerInfoProvider->IsMoving() ? _renderConfig->PlayerWalkingSpriteMap[direction] : _renderConfig->PlayerStandingSpriteMap[direction];
+   }
+   else
+   {
+      return _renderConfig->PlayerFallingSpriteMap[direction];
+   }
 }

@@ -12,9 +12,11 @@ namespace MegaManLofi
    class PlayerSpriteGenerator
    {
    public:
-      static std::map<Direction, ConsoleImage> GenerateStaticSpriteMap();
-      static std::map<Direction, ConsoleImage> GenerateMovingSpriteMap();
-      static std::shared_ptr<ConsoleSprite> GeneratePlayerThwipSprite();
+      static std::shared_ptr<ConsoleSprite> GenerateThwipSprite();
       static std::shared_ptr<ConsoleSprite> GenerateExplosionParticleSprite();
+
+      static std::map<Direction, std::shared_ptr<ConsoleSprite>> GenerateStandingSpriteMap();
+      static std::map<Direction, std::shared_ptr<ConsoleSprite>> GenerateWalkingSpriteMap();
+      static std::map<Direction, std::shared_ptr<ConsoleSprite>> GenerateFallingSpriteMap();
    };
 }

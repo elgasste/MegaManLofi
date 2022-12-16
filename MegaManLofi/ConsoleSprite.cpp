@@ -19,7 +19,6 @@ void ConsoleSprite::AddImage( ConsoleImage image )
 
 void ConsoleSprite::Tick( int framesPerSecond )
 {
-   //  MUFFINS: test the changes in here
    if ( _images.size() == 1 )
    {
       return;

@@ -192,7 +192,7 @@ shared_ptr<ConsoleRenderConfig> BuildConsoleRenderConfig()
    renderConfig->TitleStartMessageSprite = TitleSpriteGenerator::GenerateStartMessageSprite();
    renderConfig->TitleStarSprite = TitleSpriteGenerator::GenerateStarSprite();
 
-   renderConfig->PlayerThwipSprite = PlayerSpriteGenerator::GeneratePlayerThwipSprite();
+   renderConfig->PlayerThwipSprite = PlayerSpriteGenerator::GenerateThwipSprite();
    renderConfig->PlayerThwipVelocity = 3'000;
 
    renderConfig->TitleTextLeftChars = 6;
@@ -218,8 +218,9 @@ shared_ptr<ConsoleRenderConfig> BuildConsoleRenderConfig()
    renderConfig->PauseOverlaySprite = ArenaSpriteGenerator::GeneratePauseOverlaySprite();
    renderConfig->GameOverSprite = ArenaSpriteGenerator::GenerateGameOverSprite();
 
-   renderConfig->PlayerStaticSpriteMap = PlayerSpriteGenerator::GenerateStaticSpriteMap();
-   renderConfig->PlayerMovingSpriteMap = PlayerSpriteGenerator::GenerateMovingSpriteMap();
+   renderConfig->PlayerStandingSpriteMap = PlayerSpriteGenerator::GenerateStandingSpriteMap();
+   renderConfig->PlayerWalkingSpriteMap = PlayerSpriteGenerator::GenerateWalkingSpriteMap();
+   renderConfig->PlayerFallingSpriteMap = PlayerSpriteGenerator::GenerateFallingSpriteMap();
 
    // TODO: move this stuff into the generator
    // ground that is impassable in all directions

@@ -16,6 +16,7 @@ namespace MegaManLofi
    class IArenaInfoProvider;
    class IGameEventAggregator;
    class IFrameRateProvider;
+   class ConsoleSprite;
 
    class PlayingStateConsoleRenderer : public IGameRenderer
    {
@@ -46,6 +47,8 @@ namespace MegaManLofi
       void DrawPlayer();
       void DrawStatusBar();
       void DrawPauseOverlay();
+
+      const std::shared_ptr<ConsoleSprite> GetPlayerSprite() const;
 
    private:
       const std::shared_ptr<IConsoleBuffer> _consoleBuffer;

@@ -35,9 +35,11 @@ PlayingStateConsoleRenderer::PlayingStateConsoleRenderer( const shared_ptr<ICons
    _playerViewportChars( { 0, 0 } ),
    _isAnimatingStageStart( false ),
    _isAnimatingPlayerThwipIn( false ),
+   _isAnimatingPlayerThwipTransition( false ),
    _isAnimatingPitfall( false ),
    _isAnimatingPlayerExplosion( false ),
    _stageStartAnimationElapsedSeconds( 0 ),
+   _playerThwipTransitionElapsedSeconds( 0 ),
    _pitfallAnimationElapsedSeconds( 0 ),
    _playerExplosionAnimationElapsedSeconds( 0 ),
    _playerThwipBottom( 0 ),
@@ -64,6 +66,10 @@ void PlayingStateConsoleRenderer::Render()
    {
       DrawPlayerThwipInAnimation();
    }
+   else if ( _isAnimatingPlayerThwipTransition )
+   {
+      DrawPlayerThwipInTransitionAnimation();
+   }
    else if ( _isAnimatingPitfall )
    {
       DrawPitfallAnimation();
@@ -85,7 +91,11 @@ void PlayingStateConsoleRenderer::Render()
 
 bool PlayingStateConsoleRenderer::HasFocus() const
 {
-   return _isAnimatingStageStart || _isAnimatingPlayerThwipIn || _isAnimatingPitfall || _isAnimatingPlayerExplosion;
+   return _isAnimatingStageStart ||
+          _isAnimatingPlayerThwipIn ||
+          _isAnimatingPlayerThwipTransition ||
+          _isAnimatingPitfall ||
+          _isAnimatingPlayerExplosion;
 }
 
 void PlayingStateConsoleRenderer::HandleStageStartedEvent()
@@ -175,6 +185,8 @@ void PlayingStateConsoleRenderer::DrawPlayerThwipInAnimation()
    if ( _playerThwipBottom >= ( _arenaInfoProvider->GetPlayerPositionY() + hitBox.Height ) )
    {
       _isAnimatingPlayerThwipIn = false;
+      _isAnimatingPlayerThwipTransition = true;
+      _playerThwipTransitionElapsedSeconds = 0;
       return;
    }
 
@@ -183,6 +195,23 @@ void PlayingStateConsoleRenderer::DrawPlayerThwipInAnimation()
                          ( playerThwipBottomViewportChars - _renderConfig->PlayerThwipSprite->GetHeight() ) + _viewportOffsetChars.Top,
                          _renderConfig->PlayerThwipSprite );
    _renderConfig->PlayerThwipSprite->Tick( _frameRateProvider->GetFramesPerSecond() );
+}
+
+void PlayingStateConsoleRenderer::DrawPlayerThwipInTransitionAnimation()
+{
+   _playerThwipTransitionElapsedSeconds += ( 1 / (double)_frameRateProvider->GetFramesPerSecond() );
+
+   auto sprite = _renderConfig->PlayerThwipInTransitionSprite;
+   _consoleBuffer->Draw( _playerViewportChars.Left + _viewportOffsetChars.Left, _playerViewportChars.Top + _viewportOffsetChars.Top, sprite );
+
+   if ( _playerThwipTransitionElapsedSeconds >= sprite->GetTotalTraversalSeconds() )
+   {
+      _isAnimatingPlayerThwipTransition = false;
+   }
+   else
+   {
+      sprite->Tick( _frameRateProvider->GetFramesPerSecond() );
+   }
 }
 
 void PlayingStateConsoleRenderer::DrawPitfallAnimation()

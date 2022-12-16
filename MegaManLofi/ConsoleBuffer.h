@@ -27,7 +27,7 @@ namespace MegaManLofi
       void Draw( short left, short top, const std::string& buffer ) override;
       void Draw( short left, short top, const std::string& buffer, ConsoleColor foregroundColor ) override;
       void Draw( short left, short top, const std::string& buffer, ConsoleColor foregroundColor, ConsoleColor backgroundColor ) override;
-      void Draw( short left, short top, const ConsoleImage& sprite ) override;
+      void Draw( short left, short top, const ConsoleImage& image ) override;
 
       void Flip() override;
 

@@ -9,11 +9,11 @@ namespace MegaManLofi
    class TitleSpriteGenerator
    {
    public:
-      static ConsoleImage GenerateTitleTextSprite();
-      static ConsoleImage GenerateTitleSubTextSprite();
-      static ConsoleImage GeneratePlayerSprite();
-      static ConsoleImage GenerateBuildingSprite();
-      static ConsoleImage GenerateStartMessageSprite();
-      static ConsoleImage GenerateStarSprite();
+      static ConsoleImage GenerateTitleTextImage();
+      static ConsoleImage GenerateTitleSubTextImage();
+      static ConsoleImage GeneratePlayerImage();
+      static ConsoleImage GenerateBuildingImage();
+      static ConsoleImage GenerateStartMessageImage();
+      static ConsoleImage GenerateStarImage();
    };
 }

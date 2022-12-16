@@ -165,11 +165,11 @@ void ConsoleBuffer::Draw( short left, short top, const string& buffer, ConsoleCo
    }
 }
 
-void ConsoleBuffer::Draw( short left, short top, const ConsoleImage& sprite )
+void ConsoleBuffer::Draw( short left, short top, const ConsoleImage& image )
 {
    int i = 0, j = 0;
 
-   for ( auto pixel : sprite.Pixels )
+   for ( auto pixel : image.Pixels )
    {
       if ( pixel.HasTransparency )
       {
@@ -185,7 +185,7 @@ void ConsoleBuffer::Draw( short left, short top, const ConsoleImage& sprite )
 
       i++;
 
-      if ( i == sprite.Width )
+      if ( i == image.Width )
       {
          i = 0;
          j++;

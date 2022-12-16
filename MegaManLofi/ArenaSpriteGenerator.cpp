@@ -5,9 +5,9 @@
 using namespace std;
 using namespace MegaManLofi;
 
-vector<int> ArenaSpriteGenerator::GenerateArenaSprites()
+vector<int> ArenaSpriteGenerator::GenerateArenaTiles()
 {
-   vector<int> sprites;
+   vector<int> imageIds;
    auto arenaTilesString = ArenaGenerationDefs::GetArenaTilesString();
 
    for ( int i = 0; i < (int)arenaTilesString.size(); i++ )
@@ -15,26 +15,26 @@ vector<int> ArenaSpriteGenerator::GenerateArenaSprites()
       switch ( arenaTilesString[i] )
       {
          case 's':
-            sprites.push_back( 0 ); // passable in any direction
+            imageIds.push_back( 0 ); // passable in any direction
             break;
          case 'p':
-            sprites.push_back( 1 ); // passable in any direction but down
+            imageIds.push_back( 1 ); // passable in any direction but down
             break;
          case 'x':
-            sprites.push_back( 2 ); // passable in any direction but up
+            imageIds.push_back( 2 ); // passable in any direction but up
             break;
          default:
-            sprites.push_back( -1 );
+            imageIds.push_back( -1 );
             break;
       }
    }
 
-   return sprites;
+   return imageIds;
 }
 
 shared_ptr<ConsoleSprite> ArenaSpriteGenerator::GenerateGetReadySprite()
 {
-   auto getReadySprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( .25 ) );
+   auto sprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( .25 ) );
 
    ConsoleImage getReadyImage = { 10, 1 };
    string message = "GET READY!";
@@ -43,18 +43,18 @@ shared_ptr<ConsoleSprite> ArenaSpriteGenerator::GenerateGetReadySprite()
       getReadyImage.Pixels.push_back( { message[i], false, ConsoleColor::Cyan, ConsoleColor::Black } );
    }
 
-   getReadySprite->AddImage( getReadyImage );
-   getReadySprite->AddImage( { 0, 0 } );
+   sprite->AddImage( getReadyImage );
+   sprite->AddImage( { 0, 0 } );
 
-   return getReadySprite;
+   return sprite;
 }
 
-ConsoleImage ArenaSpriteGenerator::GeneratePauseOverlaySprite()
+ConsoleImage ArenaSpriteGenerator::GeneratePauseOverlayImage()
 {
-   ConsoleImage sprite;
+   ConsoleImage image;
 
-   sprite.Width = 28;
-   sprite.Height = 3;
+   image.Width = 28;
+   image.Height = 3;
 
    string content =
       "                            " \
@@ -63,18 +63,18 @@ ConsoleImage ArenaSpriteGenerator::GeneratePauseOverlaySprite()
 
    for ( int i = 0; i < (int)content.size(); i++ )
    {
-      sprite.Pixels.push_back( { content[i], false, ConsoleColor::White, ConsoleColor::DarkMagenta } );
+      image.Pixels.push_back( { content[i], false, ConsoleColor::White, ConsoleColor::DarkMagenta } );
    }
 
-   return sprite;
+   return image;
 }
 
-ConsoleImage ArenaSpriteGenerator::GenerateGameOverSprite()
+ConsoleImage ArenaSpriteGenerator::GenerateGameOverImage()
 {
-   ConsoleImage sprite;
+   ConsoleImage image;
 
-   sprite.Width = 76;
-   sprite.Height = 10;
+   image.Width = 76;
+   image.Height = 10;
 
    string content =
       " _______  _______  __   __  _______     _______  __   __  _______  ______   " \
@@ -90,8 +90,8 @@ ConsoleImage ArenaSpriteGenerator::GenerateGameOverSprite()
 
    for ( int i = 0; i < (int)content.size(); i++ )
    {
-      sprite.Pixels.push_back( { content[i], true, ConsoleColor::White, ConsoleColor::Black } );
+      image.Pixels.push_back( { content[i], true, ConsoleColor::White, ConsoleColor::Black } );
    }
 
-   return sprite;
+   return image;
 }

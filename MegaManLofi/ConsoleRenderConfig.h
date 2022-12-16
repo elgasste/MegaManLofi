@@ -48,12 +48,12 @@ namespace MegaManLofi
 
       ConsoleColor TitleKeyBindingsForegroundColor = (ConsoleColor)0;
 
-      ConsoleImage TitleTextSprite;
-      ConsoleImage TitleSubTextSprite;
-      ConsoleImage TitlePlayerSprite;
-      ConsoleImage TitleBuildingSprite;
-      ConsoleImage TitleStartMessageSprite;
-      ConsoleImage TitleStarSprite;
+      ConsoleImage TitleTextImage;
+      ConsoleImage TitleSubTextImage;
+      ConsoleImage TitlePlayerImage;
+      ConsoleImage TitleBuildingImage;
+      ConsoleImage TitleStartMessageImage;
+      ConsoleImage TitleStarImage;
 
       std::shared_ptr<ConsoleSprite> PlayerThwipSprite;
       long long PlayerThwipVelocity = 0;
@@ -78,14 +78,14 @@ namespace MegaManLofi
       std::shared_ptr<ConsoleSprite> GetReadySprite;
       double GetReadyAnimationSeconds = 0;
 
-      ConsoleImage PauseOverlaySprite;
-      ConsoleImage GameOverSprite;
+      ConsoleImage PauseOverlayImage;
+      ConsoleImage GameOverImage;
 
       std::map<Direction, std::shared_ptr<ConsoleSprite>> PlayerStandingSpriteMap;
       std::map<Direction, std::shared_ptr<ConsoleSprite>> PlayerWalkingSpriteMap;
       std::map<Direction, std::shared_ptr<ConsoleSprite>> PlayerFallingSpriteMap;
 
-      std::map<int, ConsoleImage> ArenaSpriteMap;
-      std::vector<int> ArenaSprites;
+      std::map<int, ConsoleImage> ArenaImageMap;
+      std::vector<int> ArenaTiles;
    };
 }

@@ -20,8 +20,8 @@ void GameOverStateConsoleRenderer::Render()
 {
    _consoleBuffer->SetDefaultBackgroundColor( _renderConfig->GameOverBackgroundColor );
 
-   auto left = ( _renderConfig->ConsoleWidthChars / 2 ) - ( _renderConfig->GameOverSprite.Width / 2 );
-   auto top = ( _renderConfig->ConsoleHeightChars / 2 ) - ( _renderConfig->GameOverSprite.Height / 2 );
+   auto left = ( _renderConfig->ConsoleWidthChars / 2 ) - ( _renderConfig->GameOverImage.Width / 2 );
+   auto top = ( _renderConfig->ConsoleHeightChars / 2 ) - ( _renderConfig->GameOverImage.Height / 2 );
 
-   _consoleBuffer->Draw( left, top, _renderConfig->GameOverSprite );
+   _consoleBuffer->Draw( left, top, _renderConfig->GameOverImage );
 }

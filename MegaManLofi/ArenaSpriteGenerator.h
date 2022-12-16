@@ -10,9 +10,9 @@ namespace MegaManLofi
    class ArenaSpriteGenerator
    {
    public:
-      static std::vector<int> GenerateArenaSprites();
+      static std::vector<int> GenerateArenaTiles();
       static std::shared_ptr<ConsoleSprite> GenerateGetReadySprite();
-      static ConsoleImage GeneratePauseOverlaySprite();
-      static ConsoleImage GenerateGameOverSprite();
+      static ConsoleImage GeneratePauseOverlayImage();
+      static ConsoleImage GenerateGameOverImage();
    };
 }

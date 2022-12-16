@@ -185,28 +185,28 @@ shared_ptr<ConsoleRenderConfig> BuildConsoleRenderConfig()
 
    renderConfig->TitleKeyBindingsForegroundColor = ConsoleColor::DarkGrey;
 
-   renderConfig->TitleTextSprite = TitleSpriteGenerator::GenerateTitleTextSprite();
-   renderConfig->TitleSubTextSprite = TitleSpriteGenerator::GenerateTitleSubTextSprite();
-   renderConfig->TitlePlayerSprite = TitleSpriteGenerator::GeneratePlayerSprite();
-   renderConfig->TitleBuildingSprite = TitleSpriteGenerator::GenerateBuildingSprite();
-   renderConfig->TitleStartMessageSprite = TitleSpriteGenerator::GenerateStartMessageSprite();
-   renderConfig->TitleStarSprite = TitleSpriteGenerator::GenerateStarSprite();
+   renderConfig->TitleTextImage = TitleSpriteGenerator::GenerateTitleTextImage();
+   renderConfig->TitleSubTextImage = TitleSpriteGenerator::GenerateTitleSubTextImage();
+   renderConfig->TitlePlayerImage = TitleSpriteGenerator::GeneratePlayerImage();
+   renderConfig->TitleBuildingImage = TitleSpriteGenerator::GenerateBuildingImage();
+   renderConfig->TitleStartMessageImage = TitleSpriteGenerator::GenerateStartMessageImage();
+   renderConfig->TitleStarImage = TitleSpriteGenerator::GenerateStarImage();
 
    renderConfig->PlayerThwipSprite = PlayerSpriteGenerator::GenerateThwipSprite();
    renderConfig->PlayerThwipVelocity = 3'000;
 
    renderConfig->TitleTextLeftChars = 6;
    renderConfig->TitleTextTopChars = 1;
-   renderConfig->TitleSubTextLeftChars = renderConfig->TitleTextLeftChars + renderConfig->TitleTextSprite.Width;
+   renderConfig->TitleSubTextLeftChars = renderConfig->TitleTextLeftChars + renderConfig->TitleTextImage.Width;
    renderConfig->TitleSubTextTopChars = renderConfig->TitleTextTopChars;
-   renderConfig->TitleBuildingLeftChars = renderConfig->ConsoleWidthChars - renderConfig->TitleBuildingSprite.Width - 1;
-   renderConfig->TitleBuildingTopChars = renderConfig->ConsoleHeightChars - renderConfig->TitleBuildingSprite.Height - 1;
+   renderConfig->TitleBuildingLeftChars = renderConfig->ConsoleWidthChars - renderConfig->TitleBuildingImage.Width - 1;
+   renderConfig->TitleBuildingTopChars = renderConfig->ConsoleHeightChars - renderConfig->TitleBuildingImage.Height - 1;
    renderConfig->TitlePlayerLeftChars = renderConfig->TitleBuildingLeftChars + 6;
-   renderConfig->TitlePlayerTopChars = renderConfig->TitleBuildingTopChars - renderConfig->TitlePlayerSprite.Height;
+   renderConfig->TitlePlayerTopChars = renderConfig->TitleBuildingTopChars - renderConfig->TitlePlayerImage.Height;
    renderConfig->TitleStartMessageLeftChars = 55;
    renderConfig->TitleStartMessageTopChars = 15;
    renderConfig->TitleKeyBindingsMiddleXChars = 25;
-   renderConfig->TitleKeyBindingsTopChars = renderConfig->TitleTextTopChars + renderConfig->TitleTextSprite.Height + 3;
+   renderConfig->TitleKeyBindingsTopChars = renderConfig->TitleTextTopChars + renderConfig->TitleTextImage.Height + 3;
    renderConfig->TitleStarCount = 20;
    renderConfig->MinTitleStarVelocity = 200;
    renderConfig->MaxTitleStarVelocity = 2'000;
@@ -215,8 +215,8 @@ shared_ptr<ConsoleRenderConfig> BuildConsoleRenderConfig()
    renderConfig->GetReadySprite = ArenaSpriteGenerator::GenerateGetReadySprite();
    renderConfig->GetReadyAnimationSeconds = 2;
 
-   renderConfig->PauseOverlaySprite = ArenaSpriteGenerator::GeneratePauseOverlaySprite();
-   renderConfig->GameOverSprite = ArenaSpriteGenerator::GenerateGameOverSprite();
+   renderConfig->PauseOverlayImage = ArenaSpriteGenerator::GeneratePauseOverlayImage();
+   renderConfig->GameOverImage = ArenaSpriteGenerator::GenerateGameOverImage();
 
    renderConfig->PlayerStandingSpriteMap = PlayerSpriteGenerator::GenerateStandingSpriteMap();
    renderConfig->PlayerWalkingSpriteMap = PlayerSpriteGenerator::GenerateWalkingSpriteMap();
@@ -224,21 +224,21 @@ shared_ptr<ConsoleRenderConfig> BuildConsoleRenderConfig()
 
    // TODO: move this stuff into the generator
    // ground that is impassable in all directions
-   renderConfig->ArenaSpriteMap[0].Width = 1;
-   renderConfig->ArenaSpriteMap[0].Height = 1;
-   renderConfig->ArenaSpriteMap[0].Pixels.push_back( { 'X', true, ConsoleColor::Yellow, ConsoleColor::Black } );
+   renderConfig->ArenaImageMap[0].Width = 1;
+   renderConfig->ArenaImageMap[0].Height = 1;
+   renderConfig->ArenaImageMap[0].Pixels.push_back( { 'X', true, ConsoleColor::Yellow, ConsoleColor::Black } );
 
    // ground that is only impassable downward
-   renderConfig->ArenaSpriteMap[1].Width = 1;
-   renderConfig->ArenaSpriteMap[1].Height = 1;
-   renderConfig->ArenaSpriteMap[1].Pixels.push_back( { '-', true, ConsoleColor::Yellow, ConsoleColor::Black } );
+   renderConfig->ArenaImageMap[1].Width = 1;
+   renderConfig->ArenaImageMap[1].Height = 1;
+   renderConfig->ArenaImageMap[1].Pixels.push_back( { '-', true, ConsoleColor::Yellow, ConsoleColor::Black } );
 
    // spike that is only impassable upward
-   renderConfig->ArenaSpriteMap[2].Width = 1;
-   renderConfig->ArenaSpriteMap[2].Height = 1;
-   renderConfig->ArenaSpriteMap[2].Pixels.push_back( { '+', true, ConsoleColor::Red, ConsoleColor::Black } );
+   renderConfig->ArenaImageMap[2].Width = 1;
+   renderConfig->ArenaImageMap[2].Height = 1;
+   renderConfig->ArenaImageMap[2].Pixels.push_back( { '+', true, ConsoleColor::Red, ConsoleColor::Black } );
 
-   renderConfig->ArenaSprites = ArenaSpriteGenerator::GenerateArenaSprites();
+   renderConfig->ArenaTiles = ArenaSpriteGenerator::GenerateArenaTiles();
 
    return renderConfig;
 }

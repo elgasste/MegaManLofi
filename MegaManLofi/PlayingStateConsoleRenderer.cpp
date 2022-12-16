@@ -249,12 +249,12 @@ void PlayingStateConsoleRenderer::DrawArenaSprites()
    {
       for ( short x = 0; x < _viewportRectChars.Width; x++ )
       {
-         auto spriteIndex = ( ( _viewportRectChars.Top + y ) * arenaWidthChars ) + ( _viewportRectChars.Left + x );
-         auto spriteId = _renderConfig->ArenaSprites[spriteIndex];
+         auto tileIndex = ( ( _viewportRectChars.Top + y ) * arenaWidthChars ) + ( _viewportRectChars.Left + x );
+         auto imageId = _renderConfig->ArenaTiles[tileIndex];
 
-         if ( spriteId != -1 )
+         if ( imageId != -1 )
          {
-            _consoleBuffer->Draw( x + _viewportOffsetChars.Left, y + _viewportOffsetChars.Top, _renderConfig->ArenaSpriteMap[ spriteId ] );
+            _consoleBuffer->Draw( x + _viewportOffsetChars.Left, y + _viewportOffsetChars.Top, _renderConfig->ArenaImageMap[ imageId ] );
          }
       }
    }
@@ -274,10 +274,10 @@ void PlayingStateConsoleRenderer::DrawStatusBar()
 
 void PlayingStateConsoleRenderer::DrawPauseOverlay()
 {
-   auto left = ( _viewportRectChars.Width / 2 ) - ( _renderConfig->PauseOverlaySprite.Width / 2 );
-   auto top = ( _viewportRectChars.Height / 2 ) - ( _renderConfig->PauseOverlaySprite.Height / 2 );
+   auto left = ( _viewportRectChars.Width / 2 ) - ( _renderConfig->PauseOverlayImage.Width / 2 );
+   auto top = ( _viewportRectChars.Height / 2 ) - ( _renderConfig->PauseOverlayImage.Height / 2 );
 
-   _consoleBuffer->Draw( left + _viewportOffsetChars.Left, top + _viewportOffsetChars.Top, _renderConfig->PauseOverlaySprite );
+   _consoleBuffer->Draw( left + _viewportOffsetChars.Left, top + _viewportOffsetChars.Top, _renderConfig->PauseOverlayImage );
 }
 
 const shared_ptr<ConsoleSprite> PlayingStateConsoleRenderer::GetPlayerSprite() const

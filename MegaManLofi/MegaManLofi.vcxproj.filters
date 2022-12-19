@@ -404,5 +404,8 @@
     <ClInclude Include="ConsoleSprite.h">
       <Filter>Header Files\Render</Filter>
     </ClInclude>
+    <ClInclude Include="IConsoleAnimation.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

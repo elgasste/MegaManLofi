@@ -190,6 +190,7 @@
     <ClInclude Include="ArenaTileGenerator.h" />
     <ClInclude Include="ArenaPhysics.h" />
     <ClInclude Include="ArenaTile.h" />
+    <ClInclude Include="ConsoleAnimationType.h" />
     <ClInclude Include="ConsoleColor.h" />
     <ClInclude Include="ConsoleBuffer.h" />
     <ClInclude Include="ConsoleImage.h" />

@@ -31,10 +31,10 @@ shared_ptr<ConsoleSprite> PlayerSpriteGenerator::GenerateThwipInTransitionSprite
 
    string chars0 =
       "    " \
-      " ## " \
-      "    ";
+      "    " \
+      " ## ";
    string chars1 =
-      " ** " \
+      "    " \
       "*  *" \
       " ** ";
    ConsoleImage image0 = { 4, 3 };
@@ -52,13 +52,13 @@ shared_ptr<ConsoleSprite> PlayerSpriteGenerator::GenerateThwipOutTransitionSprit
    auto sprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( .05 ) );
 
    string chars0 =
-      " ** " \
+      "    " \
       "*  *" \
       " ** ";
    string chars1 =
       "    " \
-      " ## " \
-      "    ";
+      "    " \
+      " ## ";
    ConsoleImage image0 = { 4, 3 };
    ConsoleImage image1 = { 4, 3 };
    for ( int i = 0; i < (int)chars0.size(); i++ ) { image0.Pixels.push_back( { chars0[i], true, ConsoleColor::Cyan, ConsoleColor::Black } ); }

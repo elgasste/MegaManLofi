@@ -8,6 +8,7 @@
 #include "IArenaInfoProvider.h"
 #include "IGameEventAggregator.h"
 #include "IFrameRateProvider.h"
+#include "IConsoleAnimationProvider.h"
 #include "Direction.h"
 #include "GameEvent.h"
 #include "IConsoleSprite.h"
@@ -21,7 +22,8 @@ PlayingStateConsoleRenderer::PlayingStateConsoleRenderer( const shared_ptr<ICons
                                                           const shared_ptr<IPlayerInfoProvider> playerInfoProvider,
                                                           const shared_ptr<IArenaInfoProvider> arenaInfoProvider,
                                                           const shared_ptr<IGameEventAggregator> eventAggregator,
-                                                          const shared_ptr<IFrameRateProvider> frameRateProvider ) :
+                                                          const shared_ptr<IFrameRateProvider> frameRateProvider,
+                                                          const shared_ptr<IConsoleAnimationProvider> animationProvider ) :
    _consoleBuffer( consoleBuffer ),
    _renderConfig( renderConfig ),
    _gameInfoProvider( gameInfoProvider ),
@@ -29,6 +31,7 @@ PlayingStateConsoleRenderer::PlayingStateConsoleRenderer( const shared_ptr<ICons
    _arenaInfoProvider( arenaInfoProvider ),
    _eventAggregator( eventAggregator ),
    _frameRateProvider( frameRateProvider ),
+   _animationProvider( animationProvider ),
    _viewportQuadUnits( { 0, 0, 0, 0 } ),
    _viewportRectChars( { 0, 0, 0, 0 } ),
    _viewportOffsetChars( { 0, 0 } ),

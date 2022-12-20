@@ -16,6 +16,7 @@ namespace MegaManLofi
    class IArenaInfoProvider;
    class IGameEventAggregator;
    class IFrameRateProvider;
+   class IConsoleAnimationProvider;
    class IConsoleSprite;
 
    class PlayingStateConsoleRenderer : public IGameRenderer
@@ -27,7 +28,8 @@ namespace MegaManLofi
                                    const std::shared_ptr<IPlayerInfoProvider> playerInfoProvider,
                                    const std::shared_ptr<IArenaInfoProvider> arenaInfoProvider,
                                    const std::shared_ptr<IGameEventAggregator> eventAggregator,
-                                   const std::shared_ptr<IFrameRateProvider> frameRateProvider );
+                                   const std::shared_ptr<IFrameRateProvider> frameRateProvider,
+                                   const std::shared_ptr<IConsoleAnimationProvider> animationProvider );
 
       void Render() override;
       bool HasFocus() const override;
@@ -59,6 +61,7 @@ namespace MegaManLofi
       const std::shared_ptr<IArenaInfoProvider> _arenaInfoProvider;
       const std::shared_ptr<IGameEventAggregator> _eventAggregator;
       const std::shared_ptr<IFrameRateProvider> _frameRateProvider;
+      const std::shared_ptr<IConsoleAnimationProvider> _animationProvider;
 
       Quad<long long> _viewportQuadUnits;
       Rectangle<short> _viewportRectChars;

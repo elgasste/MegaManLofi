@@ -6,7 +6,6 @@
 using namespace std;
 using namespace MegaManLofi;
 
-// MUFFINS: test this whole class
 PlayerThwipOutConsoleAnimation::PlayerThwipOutConsoleAnimation( const shared_ptr<IConsoleBuffer> consoleBuffer,
                                                                 const shared_ptr<ConsoleRenderConfig> renderConfig ) :
    _consoleBuffer( consoleBuffer ),
@@ -43,7 +42,8 @@ void PlayerThwipOutConsoleAnimation::Draw()
    }
    else
    {
-      _consoleBuffer->Draw( _startPositionChars.Left,
+      auto leftOffset = short( ( _renderConfig->PlayerThwipOutTransitionSprite->GetWidth() - _renderConfig->PlayerThwipSprite->GetWidth() ) / 2 );
+      _consoleBuffer->Draw( _startPositionChars.Left + leftOffset,
                             (short)( _currentTopPositionUnits / _renderConfig->ArenaCharHeight ),
                             _renderConfig->PlayerThwipSprite );
    }

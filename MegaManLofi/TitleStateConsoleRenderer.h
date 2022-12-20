@@ -15,6 +15,7 @@ namespace MegaManLofi
    class ConsoleRenderConfig;
    class KeyboardInputConfig;
    class IConsoleAnimationProvider;
+   class IConsoleAnimation;
 
    class TitleStateConsoleRenderer : public IGameRenderer
    {
@@ -34,7 +35,6 @@ namespace MegaManLofi
    private:
       void DrawStars();
       void DrawKeyBindings() const;
-      void DrawPlayerThwipOutTransitionAnimation();
       void DrawPlayerThwipOutAnimation();
       void DrawPostThwipDelayAnimation();
 
@@ -46,6 +46,8 @@ namespace MegaManLofi
       const std::shared_ptr<ConsoleRenderConfig> _renderConfig;
       const std::shared_ptr<KeyboardInputConfig> _inputConfig;
       const std::shared_ptr<IConsoleAnimationProvider> _animationProvider;
+
+      const std::shared_ptr<IConsoleAnimation> _thwipOutAnimation;
 
       std::vector<Coordinate<long long>> _starCoordinates;
       std::vector<long long> _starVelocities;

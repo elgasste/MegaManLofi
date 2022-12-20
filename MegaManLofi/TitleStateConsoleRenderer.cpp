@@ -9,6 +9,7 @@
 #include "ConsoleRenderConfig.h"
 #include "KeyboardInputConfig.h"
 #include "IConsoleAnimationProvider.h"
+#include "IConsoleAnimation.h"
 #include "IConsoleSprite.h"
 #include "ConsoleColor.h"
 #include "GameEvent.h"
@@ -30,6 +31,7 @@ TitleStateConsoleRenderer::TitleStateConsoleRenderer( const shared_ptr<IConsoleB
    _renderConfig( renderConfig ),
    _inputConfig( inputConfig ),
    _animationProvider( animationProvider ),
+   _thwipOutAnimation( animationProvider->GetAnimation( ConsoleAnimationType::PlayerThwipOut ) ),
    _isAnimatingPlayerThwipOutTransition( false ),
    _isAnimatingPlayerThwipOut( false ),
    _isAnimatingPostThwipDelay( false ),
@@ -50,9 +52,9 @@ TitleStateConsoleRenderer::TitleStateConsoleRenderer( const shared_ptr<IConsoleB
 
 void TitleStateConsoleRenderer::HandleGameStartedEvent()
 {
-   _isAnimatingPlayerThwipOutTransition = true;
-   _preThwipElapsedSeconds = 0;
-   _playerThwipBottomUnits = ( (long long)_renderConfig->TitlePlayerTopChars + (long long)_renderConfig->TitlePlayerImage.Height ) * _renderConfig->ArenaCharHeight;
+   Coordinate<short> startPosition = { _renderConfig->TitlePlayerLeftChars, _renderConfig->TitlePlayerTopChars };
+   Coordinate<short> endPosition = { _renderConfig->TitlePlayerLeftChars, -( _renderConfig->TitlePlayerImage.Height ) };
+   _animationProvider->GetAnimation( ConsoleAnimationType::PlayerThwipOut )->Start( startPosition, endPosition );
 }
 
 void TitleStateConsoleRenderer::Render()
@@ -67,11 +69,7 @@ void TitleStateConsoleRenderer::Render()
    _consoleBuffer->Draw( _renderConfig->TitleBuildingLeftChars, _renderConfig->TitleBuildingTopChars, _renderConfig->TitleBuildingImage );
    _consoleBuffer->Draw( _renderConfig->TitleStartMessageLeftChars, _renderConfig->TitleStartMessageTopChars, _renderConfig->TitleStartMessageImage );
 
-   if ( _isAnimatingPlayerThwipOutTransition )
-   {
-      DrawPlayerThwipOutTransitionAnimation();
-   }
-   else if ( _isAnimatingPlayerThwipOut )
+   if ( _thwipOutAnimation->IsRunning() )
    {
       DrawPlayerThwipOutAnimation();
    }
@@ -89,7 +87,7 @@ void TitleStateConsoleRenderer::Render()
 
 bool TitleStateConsoleRenderer::HasFocus() const
 {
-   return _isAnimatingPlayerThwipOutTransition || _isAnimatingPlayerThwipOut || _isAnimatingPostThwipDelay;
+   return _thwipOutAnimation->IsRunning() || _isAnimatingPostThwipDelay;
 }
 
 void TitleStateConsoleRenderer::DrawStars()
@@ -127,47 +125,15 @@ void TitleStateConsoleRenderer::DrawKeyBindings() const
    }
 }
 
-void TitleStateConsoleRenderer::DrawPlayerThwipOutTransitionAnimation()
-{
-   _preThwipElapsedSeconds += ( 1 / (double)_frameRateProvider->GetFramesPerSecond() );
-
-   auto sprite = _renderConfig->PlayerThwipOutTransitionSprite;
-   _consoleBuffer->Draw( _renderConfig->TitlePlayerLeftChars, _renderConfig->TitlePlayerTopChars, sprite );
-
-   if ( _preThwipElapsedSeconds >= sprite->GetTotalTraversalSeconds() )
-   {
-      _isAnimatingPlayerThwipOutTransition = false;
-      _isAnimatingPlayerThwipOut = true;
-   }
-   else
-   {
-      sprite->Tick( _frameRateProvider->GetFramesPerSecond() );
-   }
-}
-
 void TitleStateConsoleRenderer::DrawPlayerThwipOutAnimation()
 {
-   auto thwipDeltaUnits = ( _renderConfig->PlayerThwipVelocity / _frameRateProvider->GetFramesPerSecond() );
-   _playerThwipBottomUnits -= thwipDeltaUnits;
+   _thwipOutAnimation->Draw();
+   _thwipOutAnimation->Tick( _frameRateProvider->GetFramesPerSecond() );
 
-   auto playerSprite = _renderConfig->TitlePlayerImage;
-   auto thwipSpriteLeftOffsetChars = (short)( ( playerSprite.Width - _renderConfig->PlayerThwipSprite->GetWidth() ) / 2 );
-   auto playerThwipBottomChars = (short)( _playerThwipBottomUnits / _renderConfig->ArenaCharHeight );
-
-   if ( playerThwipBottomChars <= 0 )
+   if ( !_thwipOutAnimation->IsRunning() )
    {
-      _isAnimatingPlayerThwipOut = false;
-
-      _postThwipElapsedSeconds = 0;
       _isAnimatingPostThwipDelay = true;
-
-      return;
    }
-
-   _consoleBuffer->Draw( _renderConfig->TitlePlayerLeftChars + thwipSpriteLeftOffsetChars,
-                         playerThwipBottomChars - _renderConfig->PlayerThwipSprite->GetHeight(),
-                         _renderConfig->PlayerThwipSprite );
-   _renderConfig->PlayerThwipSprite->Tick( _frameRateProvider->GetFramesPerSecond() );
 }
 
 void TitleStateConsoleRenderer::DrawPostThwipDelayAnimation()

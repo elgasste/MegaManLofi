@@ -39,6 +39,7 @@
     <ClInclude Include="mock_Arena.h" />
     <ClInclude Include="mock_ArenaPhysics.h" />
     <ClInclude Include="mock_ConsoleAnimation.h" />
+    <ClInclude Include="mock_ConsoleAnimationProvider.h" />
     <ClInclude Include="mock_ConsoleSprite.h" />
     <ClInclude Include="mock_FrameActionRegistry.h" />
     <ClInclude Include="mock_FrameRateProvider.h" />

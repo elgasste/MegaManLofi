@@ -61,6 +61,12 @@
     <Filter Include="Source Files\ConfigGenerators">
       <UniqueIdentifier>{bada5787-7047-4f37-88c2-c3ec93573a4a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Render\Animations">
+      <UniqueIdentifier>{2199efa5-6cd1-4f52-8822-d28273f8fe00}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Render\Animations">
+      <UniqueIdentifier>{b32e0e61-a47e-46a8-9109-f87854115a73}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MegaManLofi.cpp">
@@ -159,11 +165,14 @@
     <ClCompile Include="ConsoleSprite.cpp">
       <Filter>Source Files\Render</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerThwipOutConsoleAnimation.cpp">
-      <Filter>Source Files\Render</Filter>
-    </ClCompile>
     <ClCompile Include="ConsoleAnimationRepository.cpp">
-      <Filter>Source Files\Render</Filter>
+      <Filter>Source Files\Render\Animations</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerThwipOutConsoleAnimation.cpp">
+      <Filter>Source Files\Render\Animations</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerThwipInConsoleAnimation.cpp">
+      <Filter>Source Files\Render\Animations</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -416,9 +425,6 @@
     <ClInclude Include="ConsoleAnimationType.h">
       <Filter>Header Files\DataTypes</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerThwipOutConsoleAnimation.h">
-      <Filter>Header Files\Render</Filter>
-    </ClInclude>
     <ClInclude Include="IConsoleSprite.h">
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
@@ -426,7 +432,13 @@
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
     <ClInclude Include="ConsoleAnimationRepository.h">
-      <Filter>Header Files\Render</Filter>
+      <Filter>Header Files\Render\Animations</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerThwipOutConsoleAnimation.h">
+      <Filter>Header Files\Render\Animations</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerThwipInConsoleAnimation.h">
+      <Filter>Header Files\Render\Animations</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

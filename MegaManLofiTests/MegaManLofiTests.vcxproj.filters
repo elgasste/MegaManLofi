@@ -54,11 +54,14 @@
     <ClCompile Include="ConsoleSpriteTests.cpp">
       <Filter>Tests\Render</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerThwipOutConsoleAnimationTests.cpp">
-      <Filter>Tests\Render</Filter>
-    </ClCompile>
     <ClCompile Include="ConsoleAnimationRepositoryTests.cpp">
-      <Filter>Tests\Render</Filter>
+      <Filter>Tests\Render\Animations</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerThwipOutConsoleAnimationTests.cpp">
+      <Filter>Tests\Render\Animations</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerThwipInConsoleAnimationTests.cpp">
+      <Filter>Tests\Render\Animations</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -150,6 +153,9 @@
     </Filter>
     <Filter Include="Tests\GameObjects">
       <UniqueIdentifier>{02651954-e96a-4c40-9549-39d3547a04bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tests\Render\Animations">
+      <UniqueIdentifier>{da0cac45-9def-420d-9060-6a4218471f8b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

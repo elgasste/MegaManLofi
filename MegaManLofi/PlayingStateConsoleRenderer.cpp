@@ -175,7 +175,7 @@ void PlayingStateConsoleRenderer::DrawGameStartAnimation()
 
 void PlayingStateConsoleRenderer::DrawPlayerThwipInAnimation()
 {
-   auto thwipDeltaUnits = _renderConfig->PlayerThwipVelocity * _frameRateProvider->GetFrameScalar();
+   auto thwipDeltaUnits = (long long)( _renderConfig->PlayerThwipVelocity * _frameRateProvider->GetFrameScalar() );
    _playerThwipBottom += thwipDeltaUnits;
 
    auto playerSprite = GetPlayerSprite();

@@ -173,6 +173,7 @@
     <ClCompile Include="PlayerPhysics.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerSpriteGenerator.cpp" />
+    <ClCompile Include="PlayerThwipInConsoleAnimation.cpp" />
     <ClCompile Include="PlayerThwipOutConsoleAnimation.cpp" />
     <ClCompile Include="PlayingStateConsoleRenderer.cpp" />
     <ClCompile Include="PlayingStateInputHandler.cpp" />
@@ -255,6 +256,7 @@
     <ClInclude Include="PlayerPhysics.h" />
     <ClInclude Include="PlayerPhysicsConfig.h" />
     <ClInclude Include="PlayerSpriteGenerator.h" />
+    <ClInclude Include="PlayerThwipInConsoleAnimation.h" />
     <ClInclude Include="PlayerThwipOutConsoleAnimation.h" />
     <ClInclude Include="PointPlayerCommandArgs.h" />
     <ClInclude Include="PushPlayerCommandArgs.h" />

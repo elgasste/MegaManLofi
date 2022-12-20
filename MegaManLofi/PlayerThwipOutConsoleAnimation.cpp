@@ -1,55 +1,94 @@
 #include "PlayerThwipOutConsoleAnimation.h"
 #include "IConsoleBuffer.h"
 #include "ConsoleRenderConfig.h"
+#include "IConsoleSprite.h"
 
 using namespace std;
 using namespace MegaManLofi;
 
+// MUFFINS: test this whole class
 PlayerThwipOutConsoleAnimation::PlayerThwipOutConsoleAnimation( const shared_ptr<IConsoleBuffer> consoleBuffer,
                                                                 const shared_ptr<ConsoleRenderConfig> renderConfig ) :
    _consoleBuffer( consoleBuffer ),
    _renderConfig( renderConfig ),
    _isRunning( false ),
-   _startCoordinate( {0, 0} ),
-   _endCoordinate( {0, 0} ),
+   _startPositionChars( {0, 0} ),
+   _endPositionChars( {0, 0} ),
+   _currentTopPositionUnits( 0 ),
+   _endTopPositionUnits( 0 ),
    _preThwipping( false ),
    _elapsedSeconds( 0 )
 {
 }
 
-void PlayerThwipOutConsoleAnimation::Start( Coordinate<short> startCoordinate, Coordinate<short> endCoordinate )
+void PlayerThwipOutConsoleAnimation::Start( Coordinate<short> startPositionChars, Coordinate<short> endPositionChars )
 {
-   _startCoordinate = startCoordinate;
-   _endCoordinate = endCoordinate;
+   _isRunning = true;
+   _startPositionChars = startPositionChars;
+   _endPositionChars = endPositionChars;
+   _currentTopPositionUnits = startPositionChars.Top * _renderConfig->ArenaCharHeight;
+   _endTopPositionUnits = endPositionChars.Top * _renderConfig->ArenaCharHeight;
    _preThwipping = true;
    _elapsedSeconds = 0;
 
-   // MUFFINS: reset the thwip and transition sprites
+   _renderConfig->PlayerThwipOutTransitionSprite->Reset();
+   _renderConfig->PlayerThwipSprite->Reset();
 }
 
 void PlayerThwipOutConsoleAnimation::Draw()
 {
    if ( _preThwipping )
    {
-      _consoleBuffer->Draw( _startCoordinate.Left, _startCoordinate.Top, _renderConfig->PlayerThwipOutTransitionSprite );
+      _consoleBuffer->Draw( _startPositionChars.Left, _startPositionChars.Top, _renderConfig->PlayerThwipOutTransitionSprite );
    }
    else
    {
-      // MUFFINS: draw the twhip sprite wherever it needs to be based on velocity and _elapsedSeconds
+      _consoleBuffer->Draw( _startPositionChars.Left,
+                            (short)( _currentTopPositionUnits / _renderConfig->ArenaCharHeight ),
+                            _renderConfig->PlayerThwipSprite );
    }
 }
 
 void PlayerThwipOutConsoleAnimation::Tick( int framesPerSecond )
 {
-   _elapsedSeconds += 1 / (double)framesPerSecond;
+   if ( !_isRunning )
+   {
+      return;
+   }
+
+   auto frameRateScalar = 1 / (double)framesPerSecond;
+   _elapsedSeconds += frameRateScalar;
 
    if ( _preThwipping )
    {
-      // MUFFINS: tick the sprite and check if it's finished
-      // if it is finished, reset _elapsedSeconds and set _preThwipping to false
+      _renderConfig->PlayerThwipOutTransitionSprite->Tick( framesPerSecond );
+
+      if ( _elapsedSeconds >= _renderConfig->PlayerThwipOutTransitionSprite->GetTotalTraversalSeconds() )
+      {
+         _preThwipping = false;
+         _elapsedSeconds = 0;
+      }
    }
    else
    {
-      // MUFFINS: just tick the sprite
+      _renderConfig->PlayerThwipSprite->Tick( framesPerSecond );
+      auto topDelta = (long long)( _renderConfig->PlayerThwipVelocity * frameRateScalar );
+
+      if ( _endPositionChars.Top < _startPositionChars.Top )
+      {
+         _currentTopPositionUnits -= topDelta;
+         if ( _currentTopPositionUnits <= _endTopPositionUnits )
+         {
+            _isRunning = false;
+         }
+      }
+      else
+      {
+         _currentTopPositionUnits += topDelta;
+         if ( _currentTopPositionUnits >= _endTopPositionUnits )
+         {
+            _isRunning = false;
+         }
+      }
    }
 }

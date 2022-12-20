@@ -74,6 +74,7 @@
     <ClCompile Include="KeyboardInputReaderTests.cpp" />
     <ClCompile Include="PlayerPhysicsTests.cpp" />
     <ClCompile Include="PlayerTests.cpp" />
+    <ClCompile Include="PlayerThwipOutConsoleAnimationTests.cpp" />
     <ClCompile Include="PlayingStateInputHandlerTests.cpp" />
     <ClCompile Include="RectangleUtilitiesTests.cpp" />
     <ClCompile Include="TitleStateInputHandlerTests.cpp" />

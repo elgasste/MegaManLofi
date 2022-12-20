@@ -54,6 +54,9 @@
     <ClCompile Include="ConsoleSpriteTests.cpp">
       <Filter>Tests\Render</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerThwipOutConsoleAnimationTests.cpp">
+      <Filter>Tests\Render</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="mock_GameEventAggregator.h">

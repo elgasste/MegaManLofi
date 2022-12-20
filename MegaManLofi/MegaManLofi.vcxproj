@@ -180,6 +180,7 @@
     <ClCompile Include="RandomWrapper.cpp" />
     <ClCompile Include="RectangleUtilities.cpp" />
     <ClCompile Include="SleeperWrapper.cpp" />
+    <ClCompile Include="StageStartedConsoleAnimation.cpp" />
     <ClCompile Include="TitleStateConsoleRenderer.cpp" />
     <ClCompile Include="TitleStateInputHandler.cpp" />
     <ClCompile Include="ThreadWrapper.cpp" />
@@ -269,6 +270,7 @@
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="RectangleUtilities.h" />
     <ClInclude Include="SleeperWrapper.h" />
+    <ClInclude Include="StageStartedConsoleAnimation.h" />
     <ClInclude Include="TitleStateInputHandler.h" />
     <ClInclude Include="TitleStateConsoleRenderer.h" />
     <ClInclude Include="ThreadWrapper.h" />

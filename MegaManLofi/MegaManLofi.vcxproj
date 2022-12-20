@@ -153,6 +153,7 @@
     <ClCompile Include="ArenaSpriteGenerator.cpp" />
     <ClCompile Include="ArenaTileGenerator.cpp" />
     <ClCompile Include="ArenaPhysics.cpp" />
+    <ClCompile Include="ConsoleAnimationRepository.cpp" />
     <ClCompile Include="ConsoleBuffer.cpp" />
     <ClCompile Include="ConsoleSprite.cpp" />
     <ClCompile Include="FrameActionRegistry.cpp" />
@@ -191,6 +192,7 @@
     <ClInclude Include="ArenaTileGenerator.h" />
     <ClInclude Include="ArenaPhysics.h" />
     <ClInclude Include="ArenaTile.h" />
+    <ClInclude Include="ConsoleAnimationRepository.h" />
     <ClInclude Include="ConsoleAnimationType.h" />
     <ClInclude Include="ConsoleColor.h" />
     <ClInclude Include="ConsoleBuffer.h" />

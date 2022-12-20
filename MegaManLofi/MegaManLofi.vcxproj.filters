@@ -162,6 +162,9 @@
     <ClCompile Include="PlayerThwipOutConsoleAnimation.cpp">
       <Filter>Source Files\Render</Filter>
     </ClCompile>
+    <ClCompile Include="ConsoleAnimationRepository.cpp">
+      <Filter>Source Files\Render</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameRunner.h">
@@ -421,6 +424,9 @@
     </ClInclude>
     <ClInclude Include="IConsoleAnimationProvider.h">
       <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="ConsoleAnimationRepository.h">
+      <Filter>Header Files\Render</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

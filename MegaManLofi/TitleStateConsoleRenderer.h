@@ -14,6 +14,7 @@ namespace MegaManLofi
    class IGameEventAggregator;
    class ConsoleRenderConfig;
    class KeyboardInputConfig;
+   class IConsoleAnimationProvider;
 
    class TitleStateConsoleRenderer : public IGameRenderer
    {
@@ -23,7 +24,8 @@ namespace MegaManLofi
                                  const std::shared_ptr<IFrameRateProvider> frameRateProvider,
                                  const std::shared_ptr<IGameEventAggregator> eventAggregator,
                                  const std::shared_ptr<ConsoleRenderConfig> renderConfig,
-                                 const std::shared_ptr<KeyboardInputConfig> inputConfig );
+                                 const std::shared_ptr<KeyboardInputConfig> inputConfig,
+                                 const std::shared_ptr<IConsoleAnimationProvider> animationProvider );
 
       void HandleGameStartedEvent();
       void Render() override;
@@ -43,6 +45,7 @@ namespace MegaManLofi
       const std::shared_ptr<IGameEventAggregator> _eventAggregator;
       const std::shared_ptr<ConsoleRenderConfig> _renderConfig;
       const std::shared_ptr<KeyboardInputConfig> _inputConfig;
+      const std::shared_ptr<IConsoleAnimationProvider> _animationProvider;
 
       std::vector<Coordinate<long long>> _starCoordinates;
       std::vector<long long> _starVelocities;

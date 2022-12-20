@@ -8,6 +8,7 @@
 #include "IGameEventAggregator.h"
 #include "ConsoleRenderConfig.h"
 #include "KeyboardInputConfig.h"
+#include "IConsoleAnimationProvider.h"
 #include "IConsoleSprite.h"
 #include "ConsoleColor.h"
 #include "GameEvent.h"
@@ -20,13 +21,15 @@ TitleStateConsoleRenderer::TitleStateConsoleRenderer( const shared_ptr<IConsoleB
                                                       const shared_ptr<IFrameRateProvider> frameRateProvider,
                                                       const shared_ptr<IGameEventAggregator> eventAggregator,
                                                       const shared_ptr<ConsoleRenderConfig> renderConfig,
-                                                      const shared_ptr<KeyboardInputConfig> inputConfig ) :
+                                                      const shared_ptr<KeyboardInputConfig> inputConfig,
+                                                      const shared_ptr<IConsoleAnimationProvider> animationProvider ) :
    _consoleBuffer( consoleBuffer ),
    _random( random ),
    _frameRateProvider( frameRateProvider ),
    _eventAggregator( eventAggregator ),
    _renderConfig( renderConfig ),
    _inputConfig( inputConfig ),
+   _animationProvider( animationProvider ),
    _isAnimatingPlayerThwipOutTransition( false ),
    _isAnimatingPlayerThwipOut( false ),
    _isAnimatingPostThwipDelay( false ),

@@ -27,6 +27,8 @@
 #include "PlayerPhysics.h"
 #include "ArenaPhysics.h"
 #include "Game.h"
+#include "PlayerThwipOutConsoleAnimation.h"
+#include "ConsoleAnimationRepository.h"
 #include "DiagnosticsConsoleRenderer.h"
 #include "TitleStateInputHandler.h"
 #include "PlayingStateInputHandler.h"
@@ -129,9 +131,14 @@ void LoadAndRun( const shared_ptr<IConsoleBuffer> consoleBuffer )
    inputHandler->AddInputHandlerForGameState( GameState::Playing, playingStateInputHandler );
    inputHandler->AddInputHandlerForGameState( GameState::GameOver, gameOverStateInputHandler );
 
+   // animations
+   auto playerThwipOutAnimation = shared_ptr<PlayerThwipOutConsoleAnimation>( new PlayerThwipOutConsoleAnimation( consoleBuffer, consoleRenderConfig ) );
+   auto animationRepository = make_shared<ConsoleAnimationRepository>();
+   animationRepository->AddAnimation( ConsoleAnimationType::PlayerThwipOut, playerThwipOutAnimation );
+
    // rendering objects
    auto diagnosticsRenderer = shared_ptr<DiagnosticsConsoleRenderer>( new DiagnosticsConsoleRenderer( consoleBuffer, clock, consoleRenderConfig ) );
-   auto titleStateConsoleRenderer = shared_ptr<TitleStateConsoleRenderer>( new TitleStateConsoleRenderer( consoleBuffer, random, clock, eventAggregator, consoleRenderConfig, keyboardInputConfig ) );
+   auto titleStateConsoleRenderer = shared_ptr<TitleStateConsoleRenderer>( new TitleStateConsoleRenderer( consoleBuffer, random, clock, eventAggregator, consoleRenderConfig, keyboardInputConfig, animationRepository ) );
    auto playingStateConsoleRenderer = shared_ptr<PlayingStateConsoleRenderer>( new PlayingStateConsoleRenderer( consoleBuffer, consoleRenderConfig, game, player, arena, eventAggregator, clock ) );
    auto gameOverStateConsoleRenderer = shared_ptr<GameOverStateConsoleRenderer>( new GameOverStateConsoleRenderer( consoleBuffer, consoleRenderConfig, keyboardInputConfig ) );
    auto renderer = shared_ptr<GameRenderer>( new GameRenderer( consoleRenderConfig, consoleBuffer, game, diagnosticsRenderer, eventAggregator ) );

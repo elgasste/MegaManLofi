@@ -45,6 +45,12 @@ void ConsoleSprite::Tick( int framesPerSecond )
    }
 }
 
+void ConsoleSprite::Reset()
+{
+   _currentImageIndex = 0;
+   _spriteElapsedSeconds = 0;
+}
+
 short ConsoleSprite::GetWidth() const
 {
    return _images[_currentImageIndex].Width;

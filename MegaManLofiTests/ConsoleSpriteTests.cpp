@@ -12,6 +12,23 @@ using namespace MegaManLofi;
 
 class ConsoleSpriteTests : public Test { };
 
+TEST_F( ConsoleSpriteTests, Reset_Always_ResetsToFirstImage )
+{
+   auto sprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( 0.75 ) );
+   sprite->AddImage( { 0, 0 } );
+   sprite->AddImage( { 1, 1 } );
+   sprite->AddImage( { 2, 2 } );
+
+   sprite->Tick( 1 ); // 1 second has passed, should be on the second image
+   EXPECT_EQ( sprite->GetCurrentImage().Width, 1 );
+
+   sprite->Reset(); // back to first image
+   EXPECT_EQ( sprite->GetCurrentImage().Width, 0 );
+
+   sprite->Tick( 1 ); // 1 second has passed, should be on the second image again
+   EXPECT_EQ( sprite->GetCurrentImage().Width, 1 );
+}
+
 TEST_F( ConsoleSpriteTests, GetCurrentImage_ElapsedTimeMatchesTotalSpriteTime_ReturnsFirstImage )
 {
    auto sprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( 0.25 ) );

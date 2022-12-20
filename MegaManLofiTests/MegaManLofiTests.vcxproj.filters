@@ -119,6 +119,9 @@
     <ClInclude Include="mock_ConsoleAnimation.h">
       <Filter>Mocks</Filter>
     </ClInclude>
+    <ClInclude Include="mock_ConsoleSprite.h">
+      <Filter>Mocks</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Mocks">

@@ -16,6 +16,7 @@ PlayerThwipOutConsoleAnimation::PlayerThwipOutConsoleAnimation( const shared_ptr
    _currentTopPositionUnits( 0 ),
    _endTopPositionUnits( 0 ),
    _preThwipping( false ),
+   _postThwipping( false ),
    _elapsedSeconds( 0 )
 {
 }
@@ -28,6 +29,7 @@ void PlayerThwipOutConsoleAnimation::Start( Coordinate<short> startPositionChars
    _currentTopPositionUnits = startPositionChars.Top * _renderConfig->ArenaCharHeight;
    _endTopPositionUnits = endPositionChars.Top * _renderConfig->ArenaCharHeight;
    _preThwipping = true;
+   _postThwipping = false;
    _elapsedSeconds = 0;
 
    _renderConfig->PlayerThwipOutTransitionSprite->Reset();
@@ -40,7 +42,7 @@ void PlayerThwipOutConsoleAnimation::Draw()
    {
       _consoleBuffer->Draw( _startPositionChars.Left, _startPositionChars.Top, _renderConfig->PlayerThwipOutTransitionSprite );
    }
-   else
+   else if ( !_postThwipping )
    {
       auto leftOffset = short( ( _renderConfig->PlayerThwipOutTransitionSprite->GetWidth() - _renderConfig->PlayerThwipSprite->GetWidth() ) / 2 );
       _consoleBuffer->Draw( _startPositionChars.Left + leftOffset,
@@ -69,6 +71,13 @@ void PlayerThwipOutConsoleAnimation::Tick( int framesPerSecond )
          _elapsedSeconds = 0;
       }
    }
+   else if ( _postThwipping )
+   {
+      if ( _elapsedSeconds >= _renderConfig->PlayerPostThwipDelaySeconds )
+      {
+         _isRunning = false;
+      }
+   }
    else
    {
       _renderConfig->PlayerThwipSprite->Tick( framesPerSecond );
@@ -79,7 +88,8 @@ void PlayerThwipOutConsoleAnimation::Tick( int framesPerSecond )
          _currentTopPositionUnits -= topDelta;
          if ( _currentTopPositionUnits <= _endTopPositionUnits )
          {
-            _isRunning = false;
+            _postThwipping = true;
+            _elapsedSeconds = 0;
          }
       }
       else
@@ -87,7 +97,8 @@ void PlayerThwipOutConsoleAnimation::Tick( int framesPerSecond )
          _currentTopPositionUnits += topDelta;
          if ( _currentTopPositionUnits >= _endTopPositionUnits )
          {
-            _isRunning = false;
+            _postThwipping = true;
+            _elapsedSeconds = 0;
          }
       }
    }

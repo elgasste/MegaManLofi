@@ -25,6 +25,7 @@ public:
       _renderConfig->ArenaCharWidth = 1;
       _renderConfig->ArenaCharHeight = 1;
       _renderConfig->PlayerThwipVelocity = 1;
+      _renderConfig->PlayerPostThwipDelaySeconds = 2;
 
       _framesPerSecond = 1;
 
@@ -148,6 +149,12 @@ TEST_F( PlayerThwipOutConsoleAnimationTests, Tick_ThwipAnimationHasFinished_Stop
    _animation->Tick( _framesPerSecond ); // thwip sprite moves to 1 char up
    EXPECT_TRUE( _animation->IsRunning() );
 
-   _animation->Tick( _framesPerSecond ); // thwip sprite moves to 2 chars up, finished
+   _animation->Tick( _framesPerSecond ); // thwip sprite moves to 2 chars up, should switch to post-thwipping
+   EXPECT_TRUE( _animation->IsRunning() );
+
+   _animation->Tick( _framesPerSecond ); // post-thwip delay first second
+   EXPECT_TRUE( _animation->IsRunning() );
+
+   _animation->Tick( _framesPerSecond ); // post-thwip delay second second, finished
    EXPECT_FALSE( _animation->IsRunning() );
 }

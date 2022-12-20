@@ -30,6 +30,7 @@ namespace MegaManLofi
       long long _currentTopPositionUnits;
       long long _endTopPositionUnits;
       bool _preThwipping;
+      bool _postThwipping;
       double _elapsedSeconds;
    };
 }

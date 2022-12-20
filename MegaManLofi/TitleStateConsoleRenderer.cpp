@@ -31,13 +31,7 @@ TitleStateConsoleRenderer::TitleStateConsoleRenderer( const shared_ptr<IConsoleB
    _renderConfig( renderConfig ),
    _inputConfig( inputConfig ),
    _animationProvider( animationProvider ),
-   _thwipOutAnimation( animationProvider->GetAnimation( ConsoleAnimationType::PlayerThwipOut ) ),
-   _isAnimatingPlayerThwipOutTransition( false ),
-   _isAnimatingPlayerThwipOut( false ),
-   _isAnimatingPostThwipDelay( false ),
-   _playerThwipBottomUnits( 0 ),
-   _preThwipElapsedSeconds( 0 ),
-   _postThwipElapsedSeconds( 0 )
+   _thwipOutAnimation( animationProvider->GetAnimation( ConsoleAnimationType::PlayerThwipOut ) )
 {
    for ( int i = 0; i < renderConfig->TitleStarCount; i++ )
    {
@@ -71,11 +65,8 @@ void TitleStateConsoleRenderer::Render()
 
    if ( _thwipOutAnimation->IsRunning() )
    {
-      DrawPlayerThwipOutAnimation();
-   }
-   else if ( _isAnimatingPostThwipDelay )
-   {
-      DrawPostThwipDelayAnimation();
+      _thwipOutAnimation->Draw();
+      _thwipOutAnimation->Tick( _frameRateProvider->GetFramesPerSecond() );
    }
    else
    {
@@ -87,7 +78,7 @@ void TitleStateConsoleRenderer::Render()
 
 bool TitleStateConsoleRenderer::HasFocus() const
 {
-   return _thwipOutAnimation->IsRunning() || _isAnimatingPostThwipDelay;
+   return _thwipOutAnimation->IsRunning();
 }
 
 void TitleStateConsoleRenderer::DrawStars()
@@ -122,26 +113,5 @@ void TitleStateConsoleRenderer::DrawKeyBindings() const
       _consoleBuffer->Draw( leftOfMiddleX - (int)keyString.length() - 2, top, format( "{0} -> {1}", keyString, buttonString ), _renderConfig->TitleKeyBindingsForegroundColor );
 
       top++;
-   }
-}
-
-void TitleStateConsoleRenderer::DrawPlayerThwipOutAnimation()
-{
-   _thwipOutAnimation->Draw();
-   _thwipOutAnimation->Tick( _frameRateProvider->GetFramesPerSecond() );
-
-   if ( !_thwipOutAnimation->IsRunning() )
-   {
-      _isAnimatingPostThwipDelay = true;
-   }
-}
-
-void TitleStateConsoleRenderer::DrawPostThwipDelayAnimation()
-{
-   _postThwipElapsedSeconds += ( 1 / (double)_frameRateProvider->GetFramesPerSecond() );
-
-   if ( _postThwipElapsedSeconds >= _renderConfig->TitlePostThwipDelaySeconds )
-   {
-      _isAnimatingPostThwipDelay = false;
    }
 }

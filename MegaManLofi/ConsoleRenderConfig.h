@@ -61,6 +61,7 @@ namespace MegaManLofi
       std::shared_ptr<IConsoleSprite> PlayerThwipInTransitionSprite;
       std::shared_ptr<IConsoleSprite> PlayerThwipOutTransitionSprite;
       long long PlayerThwipVelocity = 0;
+      double PlayerPostThwipDelaySeconds = 0;
 
       short TitleTextLeftChars = 0;
       short TitleTextTopChars = 0;
@@ -77,7 +78,6 @@ namespace MegaManLofi
       int TitleStarCount = 0;
       long long MinTitleStarVelocity = 0;
       long long MaxTitleStarVelocity = 0;
-      double TitlePostThwipDelaySeconds = 0;
 
       std::shared_ptr<IConsoleSprite> GetReadySprite;
       double GetReadyAnimationSeconds = 0;

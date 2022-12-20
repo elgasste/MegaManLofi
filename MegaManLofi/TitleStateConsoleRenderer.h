@@ -35,8 +35,6 @@ namespace MegaManLofi
    private:
       void DrawStars();
       void DrawKeyBindings() const;
-      void DrawPlayerThwipOutAnimation();
-      void DrawPostThwipDelayAnimation();
 
    private:
       const std::shared_ptr<IConsoleBuffer> _consoleBuffer;
@@ -51,12 +49,5 @@ namespace MegaManLofi
 
       std::vector<Coordinate<long long>> _starCoordinates;
       std::vector<long long> _starVelocities;
-
-      bool _isAnimatingPlayerThwipOutTransition;
-      bool _isAnimatingPlayerThwipOut;
-      bool _isAnimatingPostThwipDelay;
-      long long _playerThwipBottomUnits;
-      double _preThwipElapsedSeconds;
-      double _postThwipElapsedSeconds;
    };
 }

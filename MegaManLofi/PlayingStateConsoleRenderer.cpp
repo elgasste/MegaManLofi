@@ -9,6 +9,7 @@
 #include "IGameEventAggregator.h"
 #include "IFrameRateProvider.h"
 #include "IConsoleAnimationProvider.h"
+#include "IConsoleAnimation.h"
 #include "Direction.h"
 #include "GameEvent.h"
 #include "IConsoleSprite.h"
@@ -37,15 +38,11 @@ PlayingStateConsoleRenderer::PlayingStateConsoleRenderer( const shared_ptr<ICons
    _viewportOffsetChars( { 0, 0 } ),
    _playerViewportChars( { 0, 0 } ),
    _isAnimatingStageStart( false ),
-   _isAnimatingPlayerThwipIn( false ),
-   _isAnimatingPlayerThwipTransition( false ),
    _isAnimatingPitfall( false ),
    _isAnimatingPlayerExplosion( false ),
    _stageStartAnimationElapsedSeconds( 0 ),
-   _playerThwipTransitionElapsedSeconds( 0 ),
    _pitfallAnimationElapsedSeconds( 0 ),
    _playerExplosionAnimationElapsedSeconds( 0 ),
-   _playerThwipBottom( 0 ),
    _playerExplosionStartFrame( 0 )
 {
    eventAggregator->RegisterEventHandler( GameEvent::StageStarted, std::bind( &PlayingStateConsoleRenderer::HandleStageStartedEvent, this ) );
@@ -65,13 +62,9 @@ void PlayingStateConsoleRenderer::Render()
    {
       DrawGameStartAnimation();
    }
-   else if ( _isAnimatingPlayerThwipIn )
+   else if ( _animationProvider->GetAnimation( ConsoleAnimationType::PlayerThwipIn )->IsRunning() )
    {
       DrawPlayerThwipInAnimation();
-   }
-   else if ( _isAnimatingPlayerThwipTransition )
-   {
-      DrawPlayerThwipInTransitionAnimation();
    }
    else if ( _isAnimatingPitfall )
    {
@@ -95,8 +88,7 @@ void PlayingStateConsoleRenderer::Render()
 bool PlayingStateConsoleRenderer::HasFocus() const
 {
    return _isAnimatingStageStart ||
-          _isAnimatingPlayerThwipIn ||
-          _isAnimatingPlayerThwipTransition ||
+          _animationProvider->GetAnimation( ConsoleAnimationType::PlayerThwipIn )->IsRunning() ||
           _isAnimatingPitfall ||
           _isAnimatingPlayerExplosion;
 }
@@ -171,50 +163,18 @@ void PlayingStateConsoleRenderer::DrawGameStartAnimation()
    if ( _stageStartAnimationElapsedSeconds >= _renderConfig->GetReadyAnimationSeconds )
    {
       _isAnimatingStageStart = false;
-      _isAnimatingPlayerThwipIn = true;
-      _playerThwipBottom = _viewportQuadUnits.Top;
+      Coordinate<short> thwipStartPosition = { _viewportOffsetChars.Left + _playerViewportChars.Left,
+                                               _viewportOffsetChars.Top - _renderConfig->PlayerThwipInTransitionSprite->GetHeight() };
+      Coordinate<short> thwipEndPosition = { thwipStartPosition.Left,
+                                             _viewportOffsetChars.Top + _playerViewportChars.Top };
+      _animationProvider->GetAnimation( ConsoleAnimationType::PlayerThwipIn )->Start( thwipStartPosition, thwipEndPosition );
    }
 }
 
 void PlayingStateConsoleRenderer::DrawPlayerThwipInAnimation()
 {
-   auto thwipDeltaUnits = (long long)( _renderConfig->PlayerThwipVelocity * _frameRateProvider->GetFrameScalar() );
-   _playerThwipBottom += thwipDeltaUnits;
-
-   auto playerSprite = GetPlayerSprite();
-   auto thwipSpriteLeftOffsetChars = (short)( ( playerSprite->GetWidth() - _renderConfig->PlayerThwipSprite->GetWidth() ) / 2 );
-
-   const auto& hitBox = _playerInfoProvider->GetHitBox();
-   if ( _playerThwipBottom >= ( _arenaInfoProvider->GetPlayerPositionY() + hitBox.Height ) )
-   {
-      _isAnimatingPlayerThwipIn = false;
-      _isAnimatingPlayerThwipTransition = true;
-      _playerThwipTransitionElapsedSeconds = 0;
-      return;
-   }
-
-   auto playerThwipBottomViewportChars = (short)( ( _playerThwipBottom - _viewportQuadUnits.Top ) / _renderConfig->ArenaCharHeight );
-   _consoleBuffer->Draw( _playerViewportChars.Left + thwipSpriteLeftOffsetChars + _viewportOffsetChars.Left,
-                         ( playerThwipBottomViewportChars - _renderConfig->PlayerThwipSprite->GetHeight() ) + _viewportOffsetChars.Top,
-                         _renderConfig->PlayerThwipSprite );
-   _renderConfig->PlayerThwipSprite->Tick();
-}
-
-void PlayingStateConsoleRenderer::DrawPlayerThwipInTransitionAnimation()
-{
-   _playerThwipTransitionElapsedSeconds += _frameRateProvider->GetFrameScalar();
-
-   auto sprite = _renderConfig->PlayerThwipInTransitionSprite;
-   _consoleBuffer->Draw( _playerViewportChars.Left + _viewportOffsetChars.Left, _playerViewportChars.Top + _viewportOffsetChars.Top, sprite );
-
-   if ( _playerThwipTransitionElapsedSeconds >= sprite->GetTotalTraversalSeconds() )
-   {
-      _isAnimatingPlayerThwipTransition = false;
-   }
-   else
-   {
-      sprite->Tick();
-   }
+   _animationProvider->GetAnimation( ConsoleAnimationType::PlayerThwipIn )->Draw();
+   _animationProvider->GetAnimation( ConsoleAnimationType::PlayerThwipIn )->Tick();
 }
 
 void PlayingStateConsoleRenderer::DrawPitfallAnimation()

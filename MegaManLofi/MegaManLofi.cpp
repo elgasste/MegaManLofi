@@ -28,6 +28,7 @@
 #include "ArenaPhysics.h"
 #include "Game.h"
 #include "PlayerThwipOutConsoleAnimation.h"
+#include "PlayerThwipInConsoleAnimation.h"
 #include "ConsoleAnimationRepository.h"
 #include "DiagnosticsConsoleRenderer.h"
 #include "TitleStateInputHandler.h"
@@ -142,8 +143,10 @@ void LoadAndRun( const shared_ptr<IConsoleBuffer> consoleBuffer )
 
    // animations
    auto playerThwipOutAnimation = shared_ptr<PlayerThwipOutConsoleAnimation>( new PlayerThwipOutConsoleAnimation( consoleBuffer, consoleRenderConfig, clock ) );
+   auto playerThwipInAnimation = shared_ptr<PlayerThwipInConsoleAnimation>( new PlayerThwipInConsoleAnimation( consoleBuffer, consoleRenderConfig, clock ) );
    auto animationRepository = make_shared<ConsoleAnimationRepository>();
    animationRepository->AddAnimation( ConsoleAnimationType::PlayerThwipOut, playerThwipOutAnimation );
+   animationRepository->AddAnimation( ConsoleAnimationType::PlayerThwipIn, playerThwipInAnimation );
 
    // rendering objects
    auto diagnosticsRenderer = shared_ptr<DiagnosticsConsoleRenderer>( new DiagnosticsConsoleRenderer( consoleBuffer, clock, consoleRenderConfig ) );

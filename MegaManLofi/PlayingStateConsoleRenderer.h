@@ -43,7 +43,6 @@ namespace MegaManLofi
 
       void DrawGameStartAnimation();
       void DrawPlayerThwipInAnimation();
-      void DrawPlayerThwipInTransitionAnimation();
       void DrawPitfallAnimation();
       void DrawPlayerExplosionAnimation();
       void DrawArenaSprites();
@@ -69,17 +68,13 @@ namespace MegaManLofi
       Coordinate<short> _playerViewportChars;
 
       bool _isAnimatingStageStart;
-      bool _isAnimatingPlayerThwipIn;
-      bool _isAnimatingPlayerThwipTransition;
       bool _isAnimatingPitfall;
       bool _isAnimatingPlayerExplosion;
 
       double _stageStartAnimationElapsedSeconds;
-      double _playerThwipTransitionElapsedSeconds;
       double _pitfallAnimationElapsedSeconds;
       double _playerExplosionAnimationElapsedSeconds;
 
-      long long _playerThwipBottom;
       long long _playerExplosionStartFrame;
    };
 }

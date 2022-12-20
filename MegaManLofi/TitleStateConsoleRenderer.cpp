@@ -66,7 +66,7 @@ void TitleStateConsoleRenderer::Render()
    if ( _thwipOutAnimation->IsRunning() )
    {
       _thwipOutAnimation->Draw();
-      _thwipOutAnimation->Tick( _frameRateProvider->GetFramesPerSecond() );
+      _thwipOutAnimation->Tick();
    }
    else
    {

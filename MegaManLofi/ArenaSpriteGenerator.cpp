@@ -32,9 +32,9 @@ vector<int> ArenaSpriteGenerator::GenerateArenaTiles()
    return imageIds;
 }
 
-shared_ptr<IConsoleSprite> ArenaSpriteGenerator::GenerateGetReadySprite()
+shared_ptr<IConsoleSprite> ArenaSpriteGenerator::GenerateGetReadySprite( const shared_ptr<IFrameRateProvider> frameRateProvider )
 {
-   auto sprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( .25 ) );
+   auto sprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( frameRateProvider, .25 ) );
 
    ConsoleImage getReadyImage = { 10, 1 };
    string message = "GET READY!";

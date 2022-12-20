@@ -1,9 +1,12 @@
 #include "ConsoleSprite.h"
+#include "IFrameRateProvider.h"
 
 using namespace std;
 using namespace MegaManLofi;
 
-ConsoleSprite::ConsoleSprite( double imageTraversalSeconds ) :
+ConsoleSprite::ConsoleSprite( const shared_ptr<IFrameRateProvider> frameRateProvider,
+                              double imageTraversalSeconds ) :
+   _frameRateProvider( frameRateProvider ),
    _currentImageIndex( 0 ),
    _imageTraversalSeconds( imageTraversalSeconds ),
    _totalSpriteSeconds( 0 ),
@@ -17,7 +20,7 @@ void ConsoleSprite::AddImage( ConsoleImage image )
    _totalSpriteSeconds = _images.size() * _imageTraversalSeconds;
 }
 
-void ConsoleSprite::Tick( int framesPerSecond )
+void ConsoleSprite::Tick()
 {
    if ( _images.size() == 1 )
    {
@@ -25,7 +28,7 @@ void ConsoleSprite::Tick( int framesPerSecond )
    }
    else if ( _totalSpriteSeconds > 0 )
    {
-      _spriteElapsedSeconds += ( 1 / (double)framesPerSecond );
+      _spriteElapsedSeconds += _frameRateProvider->GetFrameScalar();
 
       while ( _spriteElapsedSeconds > _totalSpriteSeconds )
       {

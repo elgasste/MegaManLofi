@@ -55,7 +55,7 @@ using namespace MegaManLofi;
 // TODO: I suppose these configs should be loaded from files at some point,
 // but at the very least they should all have default values, and those could
 // probably be set in some initializer instead of in here.
-shared_ptr<ConsoleRenderConfig> BuildConsoleRenderConfig();
+shared_ptr<ConsoleRenderConfig> BuildConsoleRenderConfig( const shared_ptr<IFrameRateProvider> frameRateProvider );
 shared_ptr<KeyboardInputConfig> BuildKeyboardInputConfig();
 shared_ptr<PlayerConfig> BuildPlayerConfig();
 shared_ptr<ArenaConfig> BuildArenaConfig();
@@ -95,10 +95,8 @@ void LoadAndRun( const shared_ptr<IConsoleBuffer> consoleBuffer )
    consoleBuffer->Draw( 2, 1, "Loading all the things..." );
    consoleBuffer->Flip();
 
-   // configs
+   // main config
    auto config = BuildGameConfig();
-   auto consoleRenderConfig = static_pointer_cast<ConsoleRenderConfig>( config->RenderConfig );
-   auto keyboardInputConfig = static_pointer_cast<KeyboardInputConfig>( config->InputConfig );
 
    // wrappers
    auto highResolutionClock = make_shared<HighResolutionClockWrapper>();
@@ -111,6 +109,17 @@ void LoadAndRun( const shared_ptr<IConsoleBuffer> consoleBuffer )
    auto eventAggregator = make_shared<GameEventAggregator>();
    auto frameActionRegistry = make_shared<FrameActionRegistry>();
    auto clock = shared_ptr<GameClock>( new GameClock( highResolutionClock, sleeper, config->FramesPerSecond ) );
+
+   // sub-configs
+   config->RenderConfig = BuildConsoleRenderConfig( clock );
+   config->InputConfig = BuildKeyboardInputConfig();
+   config->PlayerConfig = BuildPlayerConfig();
+   config->ArenaConfig = BuildArenaConfig();
+   config->PlayerPhysicsConfig = BuildPlayerPhysicsConfig();
+   auto consoleRenderConfig = static_pointer_cast<ConsoleRenderConfig>( config->RenderConfig );
+   auto keyboardInputConfig = static_pointer_cast<KeyboardInputConfig>( config->InputConfig );
+
+   // input
    auto keyboardInputReader = shared_ptr<KeyboardInputReader>( new KeyboardInputReader( keyboardInputConfig, keyboard ) );
 
    // utilities
@@ -132,7 +141,7 @@ void LoadAndRun( const shared_ptr<IConsoleBuffer> consoleBuffer )
    inputHandler->AddInputHandlerForGameState( GameState::GameOver, gameOverStateInputHandler );
 
    // animations
-   auto playerThwipOutAnimation = shared_ptr<PlayerThwipOutConsoleAnimation>( new PlayerThwipOutConsoleAnimation( consoleBuffer, consoleRenderConfig ) );
+   auto playerThwipOutAnimation = shared_ptr<PlayerThwipOutConsoleAnimation>( new PlayerThwipOutConsoleAnimation( consoleBuffer, consoleRenderConfig, clock ) );
    auto animationRepository = make_shared<ConsoleAnimationRepository>();
    animationRepository->AddAnimation( ConsoleAnimationType::PlayerThwipOut, playerThwipOutAnimation );
 
@@ -152,7 +161,7 @@ void LoadAndRun( const shared_ptr<IConsoleBuffer> consoleBuffer )
    runner->Run();
 }
 
-shared_ptr<ConsoleRenderConfig> BuildConsoleRenderConfig()
+shared_ptr<ConsoleRenderConfig> BuildConsoleRenderConfig( const shared_ptr<IFrameRateProvider> frameRateProvider )
 {
    auto renderConfig = make_shared<ConsoleRenderConfig>();
 
@@ -177,7 +186,7 @@ shared_ptr<ConsoleRenderConfig> BuildConsoleRenderConfig()
    // player explosion should swap between two sprites in 1/4 second increments
    renderConfig->PlayerExplosionAnimationSeconds = 3;
    renderConfig->PlayerExplosionParticleVelocity = 1'000;
-   renderConfig->PlayerExplosionParticleSprite = PlayerSpriteGenerator::GenerateExplosionParticleSprite();
+   renderConfig->PlayerExplosionParticleSprite = PlayerSpriteGenerator::GenerateExplosionParticleSprite( frameRateProvider );
 
    renderConfig->DefaultForegroundColor = ConsoleColor::Grey;
    renderConfig->DefaultBackgroundColor = ConsoleColor::Black;
@@ -199,9 +208,9 @@ shared_ptr<ConsoleRenderConfig> BuildConsoleRenderConfig()
    renderConfig->TitleStartMessageImage = TitleSpriteGenerator::GenerateStartMessageImage();
    renderConfig->TitleStarImage = TitleSpriteGenerator::GenerateStarImage();
 
-   renderConfig->PlayerThwipSprite = PlayerSpriteGenerator::GenerateThwipSprite();
-   renderConfig->PlayerThwipInTransitionSprite = PlayerSpriteGenerator::GenerateThwipInTransitionSprite();
-   renderConfig->PlayerThwipOutTransitionSprite = PlayerSpriteGenerator::GenerateThwipOutTransitionSprite();
+   renderConfig->PlayerThwipSprite = PlayerSpriteGenerator::GenerateThwipSprite( frameRateProvider );
+   renderConfig->PlayerThwipInTransitionSprite = PlayerSpriteGenerator::GenerateThwipInTransitionSprite( frameRateProvider );
+   renderConfig->PlayerThwipOutTransitionSprite = PlayerSpriteGenerator::GenerateThwipOutTransitionSprite( frameRateProvider );
    renderConfig->PlayerThwipVelocity = 5'000;
    renderConfig->PlayerPostThwipDelaySeconds = 1;
 
@@ -221,15 +230,15 @@ shared_ptr<ConsoleRenderConfig> BuildConsoleRenderConfig()
    renderConfig->MinTitleStarVelocity = 200;
    renderConfig->MaxTitleStarVelocity = 2'000;
 
-   renderConfig->GetReadySprite = ArenaSpriteGenerator::GenerateGetReadySprite();
+   renderConfig->GetReadySprite = ArenaSpriteGenerator::GenerateGetReadySprite( frameRateProvider );
    renderConfig->GetReadyAnimationSeconds = 2;
 
    renderConfig->PauseOverlayImage = ArenaSpriteGenerator::GeneratePauseOverlayImage();
    renderConfig->GameOverImage = ArenaSpriteGenerator::GenerateGameOverImage();
 
-   renderConfig->PlayerStandingSpriteMap = PlayerSpriteGenerator::GenerateStandingSpriteMap();
-   renderConfig->PlayerWalkingSpriteMap = PlayerSpriteGenerator::GenerateWalkingSpriteMap();
-   renderConfig->PlayerFallingSpriteMap = PlayerSpriteGenerator::GenerateFallingSpriteMap();
+   renderConfig->PlayerStandingSpriteMap = PlayerSpriteGenerator::GenerateStandingSpriteMap( frameRateProvider );
+   renderConfig->PlayerWalkingSpriteMap = PlayerSpriteGenerator::GenerateWalkingSpriteMap( frameRateProvider );
+   renderConfig->PlayerFallingSpriteMap = PlayerSpriteGenerator::GenerateFallingSpriteMap( frameRateProvider );
 
    // TODO: move this stuff into the generator
    // ground that is impassable in all directions
@@ -375,12 +384,6 @@ shared_ptr<GameConfig> BuildGameConfig()
    auto config = make_shared<GameConfig>();
 
    config->FramesPerSecond = 60;
-
-   config->RenderConfig = BuildConsoleRenderConfig();
-   config->InputConfig = BuildKeyboardInputConfig();
-   config->PlayerConfig = BuildPlayerConfig();
-   config->ArenaConfig = BuildArenaConfig();
-   config->PlayerPhysicsConfig = BuildPlayerPhysicsConfig();
 
    return config;
 }

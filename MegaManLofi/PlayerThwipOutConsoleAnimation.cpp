@@ -1,15 +1,18 @@
 #include "PlayerThwipOutConsoleAnimation.h"
 #include "IConsoleBuffer.h"
 #include "ConsoleRenderConfig.h"
+#include "IFrameRateProvider.h"
 #include "IConsoleSprite.h"
 
 using namespace std;
 using namespace MegaManLofi;
 
 PlayerThwipOutConsoleAnimation::PlayerThwipOutConsoleAnimation( const shared_ptr<IConsoleBuffer> consoleBuffer,
-                                                                const shared_ptr<ConsoleRenderConfig> renderConfig ) :
+                                                                const shared_ptr<ConsoleRenderConfig> renderConfig,
+                                                                const shared_ptr<IFrameRateProvider> frameRateProvider ) :
    _consoleBuffer( consoleBuffer ),
    _renderConfig( renderConfig ),
+   _frameRateProvider( frameRateProvider ),
    _isRunning( false ),
    _startPositionChars( {0, 0} ),
    _endPositionChars( {0, 0} ),
@@ -51,19 +54,18 @@ void PlayerThwipOutConsoleAnimation::Draw()
    }
 }
 
-void PlayerThwipOutConsoleAnimation::Tick( int framesPerSecond )
+void PlayerThwipOutConsoleAnimation::Tick()
 {
    if ( !_isRunning )
    {
       return;
    }
 
-   auto frameRateScalar = 1 / (double)framesPerSecond;
-   _elapsedSeconds += frameRateScalar;
+   _elapsedSeconds += _frameRateProvider->GetFrameScalar();
 
    if ( _preThwipping )
    {
-      _renderConfig->PlayerThwipOutTransitionSprite->Tick( framesPerSecond );
+      _renderConfig->PlayerThwipOutTransitionSprite->Tick();
 
       if ( _elapsedSeconds >= _renderConfig->PlayerThwipOutTransitionSprite->GetTotalTraversalSeconds() )
       {
@@ -80,8 +82,8 @@ void PlayerThwipOutConsoleAnimation::Tick( int framesPerSecond )
    }
    else
    {
-      _renderConfig->PlayerThwipSprite->Tick( framesPerSecond );
-      auto topDelta = (long long)( _renderConfig->PlayerThwipVelocity * frameRateScalar );
+      _renderConfig->PlayerThwipSprite->Tick();
+      auto topDelta = (long long)( _renderConfig->PlayerThwipVelocity * _frameRateProvider->GetFrameScalar() );
 
       if ( _endPositionChars.Top < _startPositionChars.Top )
       {

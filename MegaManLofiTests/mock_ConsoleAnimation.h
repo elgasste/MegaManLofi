@@ -10,5 +10,5 @@ public:
    MOCK_METHOD( void, Start, ( MegaManLofi::Coordinate<short>, MegaManLofi::Coordinate<short> ), ( override ) );
    MOCK_METHOD( bool, IsRunning, ( ), ( const, override ) );
    MOCK_METHOD( void, Draw, ( ), ( override ) );
-   MOCK_METHOD( void, Tick, ( int ), ( override ) );
+   MOCK_METHOD( void, Tick, ( ), ( override ) );
 };

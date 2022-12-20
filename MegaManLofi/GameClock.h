@@ -24,6 +24,7 @@ namespace MegaManLofi
       long long GetLagFrameCount() const override { return _lagFrameCount; }
 
       long long GetCurrentFrame() const override { return _totalFrameCount; }
+      double GetFrameScalar() const override { return _frameScalar; }
 
    private:
       const std::shared_ptr<IHighResolutionClock> _highResolutionClock;
@@ -34,5 +35,6 @@ namespace MegaManLofi
       long long _lagFrameCount;
       long long _frameStartTimeNano;
       long long _nanoSecondsPerFrame;
+      double _frameScalar;
    };
 }

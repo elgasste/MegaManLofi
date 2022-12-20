@@ -139,7 +139,7 @@ void PlayerPhysics::ExtendJump()
    else
    {
       _lastExtendJumpFrame = currentFrame;
-      _elapsedJumpExtensionSeconds += ( 1 / (double)_frameRateProvider->GetFramesPerSecond() );
+      _elapsedJumpExtensionSeconds += _frameRateProvider->GetFrameScalar();
       _player->SetVelocityY( -( _config->JumpAccelerationPerSecond ) );
       _frameActionRegistry->FlagAction( FrameAction::PlayerJumping );
    }

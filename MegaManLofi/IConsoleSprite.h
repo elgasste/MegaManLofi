@@ -8,7 +8,7 @@ namespace MegaManLofi
    {
    public:
       virtual void AddImage( ConsoleImage image ) = 0;
-      virtual void Tick( int framesPerSecond ) = 0;
+      virtual void Tick() = 0;
       virtual void Reset() = 0;
 
       virtual short GetWidth() const = 0;

@@ -3,22 +3,21 @@
 #include <memory>
 #include <map>
 
-#include "ConsoleSprite.h"
-
 namespace MegaManLofi
 {
+   class IConsoleSprite;
    enum class Direction;
 
    class PlayerSpriteGenerator
    {
    public:
-      static std::shared_ptr<ConsoleSprite> GenerateThwipSprite();
-      static std::shared_ptr<ConsoleSprite> GenerateThwipInTransitionSprite();
-      static std::shared_ptr<ConsoleSprite> GenerateThwipOutTransitionSprite();
-      static std::shared_ptr<ConsoleSprite> GenerateExplosionParticleSprite();
+      static std::shared_ptr<IConsoleSprite> GenerateThwipSprite();
+      static std::shared_ptr<IConsoleSprite> GenerateThwipInTransitionSprite();
+      static std::shared_ptr<IConsoleSprite> GenerateThwipOutTransitionSprite();
+      static std::shared_ptr<IConsoleSprite> GenerateExplosionParticleSprite();
 
-      static std::map<Direction, std::shared_ptr<ConsoleSprite>> GenerateStandingSpriteMap();
-      static std::map<Direction, std::shared_ptr<ConsoleSprite>> GenerateWalkingSpriteMap();
-      static std::map<Direction, std::shared_ptr<ConsoleSprite>> GenerateFallingSpriteMap();
+      static std::map<Direction, std::shared_ptr<IConsoleSprite>> GenerateStandingSpriteMap();
+      static std::map<Direction, std::shared_ptr<IConsoleSprite>> GenerateWalkingSpriteMap();
+      static std::map<Direction, std::shared_ptr<IConsoleSprite>> GenerateFallingSpriteMap();
    };
 }

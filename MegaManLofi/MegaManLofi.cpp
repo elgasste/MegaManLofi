@@ -41,7 +41,7 @@
 #include "GameState.h"
 #include "Direction.h"
 #include "ArenaTile.h"
-#include "ConsoleSprite.h"
+#include "IConsoleSprite.h"
 #include "PlayerSpriteGenerator.h"
 #include "ArenaTileGenerator.h"
 #include "ArenaSpriteGenerator.h"

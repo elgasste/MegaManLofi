@@ -32,7 +32,7 @@ vector<int> ArenaSpriteGenerator::GenerateArenaTiles()
    return imageIds;
 }
 
-shared_ptr<ConsoleSprite> ArenaSpriteGenerator::GenerateGetReadySprite()
+shared_ptr<IConsoleSprite> ArenaSpriteGenerator::GenerateGetReadySprite()
 {
    auto sprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( .25 ) );
 

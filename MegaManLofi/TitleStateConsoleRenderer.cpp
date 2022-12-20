@@ -8,6 +8,7 @@
 #include "IGameEventAggregator.h"
 #include "ConsoleRenderConfig.h"
 #include "KeyboardInputConfig.h"
+#include "IConsoleSprite.h"
 #include "ConsoleColor.h"
 #include "GameEvent.h"
 

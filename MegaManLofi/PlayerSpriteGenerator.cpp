@@ -1,12 +1,13 @@
 #include <string>
 
 #include "PlayerSpriteGenerator.h"
+#include "ConsoleSprite.h"
 #include "Direction.h"
 
 using namespace std;
 using namespace MegaManLofi;
 
-shared_ptr<ConsoleSprite> PlayerSpriteGenerator::GenerateThwipSprite()
+shared_ptr<IConsoleSprite> PlayerSpriteGenerator::GenerateThwipSprite()
 {
    auto thwipSprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( .05 ) );
 
@@ -25,7 +26,7 @@ shared_ptr<ConsoleSprite> PlayerSpriteGenerator::GenerateThwipSprite()
    return thwipSprite;
 }
 
-shared_ptr<ConsoleSprite> PlayerSpriteGenerator::GenerateThwipInTransitionSprite()
+shared_ptr<IConsoleSprite> PlayerSpriteGenerator::GenerateThwipInTransitionSprite()
 {
    auto sprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( .05 ) );
 
@@ -47,7 +48,7 @@ shared_ptr<ConsoleSprite> PlayerSpriteGenerator::GenerateThwipInTransitionSprite
    return sprite;
 }
 
-shared_ptr<ConsoleSprite> PlayerSpriteGenerator::GenerateThwipOutTransitionSprite()
+shared_ptr<IConsoleSprite> PlayerSpriteGenerator::GenerateThwipOutTransitionSprite()
 {
    auto sprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( .05 ) );
 
@@ -69,7 +70,7 @@ shared_ptr<ConsoleSprite> PlayerSpriteGenerator::GenerateThwipOutTransitionSprit
    return sprite;
 }
 
-shared_ptr<ConsoleSprite> PlayerSpriteGenerator::GenerateExplosionParticleSprite()
+shared_ptr<IConsoleSprite> PlayerSpriteGenerator::GenerateExplosionParticleSprite()
 {
    auto particleSprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( .25 ) );
 
@@ -84,9 +85,9 @@ shared_ptr<ConsoleSprite> PlayerSpriteGenerator::GenerateExplosionParticleSprite
    return particleSprite;
 }
 
-map<Direction, shared_ptr<ConsoleSprite>> PlayerSpriteGenerator::GenerateStandingSpriteMap()
+map<Direction, shared_ptr<IConsoleSprite>> PlayerSpriteGenerator::GenerateStandingSpriteMap()
 {
-   auto spriteMap = map<Direction, shared_ptr<ConsoleSprite>>();
+   auto spriteMap = map<Direction, shared_ptr<IConsoleSprite>>();
 
    // facing left
    auto leftSprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( 0 ) );
@@ -129,9 +130,9 @@ map<Direction, shared_ptr<ConsoleSprite>> PlayerSpriteGenerator::GenerateStandin
    return spriteMap;
 }
 
-map<Direction, shared_ptr<ConsoleSprite>> PlayerSpriteGenerator::GenerateWalkingSpriteMap()
+map<Direction, shared_ptr<IConsoleSprite>> PlayerSpriteGenerator::GenerateWalkingSpriteMap()
 {
-   auto spriteMap = map<Direction, shared_ptr<ConsoleSprite>>();
+   auto spriteMap = map<Direction, shared_ptr<IConsoleSprite>>();
 
    // facing left
    auto leftSprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( .15 ) );
@@ -188,9 +189,9 @@ map<Direction, shared_ptr<ConsoleSprite>> PlayerSpriteGenerator::GenerateWalking
    return spriteMap;
 }
 
-map<Direction, shared_ptr<ConsoleSprite>> PlayerSpriteGenerator::GenerateFallingSpriteMap()
+map<Direction, shared_ptr<IConsoleSprite>> PlayerSpriteGenerator::GenerateFallingSpriteMap()
 {
-   auto spriteMap = map<Direction, shared_ptr<ConsoleSprite>>();
+   auto spriteMap = map<Direction, shared_ptr<IConsoleSprite>>();
 
    // facing left
    auto leftSprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( 0 ) );

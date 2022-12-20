@@ -10,7 +10,7 @@
 #include "IFrameRateProvider.h"
 #include "Direction.h"
 #include "GameEvent.h"
-#include "ConsoleSprite.h"
+#include "IConsoleSprite.h"
 
 using namespace std;
 using namespace MegaManLofi;
@@ -309,7 +309,7 @@ void PlayingStateConsoleRenderer::DrawPauseOverlay()
    _consoleBuffer->Draw( left + _viewportOffsetChars.Left, top + _viewportOffsetChars.Top, _renderConfig->PauseOverlayImage );
 }
 
-const shared_ptr<ConsoleSprite> PlayingStateConsoleRenderer::GetPlayerSprite() const
+const shared_ptr<IConsoleSprite> PlayingStateConsoleRenderer::GetPlayerSprite() const
 {
    auto direction = _playerInfoProvider->GetDirection();
 

@@ -3,6 +3,7 @@
 #include <memory>
 
 #include "IConsoleAnimation.h"
+#include "Coordinate.h"
 
 namespace MegaManLofi
 {
@@ -27,6 +28,9 @@ namespace MegaManLofi
       const std::shared_ptr<IFrameRateProvider> _frameRateProvider;
       const std::shared_ptr<ConsoleRenderConfig> _renderConfig;
 
+      Coordinate<short> _startPositionChars;
       bool _isRunning;
+      double _elapsedSeconds;
+      long long _explosionStartFrame;
    };
 }

@@ -103,6 +103,9 @@ void Game::ExecuteCommand( GameCommand command, const shared_ptr<GameCommandArgs
       case GameCommand::OpenPlayingMenu:
          OpenPlayingMenu();
          break;
+      case GameCommand::ClosePlayingMenu:
+         ClosePlayingMenu();
+         break;
    }
 }
 
@@ -130,6 +133,14 @@ void Game::OpenPlayingMenu()
    if ( _nextState == GameState::Playing && !_isPaused )
    {
       _nextState = GameState::PlayingMenu;
+   }
+}
+
+void Game::ClosePlayingMenu()
+{
+   if ( _nextState == GameState::PlayingMenu )
+   {
+      _nextState = GameState::Playing;
    }
 }
 

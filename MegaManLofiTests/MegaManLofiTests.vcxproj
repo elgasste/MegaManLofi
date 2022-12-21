@@ -54,6 +54,7 @@
     <ClInclude Include="mock_GameRenderer.h" />
     <ClInclude Include="mock_HighResolutionClock.h" />
     <ClInclude Include="mock_Keyboard.h" />
+    <ClInclude Include="mock_Menu.h" />
     <ClInclude Include="mock_PlayerPhysics.h" />
     <ClInclude Include="mock_Player.h" />
     <ClInclude Include="mock_ScreenBuffer.h" />

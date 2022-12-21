@@ -234,6 +234,7 @@
     <ClInclude Include="IGameInfoProvider.h" />
     <ClInclude Include="IGameInputConfig.h" />
     <ClInclude Include="IGameRenderConfig.h" />
+    <ClInclude Include="IMenu.h" />
     <ClInclude Include="IPlayerPhysics.h" />
     <ClInclude Include="IPlayer.h" />
     <ClInclude Include="IPlayerInfoProvider.h" />

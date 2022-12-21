@@ -1,24 +1,33 @@
 #include "PlayingMenuStateConsoleRenderer.h"
 #include "IConsoleBuffer.h"
 #include "ConsoleRenderConfig.h"
+#include "IMenuProvider.h"
+#include "IMenu.h"
+#include "MenuType.h"
 
 using namespace std;
 using namespace MegaManLofi;
 
 PlayingMenuStateConsoleRenderer::PlayingMenuStateConsoleRenderer( const shared_ptr<IConsoleBuffer> consoleBuffer,
-                                                                  const shared_ptr<ConsoleRenderConfig> renderConfig ) :
+                                                                  const shared_ptr<ConsoleRenderConfig> renderConfig,
+                                                                  const shared_ptr<IMenuProvider> menuProvider ) :
    _consoleBuffer( consoleBuffer ),
-   _renderConfig( renderConfig )
+   _renderConfig( renderConfig ),
+   _menuProvider( menuProvider )
 {
 }
 
 void PlayingMenuStateConsoleRenderer::Render()
 {
-   auto horizontalMidpointChars = _renderConfig->ConsoleWidthChars / 2;
-   auto verticalMidpointChars = _renderConfig->ConsoleHeightChars / 2;
+   const auto& menu = _menuProvider->GetMenu( MenuType::Playing );
 
-   _consoleBuffer->Draw( horizontalMidpointChars - 14, verticalMidpointChars - 3, "Welcome to the in-game menu!" );
-   _consoleBuffer->Draw( horizontalMidpointChars - 26, verticalMidpointChars - 1, "There'll be a bunch of rad stuff in here eventually," );
-   _consoleBuffer->Draw( horizontalMidpointChars - 29, verticalMidpointChars, "like switching weapons and seeing your stats and all that," );
-   _consoleBuffer->Draw( horizontalMidpointChars - 26, verticalMidpointChars + 1, "but for now press Start to go back, or Select to quit." );
+   int top = 10;
+   for ( int i = 0; i < menu->GetOptionCount(); i++, top++ )
+   {
+      if ( menu->GetSelectedIndex() == i )
+      {
+         _consoleBuffer->Draw( 18, top, '>' );
+      }
+      _consoleBuffer->Draw( 20, top, menu->GetOptionTitle( i ) );
+   }
 }

@@ -464,5 +464,8 @@
     <ClInclude Include="PlayingMenuStateConsoleRenderer.h">
       <Filter>Header Files\Render</Filter>
     </ClInclude>
+    <ClInclude Include="MenuType.h">
+      <Filter>Header Files\DataTypes</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

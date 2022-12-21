@@ -257,6 +257,7 @@
     <ClInclude Include="ISleeper.h" />
     <ClInclude Include="KeyboardInputReader.h" />
     <ClInclude Include="KeyCode.h" />
+    <ClInclude Include="MenuType.h" />
     <ClInclude Include="PlayerExplodedConsoleAnimation.h" />
     <ClInclude Include="PlayerPhysics.h" />
     <ClInclude Include="PlayerPhysicsConfig.h" />

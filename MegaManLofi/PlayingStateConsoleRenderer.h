@@ -41,7 +41,7 @@ namespace MegaManLofi
 
       void UpdateCaches();
 
-      void DrawGameStartAnimation();
+      void DrawStageStartAnimation();
       void DrawPlayerThwipInAnimation();
       void DrawPitfallAnimation();
       void DrawPlayerExplosionAnimation();
@@ -67,11 +67,9 @@ namespace MegaManLofi
       Coordinate<short> _viewportOffsetChars;
       Coordinate<short> _playerViewportChars;
 
-      bool _isAnimatingStageStart;
       bool _isAnimatingPitfall;
       bool _isAnimatingPlayerExplosion;
 
-      double _stageStartAnimationElapsedSeconds;
       double _pitfallAnimationElapsedSeconds;
       double _playerExplosionAnimationElapsedSeconds;
 

@@ -37,10 +37,8 @@ PlayingStateConsoleRenderer::PlayingStateConsoleRenderer( const shared_ptr<ICons
    _viewportRectChars( { 0, 0, 0, 0 } ),
    _viewportOffsetChars( { 0, 0 } ),
    _playerViewportChars( { 0, 0 } ),
-   _isAnimatingStageStart( false ),
    _isAnimatingPitfall( false ),
    _isAnimatingPlayerExplosion( false ),
-   _stageStartAnimationElapsedSeconds( 0 ),
    _pitfallAnimationElapsedSeconds( 0 ),
    _playerExplosionAnimationElapsedSeconds( 0 ),
    _playerExplosionStartFrame( 0 )
@@ -58,9 +56,9 @@ void PlayingStateConsoleRenderer::Render()
    UpdateCaches();
    DrawArenaSprites();
 
-   if ( _isAnimatingStageStart )
+   if ( _animationProvider->GetAnimation( ConsoleAnimationType::StageStarted )->IsRunning() )
    {
-      DrawGameStartAnimation();
+      DrawStageStartAnimation();
    }
    else if ( _animationProvider->GetAnimation( ConsoleAnimationType::PlayerThwipIn )->IsRunning() )
    {
@@ -87,7 +85,7 @@ void PlayingStateConsoleRenderer::Render()
 
 bool PlayingStateConsoleRenderer::HasFocus() const
 {
-   return _isAnimatingStageStart ||
+   return _animationProvider->GetAnimation( ConsoleAnimationType::StageStarted )->IsRunning() ||
           _animationProvider->GetAnimation( ConsoleAnimationType::PlayerThwipIn )->IsRunning() ||
           _isAnimatingPitfall ||
           _isAnimatingPlayerExplosion;
@@ -95,8 +93,10 @@ bool PlayingStateConsoleRenderer::HasFocus() const
 
 void PlayingStateConsoleRenderer::HandleStageStartedEvent()
 {
-   _isAnimatingStageStart = true;
-   _stageStartAnimationElapsedSeconds = 0;
+   UpdateCaches();
+   Coordinate<short> location = { _viewportOffsetChars.Left + _viewportRectChars.Width / 2,
+                                  _viewportOffsetChars.Top + _viewportRectChars.Height / 2 };
+   _animationProvider->GetAnimation( ConsoleAnimationType::StageStarted )->Start( location, location );
 }
 
 void PlayingStateConsoleRenderer::HandlePitfallEvent()
@@ -149,26 +149,10 @@ void PlayingStateConsoleRenderer::UpdateCaches()
    _playerViewportChars.Top = (short)( ( _arenaInfoProvider->GetPlayerPositionY() - _viewportQuadUnits.Top ) / _renderConfig->ArenaCharHeight );
 }
 
-void PlayingStateConsoleRenderer::DrawGameStartAnimation()
+void PlayingStateConsoleRenderer::DrawStageStartAnimation()
 {
-   _stageStartAnimationElapsedSeconds += _frameRateProvider->GetFrameScalar();
-   _renderConfig->GetReadySprite->Tick();
-
-   auto image = _renderConfig->GetReadySprite->GetCurrentImage();
-   auto left = ( _viewportRectChars.Width / 2 ) - ( image.Width / 2 ) + _viewportOffsetChars.Left;
-   auto top = ( _viewportRectChars.Height / 2 ) - ( image.Height / 2 ) + _viewportOffsetChars.Top;
-
-   _consoleBuffer->Draw( left, top, image );
-
-   if ( _stageStartAnimationElapsedSeconds >= _renderConfig->GetReadyAnimationSeconds )
-   {
-      _isAnimatingStageStart = false;
-      Coordinate<short> thwipStartPosition = { _viewportOffsetChars.Left + _playerViewportChars.Left,
-                                               _viewportOffsetChars.Top - _renderConfig->PlayerThwipInTransitionSprite->GetHeight() };
-      Coordinate<short> thwipEndPosition = { thwipStartPosition.Left,
-                                             _viewportOffsetChars.Top + _playerViewportChars.Top };
-      _animationProvider->GetAnimation( ConsoleAnimationType::PlayerThwipIn )->Start( thwipStartPosition, thwipEndPosition );
-   }
+   _animationProvider->GetAnimation( ConsoleAnimationType::StageStarted )->Draw();
+   _animationProvider->GetAnimation( ConsoleAnimationType::StageStarted )->Tick();
 }
 
 void PlayingStateConsoleRenderer::DrawPlayerThwipInAnimation()

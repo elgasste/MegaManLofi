@@ -30,7 +30,9 @@ void StageStartedConsoleAnimation::Start( Coordinate<short> startPositionChars, 
 
 void StageStartedConsoleAnimation::Draw()
 {
-   _consoleBuffer->Draw( _positionChars.Left, _positionChars.Top, _renderConfig->GetReadySprite );
+   auto leftOffset = (short)( _renderConfig->GetReadySprite->GetWidth() / 2 );
+   auto topOffset = (short)( _renderConfig->GetReadySprite->GetHeight() / 2 );
+   _consoleBuffer->Draw( _positionChars.Left - leftOffset, _positionChars.Top - topOffset, _renderConfig->GetReadySprite );
 }
 
 void StageStartedConsoleAnimation::Tick()

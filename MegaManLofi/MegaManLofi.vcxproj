@@ -176,6 +176,8 @@
     <ClCompile Include="PlayerSpriteGenerator.cpp" />
     <ClCompile Include="PlayerThwipInConsoleAnimation.cpp" />
     <ClCompile Include="PlayerThwipOutConsoleAnimation.cpp" />
+    <ClCompile Include="PlayingMenuStateConsoleRenderer.cpp" />
+    <ClCompile Include="PlayingMenuStateInputHandler.cpp" />
     <ClCompile Include="PlayingStateConsoleRenderer.cpp" />
     <ClCompile Include="PlayingStateInputHandler.cpp" />
     <ClCompile Include="RandomWrapper.cpp" />
@@ -261,6 +263,8 @@
     <ClInclude Include="PlayerSpriteGenerator.h" />
     <ClInclude Include="PlayerThwipInConsoleAnimation.h" />
     <ClInclude Include="PlayerThwipOutConsoleAnimation.h" />
+    <ClInclude Include="PlayingMenuStateConsoleRenderer.h" />
+    <ClInclude Include="PlayingMenuStateInputHandler.h" />
     <ClInclude Include="PointPlayerCommandArgs.h" />
     <ClInclude Include="PushPlayerCommandArgs.h" />
     <ClInclude Include="ConsolePixel.h" />

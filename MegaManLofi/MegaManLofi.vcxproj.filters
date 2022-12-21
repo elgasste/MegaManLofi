@@ -180,6 +180,12 @@
     <ClCompile Include="PlayerExplodedConsoleAnimation.cpp">
       <Filter>Source Files\Render\Animations</Filter>
     </ClCompile>
+    <ClCompile Include="PlayingMenuStateInputHandler.cpp">
+      <Filter>Source Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayingMenuStateConsoleRenderer.cpp">
+      <Filter>Source Files\Render</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameRunner.h">
@@ -451,6 +457,12 @@
     </ClInclude>
     <ClInclude Include="PlayerExplodedConsoleAnimation.h">
       <Filter>Header Files\Render\Animations</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayingMenuStateInputHandler.h">
+      <Filter>Header Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayingMenuStateConsoleRenderer.h">
+      <Filter>Header Files\Render</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -35,11 +35,13 @@
 #include "DiagnosticsConsoleRenderer.h"
 #include "TitleStateInputHandler.h"
 #include "PlayingStateInputHandler.h"
+#include "PlayingMenuStateInputHandler.h"
 #include "GameOverStateInputHandler.h"
 #include "GameInputHandler.h"
 #include "ConsoleBuffer.h"
 #include "TitleStateConsoleRenderer.h"
 #include "PlayingStateConsoleRenderer.h"
+#include "PlayingMenuStateConsoleRenderer.h"
 #include "GameOverStateConsoleRenderer.h"
 #include "GameRenderer.h"
 #include "GameRunner.h"
@@ -137,10 +139,12 @@ void LoadAndRun( const shared_ptr<IConsoleBuffer> consoleBuffer )
    // input objects
    auto startupStateInputHandler = shared_ptr<TitleStateInputHandler>( new TitleStateInputHandler( keyboardInputReader, game ) );
    auto playingStateInputHandler = shared_ptr<PlayingStateInputHandler>( new PlayingStateInputHandler( keyboardInputReader, game ) );
+   auto playingMenuStateInputHandler = shared_ptr<PlayingMenuStateInputHandler>( new PlayingMenuStateInputHandler( keyboardInputReader, game ) );
    auto gameOverStateInputHandler = shared_ptr<GameOverStateInputHandler>( new GameOverStateInputHandler( keyboardInputReader, game ) );
    auto inputHandler = shared_ptr<GameInputHandler>( new GameInputHandler( keyboardInputReader, game, eventAggregator ) );
    inputHandler->AddInputHandlerForGameState( GameState::Title, startupStateInputHandler );
    inputHandler->AddInputHandlerForGameState( GameState::Playing, playingStateInputHandler );
+   inputHandler->AddInputHandlerForGameState( GameState::PlayingMenu, playingMenuStateInputHandler );
    inputHandler->AddInputHandlerForGameState( GameState::GameOver, gameOverStateInputHandler );
 
    // animations
@@ -158,10 +162,12 @@ void LoadAndRun( const shared_ptr<IConsoleBuffer> consoleBuffer )
    auto diagnosticsRenderer = shared_ptr<DiagnosticsConsoleRenderer>( new DiagnosticsConsoleRenderer( consoleBuffer, clock, consoleRenderConfig ) );
    auto titleStateConsoleRenderer = shared_ptr<TitleStateConsoleRenderer>( new TitleStateConsoleRenderer( consoleBuffer, random, clock, eventAggregator, consoleRenderConfig, keyboardInputConfig, animationRepository ) );
    auto playingStateConsoleRenderer = shared_ptr<PlayingStateConsoleRenderer>( new PlayingStateConsoleRenderer( consoleBuffer, consoleRenderConfig, game, player, arena, eventAggregator, clock, animationRepository ) );
+   auto playingMenuStateConsoleRenderer = shared_ptr<PlayingMenuStateConsoleRenderer>( new PlayingMenuStateConsoleRenderer( consoleBuffer, consoleRenderConfig ) );
    auto gameOverStateConsoleRenderer = shared_ptr<GameOverStateConsoleRenderer>( new GameOverStateConsoleRenderer( consoleBuffer, consoleRenderConfig, keyboardInputConfig ) );
    auto renderer = shared_ptr<GameRenderer>( new GameRenderer( consoleRenderConfig, consoleBuffer, game, diagnosticsRenderer, eventAggregator ) );
    renderer->AddRendererForGameState( GameState::Title, titleStateConsoleRenderer );
    renderer->AddRendererForGameState( GameState::Playing, playingStateConsoleRenderer );
+   renderer->AddRendererForGameState( GameState::PlayingMenu, playingMenuStateConsoleRenderer );
    renderer->AddRendererForGameState( GameState::GameOver, gameOverStateConsoleRenderer );
 
    // game loop
@@ -281,10 +287,9 @@ shared_ptr<KeyboardInputConfig> BuildKeyboardInputConfig()
    inputConfig->KeyMap[KeyCode::Down] = GameButton::Down;
 
    inputConfig->KeyMap[KeyCode::Return] = GameButton::Start;
-   inputConfig->KeyMap[KeyCode::Tab] = GameButton::Select;
+   inputConfig->KeyMap[KeyCode::RShiftKey] = GameButton::Select;
 
    inputConfig->KeyMap[KeyCode::A] = GameButton::A;
-   inputConfig->KeyMap[KeyCode::Space] = GameButton::A;
    inputConfig->KeyMap[KeyCode::B] = GameButton::B;
    inputConfig->KeyMap[KeyCode::X] = GameButton::X;
    inputConfig->KeyMap[KeyCode::Y] = GameButton::Y;
@@ -302,6 +307,8 @@ shared_ptr<KeyboardInputConfig> BuildKeyboardInputConfig()
    inputConfig->KeyNames[KeyCode::Right] = "Right Arrow";
    inputConfig->KeyNames[KeyCode::Down] = "Down Arrow";
    inputConfig->KeyNames[KeyCode::Return] = "Enter";
+   inputConfig->KeyNames[KeyCode::LShiftKey] = "Left Shift";
+   inputConfig->KeyNames[KeyCode::RShiftKey] = "Right Shift";
    inputConfig->KeyNames[KeyCode::Space] = "Space Bar";
    inputConfig->KeyNames[KeyCode::Tab] = "Tab";
    inputConfig->KeyNames[KeyCode::A] = "A";

@@ -11,6 +11,8 @@ namespace MegaManLofi
       Jump,
       ExtendJump,
       TogglePause,
+      OpenPlayingMenu,
+      ClosePlayingMenu,
       ExitToTitle,
       Quit
    };

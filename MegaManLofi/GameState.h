@@ -6,6 +6,7 @@ namespace MegaManLofi
    {
       Title = 0,
       Playing,
+      PlayingMenu,
       GameOver
    };
 }

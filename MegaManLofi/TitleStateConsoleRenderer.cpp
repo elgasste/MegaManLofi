@@ -107,7 +107,7 @@ void TitleStateConsoleRenderer::DrawKeyBindings() const
 
    for ( auto const& [keyCode, mappedButton] : _inputConfig->KeyMap )
    {
-      string keyString( format( "{0} Key", _inputConfig->KeyNames.at(keyCode) ) );
+      string keyString( format( "{0} Key", _inputConfig->KeyNames.at( keyCode ) ) );
       string buttonString( format( "{0} Button", _inputConfig->ButtonNames.at(mappedButton) ) );
 
       _consoleBuffer->Draw( leftOfMiddleX - (int)keyString.length() - 2, top, format( "{0} -> {1}", keyString, buttonString ), _renderConfig->TitleKeyBindingsForegroundColor );

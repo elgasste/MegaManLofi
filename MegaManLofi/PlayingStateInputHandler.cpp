@@ -19,14 +19,14 @@ PlayingStateInputHandler::PlayingStateInputHandler( const shared_ptr<IGameInputR
 
 void PlayingStateInputHandler::HandleInput()
 {
-   if ( _inputReader->WasButtonPressed( GameButton::Start ) )
+   if ( _inputReader->WasButtonPressed( GameButton::Select ) )
    {
       _commandExecutor->ExecuteCommand( GameCommand::TogglePause );
    }
 
-   if ( _inputReader->WasButtonPressed( GameButton::Select ) )
+   if ( _inputReader->WasButtonPressed( GameButton::Start ) )
    {
-      _commandExecutor->ExecuteCommand( GameCommand::Quit );
+      _commandExecutor->ExecuteCommand( GameCommand::OpenPlayingMenu );
    }
 
    if ( _inputReader->WasButtonPressed( GameButton::A ) )

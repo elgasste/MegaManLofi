@@ -36,6 +36,8 @@ namespace MegaManLofi
    private:
       void StartStage();
       void TogglePause();
+      void OpenPlayingMenu();
+      void ClosePlayingMenu();
       void KillPlayer();
 
    private:

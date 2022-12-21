@@ -38,17 +38,17 @@ protected:
    shared_ptr<PlayingStateInputHandler> _inputHandler;
 };
 
-TEST_F( PlayingStateInputHandlerTests, HandleInput_StartButtonWasPressed_ExecutesTogglePauseCommand )
+TEST_F( PlayingStateInputHandlerTests, HandleInput_SelectButtonWasPressed_ExecutesTogglePauseCommand )
 {
-   ON_CALL( *_inputReaderMock, WasButtonPressed( GameButton::Start ) ).WillByDefault( Return( true ) );
+   ON_CALL( *_inputReaderMock, WasButtonPressed( GameButton::Select ) ).WillByDefault( Return( true ) );
    EXPECT_CALL( *_commandExecutorMock, ExecuteCommand( GameCommand::TogglePause ) );
 
    _inputHandler->HandleInput();
 }
 
-TEST_F( PlayingStateInputHandlerTests, HandleInput_SelectButtonWasPressed_ExecutesQuitCommand )
+TEST_F( PlayingStateInputHandlerTests, HandleInput_StartButtonWasPressed_ExecutesQuitCommand )
 {
-   ON_CALL( *_inputReaderMock, WasButtonPressed( GameButton::Select ) ).WillByDefault( Return( true ) );
+   ON_CALL( *_inputReaderMock, WasButtonPressed( GameButton::Start ) ).WillByDefault( Return( true ) );
    EXPECT_CALL( *_commandExecutorMock, ExecuteCommand( GameCommand::Quit ) );
 
    _inputHandler->HandleInput();

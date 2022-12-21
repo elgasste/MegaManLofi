@@ -19,11 +19,12 @@ StageStartedConsoleAnimation::StageStartedConsoleAnimation( const shared_ptr<ICo
 {
 }
 
-void StageStartedConsoleAnimation::Start( Coordinate<short> startPositionChars, Coordinate<short> endPositionChars )
+void StageStartedConsoleAnimation::Start( optional<Coordinate<short>> startPositionChars,
+                                          optional<Coordinate<short>> endPositionChars )
 {
    _isRunning = true;
    _elapsedSeconds = 0;
-   _positionChars = startPositionChars;
+   _positionChars = startPositionChars.value();
 
    _renderConfig->GetReadySprite->Reset();
 }

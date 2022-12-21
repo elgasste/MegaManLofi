@@ -91,9 +91,9 @@ bool PlayingStateConsoleRenderer::HasFocus() const
 void PlayingStateConsoleRenderer::HandleStageStartedEvent()
 {
    UpdateCaches();
-   Coordinate<short> location = { _viewportOffsetChars.Left + _viewportRectChars.Width / 2,
+   Coordinate<short> position = { _viewportOffsetChars.Left + _viewportRectChars.Width / 2,
                                   _viewportOffsetChars.Top + _viewportRectChars.Height / 2 };
-   _animationProvider->GetAnimation( ConsoleAnimationType::StageStarted )->Start( location, location );
+   _animationProvider->GetAnimation( ConsoleAnimationType::StageStarted )->Start( position, nullopt );
 }
 
 void PlayingStateConsoleRenderer::HandlePitfallEvent()
@@ -107,8 +107,9 @@ void PlayingStateConsoleRenderer::HandleTileDeathEvent()
    const auto& hitBox = _playerInfoProvider->GetHitBox();
    auto particleStartLeftChars = _playerViewportChars.Left + (short)( hitBox.Width / 2 / _renderConfig->ArenaCharWidth ) + _viewportOffsetChars.Left;
    auto particleStartTopChars = _playerViewportChars.Top + (short)( hitBox.Height / 2 / _renderConfig->ArenaCharHeight ) + _viewportOffsetChars.Top;
+   Coordinate<short> startPosition = { (short)particleStartLeftChars, (short)particleStartTopChars };
 
-   _animationProvider->GetAnimation( ConsoleAnimationType::PlayerExploded )->Start( { (short)particleStartLeftChars, (short)particleStartTopChars }, { 0, 0 } );
+   _animationProvider->GetAnimation( ConsoleAnimationType::PlayerExploded )->Start( startPosition, nullopt );
 }
 
 void PlayingStateConsoleRenderer::UpdateCaches()

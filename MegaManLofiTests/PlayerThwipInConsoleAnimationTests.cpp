@@ -62,7 +62,7 @@ TEST_F( PlayerThwipInConsoleAnimationTests, Start_Always_SetsIsRunningToTrue )
 {
    BuildAnimation();
 
-   _animation->Start( { 0, 0 }, { 0, 0 } );
+   _animation->Start( Coordinate<short>( { 0, 0 } ), Coordinate<short>( { 0, 0 } ) );
 
    EXPECT_TRUE( _animation->IsRunning() );
 }
@@ -74,13 +74,13 @@ TEST_F( PlayerThwipInConsoleAnimationTests, Start_Always_ResetsSprites )
    EXPECT_CALL( *_transitionSpriteMock, Reset() );
    EXPECT_CALL( *_thwipSpriteMock, Reset() );
 
-   _animation->Start( { 0, 0 }, { 0, 0 } );
+   _animation->Start( Coordinate<short>( { 0, 0 } ), Coordinate<short>( { 0, 0 } ) );
 }
 
 TEST_F( PlayerThwipInConsoleAnimationTests, Draw_PostThwipping_DrawsSpriteInEndPosition )
 {
    BuildAnimation();
-   _animation->Start( { 0, 0 }, { 10, 10 } );
+   _animation->Start( Coordinate<short>( { 0, 0 } ), Coordinate<short>( { 10, 10 } ) );
 
    for ( int i = 0; i < 10; i++ )
    {
@@ -95,7 +95,7 @@ TEST_F( PlayerThwipInConsoleAnimationTests, Draw_ThwippingDownward_DrawsSpriteIn
 {
    ON_CALL( *_transitionSpriteMock, GetTotalTraversalSeconds() ).WillByDefault( Return( 1 ) );
    BuildAnimation();
-   _animation->Start( { 0, 0 }, { 10, 10 } );
+   _animation->Start( Coordinate<short>( { 0, 0 } ), Coordinate<short>( { 10, 10 } ) );
 
    EXPECT_CALL( *_consoleBufferMock, Draw( 0, 0, static_pointer_cast<IConsoleSprite>( _thwipSpriteMock ) ) );
    _animation->Draw();
@@ -110,7 +110,7 @@ TEST_F( PlayerThwipInConsoleAnimationTests, Draw_ThwippingUpward_DrawsSpriteInCo
 {
    ON_CALL( *_transitionSpriteMock, GetTotalTraversalSeconds() ).WillByDefault( Return( 1 ) );
    BuildAnimation();
-   _animation->Start( { 10, 10 }, { 0, 0 } );
+   _animation->Start( Coordinate<short>( { 10, 10 } ), Coordinate<short>( { 0, 0 } ) );
 
    EXPECT_CALL( *_consoleBufferMock, Draw( 10, 10, static_pointer_cast<IConsoleSprite>( _thwipSpriteMock ) ) );
    _animation->Draw();
@@ -134,7 +134,7 @@ TEST_F( PlayerThwipInConsoleAnimationTests, Tick_NotRunning_DoesNotTickAnySprite
 TEST_F( PlayerThwipInConsoleAnimationTests, Tick_ThwipAnimationHasFinished_StopsRunning )
 {
    BuildAnimation();
-   _animation->Start( { 10, 10 }, { 8, 8 } );
+   _animation->Start( Coordinate<short>( { 10, 10 } ), Coordinate<short>( { 8, 8 } ) );
 
    _animation->Tick(); // thwip sprite moves to 1 char up
    EXPECT_TRUE( _animation->IsRunning() );

@@ -58,6 +58,40 @@ TEST_F( PlayerThwipInConsoleAnimationTests, Constructor_Always_InitializesIsRunn
    EXPECT_FALSE( _animation->IsRunning() );
 }
 
+TEST_F( PlayerThwipInConsoleAnimationTests, Start_StartPositionHasNoValue_ThrowsException )
+{
+   BuildAnimation();
+
+   string message = "";
+   try
+   {
+      _animation->Start( nullopt, Coordinate<short>( { 0, 0 } ) );
+   }
+   catch ( invalid_argument e )
+   {
+      message = e.what();
+   }
+
+   EXPECT_EQ( message, "Start position must have a value" );
+}
+
+TEST_F( PlayerThwipInConsoleAnimationTests, Start_EndPositionHasNoValue_ThrowsException )
+{
+   BuildAnimation();
+
+   string message = "";
+   try
+   {
+      _animation->Start( Coordinate<short>( { 0, 0 } ), nullopt );
+   }
+   catch ( invalid_argument e )
+   {
+      message = e.what();
+   }
+
+   EXPECT_EQ( message, "End position must have a value" );
+}
+
 TEST_F( PlayerThwipInConsoleAnimationTests, Start_Always_SetsIsRunningToTrue )
 {
    BuildAnimation();

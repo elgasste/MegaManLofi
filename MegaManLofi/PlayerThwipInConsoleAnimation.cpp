@@ -1,3 +1,5 @@
+#include <stdexcept>
+
 #include "PlayerThwipInConsoleAnimation.h"
 #include "IConsoleBuffer.h"
 #include "ConsoleRenderConfig.h"
@@ -26,6 +28,15 @@ PlayerThwipInConsoleAnimation::PlayerThwipInConsoleAnimation( const shared_ptr<I
 void PlayerThwipInConsoleAnimation::Start( optional<Coordinate<short>> startPositionChars,
                                            optional<Coordinate<short>> endPositionChars )
 {
+   if ( !startPositionChars.has_value() )
+   {
+      throw invalid_argument( "Start position must have a value" );
+   }
+   else if ( !endPositionChars.has_value() )
+   {
+      throw invalid_argument( "End position must have a value" );
+   }
+
    _isRunning = true;
    _startPositionChars = startPositionChars.value();
    _endPositionChars = endPositionChars.value();

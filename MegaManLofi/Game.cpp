@@ -100,6 +100,9 @@ void Game::ExecuteCommand( GameCommand command, const shared_ptr<GameCommandArgs
       case GameCommand::ExtendJump:
          _playerPhysics->ExtendJump();
          break;
+      case GameCommand::OpenPlayingMenu:
+         OpenPlayingMenu();
+         break;
    }
 }
 
@@ -119,6 +122,14 @@ void Game::TogglePause()
    if ( _nextState == GameState::Playing )
    {
       _isPaused = !_isPaused;
+   }
+}
+
+void Game::OpenPlayingMenu()
+{
+   if ( _nextState == GameState::Playing && !_isPaused )
+   {
+      _nextState = GameState::PlayingMenu;
    }
 }
 

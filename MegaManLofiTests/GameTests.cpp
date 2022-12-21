@@ -165,6 +165,36 @@ TEST_F( GameTests, ExecuteCommand_TogglePauseAndInPlayingState_TogglesPause )
    EXPECT_TRUE( _game->IsPaused() );
 }
 
+TEST_F( GameTests, ExecuteCommand_OpenPlayingMenuAndNotInPlayingState_DoesNotSetNextStateToPlayingMenu )
+{
+   BuildGame();
+   _game->ExecuteCommand( GameCommand::OpenPlayingMenu );
+   _game->Tick();
+
+   EXPECT_NE( _game->GetGameState(), GameState::PlayingMenu );
+}
+
+TEST_F( GameTests, ExecuteCommand_OpenPlayingMenuAndInPlayingStateAndPaused_DoesNotSetNextStateToPlayingMenu )
+{
+   BuildGame();
+   _game->ExecuteCommand( GameCommand::StartStage );
+   _game->ExecuteCommand( GameCommand::TogglePause );
+   _game->ExecuteCommand( GameCommand::OpenPlayingMenu );
+   _game->Tick();
+
+   EXPECT_NE( _game->GetGameState(), GameState::PlayingMenu );
+}
+
+TEST_F( GameTests, ExecuteCommand_OpenPlayingMenuAndInPlayingStateAndNotPaused_SetsNextStateToPlayingMenu )
+{
+   BuildGame();
+   _game->ExecuteCommand( GameCommand::StartStage );
+   _game->ExecuteCommand( GameCommand::OpenPlayingMenu );
+   _game->Tick();
+
+   EXPECT_EQ( _game->GetGameState(), GameState::PlayingMenu );
+}
+
 TEST_F( GameTests, ExecuteCommand_ExitToTitle_SetsNextStateToExitToTitle )
 {
    BuildGame();

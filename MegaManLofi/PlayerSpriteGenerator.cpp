@@ -1,14 +1,15 @@
 #include <string>
 
 #include "PlayerSpriteGenerator.h"
+#include "ConsoleSprite.h"
 #include "Direction.h"
 
 using namespace std;
 using namespace MegaManLofi;
 
-shared_ptr<ConsoleSprite> PlayerSpriteGenerator::GenerateThwipSprite()
+shared_ptr<IConsoleSprite> PlayerSpriteGenerator::GenerateThwipSprite( const shared_ptr<IFrameRateProvider> frameRateProvider )
 {
-   auto thwipSprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( .05 ) );
+   auto thwipSprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( frameRateProvider, .05 ) );
 
    ConsoleImage image0 = { 1, 3 };
    image0.Pixels.push_back( { '#', true, ConsoleColor::Blue, ConsoleColor::Black } );
@@ -25,9 +26,9 @@ shared_ptr<ConsoleSprite> PlayerSpriteGenerator::GenerateThwipSprite()
    return thwipSprite;
 }
 
-shared_ptr<ConsoleSprite> PlayerSpriteGenerator::GenerateThwipInTransitionSprite()
+shared_ptr<IConsoleSprite> PlayerSpriteGenerator::GenerateThwipInTransitionSprite( const shared_ptr<IFrameRateProvider> frameRateProvider )
 {
-   auto sprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( .05 ) );
+   auto sprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( frameRateProvider, .05 ) );
 
    string chars0 =
       "    " \
@@ -47,9 +48,9 @@ shared_ptr<ConsoleSprite> PlayerSpriteGenerator::GenerateThwipInTransitionSprite
    return sprite;
 }
 
-shared_ptr<ConsoleSprite> PlayerSpriteGenerator::GenerateThwipOutTransitionSprite()
+shared_ptr<IConsoleSprite> PlayerSpriteGenerator::GenerateThwipOutTransitionSprite( const shared_ptr<IFrameRateProvider> frameRateProvider )
 {
-   auto sprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( .05 ) );
+   auto sprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( frameRateProvider, .05 ) );
 
    string chars0 =
       "    " \
@@ -69,9 +70,9 @@ shared_ptr<ConsoleSprite> PlayerSpriteGenerator::GenerateThwipOutTransitionSprit
    return sprite;
 }
 
-shared_ptr<ConsoleSprite> PlayerSpriteGenerator::GenerateExplosionParticleSprite()
+shared_ptr<IConsoleSprite> PlayerSpriteGenerator::GenerateExplosionParticleSprite( const shared_ptr<IFrameRateProvider> frameRateProvider )
 {
-   auto particleSprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( .25 ) );
+   auto particleSprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( frameRateProvider, .25 ) );
 
    ConsoleImage image0 = { 1, 1 };
    image0.Pixels.push_back( { 'O', true, ConsoleColor::Blue, ConsoleColor::Black } );
@@ -84,12 +85,12 @@ shared_ptr<ConsoleSprite> PlayerSpriteGenerator::GenerateExplosionParticleSprite
    return particleSprite;
 }
 
-map<Direction, shared_ptr<ConsoleSprite>> PlayerSpriteGenerator::GenerateStandingSpriteMap()
+map<Direction, shared_ptr<IConsoleSprite>> PlayerSpriteGenerator::GenerateStandingSpriteMap( const shared_ptr<IFrameRateProvider> frameRateProvider )
 {
-   auto spriteMap = map<Direction, shared_ptr<ConsoleSprite>>();
+   auto spriteMap = map<Direction, shared_ptr<IConsoleSprite>>();
 
    // facing left
-   auto leftSprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( 0 ) );
+   auto leftSprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( frameRateProvider, 0 ) );
    string leftChars =
       "  O " \
       "o-|\\" \
@@ -102,7 +103,7 @@ map<Direction, shared_ptr<ConsoleSprite>> PlayerSpriteGenerator::GenerateStandin
    spriteMap[Direction::DownLeft] = leftSprite;
 
    // facing right
-   auto rightSprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( 0 ) );
+   auto rightSprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( frameRateProvider, 0 ) );
    string rightChars =
       " O  " \
       "/|-o" \
@@ -115,7 +116,7 @@ map<Direction, shared_ptr<ConsoleSprite>> PlayerSpriteGenerator::GenerateStandin
    spriteMap[Direction::DownRight] = rightSprite;
 
    // facing up or down
-   auto verticalSprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( 0 ) );
+   auto verticalSprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( frameRateProvider, 0 ) );
    string verticalChars =
       " O  " \
       "/|\\ " \
@@ -129,12 +130,12 @@ map<Direction, shared_ptr<ConsoleSprite>> PlayerSpriteGenerator::GenerateStandin
    return spriteMap;
 }
 
-map<Direction, shared_ptr<ConsoleSprite>> PlayerSpriteGenerator::GenerateWalkingSpriteMap()
+map<Direction, shared_ptr<IConsoleSprite>> PlayerSpriteGenerator::GenerateWalkingSpriteMap( const shared_ptr<IFrameRateProvider> frameRateProvider )
 {
-   auto spriteMap = map<Direction, shared_ptr<ConsoleSprite>>();
+   auto spriteMap = map<Direction, shared_ptr<IConsoleSprite>>();
 
    // facing left
-   auto leftSprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( .15 ) );
+   auto leftSprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( frameRateProvider, .15 ) );
    string leftChars0 =
       "  O " \
       "o-|\\" \
@@ -154,7 +155,7 @@ map<Direction, shared_ptr<ConsoleSprite>> PlayerSpriteGenerator::GenerateWalking
    spriteMap[Direction::DownLeft] = leftSprite;
 
    // facing right
-   auto rightSprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( .15 ) );
+   auto rightSprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( frameRateProvider, .15 ) );
    string rightChars0 =
       " O  " \
       "/|-o" \
@@ -174,7 +175,7 @@ map<Direction, shared_ptr<ConsoleSprite>> PlayerSpriteGenerator::GenerateWalking
    spriteMap[Direction::DownRight] = rightSprite;
 
    // facing up or down (this will probably very rarely happen)
-   auto verticalSprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( 0 ) );
+   auto verticalSprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( frameRateProvider, 0 ) );
    string verticalChars =
       " O  " \
       "/|\\ " \
@@ -188,12 +189,12 @@ map<Direction, shared_ptr<ConsoleSprite>> PlayerSpriteGenerator::GenerateWalking
    return spriteMap;
 }
 
-map<Direction, shared_ptr<ConsoleSprite>> PlayerSpriteGenerator::GenerateFallingSpriteMap()
+map<Direction, shared_ptr<IConsoleSprite>> PlayerSpriteGenerator::GenerateFallingSpriteMap( const shared_ptr<IFrameRateProvider> frameRateProvider )
 {
-   auto spriteMap = map<Direction, shared_ptr<ConsoleSprite>>();
+   auto spriteMap = map<Direction, shared_ptr<IConsoleSprite>>();
 
    // facing left
-   auto leftSprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( 0 ) );
+   auto leftSprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( frameRateProvider, 0 ) );
    string leftChars =
       "  O/" \
       "o-| " \
@@ -206,7 +207,7 @@ map<Direction, shared_ptr<ConsoleSprite>> PlayerSpriteGenerator::GenerateFalling
    spriteMap[Direction::DownLeft] = leftSprite;
 
    // facing right
-   auto rightSprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( 0 ) );
+   auto rightSprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( frameRateProvider, 0 ) );
    string rightChars =
       "\\O  " \
       " |-o" \
@@ -219,7 +220,7 @@ map<Direction, shared_ptr<ConsoleSprite>> PlayerSpriteGenerator::GenerateFalling
    spriteMap[Direction::DownRight] = rightSprite;
 
    // facing up or down
-   auto verticalSprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( 0 ) );
+   auto verticalSprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( frameRateProvider, 0 ) );
    string verticalChars =
       "\\O/ " \
       " |  " \

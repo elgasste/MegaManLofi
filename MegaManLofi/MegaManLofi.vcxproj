@@ -153,6 +153,7 @@
     <ClCompile Include="ArenaSpriteGenerator.cpp" />
     <ClCompile Include="ArenaTileGenerator.cpp" />
     <ClCompile Include="ArenaPhysics.cpp" />
+    <ClCompile Include="ConsoleAnimationRepository.cpp" />
     <ClCompile Include="ConsoleBuffer.cpp" />
     <ClCompile Include="ConsoleSprite.cpp" />
     <ClCompile Include="FrameActionRegistry.cpp" />
@@ -169,14 +170,18 @@
     <ClCompile Include="HighResolutionClockWrapper.cpp" />
     <ClCompile Include="KeyboardInputReader.cpp" />
     <ClCompile Include="KeyboardWrapper.cpp" />
+    <ClCompile Include="PlayerExplodedConsoleAnimation.cpp" />
     <ClCompile Include="PlayerPhysics.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerSpriteGenerator.cpp" />
+    <ClCompile Include="PlayerThwipInConsoleAnimation.cpp" />
+    <ClCompile Include="PlayerThwipOutConsoleAnimation.cpp" />
     <ClCompile Include="PlayingStateConsoleRenderer.cpp" />
     <ClCompile Include="PlayingStateInputHandler.cpp" />
     <ClCompile Include="RandomWrapper.cpp" />
     <ClCompile Include="RectangleUtilities.cpp" />
     <ClCompile Include="SleeperWrapper.cpp" />
+    <ClCompile Include="StageStartedConsoleAnimation.cpp" />
     <ClCompile Include="TitleStateConsoleRenderer.cpp" />
     <ClCompile Include="TitleStateInputHandler.cpp" />
     <ClCompile Include="ThreadWrapper.cpp" />
@@ -190,6 +195,8 @@
     <ClInclude Include="ArenaTileGenerator.h" />
     <ClInclude Include="ArenaPhysics.h" />
     <ClInclude Include="ArenaTile.h" />
+    <ClInclude Include="ConsoleAnimationRepository.h" />
+    <ClInclude Include="ConsoleAnimationType.h" />
     <ClInclude Include="ConsoleColor.h" />
     <ClInclude Include="ConsoleBuffer.h" />
     <ClInclude Include="ConsoleImage.h" />
@@ -216,6 +223,9 @@
     <ClInclude Include="IArena.h" />
     <ClInclude Include="IArenaInfoProvider.h" />
     <ClInclude Include="IArenaPhysics.h" />
+    <ClInclude Include="IConsoleAnimation.h" />
+    <ClInclude Include="IConsoleAnimationProvider.h" />
+    <ClInclude Include="IConsoleSprite.h" />
     <ClInclude Include="IFrameActionRegistry.h" />
     <ClInclude Include="IFrameRateProvider.h" />
     <ClInclude Include="IGame.h" />
@@ -245,9 +255,12 @@
     <ClInclude Include="ISleeper.h" />
     <ClInclude Include="KeyboardInputReader.h" />
     <ClInclude Include="KeyCode.h" />
+    <ClInclude Include="PlayerExplodedConsoleAnimation.h" />
     <ClInclude Include="PlayerPhysics.h" />
     <ClInclude Include="PlayerPhysicsConfig.h" />
     <ClInclude Include="PlayerSpriteGenerator.h" />
+    <ClInclude Include="PlayerThwipInConsoleAnimation.h" />
+    <ClInclude Include="PlayerThwipOutConsoleAnimation.h" />
     <ClInclude Include="PointPlayerCommandArgs.h" />
     <ClInclude Include="PushPlayerCommandArgs.h" />
     <ClInclude Include="ConsolePixel.h" />
@@ -259,6 +272,7 @@
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="RectangleUtilities.h" />
     <ClInclude Include="SleeperWrapper.h" />
+    <ClInclude Include="StageStartedConsoleAnimation.h" />
     <ClInclude Include="TitleStateInputHandler.h" />
     <ClInclude Include="TitleStateConsoleRenderer.h" />
     <ClInclude Include="ThreadWrapper.h" />

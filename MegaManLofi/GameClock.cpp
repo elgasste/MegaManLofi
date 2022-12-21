@@ -14,7 +14,8 @@ GameClock::GameClock( const shared_ptr<IHighResolutionClock> highResolutionClock
    _totalFrameCount( 0 ),
    _lagFrameCount( 0 ),
    _frameStartTimeNano(),
-   _nanoSecondsPerFrame( 1'000'000'000ll / framesPerSecond )
+   _nanoSecondsPerFrame( 1'000'000'000ll / framesPerSecond ),
+   _frameScalar( 1 / (double)framesPerSecond )
 {
 }
 

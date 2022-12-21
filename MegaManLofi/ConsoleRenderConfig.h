@@ -5,11 +5,13 @@
 #include <vector>
 
 #include "IGameRenderConfig.h"
-#include "ConsoleSprite.h"
 #include "Direction.h"
+#include "ConsoleImage.h"
 
 namespace MegaManLofi
 {
+   class IConsoleSprite;
+
    class ConsoleRenderConfig : public IGameRenderConfig
    {
    public:
@@ -32,7 +34,7 @@ namespace MegaManLofi
       double PitfallAnimationSeconds = 0;
 
       double PlayerExplosionAnimationSeconds = 0;
-      std::shared_ptr<ConsoleSprite> PlayerExplosionParticleSprite;
+      std::shared_ptr<IConsoleSprite> PlayerExplosionParticleSprite;
       long long PlayerExplosionParticleVelocity = 0;
 
       ConsoleColor DefaultForegroundColor = (ConsoleColor)0;
@@ -55,10 +57,11 @@ namespace MegaManLofi
       ConsoleImage TitleStartMessageImage;
       ConsoleImage TitleStarImage;
 
-      std::shared_ptr<ConsoleSprite> PlayerThwipSprite;
-      std::shared_ptr<ConsoleSprite> PlayerThwipInTransitionSprite;
-      std::shared_ptr<ConsoleSprite> PlayerThwipOutTransitionSprite;
+      std::shared_ptr<IConsoleSprite> PlayerThwipSprite;
+      std::shared_ptr<IConsoleSprite> PlayerThwipInTransitionSprite;
+      std::shared_ptr<IConsoleSprite> PlayerThwipOutTransitionSprite;
       long long PlayerThwipVelocity = 0;
+      double PlayerPostThwipDelaySeconds = 0;
 
       short TitleTextLeftChars = 0;
       short TitleTextTopChars = 0;
@@ -75,17 +78,16 @@ namespace MegaManLofi
       int TitleStarCount = 0;
       long long MinTitleStarVelocity = 0;
       long long MaxTitleStarVelocity = 0;
-      double TitlePostThwipDelaySeconds = 0;
 
-      std::shared_ptr<ConsoleSprite> GetReadySprite;
+      std::shared_ptr<IConsoleSprite> GetReadySprite;
       double GetReadyAnimationSeconds = 0;
 
       ConsoleImage PauseOverlayImage;
       ConsoleImage GameOverImage;
 
-      std::map<Direction, std::shared_ptr<ConsoleSprite>> PlayerStandingSpriteMap;
-      std::map<Direction, std::shared_ptr<ConsoleSprite>> PlayerWalkingSpriteMap;
-      std::map<Direction, std::shared_ptr<ConsoleSprite>> PlayerFallingSpriteMap;
+      std::map<Direction, std::shared_ptr<IConsoleSprite>> PlayerStandingSpriteMap;
+      std::map<Direction, std::shared_ptr<IConsoleSprite>> PlayerWalkingSpriteMap;
+      std::map<Direction, std::shared_ptr<IConsoleSprite>> PlayerFallingSpriteMap;
 
       std::map<int, ConsoleImage> ArenaImageMap;
       std::vector<int> ArenaTiles;

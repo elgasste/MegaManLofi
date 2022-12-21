@@ -7,5 +7,6 @@ namespace MegaManLofi
    public:
       virtual int GetFramesPerSecond() const = 0;
       virtual long long GetCurrentFrame() const = 0;
+      virtual double GetFrameScalar() const = 0;
    };
 }

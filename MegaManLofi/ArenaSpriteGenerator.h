@@ -3,15 +3,18 @@
 #include <memory>
 #include <vector>
 
-#include "ConsoleSprite.h"
+#include "ConsoleImage.h"
 
 namespace MegaManLofi
 {
+   class IConsoleSprite;
+   class IFrameRateProvider;
+
    class ArenaSpriteGenerator
    {
    public:
       static std::vector<int> GenerateArenaTiles();
-      static std::shared_ptr<ConsoleSprite> GenerateGetReadySprite();
+      static std::shared_ptr<IConsoleSprite> GenerateGetReadySprite( const std::shared_ptr<IFrameRateProvider> frameRateProvider );
       static ConsoleImage GeneratePauseOverlayImage();
       static ConsoleImage GenerateGameOverImage();
    };

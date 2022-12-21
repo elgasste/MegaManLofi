@@ -16,7 +16,8 @@ namespace MegaManLofi
    class IArenaInfoProvider;
    class IGameEventAggregator;
    class IFrameRateProvider;
-   class ConsoleSprite;
+   class IConsoleAnimationProvider;
+   class IConsoleSprite;
 
    class PlayingStateConsoleRenderer : public IGameRenderer
    {
@@ -27,7 +28,8 @@ namespace MegaManLofi
                                    const std::shared_ptr<IPlayerInfoProvider> playerInfoProvider,
                                    const std::shared_ptr<IArenaInfoProvider> arenaInfoProvider,
                                    const std::shared_ptr<IGameEventAggregator> eventAggregator,
-                                   const std::shared_ptr<IFrameRateProvider> frameRateProvider );
+                                   const std::shared_ptr<IFrameRateProvider> frameRateProvider,
+                                   const std::shared_ptr<IConsoleAnimationProvider> animationProvider );
 
       void Render() override;
       bool HasFocus() const override;
@@ -39,9 +41,8 @@ namespace MegaManLofi
 
       void UpdateCaches();
 
-      void DrawGameStartAnimation();
+      void DrawStageStartAnimation();
       void DrawPlayerThwipInAnimation();
-      void DrawPlayerThwipInTransitionAnimation();
       void DrawPitfallAnimation();
       void DrawPlayerExplosionAnimation();
       void DrawArenaSprites();
@@ -49,7 +50,7 @@ namespace MegaManLofi
       void DrawStatusBar();
       void DrawPauseOverlay();
 
-      const std::shared_ptr<ConsoleSprite> GetPlayerSprite() const;
+      const std::shared_ptr<IConsoleSprite> GetPlayerSprite() const;
 
    private:
       const std::shared_ptr<IConsoleBuffer> _consoleBuffer;
@@ -59,24 +60,14 @@ namespace MegaManLofi
       const std::shared_ptr<IArenaInfoProvider> _arenaInfoProvider;
       const std::shared_ptr<IGameEventAggregator> _eventAggregator;
       const std::shared_ptr<IFrameRateProvider> _frameRateProvider;
+      const std::shared_ptr<IConsoleAnimationProvider> _animationProvider;
 
       Quad<long long> _viewportQuadUnits;
       Rectangle<short> _viewportRectChars;
       Coordinate<short> _viewportOffsetChars;
       Coordinate<short> _playerViewportChars;
 
-      bool _isAnimatingStageStart;
-      bool _isAnimatingPlayerThwipIn;
-      bool _isAnimatingPlayerThwipTransition;
       bool _isAnimatingPitfall;
-      bool _isAnimatingPlayerExplosion;
-
-      double _stageStartAnimationElapsedSeconds;
-      double _playerThwipTransitionElapsedSeconds;
       double _pitfallAnimationElapsedSeconds;
-      double _playerExplosionAnimationElapsedSeconds;
-
-      long long _playerThwipBottom;
-      long long _playerExplosionStartFrame;
    };
 }

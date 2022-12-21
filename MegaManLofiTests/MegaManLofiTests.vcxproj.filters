@@ -54,6 +54,21 @@
     <ClCompile Include="ConsoleSpriteTests.cpp">
       <Filter>Tests\Render</Filter>
     </ClCompile>
+    <ClCompile Include="ConsoleAnimationRepositoryTests.cpp">
+      <Filter>Tests\Render\Animations</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerThwipOutConsoleAnimationTests.cpp">
+      <Filter>Tests\Render\Animations</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerThwipInConsoleAnimationTests.cpp">
+      <Filter>Tests\Render\Animations</Filter>
+    </ClCompile>
+    <ClCompile Include="StageStartedConsoleAnimationTests.cpp">
+      <Filter>Tests\Render\Animations</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerExplodedConsoleAnimationTests.cpp">
+      <Filter>Tests\Render\Animations</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="mock_GameEventAggregator.h">
@@ -116,6 +131,15 @@
     <ClInclude Include="mock_ArenaPhysics.h">
       <Filter>Mocks</Filter>
     </ClInclude>
+    <ClInclude Include="mock_ConsoleAnimation.h">
+      <Filter>Mocks</Filter>
+    </ClInclude>
+    <ClInclude Include="mock_ConsoleSprite.h">
+      <Filter>Mocks</Filter>
+    </ClInclude>
+    <ClInclude Include="mock_ConsoleAnimationProvider.h">
+      <Filter>Mocks</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Mocks">
@@ -135,6 +159,9 @@
     </Filter>
     <Filter Include="Tests\GameObjects">
       <UniqueIdentifier>{02651954-e96a-4c40-9549-39d3547a04bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tests\Render\Animations">
+      <UniqueIdentifier>{da0cac45-9def-420d-9060-6a4218471f8b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

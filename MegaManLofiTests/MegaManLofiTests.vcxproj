@@ -38,6 +38,9 @@
   <ItemGroup>
     <ClInclude Include="mock_Arena.h" />
     <ClInclude Include="mock_ArenaPhysics.h" />
+    <ClInclude Include="mock_ConsoleAnimation.h" />
+    <ClInclude Include="mock_ConsoleAnimationProvider.h" />
+    <ClInclude Include="mock_ConsoleSprite.h" />
     <ClInclude Include="mock_FrameActionRegistry.h" />
     <ClInclude Include="mock_FrameRateProvider.h" />
     <ClInclude Include="mock_Game.h" />
@@ -60,6 +63,7 @@
   <ItemGroup>
     <ClCompile Include="ArenaPhysicsTests.cpp" />
     <ClCompile Include="ArenaTests.cpp" />
+    <ClCompile Include="ConsoleAnimationRepositoryTests.cpp" />
     <ClCompile Include="ConsoleSpriteTests.cpp" />
     <ClCompile Include="FrameActionRegistryTests.cpp" />
     <ClCompile Include="GameClockTests.cpp" />
@@ -70,10 +74,14 @@
     <ClCompile Include="GameRunnerTests.cpp" />
     <ClCompile Include="GameTests.cpp" />
     <ClCompile Include="KeyboardInputReaderTests.cpp" />
+    <ClCompile Include="PlayerExplodedConsoleAnimationTests.cpp" />
     <ClCompile Include="PlayerPhysicsTests.cpp" />
     <ClCompile Include="PlayerTests.cpp" />
+    <ClCompile Include="PlayerThwipInConsoleAnimationTests.cpp" />
+    <ClCompile Include="PlayerThwipOutConsoleAnimationTests.cpp" />
     <ClCompile Include="PlayingStateInputHandlerTests.cpp" />
     <ClCompile Include="RectangleUtilitiesTests.cpp" />
+    <ClCompile Include="StageStartedConsoleAnimationTests.cpp" />
     <ClCompile Include="TitleStateInputHandlerTests.cpp" />
   </ItemGroup>
   <ItemGroup>

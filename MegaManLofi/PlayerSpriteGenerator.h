@@ -3,22 +3,22 @@
 #include <memory>
 #include <map>
 
-#include "ConsoleSprite.h"
-
 namespace MegaManLofi
 {
+   class IConsoleSprite;
+   class IFrameRateProvider;
    enum class Direction;
 
    class PlayerSpriteGenerator
    {
    public:
-      static std::shared_ptr<ConsoleSprite> GenerateThwipSprite();
-      static std::shared_ptr<ConsoleSprite> GenerateThwipInTransitionSprite();
-      static std::shared_ptr<ConsoleSprite> GenerateThwipOutTransitionSprite();
-      static std::shared_ptr<ConsoleSprite> GenerateExplosionParticleSprite();
+      static std::shared_ptr<IConsoleSprite> GenerateThwipSprite( const std::shared_ptr<IFrameRateProvider> frameRateProvider );
+      static std::shared_ptr<IConsoleSprite> GenerateThwipInTransitionSprite( const std::shared_ptr<IFrameRateProvider> frameRateProvider );
+      static std::shared_ptr<IConsoleSprite> GenerateThwipOutTransitionSprite( const std::shared_ptr<IFrameRateProvider> frameRateProvider );
+      static std::shared_ptr<IConsoleSprite> GenerateExplosionParticleSprite( const std::shared_ptr<IFrameRateProvider> frameRateProvider );
 
-      static std::map<Direction, std::shared_ptr<ConsoleSprite>> GenerateStandingSpriteMap();
-      static std::map<Direction, std::shared_ptr<ConsoleSprite>> GenerateWalkingSpriteMap();
-      static std::map<Direction, std::shared_ptr<ConsoleSprite>> GenerateFallingSpriteMap();
+      static std::map<Direction, std::shared_ptr<IConsoleSprite>> GenerateStandingSpriteMap( const std::shared_ptr<IFrameRateProvider> frameRateProvider );
+      static std::map<Direction, std::shared_ptr<IConsoleSprite>> GenerateWalkingSpriteMap( const std::shared_ptr<IFrameRateProvider> frameRateProvider );
+      static std::map<Direction, std::shared_ptr<IConsoleSprite>> GenerateFallingSpriteMap( const std::shared_ptr<IFrameRateProvider> frameRateProvider );
    };
 }

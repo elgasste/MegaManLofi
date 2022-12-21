@@ -8,9 +8,11 @@
 #include "IArenaInfoProvider.h"
 #include "IGameEventAggregator.h"
 #include "IFrameRateProvider.h"
+#include "IConsoleAnimationProvider.h"
+#include "IConsoleAnimation.h"
 #include "Direction.h"
 #include "GameEvent.h"
-#include "ConsoleSprite.h"
+#include "IConsoleSprite.h"
 
 using namespace std;
 using namespace MegaManLofi;
@@ -21,7 +23,8 @@ PlayingStateConsoleRenderer::PlayingStateConsoleRenderer( const shared_ptr<ICons
                                                           const shared_ptr<IPlayerInfoProvider> playerInfoProvider,
                                                           const shared_ptr<IArenaInfoProvider> arenaInfoProvider,
                                                           const shared_ptr<IGameEventAggregator> eventAggregator,
-                                                          const shared_ptr<IFrameRateProvider> frameRateProvider ) :
+                                                          const shared_ptr<IFrameRateProvider> frameRateProvider,
+                                                          const shared_ptr<IConsoleAnimationProvider> animationProvider ) :
    _consoleBuffer( consoleBuffer ),
    _renderConfig( renderConfig ),
    _gameInfoProvider( gameInfoProvider ),
@@ -29,21 +32,13 @@ PlayingStateConsoleRenderer::PlayingStateConsoleRenderer( const shared_ptr<ICons
    _arenaInfoProvider( arenaInfoProvider ),
    _eventAggregator( eventAggregator ),
    _frameRateProvider( frameRateProvider ),
+   _animationProvider( animationProvider ),
    _viewportQuadUnits( { 0, 0, 0, 0 } ),
    _viewportRectChars( { 0, 0, 0, 0 } ),
    _viewportOffsetChars( { 0, 0 } ),
    _playerViewportChars( { 0, 0 } ),
-   _isAnimatingStageStart( false ),
-   _isAnimatingPlayerThwipIn( false ),
-   _isAnimatingPlayerThwipTransition( false ),
    _isAnimatingPitfall( false ),
-   _isAnimatingPlayerExplosion( false ),
-   _stageStartAnimationElapsedSeconds( 0 ),
-   _playerThwipTransitionElapsedSeconds( 0 ),
-   _pitfallAnimationElapsedSeconds( 0 ),
-   _playerExplosionAnimationElapsedSeconds( 0 ),
-   _playerThwipBottom( 0 ),
-   _playerExplosionStartFrame( 0 )
+   _pitfallAnimationElapsedSeconds( 0 )
 {
    eventAggregator->RegisterEventHandler( GameEvent::StageStarted, std::bind( &PlayingStateConsoleRenderer::HandleStageStartedEvent, this ) );
    eventAggregator->RegisterEventHandler( GameEvent::Pitfall, std::bind( &PlayingStateConsoleRenderer::HandlePitfallEvent, this ) );
@@ -58,23 +53,19 @@ void PlayingStateConsoleRenderer::Render()
    UpdateCaches();
    DrawArenaSprites();
 
-   if ( _isAnimatingStageStart )
+   if ( _animationProvider->GetAnimation( ConsoleAnimationType::StageStarted )->IsRunning() )
    {
-      DrawGameStartAnimation();
+      DrawStageStartAnimation();
    }
-   else if ( _isAnimatingPlayerThwipIn )
+   else if ( _animationProvider->GetAnimation( ConsoleAnimationType::PlayerThwipIn )->IsRunning() )
    {
       DrawPlayerThwipInAnimation();
-   }
-   else if ( _isAnimatingPlayerThwipTransition )
-   {
-      DrawPlayerThwipInTransitionAnimation();
    }
    else if ( _isAnimatingPitfall )
    {
       DrawPitfallAnimation();
    }
-   else if ( _isAnimatingPlayerExplosion )
+   else if ( _animationProvider->GetAnimation( ConsoleAnimationType::PlayerExploded )->IsRunning() )
    {
       DrawPlayerExplosionAnimation();
    }
@@ -91,17 +82,18 @@ void PlayingStateConsoleRenderer::Render()
 
 bool PlayingStateConsoleRenderer::HasFocus() const
 {
-   return _isAnimatingStageStart ||
-          _isAnimatingPlayerThwipIn ||
-          _isAnimatingPlayerThwipTransition ||
-          _isAnimatingPitfall ||
-          _isAnimatingPlayerExplosion;
+   return _animationProvider->GetAnimation( ConsoleAnimationType::StageStarted )->IsRunning() ||
+          _animationProvider->GetAnimation( ConsoleAnimationType::PlayerThwipIn )->IsRunning() ||
+          _animationProvider->GetAnimation( ConsoleAnimationType::PlayerExploded)->IsRunning() ||
+          _isAnimatingPitfall;
 }
 
 void PlayingStateConsoleRenderer::HandleStageStartedEvent()
 {
-   _isAnimatingStageStart = true;
-   _stageStartAnimationElapsedSeconds = 0;
+   UpdateCaches();
+   Coordinate<short> location = { _viewportOffsetChars.Left + _viewportRectChars.Width / 2,
+                                  _viewportOffsetChars.Top + _viewportRectChars.Height / 2 };
+   _animationProvider->GetAnimation( ConsoleAnimationType::StageStarted )->Start( location, location );
 }
 
 void PlayingStateConsoleRenderer::HandlePitfallEvent()
@@ -112,9 +104,11 @@ void PlayingStateConsoleRenderer::HandlePitfallEvent()
 
 void PlayingStateConsoleRenderer::HandleTileDeathEvent()
 {
-   _isAnimatingPlayerExplosion = true;
-   _playerExplosionAnimationElapsedSeconds = 0;
-   _playerExplosionStartFrame = _frameRateProvider->GetCurrentFrame();
+   const auto& hitBox = _playerInfoProvider->GetHitBox();
+   auto particleStartLeftChars = _playerViewportChars.Left + (short)( hitBox.Width / 2 / _renderConfig->ArenaCharWidth ) + _viewportOffsetChars.Left;
+   auto particleStartTopChars = _playerViewportChars.Top + (short)( hitBox.Height / 2 / _renderConfig->ArenaCharHeight ) + _viewportOffsetChars.Top;
+
+   _animationProvider->GetAnimation( ConsoleAnimationType::PlayerExploded )->Start( { (short)particleStartLeftChars, (short)particleStartTopChars }, { 0, 0 } );
 }
 
 void PlayingStateConsoleRenderer::UpdateCaches()
@@ -154,69 +148,39 @@ void PlayingStateConsoleRenderer::UpdateCaches()
    _playerViewportChars.Top = (short)( ( _arenaInfoProvider->GetPlayerPositionY() - _viewportQuadUnits.Top ) / _renderConfig->ArenaCharHeight );
 }
 
-void PlayingStateConsoleRenderer::DrawGameStartAnimation()
+void PlayingStateConsoleRenderer::DrawStageStartAnimation()
 {
-   _stageStartAnimationElapsedSeconds += ( 1 / (double)_frameRateProvider->GetFramesPerSecond() );
-   _renderConfig->GetReadySprite->Tick( _frameRateProvider->GetFramesPerSecond() );
+   const auto& animation = _animationProvider->GetAnimation( ConsoleAnimationType::StageStarted );
 
-   auto image = _renderConfig->GetReadySprite->GetCurrentImage();
-   auto left = ( _viewportRectChars.Width / 2 ) - ( image.Width / 2 ) + _viewportOffsetChars.Left;
-   auto top = ( _viewportRectChars.Height / 2 ) - ( image.Height / 2 ) + _viewportOffsetChars.Top;
+   animation->Draw();
+   animation->Tick();
 
-   _consoleBuffer->Draw( left, top, image );
-
-   if ( _stageStartAnimationElapsedSeconds >= _renderConfig->GetReadyAnimationSeconds )
+   if ( !animation->IsRunning() )
    {
-      _isAnimatingStageStart = false;
-      _isAnimatingPlayerThwipIn = true;
-      _playerThwipBottom = _viewportQuadUnits.Top;
+      Coordinate<short> thwipStartPosition =
+      {
+         _viewportOffsetChars.Left + _playerViewportChars.Left,
+         _viewportOffsetChars.Top - _renderConfig->PlayerThwipInTransitionSprite->GetHeight()
+      };
+      Coordinate<short> thwipEndPosition =
+      {
+         thwipStartPosition.Left,
+         _viewportOffsetChars.Top + _playerViewportChars.Top
+      };
+
+      _animationProvider->GetAnimation( ConsoleAnimationType::PlayerThwipIn )->Start( thwipStartPosition, thwipEndPosition );
    }
 }
 
 void PlayingStateConsoleRenderer::DrawPlayerThwipInAnimation()
 {
-   auto thwipDeltaUnits = ( _renderConfig->PlayerThwipVelocity / _frameRateProvider->GetFramesPerSecond() );
-   _playerThwipBottom += thwipDeltaUnits;
-
-   auto playerSprite = GetPlayerSprite();
-   auto thwipSpriteLeftOffsetChars = (short)( ( playerSprite->GetWidth() - _renderConfig->PlayerThwipSprite->GetWidth() ) / 2 );
-
-   const auto& hitBox = _playerInfoProvider->GetHitBox();
-   if ( _playerThwipBottom >= ( _arenaInfoProvider->GetPlayerPositionY() + hitBox.Height ) )
-   {
-      _isAnimatingPlayerThwipIn = false;
-      _isAnimatingPlayerThwipTransition = true;
-      _playerThwipTransitionElapsedSeconds = 0;
-      return;
-   }
-
-   auto playerThwipBottomViewportChars = (short)( ( _playerThwipBottom - _viewportQuadUnits.Top ) / _renderConfig->ArenaCharHeight );
-   _consoleBuffer->Draw( _playerViewportChars.Left + thwipSpriteLeftOffsetChars + _viewportOffsetChars.Left,
-                         ( playerThwipBottomViewportChars - _renderConfig->PlayerThwipSprite->GetHeight() ) + _viewportOffsetChars.Top,
-                         _renderConfig->PlayerThwipSprite );
-   _renderConfig->PlayerThwipSprite->Tick( _frameRateProvider->GetFramesPerSecond() );
-}
-
-void PlayingStateConsoleRenderer::DrawPlayerThwipInTransitionAnimation()
-{
-   _playerThwipTransitionElapsedSeconds += ( 1 / (double)_frameRateProvider->GetFramesPerSecond() );
-
-   auto sprite = _renderConfig->PlayerThwipInTransitionSprite;
-   _consoleBuffer->Draw( _playerViewportChars.Left + _viewportOffsetChars.Left, _playerViewportChars.Top + _viewportOffsetChars.Top, sprite );
-
-   if ( _playerThwipTransitionElapsedSeconds >= sprite->GetTotalTraversalSeconds() )
-   {
-      _isAnimatingPlayerThwipTransition = false;
-   }
-   else
-   {
-      sprite->Tick( _frameRateProvider->GetFramesPerSecond() );
-   }
+   _animationProvider->GetAnimation( ConsoleAnimationType::PlayerThwipIn )->Draw();
+   _animationProvider->GetAnimation( ConsoleAnimationType::PlayerThwipIn )->Tick();
 }
 
 void PlayingStateConsoleRenderer::DrawPitfallAnimation()
 {
-   _pitfallAnimationElapsedSeconds += ( 1 / (double)_frameRateProvider->GetFramesPerSecond() );
+   _pitfallAnimationElapsedSeconds += _frameRateProvider->GetFrameScalar();
 
    if ( _pitfallAnimationElapsedSeconds >= _renderConfig->PitfallAnimationSeconds )
    {
@@ -226,48 +190,8 @@ void PlayingStateConsoleRenderer::DrawPitfallAnimation()
 
 void PlayingStateConsoleRenderer::DrawPlayerExplosionAnimation()
 {
-   auto frameRateScalar = ( 1 / (double)_frameRateProvider->GetFramesPerSecond() );
-   _playerExplosionAnimationElapsedSeconds += frameRateScalar;
-
-   const auto& hitBox = _playerInfoProvider->GetHitBox();
-   auto particleStartLeftChars = _playerViewportChars.Left + (short)( hitBox.Width / 2 / _renderConfig->ArenaCharWidth ) + _viewportOffsetChars.Left;
-   auto particleStartTopChars = _playerViewportChars.Top + (short)( hitBox.Height / 2 / _renderConfig->ArenaCharHeight ) + _viewportOffsetChars.Top;
-   
-   auto elapsedFrames = _frameRateProvider->GetCurrentFrame() - _playerExplosionStartFrame;
-   auto particleIncrement = ( _renderConfig->PlayerExplosionParticleVelocity * frameRateScalar );
-   auto particleDeltaXChars = (short)( ( particleIncrement * elapsedFrames ) / _renderConfig->ArenaCharWidth );
-   auto particleDeltaYChars = (short)( ( particleIncrement * elapsedFrames ) / _renderConfig->ArenaCharHeight );
-
-   auto particleSprite = _renderConfig->PlayerExplosionParticleSprite;
-
-   // horizontal and vertical particles
-   _consoleBuffer->Draw( particleStartLeftChars + particleDeltaXChars, particleStartTopChars, particleSprite );
-   _consoleBuffer->Draw( particleStartLeftChars + ( particleDeltaXChars / 2 ), particleStartTopChars, particleSprite );
-   _consoleBuffer->Draw( particleStartLeftChars - particleDeltaXChars, particleStartTopChars, particleSprite );
-   _consoleBuffer->Draw( particleStartLeftChars - ( particleDeltaXChars / 2 ), particleStartTopChars, particleSprite );
-   _consoleBuffer->Draw( particleStartLeftChars, particleStartTopChars + particleDeltaYChars, particleSprite );
-   _consoleBuffer->Draw( particleStartLeftChars, particleStartTopChars + ( particleDeltaYChars / 2 ), particleSprite );
-   _consoleBuffer->Draw( particleStartLeftChars, particleStartTopChars - particleDeltaYChars, particleSprite );
-   _consoleBuffer->Draw( particleStartLeftChars, particleStartTopChars - ( particleDeltaYChars / 2 ), particleSprite );
-
-   // diagonal particles
-   _consoleBuffer->Draw( particleStartLeftChars + (short)( particleDeltaXChars / 1.5 ), particleStartTopChars + (short)( particleDeltaYChars / 1.5 ), particleSprite );
-   _consoleBuffer->Draw( particleStartLeftChars + (short)( particleDeltaXChars / 3 ), particleStartTopChars + (short)( particleDeltaYChars / 3 ), particleSprite );
-   _consoleBuffer->Draw( particleStartLeftChars - (short)( particleDeltaXChars / 1.5 ), particleStartTopChars + (short)( particleDeltaYChars / 1.5 ), particleSprite );
-   _consoleBuffer->Draw( particleStartLeftChars - (short)( particleDeltaXChars / 3 ), particleStartTopChars + (short)( particleDeltaYChars / 3 ), particleSprite );
-   _consoleBuffer->Draw( particleStartLeftChars + (short)( particleDeltaXChars / 1.5 ), particleStartTopChars - (short)( particleDeltaYChars / 1.5 ), particleSprite );
-   _consoleBuffer->Draw( particleStartLeftChars + (short)( particleDeltaXChars / 3 ), particleStartTopChars - (short)( particleDeltaYChars / 3 ), particleSprite );
-   _consoleBuffer->Draw( particleStartLeftChars - (short)( particleDeltaXChars / 1.5 ), particleStartTopChars - (short)( particleDeltaYChars / 1.5 ), particleSprite );
-   _consoleBuffer->Draw( particleStartLeftChars - (short)( particleDeltaXChars / 3 ), particleStartTopChars - (short)( particleDeltaYChars / 3 ), particleSprite );
-
-   if ( _playerExplosionAnimationElapsedSeconds >= _renderConfig->PlayerExplosionAnimationSeconds )
-   {
-      _isAnimatingPlayerExplosion = false;
-   }
-   else
-   {
-      particleSprite->Tick( _frameRateProvider->GetFramesPerSecond() );
-   }
+   _animationProvider->GetAnimation( ConsoleAnimationType::PlayerExploded )->Draw();
+   _animationProvider->GetAnimation( ConsoleAnimationType::PlayerExploded )->Tick();
 }
 
 void PlayingStateConsoleRenderer::DrawArenaSprites()
@@ -293,7 +217,7 @@ void PlayingStateConsoleRenderer::DrawPlayer()
 {
    auto sprite = GetPlayerSprite();
    _consoleBuffer->Draw( _playerViewportChars.Left + _viewportOffsetChars.Left, _playerViewportChars.Top + _viewportOffsetChars.Top, sprite );
-   sprite->Tick( _frameRateProvider->GetFramesPerSecond() );
+   sprite->Tick();
 }
 
 void PlayingStateConsoleRenderer::DrawStatusBar()
@@ -309,7 +233,7 @@ void PlayingStateConsoleRenderer::DrawPauseOverlay()
    _consoleBuffer->Draw( left + _viewportOffsetChars.Left, top + _viewportOffsetChars.Top, _renderConfig->PauseOverlayImage );
 }
 
-const shared_ptr<ConsoleSprite> PlayingStateConsoleRenderer::GetPlayerSprite() const
+const shared_ptr<IConsoleSprite> PlayingStateConsoleRenderer::GetPlayerSprite() const
 {
    auto direction = _playerInfoProvider->GetDirection();
 

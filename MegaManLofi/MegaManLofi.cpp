@@ -287,10 +287,9 @@ shared_ptr<KeyboardInputConfig> BuildKeyboardInputConfig()
    inputConfig->KeyMap[KeyCode::Down] = GameButton::Down;
 
    inputConfig->KeyMap[KeyCode::Return] = GameButton::Start;
-   inputConfig->KeyMap[KeyCode::Tab] = GameButton::Select;
+   inputConfig->KeyMap[KeyCode::RShiftKey] = GameButton::Select;
 
    inputConfig->KeyMap[KeyCode::A] = GameButton::A;
-   inputConfig->KeyMap[KeyCode::Space] = GameButton::A;
    inputConfig->KeyMap[KeyCode::B] = GameButton::B;
    inputConfig->KeyMap[KeyCode::X] = GameButton::X;
    inputConfig->KeyMap[KeyCode::Y] = GameButton::Y;
@@ -308,6 +307,8 @@ shared_ptr<KeyboardInputConfig> BuildKeyboardInputConfig()
    inputConfig->KeyNames[KeyCode::Right] = "Right Arrow";
    inputConfig->KeyNames[KeyCode::Down] = "Down Arrow";
    inputConfig->KeyNames[KeyCode::Return] = "Enter";
+   inputConfig->KeyNames[KeyCode::LShiftKey] = "Left Shift";
+   inputConfig->KeyNames[KeyCode::RShiftKey] = "Right Shift";
    inputConfig->KeyNames[KeyCode::Space] = "Space Bar";
    inputConfig->KeyNames[KeyCode::Tab] = "Tab";
    inputConfig->KeyNames[KeyCode::A] = "A";

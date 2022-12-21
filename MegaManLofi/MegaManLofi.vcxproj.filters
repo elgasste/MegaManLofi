@@ -192,6 +192,9 @@
     <ClCompile Include="PlayingMenu.cpp">
       <Filter>Source Files\GameObjects</Filter>
     </ClCompile>
+    <ClCompile Include="MenuSpriteGenerator.cpp">
+      <Filter>Source Files\ConfigGenerators</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameRunner.h">
@@ -484,6 +487,9 @@
     </ClInclude>
     <ClInclude Include="PlayingMenu.h">
       <Filter>Header Files\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuSpriteGenerator.h">
+      <Filter>Header Files\ConfigGenerators</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

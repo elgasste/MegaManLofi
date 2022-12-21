@@ -85,6 +85,8 @@ namespace MegaManLofi
       ConsoleImage PauseOverlayImage;
       ConsoleImage GameOverImage;
 
+      std::shared_ptr<IConsoleSprite> MenuCaratSprite;
+
       std::map<Direction, std::shared_ptr<IConsoleSprite>> PlayerStandingSpriteMap;
       std::map<Direction, std::shared_ptr<IConsoleSprite>> PlayerWalkingSpriteMap;
       std::map<Direction, std::shared_ptr<IConsoleSprite>> PlayerFallingSpriteMap;

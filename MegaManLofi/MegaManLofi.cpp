@@ -56,6 +56,7 @@
 #include "ArenaTileGenerator.h"
 #include "ArenaSpriteGenerator.h"
 #include "TitleSpriteGenerator.h"
+#include "MenuSpriteGenerator.h"
 
 using namespace std;
 using namespace MegaManLofi;
@@ -258,6 +259,8 @@ shared_ptr<ConsoleRenderConfig> BuildConsoleRenderConfig( const shared_ptr<IFram
 
    renderConfig->PauseOverlayImage = ArenaSpriteGenerator::GeneratePauseOverlayImage();
    renderConfig->GameOverImage = ArenaSpriteGenerator::GenerateGameOverImage();
+
+   renderConfig->MenuCaratSprite = MenuSpriteGenerator::GenerateMenuCaratSprite( frameRateProvider );
 
    renderConfig->PlayerStandingSpriteMap = PlayerSpriteGenerator::GenerateStandingSpriteMap( frameRateProvider );
    renderConfig->PlayerWalkingSpriteMap = PlayerSpriteGenerator::GenerateWalkingSpriteMap( frameRateProvider );

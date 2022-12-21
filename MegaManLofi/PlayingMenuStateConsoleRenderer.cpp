@@ -20,6 +20,9 @@ PlayingMenuStateConsoleRenderer::PlayingMenuStateConsoleRenderer( const shared_p
 
 void PlayingMenuStateConsoleRenderer::Render()
 {
+   _consoleBuffer->SetDefaultForegroundColor( _renderConfig->PlayingMenuForegroundColor );
+   _consoleBuffer->SetDefaultBackgroundColor( _renderConfig->PlayingMenuBackgroundColor );
+
    const auto& menu = _menuProvider->GetMenu( MenuType::Playing );
    int top = 10;
 

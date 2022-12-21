@@ -221,6 +221,9 @@ shared_ptr<ConsoleRenderConfig> BuildConsoleRenderConfig( const shared_ptr<IFram
    renderConfig->ArenaForegroundColor = ConsoleColor::White;
    renderConfig->ArenaBackgroundColor = ConsoleColor::Black;
 
+   renderConfig->PlayingMenuForegroundColor = ConsoleColor::White;
+   renderConfig->PlayingMenuBackgroundColor = ConsoleColor::DarkBlue;
+
    renderConfig->GameOverBackgroundColor = ConsoleColor::DarkMagenta;
 
    renderConfig->TitleKeyBindingsForegroundColor = ConsoleColor::DarkGrey;

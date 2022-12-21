@@ -46,6 +46,9 @@ namespace MegaManLofi
       ConsoleColor ArenaForegroundColor = (ConsoleColor)0;
       ConsoleColor ArenaBackgroundColor = (ConsoleColor)0;
 
+      ConsoleColor PlayingMenuForegroundColor = (ConsoleColor)0;
+      ConsoleColor PlayingMenuBackgroundColor = (ConsoleColor)0;
+
       ConsoleColor GameOverBackgroundColor = (ConsoleColor)0;
 
       ConsoleColor TitleKeyBindingsForegroundColor = (ConsoleColor)0;

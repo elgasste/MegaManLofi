@@ -1,6 +1,7 @@
 #include "PlayingMenuStateConsoleRenderer.h"
 #include "IConsoleBuffer.h"
 #include "ConsoleRenderConfig.h"
+#include "IConsoleSprite.h"
 #include "IMenuProvider.h"
 #include "IMenu.h"
 #include "MenuType.h"
@@ -20,14 +21,16 @@ PlayingMenuStateConsoleRenderer::PlayingMenuStateConsoleRenderer( const shared_p
 void PlayingMenuStateConsoleRenderer::Render()
 {
    const auto& menu = _menuProvider->GetMenu( MenuType::Playing );
-
    int top = 10;
+
    for ( int i = 0; i < menu->GetOptionCount(); i++, top++ )
    {
       if ( menu->GetSelectedIndex() == i )
       {
-         _consoleBuffer->Draw( 18, top, '>' );
+         _consoleBuffer->Draw( 18, top, _renderConfig->MenuCaratSprite );
       }
       _consoleBuffer->Draw( 20, top, menu->GetOptionTitle( i ) );
    }
+
+   _renderConfig->MenuCaratSprite->Tick();
 }

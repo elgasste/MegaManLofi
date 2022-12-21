@@ -76,6 +76,7 @@
     <ClCompile Include="GameRunnerTests.cpp" />
     <ClCompile Include="GameTests.cpp" />
     <ClCompile Include="KeyboardInputReaderTests.cpp" />
+    <ClCompile Include="MenuRepositoryTests.cpp" />
     <ClCompile Include="PlayerExplodedConsoleAnimationTests.cpp" />
     <ClCompile Include="PlayerPhysicsTests.cpp" />
     <ClCompile Include="PlayerTests.cpp" />

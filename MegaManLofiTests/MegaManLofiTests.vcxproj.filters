@@ -72,6 +72,9 @@
     <ClCompile Include="PlayingMenuStateInputHandlerTests.cpp">
       <Filter>Tests\Input</Filter>
     </ClCompile>
+    <ClCompile Include="MenuRepositoryTests.cpp">
+      <Filter>Tests\GameObjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="mock_GameEventAggregator.h">

@@ -4,6 +4,7 @@ namespace MegaManLofi
 {
    enum class MenuType
    {
-      Playing = 0
+      Title = 0,
+      Playing
    };
 }

@@ -75,6 +75,9 @@
     <ClCompile Include="MenuRepositoryTests.cpp">
       <Filter>Tests\GameObjects</Filter>
     </ClCompile>
+    <ClCompile Include="PlayingMenuTests.cpp">
+      <Filter>Tests\GameObjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="mock_GameEventAggregator.h">

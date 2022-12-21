@@ -83,6 +83,7 @@
     <ClCompile Include="PlayerThwipInConsoleAnimationTests.cpp" />
     <ClCompile Include="PlayerThwipOutConsoleAnimationTests.cpp" />
     <ClCompile Include="PlayingMenuStateInputHandlerTests.cpp" />
+    <ClCompile Include="PlayingMenuTests.cpp" />
     <ClCompile Include="PlayingStateInputHandlerTests.cpp" />
     <ClCompile Include="RectangleUtilitiesTests.cpp" />
     <ClCompile Include="StageStartedConsoleAnimationTests.cpp" />

@@ -177,6 +177,7 @@
     <ClCompile Include="PlayerSpriteGenerator.cpp" />
     <ClCompile Include="PlayerThwipInConsoleAnimation.cpp" />
     <ClCompile Include="PlayerThwipOutConsoleAnimation.cpp" />
+    <ClCompile Include="PlayingMenu.cpp" />
     <ClCompile Include="PlayingMenuStateConsoleRenderer.cpp" />
     <ClCompile Include="PlayingMenuStateInputHandler.cpp" />
     <ClCompile Include="PlayingStateConsoleRenderer.cpp" />
@@ -268,6 +269,7 @@
     <ClInclude Include="PlayerSpriteGenerator.h" />
     <ClInclude Include="PlayerThwipInConsoleAnimation.h" />
     <ClInclude Include="PlayerThwipOutConsoleAnimation.h" />
+    <ClInclude Include="PlayingMenu.h" />
     <ClInclude Include="PlayingMenuStateConsoleRenderer.h" />
     <ClInclude Include="PlayingMenuStateInputHandler.h" />
     <ClInclude Include="PointPlayerCommandArgs.h" />

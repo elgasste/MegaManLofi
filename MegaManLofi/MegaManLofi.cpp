@@ -27,6 +27,9 @@
 #include "PlayerPhysics.h"
 #include "ArenaPhysics.h"
 #include "Game.h"
+#include "MenuType.h"
+#include "PlayingMenu.h"
+#include "MenuRepository.h"
 #include "PlayerThwipOutConsoleAnimation.h"
 #include "StageStartedConsoleAnimation.h"
 #include "PlayerThwipInConsoleAnimation.h"
@@ -135,6 +138,11 @@ void LoadAndRun( const shared_ptr<IConsoleBuffer> consoleBuffer )
    auto player = shared_ptr<Player>( new Player( config->PlayerConfig, frameActionRegistry, clock ) );
    auto arena = shared_ptr<Arena>( new Arena( config->ArenaConfig ) );
    auto game = shared_ptr<Game>( new Game( eventAggregator, player, arena, playerPhysics, arenaPhysics ) );
+
+   // menus
+   auto playingMenu = shared_ptr<PlayingMenu>( new PlayingMenu( game ) );
+   auto menuRepository = make_shared<MenuRepository>();
+   menuRepository->AddMenu( MenuType::Playing, playingMenu );
 
    // input objects
    auto startupStateInputHandler = shared_ptr<TitleStateInputHandler>( new TitleStateInputHandler( keyboardInputReader, game ) );

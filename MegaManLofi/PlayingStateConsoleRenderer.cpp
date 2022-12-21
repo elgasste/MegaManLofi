@@ -151,8 +151,26 @@ void PlayingStateConsoleRenderer::UpdateCaches()
 
 void PlayingStateConsoleRenderer::DrawStageStartAnimation()
 {
-   _animationProvider->GetAnimation( ConsoleAnimationType::StageStarted )->Draw();
-   _animationProvider->GetAnimation( ConsoleAnimationType::StageStarted )->Tick();
+   const auto& animation = _animationProvider->GetAnimation( ConsoleAnimationType::StageStarted );
+
+   animation->Draw();
+   animation->Tick();
+
+   if ( !animation->IsRunning() )
+   {
+      Coordinate<short> thwipStartPosition =
+      {
+         _viewportOffsetChars.Left + _playerViewportChars.Left,
+         _viewportOffsetChars.Top - _renderConfig->PlayerThwipInTransitionSprite->GetHeight()
+      };
+      Coordinate<short> thwipEndPosition =
+      {
+         thwipStartPosition.Left,
+         _viewportOffsetChars.Top + _playerViewportChars.Top
+      };
+
+      _animationProvider->GetAnimation( ConsoleAnimationType::PlayerThwipIn )->Start( thwipStartPosition, thwipEndPosition );
+   }
 }
 
 void PlayingStateConsoleRenderer::DrawPlayerThwipInAnimation()

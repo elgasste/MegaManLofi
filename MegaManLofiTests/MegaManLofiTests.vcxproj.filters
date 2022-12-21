@@ -66,6 +66,9 @@
     <ClCompile Include="StageStartedConsoleAnimationTests.cpp">
       <Filter>Tests\Render\Animations</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerExplodedConsoleAnimationTests.cpp">
+      <Filter>Tests\Render\Animations</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="mock_GameEventAggregator.h">

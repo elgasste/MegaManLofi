@@ -177,6 +177,9 @@
     <ClCompile Include="StageStartedConsoleAnimation.cpp">
       <Filter>Source Files\Render\Animations</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerExplodedConsoleAnimation.cpp">
+      <Filter>Source Files\Render\Animations</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameRunner.h">
@@ -444,6 +447,9 @@
       <Filter>Header Files\Render\Animations</Filter>
     </ClInclude>
     <ClInclude Include="StageStartedConsoleAnimation.h">
+      <Filter>Header Files\Render\Animations</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerExplodedConsoleAnimation.h">
       <Filter>Header Files\Render\Animations</Filter>
     </ClInclude>
   </ItemGroup>

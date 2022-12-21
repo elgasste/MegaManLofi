@@ -53,11 +53,28 @@ TEST_F( PlayerExplodedConsoleAnimationTests, Constructor_Always_InitializesIsRun
    EXPECT_FALSE( _animation->IsRunning() );
 }
 
+TEST_F( PlayerExplodedConsoleAnimationTests, Start_StartPositionHasNoValue_ThrowsException )
+{
+   BuildAnimation();
+
+   string message = "";
+   try
+   {
+      _animation->Start( nullopt, nullopt );
+   }
+   catch ( invalid_argument e )
+   {
+      message = e.what();
+   }
+
+   EXPECT_EQ( message, "Start position must have a value" );
+}
+
 TEST_F( PlayerExplodedConsoleAnimationTests, Start_Always_SetsIsRunningToTrue )
 {
    BuildAnimation();
 
-   _animation->Start( { 0, 0 }, { 0, 0 } );
+   _animation->Start( Coordinate<short>( { 0, 0 } ), nullopt );
 
    EXPECT_TRUE( _animation->IsRunning() );
 }
@@ -68,7 +85,7 @@ TEST_F( PlayerExplodedConsoleAnimationTests, Start_Always_ResetsExplosionSprite 
 
    EXPECT_CALL( *_particleSpriteMock, Reset() );
 
-   _animation->Start( { 0, 0 }, { 0, 0 } );
+   _animation->Start( Coordinate<short>( { 0, 0 } ), nullopt );
 
    EXPECT_TRUE( _animation->IsRunning() );
 }
@@ -85,7 +102,7 @@ TEST_F( PlayerExplodedConsoleAnimationTests, Draw_Always_DrawsAllParticlesInCorr
 
    EXPECT_CALL( *_consoleBufferMock, Draw( 30, 30, static_pointer_cast<IConsoleSprite>( _particleSpriteMock ) ) ).Times( 16 );
 
-   _animation->Start( { 30, 30 }, { 0, 0 } );
+   _animation->Start( Coordinate<short>( { 30, 30 } ), nullopt );
    _animation->Draw();
 
    // horizontal and vertical particles

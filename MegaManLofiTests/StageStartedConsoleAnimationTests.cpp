@@ -50,11 +50,28 @@ TEST_F( StageStartedConsoleAnimationTests, Constructor_Always_InitializesIsRunni
    EXPECT_FALSE( _animation->IsRunning() );
 }
 
+TEST_F( StageStartedConsoleAnimationTests, Start_StartPositionHasNoValue_ThrowsException )
+{
+   BuildAnimation();
+
+   string message = "";
+   try
+   {
+      _animation->Start( nullopt, Coordinate<short>( { 0, 0 } ) );
+   }
+   catch ( invalid_argument e )
+   {
+      message = e.what();
+   }
+
+   EXPECT_EQ( message, "Start position must have a value" );
+}
+
 TEST_F( StageStartedConsoleAnimationTests, Start_Always_SetsIsRunningToTrue )
 {
    BuildAnimation();
 
-   _animation->Start( { 0, 0 }, { 0, 0 } );
+   _animation->Start( Coordinate<short>( { 0, 0 } ), nullopt );
 
    EXPECT_TRUE( _animation->IsRunning() );
 }
@@ -65,13 +82,13 @@ TEST_F( StageStartedConsoleAnimationTests, Start_Always_ResetsGetReadySprite )
 
    EXPECT_CALL( *_getReadySpriteMock, Reset() );
 
-   _animation->Start( { 0, 0 }, { 0, 0 } );
+   _animation->Start( Coordinate<short>( { 0, 0 } ), nullopt );
 }
 
 TEST_F( StageStartedConsoleAnimationTests, Draw_Always_DrawsStartPosition )
 {
    BuildAnimation();
-   _animation->Start( { 1, 2 }, { 0, 0 } );
+   _animation->Start( Coordinate<short>( { 1, 2 } ), nullopt );
 
    EXPECT_CALL( *_consoleBufferMock, Draw( 1, 2, static_pointer_cast<IConsoleSprite>( _getReadySpriteMock ) ) );
    _animation->Tick();
@@ -91,7 +108,7 @@ TEST_F( StageStartedConsoleAnimationTests, Tick_IsNotRunning_DoesNotTickGetReady
 TEST_F( StageStartedConsoleAnimationTests, Tick_IsRunning_TicksGetReadySprite )
 {
    BuildAnimation();
-   _animation->Start( { 1, 2 }, { 0, 0 } );
+   _animation->Start( Coordinate<short>( { 1, 2 } ), nullopt );
 
    EXPECT_CALL( *_getReadySpriteMock, Tick() );
 
@@ -102,7 +119,7 @@ TEST_F( StageStartedConsoleAnimationTests, Tick_FinishedRunning_SetsIsRunningToF
 {
    _renderConfig->GetReadyAnimationSeconds = 2;
    BuildAnimation();
-   _animation->Start( { 1, 2 }, { 0, 0 } );
+   _animation->Start( Coordinate<short>( { 1, 2 } ), nullopt );
 
    _animation->Tick(); // 1 second has passed, still running
    EXPECT_TRUE( _animation->IsRunning() );

@@ -1,3 +1,5 @@
+#include <stdexcept>
+
 #include "PlayerExplodedConsoleAnimation.h"
 #include "IConsoleBuffer.h"
 #include "IFrameRateProvider.h"
@@ -20,12 +22,18 @@ PlayerExplodedConsoleAnimation::PlayerExplodedConsoleAnimation( const shared_ptr
 {
 }
 
-void PlayerExplodedConsoleAnimation::Start( Coordinate<short> startPositionChars, Coordinate<short> endPositionChars )
+void PlayerExplodedConsoleAnimation::Start( optional<Coordinate<short>> startPositionChars,
+                                            optional<Coordinate<short>> endPositionChars )
 {
+   if ( !startPositionChars.has_value() )
+   {
+      throw invalid_argument( "Start position must have a value" );
+   }
+
    _isRunning = true;
    _elapsedSeconds = 0;
    _explosionStartFrame = _frameRateProvider->GetCurrentFrame();
-   _startPositionChars = startPositionChars;
+   _startPositionChars = startPositionChars.value();
 
    _renderConfig->PlayerExplosionParticleSprite->Reset();
 }

@@ -59,11 +59,45 @@ TEST_F( PlayerThwipOutConsoleAnimationTests, Constructor_Always_InitializesIsRun
    EXPECT_FALSE( _animation->IsRunning() );
 }
 
+TEST_F( PlayerThwipOutConsoleAnimationTests, Start_StartPositionHasNoValue_ThrowsException )
+{
+   BuildAnimation();
+
+   string message = "";
+   try
+   {
+      _animation->Start( nullopt, Coordinate<short>( { 0, 0 } ) );
+   }
+   catch ( invalid_argument e )
+   {
+      message = e.what();
+   }
+
+   EXPECT_EQ( message, "Start position must have a value" );
+}
+
+TEST_F( PlayerThwipOutConsoleAnimationTests, Start_EndPositionHasNoValue_ThrowsException )
+{
+   BuildAnimation();
+
+   string message = "";
+   try
+   {
+      _animation->Start( Coordinate<short>( { 0, 0 } ), nullopt );
+   }
+   catch ( invalid_argument e )
+   {
+      message = e.what();
+   }
+
+   EXPECT_EQ( message, "End position must have a value" );
+}
+
 TEST_F( PlayerThwipOutConsoleAnimationTests, Start_Always_SetsIsRunningToTrue )
 {
    BuildAnimation();
 
-   _animation->Start( { 0, 0 }, { 0, 0 } );
+   _animation->Start( Coordinate<short>( { 0, 0 } ), Coordinate<short>( { 0, 0 } ) );
 
    EXPECT_TRUE( _animation->IsRunning() );
 }
@@ -75,13 +109,13 @@ TEST_F( PlayerThwipOutConsoleAnimationTests, Start_Always_ResetsSprites )
    EXPECT_CALL( *_transitionSpriteMock, Reset() );
    EXPECT_CALL( *_thwipSpriteMock, Reset() );
 
-   _animation->Start( { 0, 0 }, { 0, 0 } );
+   _animation->Start( Coordinate<short>( { 0, 0 } ), Coordinate<short>( { 0, 0 } ) );
 }
 
 TEST_F( PlayerThwipOutConsoleAnimationTests, Draw_PreThwipping_DrawsSpriteInStartPosition )
 {
    BuildAnimation();
-   _animation->Start( { 0, 0 }, { 10, 10 } );
+   _animation->Start( Coordinate<short>( { 0, 0 } ), Coordinate<short>( { 10, 10 } ) );
 
    EXPECT_CALL( *_consoleBufferMock, Draw( 0, 0, static_pointer_cast<IConsoleSprite>( _transitionSpriteMock ) ) );
    _animation->Draw();
@@ -97,7 +131,7 @@ TEST_F( PlayerThwipOutConsoleAnimationTests, Draw_ThwippingDownward_DrawsSpriteI
 {
    ON_CALL( *_transitionSpriteMock, GetTotalTraversalSeconds() ).WillByDefault( Return( 1 ) );
    BuildAnimation();
-   _animation->Start( { 0, 0 }, { 10, 10 } );
+   _animation->Start( Coordinate<short>( { 0, 0 } ), Coordinate<short>( { 10, 10 } ) );
 
    _animation->Tick(); // should switch from pre-thwipping to thwipping
 
@@ -114,7 +148,7 @@ TEST_F( PlayerThwipOutConsoleAnimationTests, Draw_ThwippingUpward_DrawsSpriteInC
 {
    ON_CALL( *_transitionSpriteMock, GetTotalTraversalSeconds() ).WillByDefault( Return( 1 ) );
    BuildAnimation();
-   _animation->Start( { 10, 10 }, { 0, 0 } );
+   _animation->Start( Coordinate<short>( { 10, 10 } ), Coordinate<short>( { 0, 0 } ) );
 
    _animation->Tick(); // should switch from pre-thwipping to thwipping
 
@@ -141,7 +175,7 @@ TEST_F( PlayerThwipOutConsoleAnimationTests, Tick_ThwipAnimationHasFinished_Stop
 {
    ON_CALL( *_transitionSpriteMock, GetTotalTraversalSeconds() ).WillByDefault( Return( 1 ) );
    BuildAnimation();
-   _animation->Start( { 10, 10 }, { 8, 8 } );
+   _animation->Start( Coordinate<short>( { 10, 10 } ), Coordinate<short>( { 8, 8 } ) );
 
    _animation->Tick(); // should switch from pre-thwipping to thwipping
    EXPECT_TRUE( _animation->IsRunning() );

@@ -1,3 +1,5 @@
+#include <stdexcept>
+
 #include "StageStartedConsoleAnimation.h"
 #include "IConsoleBuffer.h"
 #include "IFrameRateProvider.h"
@@ -19,11 +21,17 @@ StageStartedConsoleAnimation::StageStartedConsoleAnimation( const shared_ptr<ICo
 {
 }
 
-void StageStartedConsoleAnimation::Start( Coordinate<short> startPositionChars, Coordinate<short> endPositionChars )
+void StageStartedConsoleAnimation::Start( optional<Coordinate<short>> startPositionChars,
+                                          optional<Coordinate<short>> endPositionChars )
 {
+   if ( !startPositionChars.has_value() )
+   {
+      throw invalid_argument( "Start position must have a value" );
+   }
+
    _isRunning = true;
    _elapsedSeconds = 0;
-   _positionChars = startPositionChars;
+   _positionChars = startPositionChars.value();
 
    _renderConfig->GetReadySprite->Reset();
 }

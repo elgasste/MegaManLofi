@@ -17,7 +17,8 @@ namespace MegaManLofi
                                     const std::shared_ptr<IFrameRateProvider> frameRateProvider,
                                     const std::shared_ptr<ConsoleRenderConfig> renderConfig );
 
-      void Start( Coordinate<short> startPositionChars, Coordinate<short> endPositionChars ) override;
+      void Start( std::optional<Coordinate<short>> startPositionChars,
+                  std::optional<Coordinate<short>> endPositionChars ) override;
       bool IsRunning() const override { return _isRunning; }
       void Draw() override;
       void Tick() override;

@@ -1,3 +1,5 @@
+#include <stdexcept>
+
 #include "PlayerThwipInConsoleAnimation.h"
 #include "IConsoleBuffer.h"
 #include "ConsoleRenderConfig.h"
@@ -8,8 +10,8 @@ using namespace std;
 using namespace MegaManLofi;
 
 PlayerThwipInConsoleAnimation::PlayerThwipInConsoleAnimation( const shared_ptr<IConsoleBuffer> consoleBuffer,
-                                                                const shared_ptr<ConsoleRenderConfig> renderConfig,
-                                                                const shared_ptr<IFrameRateProvider> frameRateProvider ) :
+                                                              const shared_ptr<ConsoleRenderConfig> renderConfig,
+                                                              const shared_ptr<IFrameRateProvider> frameRateProvider ) :
    _consoleBuffer( consoleBuffer ),
    _renderConfig( renderConfig ),
    _frameRateProvider( frameRateProvider ),
@@ -23,13 +25,23 @@ PlayerThwipInConsoleAnimation::PlayerThwipInConsoleAnimation( const shared_ptr<I
 {
 }
 
-void PlayerThwipInConsoleAnimation::Start( Coordinate<short> startPositionChars, Coordinate<short> endPositionChars )
+void PlayerThwipInConsoleAnimation::Start( optional<Coordinate<short>> startPositionChars,
+                                           optional<Coordinate<short>> endPositionChars )
 {
+   if ( !startPositionChars.has_value() )
+   {
+      throw invalid_argument( "Start position must have a value" );
+   }
+   else if ( !endPositionChars.has_value() )
+   {
+      throw invalid_argument( "End position must have a value" );
+   }
+
    _isRunning = true;
-   _startPositionChars = startPositionChars;
-   _endPositionChars = endPositionChars;
-   _currentTopPositionUnits = startPositionChars.Top * _renderConfig->ArenaCharHeight;
-   _endTopPositionUnits = endPositionChars.Top * _renderConfig->ArenaCharHeight;
+   _startPositionChars = startPositionChars.value();
+   _endPositionChars = endPositionChars.value();
+   _currentTopPositionUnits = _startPositionChars.Top * _renderConfig->ArenaCharHeight;
+   _endTopPositionUnits = _endPositionChars.Top * _renderConfig->ArenaCharHeight;
    _postThwipping = false;
    _elapsedSeconds = 0;
 

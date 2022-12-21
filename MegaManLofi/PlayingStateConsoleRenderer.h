@@ -68,11 +68,6 @@ namespace MegaManLofi
       Coordinate<short> _playerViewportChars;
 
       bool _isAnimatingPitfall;
-      bool _isAnimatingPlayerExplosion;
-
       double _pitfallAnimationElapsedSeconds;
-      double _playerExplosionAnimationElapsedSeconds;
-
-      long long _playerExplosionStartFrame;
    };
 }

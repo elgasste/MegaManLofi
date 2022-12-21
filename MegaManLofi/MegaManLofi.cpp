@@ -30,6 +30,7 @@
 #include "PlayerThwipOutConsoleAnimation.h"
 #include "StageStartedConsoleAnimation.h"
 #include "PlayerThwipInConsoleAnimation.h"
+#include "PlayerExplodedConsoleAnimation.h"
 #include "ConsoleAnimationRepository.h"
 #include "DiagnosticsConsoleRenderer.h"
 #include "TitleStateInputHandler.h"
@@ -146,10 +147,12 @@ void LoadAndRun( const shared_ptr<IConsoleBuffer> consoleBuffer )
    auto playerThwipOutAnimation = shared_ptr<PlayerThwipOutConsoleAnimation>( new PlayerThwipOutConsoleAnimation( consoleBuffer, consoleRenderConfig, clock ) );
    auto stageStartedAnimation = shared_ptr<StageStartedConsoleAnimation>( new StageStartedConsoleAnimation( consoleBuffer, clock, consoleRenderConfig ) );
    auto playerThwipInAnimation = shared_ptr<PlayerThwipInConsoleAnimation>( new PlayerThwipInConsoleAnimation( consoleBuffer, consoleRenderConfig, clock ) );
+   auto playerExplodedAnimation = shared_ptr<PlayerExplodedConsoleAnimation>( new PlayerExplodedConsoleAnimation( consoleBuffer, clock, consoleRenderConfig ) );
    auto animationRepository = make_shared<ConsoleAnimationRepository>();
    animationRepository->AddAnimation( ConsoleAnimationType::PlayerThwipOut, playerThwipOutAnimation );
    animationRepository->AddAnimation( ConsoleAnimationType::StageStarted, stageStartedAnimation );
    animationRepository->AddAnimation( ConsoleAnimationType::PlayerThwipIn, playerThwipInAnimation );
+   animationRepository->AddAnimation( ConsoleAnimationType::PlayerExploded, playerExplodedAnimation );
 
    // rendering objects
    auto diagnosticsRenderer = shared_ptr<DiagnosticsConsoleRenderer>( new DiagnosticsConsoleRenderer( consoleBuffer, clock, consoleRenderConfig ) );

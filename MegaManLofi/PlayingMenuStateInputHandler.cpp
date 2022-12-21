@@ -25,13 +25,15 @@ void PlayingMenuStateInputHandler::HandleInput()
    {
       _commandExecutor->ExecuteCommand( GameCommand::ClosePlayingMenu );
    }
-
-   if ( _inputReader->WasButtonPressed( GameButton::Select ) )
+   else if ( _inputReader->WasButtonPressed( GameButton::Select ) )
    {
       _commandExecutor->ExecuteCommand( GameCommand::Quit );
    }
-
-   if ( _inputReader->WasButtonPressed( GameButton::Up ) )
+   else if ( _inputReader->WasButtonPressed( GameButton::A ) )
+   {
+      _menuProvider->GetMenu( MenuType::Playing )->ExecuteSelectedIndex();
+   }
+   else if ( _inputReader->WasButtonPressed( GameButton::Up ) )
    {
       _menuProvider->GetMenu( MenuType::Playing )->DecrementSelectedIndex();
    }

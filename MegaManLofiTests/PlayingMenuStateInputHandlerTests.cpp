@@ -62,6 +62,15 @@ TEST_F( PlayingMenuStateInputHandlerTests, HandleInput_SelectButtonWasPressed_Ex
    _inputHandler->HandleInput();
 }
 
+TEST_F( PlayingMenuStateInputHandlerTests, HandleInput_AButtonWasPressed_ExecutesSelectedIndex )
+{
+   ON_CALL( *_inputReaderMock, WasButtonPressed( GameButton::A ) ).WillByDefault( Return( true ) );
+
+   EXPECT_CALL( *_menuMock, ExecuteSelectedIndex() );
+
+   _inputHandler->HandleInput();
+}
+
 TEST_F( PlayingMenuStateInputHandlerTests, HandleInput_UpButtonWasPressed_DecrementsMenuSelection )
 {
    ON_CALL( *_inputReaderMock, WasButtonPressed( GameButton::Up ) ).WillByDefault( Return( true ) );

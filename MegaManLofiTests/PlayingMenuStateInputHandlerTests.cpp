@@ -3,6 +3,8 @@
 #include <memory>
 
 #include <MegaManLofi/PlayingMenuStateInputHandler.h>
+#include <MegaManLofi/GameButton.h>
+#include <MegaManLofi/GameCommand.h>
 
 #include "mock_GameInputReader.h"
 #include "mock_GameCommandExecutor.h"
@@ -32,3 +34,19 @@ protected:
 
    shared_ptr<PlayingMenuStateInputHandler> _inputHandler;
 };
+
+TEST_F( PlayingMenuStateInputHandlerTests, HandleInput_StartButtonWasPressed_ExecutesClosePlayingMenuCommand )
+{
+   ON_CALL( *_inputReaderMock, WasButtonPressed( GameButton::Start ) ).WillByDefault( Return( true ) );
+   EXPECT_CALL( *_commandExecutorMock, ExecuteCommand( GameCommand::ClosePlayingMenu ) );
+
+   _inputHandler->HandleInput();
+}
+
+TEST_F( PlayingMenuStateInputHandlerTests, HandleInput_SelectButtonWasPressed_ExecutesQuitCommand )
+{
+   ON_CALL( *_inputReaderMock, WasButtonPressed( GameButton::Select ) ).WillByDefault( Return( true ) );
+   EXPECT_CALL( *_commandExecutorMock, ExecuteCommand( GameCommand::Quit ) );
+
+   _inputHandler->HandleInput();
+}

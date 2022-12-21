@@ -26,7 +26,7 @@ void PlayingStateInputHandler::HandleInput()
 
    if ( _inputReader->WasButtonPressed( GameButton::Start ) )
    {
-      _commandExecutor->ExecuteCommand( GameCommand::Quit );
+      _commandExecutor->ExecuteCommand( GameCommand::OpenPlayingMenu );
    }
 
    if ( _inputReader->WasButtonPressed( GameButton::A ) )

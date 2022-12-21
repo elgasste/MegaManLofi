@@ -46,10 +46,10 @@ TEST_F( PlayingStateInputHandlerTests, HandleInput_SelectButtonWasPressed_Execut
    _inputHandler->HandleInput();
 }
 
-TEST_F( PlayingStateInputHandlerTests, HandleInput_StartButtonWasPressed_ExecutesQuitCommand )
+TEST_F( PlayingStateInputHandlerTests, HandleInput_StartButtonWasPressed_ExecutesOpenPlayingMenuCommand )
 {
    ON_CALL( *_inputReaderMock, WasButtonPressed( GameButton::Start ) ).WillByDefault( Return( true ) );
-   EXPECT_CALL( *_commandExecutorMock, ExecuteCommand( GameCommand::Quit ) );
+   EXPECT_CALL( *_commandExecutorMock, ExecuteCommand( GameCommand::OpenPlayingMenu ) );
 
    _inputHandler->HandleInput();
 }

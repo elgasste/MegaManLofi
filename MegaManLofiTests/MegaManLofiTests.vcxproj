@@ -80,6 +80,7 @@
     <ClCompile Include="PlayerThwipOutConsoleAnimationTests.cpp" />
     <ClCompile Include="PlayingStateInputHandlerTests.cpp" />
     <ClCompile Include="RectangleUtilitiesTests.cpp" />
+    <ClCompile Include="StageStartedConsoleAnimationTests.cpp" />
     <ClCompile Include="TitleStateInputHandlerTests.cpp" />
   </ItemGroup>
   <ItemGroup>

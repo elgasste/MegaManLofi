@@ -50,10 +50,9 @@ TEST_F( PlayingMenuTests, IncrementSelectedIndex_OutOfRange_LoopsSelectedIndexBa
 
 TEST_F( PlayingMenuTests, DecrementSelectedIndex_WithinRange_DecrementsSelectedIndex )
 {
-   _menu->IncrementSelectedIndex();
    _menu->DecrementSelectedIndex();
 
-   EXPECT_EQ( _menu->GetSelectedIndex(), 0 );
+   EXPECT_EQ( _menu->GetSelectedIndex(), 2 );
 }
 
 TEST_F( PlayingMenuTests, DecrementSelectedIndex_OutOfRange_LoopsSelectedIndexToEndOfList )

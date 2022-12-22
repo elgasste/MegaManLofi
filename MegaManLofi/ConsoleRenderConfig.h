@@ -46,6 +46,9 @@ namespace MegaManLofi
       ConsoleColor ArenaForegroundColor = (ConsoleColor)0;
       ConsoleColor ArenaBackgroundColor = (ConsoleColor)0;
 
+      ConsoleColor PlayingMenuForegroundColor = (ConsoleColor)0;
+      ConsoleColor PlayingMenuBackgroundColor = (ConsoleColor)0;
+
       ConsoleColor GameOverBackgroundColor = (ConsoleColor)0;
 
       ConsoleColor TitleKeyBindingsForegroundColor = (ConsoleColor)0;
@@ -56,6 +59,8 @@ namespace MegaManLofi
       ConsoleImage TitleBuildingImage;
       ConsoleImage TitleStartMessageImage;
       ConsoleImage TitleStarImage;
+
+      ConsoleImage PlayingMenuPlayerImage;
 
       std::shared_ptr<IConsoleSprite> PlayerThwipSprite;
       std::shared_ptr<IConsoleSprite> PlayerThwipInTransitionSprite;
@@ -84,6 +89,8 @@ namespace MegaManLofi
 
       ConsoleImage PauseOverlayImage;
       ConsoleImage GameOverImage;
+
+      std::shared_ptr<IConsoleSprite> MenuCaratSprite;
 
       std::map<Direction, std::shared_ptr<IConsoleSprite>> PlayerStandingSpriteMap;
       std::map<Direction, std::shared_ptr<IConsoleSprite>> PlayerWalkingSpriteMap;

@@ -186,6 +186,15 @@
     <ClCompile Include="PlayingMenuStateConsoleRenderer.cpp">
       <Filter>Source Files\Render</Filter>
     </ClCompile>
+    <ClCompile Include="MenuRepository.cpp">
+      <Filter>Source Files\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayingMenu.cpp">
+      <Filter>Source Files\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuSpriteGenerator.cpp">
+      <Filter>Source Files\ConfigGenerators</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameRunner.h">
@@ -463,6 +472,24 @@
     </ClInclude>
     <ClInclude Include="PlayingMenuStateConsoleRenderer.h">
       <Filter>Header Files\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuType.h">
+      <Filter>Header Files\DataTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="IMenu.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="IMenuProvider.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuRepository.h">
+      <Filter>Header Files\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayingMenu.h">
+      <Filter>Header Files\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuSpriteGenerator.h">
+      <Filter>Header Files\ConfigGenerators</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

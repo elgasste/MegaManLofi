@@ -27,6 +27,9 @@
 #include "PlayerPhysics.h"
 #include "ArenaPhysics.h"
 #include "Game.h"
+#include "MenuType.h"
+#include "PlayingMenu.h"
+#include "MenuRepository.h"
 #include "PlayerThwipOutConsoleAnimation.h"
 #include "StageStartedConsoleAnimation.h"
 #include "PlayerThwipInConsoleAnimation.h"
@@ -53,6 +56,7 @@
 #include "ArenaTileGenerator.h"
 #include "ArenaSpriteGenerator.h"
 #include "TitleSpriteGenerator.h"
+#include "MenuSpriteGenerator.h"
 
 using namespace std;
 using namespace MegaManLofi;
@@ -136,10 +140,15 @@ void LoadAndRun( const shared_ptr<IConsoleBuffer> consoleBuffer )
    auto arena = shared_ptr<Arena>( new Arena( config->ArenaConfig ) );
    auto game = shared_ptr<Game>( new Game( eventAggregator, player, arena, playerPhysics, arenaPhysics ) );
 
+   // menus
+   auto playingMenu = shared_ptr<PlayingMenu>( new PlayingMenu( game ) );
+   auto menuRepository = make_shared<MenuRepository>();
+   menuRepository->AddMenu( MenuType::Playing, playingMenu );
+
    // input objects
    auto startupStateInputHandler = shared_ptr<TitleStateInputHandler>( new TitleStateInputHandler( keyboardInputReader, game ) );
    auto playingStateInputHandler = shared_ptr<PlayingStateInputHandler>( new PlayingStateInputHandler( keyboardInputReader, game ) );
-   auto playingMenuStateInputHandler = shared_ptr<PlayingMenuStateInputHandler>( new PlayingMenuStateInputHandler( keyboardInputReader, game ) );
+   auto playingMenuStateInputHandler = shared_ptr<PlayingMenuStateInputHandler>( new PlayingMenuStateInputHandler( keyboardInputReader, game, menuRepository ) );
    auto gameOverStateInputHandler = shared_ptr<GameOverStateInputHandler>( new GameOverStateInputHandler( keyboardInputReader, game ) );
    auto inputHandler = shared_ptr<GameInputHandler>( new GameInputHandler( keyboardInputReader, game, eventAggregator ) );
    inputHandler->AddInputHandlerForGameState( GameState::Title, startupStateInputHandler );
@@ -162,7 +171,7 @@ void LoadAndRun( const shared_ptr<IConsoleBuffer> consoleBuffer )
    auto diagnosticsRenderer = shared_ptr<DiagnosticsConsoleRenderer>( new DiagnosticsConsoleRenderer( consoleBuffer, clock, consoleRenderConfig ) );
    auto titleStateConsoleRenderer = shared_ptr<TitleStateConsoleRenderer>( new TitleStateConsoleRenderer( consoleBuffer, random, clock, eventAggregator, consoleRenderConfig, keyboardInputConfig, animationRepository ) );
    auto playingStateConsoleRenderer = shared_ptr<PlayingStateConsoleRenderer>( new PlayingStateConsoleRenderer( consoleBuffer, consoleRenderConfig, game, player, arena, eventAggregator, clock, animationRepository ) );
-   auto playingMenuStateConsoleRenderer = shared_ptr<PlayingMenuStateConsoleRenderer>( new PlayingMenuStateConsoleRenderer( consoleBuffer, consoleRenderConfig ) );
+   auto playingMenuStateConsoleRenderer = shared_ptr<PlayingMenuStateConsoleRenderer>( new PlayingMenuStateConsoleRenderer( consoleBuffer, consoleRenderConfig, menuRepository ) );
    auto gameOverStateConsoleRenderer = shared_ptr<GameOverStateConsoleRenderer>( new GameOverStateConsoleRenderer( consoleBuffer, consoleRenderConfig, keyboardInputConfig ) );
    auto renderer = shared_ptr<GameRenderer>( new GameRenderer( consoleRenderConfig, consoleBuffer, game, diagnosticsRenderer, eventAggregator ) );
    renderer->AddRendererForGameState( GameState::Title, titleStateConsoleRenderer );
@@ -212,6 +221,9 @@ shared_ptr<ConsoleRenderConfig> BuildConsoleRenderConfig( const shared_ptr<IFram
    renderConfig->ArenaForegroundColor = ConsoleColor::White;
    renderConfig->ArenaBackgroundColor = ConsoleColor::Black;
 
+   renderConfig->PlayingMenuForegroundColor = ConsoleColor::White;
+   renderConfig->PlayingMenuBackgroundColor = ConsoleColor::DarkBlue;
+
    renderConfig->GameOverBackgroundColor = ConsoleColor::DarkMagenta;
 
    renderConfig->TitleKeyBindingsForegroundColor = ConsoleColor::DarkGrey;
@@ -250,6 +262,9 @@ shared_ptr<ConsoleRenderConfig> BuildConsoleRenderConfig( const shared_ptr<IFram
 
    renderConfig->PauseOverlayImage = ArenaSpriteGenerator::GeneratePauseOverlayImage();
    renderConfig->GameOverImage = ArenaSpriteGenerator::GenerateGameOverImage();
+
+   renderConfig->MenuCaratSprite = MenuSpriteGenerator::GenerateMenuCaratSprite( frameRateProvider );
+   renderConfig->PlayingMenuPlayerImage = MenuSpriteGenerator::GeneratePlayerImage();
 
    renderConfig->PlayerStandingSpriteMap = PlayerSpriteGenerator::GenerateStandingSpriteMap( frameRateProvider );
    renderConfig->PlayerWalkingSpriteMap = PlayerSpriteGenerator::GenerateWalkingSpriteMap( frameRateProvider );

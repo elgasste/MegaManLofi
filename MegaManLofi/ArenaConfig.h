@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "ArenaTile.h"
+#include "SpawnDef.h"
 
 namespace MegaManLofi
 {
@@ -19,5 +20,7 @@ namespace MegaManLofi
 
       long long DefaultPlayerPositionX = 0;
       long long DefaultPlayerPositionY = 0;
+
+      std::vector<SpawnDef> Spawns;
    };
 }

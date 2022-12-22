@@ -494,5 +494,8 @@
     <ClInclude Include="SpawnDef.h">
       <Filter>Header Files\DataTypes</Filter>
     </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Header Files\GameObjects</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

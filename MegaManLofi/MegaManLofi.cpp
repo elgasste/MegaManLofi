@@ -390,6 +390,8 @@ shared_ptr<ArenaConfig> BuildArenaConfig()
    arenaConfig->DefaultPlayerPositionX = arenaConfig->DefaultTileWidth * 8;
    arenaConfig->DefaultPlayerPositionY = arenaConfig->DefaultTileHeight * 6;
 
+   arenaConfig->Spawns.push_back( { 1, arenaConfig->DefaultTileWidth * 15, arenaConfig->DefaultTileHeight * 6 } );
+
    return arenaConfig;
 }
 

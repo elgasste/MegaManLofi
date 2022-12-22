@@ -491,5 +491,8 @@
     <ClInclude Include="MenuSpriteGenerator.h">
       <Filter>Header Files\ConfigGenerators</Filter>
     </ClInclude>
+    <ClInclude Include="SpawnDef.h">
+      <Filter>Header Files\DataTypes</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

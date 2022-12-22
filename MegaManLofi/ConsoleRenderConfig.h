@@ -60,6 +60,8 @@ namespace MegaManLofi
       ConsoleImage TitleStartMessageImage;
       ConsoleImage TitleStarImage;
 
+      ConsoleImage PlayingMenuPlayerImage;
+
       std::shared_ptr<IConsoleSprite> PlayerThwipSprite;
       std::shared_ptr<IConsoleSprite> PlayerThwipInTransitionSprite;
       std::shared_ptr<IConsoleSprite> PlayerThwipOutTransitionSprite;

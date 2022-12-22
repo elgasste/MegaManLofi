@@ -26,6 +26,8 @@ void PlayingMenuStateConsoleRenderer::Render()
    const auto& menu = _menuProvider->GetMenu( MenuType::Playing );
    int top = 10;
 
+   _consoleBuffer->Draw( 1, 1, _renderConfig->PlayingMenuPlayerImage );
+
    for ( int i = 0; i < menu->GetOptionCount(); i++, top++ )
    {
       if ( menu->GetSelectedIndex() == i )

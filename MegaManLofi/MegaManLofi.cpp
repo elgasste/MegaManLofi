@@ -264,6 +264,7 @@ shared_ptr<ConsoleRenderConfig> BuildConsoleRenderConfig( const shared_ptr<IFram
    renderConfig->GameOverImage = ArenaSpriteGenerator::GenerateGameOverImage();
 
    renderConfig->MenuCaratSprite = MenuSpriteGenerator::GenerateMenuCaratSprite( frameRateProvider );
+   renderConfig->PlayingMenuPlayerImage = MenuSpriteGenerator::GeneratePlayerImage();
 
    renderConfig->PlayerStandingSpriteMap = PlayerSpriteGenerator::GenerateStandingSpriteMap( frameRateProvider );
    renderConfig->PlayerWalkingSpriteMap = PlayerSpriteGenerator::GenerateWalkingSpriteMap( frameRateProvider );

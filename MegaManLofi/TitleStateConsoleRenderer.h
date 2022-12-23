@@ -13,7 +13,7 @@ namespace MegaManLofi
    class IFrameRateProvider;
    class IGameEventAggregator;
    class ConsoleRenderConfig;
-   class KeyboardInputConfig;
+   class KeyboardInputDefs;
    class IConsoleAnimationProvider;
    class IConsoleAnimation;
 
@@ -25,7 +25,7 @@ namespace MegaManLofi
                                  const std::shared_ptr<IFrameRateProvider> frameRateProvider,
                                  const std::shared_ptr<IGameEventAggregator> eventAggregator,
                                  const std::shared_ptr<ConsoleRenderConfig> renderConfig,
-                                 const std::shared_ptr<KeyboardInputConfig> inputConfig,
+                                 const std::shared_ptr<KeyboardInputDefs> inputDefs,
                                  const std::shared_ptr<IConsoleAnimationProvider> animationProvider );
 
       void HandleGameStartedEvent();
@@ -42,7 +42,7 @@ namespace MegaManLofi
       const std::shared_ptr<IFrameRateProvider> _frameRateProvider;
       const std::shared_ptr<IGameEventAggregator> _eventAggregator;
       const std::shared_ptr<ConsoleRenderConfig> _renderConfig;
-      const std::shared_ptr<KeyboardInputConfig> _inputConfig;
+      const std::shared_ptr<KeyboardInputDefs> _inputDefs;
       const std::shared_ptr<IConsoleAnimationProvider> _animationProvider;
 
       const std::shared_ptr<IConsoleAnimation> _thwipOutAnimation;

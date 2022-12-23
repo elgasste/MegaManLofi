@@ -160,6 +160,7 @@
     <ClCompile Include="FrameActionRegistry.cpp" />
     <ClCompile Include="GameOverStateConsoleRenderer.cpp" />
     <ClCompile Include="GameOverStateInputHandler.cpp" />
+    <ClCompile Include="KeyboardInputDefsGenerator.cpp" />
     <ClCompile Include="MegaManLofi.cpp" />
     <ClCompile Include="DiagnosticsConsoleRenderer.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -239,7 +240,7 @@
     <ClInclude Include="IFrameRateProvider.h" />
     <ClInclude Include="IGame.h" />
     <ClInclude Include="IGameInfoProvider.h" />
-    <ClInclude Include="IGameInputConfig.h" />
+    <ClInclude Include="IGameInputDefs.h" />
     <ClInclude Include="IGameRenderConfig.h" />
     <ClInclude Include="IMenu.h" />
     <ClInclude Include="IMenuProvider.h" />
@@ -249,6 +250,7 @@
     <ClInclude Include="IRandom.h" />
     <ClInclude Include="IScreenBuffer.h" />
     <ClInclude Include="IThread.h" />
+    <ClInclude Include="KeyboardInputDefsGenerator.h" />
     <ClInclude Include="KeyboardWrapper.h" />
     <ClInclude Include="HighResolutionClockWrapper.h" />
     <ClInclude Include="IGameCommandExecutor.h" />
@@ -260,7 +262,7 @@
     <ClInclude Include="IGameRenderer.h" />
     <ClInclude Include="IGameRunner.h" />
     <ClInclude Include="GameInputHandler.h" />
-    <ClInclude Include="KeyboardInputConfig.h" />
+    <ClInclude Include="KeyboardInputDefs.h" />
     <ClInclude Include="IHighResolutionClock.h" />
     <ClInclude Include="IKeyboard.h" />
     <ClInclude Include="ISleeper.h" />

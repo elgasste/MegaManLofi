@@ -7,7 +7,6 @@
 
 #include "GameConfig.h"
 #include "ConsoleRenderConfig.h"
-#include "KeyboardInputConfig.h"
 #include "PlayerPhysicsConfig.h"
 #include "KeyCode.h"
 #include "GameButton.h"
@@ -55,6 +54,8 @@
 #include "ArenaSpriteGenerator.h"
 #include "TitleSpriteGenerator.h"
 #include "MenuSpriteGenerator.h"
+#include "KeyboardInputDefs.h"
+#include "KeyboardInputDefsGenerator.h"
 #include "PlayerDefsGenerator.h"
 #include "ArenaDefsGenerator.h"
 
@@ -65,7 +66,6 @@ using namespace MegaManLofi;
 // but at the very least they should all have default values, and those could
 // probably be set in some initializer instead of in here.
 shared_ptr<ConsoleRenderConfig> BuildConsoleRenderConfig( const shared_ptr<IFrameRateProvider> frameRateProvider );
-shared_ptr<KeyboardInputConfig> BuildKeyboardInputConfig();
 shared_ptr<PlayerPhysicsConfig> BuildPlayerPhysicsConfig();
 shared_ptr<GameConfig> BuildGameConfig();
 void LoadAndRun( const shared_ptr<IConsoleBuffer> consoleBuffer );
@@ -119,15 +119,15 @@ void LoadAndRun( const shared_ptr<IConsoleBuffer> consoleBuffer )
 
    // sub-configs
    config->RenderConfig = BuildConsoleRenderConfig( clock );
-   config->InputConfig = BuildKeyboardInputConfig();
+   config->InputDefs = KeyboardInputDefsGenerator::GenerateKeyboardInputDefs();
    config->PlayerDefs = PlayerDefsGenerator::GeneratePlayerDefs();
    config->ArenaDefs = ArenaDefsGenerator::GenerateArenaDefs();
    config->PlayerPhysicsConfig = BuildPlayerPhysicsConfig();
    auto consoleRenderConfig = static_pointer_cast<ConsoleRenderConfig>( config->RenderConfig );
-   auto keyboardInputConfig = static_pointer_cast<KeyboardInputConfig>( config->InputConfig );
+   auto keyboardInputDefs = static_pointer_cast<KeyboardInputDefs>( config->InputDefs );
 
    // input
-   auto keyboardInputReader = shared_ptr<KeyboardInputReader>( new KeyboardInputReader( keyboardInputConfig, keyboard ) );
+   auto keyboardInputReader = shared_ptr<KeyboardInputReader>( new KeyboardInputReader( keyboardInputDefs, keyboard ) );
 
    // utilities
    auto playerPhysics = shared_ptr<PlayerPhysics>( new PlayerPhysics( clock, frameActionRegistry, config->PlayerPhysicsConfig ) );
@@ -167,10 +167,10 @@ void LoadAndRun( const shared_ptr<IConsoleBuffer> consoleBuffer )
 
    // rendering objects
    auto diagnosticsRenderer = shared_ptr<DiagnosticsConsoleRenderer>( new DiagnosticsConsoleRenderer( consoleBuffer, clock, consoleRenderConfig ) );
-   auto titleStateConsoleRenderer = shared_ptr<TitleStateConsoleRenderer>( new TitleStateConsoleRenderer( consoleBuffer, random, clock, eventAggregator, consoleRenderConfig, keyboardInputConfig, animationRepository ) );
+   auto titleStateConsoleRenderer = shared_ptr<TitleStateConsoleRenderer>( new TitleStateConsoleRenderer( consoleBuffer, random, clock, eventAggregator, consoleRenderConfig, keyboardInputDefs, animationRepository ) );
    auto playingStateConsoleRenderer = shared_ptr<PlayingStateConsoleRenderer>( new PlayingStateConsoleRenderer( consoleBuffer, consoleRenderConfig, game, player, arena, eventAggregator, clock, animationRepository ) );
    auto playingMenuStateConsoleRenderer = shared_ptr<PlayingMenuStateConsoleRenderer>( new PlayingMenuStateConsoleRenderer( consoleBuffer, consoleRenderConfig, menuRepository ) );
-   auto gameOverStateConsoleRenderer = shared_ptr<GameOverStateConsoleRenderer>( new GameOverStateConsoleRenderer( consoleBuffer, consoleRenderConfig, keyboardInputConfig ) );
+   auto gameOverStateConsoleRenderer = shared_ptr<GameOverStateConsoleRenderer>( new GameOverStateConsoleRenderer( consoleBuffer, consoleRenderConfig ) );
    auto renderer = shared_ptr<GameRenderer>( new GameRenderer( consoleRenderConfig, consoleBuffer, game, diagnosticsRenderer, eventAggregator ) );
    renderer->AddRendererForGameState( GameState::Title, titleStateConsoleRenderer );
    renderer->AddRendererForGameState( GameState::Playing, playingStateConsoleRenderer );
@@ -287,71 +287,6 @@ shared_ptr<ConsoleRenderConfig> BuildConsoleRenderConfig( const shared_ptr<IFram
    renderConfig->ArenaTiles = ArenaSpriteGenerator::GenerateArenaTiles();
 
    return renderConfig;
-}
-
-shared_ptr<KeyboardInputConfig> BuildKeyboardInputConfig()
-{
-   auto inputConfig = make_shared<KeyboardInputConfig>();
-
-   // key code bindings
-   inputConfig->KeyMap[KeyCode::Left] = GameButton::Left;
-   inputConfig->KeyMap[KeyCode::Up] = GameButton::Up;
-   inputConfig->KeyMap[KeyCode::Right] = GameButton::Right;
-   inputConfig->KeyMap[KeyCode::Down] = GameButton::Down;
-
-   inputConfig->KeyMap[KeyCode::Return] = GameButton::Start;
-   inputConfig->KeyMap[KeyCode::RShiftKey] = GameButton::Select;
-
-   inputConfig->KeyMap[KeyCode::A] = GameButton::A;
-   inputConfig->KeyMap[KeyCode::B] = GameButton::B;
-   inputConfig->KeyMap[KeyCode::X] = GameButton::X;
-   inputConfig->KeyMap[KeyCode::Y] = GameButton::Y;
-
-   inputConfig->KeyMap[KeyCode::NumPad1] = GameButton::L1;
-   inputConfig->KeyMap[KeyCode::NumPad2] = GameButton::L2;
-   inputConfig->KeyMap[KeyCode::NumPad3] = GameButton::R1;
-   inputConfig->KeyMap[KeyCode::NumPad4] = GameButton::R2;
-
-   inputConfig->KeyMap[KeyCode::F12] = GameButton::Diagnostics;
-
-   // key names
-   inputConfig->KeyNames[KeyCode::Left] = "Left Arrow";
-   inputConfig->KeyNames[KeyCode::Up] = "Up Arrow";
-   inputConfig->KeyNames[KeyCode::Right] = "Right Arrow";
-   inputConfig->KeyNames[KeyCode::Down] = "Down Arrow";
-   inputConfig->KeyNames[KeyCode::Return] = "Enter";
-   inputConfig->KeyNames[KeyCode::LShiftKey] = "Left Shift";
-   inputConfig->KeyNames[KeyCode::RShiftKey] = "Right Shift";
-   inputConfig->KeyNames[KeyCode::Space] = "Space Bar";
-   inputConfig->KeyNames[KeyCode::Tab] = "Tab";
-   inputConfig->KeyNames[KeyCode::A] = "A";
-   inputConfig->KeyNames[KeyCode::B] = "B";
-   inputConfig->KeyNames[KeyCode::X] = "X";
-   inputConfig->KeyNames[KeyCode::Y] = "Y";
-   inputConfig->KeyNames[KeyCode::NumPad1] = "1";
-   inputConfig->KeyNames[KeyCode::NumPad2] = "2";
-   inputConfig->KeyNames[KeyCode::NumPad3] = "3";
-   inputConfig->KeyNames[KeyCode::NumPad4] = "4";
-   inputConfig->KeyNames[KeyCode::F12] = "F12";
-
-   // button names
-   inputConfig->ButtonNames[GameButton::Left] = "Left";
-   inputConfig->ButtonNames[GameButton::Up] = "Up";
-   inputConfig->ButtonNames[GameButton::Right] = "Right";
-   inputConfig->ButtonNames[GameButton::Down] = "Down";
-   inputConfig->ButtonNames[GameButton::Start] = "Start";
-   inputConfig->ButtonNames[GameButton::Select] = "Select";
-   inputConfig->ButtonNames[GameButton::A] = "A";
-   inputConfig->ButtonNames[GameButton::B] = "B";
-   inputConfig->ButtonNames[GameButton::X] = "X";
-   inputConfig->ButtonNames[GameButton::Y] = "Y";
-   inputConfig->ButtonNames[GameButton::L1] = "L1";
-   inputConfig->ButtonNames[GameButton::L2] = "L2";
-   inputConfig->ButtonNames[GameButton::R1] = "R1";
-   inputConfig->ButtonNames[GameButton::R2] = "R2";
-   inputConfig->ButtonNames[GameButton::Diagnostics] = "Toggle Diagnostics";
-
-   return inputConfig;
 }
 
 shared_ptr<PlayerPhysicsConfig> BuildPlayerPhysicsConfig()

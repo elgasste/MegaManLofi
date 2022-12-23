@@ -7,7 +7,7 @@
 #include "IFrameRateProvider.h"
 #include "IGameEventAggregator.h"
 #include "ConsoleRenderConfig.h"
-#include "KeyboardInputConfig.h"
+#include "KeyboardInputDefs.h"
 #include "IConsoleAnimationProvider.h"
 #include "IConsoleAnimation.h"
 #include "IConsoleSprite.h"
@@ -22,14 +22,14 @@ TitleStateConsoleRenderer::TitleStateConsoleRenderer( const shared_ptr<IConsoleB
                                                       const shared_ptr<IFrameRateProvider> frameRateProvider,
                                                       const shared_ptr<IGameEventAggregator> eventAggregator,
                                                       const shared_ptr<ConsoleRenderConfig> renderConfig,
-                                                      const shared_ptr<KeyboardInputConfig> inputConfig,
+                                                      const shared_ptr<KeyboardInputDefs> inputDefs,
                                                       const shared_ptr<IConsoleAnimationProvider> animationProvider ) :
    _consoleBuffer( consoleBuffer ),
    _random( random ),
    _frameRateProvider( frameRateProvider ),
    _eventAggregator( eventAggregator ),
    _renderConfig( renderConfig ),
-   _inputConfig( inputConfig ),
+   _inputDefs( inputDefs ),
    _animationProvider( animationProvider ),
    _thwipOutAnimation( animationProvider->GetAnimation( ConsoleAnimationType::PlayerThwipOut ) )
 {
@@ -105,10 +105,10 @@ void TitleStateConsoleRenderer::DrawKeyBindings() const
    auto leftOfMiddleX = _renderConfig->TitleKeyBindingsMiddleXChars - 2;
    auto top = _renderConfig->TitleKeyBindingsTopChars;
 
-   for ( auto const& [keyCode, mappedButton] : _inputConfig->KeyMap )
+   for ( auto const& [keyCode, mappedButton] : _inputDefs->KeyMap )
    {
-      string keyString( format( "{0} Key", _inputConfig->KeyNames.at( keyCode ) ) );
-      string buttonString( format( "{0} Button", _inputConfig->ButtonNames.at(mappedButton) ) );
+      string keyString( format( "{0} Key", _inputDefs->KeyNames.at( keyCode ) ) );
+      string buttonString( format( "{0} Button", _inputDefs->ButtonNames.at(mappedButton) ) );
 
       _consoleBuffer->Draw( leftOfMiddleX - (int)keyString.length() - 2, top, format( "{0} -> {1}", keyString, buttonString ), _renderConfig->TitleKeyBindingsForegroundColor );
 

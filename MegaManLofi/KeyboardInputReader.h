@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "IGameInputReader.h"
+#include "KeyCode.h"
 
 namespace MegaManLofi
 {
@@ -14,15 +15,13 @@ namespace MegaManLofi
       bool ButtonIsDown;
    };
 
-   class KeyboardInputConfig;
+   class KeyboardInputDefs;
    class IKeyboard;
-   enum class KeyCode;
-   enum class GameButton;
 
    class KeyboardInputReader : public IGameInputReader
    {
    public:
-      KeyboardInputReader( const std::shared_ptr<KeyboardInputConfig> inputConfig,
+      KeyboardInputReader( const std::shared_ptr<KeyboardInputDefs> inputDefs,
                            const std::shared_ptr<IKeyboard> keyboard );
 
       void ReadInput() override;

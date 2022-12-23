@@ -10,7 +10,7 @@
 namespace MegaManLofi
 {
    class IConsoleBuffer;
-   class ConsoleRenderConfig;
+   class ConsoleRenderDefs;
    class IGameInfoProvider;
    class IPlayerInfoProvider;
    class IArenaInfoProvider;
@@ -23,7 +23,7 @@ namespace MegaManLofi
    {
    public:
       PlayingStateConsoleRenderer( const std::shared_ptr<IConsoleBuffer> consoleBuffer,
-                                   const std::shared_ptr<ConsoleRenderConfig> renderConfig,
+                                   const std::shared_ptr<ConsoleRenderDefs> renderDefs,
                                    const std::shared_ptr<IGameInfoProvider> gameInfoProvider,
                                    const std::shared_ptr<IPlayerInfoProvider> playerInfoProvider,
                                    const std::shared_ptr<IArenaInfoProvider> arenaInfoProvider,
@@ -54,7 +54,7 @@ namespace MegaManLofi
 
    private:
       const std::shared_ptr<IConsoleBuffer> _consoleBuffer;
-      const std::shared_ptr<ConsoleRenderConfig> _renderConfig;
+      const std::shared_ptr<ConsoleRenderDefs> _renderDefs;
       const std::shared_ptr<IPlayerInfoProvider> _playerInfoProvider;
       const std::shared_ptr<IGameInfoProvider> _gameInfoProvider;
       const std::shared_ptr<IArenaInfoProvider> _arenaInfoProvider;

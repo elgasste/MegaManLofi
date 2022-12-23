@@ -4,7 +4,7 @@
 #include <map>
 #include <vector>
 
-#include "IGameRenderConfig.h"
+#include "IGameRenderDefs.h"
 #include "Direction.h"
 #include "ConsoleImage.h"
 
@@ -12,7 +12,7 @@ namespace MegaManLofi
 {
    class IConsoleSprite;
 
-   class ConsoleRenderConfig : public IGameRenderConfig
+   class ConsoleRenderDefs : public IGameRenderDefs
    {
    public:
       short ConsoleWidthChars = 0;

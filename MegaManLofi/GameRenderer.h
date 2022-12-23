@@ -8,7 +8,7 @@
 
 namespace MegaManLofi
 {
-   class ConsoleRenderConfig;
+   class ConsoleRenderDefs;
    class IScreenBuffer;
    class IGameInfoProvider;
    class IGameEventAggregator;
@@ -18,7 +18,7 @@ namespace MegaManLofi
    class GameRenderer : public IGameRenderer
    {
    public:
-      GameRenderer( const std::shared_ptr<ConsoleRenderConfig> renderConfig,
+      GameRenderer( const std::shared_ptr<ConsoleRenderDefs> renderDefs,
                     const std::shared_ptr<IScreenBuffer> screenBuffer,
                     const std::shared_ptr<IGameInfoProvider> gameInfoProvider,
                     const std::shared_ptr<IGameRenderer> diagnosticsRenderer,

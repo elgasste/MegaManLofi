@@ -3,7 +3,7 @@
 #include "DiagnosticsConsoleRenderer.h"
 #include "IConsoleBuffer.h"
 #include "IGameClock.h"
-#include "ConsoleRenderConfig.h"
+#include "ConsoleRenderDefs.h"
 #include "ConsoleColor.h"
 
 #define DIAGNOSTICS_WIDTH 30
@@ -13,16 +13,16 @@ using namespace MegaManLofi;
 
 DiagnosticsConsoleRenderer::DiagnosticsConsoleRenderer( const shared_ptr<IConsoleBuffer> consoleBuffer,
                                                         const shared_ptr<IGameClock> clock,
-                                                        const shared_ptr<ConsoleRenderConfig> renderConfig ) :
+                                                        const shared_ptr<ConsoleRenderDefs> renderDefs ) :
    _consoleBuffer( consoleBuffer ),
    _clock( clock ),
-   _renderConfig( renderConfig )
+   _renderDefs( renderDefs )
 {
 }
 
 void DiagnosticsConsoleRenderer::Render()
 {
-   auto left = _renderConfig->ConsoleWidthChars - DIAGNOSTICS_WIDTH;
+   auto left = _renderDefs->ConsoleWidthChars - DIAGNOSTICS_WIDTH;
 
    auto framesPerSecondString = format( " Frames per second: {0} ", _clock->GetFramesPerSecond() );
    auto totalFramesString = format( " Total frames:      {0} ", _clock->GetTotalFrameCount() );

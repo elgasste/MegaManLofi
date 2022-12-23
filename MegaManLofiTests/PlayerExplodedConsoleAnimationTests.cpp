@@ -3,7 +3,7 @@
 #include <memory>
 
 #include <MegaManLofi/PlayerExplodedConsoleAnimation.h>
-#include <MegaManLofi/ConsoleRenderConfig.h>
+#include <MegaManLofi/ConsoleRenderDefs.h>
 
 #include "mock_ConsoleBuffer.h"
 #include "mock_FrameRateProvider.h"
@@ -20,26 +20,26 @@ public:
    {
       _consoleBufferMock.reset( new NiceMock<mock_ConsoleBuffer> );
       _frameRateProviderMock.reset( new NiceMock<mock_FrameRateProvider> );
-      _renderConfig.reset( new ConsoleRenderConfig );
+      _renderDefs.reset( new ConsoleRenderDefs );
       _particleSpriteMock.reset( new NiceMock<mock_ConsoleSprite> );
 
-      _renderConfig->PlayerExplosionParticleSprite = _particleSpriteMock;
-      _renderConfig->PlayerExplosionParticleVelocity = 2;
-      _renderConfig->ArenaCharWidth = 1;
-      _renderConfig->ArenaCharHeight = 1;
+      _renderDefs->PlayerExplosionParticleSprite = _particleSpriteMock;
+      _renderDefs->PlayerExplosionParticleVelocity = 2;
+      _renderDefs->ArenaCharWidth = 1;
+      _renderDefs->ArenaCharHeight = 1;
 
       ON_CALL( *_frameRateProviderMock, GetSecondsPerFrame() ).WillByDefault( Return( 1 ) );
    }
 
    void BuildAnimation()
    {
-      _animation.reset( new PlayerExplodedConsoleAnimation( _consoleBufferMock, _frameRateProviderMock, _renderConfig ) );
+      _animation.reset( new PlayerExplodedConsoleAnimation( _consoleBufferMock, _frameRateProviderMock, _renderDefs ) );
    }
 
 protected:
    shared_ptr<mock_ConsoleBuffer> _consoleBufferMock;
    shared_ptr<mock_FrameRateProvider> _frameRateProviderMock;
-   shared_ptr<ConsoleRenderConfig> _renderConfig;
+   shared_ptr<ConsoleRenderDefs> _renderDefs;
 
    shared_ptr<mock_ConsoleSprite> _particleSpriteMock;
 

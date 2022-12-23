@@ -3,7 +3,7 @@
 #include "StageStartedConsoleAnimation.h"
 #include "IConsoleBuffer.h"
 #include "IFrameRateProvider.h"
-#include "ConsoleRenderConfig.h"
+#include "ConsoleRenderDefs.h"
 #include "IConsoleSprite.h"
 
 using namespace std;
@@ -11,10 +11,10 @@ using namespace MegaManLofi;
 
 StageStartedConsoleAnimation::StageStartedConsoleAnimation( const shared_ptr<IConsoleBuffer> consoleBuffer,
                                                             const shared_ptr<IFrameRateProvider> frameRateProvider,
-                                                            const shared_ptr<ConsoleRenderConfig> renderConfig ) :
+                                                            const shared_ptr<ConsoleRenderDefs> renderDefs ) :
    _consoleBuffer( consoleBuffer ),
    _frameRateProvider( frameRateProvider ),
-   _renderConfig( renderConfig ),
+   _renderDefs( renderDefs ),
    _isRunning( false ),
    _elapsedSeconds( 0 ),
    _positionChars( { 0, 0 } )
@@ -33,14 +33,14 @@ void StageStartedConsoleAnimation::Start( optional<Coordinate<short>> startPosit
    _elapsedSeconds = 0;
    _positionChars = startPositionChars.value();
 
-   _renderConfig->GetReadySprite->Reset();
+   _renderDefs->GetReadySprite->Reset();
 }
 
 void StageStartedConsoleAnimation::Draw()
 {
-   auto leftOffset = (short)( _renderConfig->GetReadySprite->GetWidth() / 2 );
-   auto topOffset = (short)( _renderConfig->GetReadySprite->GetHeight() / 2 );
-   _consoleBuffer->Draw( _positionChars.Left - leftOffset, _positionChars.Top - topOffset, _renderConfig->GetReadySprite );
+   auto leftOffset = (short)( _renderDefs->GetReadySprite->GetWidth() / 2 );
+   auto topOffset = (short)( _renderDefs->GetReadySprite->GetHeight() / 2 );
+   _consoleBuffer->Draw( _positionChars.Left - leftOffset, _positionChars.Top - topOffset, _renderDefs->GetReadySprite );
 }
 
 void StageStartedConsoleAnimation::Tick()
@@ -48,9 +48,9 @@ void StageStartedConsoleAnimation::Tick()
    if ( _isRunning )
    {
       _elapsedSeconds += _frameRateProvider->GetSecondsPerFrame();
-      _renderConfig->GetReadySprite->Tick();
+      _renderDefs->GetReadySprite->Tick();
 
-      if ( _elapsedSeconds >= _renderConfig->GetReadyAnimationSeconds )
+      if ( _elapsedSeconds >= _renderDefs->GetReadyAnimationSeconds )
       {
          _isRunning = false;
       }

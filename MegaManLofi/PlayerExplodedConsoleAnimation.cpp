@@ -3,7 +3,7 @@
 #include "PlayerExplodedConsoleAnimation.h"
 #include "IConsoleBuffer.h"
 #include "IFrameRateProvider.h"
-#include "ConsoleRenderConfig.h"
+#include "ConsoleRenderDefs.h"
 #include "IConsoleSprite.h"
 
 using namespace std;
@@ -11,10 +11,10 @@ using namespace MegaManLofi;
 
 PlayerExplodedConsoleAnimation::PlayerExplodedConsoleAnimation( const shared_ptr<IConsoleBuffer> consoleBuffer,
                                                                 const shared_ptr<IFrameRateProvider> frameRateProvider,
-                                                                const shared_ptr<ConsoleRenderConfig> renderConfig ) :
+                                                                const shared_ptr<ConsoleRenderDefs> renderDefs ) :
    _consoleBuffer( consoleBuffer ),
    _frameRateProvider( frameRateProvider ),
-   _renderConfig( renderConfig ),
+   _renderDefs( renderDefs ),
    _isRunning( false ),
    _elapsedSeconds( 0 ),
    _explosionStartFrame( 0 ),
@@ -35,17 +35,17 @@ void PlayerExplodedConsoleAnimation::Start( optional<Coordinate<short>> startPos
    _explosionStartFrame = _frameRateProvider->GetCurrentFrame();
    _startPositionChars = startPositionChars.value();
 
-   _renderConfig->PlayerExplosionParticleSprite->Reset();
+   _renderDefs->PlayerExplosionParticleSprite->Reset();
 }
 
 void PlayerExplodedConsoleAnimation::Draw()
 {
    auto elapsedFrames = _frameRateProvider->GetCurrentFrame() - _explosionStartFrame;
-   auto particleIncrement = ( _renderConfig->PlayerExplosionParticleVelocity * _frameRateProvider->GetSecondsPerFrame() );
-   auto particleDeltaXChars = (short)( ( particleIncrement * elapsedFrames ) / _renderConfig->ArenaCharWidth );
-   auto particleDeltaYChars = (short)( ( particleIncrement * elapsedFrames ) / _renderConfig->ArenaCharHeight );
+   auto particleIncrement = ( _renderDefs->PlayerExplosionParticleVelocity * _frameRateProvider->GetSecondsPerFrame() );
+   auto particleDeltaXChars = (short)( ( particleIncrement * elapsedFrames ) / _renderDefs->ArenaCharWidth );
+   auto particleDeltaYChars = (short)( ( particleIncrement * elapsedFrames ) / _renderDefs->ArenaCharHeight );
 
-   auto particleSprite = _renderConfig->PlayerExplosionParticleSprite;
+   auto particleSprite = _renderDefs->PlayerExplosionParticleSprite;
 
    // horizontal and vertical particles
    _consoleBuffer->Draw( _startPositionChars.Left + particleDeltaXChars, _startPositionChars.Top, particleSprite );
@@ -76,9 +76,9 @@ void PlayerExplodedConsoleAnimation::Tick()
    }
 
    _elapsedSeconds += _frameRateProvider->GetSecondsPerFrame();
-   _renderConfig->PlayerExplosionParticleSprite->Tick();
+   _renderDefs->PlayerExplosionParticleSprite->Tick();
 
-   if ( _elapsedSeconds >= _renderConfig->PlayerExplosionAnimationSeconds )
+   if ( _elapsedSeconds >= _renderDefs->PlayerExplosionAnimationSeconds )
    {
       _isRunning = false;
    }

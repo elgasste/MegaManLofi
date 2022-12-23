@@ -6,7 +6,6 @@
 #include <iostream>
 
 #include "GameConfig.h"
-#include "ConsoleRenderConfig.h"
 #include "KeyCode.h"
 #include "GameButton.h"
 #include "HighResolutionClockWrapper.h"
@@ -53,7 +52,9 @@
 #include "ArenaSpriteGenerator.h"
 #include "TitleSpriteGenerator.h"
 #include "MenuSpriteGenerator.h"
+#include "ConsoleRenderDefs.h"
 #include "KeyboardInputDefs.h"
+#include "ConsoleRenderDefsGenerator.h"
 #include "KeyboardInputDefsGenerator.h"
 #include "PlayerDefsGenerator.h"
 #include "ArenaDefsGenerator.h"
@@ -65,7 +66,6 @@ using namespace MegaManLofi;
 // TODO: I suppose these configs should be loaded from files at some point,
 // but at the very least they should all have default values, and those could
 // probably be set in some initializer instead of in here.
-shared_ptr<ConsoleRenderConfig> BuildConsoleRenderConfig( const shared_ptr<IFrameRateProvider> frameRateProvider );
 shared_ptr<GameConfig> BuildGameConfig();
 void LoadAndRun( const shared_ptr<IConsoleBuffer> consoleBuffer );
 
@@ -117,12 +117,12 @@ void LoadAndRun( const shared_ptr<IConsoleBuffer> consoleBuffer )
    auto clock = shared_ptr<GameClock>( new GameClock( highResolutionClock, sleeper, config->FramesPerSecond ) );
 
    // sub-configs
-   config->RenderConfig = BuildConsoleRenderConfig( clock );
+   config->RenderDefs = ConsoleRenderDefsGenerator::GenerateConsoleRenderDefs( clock );
    config->InputDefs = KeyboardInputDefsGenerator::GenerateKeyboardInputDefs();
    config->PlayerDefs = PlayerDefsGenerator::GeneratePlayerDefs();
    config->ArenaDefs = ArenaDefsGenerator::GenerateArenaDefs();
    config->PlayerPhysicsDefs = PlayerPhysicsDefsGenerator::GeneratePlayerPhysicsDefs();
-   auto consoleRenderConfig = static_pointer_cast<ConsoleRenderConfig>( config->RenderConfig );
+   auto consoleRenderDefs = static_pointer_cast<ConsoleRenderDefs>( config->RenderDefs );
    auto keyboardInputDefs = static_pointer_cast<KeyboardInputDefs>( config->InputDefs );
 
    // input
@@ -154,10 +154,10 @@ void LoadAndRun( const shared_ptr<IConsoleBuffer> consoleBuffer )
    inputHandler->AddInputHandlerForGameState( GameState::GameOver, gameOverStateInputHandler );
 
    // animations
-   auto playerThwipOutAnimation = shared_ptr<PlayerThwipOutConsoleAnimation>( new PlayerThwipOutConsoleAnimation( consoleBuffer, consoleRenderConfig, clock ) );
-   auto stageStartedAnimation = shared_ptr<StageStartedConsoleAnimation>( new StageStartedConsoleAnimation( consoleBuffer, clock, consoleRenderConfig ) );
-   auto playerThwipInAnimation = shared_ptr<PlayerThwipInConsoleAnimation>( new PlayerThwipInConsoleAnimation( consoleBuffer, consoleRenderConfig, clock ) );
-   auto playerExplodedAnimation = shared_ptr<PlayerExplodedConsoleAnimation>( new PlayerExplodedConsoleAnimation( consoleBuffer, clock, consoleRenderConfig ) );
+   auto playerThwipOutAnimation = shared_ptr<PlayerThwipOutConsoleAnimation>( new PlayerThwipOutConsoleAnimation( consoleBuffer, consoleRenderDefs, clock ) );
+   auto stageStartedAnimation = shared_ptr<StageStartedConsoleAnimation>( new StageStartedConsoleAnimation( consoleBuffer, clock, consoleRenderDefs ) );
+   auto playerThwipInAnimation = shared_ptr<PlayerThwipInConsoleAnimation>( new PlayerThwipInConsoleAnimation( consoleBuffer, consoleRenderDefs, clock ) );
+   auto playerExplodedAnimation = shared_ptr<PlayerExplodedConsoleAnimation>( new PlayerExplodedConsoleAnimation( consoleBuffer, clock, consoleRenderDefs ) );
    auto animationRepository = make_shared<ConsoleAnimationRepository>();
    animationRepository->AddAnimation( ConsoleAnimationType::PlayerThwipOut, playerThwipOutAnimation );
    animationRepository->AddAnimation( ConsoleAnimationType::StageStarted, stageStartedAnimation );
@@ -165,12 +165,12 @@ void LoadAndRun( const shared_ptr<IConsoleBuffer> consoleBuffer )
    animationRepository->AddAnimation( ConsoleAnimationType::PlayerExploded, playerExplodedAnimation );
 
    // rendering objects
-   auto diagnosticsRenderer = shared_ptr<DiagnosticsConsoleRenderer>( new DiagnosticsConsoleRenderer( consoleBuffer, clock, consoleRenderConfig ) );
-   auto titleStateConsoleRenderer = shared_ptr<TitleStateConsoleRenderer>( new TitleStateConsoleRenderer( consoleBuffer, random, clock, eventAggregator, consoleRenderConfig, keyboardInputDefs, animationRepository ) );
-   auto playingStateConsoleRenderer = shared_ptr<PlayingStateConsoleRenderer>( new PlayingStateConsoleRenderer( consoleBuffer, consoleRenderConfig, game, player, arena, eventAggregator, clock, animationRepository ) );
-   auto playingMenuStateConsoleRenderer = shared_ptr<PlayingMenuStateConsoleRenderer>( new PlayingMenuStateConsoleRenderer( consoleBuffer, consoleRenderConfig, menuRepository ) );
-   auto gameOverStateConsoleRenderer = shared_ptr<GameOverStateConsoleRenderer>( new GameOverStateConsoleRenderer( consoleBuffer, consoleRenderConfig ) );
-   auto renderer = shared_ptr<GameRenderer>( new GameRenderer( consoleRenderConfig, consoleBuffer, game, diagnosticsRenderer, eventAggregator ) );
+   auto diagnosticsRenderer = shared_ptr<DiagnosticsConsoleRenderer>( new DiagnosticsConsoleRenderer( consoleBuffer, clock, consoleRenderDefs ) );
+   auto titleStateConsoleRenderer = shared_ptr<TitleStateConsoleRenderer>( new TitleStateConsoleRenderer( consoleBuffer, random, clock, eventAggregator, consoleRenderDefs, keyboardInputDefs, animationRepository ) );
+   auto playingStateConsoleRenderer = shared_ptr<PlayingStateConsoleRenderer>( new PlayingStateConsoleRenderer( consoleBuffer, consoleRenderDefs, game, player, arena, eventAggregator, clock, animationRepository ) );
+   auto playingMenuStateConsoleRenderer = shared_ptr<PlayingMenuStateConsoleRenderer>( new PlayingMenuStateConsoleRenderer( consoleBuffer, consoleRenderDefs, menuRepository ) );
+   auto gameOverStateConsoleRenderer = shared_ptr<GameOverStateConsoleRenderer>( new GameOverStateConsoleRenderer( consoleBuffer, consoleRenderDefs ) );
+   auto renderer = shared_ptr<GameRenderer>( new GameRenderer( consoleRenderDefs, consoleBuffer, game, diagnosticsRenderer, eventAggregator ) );
    renderer->AddRendererForGameState( GameState::Title, titleStateConsoleRenderer );
    renderer->AddRendererForGameState( GameState::Playing, playingStateConsoleRenderer );
    renderer->AddRendererForGameState( GameState::PlayingMenu, playingMenuStateConsoleRenderer );
@@ -180,112 +180,6 @@ void LoadAndRun( const shared_ptr<IConsoleBuffer> consoleBuffer )
    auto runner = shared_ptr<GameRunner>( new GameRunner( eventAggregator, clock, inputHandler, renderer, frameActionRegistry, game, thread ) );
 
    runner->Run();
-}
-
-shared_ptr<ConsoleRenderConfig> BuildConsoleRenderConfig( const shared_ptr<IFrameRateProvider> frameRateProvider )
-{
-   auto renderConfig = make_shared<ConsoleRenderConfig>();
-
-   renderConfig->ConsoleWidthChars = 120;
-   renderConfig->ConsoleHeightChars = 30;
-
-   renderConfig->ArenaViewportLeftChars = 0;
-   renderConfig->ArenaViewportTopChars = 0;
-
-   renderConfig->ArenaCharWidth = 38;
-   renderConfig->ArenaCharHeight = 78;
-
-   renderConfig->ArenaViewportWidthChars = 120;
-   renderConfig->ArenaViewportHeightChars = 30;
-
-   renderConfig->ArenaStatusBarLeftChars = renderConfig->ArenaViewportLeftChars;
-   renderConfig->ArenaStatusBarTopChars = renderConfig->ArenaViewportTopChars;
-   renderConfig->ArenaStatusBarWidthChars = 20;
-
-   renderConfig->PitfallAnimationSeconds = 2;
-
-   // player explosion should swap between two sprites in 1/4 second increments
-   renderConfig->PlayerExplosionAnimationSeconds = 3;
-   renderConfig->PlayerExplosionParticleVelocity = 1'000;
-   renderConfig->PlayerExplosionParticleSprite = PlayerSpriteGenerator::GenerateExplosionParticleSprite( frameRateProvider );
-
-   renderConfig->DefaultForegroundColor = ConsoleColor::Grey;
-   renderConfig->DefaultBackgroundColor = ConsoleColor::Black;
-
-   renderConfig->TitleScreenForegroundColor = ConsoleColor::White;
-   renderConfig->TitleScreenBackgroundColor = ConsoleColor::Black;
-
-   renderConfig->ArenaForegroundColor = ConsoleColor::White;
-   renderConfig->ArenaBackgroundColor = ConsoleColor::Black;
-
-   renderConfig->PlayingMenuForegroundColor = ConsoleColor::White;
-   renderConfig->PlayingMenuBackgroundColor = ConsoleColor::DarkBlue;
-
-   renderConfig->GameOverBackgroundColor = ConsoleColor::DarkMagenta;
-
-   renderConfig->TitleKeyBindingsForegroundColor = ConsoleColor::DarkGrey;
-
-   renderConfig->TitleTextImage = TitleSpriteGenerator::GenerateTitleTextImage();
-   renderConfig->TitleSubTextImage = TitleSpriteGenerator::GenerateTitleSubTextImage();
-   renderConfig->TitlePlayerImage = TitleSpriteGenerator::GeneratePlayerImage();
-   renderConfig->TitleBuildingImage = TitleSpriteGenerator::GenerateBuildingImage();
-   renderConfig->TitleStartMessageImage = TitleSpriteGenerator::GenerateStartMessageImage();
-   renderConfig->TitleStarImage = TitleSpriteGenerator::GenerateStarImage();
-
-   renderConfig->PlayerThwipSprite = PlayerSpriteGenerator::GenerateThwipSprite( frameRateProvider );
-   renderConfig->PlayerThwipInTransitionSprite = PlayerSpriteGenerator::GenerateThwipInTransitionSprite( frameRateProvider );
-   renderConfig->PlayerThwipOutTransitionSprite = PlayerSpriteGenerator::GenerateThwipOutTransitionSprite( frameRateProvider );
-   renderConfig->PlayerThwipVelocity = 5'000;
-   renderConfig->PlayerPostThwipDelaySeconds = 1;
-
-   renderConfig->TitleTextLeftChars = 6;
-   renderConfig->TitleTextTopChars = 1;
-   renderConfig->TitleSubTextLeftChars = renderConfig->TitleTextLeftChars + renderConfig->TitleTextImage.Width;
-   renderConfig->TitleSubTextTopChars = renderConfig->TitleTextTopChars;
-   renderConfig->TitleBuildingLeftChars = renderConfig->ConsoleWidthChars - renderConfig->TitleBuildingImage.Width - 1;
-   renderConfig->TitleBuildingTopChars = renderConfig->ConsoleHeightChars - renderConfig->TitleBuildingImage.Height - 1;
-   renderConfig->TitlePlayerLeftChars = renderConfig->TitleBuildingLeftChars + 6;
-   renderConfig->TitlePlayerTopChars = renderConfig->TitleBuildingTopChars - renderConfig->TitlePlayerImage.Height;
-   renderConfig->TitleStartMessageLeftChars = 55;
-   renderConfig->TitleStartMessageTopChars = 15;
-   renderConfig->TitleKeyBindingsMiddleXChars = 25;
-   renderConfig->TitleKeyBindingsTopChars = renderConfig->TitleTextTopChars + renderConfig->TitleTextImage.Height + 3;
-   renderConfig->TitleStarCount = 20;
-   renderConfig->MinTitleStarVelocity = 200;
-   renderConfig->MaxTitleStarVelocity = 2'000;
-
-   renderConfig->GetReadySprite = ArenaSpriteGenerator::GenerateGetReadySprite( frameRateProvider );
-   renderConfig->GetReadyAnimationSeconds = 2;
-
-   renderConfig->PauseOverlayImage = ArenaSpriteGenerator::GeneratePauseOverlayImage();
-   renderConfig->GameOverImage = ArenaSpriteGenerator::GenerateGameOverImage();
-
-   renderConfig->MenuCaratSprite = MenuSpriteGenerator::GenerateMenuCaratSprite( frameRateProvider );
-   renderConfig->PlayingMenuPlayerImage = MenuSpriteGenerator::GeneratePlayerImage();
-
-   renderConfig->PlayerStandingSpriteMap = PlayerSpriteGenerator::GenerateStandingSpriteMap( frameRateProvider );
-   renderConfig->PlayerWalkingSpriteMap = PlayerSpriteGenerator::GenerateWalkingSpriteMap( frameRateProvider );
-   renderConfig->PlayerFallingSpriteMap = PlayerSpriteGenerator::GenerateFallingSpriteMap( frameRateProvider );
-
-   // TODO: move this stuff into the generator
-   // ground that is impassable in all directions
-   renderConfig->ArenaImageMap[0].Width = 1;
-   renderConfig->ArenaImageMap[0].Height = 1;
-   renderConfig->ArenaImageMap[0].Pixels.push_back( { 'X', true, ConsoleColor::Yellow, ConsoleColor::Black } );
-
-   // ground that is only impassable downward
-   renderConfig->ArenaImageMap[1].Width = 1;
-   renderConfig->ArenaImageMap[1].Height = 1;
-   renderConfig->ArenaImageMap[1].Pixels.push_back( { '-', true, ConsoleColor::Yellow, ConsoleColor::Black } );
-
-   // spike that is only impassable upward
-   renderConfig->ArenaImageMap[2].Width = 1;
-   renderConfig->ArenaImageMap[2].Height = 1;
-   renderConfig->ArenaImageMap[2].Pixels.push_back( { '+', true, ConsoleColor::Red, ConsoleColor::Black } );
-
-   renderConfig->ArenaTiles = ArenaSpriteGenerator::GenerateArenaTiles();
-
-   return renderConfig;
 }
 
 shared_ptr<GameConfig> BuildGameConfig()

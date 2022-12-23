@@ -4,7 +4,7 @@
 #include <format>
 
 #include "ConsoleBuffer.h"
-#include "ConsoleRenderConfig.h"
+#include "ConsoleRenderDefs.h"
 #include "IConsoleSprite.h"
 
 namespace MegaManLofi
@@ -70,14 +70,14 @@ void ConsoleBuffer::ResetDrawBuffer()
    }
 }
 
-void ConsoleBuffer::LoadRenderConfig( const shared_ptr<IGameRenderConfig> config )
+void ConsoleBuffer::LoadRenderDefs( const shared_ptr<IGameRenderDefs> renderDefs )
 {
-   auto consoleConfig = static_pointer_cast<ConsoleRenderConfig>( config );
+   auto consoleDefs = static_pointer_cast<ConsoleRenderDefs>( renderDefs );
 
-   _bufferInfo->ConsoleSize = { consoleConfig->ConsoleWidthChars, consoleConfig->ConsoleHeightChars };
-   _bufferInfo->DrawBufferSize = consoleConfig->ConsoleWidthChars * consoleConfig->ConsoleHeightChars;
+   _bufferInfo->ConsoleSize = { consoleDefs->ConsoleWidthChars, consoleDefs->ConsoleHeightChars };
+   _bufferInfo->DrawBufferSize = consoleDefs->ConsoleWidthChars * consoleDefs->ConsoleHeightChars;
    _bufferInfo->DrawBuffer = new CHAR_INFO[_bufferInfo->DrawBufferSize];
-   _bufferInfo->OutputRect = { 0, 0, consoleConfig->ConsoleWidthChars, consoleConfig->ConsoleHeightChars };
+   _bufferInfo->OutputRect = { 0, 0, consoleDefs->ConsoleWidthChars, consoleDefs->ConsoleHeightChars };
 
    ResetDrawBuffer();
 
@@ -86,8 +86,8 @@ void ConsoleBuffer::LoadRenderConfig( const shared_ptr<IGameRenderConfig> config
    SMALL_RECT windowCoords{ 0, 0, _bufferInfo->ConsoleSize.X - 1, _bufferInfo->ConsoleSize.Y - 1 };
    SetConsoleWindowInfo( _bufferInfo->OutputHandle, TRUE, &windowCoords );
 
-   _defaultForegroundColor = consoleConfig->DefaultForegroundColor;
-   _defaultBackgroundColor = consoleConfig->DefaultBackgroundColor;
+   _defaultForegroundColor = consoleDefs->DefaultForegroundColor;
+   _defaultBackgroundColor = consoleDefs->DefaultBackgroundColor;
 
    Clear();
    Flip();

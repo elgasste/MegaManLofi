@@ -1,23 +1,23 @@
 #include "GameOverStateConsoleRenderer.h"
 #include "IConsoleBuffer.h"
-#include "ConsoleRenderConfig.h"
+#include "ConsoleRenderDefs.h"
 
 using namespace std;
 using namespace MegaManLofi;
 
 GameOverStateConsoleRenderer::GameOverStateConsoleRenderer( const shared_ptr<IConsoleBuffer> consoleBuffer,
-                                                            const shared_ptr<ConsoleRenderConfig> renderConfig ) :
+                                                            const shared_ptr<ConsoleRenderDefs> renderDefs ) :
    _consoleBuffer( consoleBuffer ),
-   _renderConfig( renderConfig )
+   _renderDefs( renderDefs )
 {
 }
 
 void GameOverStateConsoleRenderer::Render()
 {
-   _consoleBuffer->SetDefaultBackgroundColor( _renderConfig->GameOverBackgroundColor );
+   _consoleBuffer->SetDefaultBackgroundColor( _renderDefs->GameOverBackgroundColor );
 
-   auto left = ( _renderConfig->ConsoleWidthChars / 2 ) - ( _renderConfig->GameOverImage.Width / 2 );
-   auto top = ( _renderConfig->ConsoleHeightChars / 2 ) - ( _renderConfig->GameOverImage.Height / 2 );
+   auto left = ( _renderDefs->ConsoleWidthChars / 2 ) - ( _renderDefs->GameOverImage.Width / 2 );
+   auto top = ( _renderDefs->ConsoleHeightChars / 2 ) - ( _renderDefs->GameOverImage.Height / 2 );
 
-   _consoleBuffer->Draw( left, top, _renderConfig->GameOverImage );
+   _consoleBuffer->Draw( left, top, _renderDefs->GameOverImage );
 }

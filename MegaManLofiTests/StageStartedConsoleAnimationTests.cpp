@@ -3,7 +3,7 @@
 #include <memory>
 
 #include <MegaManLofi/StageStartedConsoleAnimation.h>
-#include <MegaManLofi/ConsoleRenderConfig.h>
+#include <MegaManLofi/ConsoleRenderDefs.h>
 
 #include "mock_ConsoleBuffer.h"
 #include "mock_FrameRateProvider.h"
@@ -20,23 +20,23 @@ public:
    {
       _consoleBufferMock.reset( new NiceMock<mock_ConsoleBuffer> );
       _frameRateProviderMock.reset( new NiceMock<mock_FrameRateProvider> );
-      _renderConfig.reset( new ConsoleRenderConfig );
+      _renderDefs.reset( new ConsoleRenderDefs );
       _getReadySpriteMock.reset( new NiceMock<mock_ConsoleSprite> );
 
-      _renderConfig->GetReadySprite = _getReadySpriteMock;
+      _renderDefs->GetReadySprite = _getReadySpriteMock;
 
       ON_CALL( *_frameRateProviderMock, GetSecondsPerFrame() ).WillByDefault( Return( 1 ) );
    }
 
    void BuildAnimation()
    {
-      _animation.reset( new StageStartedConsoleAnimation( _consoleBufferMock, _frameRateProviderMock, _renderConfig ) );
+      _animation.reset( new StageStartedConsoleAnimation( _consoleBufferMock, _frameRateProviderMock, _renderDefs ) );
    }
 
 protected:
    shared_ptr<mock_ConsoleBuffer> _consoleBufferMock;
    shared_ptr<mock_FrameRateProvider> _frameRateProviderMock;
-   shared_ptr<ConsoleRenderConfig> _renderConfig;
+   shared_ptr<ConsoleRenderDefs> _renderDefs;
 
    shared_ptr<mock_ConsoleSprite> _getReadySpriteMock;
 
@@ -117,7 +117,7 @@ TEST_F( StageStartedConsoleAnimationTests, Tick_IsRunning_TicksGetReadySprite )
 
 TEST_F( StageStartedConsoleAnimationTests, Tick_FinishedRunning_SetsIsRunningToFalse )
 {
-   _renderConfig->GetReadyAnimationSeconds = 2;
+   _renderDefs->GetReadyAnimationSeconds = 2;
    BuildAnimation();
    _animation->Start( Coordinate<short>( { 1, 2 } ), nullopt );
 

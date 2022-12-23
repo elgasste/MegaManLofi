@@ -3,7 +3,7 @@
 #include <memory>
 
 #include <MegaManLofi/GameRenderer.h>
-#include <MegaManLofi/ConsoleRenderConfig.h>
+#include <MegaManLofi/ConsoleRenderDefs.h>
 #include <MegaManLofi/IScreenBuffer.h>
 #include <MegaManLofi/IGameInfoProvider.h>
 #include <MegaManLofi/GameEventAggregator.h>
@@ -23,15 +23,15 @@ class GameRendererTests : public Test
 public:
    void SetUp() override
    {
-      _renderConfig.reset( new ConsoleRenderConfig );
+      _renderDefs.reset( new ConsoleRenderDefs );
       _screenBufferMock.reset( new NiceMock<mock_ScreenBuffer> );
       _gameInfoProviderMock.reset( new NiceMock<mock_GameInfoProvider> );
       _diagnosticsRendererMock.reset( new NiceMock<mock_GameRenderer> );
       _eventAggregator.reset( new GameEventAggregator );
       _titleStateRendererMock.reset( new NiceMock<mock_GameRenderer> );
 
-      _renderConfig->DefaultBackgroundColor = ConsoleColor::Black;
-      _renderConfig->DefaultForegroundColor = ConsoleColor::Grey;
+      _renderDefs->DefaultBackgroundColor = ConsoleColor::Black;
+      _renderDefs->DefaultForegroundColor = ConsoleColor::Grey;
 
       ON_CALL( *_gameInfoProviderMock, GetGameState() ).WillByDefault( Return( GameState::Title ) );
       ON_CALL( *_titleStateRendererMock, HasFocus() ).WillByDefault( Return( false ) );
@@ -39,7 +39,7 @@ public:
 
    void BuildRenderer()
    {
-      _renderer.reset( new GameRenderer( _renderConfig,
+      _renderer.reset( new GameRenderer( _renderDefs,
                                          _screenBufferMock,
                                          _gameInfoProviderMock,
                                          _diagnosticsRendererMock,
@@ -49,7 +49,7 @@ public:
    }
 
 protected:
-   shared_ptr<ConsoleRenderConfig> _renderConfig;
+   shared_ptr<ConsoleRenderDefs> _renderDefs;
    shared_ptr<mock_ScreenBuffer> _screenBufferMock;
    shared_ptr<mock_GameInfoProvider> _gameInfoProviderMock;
    shared_ptr<mock_GameRenderer> _diagnosticsRendererMock;
@@ -61,8 +61,8 @@ protected:
 
 TEST_F( GameRendererTests, Constructor_Always_InitializesScreenBuffer )
 {
-   auto baseConfig = static_pointer_cast<IGameRenderConfig>( _renderConfig );
-   EXPECT_CALL( *_screenBufferMock, LoadRenderConfig( baseConfig ) );
+   auto baseConfig = static_pointer_cast<IGameRenderDefs>( _renderDefs );
+   EXPECT_CALL( *_screenBufferMock, LoadRenderDefs( baseConfig ) );
 
    BuildRenderer();
 }

@@ -213,6 +213,9 @@
     <ClCompile Include="PlayerPhysicsDefsGenerator.cpp">
       <Filter>Source Files\ConfigGenerators</Filter>
     </ClCompile>
+    <ClCompile Include="ConsoleRenderDefsGenerator.cpp">
+      <Filter>Source Files\ConfigGenerators</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameRunner.h">
@@ -281,7 +284,7 @@
     <ClInclude Include="GameConfig.h">
       <Filter>Header Files\Config</Filter>
     </ClInclude>
-    <ClInclude Include="ConsoleRenderConfig.h">
+    <ClInclude Include="ConsoleRenderDefs.h">
       <Filter>Header Files\Config</Filter>
     </ClInclude>
     <ClInclude Include="KeyboardInputDefs.h">
@@ -335,7 +338,7 @@
     <ClInclude Include="ConsoleImage.h">
       <Filter>Header Files\DataTypes</Filter>
     </ClInclude>
-    <ClInclude Include="IGameRenderConfig.h">
+    <ClInclude Include="IGameRenderDefs.h">
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
     <ClInclude Include="IGameInputDefs.h">
@@ -522,6 +525,9 @@
       <Filter>Header Files\ConfigGenerators</Filter>
     </ClInclude>
     <ClInclude Include="PlayerPhysicsDefsGenerator.h">
+      <Filter>Header Files\ConfigGenerators</Filter>
+    </ClInclude>
+    <ClInclude Include="ConsoleRenderDefsGenerator.h">
       <Filter>Header Files\ConfigGenerators</Filter>
     </ClInclude>
   </ItemGroup>

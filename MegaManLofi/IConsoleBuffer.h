@@ -13,7 +13,7 @@ namespace MegaManLofi
    class __declspec( novtable ) IConsoleBuffer : public IScreenBuffer
    {
    public:
-      virtual void LoadRenderConfig( std::shared_ptr<IGameRenderConfig> config ) override = 0;
+      virtual void LoadRenderDefs( std::shared_ptr<IGameRenderDefs> renderDefs ) override = 0;
       virtual void CleanUp() override = 0;
 
       virtual void SetDefaultForegroundColor( ConsoleColor color ) = 0;

@@ -8,14 +8,14 @@ namespace MegaManLofi
 {
    class IConsoleBuffer;
    class IFrameRateProvider;
-   class ConsoleRenderConfig;
+   class ConsoleRenderDefs;
 
    class StageStartedConsoleAnimation : public IConsoleAnimation
    {
    public:
       StageStartedConsoleAnimation( const std::shared_ptr<IConsoleBuffer> consoleBuffer,
                                     const std::shared_ptr<IFrameRateProvider> frameRateProvider,
-                                    const std::shared_ptr<ConsoleRenderConfig> renderConfig );
+                                    const std::shared_ptr<ConsoleRenderDefs> renderDefs );
 
       void Start( std::optional<Coordinate<short>> startPositionChars,
                   std::optional<Coordinate<short>> endPositionChars ) override;
@@ -26,7 +26,7 @@ namespace MegaManLofi
    private:
       const std::shared_ptr<IConsoleBuffer> _consoleBuffer;
       const std::shared_ptr<IFrameRateProvider> _frameRateProvider;
-      const std::shared_ptr<ConsoleRenderConfig> _renderConfig;
+      const std::shared_ptr<ConsoleRenderDefs> _renderDefs;
 
       bool _isRunning;
       double _elapsedSeconds;

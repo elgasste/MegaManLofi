@@ -156,6 +156,7 @@
     <ClCompile Include="ArenaPhysics.cpp" />
     <ClCompile Include="ConsoleAnimationRepository.cpp" />
     <ClCompile Include="ConsoleBuffer.cpp" />
+    <ClCompile Include="ConsoleRenderDefsGenerator.cpp" />
     <ClCompile Include="ConsoleSprite.cpp" />
     <ClCompile Include="FrameActionRegistry.cpp" />
     <ClCompile Include="GameOverStateConsoleRenderer.cpp" />
@@ -210,6 +211,7 @@
     <ClInclude Include="ConsoleColor.h" />
     <ClInclude Include="ConsoleBuffer.h" />
     <ClInclude Include="ConsoleImage.h" />
+    <ClInclude Include="ConsoleRenderDefsGenerator.h" />
     <ClInclude Include="ConsoleSprite.h" />
     <ClInclude Include="Coordinate.h" />
     <ClInclude Include="DiagnosticsConsoleRenderer.h" />
@@ -227,7 +229,7 @@
     <ClInclude Include="GameRenderer.h" />
     <ClInclude Include="GameEvent.h" />
     <ClInclude Include="GameEventAggregator.h" />
-    <ClInclude Include="ConsoleRenderConfig.h" />
+    <ClInclude Include="ConsoleRenderDefs.h" />
     <ClInclude Include="GameRunner.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="IArena.h" />
@@ -242,7 +244,7 @@
     <ClInclude Include="IGame.h" />
     <ClInclude Include="IGameInfoProvider.h" />
     <ClInclude Include="IGameInputDefs.h" />
-    <ClInclude Include="IGameRenderConfig.h" />
+    <ClInclude Include="IGameRenderDefs.h" />
     <ClInclude Include="IMenu.h" />
     <ClInclude Include="IMenuProvider.h" />
     <ClInclude Include="IPlayerPhysics.h" />

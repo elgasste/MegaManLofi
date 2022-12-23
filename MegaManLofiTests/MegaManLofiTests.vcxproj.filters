@@ -155,6 +155,9 @@
     <ClInclude Include="mock_MenuProvider.h">
       <Filter>Mocks</Filter>
     </ClInclude>
+    <ClInclude Include="mock_Entity.h">
+      <Filter>Mocks</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Mocks">

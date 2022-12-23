@@ -1,5 +1,5 @@
 #include "ArenaSpriteGenerator.h"
-#include "ArenaGenerationDefs.h"
+#include "ArenaGenerationStrings.h"
 #include "ConsoleSprite.h"
 
 using namespace std;
@@ -8,7 +8,7 @@ using namespace MegaManLofi;
 vector<int> ArenaSpriteGenerator::GenerateArenaTiles()
 {
    vector<int> imageIds;
-   auto arenaTilesString = ArenaGenerationDefs::GetArenaTilesString();
+   auto arenaTilesString = ArenaGenerationStrings::GetArenaTilesString();
 
    for ( int i = 0; i < (int)arenaTilesString.size(); i++ )
    {

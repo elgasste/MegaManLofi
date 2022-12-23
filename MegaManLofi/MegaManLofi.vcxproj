@@ -173,6 +173,7 @@
     <ClCompile Include="KeyboardWrapper.cpp" />
     <ClCompile Include="MenuRepository.cpp" />
     <ClCompile Include="MenuSpriteGenerator.cpp" />
+    <ClCompile Include="PlayerDefsGenerator.cpp" />
     <ClCompile Include="PlayerExplodedConsoleAnimation.cpp" />
     <ClCompile Include="PlayerPhysics.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -198,7 +199,7 @@
     <ClInclude Include="ArenaDefs.h" />
     <ClInclude Include="ArenaDefsGenerator.h" />
     <ClInclude Include="ArenaSpriteGenerator.h" />
-    <ClInclude Include="ArenaGenerationDefs.h" />
+    <ClInclude Include="ArenaGenerationStrings.h" />
     <ClInclude Include="ArenaTileGenerator.h" />
     <ClInclude Include="ArenaPhysics.h" />
     <ClInclude Include="ArenaTile.h" />
@@ -268,6 +269,7 @@
     <ClInclude Include="MenuRepository.h" />
     <ClInclude Include="MenuSpriteGenerator.h" />
     <ClInclude Include="MenuType.h" />
+    <ClInclude Include="PlayerDefsGenerator.h" />
     <ClInclude Include="PlayerExplodedConsoleAnimation.h" />
     <ClInclude Include="PlayerPhysics.h" />
     <ClInclude Include="PlayerPhysicsConfig.h" />
@@ -281,7 +283,7 @@
     <ClInclude Include="PushPlayerCommandArgs.h" />
     <ClInclude Include="ConsolePixel.h" />
     <ClInclude Include="Player.h" />
-    <ClInclude Include="PlayerConfig.h" />
+    <ClInclude Include="PlayerDefs.h" />
     <ClInclude Include="PlayingStateConsoleRenderer.h" />
     <ClInclude Include="PlayingStateInputHandler.h" />
     <ClInclude Include="RandomWrapper.h" />

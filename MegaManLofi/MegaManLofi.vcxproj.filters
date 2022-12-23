@@ -204,6 +204,9 @@
     <ClCompile Include="TitleSpriteGenerator.cpp">
       <Filter>Source Files\ConfigGenerators\SubGenerators</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerDefsGenerator.cpp">
+      <Filter>Source Files\ConfigGenerators</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameRunner.h">
@@ -335,7 +338,7 @@
     <ClInclude Include="IScreenBuffer.h">
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerConfig.h">
+    <ClInclude Include="PlayerDefs.h">
       <Filter>Header Files\Config</Filter>
     </ClInclude>
     <ClInclude Include="IGame.h">
@@ -485,9 +488,6 @@
     <ClInclude Include="IEntity.h">
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="ArenaGenerationDefs.h">
-      <Filter>Header Files\ConfigGenerators</Filter>
-    </ClInclude>
     <ClInclude Include="ArenaSpriteGenerator.h">
       <Filter>Header Files\ConfigGenerators\SubGenerators</Filter>
     </ClInclude>
@@ -503,8 +503,14 @@
     <ClInclude Include="TitleSpriteGenerator.h">
       <Filter>Header Files\ConfigGenerators\SubGenerators</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerDefsGenerator.h">
+      <Filter>Header Files\ConfigGenerators</Filter>
+    </ClInclude>
     <ClInclude Include="ArenaDefsGenerator.h">
-      <Filter>Header Files\ConfigGenerators\SubGenerators</Filter>
+      <Filter>Header Files\ConfigGenerators</Filter>
+    </ClInclude>
+    <ClInclude Include="ArenaGenerationStrings.h">
+      <Filter>Header Files\ConfigGenerators</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

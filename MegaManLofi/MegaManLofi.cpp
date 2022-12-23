@@ -8,7 +8,6 @@
 #include "GameConfig.h"
 #include "ConsoleRenderConfig.h"
 #include "KeyboardInputConfig.h"
-#include "PlayerConfig.h"
 #include "PlayerPhysicsConfig.h"
 #include "KeyCode.h"
 #include "GameButton.h"
@@ -56,6 +55,7 @@
 #include "ArenaSpriteGenerator.h"
 #include "TitleSpriteGenerator.h"
 #include "MenuSpriteGenerator.h"
+#include "PlayerDefsGenerator.h"
 #include "ArenaDefsGenerator.h"
 
 using namespace std;
@@ -66,7 +66,6 @@ using namespace MegaManLofi;
 // probably be set in some initializer instead of in here.
 shared_ptr<ConsoleRenderConfig> BuildConsoleRenderConfig( const shared_ptr<IFrameRateProvider> frameRateProvider );
 shared_ptr<KeyboardInputConfig> BuildKeyboardInputConfig();
-shared_ptr<PlayerConfig> BuildPlayerConfig();
 shared_ptr<PlayerPhysicsConfig> BuildPlayerPhysicsConfig();
 shared_ptr<GameConfig> BuildGameConfig();
 void LoadAndRun( const shared_ptr<IConsoleBuffer> consoleBuffer );
@@ -121,7 +120,7 @@ void LoadAndRun( const shared_ptr<IConsoleBuffer> consoleBuffer )
    // sub-configs
    config->RenderConfig = BuildConsoleRenderConfig( clock );
    config->InputConfig = BuildKeyboardInputConfig();
-   config->PlayerConfig = BuildPlayerConfig();
+   config->PlayerDefs = PlayerDefsGenerator::GeneratePlayerDefs();
    config->ArenaDefs = ArenaDefsGenerator::GenerateArenaDefs();
    config->PlayerPhysicsConfig = BuildPlayerPhysicsConfig();
    auto consoleRenderConfig = static_pointer_cast<ConsoleRenderConfig>( config->RenderConfig );
@@ -135,7 +134,7 @@ void LoadAndRun( const shared_ptr<IConsoleBuffer> consoleBuffer )
    auto arenaPhysics = shared_ptr<ArenaPhysics>( new ArenaPhysics( clock, frameActionRegistry, eventAggregator ) );
 
    // game objects
-   auto player = shared_ptr<Player>( new Player( config->PlayerConfig, frameActionRegistry, clock ) );
+   auto player = shared_ptr<Player>( new Player( config->PlayerDefs, frameActionRegistry, clock ) );
    auto arena = shared_ptr<Arena>( new Arena( config->ArenaDefs ) );
    auto game = shared_ptr<Game>( new Game( eventAggregator, player, arena, playerPhysics, arenaPhysics ) );
 
@@ -353,23 +352,6 @@ shared_ptr<KeyboardInputConfig> BuildKeyboardInputConfig()
    inputConfig->ButtonNames[GameButton::Diagnostics] = "Toggle Diagnostics";
 
    return inputConfig;
-}
-
-shared_ptr<PlayerConfig> BuildPlayerConfig()
-{
-   auto playerConfig = make_shared<PlayerConfig>();
-
-   // one character is 38 x 78 units, and our player sprites are 4 x 3 characters,
-   // so this hit box should match the player's sprite size
-   playerConfig->DefaultHitBox = { 0, 0, 38 * 4, 78 * 3 };
-
-   playerConfig->DefaultVelocityX = 0;
-   playerConfig->DefaultVelocityY = 0;
-
-   playerConfig->DefaultLives = 3;
-   playerConfig->DefaultDirection = Direction::Right;
-
-   return playerConfig;
 }
 
 shared_ptr<PlayerPhysicsConfig> BuildPlayerPhysicsConfig()

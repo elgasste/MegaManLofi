@@ -7,7 +7,7 @@
 
 namespace MegaManLofi
 {
-   class PlayerConfig;
+   class PlayerDefs;
    class IFrameActionRegistry;
    class IFrameRateProvider;
 
@@ -15,7 +15,7 @@ namespace MegaManLofi
                   public IPlayerInfoProvider
    {
    public:
-      Player( const std::shared_ptr<PlayerConfig> config,
+      Player( const std::shared_ptr<PlayerDefs> playerDefs,
               const std::shared_ptr<IFrameActionRegistry> frameActionRegistry,
               const std::shared_ptr<IFrameRateProvider> frameRateProvider );
 
@@ -52,7 +52,7 @@ namespace MegaManLofi
       void StopY() override;
 
    private:
-      const std::shared_ptr<PlayerConfig> _config;
+      const std::shared_ptr<PlayerDefs> _playerDefs;
       const std::shared_ptr<IFrameActionRegistry> _frameActionRegistry;
       const std::shared_ptr<IFrameRateProvider> _frameRateProvider;
 

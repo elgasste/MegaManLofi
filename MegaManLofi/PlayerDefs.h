@@ -5,7 +5,7 @@
 
 namespace MegaManLofi
 {
-   class PlayerConfig
+   class PlayerDefs
    {
    public:
       long long DefaultVelocityX = 0;

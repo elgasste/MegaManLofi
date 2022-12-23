@@ -81,7 +81,7 @@ void ArenaPhysics::MovePlayerX()
 {
    auto player = _arena->GetPlayer();
    auto currentPositionLeft = player->GetArenaPositionLeft();
-   auto newPositionLeft = currentPositionLeft + (long long)( player->GetVelocityX() * _frameRateProvider->GetFrameScalar() );
+   auto newPositionLeft = currentPositionLeft + (long long)( player->GetVelocityX() * _frameRateProvider->GetSecondsPerFrame() );
    DetectPlayerTileCollisionX( newPositionLeft );
 
    if ( currentPositionLeft != newPositionLeft )
@@ -95,7 +95,7 @@ void ArenaPhysics::MovePlayerY()
 {
    auto player = _arena->GetPlayer();
    auto currentPositionTop = player->GetArenaPositionTop();
-   auto newPositionTop = currentPositionTop + (long long)( player->GetVelocityY() * _frameRateProvider->GetFrameScalar() );
+   auto newPositionTop = currentPositionTop + (long long)( player->GetVelocityY() * _frameRateProvider->GetSecondsPerFrame() );
    DetectPlayerTileCollisionY( newPositionTop );
 
    if ( currentPositionTop != newPositionTop )

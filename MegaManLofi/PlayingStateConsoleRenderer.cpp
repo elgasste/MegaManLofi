@@ -182,7 +182,7 @@ void PlayingStateConsoleRenderer::DrawPlayerThwipInAnimation()
 
 void PlayingStateConsoleRenderer::DrawPitfallAnimation()
 {
-   _pitfallAnimationElapsedSeconds += _frameRateProvider->GetFrameScalar();
+   _pitfallAnimationElapsedSeconds += _frameRateProvider->GetSecondsPerFrame();
 
    if ( _pitfallAnimationElapsedSeconds >= _renderConfig->PitfallAnimationSeconds )
    {

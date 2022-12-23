@@ -71,7 +71,7 @@ void PlayerThwipInConsoleAnimation::Tick()
       return;
    }
 
-   _elapsedSeconds += _frameRateProvider->GetFrameScalar();
+   _elapsedSeconds += _frameRateProvider->GetSecondsPerFrame();
 
    if ( _postThwipping )
    {
@@ -86,7 +86,7 @@ void PlayerThwipInConsoleAnimation::Tick()
    else
    {
       _renderConfig->PlayerThwipSprite->Tick();
-      auto topDelta = (long long)( _renderConfig->PlayerThwipVelocity * _frameRateProvider->GetFrameScalar() );
+      auto topDelta = (long long)( _renderConfig->PlayerThwipVelocity * _frameRateProvider->GetSecondsPerFrame() );
 
       if ( _endPositionChars.Top < _startPositionChars.Top )
       {

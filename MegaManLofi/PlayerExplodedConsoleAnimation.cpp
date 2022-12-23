@@ -41,7 +41,7 @@ void PlayerExplodedConsoleAnimation::Start( optional<Coordinate<short>> startPos
 void PlayerExplodedConsoleAnimation::Draw()
 {
    auto elapsedFrames = _frameRateProvider->GetCurrentFrame() - _explosionStartFrame;
-   auto particleIncrement = ( _renderConfig->PlayerExplosionParticleVelocity * _frameRateProvider->GetFrameScalar() );
+   auto particleIncrement = ( _renderConfig->PlayerExplosionParticleVelocity * _frameRateProvider->GetSecondsPerFrame() );
    auto particleDeltaXChars = (short)( ( particleIncrement * elapsedFrames ) / _renderConfig->ArenaCharWidth );
    auto particleDeltaYChars = (short)( ( particleIncrement * elapsedFrames ) / _renderConfig->ArenaCharHeight );
 
@@ -75,7 +75,7 @@ void PlayerExplodedConsoleAnimation::Tick()
       return;
    }
 
-   _elapsedSeconds += _frameRateProvider->GetFrameScalar();
+   _elapsedSeconds += _frameRateProvider->GetSecondsPerFrame();
    _renderConfig->PlayerExplosionParticleSprite->Tick();
 
    if ( _elapsedSeconds >= _renderConfig->PlayerExplosionAnimationSeconds )

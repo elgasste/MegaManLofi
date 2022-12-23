@@ -29,7 +29,7 @@ public:
       _renderConfig->PlayerThwipVelocity = 1;
       _renderConfig->PlayerPostThwipDelaySeconds = 2;
 
-      ON_CALL( *_frameRateProviderMock, GetFrameScalar() ).WillByDefault( Return( 1 ) );
+      ON_CALL( *_frameRateProviderMock, GetSecondsPerFrame() ).WillByDefault( Return( 1 ) );
       ON_CALL( *_transitionSpriteMock, GetTotalTraversalSeconds() ).WillByDefault( Return( 10 ) );
 
       _renderConfig->PlayerThwipOutTransitionSprite = _transitionSpriteMock;

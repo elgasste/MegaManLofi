@@ -28,7 +28,7 @@ public:
       _renderConfig->ArenaCharHeight = 1;
       _renderConfig->PlayerThwipVelocity = 1;
 
-      ON_CALL( *_frameRateProviderMock, GetFrameScalar() ).WillByDefault( Return( 1 ) );
+      ON_CALL( *_frameRateProviderMock, GetSecondsPerFrame() ).WillByDefault( Return( 1 ) );
       ON_CALL( *_transitionSpriteMock, GetTotalTraversalSeconds() ).WillByDefault( Return( 10 ) );
 
       _renderConfig->PlayerThwipSprite = _thwipSpriteMock;

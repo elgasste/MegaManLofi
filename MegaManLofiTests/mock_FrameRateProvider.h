@@ -7,7 +7,7 @@
 class mock_FrameRateProvider : public MegaManLofi::IFrameRateProvider
 {
 public:
-   MOCK_METHOD( int, GetFramesPerSecond, ( ), ( const, override ) );
+   MOCK_METHOD( unsigned int, GetFramesPerSecond, ( ), ( const, override ) );
    MOCK_METHOD( long long, GetCurrentFrame, ( ), ( const, override ) );
-   MOCK_METHOD( double, GetFrameScalar, ( ), ( const, override ) );
+   MOCK_METHOD( double, GetSecondsPerFrame, ( ), ( const, override ) );
 };

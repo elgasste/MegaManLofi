@@ -210,6 +210,9 @@
     <ClCompile Include="KeyboardInputDefsGenerator.cpp">
       <Filter>Source Files\ConfigGenerators</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerPhysicsDefsGenerator.cpp">
+      <Filter>Source Files\ConfigGenerators</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameRunner.h">
@@ -419,7 +422,7 @@
     <ClInclude Include="Quad.h">
       <Filter>Header Files\DataTypes</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerPhysicsConfig.h">
+    <ClInclude Include="PlayerPhysicsDefs.h">
       <Filter>Header Files\Config</Filter>
     </ClInclude>
     <ClInclude Include="GameOverStateConsoleRenderer.h">
@@ -516,6 +519,9 @@
       <Filter>Header Files\ConfigGenerators</Filter>
     </ClInclude>
     <ClInclude Include="KeyboardInputDefsGenerator.h">
+      <Filter>Header Files\ConfigGenerators</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerPhysicsDefsGenerator.h">
       <Filter>Header Files\ConfigGenerators</Filter>
     </ClInclude>
   </ItemGroup>

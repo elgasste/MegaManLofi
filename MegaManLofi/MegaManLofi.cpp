@@ -7,7 +7,6 @@
 
 #include "GameConfig.h"
 #include "ConsoleRenderConfig.h"
-#include "PlayerPhysicsConfig.h"
 #include "KeyCode.h"
 #include "GameButton.h"
 #include "HighResolutionClockWrapper.h"
@@ -58,6 +57,7 @@
 #include "KeyboardInputDefsGenerator.h"
 #include "PlayerDefsGenerator.h"
 #include "ArenaDefsGenerator.h"
+#include "PlayerPhysicsDefsGenerator.h"
 
 using namespace std;
 using namespace MegaManLofi;
@@ -66,7 +66,6 @@ using namespace MegaManLofi;
 // but at the very least they should all have default values, and those could
 // probably be set in some initializer instead of in here.
 shared_ptr<ConsoleRenderConfig> BuildConsoleRenderConfig( const shared_ptr<IFrameRateProvider> frameRateProvider );
-shared_ptr<PlayerPhysicsConfig> BuildPlayerPhysicsConfig();
 shared_ptr<GameConfig> BuildGameConfig();
 void LoadAndRun( const shared_ptr<IConsoleBuffer> consoleBuffer );
 
@@ -122,7 +121,7 @@ void LoadAndRun( const shared_ptr<IConsoleBuffer> consoleBuffer )
    config->InputDefs = KeyboardInputDefsGenerator::GenerateKeyboardInputDefs();
    config->PlayerDefs = PlayerDefsGenerator::GeneratePlayerDefs();
    config->ArenaDefs = ArenaDefsGenerator::GenerateArenaDefs();
-   config->PlayerPhysicsConfig = BuildPlayerPhysicsConfig();
+   config->PlayerPhysicsDefs = PlayerPhysicsDefsGenerator::GeneratePlayerPhysicsDefs();
    auto consoleRenderConfig = static_pointer_cast<ConsoleRenderConfig>( config->RenderConfig );
    auto keyboardInputDefs = static_pointer_cast<KeyboardInputDefs>( config->InputDefs );
 
@@ -130,7 +129,7 @@ void LoadAndRun( const shared_ptr<IConsoleBuffer> consoleBuffer )
    auto keyboardInputReader = shared_ptr<KeyboardInputReader>( new KeyboardInputReader( keyboardInputDefs, keyboard ) );
 
    // utilities
-   auto playerPhysics = shared_ptr<PlayerPhysics>( new PlayerPhysics( clock, frameActionRegistry, config->PlayerPhysicsConfig ) );
+   auto playerPhysics = shared_ptr<PlayerPhysics>( new PlayerPhysics( clock, frameActionRegistry, config->PlayerPhysicsDefs ) );
    auto arenaPhysics = shared_ptr<ArenaPhysics>( new ArenaPhysics( clock, frameActionRegistry, eventAggregator ) );
 
    // game objects
@@ -287,23 +286,6 @@ shared_ptr<ConsoleRenderConfig> BuildConsoleRenderConfig( const shared_ptr<IFram
    renderConfig->ArenaTiles = ArenaSpriteGenerator::GenerateArenaTiles();
 
    return renderConfig;
-}
-
-shared_ptr<PlayerPhysicsConfig> BuildPlayerPhysicsConfig()
-{
-   auto playerPhysicsConfig = make_shared<PlayerPhysicsConfig>();
-
-   playerPhysicsConfig->MaxPushVelocity = 1'200;
-   playerPhysicsConfig->MaxGravityVelocity = 4'000;
-
-   playerPhysicsConfig->PushAccelerationPerSecond = 8'500;
-   playerPhysicsConfig->FrictionDecelerationPerSecond = 10'000;
-   playerPhysicsConfig->JumpAccelerationPerSecond = 2'000;
-   playerPhysicsConfig->GravityAccelerationPerSecond = 10'000;
-
-   playerPhysicsConfig->MaxJumpExtensionSeconds = 0.25;
-
-   return playerPhysicsConfig;
 }
 
 shared_ptr<GameConfig> BuildGameConfig()

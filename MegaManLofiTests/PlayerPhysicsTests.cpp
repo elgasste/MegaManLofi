@@ -1,7 +1,7 @@
 #include "gtest/gtest.h"
 
 #include <MegaManLofi/PlayerPhysics.h>
-#include <MegaManLofi/PlayerPhysicsConfig.h>
+#include <MegaManLofi/PlayerPhysicsDefs.h>
 #include <MegaManLofi/FrameAction.h>
 #include <MegaManLofi/Direction.h>
 
@@ -21,15 +21,15 @@ public:
       _frameRateProviderMock.reset( new NiceMock<mock_FrameRateProvider> );
       _frameActionRegistryMock.reset( new NiceMock<mock_FrameActionRegistry> );
       _playerMock.reset( new NiceMock<mock_Player> );
-      _config.reset( new PlayerPhysicsConfig );
+      _physicsDefs.reset( new PlayerPhysicsDefs );
 
-      _config->MaxPushVelocity = 10;
-      _config->MaxGravityVelocity = 20;
-      _config->PushAccelerationPerSecond = 2;
-      _config->FrictionDecelerationPerSecond = 2;
-      _config->JumpAccelerationPerSecond = 1;
-      _config->GravityAccelerationPerSecond = 4;
-      _config->MaxJumpExtensionSeconds = 0.25;
+      _physicsDefs->MaxPushVelocity = 10;
+      _physicsDefs->MaxGravityVelocity = 20;
+      _physicsDefs->PushAccelerationPerSecond = 2;
+      _physicsDefs->FrictionDecelerationPerSecond = 2;
+      _physicsDefs->JumpAccelerationPerSecond = 1;
+      _physicsDefs->GravityAccelerationPerSecond = 4;
+      _physicsDefs->MaxJumpExtensionSeconds = 0.25;
 
       ON_CALL( *_frameRateProviderMock, GetFramesPerSecond() ).WillByDefault( Return( 1 ) );
       ON_CALL( *_frameActionRegistryMock, ActionFlagged( FrameAction::PlayerPushed ) ).WillByDefault( Return( false ) );
@@ -39,7 +39,7 @@ public:
 
    void BuildPhysics()
    {
-      _physics.reset( new PlayerPhysics( _frameRateProviderMock, _frameActionRegistryMock, _config ) );
+      _physics.reset( new PlayerPhysics( _frameRateProviderMock, _frameActionRegistryMock, _physicsDefs ) );
       _physics->AssignTo( _playerMock );
    }
 
@@ -47,7 +47,7 @@ protected:
    shared_ptr<mock_FrameRateProvider> _frameRateProviderMock;
    shared_ptr<mock_FrameActionRegistry> _frameActionRegistryMock;
    shared_ptr<mock_Player> _playerMock;
-   shared_ptr<PlayerPhysicsConfig> _config;
+   shared_ptr<PlayerPhysicsDefs> _physicsDefs;
 
    shared_ptr<PlayerPhysics> _physics;
 };
@@ -307,7 +307,7 @@ TEST_F( PlayerPhysicsTests, ExtendJump_LastExtendJumpFrameIsTooOld_DoesNotExtend
 
 TEST_F( PlayerPhysicsTests, ExtendJump_AlreadyFullyExtendedJump_DoesNotExtendJump )
 {
-   _config->MaxJumpExtensionSeconds = 0;
+   _physicsDefs->MaxJumpExtensionSeconds = 0;
    BuildPhysics();
 
    EXPECT_CALL( *_playerMock, IsJumping() ).WillOnce( Return( true ) );

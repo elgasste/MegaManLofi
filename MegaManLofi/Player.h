@@ -4,7 +4,6 @@
 
 #include "IPlayer.h"
 #include "IPlayerInfoProvider.h"
-#include "Direction.h"
 
 namespace MegaManLofi
 {
@@ -30,7 +29,12 @@ namespace MegaManLofi
       void SetLivesRemaining( unsigned int lives ) override { _lives = lives; };
       void SetDirection( Direction direction ) override { _direction = direction; }
 
-      const Coordinate<long long>& GetArenaPosition() const override{ return _arenaPosition; }
+      const Coordinate<long long>& GetArenaPosition() const override { return _arenaPosition; }
+      long long GetArenaPositionLeft() const override { return _arenaPosition.Left; }
+      long long GetArenaPositionTop() const override { return _arenaPosition.Top; }
+      void SetArenaPosition( Coordinate<long long> position ) override { _arenaPosition = position; }
+      void SetArenaPositionLeft( long long left ) override { _arenaPosition.Left = left; }
+      void SetArenaPositionTop( long long top ) override { _arenaPosition.Top = top; }
 
       long long GetVelocityX() const override { return _velocityX; }
       long long GetVelocityY() const override { return _velocityY; }

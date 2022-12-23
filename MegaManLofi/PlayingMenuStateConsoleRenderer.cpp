@@ -23,12 +23,10 @@ void PlayingMenuStateConsoleRenderer::Render()
    _consoleBuffer->SetDefaultForegroundColor( _renderConfig->PlayingMenuForegroundColor );
    _consoleBuffer->SetDefaultBackgroundColor( _renderConfig->PlayingMenuBackgroundColor );
 
-   _consoleBuffer->Draw( 1,
-                         ( _renderConfig->ConsoleHeightChars / 2 ) - ( _renderConfig->PlayingMenuPlayerImage.Height / 2 ),
-                         _renderConfig->PlayingMenuPlayerImage );
-
    const auto& menu = _menuProvider->GetMenu( MenuType::Playing );
    int top = ( _renderConfig->ConsoleHeightChars / 2 ) - ( menu->GetOptionCount() / 2 );
+
+   _consoleBuffer->Draw( 1, top + menu->GetSelectedIndex() - 3, _renderConfig->PlayingMenuPlayerImage );
 
    for ( int i = 0; i < menu->GetOptionCount(); i++, top++ )
    {

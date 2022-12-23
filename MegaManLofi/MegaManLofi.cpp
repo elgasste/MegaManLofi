@@ -387,8 +387,7 @@ shared_ptr<ArenaConfig> BuildArenaConfig()
 
    arenaConfig->DefaultTiles = ArenaTileGenerator::GenerateArenaTiles();
 
-   arenaConfig->DefaultPlayerPositionX = arenaConfig->DefaultTileWidth * 8;
-   arenaConfig->DefaultPlayerPositionY = arenaConfig->DefaultTileHeight * 6;
+   arenaConfig->DefaultPlayerPosition = { arenaConfig->DefaultTileWidth * 8, arenaConfig->DefaultTileHeight * 6 };
 
    return arenaConfig;
 }

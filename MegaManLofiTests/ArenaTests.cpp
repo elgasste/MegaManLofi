@@ -5,7 +5,6 @@
 #include <MegaManLofi/Arena.h>
 #include <MegaManLofi/ArenaConfig.h>
 #include <MegaManLofi/FrameAction.h>
-#include <MegaManLofi/Rectangle.h>
 
 #include "mock_Player.h"
 #include "mock_FrameActionRegistry.h"
@@ -21,13 +20,13 @@ public:
    void SetUp() override
    {
       _config.reset( new ArenaConfig );
+      _playerMock.reset( new NiceMock<mock_Player> );
 
       _config->DefaultTileWidth = 2;
       _config->DefaultTileHeight = 2;
       _config->DefaultHorizontalTiles = 10;
       _config->DefaultVerticalTiles = 8;
-      _config->DefaultPlayerPositionX = 10;
-      _config->DefaultPlayerPositionY = 8;
+      _config->DefaultPlayerPosition = { 10, 8 };
 
       for ( int i = 0; i < _config->DefaultHorizontalTiles * _config->DefaultVerticalTiles; i++ )
       {
@@ -38,10 +37,12 @@ public:
    void BuildArena()
    {
       _arena.reset( new Arena( _config ) );
+      _arena->SetPlayer( _playerMock );
    }
 
 protected:
    shared_ptr<ArenaConfig> _config;
+   shared_ptr<mock_Player> _playerMock;
 
    shared_ptr<Arena> _arena;
 };
@@ -53,8 +54,6 @@ TEST_F( ArenaTests, Constructor_Always_SetsDefaultInfoBasedOnConfig )
 
    EXPECT_EQ( _arena->GetWidth(), 20 );
    EXPECT_EQ( _arena->GetHeight(), 16 );
-   EXPECT_EQ( _arena->GetPlayerPositionX(), 10 );
-   EXPECT_EQ( _arena->GetPlayerPositionY(), 8 );
    EXPECT_EQ( _arena->GetTileWidth(), 2 );
    EXPECT_EQ( _arena->GetTileHeight(), 2 );
    EXPECT_EQ( _arena->GetHorizontalTiles(), 10 );
@@ -70,14 +69,11 @@ TEST_F( ArenaTests, Reset_Always_ResetsPlayerPosition )
 {
    BuildArena();
 
-   _arena->SetPlayerPositionX( -1'000'000 );
-   _arena->SetPlayerPositionY( -2'000'000 );
-
-   EXPECT_EQ( _arena->GetPlayerPositionX(), -1'000'000 );
-   EXPECT_EQ( _arena->GetPlayerPositionY(), -2'000'000 );
+   Coordinate<long long> position;
+   EXPECT_CALL( *_playerMock, SetArenaPosition( _ ) ).WillOnce( SaveArg<0>( &position ) );
 
    _arena->Reset();
 
-   EXPECT_EQ( _arena->GetPlayerPositionX(), 10 );
-   EXPECT_EQ( _arena->GetPlayerPositionY(), 8 );
+   EXPECT_EQ( position.Left, 10 );
+   EXPECT_EQ( position.Top, 8 );
 }

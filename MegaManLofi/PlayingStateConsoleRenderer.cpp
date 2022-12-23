@@ -116,9 +116,10 @@ void PlayingStateConsoleRenderer::UpdateCaches()
 {
    auto viewportWidthUnits = _renderConfig->ArenaViewportWidthChars * _renderConfig->ArenaCharWidth;
    auto viewportHeightUnits = _renderConfig->ArenaViewportHeightChars * _renderConfig->ArenaCharHeight;
+   auto playerPosition = _playerInfoProvider->GetArenaPosition();
 
-   _viewportQuadUnits.Left = max( _arenaInfoProvider->GetPlayerPositionX() - ( viewportWidthUnits / 2 ), 0ll );
-   _viewportQuadUnits.Top = max( _arenaInfoProvider->GetPlayerPositionY() - ( viewportHeightUnits / 2 ), 0ll );
+   _viewportQuadUnits.Left = max( playerPosition.Left - ( viewportWidthUnits / 2 ), 0ll );
+   _viewportQuadUnits.Top = max( playerPosition.Top - ( viewportHeightUnits / 2 ), 0ll );
    _viewportQuadUnits.Right = _viewportQuadUnits.Left + viewportWidthUnits;
    _viewportQuadUnits.Bottom = _viewportQuadUnits.Top + viewportHeightUnits;
 
@@ -145,8 +146,8 @@ void PlayingStateConsoleRenderer::UpdateCaches()
    _viewportOffsetChars.Left = _renderConfig->ArenaViewportLeftChars + ( ( _renderConfig->ArenaViewportWidthChars - _viewportRectChars.Width ) / 2 );
    _viewportOffsetChars.Top = _renderConfig->ArenaViewportTopChars + ( ( _renderConfig->ArenaViewportHeightChars - _viewportRectChars.Height ) / 2 );
 
-   _playerViewportChars.Left = (short)( ( _arenaInfoProvider->GetPlayerPositionX() - _viewportQuadUnits.Left ) / _renderConfig->ArenaCharWidth );
-   _playerViewportChars.Top = (short)( ( _arenaInfoProvider->GetPlayerPositionY() - _viewportQuadUnits.Top ) / _renderConfig->ArenaCharHeight );
+   _playerViewportChars.Left = (short)( ( playerPosition.Left - _viewportQuadUnits.Left ) / _renderConfig->ArenaCharWidth );
+   _playerViewportChars.Top = (short)( ( playerPosition.Top - _viewportQuadUnits.Top ) / _renderConfig->ArenaCharHeight );
 }
 
 void PlayingStateConsoleRenderer::DrawStageStartAnimation()

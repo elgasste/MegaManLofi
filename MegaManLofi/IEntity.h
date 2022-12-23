@@ -10,6 +10,8 @@ namespace MegaManLofi
    {
    public:
       virtual const Coordinate<long long>& GetArenaPosition() const = 0;
+      virtual long long GetArenaPositionLeft() const = 0;
+      virtual long long GetArenaPositionTop() const = 0;
 
       virtual long long GetVelocityX() const = 0;
       virtual long long GetVelocityY() const = 0;

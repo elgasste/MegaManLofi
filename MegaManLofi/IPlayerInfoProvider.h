@@ -1,6 +1,8 @@
 #pragma once
 
+#include "Direction.h"
 #include "Rectangle.h"
+#include "Coordinate.h"
 
 namespace MegaManLofi
 {
@@ -12,6 +14,7 @@ namespace MegaManLofi
       virtual unsigned int GetLivesRemaining() const = 0;
       virtual Direction GetDirection() const = 0;
       virtual const Rectangle<long long>& GetHitBox() const = 0;
+      virtual const Coordinate<long long>& GetArenaPosition() const = 0;
 
       virtual bool IsMoving() const = 0;
       virtual bool IsStanding() const = 0;

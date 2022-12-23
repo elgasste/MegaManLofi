@@ -8,12 +8,10 @@ class mock_Arena : public MegaManLofi::IArena
 {
 public:
    MOCK_METHOD( void, Reset, ( ), ( override ) );
+   MOCK_METHOD( const std::shared_ptr<MegaManLofi::IPlayer>, GetPlayer, ( ), ( const, override ) );
+   MOCK_METHOD( void, SetPlayer, ( const std::shared_ptr<MegaManLofi::IPlayer> ), ( override ) );
    MOCK_METHOD( long long, GetWidth, ( ), ( const, override ) );
    MOCK_METHOD( long long, GetHeight, ( ), ( const, override ) );
-   MOCK_METHOD( long long, GetPlayerPositionX, ( ), ( const, override ) );
-   MOCK_METHOD( long long, GetPlayerPositionY, ( ), ( const, override ) );
-   MOCK_METHOD( void, SetPlayerPositionX, ( long long ), ( override ) );
-   MOCK_METHOD( void, SetPlayerPositionY, ( long long ), ( override ) );
    MOCK_METHOD( long long, GetTileWidth, ( ), ( const, override ) );
    MOCK_METHOD( long long, GetTileHeight, ( ), ( const, override ) );
    MOCK_METHOD( int, GetHorizontalTiles, ( ), ( const, override ) );

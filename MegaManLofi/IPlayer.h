@@ -14,6 +14,9 @@ namespace MegaManLofi
       virtual void SetLivesRemaining( unsigned int lives ) = 0;
 
       virtual void SetDirection( Direction direction ) = 0;
+      virtual void SetArenaPosition( Coordinate<long long> position ) = 0;
+      virtual void SetArenaPositionLeft( long long left ) = 0;
+      virtual void SetArenaPositionTop( long long top ) = 0;
       virtual void SetVelocityX( long long velocityX ) = 0;
       virtual void SetVelocityY( long long velocityY ) = 0;
 

@@ -56,6 +56,8 @@ TEST_F( PlayerTests, Constructor_Always_SetsDefaultPropertiesFromConfig )
    _config->DefaultHitBox = { 1, 2, 3, 4 };
    BuildPlayer();
 
+   EXPECT_EQ( _player->GetArenaPosition().Left, 0 );
+   EXPECT_EQ( _player->GetArenaPosition().Top, 0 );
    EXPECT_EQ( _player->GetVelocityX(), 100 );
    EXPECT_EQ( _player->GetVelocityY(), 200 );
    EXPECT_EQ( _player->GetLivesRemaining(), 10 );
@@ -143,6 +145,36 @@ TEST_F( PlayerTests, GetHitBox_Always_ReturnsHitBox )
    EXPECT_EQ( _player->GetHitBox().Top, 0 );
    EXPECT_EQ( _player->GetHitBox().Width, 4 );
    EXPECT_EQ( _player->GetHitBox().Height, 4 );
+}
+
+TEST_F( PlayerTests, GetArenaPosition_Always_ReturnsArenaPosition )
+{
+   BuildPlayer();
+
+   _player->SetArenaPosition( { 4, 5 } );
+
+   EXPECT_EQ( _player->GetArenaPosition().Left, 4 );
+   EXPECT_EQ( _player->GetArenaPosition().Top, 5 );
+}
+
+TEST_F( PlayerTests, SetArenaPositionLeft_Always_SetsArenaPositionLeft )
+{
+   BuildPlayer();
+   _player->SetArenaPosition( { 4, 5 } );
+
+   _player->SetArenaPositionLeft( 10 );
+
+   EXPECT_EQ( _player->GetArenaPosition().Left, 10 );
+}
+
+TEST_F( PlayerTests, SetArenaPositionTop_Always_SetsArenaPositionTop )
+{
+   BuildPlayer();
+   _player->SetArenaPosition( { 4, 5 } );
+
+   _player->SetArenaPositionTop( 10 );
+
+   EXPECT_EQ( _player->GetArenaPosition().Top, 10 );
 }
 
 TEST_F( PlayerTests, GetVelocityX_Always_ReturnsVelocityX )

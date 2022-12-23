@@ -1,17 +1,18 @@
 #pragma once
 
+#include <memory>
+
 #include "ArenaTile.h"
 
 namespace MegaManLofi
 {
+   class IPlayer;
+
    class __declspec( novtable ) IArenaInfoProvider
    {
    public:
       virtual long long GetWidth() const = 0;
       virtual long long GetHeight() const = 0;
-
-      virtual long long GetPlayerPositionX() const = 0;
-      virtual long long GetPlayerPositionY() const = 0;
 
       virtual long long GetTileWidth() const = 0;
       virtual long long GetTileHeight() const = 0;

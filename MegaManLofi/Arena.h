@@ -8,6 +8,7 @@
 namespace MegaManLofi
 {
    class ArenaConfig;
+   class IPlayer;
 
    class Arena : public IArena
    {
@@ -16,14 +17,11 @@ namespace MegaManLofi
 
       void Reset();
 
+      const std::shared_ptr<IPlayer> GetPlayer() const { return _player; }
+      void SetPlayer( const std::shared_ptr<IPlayer> player ) override;
+
       long long GetWidth() const override { return _width; }
       long long GetHeight() const override { return _height; }
-
-      long long GetPlayerPositionX() const override { return _playerPositionX; }
-      long long GetPlayerPositionY() const override { return _playerPositionY; }
-
-      void SetPlayerPositionX( long long positionX ) override { _playerPositionX = positionX; }
-      void SetPlayerPositionY( long long positionY ) override { _playerPositionY = positionY; }
 
       long long GetTileWidth() const override { return _tileWidth; }
       long long GetTileHeight() const override { return _tileHeight; }
@@ -35,6 +33,8 @@ namespace MegaManLofi
 
    private:
       const std::shared_ptr<ArenaConfig> _config;
+
+      std::shared_ptr<IPlayer> _player;
 
       std::vector<ArenaTile> _tiles;
 

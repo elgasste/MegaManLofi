@@ -30,6 +30,8 @@ Game::Game( const shared_ptr<IGameEventAggregator> eventAggregator,
 {
    _eventAggregator->RegisterEventHandler( GameEvent::Pitfall, std::bind( &Game::KillPlayer, this ) );
    _eventAggregator->RegisterEventHandler( GameEvent::TileDeath, std::bind( &Game::KillPlayer, this ) );
+
+   _arena->SetPlayer( _player );
 }
 
 void Game::Tick()
@@ -38,7 +40,7 @@ void Game::Tick()
    {
       _player->ResetPhysics();
       _arena->Reset();
-      _arenaPhysics->AssignTo( _arena, _player );
+      _arenaPhysics->AssignTo( _arena );
       _restartStageNextFrame = false;
       _eventAggregator->RaiseEvent( GameEvent::StageStarted );
    }
@@ -114,7 +116,7 @@ void Game::StartStage()
    _player->Reset();
    _arena->Reset();
    _playerPhysics->AssignTo( _player );
-   _arenaPhysics->AssignTo( _arena, _player );
+   _arenaPhysics->AssignTo( _arena );
    _nextState = GameState::Playing;
    _isPaused = false;
    _eventAggregator->RaiseEvent( GameEvent::StageStarted );

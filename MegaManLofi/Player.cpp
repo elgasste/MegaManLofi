@@ -15,7 +15,8 @@ Player::Player( const shared_ptr<PlayerConfig> config,
                 const shared_ptr<IFrameRateProvider> frameRateProvider ) :
    _config( config ),
    _frameActionRegistry( frameActionRegistry ),
-   _frameRateProvider( frameRateProvider )
+   _frameRateProvider( frameRateProvider ),
+   _arenaPosition( { 0, 0 } )
 {
    Reset();
 }

@@ -9,7 +9,6 @@
 #include "ConsoleRenderConfig.h"
 #include "KeyboardInputConfig.h"
 #include "PlayerConfig.h"
-#include "ArenaConfig.h"
 #include "PlayerPhysicsConfig.h"
 #include "KeyCode.h"
 #include "GameButton.h"
@@ -57,6 +56,7 @@
 #include "ArenaSpriteGenerator.h"
 #include "TitleSpriteGenerator.h"
 #include "MenuSpriteGenerator.h"
+#include "ArenaDefsGenerator.h"
 
 using namespace std;
 using namespace MegaManLofi;
@@ -67,7 +67,6 @@ using namespace MegaManLofi;
 shared_ptr<ConsoleRenderConfig> BuildConsoleRenderConfig( const shared_ptr<IFrameRateProvider> frameRateProvider );
 shared_ptr<KeyboardInputConfig> BuildKeyboardInputConfig();
 shared_ptr<PlayerConfig> BuildPlayerConfig();
-shared_ptr<ArenaConfig> BuildArenaConfig();
 shared_ptr<PlayerPhysicsConfig> BuildPlayerPhysicsConfig();
 shared_ptr<GameConfig> BuildGameConfig();
 void LoadAndRun( const shared_ptr<IConsoleBuffer> consoleBuffer );
@@ -123,7 +122,7 @@ void LoadAndRun( const shared_ptr<IConsoleBuffer> consoleBuffer )
    config->RenderConfig = BuildConsoleRenderConfig( clock );
    config->InputConfig = BuildKeyboardInputConfig();
    config->PlayerConfig = BuildPlayerConfig();
-   config->ArenaConfig = BuildArenaConfig();
+   config->ArenaDefs = ArenaDefsGenerator::GenerateArenaDefs();
    config->PlayerPhysicsConfig = BuildPlayerPhysicsConfig();
    auto consoleRenderConfig = static_pointer_cast<ConsoleRenderConfig>( config->RenderConfig );
    auto keyboardInputConfig = static_pointer_cast<KeyboardInputConfig>( config->InputConfig );
@@ -137,7 +136,7 @@ void LoadAndRun( const shared_ptr<IConsoleBuffer> consoleBuffer )
 
    // game objects
    auto player = shared_ptr<Player>( new Player( config->PlayerConfig, frameActionRegistry, clock ) );
-   auto arena = shared_ptr<Arena>( new Arena( config->ArenaConfig ) );
+   auto arena = shared_ptr<Arena>( new Arena( config->ArenaDefs ) );
    auto game = shared_ptr<Game>( new Game( eventAggregator, player, arena, playerPhysics, arenaPhysics ) );
 
    // menus
@@ -371,25 +370,6 @@ shared_ptr<PlayerConfig> BuildPlayerConfig()
    playerConfig->DefaultDirection = Direction::Right;
 
    return playerConfig;
-}
-
-// TODO: move all of this into ArenaGenerator
-shared_ptr<ArenaConfig> BuildArenaConfig()
-{
-   auto arenaConfig = make_shared<ArenaConfig>();
-
-   // this results in a 4560 x 2340 unit viewport, which translates super well to a 120 x 30 character console
-   arenaConfig->DefaultTileWidth = 38;
-   arenaConfig->DefaultTileHeight = 78;
-
-   arenaConfig->DefaultHorizontalTiles = 360;
-   arenaConfig->DefaultVerticalTiles = 60;
-
-   arenaConfig->DefaultTiles = ArenaTileGenerator::GenerateArenaTiles();
-
-   arenaConfig->DefaultPlayerPosition = { arenaConfig->DefaultTileWidth * 8, arenaConfig->DefaultTileHeight * 6 };
-
-   return arenaConfig;
 }
 
 shared_ptr<PlayerPhysicsConfig> BuildPlayerPhysicsConfig()

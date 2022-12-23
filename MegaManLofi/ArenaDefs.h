@@ -7,7 +7,7 @@
 
 namespace MegaManLofi
 {
-   class ArenaConfig
+   class ArenaDefs
    {
    public:
       long long DefaultTileWidth = 0;

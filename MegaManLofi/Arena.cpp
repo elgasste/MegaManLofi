@@ -1,21 +1,21 @@
 #include "Arena.h"
-#include "ArenaConfig.h"
+#include "ArenaDefs.h"
 #include "IPlayer.h"
 #include "ArenaTile.h"
 
 using namespace std;
 using namespace MegaManLofi;
 
-Arena::Arena( const shared_ptr<ArenaConfig> config ) :
-   _config( config ),
+Arena::Arena( const shared_ptr<ArenaDefs> arenaDefs ) :
+   _arenaDefs( arenaDefs ),
    _player( nullptr ),
-   _tiles( config->DefaultTiles ),
-   _width( config->DefaultTileWidth* config->DefaultHorizontalTiles ),
-   _height( config->DefaultTileHeight* config->DefaultVerticalTiles ),
-   _tileWidth( config->DefaultTileWidth ),
-   _tileHeight( config->DefaultTileHeight ),
-   _horizontalTiles( config->DefaultHorizontalTiles ),
-   _verticalTiles( config->DefaultVerticalTiles )
+   _tiles( arenaDefs->DefaultTiles ),
+   _width( arenaDefs->DefaultTileWidth * arenaDefs->DefaultHorizontalTiles ),
+   _height( arenaDefs->DefaultTileHeight * arenaDefs->DefaultVerticalTiles ),
+   _tileWidth( arenaDefs->DefaultTileWidth ),
+   _tileHeight( arenaDefs->DefaultTileHeight ),
+   _horizontalTiles( arenaDefs->DefaultHorizontalTiles ),
+   _verticalTiles( arenaDefs->DefaultVerticalTiles )
 {
    Reset();
 }
@@ -24,7 +24,7 @@ void Arena::Reset()
 {
    if ( _player )
    {
-      _player->SetArenaPosition( _config->DefaultPlayerPosition );
+      _player->SetArenaPosition( _arenaDefs->DefaultPlayerPosition );
    }
 }
 

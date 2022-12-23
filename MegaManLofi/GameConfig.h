@@ -7,7 +7,7 @@ namespace MegaManLofi
    class IGameRenderConfig;
    class IGameInputConfig;
    class PlayerConfig;
-   class ArenaConfig;
+   class ArenaDefs;
    class PlayerPhysicsConfig;
 
    class GameConfig
@@ -18,7 +18,7 @@ namespace MegaManLofi
       std::shared_ptr<IGameRenderConfig> RenderConfig;
       std::shared_ptr<IGameInputConfig> InputConfig;
       std::shared_ptr<PlayerConfig> PlayerConfig;
-      std::shared_ptr<ArenaConfig> ArenaConfig;
+      std::shared_ptr<ArenaDefs> ArenaDefs;
       std::shared_ptr<PlayerPhysicsConfig> PlayerPhysicsConfig;
    };
 }

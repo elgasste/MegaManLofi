@@ -8,14 +8,14 @@
 
 namespace MegaManLofi
 {
-   class ArenaConfig;
+   class ArenaDefs;
    class IPlayer;
 
    class Arena : public IArena,
                  public IArenaInfoProvider
    {
    public:
-      Arena( const std::shared_ptr<ArenaConfig> config );
+      Arena( const std::shared_ptr<ArenaDefs> arenaDefs );
 
       void Reset();
 
@@ -34,7 +34,7 @@ namespace MegaManLofi
       const ArenaTile& GetTile( long long index ) const override { return _tiles[index]; }
 
    private:
-      const std::shared_ptr<ArenaConfig> _config;
+      const std::shared_ptr<ArenaDefs> _arenaDefs;
 
       std::shared_ptr<IPlayer> _player;
 

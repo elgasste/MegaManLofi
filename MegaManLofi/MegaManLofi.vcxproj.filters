@@ -67,6 +67,12 @@
     <Filter Include="Source Files\Render\Animations">
       <UniqueIdentifier>{b32e0e61-a47e-46a8-9109-f87854115a73}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\ConfigGenerators\SubGenerators">
+      <UniqueIdentifier>{7bd07139-5eaf-4aae-82b1-1e2e6210d460}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ConfigGenerators\SubGenerators">
+      <UniqueIdentifier>{e7e131bb-a77b-4171-91f9-c426b4c9e8e4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MegaManLofi.cpp">
@@ -135,29 +141,17 @@
     <ClCompile Include="Arena.cpp">
       <Filter>Source Files\GameObjects</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerSpriteGenerator.cpp">
-      <Filter>Source Files\ConfigGenerators</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerPhysics.cpp">
       <Filter>Source Files\Utilities</Filter>
     </ClCompile>
     <ClCompile Include="ArenaPhysics.cpp">
       <Filter>Source Files\Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="ArenaTileGenerator.cpp">
-      <Filter>Source Files\ConfigGenerators</Filter>
-    </ClCompile>
-    <ClCompile Include="ArenaSpriteGenerator.cpp">
-      <Filter>Source Files\ConfigGenerators</Filter>
-    </ClCompile>
     <ClCompile Include="GameOverStateConsoleRenderer.cpp">
       <Filter>Source Files\Render</Filter>
     </ClCompile>
     <ClCompile Include="GameOverStateInputHandler.cpp">
       <Filter>Source Files\Input</Filter>
-    </ClCompile>
-    <ClCompile Include="TitleSpriteGenerator.cpp">
-      <Filter>Source Files\ConfigGenerators</Filter>
     </ClCompile>
     <ClCompile Include="RandomWrapper.cpp">
       <Filter>Source Files\Wrappers</Filter>
@@ -192,8 +186,23 @@
     <ClCompile Include="PlayingMenu.cpp">
       <Filter>Source Files\GameObjects</Filter>
     </ClCompile>
-    <ClCompile Include="MenuSpriteGenerator.cpp">
+    <ClCompile Include="ArenaDefsGenerator.cpp">
       <Filter>Source Files\ConfigGenerators</Filter>
+    </ClCompile>
+    <ClCompile Include="ArenaSpriteGenerator.cpp">
+      <Filter>Source Files\ConfigGenerators\SubGenerators</Filter>
+    </ClCompile>
+    <ClCompile Include="ArenaTileGenerator.cpp">
+      <Filter>Source Files\ConfigGenerators\SubGenerators</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuSpriteGenerator.cpp">
+      <Filter>Source Files\ConfigGenerators\SubGenerators</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerSpriteGenerator.cpp">
+      <Filter>Source Files\ConfigGenerators\SubGenerators</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleSpriteGenerator.cpp">
+      <Filter>Source Files\ConfigGenerators\SubGenerators</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -332,7 +341,7 @@
     <ClInclude Include="IGame.h">
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="ArenaConfig.h">
+    <ClInclude Include="ArenaDefs.h">
       <Filter>Header Files\Config</Filter>
     </ClInclude>
     <ClInclude Include="IGameInfoProvider.h">
@@ -383,9 +392,6 @@
     <ClInclude Include="ArenaTile.h">
       <Filter>Header Files\DataTypes</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerSpriteGenerator.h">
-      <Filter>Header Files\ConfigGenerators</Filter>
-    </ClInclude>
     <ClInclude Include="PointPlayerCommandArgs.h">
       <Filter>Header Files\CommandArgs</Filter>
     </ClInclude>
@@ -410,23 +416,11 @@
     <ClInclude Include="PlayerPhysicsConfig.h">
       <Filter>Header Files\Config</Filter>
     </ClInclude>
-    <ClInclude Include="ArenaTileGenerator.h">
-      <Filter>Header Files\ConfigGenerators</Filter>
-    </ClInclude>
-    <ClInclude Include="ArenaGenerationDefs.h">
-      <Filter>Header Files\ConfigGenerators</Filter>
-    </ClInclude>
-    <ClInclude Include="ArenaSpriteGenerator.h">
-      <Filter>Header Files\ConfigGenerators</Filter>
-    </ClInclude>
     <ClInclude Include="GameOverStateConsoleRenderer.h">
       <Filter>Header Files\Render</Filter>
     </ClInclude>
     <ClInclude Include="GameOverStateInputHandler.h">
       <Filter>Header Files\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="TitleSpriteGenerator.h">
-      <Filter>Header Files\ConfigGenerators</Filter>
     </ClInclude>
     <ClInclude Include="IRandom.h">
       <Filter>Header Files\Interfaces</Filter>
@@ -488,11 +482,29 @@
     <ClInclude Include="PlayingMenu.h">
       <Filter>Header Files\GameObjects</Filter>
     </ClInclude>
-    <ClInclude Include="MenuSpriteGenerator.h">
-      <Filter>Header Files\ConfigGenerators</Filter>
-    </ClInclude>
     <ClInclude Include="IEntity.h">
       <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="ArenaGenerationDefs.h">
+      <Filter>Header Files\ConfigGenerators</Filter>
+    </ClInclude>
+    <ClInclude Include="ArenaSpriteGenerator.h">
+      <Filter>Header Files\ConfigGenerators\SubGenerators</Filter>
+    </ClInclude>
+    <ClInclude Include="ArenaTileGenerator.h">
+      <Filter>Header Files\ConfigGenerators\SubGenerators</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuSpriteGenerator.h">
+      <Filter>Header Files\ConfigGenerators\SubGenerators</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerSpriteGenerator.h">
+      <Filter>Header Files\ConfigGenerators\SubGenerators</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleSpriteGenerator.h">
+      <Filter>Header Files\ConfigGenerators\SubGenerators</Filter>
+    </ClInclude>
+    <ClInclude Include="ArenaDefsGenerator.h">
+      <Filter>Header Files\ConfigGenerators\SubGenerators</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

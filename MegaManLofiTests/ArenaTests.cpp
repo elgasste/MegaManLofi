@@ -3,7 +3,7 @@
 #include <memory>
 
 #include <MegaManLofi/Arena.h>
-#include <MegaManLofi/ArenaConfig.h>
+#include <MegaManLofi/ArenaDefs.h>
 #include <MegaManLofi/FrameAction.h>
 
 #include "mock_Player.h"
@@ -19,29 +19,29 @@ class ArenaTests : public Test
 public:
    void SetUp() override
    {
-      _config.reset( new ArenaConfig );
+      _arenaDefs.reset( new ArenaDefs );
       _playerMock.reset( new NiceMock<mock_Player> );
 
-      _config->DefaultTileWidth = 2;
-      _config->DefaultTileHeight = 2;
-      _config->DefaultHorizontalTiles = 10;
-      _config->DefaultVerticalTiles = 8;
-      _config->DefaultPlayerPosition = { 10, 8 };
+      _arenaDefs->DefaultTileWidth = 2;
+      _arenaDefs->DefaultTileHeight = 2;
+      _arenaDefs->DefaultHorizontalTiles = 10;
+      _arenaDefs->DefaultVerticalTiles = 8;
+      _arenaDefs->DefaultPlayerPosition = { 10, 8 };
 
-      for ( int i = 0; i < _config->DefaultHorizontalTiles * _config->DefaultVerticalTiles; i++ )
+      for ( int i = 0; i < _arenaDefs->DefaultHorizontalTiles * _arenaDefs->DefaultVerticalTiles; i++ )
       {
-         _config->DefaultTiles.push_back( { true, true, true, true } );
+         _arenaDefs->DefaultTiles.push_back( { true, true, true, true } );
       }
    }
 
    void BuildArena()
    {
-      _arena.reset( new Arena( _config ) );
+      _arena.reset( new Arena( _arenaDefs ) );
       _arena->SetPlayer( _playerMock );
    }
 
 protected:
-   shared_ptr<ArenaConfig> _config;
+   shared_ptr<ArenaDefs> _arenaDefs;
    shared_ptr<mock_Player> _playerMock;
 
    shared_ptr<Arena> _arena;
@@ -49,7 +49,7 @@ protected:
 
 TEST_F( ArenaTests, Constructor_Always_SetsDefaultInfoBasedOnConfig )
 {
-   _config->DefaultTiles[5] = { false, true, false, true };
+   _arenaDefs->DefaultTiles[5] = { false, true, false, true };
    BuildArena();
 
    EXPECT_EQ( _arena->GetWidth(), 20 );

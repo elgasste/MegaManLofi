@@ -9,7 +9,7 @@ namespace MegaManLofi
    class __declspec( novtable ) IEntity
    {
    public:
-      virtual Coordinate<long long> GetArenaPosition() const = 0;
+      virtual const Coordinate<long long>& GetArenaPosition() const = 0;
 
       virtual long long GetVelocityX() const = 0;
       virtual long long GetVelocityY() const = 0;

@@ -1,13 +1,9 @@
 #pragma once
 
-#include <memory>
-
 #include "ArenaTile.h"
 
 namespace MegaManLofi
 {
-   class IPlayer;
-
    class __declspec( novtable ) IArenaInfoProvider
    {
    public:

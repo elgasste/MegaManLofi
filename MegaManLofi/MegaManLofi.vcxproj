@@ -159,6 +159,8 @@
     <ClCompile Include="ConsoleRenderDefsGenerator.cpp" />
     <ClCompile Include="ConsoleSprite.cpp" />
     <ClCompile Include="FrameActionRegistry.cpp" />
+    <ClCompile Include="FrameRateDefsGenerator.cpp" />
+    <ClCompile Include="GameDefsGenerator.cpp" />
     <ClCompile Include="GameOverStateConsoleRenderer.cpp" />
     <ClCompile Include="GameOverStateInputHandler.cpp" />
     <ClCompile Include="KeyboardInputDefsGenerator.cpp" />
@@ -218,12 +220,15 @@
     <ClInclude Include="Direction.h" />
     <ClInclude Include="FrameAction.h" />
     <ClInclude Include="FrameActionRegistry.h" />
+    <ClInclude Include="FrameRateDefs.h" />
+    <ClInclude Include="FrameRateDefsGenerator.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameButton.h" />
     <ClInclude Include="GameClock.h" />
     <ClInclude Include="GameCommand.h" />
     <ClInclude Include="GameCommandArgs.h" />
-    <ClInclude Include="GameConfig.h" />
+    <ClInclude Include="GameDefs.h" />
+    <ClInclude Include="GameDefsGenerator.h" />
     <ClInclude Include="GameOverStateConsoleRenderer.h" />
     <ClInclude Include="GameOverStateInputHandler.h" />
     <ClInclude Include="GameRenderer.h" />

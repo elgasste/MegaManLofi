@@ -9,7 +9,7 @@
 using namespace std;
 using namespace MegaManLofi;
 
-shared_ptr<ConsoleRenderDefs> ConsoleRenderDefsGenerator::GenerateConsoleRenderDefs( const shared_ptr<IFrameRateProvider> frameRateProvider )
+shared_ptr<IGameRenderDefs> ConsoleRenderDefsGenerator::GenerateConsoleRenderDefs( const shared_ptr<IFrameRateProvider> frameRateProvider )
 {
    auto renderDefs = make_shared<ConsoleRenderDefs>();
 

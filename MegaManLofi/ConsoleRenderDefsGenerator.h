@@ -4,12 +4,12 @@
 
 namespace MegaManLofi
 {
-   class ConsoleRenderDefs;
+   class IGameRenderDefs;
    class IFrameRateProvider;
 
    class ConsoleRenderDefsGenerator
    {
    public:
-      static std::shared_ptr<ConsoleRenderDefs> GenerateConsoleRenderDefs( const std::shared_ptr<IFrameRateProvider> frameRateProvider );
+      static std::shared_ptr<IGameRenderDefs> GenerateConsoleRenderDefs( const std::shared_ptr<IFrameRateProvider> frameRateProvider );
    };
 }

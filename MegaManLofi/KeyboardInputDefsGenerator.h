@@ -4,11 +4,11 @@
 
 namespace MegaManLofi
 {
-   class KeyboardInputDefs;
+   class IGameInputDefs;
 
    class KeyboardInputDefsGenerator
    {
    public:
-      static std::shared_ptr<KeyboardInputDefs> GenerateKeyboardInputDefs();
+      static std::shared_ptr<IGameInputDefs> GenerateKeyboardInputDefs();
    };
 }

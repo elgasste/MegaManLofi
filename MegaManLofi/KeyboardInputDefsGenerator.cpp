@@ -4,7 +4,7 @@
 using namespace std;
 using namespace MegaManLofi;
 
-shared_ptr<KeyboardInputDefs> KeyboardInputDefsGenerator::GenerateKeyboardInputDefs()
+shared_ptr<IGameInputDefs> KeyboardInputDefsGenerator::GenerateKeyboardInputDefs()
 {
    auto keyboardInputDefs = make_shared<KeyboardInputDefs>();
 

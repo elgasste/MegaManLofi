@@ -5,7 +5,6 @@
 
 #include <iostream>
 
-#include "GameConfig.h"
 #include "KeyCode.h"
 #include "GameButton.h"
 #include "HighResolutionClockWrapper.h"
@@ -15,8 +14,10 @@
 #include "RandomWrapper.h"
 #include "GameEventAggregator.h"
 #include "GameClock.h"
+#include "GameDefs.h"
 #include "KeyboardInputReader.h"
 #include "FrameActionRegistry.h"
+#include "FrameRateDefs.h"
 #include "Player.h"
 #include "Arena.h"
 #include "PlayerPhysics.h"
@@ -54,19 +55,19 @@
 #include "MenuSpriteGenerator.h"
 #include "ConsoleRenderDefs.h"
 #include "KeyboardInputDefs.h"
+#include "FrameRateDefsGenerator.h"
 #include "ConsoleRenderDefsGenerator.h"
 #include "KeyboardInputDefsGenerator.h"
 #include "PlayerDefsGenerator.h"
 #include "ArenaDefsGenerator.h"
 #include "PlayerPhysicsDefsGenerator.h"
+#include "GameDefsGenerator.h"
 
 using namespace std;
 using namespace MegaManLofi;
 
-// TODO: I suppose these configs should be loaded from files at some point,
-// but at the very least they should all have default values, and those could
-// probably be set in some initializer instead of in here.
-shared_ptr<GameConfig> BuildGameConfig();
+// TODO: I suppose all the game objects should be loaded from disk at some point,
+// but for now let's just do it all in here.
 void LoadAndRun( const shared_ptr<IConsoleBuffer> consoleBuffer );
 
 INT WINAPI WinMain( _In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ PSTR lpCmdLine, _In_ INT nCmdShow )
@@ -101,8 +102,8 @@ void LoadAndRun( const shared_ptr<IConsoleBuffer> consoleBuffer )
    consoleBuffer->Draw( 2, 1, "Loading all the things..." );
    consoleBuffer->Flip();
 
-   // main config
-   auto config = BuildGameConfig();
+   // frame rate defs
+   auto frameRateDefs = FrameRateDefsGenerator::GenerateFrateRateDefs();
 
    // wrappers
    auto highResolutionClock = make_shared<HighResolutionClockWrapper>();
@@ -114,27 +115,24 @@ void LoadAndRun( const shared_ptr<IConsoleBuffer> consoleBuffer )
    // auxiliary objects
    auto eventAggregator = make_shared<GameEventAggregator>();
    auto frameActionRegistry = make_shared<FrameActionRegistry>();
-   auto clock = shared_ptr<GameClock>( new GameClock( highResolutionClock, sleeper, config->FramesPerSecond ) );
+   auto clock = shared_ptr<GameClock>( new GameClock( highResolutionClock, sleeper, frameRateDefs->DefaultFramesPerSecond ) );
 
-   // sub-configs
-   config->RenderDefs = ConsoleRenderDefsGenerator::GenerateConsoleRenderDefs( clock );
-   config->InputDefs = KeyboardInputDefsGenerator::GenerateKeyboardInputDefs();
-   config->PlayerDefs = PlayerDefsGenerator::GeneratePlayerDefs();
-   config->ArenaDefs = ArenaDefsGenerator::GenerateArenaDefs();
-   config->PlayerPhysicsDefs = PlayerPhysicsDefsGenerator::GeneratePlayerPhysicsDefs();
-   auto consoleRenderDefs = static_pointer_cast<ConsoleRenderDefs>( config->RenderDefs );
-   auto keyboardInputDefs = static_pointer_cast<KeyboardInputDefs>( config->InputDefs );
+   // game defs
+   auto gameDefs = GameDefsGenerator::GenerateGameDefs( clock );
+   gameDefs->FrameRateDefs = frameRateDefs;
+   auto consoleRenderDefs = static_pointer_cast<ConsoleRenderDefs>( gameDefs->RenderDefs );
+   auto keyboardInputDefs = static_pointer_cast<KeyboardInputDefs>( gameDefs->InputDefs );
 
    // input
    auto keyboardInputReader = shared_ptr<KeyboardInputReader>( new KeyboardInputReader( keyboardInputDefs, keyboard ) );
 
    // utilities
-   auto playerPhysics = shared_ptr<PlayerPhysics>( new PlayerPhysics( clock, frameActionRegistry, config->PlayerPhysicsDefs ) );
+   auto playerPhysics = shared_ptr<PlayerPhysics>( new PlayerPhysics( clock, frameActionRegistry, gameDefs->PlayerPhysicsDefs ) );
    auto arenaPhysics = shared_ptr<ArenaPhysics>( new ArenaPhysics( clock, frameActionRegistry, eventAggregator ) );
 
    // game objects
-   auto player = shared_ptr<Player>( new Player( config->PlayerDefs, frameActionRegistry, clock ) );
-   auto arena = shared_ptr<Arena>( new Arena( config->ArenaDefs ) );
+   auto player = shared_ptr<Player>( new Player( gameDefs->PlayerDefs, frameActionRegistry, clock ) );
+   auto arena = shared_ptr<Arena>( new Arena( gameDefs->ArenaDefs ) );
    auto game = shared_ptr<Game>( new Game( eventAggregator, player, arena, playerPhysics, arenaPhysics ) );
 
    // menus
@@ -180,13 +178,4 @@ void LoadAndRun( const shared_ptr<IConsoleBuffer> consoleBuffer )
    auto runner = shared_ptr<GameRunner>( new GameRunner( eventAggregator, clock, inputHandler, renderer, frameActionRegistry, game, thread ) );
 
    runner->Run();
-}
-
-shared_ptr<GameConfig> BuildGameConfig()
-{
-   auto config = make_shared<GameConfig>();
-
-   config->FramesPerSecond = 60;
-
-   return config;
 }

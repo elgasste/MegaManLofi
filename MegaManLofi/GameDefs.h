@@ -4,17 +4,17 @@
 
 namespace MegaManLofi
 {
+   class FrameRateDefs;
    class IGameRenderDefs;
    class IGameInputDefs;
    class PlayerDefs;
    class ArenaDefs;
    class PlayerPhysicsDefs;
 
-   class GameConfig
+   class GameDefs
    {
    public:
-      int FramesPerSecond = 0;
-
+      std::shared_ptr<FrameRateDefs> FrameRateDefs;
       std::shared_ptr<IGameRenderDefs> RenderDefs;
       std::shared_ptr<IGameInputDefs> InputDefs;
       std::shared_ptr<PlayerDefs> PlayerDefs;

@@ -216,6 +216,12 @@
     <ClCompile Include="ConsoleRenderDefsGenerator.cpp">
       <Filter>Source Files\ConfigGenerators</Filter>
     </ClCompile>
+    <ClCompile Include="GameDefsGenerator.cpp">
+      <Filter>Source Files\ConfigGenerators</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameRateDefsGenerator.cpp">
+      <Filter>Source Files\ConfigGenerators</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameRunner.h">
@@ -281,7 +287,7 @@
     <ClInclude Include="TitleStateConsoleRenderer.h">
       <Filter>Header Files\Render</Filter>
     </ClInclude>
-    <ClInclude Include="GameConfig.h">
+    <ClInclude Include="GameDefs.h">
       <Filter>Header Files\Config</Filter>
     </ClInclude>
     <ClInclude Include="ConsoleRenderDefs.h">
@@ -528,6 +534,15 @@
       <Filter>Header Files\ConfigGenerators</Filter>
     </ClInclude>
     <ClInclude Include="ConsoleRenderDefsGenerator.h">
+      <Filter>Header Files\ConfigGenerators</Filter>
+    </ClInclude>
+    <ClInclude Include="GameDefsGenerator.h">
+      <Filter>Header Files\ConfigGenerators</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameRateDefs.h">
+      <Filter>Header Files\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameRateDefsGenerator.h">
       <Filter>Header Files\ConfigGenerators</Filter>
     </ClInclude>
   </ItemGroup>

@@ -2,6 +2,7 @@
 
 #include <memory>
 
+#include "Quad.h"
 #include "ArenaTile.h"
 
 namespace MegaManLofi
@@ -17,6 +18,8 @@ namespace MegaManLofi
 
       virtual int GetHorizontalTiles() const = 0;
       virtual int GetVerticalTiles() const = 0;
+
+      virtual const Quad<long long>& GetActiveRegion() const = 0;
 
       virtual const ArenaTile& GetTile( long long index ) const = 0;
    };

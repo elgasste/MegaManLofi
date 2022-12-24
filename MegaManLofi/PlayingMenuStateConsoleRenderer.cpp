@@ -25,16 +25,17 @@ void PlayingMenuStateConsoleRenderer::Render()
 
    const auto& menu = _menuProvider->GetMenu( MenuType::Playing );
    int top = ( _renderDefs->ConsoleHeightChars / 2 ) - ( menu->GetOptionCount() / 2 );
+   int leftOffset = 40;
 
-   _consoleBuffer->Draw( 1, top + menu->GetSelectedIndex() - 3, _renderDefs->PlayingMenuPlayerImage );
+   _consoleBuffer->Draw( leftOffset, top + menu->GetSelectedIndex() - 3, _renderDefs->PlayingMenuPlayerImage );
 
    for ( int i = 0; i < menu->GetOptionCount(); i++, top++ )
    {
       if ( menu->GetSelectedIndex() == i )
       {
-         _consoleBuffer->Draw( 18, top, _renderDefs->MenuCaratSprite );
+         _consoleBuffer->Draw( leftOffset + 18, top, _renderDefs->MenuCaratSprite );
       }
-      _consoleBuffer->Draw( 20, top, menu->GetOptionTitle( i ) );
+      _consoleBuffer->Draw( leftOffset + 20, top, menu->GetOptionTitle( i ) );
    }
 
    _renderDefs->MenuCaratSprite->Tick();

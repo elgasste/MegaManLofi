@@ -4,7 +4,7 @@
 
 namespace MegaManLofi
 {
-   class ArenaGenerationDefs
+   class ArenaGenerationStrings
    {
    public:
       // 's': solid, blocks in all directions

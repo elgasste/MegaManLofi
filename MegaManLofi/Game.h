@@ -5,6 +5,8 @@
 #include "IGame.h"
 #include "IGameCommandExecutor.h"
 #include "IGameInfoProvider.h"
+#include "IPlayerInfoProvider.h"
+#include "IArenaInfoProvider.h"
 
 namespace MegaManLofi
 {
@@ -16,7 +18,9 @@ namespace MegaManLofi
 
    class Game : public IGame,
                 public IGameCommandExecutor,
-                public IGameInfoProvider
+                public IGameInfoProvider,
+                public IPlayerInfoProvider,
+                public IArenaInfoProvider
    {
    public:
       Game( const std::shared_ptr<IGameEventAggregator> eventAggregator,
@@ -29,6 +33,9 @@ namespace MegaManLofi
 
       GameState GetGameState() const override { return _state; }
       bool IsPaused() const override { return _isPaused; }
+
+      const std::shared_ptr<IReadOnlyPlayer> GetPlayer() const override;
+      const std::shared_ptr<IReadOnlyArena> GetArena() const override;
 
       void ExecuteCommand( GameCommand command ) override;
       void ExecuteCommand( GameCommand command, const std::shared_ptr<GameCommandArgs> args ) override;

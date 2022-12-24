@@ -1,5 +1,5 @@
 #include "ArenaTileGenerator.h"
-#include "ArenaGenerationDefs.h"
+#include "ArenaGenerationStrings.h"
 
 using namespace std;
 using namespace MegaManLofi;
@@ -7,7 +7,7 @@ using namespace MegaManLofi;
 vector<ArenaTile> ArenaTileGenerator::GenerateArenaTiles()
 {
    vector<ArenaTile> tiles;
-   auto arenaTilesString = ArenaGenerationDefs::GetArenaTilesString();
+   auto arenaTilesString = ArenaGenerationStrings::GetArenaTilesString();
 
    for ( int i = 0; i < (int)arenaTilesString.size(); i++ )
    {

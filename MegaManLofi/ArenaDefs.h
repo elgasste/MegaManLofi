@@ -3,10 +3,11 @@
 #include <vector>
 
 #include "ArenaTile.h"
+#include "Coordinate.h"
 
 namespace MegaManLofi
 {
-   class ArenaConfig
+   class ArenaDefs
    {
    public:
       long long DefaultTileWidth = 0;
@@ -17,7 +18,6 @@ namespace MegaManLofi
 
       std::vector<ArenaTile> DefaultTiles;
 
-      long long DefaultPlayerPositionX = 0;
-      long long DefaultPlayerPositionY = 0;
+      Coordinate<long long> DefaultPlayerPosition = { 0, 0 };
    };
 }

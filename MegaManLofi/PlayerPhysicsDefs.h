@@ -2,7 +2,7 @@
 
 namespace MegaManLofi
 {
-   class PlayerPhysicsConfig
+   class PlayerPhysicsDefs
    {
    public:
       long long MaxPushVelocity = 0;

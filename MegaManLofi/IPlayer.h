@@ -1,12 +1,10 @@
 #pragma once
 
-#include "IPlayerInfoProvider.h"
+#include "IReadOnlyPlayer.h"
 
 namespace MegaManLofi
 {
-   enum class Direction;
-
-   class __declspec( novtable ) IPlayer : public IPlayerInfoProvider
+   class __declspec( novtable ) IPlayer : public IReadOnlyPlayer
    {
    public:
       virtual void Reset() = 0;
@@ -14,13 +12,11 @@ namespace MegaManLofi
 
       virtual void SetLivesRemaining( unsigned int lives ) = 0;
       virtual void SetDirection( Direction direction ) = 0;
-
-      virtual long long GetVelocityX() const = 0;
-      virtual long long GetVelocityY() const = 0;
-
+      virtual void SetArenaPosition( Coordinate<long long> position ) = 0;
+      virtual void SetArenaPositionLeft( long long left ) = 0;
+      virtual void SetArenaPositionTop( long long top ) = 0;
       virtual void SetVelocityX( long long velocityX ) = 0;
       virtual void SetVelocityY( long long velocityY ) = 0;
-
       virtual void SetIsStanding( bool isStanding ) = 0;
       virtual void SetIsJumping( bool isJumping ) = 0;
 

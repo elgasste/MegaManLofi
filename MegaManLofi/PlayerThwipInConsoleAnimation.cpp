@@ -2,7 +2,7 @@
 
 #include "PlayerThwipInConsoleAnimation.h"
 #include "IConsoleBuffer.h"
-#include "ConsoleRenderConfig.h"
+#include "ConsoleRenderDefs.h"
 #include "IFrameRateProvider.h"
 #include "IConsoleSprite.h"
 
@@ -10,10 +10,10 @@ using namespace std;
 using namespace MegaManLofi;
 
 PlayerThwipInConsoleAnimation::PlayerThwipInConsoleAnimation( const shared_ptr<IConsoleBuffer> consoleBuffer,
-                                                              const shared_ptr<ConsoleRenderConfig> renderConfig,
+                                                              const shared_ptr<ConsoleRenderDefs> renderDefs,
                                                               const shared_ptr<IFrameRateProvider> frameRateProvider ) :
    _consoleBuffer( consoleBuffer ),
-   _renderConfig( renderConfig ),
+   _renderDefs( renderDefs ),
    _frameRateProvider( frameRateProvider ),
    _isRunning( false ),
    _startPositionChars( {0, 0} ),
@@ -40,27 +40,27 @@ void PlayerThwipInConsoleAnimation::Start( optional<Coordinate<short>> startPosi
    _isRunning = true;
    _startPositionChars = startPositionChars.value();
    _endPositionChars = endPositionChars.value();
-   _currentTopPositionUnits = _startPositionChars.Top * _renderConfig->ArenaCharHeight;
-   _endTopPositionUnits = _endPositionChars.Top * _renderConfig->ArenaCharHeight;
+   _currentTopPositionUnits = _startPositionChars.Top * _renderDefs->ArenaCharHeight;
+   _endTopPositionUnits = _endPositionChars.Top * _renderDefs->ArenaCharHeight;
    _postThwipping = false;
    _elapsedSeconds = 0;
 
-   _renderConfig->PlayerThwipInTransitionSprite->Reset();
-   _renderConfig->PlayerThwipSprite->Reset();
+   _renderDefs->PlayerThwipInTransitionSprite->Reset();
+   _renderDefs->PlayerThwipSprite->Reset();
 }
 
 void PlayerThwipInConsoleAnimation::Draw()
 {
    if ( _postThwipping )
    {
-      _consoleBuffer->Draw( _startPositionChars.Left, _endPositionChars.Top, _renderConfig->PlayerThwipInTransitionSprite );
+      _consoleBuffer->Draw( _startPositionChars.Left, _endPositionChars.Top, _renderDefs->PlayerThwipInTransitionSprite );
    }
    else
    {
-      auto leftOffset = short( ( _renderConfig->PlayerThwipInTransitionSprite->GetWidth() - _renderConfig->PlayerThwipSprite->GetWidth() ) / 2 );
+      auto leftOffset = short( ( _renderDefs->PlayerThwipInTransitionSprite->GetWidth() - _renderDefs->PlayerThwipSprite->GetWidth() ) / 2 );
       _consoleBuffer->Draw( _startPositionChars.Left + leftOffset,
-                            (short)( _currentTopPositionUnits / _renderConfig->ArenaCharHeight ),
-                            _renderConfig->PlayerThwipSprite );
+                            (short)( _currentTopPositionUnits / _renderDefs->ArenaCharHeight ),
+                            _renderDefs->PlayerThwipSprite );
    }
 }
 
@@ -71,22 +71,22 @@ void PlayerThwipInConsoleAnimation::Tick()
       return;
    }
 
-   _elapsedSeconds += _frameRateProvider->GetFrameScalar();
+   _elapsedSeconds += _frameRateProvider->GetSecondsPerFrame();
 
    if ( _postThwipping )
    {
-      _renderConfig->PlayerThwipInTransitionSprite->Tick();
+      _renderDefs->PlayerThwipInTransitionSprite->Tick();
 
-      auto test = _renderConfig->PlayerThwipInTransitionSprite->GetTotalTraversalSeconds();
-      if ( _elapsedSeconds >= _renderConfig->PlayerThwipInTransitionSprite->GetTotalTraversalSeconds() )
+      auto test = _renderDefs->PlayerThwipInTransitionSprite->GetTotalTraversalSeconds();
+      if ( _elapsedSeconds >= _renderDefs->PlayerThwipInTransitionSprite->GetTotalTraversalSeconds() )
       {
          _isRunning = false;
       }
    }
    else
    {
-      _renderConfig->PlayerThwipSprite->Tick();
-      auto topDelta = (long long)( _renderConfig->PlayerThwipVelocity * _frameRateProvider->GetFrameScalar() );
+      _renderDefs->PlayerThwipSprite->Tick();
+      auto topDelta = (long long)( _renderDefs->PlayerThwipVelocity * _frameRateProvider->GetSecondsPerFrame() );
 
       if ( _endPositionChars.Top < _startPositionChars.Top )
       {

@@ -8,14 +8,14 @@ namespace MegaManLofi
 {
    class IConsoleBuffer;
    class IGameClock;
-   class ConsoleRenderConfig;
+   class ConsoleRenderDefs;
 
    class DiagnosticsConsoleRenderer : public IGameRenderer
    {
    public:
       DiagnosticsConsoleRenderer( const std::shared_ptr<IConsoleBuffer> consoleBuffer,
                                   const std::shared_ptr<IGameClock> clock,
-                                  const std::shared_ptr<ConsoleRenderConfig> renderConfig );
+                                  const std::shared_ptr<ConsoleRenderDefs> renderDefs );
 
       void Render() override;
       bool HasFocus() const override { return false; }
@@ -23,6 +23,6 @@ namespace MegaManLofi
    private:
       const std::shared_ptr<IConsoleBuffer> _consoleBuffer;
       const std::shared_ptr<IGameClock> _clock;
-      const std::shared_ptr<ConsoleRenderConfig> _renderConfig;
+      const std::shared_ptr<ConsoleRenderDefs> _renderDefs;
    };
 }

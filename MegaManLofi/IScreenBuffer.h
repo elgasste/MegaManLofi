@@ -4,12 +4,12 @@
 
 namespace MegaManLofi
 {
-   class IGameRenderConfig;
+   class IGameRenderDefs;
 
    class __declspec( novtable ) IScreenBuffer
    {
    public:
-      virtual void LoadRenderConfig( const std::shared_ptr<IGameRenderConfig> config ) = 0;
+      virtual void LoadRenderDefs( const std::shared_ptr<IGameRenderDefs> renderDefs ) = 0;
       virtual void CleanUp() = 0;
 
       virtual void Clear() = 0;

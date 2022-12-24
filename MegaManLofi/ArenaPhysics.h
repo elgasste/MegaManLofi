@@ -16,8 +16,7 @@ namespace MegaManLofi
                     const std::shared_ptr<IFrameActionRegistry> frameActionRegistry,
                     const std::shared_ptr<IGameEventAggregator> eventAggregator );
 
-      void AssignTo( const std::shared_ptr<IArena> arena,
-                     const std::shared_ptr<IPlayer> player ) override;
+      void AssignTo( const std::shared_ptr<IArena> arena ) override;
       void Tick() override;
 
    private:
@@ -25,8 +24,8 @@ namespace MegaManLofi
       void UpdatePlayerOccupyingTileIndices();
       void MovePlayerX();
       void MovePlayerY();
-      void DetectPlayerTileCollisionX( long long& newPositionX );
-      void DetectPlayerTileCollisionY( long long& newPositionY );
+      void DetectPlayerTileCollisionX( long long& newPositionLeft );
+      void DetectPlayerTileCollisionY( long long& newPositionTop );
       bool DetectTileDeath() const;
       void DetectPlayerStanding();
 
@@ -35,7 +34,6 @@ namespace MegaManLofi
       const std::shared_ptr<IFrameActionRegistry> _frameActionRegistry;
       const std::shared_ptr<IGameEventAggregator> _eventAggregator;
       std::shared_ptr<IArena> _arena;
-      std::shared_ptr<IPlayer> _player;
 
       Quad<long long> _playerOccupyingTileIndices;
    };

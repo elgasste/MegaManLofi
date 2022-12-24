@@ -7,23 +7,21 @@
 
 namespace MegaManLofi
 {
-   class ArenaConfig;
+   class ArenaDefs;
+   class IPlayer;
 
    class Arena : public IArena
    {
    public:
-      Arena( const std::shared_ptr<ArenaConfig> config );
+      Arena( const std::shared_ptr<ArenaDefs> arenaDefs );
 
       void Reset();
 
+      const std::shared_ptr<IPlayer> GetPlayer() const { return _player; }
+      void SetPlayer( const std::shared_ptr<IPlayer> player ) override;
+
       long long GetWidth() const override { return _width; }
       long long GetHeight() const override { return _height; }
-
-      long long GetPlayerPositionX() const override { return _playerPositionX; }
-      long long GetPlayerPositionY() const override { return _playerPositionY; }
-
-      void SetPlayerPositionX( long long positionX ) override { _playerPositionX = positionX; }
-      void SetPlayerPositionY( long long positionY ) override { _playerPositionY = positionY; }
 
       long long GetTileWidth() const override { return _tileWidth; }
       long long GetTileHeight() const override { return _tileHeight; }
@@ -34,7 +32,9 @@ namespace MegaManLofi
       const ArenaTile& GetTile( long long index ) const override { return _tiles[index]; }
 
    private:
-      const std::shared_ptr<ArenaConfig> _config;
+      const std::shared_ptr<ArenaDefs> _arenaDefs;
+
+      std::shared_ptr<IPlayer> _player;
 
       std::vector<ArenaTile> _tiles;
 

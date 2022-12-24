@@ -1,20 +1,14 @@
 #pragma once
 
-#include "Rectangle.h"
+#include <memory>
 
 namespace MegaManLofi
 {
-   enum class Direction;
+   class IReadOnlyPlayer;
 
    class __declspec( novtable ) IPlayerInfoProvider
    {
    public:
-      virtual unsigned int GetLivesRemaining() const = 0;
-      virtual Direction GetDirection() const = 0;
-      virtual const Rectangle<long long>& GetHitBox() const = 0;
-
-      virtual bool IsMoving() const = 0;
-      virtual bool IsStanding() const = 0;
-      virtual bool IsJumping() const = 0;
+      virtual const std::shared_ptr<IReadOnlyPlayer> GetPlayer() const = 0;
    };
 }

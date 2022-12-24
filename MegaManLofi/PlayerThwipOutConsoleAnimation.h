@@ -7,14 +7,14 @@
 namespace MegaManLofi
 {
    class IConsoleBuffer;
-   class ConsoleRenderConfig;
+   class ConsoleRenderDefs;
    class IFrameRateProvider;
 
    class PlayerThwipOutConsoleAnimation : public IConsoleAnimation
    {
    public:
       PlayerThwipOutConsoleAnimation( const std::shared_ptr<IConsoleBuffer> consoleBuffer,
-                                      const std::shared_ptr<ConsoleRenderConfig> renderConfig,
+                                      const std::shared_ptr<ConsoleRenderDefs> renderDefs,
                                       const std::shared_ptr<IFrameRateProvider> frameRateProvider );
 
       void Start( std::optional<Coordinate<short>> startPositionChars,
@@ -25,7 +25,7 @@ namespace MegaManLofi
 
    private:
       const std::shared_ptr<IConsoleBuffer> _consoleBuffer;
-      const std::shared_ptr<ConsoleRenderConfig> _renderConfig;
+      const std::shared_ptr<ConsoleRenderDefs> _renderDefs;
       const std::shared_ptr<IFrameRateProvider> _frameRateProvider;
 
       bool _isRunning;

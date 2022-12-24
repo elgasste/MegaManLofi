@@ -1,15 +1,19 @@
 #pragma once
 
-#include "IArenaInfoProvider.h"
+#include <memory>
+
+#include "IReadOnlyArena.h"
 
 namespace MegaManLofi
 {
-   class __declspec( novtable ) IArena : public IArenaInfoProvider
+   class IPlayer;
+
+   class __declspec( novtable ) IArena : public IReadOnlyArena
    {
    public:
       virtual void Reset() = 0;
 
-      virtual void SetPlayerPositionX( long long positionX ) = 0;
-      virtual void SetPlayerPositionY( long long positionY ) = 0;
+      virtual const std::shared_ptr<IPlayer> GetPlayer() const = 0;
+      virtual void SetPlayer( const std::shared_ptr<IPlayer> player ) = 0;
    };
 }

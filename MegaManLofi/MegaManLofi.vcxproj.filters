@@ -31,9 +31,6 @@
     <Filter Include="Source Files\Render">
       <UniqueIdentifier>{72e4b4f7-3f00-40f2-bb2f-68c19aef96d4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Config">
-      <UniqueIdentifier>{3d844f74-be55-4dd0-b069-ece15e0fba1b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Wrappers">
       <UniqueIdentifier>{82f7e089-e48f-47eb-a1b9-e2f92e1392e4}</UniqueIdentifier>
     </Filter>
@@ -55,17 +52,26 @@
     <Filter Include="Source Files\GameObjects">
       <UniqueIdentifier>{8312b608-7cf1-4ec4-9f83-176d417cfdab}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\ConfigGenerators">
-      <UniqueIdentifier>{80d520c0-4325-4405-a317-2f5151f0356b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\ConfigGenerators">
-      <UniqueIdentifier>{bada5787-7047-4f37-88c2-c3ec93573a4a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Render\Animations">
       <UniqueIdentifier>{2199efa5-6cd1-4f52-8822-d28273f8fe00}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Render\Animations">
       <UniqueIdentifier>{b32e0e61-a47e-46a8-9109-f87854115a73}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GameDefs">
+      <UniqueIdentifier>{3d844f74-be55-4dd0-b069-ece15e0fba1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GameDefGenerators">
+      <UniqueIdentifier>{80d520c0-4325-4405-a317-2f5151f0356b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GameDefGenerators\SubGenerators">
+      <UniqueIdentifier>{e7e131bb-a77b-4171-91f9-c426b4c9e8e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GameDefGenerators">
+      <UniqueIdentifier>{bada5787-7047-4f37-88c2-c3ec93573a4a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GameDefGenerators\SubGenerators">
+      <UniqueIdentifier>{7bd07139-5eaf-4aae-82b1-1e2e6210d460}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -135,29 +141,17 @@
     <ClCompile Include="Arena.cpp">
       <Filter>Source Files\GameObjects</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerSpriteGenerator.cpp">
-      <Filter>Source Files\ConfigGenerators</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerPhysics.cpp">
       <Filter>Source Files\Utilities</Filter>
     </ClCompile>
     <ClCompile Include="ArenaPhysics.cpp">
       <Filter>Source Files\Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="ArenaTileGenerator.cpp">
-      <Filter>Source Files\ConfigGenerators</Filter>
-    </ClCompile>
-    <ClCompile Include="ArenaSpriteGenerator.cpp">
-      <Filter>Source Files\ConfigGenerators</Filter>
-    </ClCompile>
     <ClCompile Include="GameOverStateConsoleRenderer.cpp">
       <Filter>Source Files\Render</Filter>
     </ClCompile>
     <ClCompile Include="GameOverStateInputHandler.cpp">
       <Filter>Source Files\Input</Filter>
-    </ClCompile>
-    <ClCompile Include="TitleSpriteGenerator.cpp">
-      <Filter>Source Files\ConfigGenerators</Filter>
     </ClCompile>
     <ClCompile Include="RandomWrapper.cpp">
       <Filter>Source Files\Wrappers</Filter>
@@ -192,8 +186,41 @@
     <ClCompile Include="PlayingMenu.cpp">
       <Filter>Source Files\GameObjects</Filter>
     </ClCompile>
+    <ClCompile Include="ArenaDefsGenerator.cpp">
+      <Filter>Source Files\GameDefGenerators</Filter>
+    </ClCompile>
+    <ClCompile Include="ArenaSpriteGenerator.cpp">
+      <Filter>Source Files\GameDefGenerators\SubGenerators</Filter>
+    </ClCompile>
+    <ClCompile Include="ArenaTileGenerator.cpp">
+      <Filter>Source Files\GameDefGenerators\SubGenerators</Filter>
+    </ClCompile>
     <ClCompile Include="MenuSpriteGenerator.cpp">
-      <Filter>Source Files\ConfigGenerators</Filter>
+      <Filter>Source Files\GameDefGenerators\SubGenerators</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerSpriteGenerator.cpp">
+      <Filter>Source Files\GameDefGenerators\SubGenerators</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleSpriteGenerator.cpp">
+      <Filter>Source Files\GameDefGenerators\SubGenerators</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerDefsGenerator.cpp">
+      <Filter>Source Files\GameDefGenerators</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyboardInputDefsGenerator.cpp">
+      <Filter>Source Files\GameDefGenerators</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerPhysicsDefsGenerator.cpp">
+      <Filter>Source Files\GameDefGenerators</Filter>
+    </ClCompile>
+    <ClCompile Include="ConsoleRenderDefsGenerator.cpp">
+      <Filter>Source Files\GameDefGenerators</Filter>
+    </ClCompile>
+    <ClCompile Include="GameDefsGenerator.cpp">
+      <Filter>Source Files\GameDefGenerators</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameRateDefsGenerator.cpp">
+      <Filter>Source Files\GameDefGenerators</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -260,14 +287,14 @@
     <ClInclude Include="TitleStateConsoleRenderer.h">
       <Filter>Header Files\Render</Filter>
     </ClInclude>
-    <ClInclude Include="GameConfig.h">
-      <Filter>Header Files\Config</Filter>
+    <ClInclude Include="GameDefs.h">
+      <Filter>Header Files\GameDefs</Filter>
     </ClInclude>
-    <ClInclude Include="ConsoleRenderConfig.h">
-      <Filter>Header Files\Config</Filter>
+    <ClInclude Include="ConsoleRenderDefs.h">
+      <Filter>Header Files\GameDefs</Filter>
     </ClInclude>
-    <ClInclude Include="KeyboardInputConfig.h">
-      <Filter>Header Files\Config</Filter>
+    <ClInclude Include="KeyboardInputDefs.h">
+      <Filter>Header Files\GameDefs</Filter>
     </ClInclude>
     <ClInclude Include="DiagnosticsConsoleRenderer.h">
       <Filter>Header Files\Render</Filter>
@@ -317,23 +344,23 @@
     <ClInclude Include="ConsoleImage.h">
       <Filter>Header Files\DataTypes</Filter>
     </ClInclude>
-    <ClInclude Include="IGameRenderConfig.h">
+    <ClInclude Include="IGameRenderDefs.h">
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="IGameInputConfig.h">
+    <ClInclude Include="IGameInputDefs.h">
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
     <ClInclude Include="IScreenBuffer.h">
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerConfig.h">
-      <Filter>Header Files\Config</Filter>
+    <ClInclude Include="PlayerDefs.h">
+      <Filter>Header Files\GameDefs</Filter>
     </ClInclude>
     <ClInclude Include="IGame.h">
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="ArenaConfig.h">
-      <Filter>Header Files\Config</Filter>
+    <ClInclude Include="ArenaDefs.h">
+      <Filter>Header Files\GameDefs</Filter>
     </ClInclude>
     <ClInclude Include="IGameInfoProvider.h">
       <Filter>Header Files\Interfaces</Filter>
@@ -383,9 +410,6 @@
     <ClInclude Include="ArenaTile.h">
       <Filter>Header Files\DataTypes</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerSpriteGenerator.h">
-      <Filter>Header Files\ConfigGenerators</Filter>
-    </ClInclude>
     <ClInclude Include="PointPlayerCommandArgs.h">
       <Filter>Header Files\CommandArgs</Filter>
     </ClInclude>
@@ -407,26 +431,14 @@
     <ClInclude Include="Quad.h">
       <Filter>Header Files\DataTypes</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerPhysicsConfig.h">
-      <Filter>Header Files\Config</Filter>
-    </ClInclude>
-    <ClInclude Include="ArenaTileGenerator.h">
-      <Filter>Header Files\ConfigGenerators</Filter>
-    </ClInclude>
-    <ClInclude Include="ArenaGenerationDefs.h">
-      <Filter>Header Files\ConfigGenerators</Filter>
-    </ClInclude>
-    <ClInclude Include="ArenaSpriteGenerator.h">
-      <Filter>Header Files\ConfigGenerators</Filter>
+    <ClInclude Include="PlayerPhysicsDefs.h">
+      <Filter>Header Files\GameDefs</Filter>
     </ClInclude>
     <ClInclude Include="GameOverStateConsoleRenderer.h">
       <Filter>Header Files\Render</Filter>
     </ClInclude>
     <ClInclude Include="GameOverStateInputHandler.h">
       <Filter>Header Files\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="TitleSpriteGenerator.h">
-      <Filter>Header Files\ConfigGenerators</Filter>
     </ClInclude>
     <ClInclude Include="IRandom.h">
       <Filter>Header Files\Interfaces</Filter>
@@ -488,8 +500,56 @@
     <ClInclude Include="PlayingMenu.h">
       <Filter>Header Files\GameObjects</Filter>
     </ClInclude>
+    <ClInclude Include="IEntity.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="ArenaSpriteGenerator.h">
+      <Filter>Header Files\GameDefGenerators\SubGenerators</Filter>
+    </ClInclude>
+    <ClInclude Include="ArenaTileGenerator.h">
+      <Filter>Header Files\GameDefGenerators\SubGenerators</Filter>
+    </ClInclude>
     <ClInclude Include="MenuSpriteGenerator.h">
-      <Filter>Header Files\ConfigGenerators</Filter>
+      <Filter>Header Files\GameDefGenerators\SubGenerators</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerSpriteGenerator.h">
+      <Filter>Header Files\GameDefGenerators\SubGenerators</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleSpriteGenerator.h">
+      <Filter>Header Files\GameDefGenerators\SubGenerators</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerDefsGenerator.h">
+      <Filter>Header Files\GameDefGenerators</Filter>
+    </ClInclude>
+    <ClInclude Include="ArenaDefsGenerator.h">
+      <Filter>Header Files\GameDefGenerators</Filter>
+    </ClInclude>
+    <ClInclude Include="ArenaGenerationStrings.h">
+      <Filter>Header Files\GameDefGenerators</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyboardInputDefsGenerator.h">
+      <Filter>Header Files\GameDefGenerators</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerPhysicsDefsGenerator.h">
+      <Filter>Header Files\GameDefGenerators</Filter>
+    </ClInclude>
+    <ClInclude Include="ConsoleRenderDefsGenerator.h">
+      <Filter>Header Files\GameDefGenerators</Filter>
+    </ClInclude>
+    <ClInclude Include="GameDefsGenerator.h">
+      <Filter>Header Files\GameDefGenerators</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameRateDefs.h">
+      <Filter>Header Files\GameDefs</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameRateDefsGenerator.h">
+      <Filter>Header Files\GameDefGenerators</Filter>
+    </ClInclude>
+    <ClInclude Include="IReadOnlyPlayer.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="IReadOnlyArena.h">
+      <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

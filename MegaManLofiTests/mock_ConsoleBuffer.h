@@ -7,7 +7,7 @@
 class mock_ConsoleBuffer : public MegaManLofi::IConsoleBuffer
 {
 public:
-   MOCK_METHOD( void, LoadRenderConfig, ( std::shared_ptr<MegaManLofi::IGameRenderConfig> ), ( override ) );
+   MOCK_METHOD( void, LoadRenderDefs, ( std::shared_ptr<MegaManLofi::IGameRenderDefs> ), ( override ) );
    MOCK_METHOD( void, CleanUp, ( ), ( override ) );
 
    MOCK_METHOD( void, SetDefaultForegroundColor, ( MegaManLofi::ConsoleColor ), ( override ) );

@@ -14,7 +14,7 @@ namespace MegaManLofi
       ConsoleBuffer();
       ~ConsoleBuffer();
 
-      void LoadRenderConfig( const std::shared_ptr<IGameRenderConfig> renderConfig ) override;
+      void LoadRenderDefs( const std::shared_ptr<IGameRenderDefs> renderDefs ) override;
       void CleanUp() override;
 
       void SetDefaultForegroundColor( ConsoleColor color ) override;

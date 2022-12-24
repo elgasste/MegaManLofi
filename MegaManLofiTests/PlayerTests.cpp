@@ -3,7 +3,7 @@
 #include <memory>
 
 #include <MegaManLofi/Player.h>
-#include <MegaManLofi/PlayerConfig.h>
+#include <MegaManLofi/PlayerDefs.h>
 #include <MegaManLofi/FrameAction.h>
 #include <MegaManLofi/Rectangle.h>
 
@@ -19,26 +19,26 @@ class PlayerTests : public Test
 public:
    void SetUp() override
    {
-      _config.reset( new PlayerConfig );
+      _playerDefs.reset( new PlayerDefs );
       _frameActionRegistryMock.reset( new NiceMock<mock_FrameActionRegistry> );
       _frameRateProviderMock.reset( new NiceMock<mock_FrameRateProvider> );
 
-      _config->DefaultVelocityX = 0;
-      _config->DefaultVelocityY = 0;
-      _config->DefaultLives = 5;
-      _config->DefaultDirection = Direction::Left;
-      _config->DefaultHitBox = { 0, 0, 4, 4 };
+      _playerDefs->DefaultVelocityX = 0;
+      _playerDefs->DefaultVelocityY = 0;
+      _playerDefs->DefaultLives = 5;
+      _playerDefs->DefaultDirection = Direction::Left;
+      _playerDefs->DefaultHitBox = { 0, 0, 4, 4 };
 
       ON_CALL( *_frameRateProviderMock, GetFramesPerSecond() ).WillByDefault( Return( 100 ) );
    }
 
    void BuildPlayer()
    {
-      _player.reset( new Player( _config, _frameActionRegistryMock, _frameRateProviderMock ) );
+      _player.reset( new Player( _playerDefs, _frameActionRegistryMock, _frameRateProviderMock ) );
    }
 
 protected:
-   shared_ptr<PlayerConfig> _config;
+   shared_ptr<PlayerDefs> _playerDefs;
    shared_ptr<mock_FrameActionRegistry> _frameActionRegistryMock;
    shared_ptr<mock_FrameRateProvider> _frameRateProviderMock;
 
@@ -49,13 +49,15 @@ protected:
 
 TEST_F( PlayerTests, Constructor_Always_SetsDefaultPropertiesFromConfig )
 {
-   _config->DefaultVelocityX = 100;
-   _config->DefaultVelocityY = 200;
-   _config->DefaultLives = 10;
-   _config->DefaultDirection = Direction::Right;
-   _config->DefaultHitBox = { 1, 2, 3, 4 };
+   _playerDefs->DefaultVelocityX = 100;
+   _playerDefs->DefaultVelocityY = 200;
+   _playerDefs->DefaultLives = 10;
+   _playerDefs->DefaultDirection = Direction::Right;
+   _playerDefs->DefaultHitBox = { 1, 2, 3, 4 };
    BuildPlayer();
 
+   EXPECT_EQ( _player->GetArenaPosition().Left, 0 );
+   EXPECT_EQ( _player->GetArenaPosition().Top, 0 );
    EXPECT_EQ( _player->GetVelocityX(), 100 );
    EXPECT_EQ( _player->GetVelocityY(), 200 );
    EXPECT_EQ( _player->GetLivesRemaining(), 10 );
@@ -102,7 +104,7 @@ TEST_F( PlayerTests, GetLivesRemaining_Always_ReturnsLivesRemaining )
 
 TEST_F( PlayerTests, GetDirection_Always_ReturnsDirection )
 {
-   _config->DefaultDirection = Direction::Right;
+   _playerDefs->DefaultDirection = Direction::Right;
    BuildPlayer();
 
    EXPECT_EQ( _player->GetDirection(), Direction::Right );
@@ -143,6 +145,36 @@ TEST_F( PlayerTests, GetHitBox_Always_ReturnsHitBox )
    EXPECT_EQ( _player->GetHitBox().Top, 0 );
    EXPECT_EQ( _player->GetHitBox().Width, 4 );
    EXPECT_EQ( _player->GetHitBox().Height, 4 );
+}
+
+TEST_F( PlayerTests, GetArenaPosition_Always_ReturnsArenaPosition )
+{
+   BuildPlayer();
+
+   _player->SetArenaPosition( { 4, 5 } );
+
+   EXPECT_EQ( _player->GetArenaPosition().Left, 4 );
+   EXPECT_EQ( _player->GetArenaPosition().Top, 5 );
+}
+
+TEST_F( PlayerTests, SetArenaPositionLeft_Always_SetsArenaPositionLeft )
+{
+   BuildPlayer();
+   _player->SetArenaPosition( { 4, 5 } );
+
+   _player->SetArenaPositionLeft( 10 );
+
+   EXPECT_EQ( _player->GetArenaPosition().Left, 10 );
+}
+
+TEST_F( PlayerTests, SetArenaPositionTop_Always_SetsArenaPositionTop )
+{
+   BuildPlayer();
+   _player->SetArenaPosition( { 4, 5 } );
+
+   _player->SetArenaPositionTop( 10 );
+
+   EXPECT_EQ( _player->GetArenaPosition().Top, 10 );
 }
 
 TEST_F( PlayerTests, GetVelocityX_Always_ReturnsVelocityX )

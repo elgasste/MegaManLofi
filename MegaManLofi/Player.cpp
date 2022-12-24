@@ -1,7 +1,7 @@
 #include <algorithm>
 
 #include "Player.h"
-#include "PlayerConfig.h"
+#include "PlayerDefs.h"
 #include "IFrameActionRegistry.h"
 #include "IFrameRateProvider.h"
 #include "FrameAction.h"
@@ -10,12 +10,13 @@
 using namespace std;
 using namespace MegaManLofi;
 
-Player::Player( const shared_ptr<PlayerConfig> config,
+Player::Player( const shared_ptr<PlayerDefs> playerDefs,
                 const shared_ptr<IFrameActionRegistry> frameActionRegistry,
                 const shared_ptr<IFrameRateProvider> frameRateProvider ) :
-   _config( config ),
+   _playerDefs( playerDefs ),
    _frameActionRegistry( frameActionRegistry ),
-   _frameRateProvider( frameRateProvider )
+   _frameRateProvider( frameRateProvider ),
+   _arenaPosition( { 0, 0 } )
 {
    Reset();
 }
@@ -23,15 +24,15 @@ Player::Player( const shared_ptr<PlayerConfig> config,
 void Player::Reset()
 {
    ResetPhysics();
-   _lives = _config->DefaultLives;
+   _lives = _playerDefs->DefaultLives;
 }
 
 void Player::ResetPhysics()
 {
-   _hitBox = _config->DefaultHitBox;
-   _velocityX = _config->DefaultVelocityX;
-   _velocityY = _config->DefaultVelocityY;
-   _direction = _config->DefaultDirection;
+   _hitBox = _playerDefs->DefaultHitBox;
+   _velocityX = _playerDefs->DefaultVelocityX;
+   _velocityY = _playerDefs->DefaultVelocityY;
+   _direction = _playerDefs->DefaultDirection;
    _isStanding = false;
    _isJumping = false;
 }

@@ -3,7 +3,7 @@
 #include <memory>
 
 #include <MegaManLofi/PlayerThwipOutConsoleAnimation.h>
-#include <MegaManLofi/ConsoleRenderConfig.h>
+#include <MegaManLofi/ConsoleRenderDefs.h>
 
 #include "mock_ConsoleBuffer.h"
 #include "mock_FrameRateProvider.h"
@@ -18,32 +18,32 @@ class PlayerThwipOutConsoleAnimationTests : public Test
 public:
    void SetUp() override
    {
-      _renderConfig.reset( new ConsoleRenderConfig );
+      _renderDefs.reset( new ConsoleRenderDefs );
       _consoleBufferMock.reset( new NiceMock<mock_ConsoleBuffer> );
       _frameRateProviderMock.reset( new NiceMock<mock_FrameRateProvider> );
       _transitionSpriteMock.reset( new NiceMock<mock_ConsoleSprite> );
       _thwipSpriteMock.reset( new NiceMock<mock_ConsoleSprite> );
 
-      _renderConfig->ArenaCharWidth = 1;
-      _renderConfig->ArenaCharHeight = 1;
-      _renderConfig->PlayerThwipVelocity = 1;
-      _renderConfig->PlayerPostThwipDelaySeconds = 2;
+      _renderDefs->ArenaCharWidth = 1;
+      _renderDefs->ArenaCharHeight = 1;
+      _renderDefs->PlayerThwipVelocity = 1;
+      _renderDefs->PlayerPostThwipDelaySeconds = 2;
 
-      ON_CALL( *_frameRateProviderMock, GetFrameScalar() ).WillByDefault( Return( 1 ) );
+      ON_CALL( *_frameRateProviderMock, GetSecondsPerFrame() ).WillByDefault( Return( 1 ) );
       ON_CALL( *_transitionSpriteMock, GetTotalTraversalSeconds() ).WillByDefault( Return( 10 ) );
 
-      _renderConfig->PlayerThwipOutTransitionSprite = _transitionSpriteMock;
-      _renderConfig->PlayerThwipSprite = _thwipSpriteMock;
+      _renderDefs->PlayerThwipOutTransitionSprite = _transitionSpriteMock;
+      _renderDefs->PlayerThwipSprite = _thwipSpriteMock;
    }
 
    void BuildAnimation()
    {
-      _animation.reset( new PlayerThwipOutConsoleAnimation( _consoleBufferMock, _renderConfig, _frameRateProviderMock ) );
+      _animation.reset( new PlayerThwipOutConsoleAnimation( _consoleBufferMock, _renderDefs, _frameRateProviderMock ) );
    }
 
 protected:
    shared_ptr<mock_ConsoleBuffer> _consoleBufferMock;
-   shared_ptr<ConsoleRenderConfig> _renderConfig;
+   shared_ptr<ConsoleRenderDefs> _renderDefs;
    shared_ptr<mock_FrameRateProvider> _frameRateProviderMock;
 
    shared_ptr<mock_ConsoleSprite> _transitionSpriteMock;

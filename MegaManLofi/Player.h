@@ -3,19 +3,17 @@
 #include <memory>
 
 #include "IPlayer.h"
-#include "IPlayerInfoProvider.h"
-#include "Direction.h"
 
 namespace MegaManLofi
 {
-   class PlayerConfig;
+   class PlayerDefs;
    class IFrameActionRegistry;
    class IFrameRateProvider;
 
    class Player : public IPlayer
    {
    public:
-      Player( const std::shared_ptr<PlayerConfig> config,
+      Player( const std::shared_ptr<PlayerDefs> playerDefs,
               const std::shared_ptr<IFrameActionRegistry> frameActionRegistry,
               const std::shared_ptr<IFrameRateProvider> frameRateProvider );
 
@@ -26,18 +24,24 @@ namespace MegaManLofi
       Direction GetDirection() const override { return _direction; }
       const Rectangle<long long>& GetHitBox() const override { return _hitBox; }
 
-      bool IsMoving() const override;
-      bool IsStanding() const override { return _isStanding; }
-      bool IsJumping() const override { return _isJumping; }
-
       void SetLivesRemaining( unsigned int lives ) override { _lives = lives; };
       void SetDirection( Direction direction ) override { _direction = direction; }
 
+      const Coordinate<long long>& GetArenaPosition() const override { return _arenaPosition; }
+      long long GetArenaPositionLeft() const override { return _arenaPosition.Left; }
+      long long GetArenaPositionTop() const override { return _arenaPosition.Top; }
+      void SetArenaPosition( Coordinate<long long> position ) override { _arenaPosition = position; }
+      void SetArenaPositionLeft( long long left ) override { _arenaPosition.Left = left; }
+      void SetArenaPositionTop( long long top ) override { _arenaPosition.Top = top; }
+
       long long GetVelocityX() const override { return _velocityX; }
       long long GetVelocityY() const override { return _velocityY; }
-
       void SetVelocityX( long long velocityX ) override { _velocityX = velocityX; }
       void SetVelocityY( long long velocityY ) override { _velocityY = velocityY; }
+
+      bool IsMoving() const override;
+      bool IsStanding() const override { return _isStanding; }
+      bool IsJumping() const override { return _isJumping; }
 
       void SetIsStanding( bool isStanding ) override { _isStanding = isStanding; }
       void SetIsJumping( bool isJumping ) override { _isJumping = isJumping; }
@@ -46,9 +50,11 @@ namespace MegaManLofi
       void StopY() override;
 
    private:
-      const std::shared_ptr<PlayerConfig> _config;
+      const std::shared_ptr<PlayerDefs> _playerDefs;
       const std::shared_ptr<IFrameActionRegistry> _frameActionRegistry;
       const std::shared_ptr<IFrameRateProvider> _frameRateProvider;
+
+      Coordinate<long long> _arenaPosition;
 
       long long _velocityX;
       long long _velocityY;

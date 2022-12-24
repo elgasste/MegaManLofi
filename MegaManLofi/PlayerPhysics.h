@@ -6,14 +6,14 @@ namespace MegaManLofi
 {
    class IFrameRateProvider;
    class IFrameActionRegistry;
-   class PlayerPhysicsConfig;
+   class PlayerPhysicsDefs;
 
    class PlayerPhysics : public IPlayerPhysics
    {
    public:
       PlayerPhysics( const std::shared_ptr<IFrameRateProvider> frameRateProvider,
                      const std::shared_ptr<IFrameActionRegistry> frameActionRegistry,
-                     const std::shared_ptr<PlayerPhysicsConfig> config );
+                     const std::shared_ptr<PlayerPhysicsDefs> physicsDefs );
 
       void AssignTo( const std::shared_ptr<IPlayer> player ) override;
       void Tick() override;
@@ -30,7 +30,7 @@ namespace MegaManLofi
    private:
       const std::shared_ptr<IFrameRateProvider> _frameRateProvider;
       const std::shared_ptr<IFrameActionRegistry> _frameActionRegistry;
-      const std::shared_ptr<PlayerPhysicsConfig> _config;
+      const std::shared_ptr<PlayerPhysicsDefs> _physicsDefs;
       std::shared_ptr<IPlayer> _player;
 
       long long _lastExtendJumpFrame;

@@ -1,9 +1,9 @@
 #pragma once
 
+#include "GameButton.h"
+
 namespace MegaManLofi
 {
-   enum class GameButton;
-
    class __declspec( novtable ) IGameInputReader
    {
    public:

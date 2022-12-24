@@ -10,6 +10,7 @@
 #include "IFrameRateProvider.h"
 #include "IConsoleAnimationProvider.h"
 #include "IConsoleAnimation.h"
+#include "IReadOnlyPlayer.h"
 #include "Direction.h"
 #include "GameEvent.h"
 #include "IConsoleSprite.h"
@@ -104,7 +105,7 @@ void PlayingStateConsoleRenderer::HandlePitfallEvent()
 
 void PlayingStateConsoleRenderer::HandleTileDeathEvent()
 {
-   const auto& hitBox = _playerInfoProvider->GetHitBox();
+   const auto& hitBox = _playerInfoProvider->GetPlayer()->GetHitBox();
    auto particleStartLeftChars = _playerViewportChars.Left + (short)( hitBox.Width / 2 / _renderDefs->ArenaCharWidth ) + _viewportOffsetChars.Left;
    auto particleStartTopChars = _playerViewportChars.Top + (short)( hitBox.Height / 2 / _renderDefs->ArenaCharHeight ) + _viewportOffsetChars.Top;
    Coordinate<short> startPosition = { (short)particleStartLeftChars, (short)particleStartTopChars };
@@ -116,7 +117,7 @@ void PlayingStateConsoleRenderer::UpdateCaches()
 {
    auto viewportWidthUnits = _renderDefs->ArenaViewportWidthChars * _renderDefs->ArenaCharWidth;
    auto viewportHeightUnits = _renderDefs->ArenaViewportHeightChars * _renderDefs->ArenaCharHeight;
-   auto playerPosition = _playerInfoProvider->GetArenaPosition();
+   auto playerPosition = _playerInfoProvider->GetPlayer()->GetArenaPosition();
 
    _viewportQuadUnits.Left = max( playerPosition.Left - ( viewportWidthUnits / 2 ), 0ll );
    _viewportQuadUnits.Top = max( playerPosition.Top - ( viewportHeightUnits / 2 ), 0ll );
@@ -224,7 +225,8 @@ void PlayingStateConsoleRenderer::DrawPlayer()
 
 void PlayingStateConsoleRenderer::DrawStatusBar()
 {
-   _consoleBuffer->Draw( _renderDefs->ArenaStatusBarLeftChars, _renderDefs->ArenaStatusBarTopChars, format( "Lives: {}", _playerInfoProvider->GetLivesRemaining() ) );
+   auto player = _playerInfoProvider->GetPlayer();
+   _consoleBuffer->Draw( _renderDefs->ArenaStatusBarLeftChars, _renderDefs->ArenaStatusBarTopChars, format( "Lives: {}", player->GetLivesRemaining() ) );
 }
 
 void PlayingStateConsoleRenderer::DrawPauseOverlay()
@@ -237,11 +239,12 @@ void PlayingStateConsoleRenderer::DrawPauseOverlay()
 
 const shared_ptr<IConsoleSprite> PlayingStateConsoleRenderer::GetPlayerSprite() const
 {
-   auto direction = _playerInfoProvider->GetDirection();
+   auto player = _playerInfoProvider->GetPlayer();
+   auto direction = player->GetDirection();
 
-   if ( _playerInfoProvider->IsStanding() )
+   if ( player->IsStanding() )
    {
-      return _playerInfoProvider->IsMoving() ? _renderDefs->PlayerWalkingSpriteMap[direction] : _renderDefs->PlayerStandingSpriteMap[direction];
+      return player->IsMoving() ? _renderDefs->PlayerWalkingSpriteMap[direction] : _renderDefs->PlayerStandingSpriteMap[direction];
    }
    else
    {

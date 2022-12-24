@@ -54,6 +54,11 @@ void Game::Tick()
    }
 }
 
+const shared_ptr<IReadOnlyPlayer> Game::GetPlayer() const
+{
+   return _player;
+}
+
 void Game::ExecuteCommand( GameCommand command )
 {
    ExecuteCommand( command, nullptr );

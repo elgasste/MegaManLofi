@@ -3,7 +3,6 @@
 #include <memory>
 
 #include "IPlayer.h"
-#include "IPlayerInfoProvider.h"
 
 namespace MegaManLofi
 {
@@ -11,8 +10,7 @@ namespace MegaManLofi
    class IFrameActionRegistry;
    class IFrameRateProvider;
 
-   class Player : public IPlayer,
-                  public IPlayerInfoProvider
+   class Player : public IPlayer
    {
    public:
       Player( const std::shared_ptr<PlayerDefs> playerDefs,

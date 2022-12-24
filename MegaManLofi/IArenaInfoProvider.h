@@ -1,21 +1,14 @@
 #pragma once
 
-#include "ArenaTile.h"
+#include <memory>
 
 namespace MegaManLofi
 {
+   class IReadOnlyArena;
+
    class __declspec( novtable ) IArenaInfoProvider
    {
    public:
-      virtual long long GetWidth() const = 0;
-      virtual long long GetHeight() const = 0;
-
-      virtual long long GetTileWidth() const = 0;
-      virtual long long GetTileHeight() const = 0;
-
-      virtual int GetHorizontalTiles() const = 0;
-      virtual int GetVerticalTiles() const = 0;
-
-      virtual const ArenaTile& GetTile( long long index ) const = 0;
+      virtual const std::shared_ptr<IReadOnlyArena> GetArena() const = 0;
    };
 }

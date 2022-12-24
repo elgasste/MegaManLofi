@@ -4,15 +4,13 @@
 #include <vector>
 
 #include "IArena.h"
-#include "IArenaInfoProvider.h"
 
 namespace MegaManLofi
 {
    class ArenaDefs;
    class IPlayer;
 
-   class Arena : public IArena,
-                 public IArenaInfoProvider
+   class Arena : public IArena
    {
    public:
       Arena( const std::shared_ptr<ArenaDefs> arenaDefs );

@@ -37,6 +37,7 @@
   </PropertyGroup>
   <ItemGroup>
     <ClInclude Include="mock_Arena.h" />
+    <ClInclude Include="mock_ArenaInfoProvider.h" />
     <ClInclude Include="mock_ArenaPhysics.h" />
     <ClInclude Include="mock_ConsoleAnimation.h" />
     <ClInclude Include="mock_ConsoleAnimationProvider.h" />

@@ -18,6 +18,7 @@ namespace MegaManLofi
    class IFrameRateProvider;
    class IConsoleAnimationProvider;
    class IConsoleSprite;
+   class IReadOnlyArena;
 
    class PlayingStateConsoleRenderer : public IGameRenderer
    {
@@ -61,6 +62,8 @@ namespace MegaManLofi
       const std::shared_ptr<IGameEventAggregator> _eventAggregator;
       const std::shared_ptr<IFrameRateProvider> _frameRateProvider;
       const std::shared_ptr<IConsoleAnimationProvider> _animationProvider;
+
+      std::shared_ptr<IReadOnlyArena> _arena;
 
       Quad<long long> _viewportQuadUnits;
       Rectangle<short> _viewportRectChars;

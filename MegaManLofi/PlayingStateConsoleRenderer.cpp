@@ -11,6 +11,7 @@
 #include "IConsoleAnimationProvider.h"
 #include "IConsoleAnimation.h"
 #include "IReadOnlyPlayer.h"
+#include "IReadOnlyArena.h"
 #include "Direction.h"
 #include "GameEvent.h"
 #include "IConsoleSprite.h"
@@ -115,6 +116,8 @@ void PlayingStateConsoleRenderer::HandleTileDeathEvent()
 
 void PlayingStateConsoleRenderer::UpdateCaches()
 {
+   _arena = _arenaInfoProvider->GetArena();
+
    auto viewportWidthUnits = _renderDefs->ArenaViewportWidthChars * _renderDefs->ArenaCharWidth;
    auto viewportHeightUnits = _renderDefs->ArenaViewportHeightChars * _renderDefs->ArenaCharHeight;
    auto playerPosition = _playerInfoProvider->GetPlayer()->GetArenaPosition();
@@ -124,14 +127,14 @@ void PlayingStateConsoleRenderer::UpdateCaches()
    _viewportQuadUnits.Right = _viewportQuadUnits.Left + viewportWidthUnits;
    _viewportQuadUnits.Bottom = _viewportQuadUnits.Top + viewportHeightUnits;
 
-   auto arenaWidth = _arenaInfoProvider->GetWidth();
+   auto arenaWidth = _arena->GetWidth();
    if ( _viewportQuadUnits.Right > arenaWidth )
    {
       _viewportQuadUnits.Right = arenaWidth;
       _viewportQuadUnits.Left = max( 0ll, _viewportQuadUnits.Right - viewportWidthUnits );
    }
 
-   auto arenaHeight = _arenaInfoProvider->GetHeight();
+   auto arenaHeight = _arena->GetHeight();
    if ( _viewportQuadUnits.Bottom > arenaHeight )
    {
       _viewportQuadUnits.Bottom = arenaHeight;
@@ -199,7 +202,7 @@ void PlayingStateConsoleRenderer::DrawPlayerExplosionAnimation()
 
 void PlayingStateConsoleRenderer::DrawArenaSprites()
 {
-   auto arenaWidthChars = (short)( _arenaInfoProvider->GetWidth() / _renderDefs->ArenaCharWidth );
+   auto arenaWidthChars = (short)( _arena->GetWidth() / _renderDefs->ArenaCharWidth );
 
    for ( short y = 0; y < _viewportRectChars.Height; y++ )
    {

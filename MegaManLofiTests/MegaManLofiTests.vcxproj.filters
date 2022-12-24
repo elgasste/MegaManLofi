@@ -161,6 +161,9 @@
     <ClInclude Include="mock_PlayerInfoProvider.h">
       <Filter>Mocks</Filter>
     </ClInclude>
+    <ClInclude Include="mock_ArenaInfoProvider.h">
+      <Filter>Mocks</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Mocks">

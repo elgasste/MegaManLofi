@@ -256,6 +256,7 @@
     <ClInclude Include="IPlayer.h" />
     <ClInclude Include="IPlayerInfoProvider.h" />
     <ClInclude Include="IRandom.h" />
+    <ClInclude Include="IReadOnlyArena.h" />
     <ClInclude Include="IReadOnlyPlayer.h" />
     <ClInclude Include="IScreenBuffer.h" />
     <ClInclude Include="IThread.h" />

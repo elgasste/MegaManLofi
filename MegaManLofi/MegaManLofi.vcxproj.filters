@@ -548,5 +548,8 @@
     <ClInclude Include="IReadOnlyPlayer.h">
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
+    <ClInclude Include="IReadOnlyArena.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

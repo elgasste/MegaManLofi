@@ -2,6 +2,7 @@
 #include "IFrameRateProvider.h"
 #include "IFrameActionRegistry.h"
 #include "IGameEventAggregator.h"
+#include "ArenaDefs.h"
 #include "IPlayer.h"
 #include "IArena.h"
 #include "FrameAction.h"
@@ -12,10 +13,12 @@ using namespace MegaManLofi;
 
 ArenaPhysics::ArenaPhysics( const shared_ptr<IFrameRateProvider> frameRateProvider,
                             const shared_ptr<IFrameActionRegistry> frameActionRegistry,
-                            const shared_ptr<IGameEventAggregator> eventAggregator ) :
+                            const shared_ptr<IGameEventAggregator> eventAggregator,
+                            const shared_ptr<ArenaDefs> arenaDefs ) :
    _frameRateProvider( frameRateProvider ),
    _frameActionRegistry( frameActionRegistry ),
    _eventAggregator( eventAggregator ),
+   _arenaDefs( arenaDefs ),
    _arena( nullptr )
 {
 }
@@ -47,6 +50,7 @@ void ArenaPhysics::MovePlayer()
    }
 
    UpdatePlayerOccupyingTileIndices();
+   UpdateActiveRegion();
 
    if ( !DetectTileDeath() )
    {
@@ -238,6 +242,15 @@ bool ArenaPhysics::DetectTileDeath() const
    }
 
    return false;
+}
+
+void ArenaPhysics::UpdateActiveRegion()
+{
+   const auto& playerPosition = _arena->GetPlayer()->GetArenaPosition();
+   auto regionLeft = playerPosition.Left - ( _arenaDefs->ActiveRegionWidth / 2 );
+   auto regionTop = playerPosition.Top - ( _arenaDefs->ActiveRegionHeight / 2 );
+
+   _arena->SetActiveRegion( { regionLeft, regionTop, regionLeft + _arenaDefs->ActiveRegionWidth, regionTop + _arenaDefs->ActiveRegionHeight } );
 }
 
 void ArenaPhysics::DetectPlayerStanding()

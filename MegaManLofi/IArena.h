@@ -3,6 +3,7 @@
 #include <memory>
 
 #include "IReadOnlyArena.h"
+#include "Quad.h"
 
 namespace MegaManLofi
 {
@@ -15,5 +16,8 @@ namespace MegaManLofi
 
       virtual const std::shared_ptr<IPlayer> GetPlayer() const = 0;
       virtual void SetPlayer( const std::shared_ptr<IPlayer> player ) = 0;
+
+      virtual const Quad<long long>& GetActiveRegion() const = 0;
+      virtual void SetActiveRegion( Quad<long long> region ) = 0;
    };
 }

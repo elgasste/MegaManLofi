@@ -29,6 +29,9 @@ namespace MegaManLofi
       int GetHorizontalTiles() const override { return _horizontalTiles; }
       int GetVerticalTiles() const override { return _verticalTiles; }
 
+      const Quad<long long>& GetActiveRegion() const override { return _activeRegion; }
+      void SetActiveRegion( Quad<long long> region ) override { _activeRegion = region; }
+
       const ArenaTile& GetTile( long long index ) const override { return _tiles[index]; }
 
    private:
@@ -49,5 +52,7 @@ namespace MegaManLofi
 
       int _horizontalTiles;
       int _verticalTiles;
+
+      Quad<long long> _activeRegion;
    };
 }

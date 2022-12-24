@@ -3,6 +3,7 @@
 #include <memory>
 
 #include <MegaManLofi/ArenaPhysics.h>
+#include <MegaManLofi/ArenaDefs.h>
 #include <MegaManLofi/FrameAction.h>
 #include <MegaManLofi/Rectangle.h>
 #include <MegaManLofi/GameEvent.h>
@@ -25,9 +26,13 @@ public:
       _frameRateProviderMock.reset( new NiceMock<mock_FrameRateProvider> );
       _frameActionRegistryMock.reset( new NiceMock<mock_FrameActionRegistry> );
       _eventAggregatorMock.reset( new NiceMock<mock_GameEventAggregator> );
+      _arenaDefs.reset( new ArenaDefs() );
       _arenaMock.reset( new NiceMock<mock_Arena> );
       _playerMock.reset( new NiceMock<mock_Player> );
       _defaultTile = { true, true, true, true, false };
+
+      _arenaDefs->ActiveRegionWidth = 20;
+      _arenaDefs->ActiveRegionHeight = 10;
 
       _playerArenaPosition = { 10, 8 };
       _playerHitBox = { 0, 0, 4, 6 };
@@ -54,7 +59,7 @@ public:
       ON_CALL( *_playerMock, GetArenaPositionTop() ).WillByDefault( Return( _playerArenaPosition.Top ) );
       ON_CALL( *_playerMock, GetHitBox() ).WillByDefault( ReturnRef( _playerHitBox ) );
 
-      _arenaPhysics.reset( new ArenaPhysics( _frameRateProviderMock, _frameActionRegistryMock, _eventAggregatorMock ) );
+      _arenaPhysics.reset( new ArenaPhysics( _frameRateProviderMock, _frameActionRegistryMock, _eventAggregatorMock, _arenaDefs ) );
       _arenaPhysics->AssignTo( _arenaMock );
    }
 
@@ -62,6 +67,7 @@ protected:
    shared_ptr<mock_FrameRateProvider> _frameRateProviderMock;
    shared_ptr<mock_FrameActionRegistry> _frameActionRegistryMock;
    shared_ptr<mock_GameEventAggregator> _eventAggregatorMock;
+   shared_ptr<ArenaDefs> _arenaDefs;
    shared_ptr<mock_Arena> _arenaMock;
    shared_ptr<mock_Player> _playerMock;
 
@@ -537,4 +543,19 @@ TEST_F( ArenaPhysicsTests, Tick_InsideDeathTile_RaisesTileDeathEvent )
    EXPECT_CALL( *_eventAggregatorMock, RaiseEvent( GameEvent::TileDeath ) );
 
    _arenaPhysics->Tick();
+}
+
+TEST_F( ArenaPhysicsTests, Tick_Always_UpdatesActiveRegion )
+{
+   BuildArenaPhysics();
+
+   Quad<long long> region;
+   EXPECT_CALL( *_arenaMock, SetActiveRegion( _ ) ).WillOnce( SaveArg<0>( &region ) );
+
+   _arenaPhysics->Tick();
+
+   EXPECT_EQ( region.Left, 0 );
+   EXPECT_EQ( region.Top, 3 );
+   EXPECT_EQ( region.Right, 20 );
+   EXPECT_EQ( region.Bottom, 13 );
 }

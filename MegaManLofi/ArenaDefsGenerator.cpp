@@ -18,6 +18,10 @@ shared_ptr<ArenaDefs> ArenaDefsGenerator::GenerateArenaDefs()
 
    arenaDefs->DefaultTiles = ArenaTileGenerator::GenerateArenaTiles();
 
+   // this conveniently matches the console viewport size
+   arenaDefs->ActiveRegionWidth = 120 * arenaDefs->DefaultTileWidth;
+   arenaDefs->ActiveRegionHeight = 30 * arenaDefs->DefaultTileHeight;
+
    arenaDefs->DefaultPlayerPosition = { arenaDefs->DefaultTileWidth * 8, arenaDefs->DefaultTileHeight * 6 };
 
    return arenaDefs;

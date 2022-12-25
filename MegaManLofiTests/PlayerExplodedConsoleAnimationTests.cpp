@@ -28,7 +28,7 @@ public:
       _renderDefs->ArenaCharWidth = 1;
       _renderDefs->ArenaCharHeight = 1;
 
-      ON_CALL( *_frameRateProviderMock, GetSecondsPerFrame() ).WillByDefault( Return( 1 ) );
+      ON_CALL( *_frameRateProviderMock, GetFrameSeconds() ).WillByDefault( Return( 1 ) );
    }
 
    void BuildAnimation()
@@ -92,13 +92,8 @@ TEST_F( PlayerExplodedConsoleAnimationTests, Start_Always_ResetsExplosionSprite 
 
 TEST_F( PlayerExplodedConsoleAnimationTests, Draw_Always_DrawsAllParticlesInCorrectPositions )
 {
-   ON_CALL( *_frameRateProviderMock, GetSecondsPerFrame() ).WillByDefault( Return( 1 / (double)30 ) );
+   ON_CALL( *_frameRateProviderMock, GetFrameSeconds() ).WillByDefault( Return( 3 ) );
    BuildAnimation();
-
-   EXPECT_CALL( *_frameRateProviderMock, GetCurrentFrame() )
-      .WillOnce( Return( 0 ) )   // in Start()
-      .WillOnce( Return( 0 ) )   // first call to Draw()
-      .WillOnce( Return( 90 ) ); // second call to Draw()
 
    EXPECT_CALL( *_consoleBufferMock, Draw( 30, 30, static_pointer_cast<IConsoleSprite>( _particleSpriteMock ) ) ).Times( 16 );
 

@@ -19,8 +19,8 @@ shared_ptr<IGameRenderDefs> ConsoleRenderDefsGenerator::GenerateConsoleRenderDef
    renderDefs->ArenaViewportLeftChars = 0;
    renderDefs->ArenaViewportTopChars = 0;
 
-   renderDefs->ArenaCharWidth = 38;
-   renderDefs->ArenaCharHeight = 78;
+   renderDefs->ArenaCharWidth = 38'000;
+   renderDefs->ArenaCharHeight = 78'000;
 
    renderDefs->ArenaViewportWidthChars = 120;
    renderDefs->ArenaViewportHeightChars = 30;
@@ -33,7 +33,7 @@ shared_ptr<IGameRenderDefs> ConsoleRenderDefsGenerator::GenerateConsoleRenderDef
 
    // player explosion should swap between two sprites in 1/4 second increments
    renderDefs->PlayerExplosionAnimationSeconds = 3;
-   renderDefs->PlayerExplosionParticleVelocity = 1'000;
+   renderDefs->PlayerExplosionParticleVelocity = 1'000'000;
    renderDefs->PlayerExplosionParticleSprite = PlayerSpriteGenerator::GenerateExplosionParticleSprite( frameRateProvider );
 
    renderDefs->DefaultForegroundColor = ConsoleColor::Grey;
@@ -62,7 +62,7 @@ shared_ptr<IGameRenderDefs> ConsoleRenderDefsGenerator::GenerateConsoleRenderDef
    renderDefs->PlayerThwipSprite = PlayerSpriteGenerator::GenerateThwipSprite( frameRateProvider );
    renderDefs->PlayerThwipInTransitionSprite = PlayerSpriteGenerator::GenerateThwipInTransitionSprite( frameRateProvider );
    renderDefs->PlayerThwipOutTransitionSprite = PlayerSpriteGenerator::GenerateThwipOutTransitionSprite( frameRateProvider );
-   renderDefs->PlayerThwipVelocity = 5'000;
+   renderDefs->PlayerThwipVelocity = 5'000'000;
    renderDefs->PlayerPostThwipDelaySeconds = 1;
 
    renderDefs->TitleTextLeftChars = 6;
@@ -78,8 +78,8 @@ shared_ptr<IGameRenderDefs> ConsoleRenderDefsGenerator::GenerateConsoleRenderDef
    renderDefs->TitleKeyBindingsMiddleXChars = 25;
    renderDefs->TitleKeyBindingsTopChars = renderDefs->TitleTextTopChars + renderDefs->TitleTextImage.Height + 3;
    renderDefs->TitleStarCount = 20;
-   renderDefs->MinTitleStarVelocity = 200;
-   renderDefs->MaxTitleStarVelocity = 2'000;
+   renderDefs->MinTitleStarVelocity = 500'000;
+   renderDefs->MaxTitleStarVelocity = 1'500'000;
 
    renderDefs->GetReadySprite = ArenaSpriteGenerator::GenerateGetReadySprite( frameRateProvider );
    renderDefs->GetReadyAnimationSeconds = 2;

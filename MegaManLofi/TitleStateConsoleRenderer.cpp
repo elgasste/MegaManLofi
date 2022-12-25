@@ -89,7 +89,7 @@ void TitleStateConsoleRenderer::DrawStars()
       auto top = (short)( _starCoordinates[i].Top / _renderDefs->ArenaCharHeight );
       _consoleBuffer->Draw( left, top, _renderDefs->TitleStarImage );
 
-      _starCoordinates[i].Left += ( _starVelocities[i] / _frameRateProvider->GetFramesPerSecond() );
+      _starCoordinates[i].Left += (long long)( _starVelocities[i] * _frameRateProvider->GetFrameSeconds() );
 
       // if it's flown off the screen, generate a new star
       if ( _starCoordinates[i].Left >= ( _renderDefs->ArenaCharWidth * _renderDefs->ConsoleWidthChars ) )

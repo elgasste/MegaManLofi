@@ -8,7 +8,6 @@
 #include "KeyCode.h"
 #include "GameButton.h"
 #include "HighResolutionClockWrapper.h"
-#include "SleeperWrapper.h"
 #include "KeyboardWrapper.h"
 #include "ThreadWrapper.h"
 #include "RandomWrapper.h"
@@ -107,7 +106,6 @@ void LoadAndRun( const shared_ptr<IConsoleBuffer> consoleBuffer )
 
    // wrappers
    auto highResolutionClock = make_shared<HighResolutionClockWrapper>();
-   auto sleeper = make_shared<SleeperWrapper>();
    auto keyboard = make_shared<KeyboardWrapper>();
    auto thread = make_shared<ThreadWrapper>();
    auto random = make_shared<RandomWrapper>();
@@ -115,7 +113,7 @@ void LoadAndRun( const shared_ptr<IConsoleBuffer> consoleBuffer )
    // auxiliary objects
    auto eventAggregator = make_shared<GameEventAggregator>();
    auto frameActionRegistry = make_shared<FrameActionRegistry>();
-   auto clock = shared_ptr<GameClock>( new GameClock( highResolutionClock, sleeper, frameRateDefs->DefaultFramesPerSecond ) );
+   auto clock = shared_ptr<GameClock>( new GameClock( highResolutionClock ) );
 
    // game defs
    auto gameDefs = GameDefsGenerator::GenerateGameDefs( clock );

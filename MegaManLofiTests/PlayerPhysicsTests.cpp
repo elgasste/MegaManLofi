@@ -31,7 +31,7 @@ public:
       _physicsDefs->GravityAccelerationPerSecond = 4;
       _physicsDefs->MaxJumpExtensionSeconds = 0.25;
 
-      ON_CALL( *_frameRateProviderMock, GetFramesPerSecond() ).WillByDefault( Return( 1 ) );
+      ON_CALL( *_frameRateProviderMock, GetFrameSeconds() ).WillByDefault( Return( 1 ) );
       ON_CALL( *_frameActionRegistryMock, ActionFlagged( FrameAction::PlayerPushed ) ).WillByDefault( Return( false ) );
       ON_CALL( *_frameActionRegistryMock, ActionFlagged( FrameAction::PlayerJumping ) ).WillByDefault( Return( false ) );
       ON_CALL( *_playerMock, IsStanding() ).WillByDefault( Return( true ) );

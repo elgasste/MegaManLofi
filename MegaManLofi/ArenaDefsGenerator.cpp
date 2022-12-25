@@ -9,9 +9,9 @@ shared_ptr<ArenaDefs> ArenaDefsGenerator::GenerateArenaDefs()
 {
    auto arenaDefs = make_shared<ArenaDefs>();
 
-   // this results in a 4560 x 2340 unit viewport, which translates super well to a 120 x 30 character console
-   arenaDefs->DefaultTileWidth = 38;
-   arenaDefs->DefaultTileHeight = 78;
+   // this results in a 4,560,000 x 2,340,000 unit viewport, which translates super well to a 120 x 30 character console
+   arenaDefs->DefaultTileWidth = 38'000;
+   arenaDefs->DefaultTileHeight = 78'000;
 
    arenaDefs->DefaultHorizontalTiles = 360;
    arenaDefs->DefaultVerticalTiles = 60;

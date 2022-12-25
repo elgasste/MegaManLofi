@@ -16,7 +16,6 @@
 #include "GameDefs.h"
 #include "KeyboardInputReader.h"
 #include "FrameActionRegistry.h"
-#include "FrameRateDefs.h"
 #include "Player.h"
 #include "Arena.h"
 #include "PlayerPhysics.h"
@@ -54,7 +53,6 @@
 #include "MenuSpriteGenerator.h"
 #include "ConsoleRenderDefs.h"
 #include "KeyboardInputDefs.h"
-#include "FrameRateDefsGenerator.h"
 #include "ConsoleRenderDefsGenerator.h"
 #include "KeyboardInputDefsGenerator.h"
 #include "PlayerDefsGenerator.h"
@@ -101,9 +99,6 @@ void LoadAndRun( const shared_ptr<IConsoleBuffer> consoleBuffer )
    consoleBuffer->Draw( 2, 1, "Loading all the things..." );
    consoleBuffer->Flip();
 
-   // frame rate defs
-   auto frameRateDefs = FrameRateDefsGenerator::GenerateFrateRateDefs();
-
    // wrappers
    auto highResolutionClock = make_shared<HighResolutionClockWrapper>();
    auto keyboard = make_shared<KeyboardWrapper>();
@@ -117,7 +112,6 @@ void LoadAndRun( const shared_ptr<IConsoleBuffer> consoleBuffer )
 
    // game defs
    auto gameDefs = GameDefsGenerator::GenerateGameDefs( clock );
-   gameDefs->FrameRateDefs = frameRateDefs;
    auto consoleRenderDefs = static_pointer_cast<ConsoleRenderDefs>( gameDefs->RenderDefs );
    auto keyboardInputDefs = static_pointer_cast<KeyboardInputDefs>( gameDefs->InputDefs );
 

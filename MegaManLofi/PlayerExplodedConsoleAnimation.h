@@ -32,6 +32,6 @@ namespace MegaManLofi
       Coordinate<short> _startPositionChars;
       bool _isRunning;
       double _elapsedSeconds;
-      long long _explosionStartFrame;
+      long long _totalParticleDeltaUnits;
    };
 }

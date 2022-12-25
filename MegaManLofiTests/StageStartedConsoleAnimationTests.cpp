@@ -25,7 +25,7 @@ public:
 
       _renderDefs->GetReadySprite = _getReadySpriteMock;
 
-      ON_CALL( *_frameRateProviderMock, GetSecondsPerFrame() ).WillByDefault( Return( 1 ) );
+      ON_CALL( *_frameRateProviderMock, GetFrameSeconds() ).WillByDefault( Return( 1 ) );
    }
 
    void BuildAnimation()

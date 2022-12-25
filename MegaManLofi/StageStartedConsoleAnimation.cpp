@@ -47,7 +47,7 @@ void StageStartedConsoleAnimation::Tick()
 {
    if ( _isRunning )
    {
-      _elapsedSeconds += _frameRateProvider->GetSecondsPerFrame();
+      _elapsedSeconds += _frameRateProvider->GetFrameSeconds();
       _renderDefs->GetReadySprite->Tick();
 
       if ( _elapsedSeconds >= _renderDefs->GetReadyAnimationSeconds )

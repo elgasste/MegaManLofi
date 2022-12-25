@@ -49,7 +49,7 @@ public:
       ON_CALL( *_arenaMock, GetVerticalTiles() ).WillByDefault( Return( 8 ) );
       ON_CALL( *_arenaMock, GetTile( _ ) ).WillByDefault( ReturnRef( _defaultTile ) );
 
-      ON_CALL( *_frameRateProviderMock, GetSecondsPerFrame() ).WillByDefault( Return( 1 ) );
+      ON_CALL( *_frameRateProviderMock, GetFrameSeconds() ).WillByDefault( Return( 1 ) );
    }
 
    void BuildArenaPhysics()

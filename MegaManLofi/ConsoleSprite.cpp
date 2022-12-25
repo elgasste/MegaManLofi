@@ -28,7 +28,7 @@ void ConsoleSprite::Tick()
    }
    else if ( _totalSpriteSeconds > 0 )
    {
-      _spriteElapsedSeconds += _frameRateProvider->GetSecondsPerFrame();
+      _spriteElapsedSeconds += _frameRateProvider->GetFrameSeconds();
 
       while ( _spriteElapsedSeconds > _totalSpriteSeconds )
       {

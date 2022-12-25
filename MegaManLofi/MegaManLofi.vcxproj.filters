@@ -219,9 +219,6 @@
     <ClCompile Include="GameDefsGenerator.cpp">
       <Filter>Source Files\GameDefGenerators</Filter>
     </ClCompile>
-    <ClCompile Include="FrameRateDefsGenerator.cpp">
-      <Filter>Source Files\GameDefGenerators</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameRunner.h">
@@ -537,12 +534,6 @@
       <Filter>Header Files\GameDefGenerators</Filter>
     </ClInclude>
     <ClInclude Include="GameDefsGenerator.h">
-      <Filter>Header Files\GameDefGenerators</Filter>
-    </ClInclude>
-    <ClInclude Include="FrameRateDefs.h">
-      <Filter>Header Files\GameDefs</Filter>
-    </ClInclude>
-    <ClInclude Include="FrameRateDefsGenerator.h">
       <Filter>Header Files\GameDefGenerators</Filter>
     </ClInclude>
     <ClInclude Include="IReadOnlyPlayer.h">

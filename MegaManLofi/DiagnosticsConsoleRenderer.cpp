@@ -6,7 +6,7 @@
 #include "ConsoleRenderDefs.h"
 #include "ConsoleColor.h"
 
-#define DIAGNOSTICS_WIDTH 30
+#define DIAGNOSTICS_WIDTH 35
 
 using namespace std;
 using namespace MegaManLofi;
@@ -24,15 +24,14 @@ void DiagnosticsConsoleRenderer::Render()
 {
    auto left = _renderDefs->ConsoleWidthChars - DIAGNOSTICS_WIDTH;
 
-   auto framesPerSecondString = format( " Frames per second: {0} ", _clock->GetFramesPerSecond() );
-   auto totalFramesString = format( " Total frames:      {0} ", _clock->GetTotalFrameCount() );
-   auto lagFramesString = format( " Lag frames:        {0} ", _clock->GetLagFrameCount() );
+   auto elapsedSecondsString = format(     " Elapsed Seconds:    {0} ", _clock->GetElapsedNanoseconds() / 1'000'000'000 );
+   auto totalFramesString =    format(     " Total frames:       {0} ", _clock->GetCurrentFrame() );
+   auto framesPerSecondString = format( " Average frame rate: {0} ", _clock->GetAverageFrameRate() );
 
    while ( framesPerSecondString.length() < DIAGNOSTICS_WIDTH ) { framesPerSecondString += ' '; }
    while ( totalFramesString.length() < DIAGNOSTICS_WIDTH ) { totalFramesString += ' '; }
-   while ( lagFramesString.length() < DIAGNOSTICS_WIDTH ) { lagFramesString += ' '; }
 
-   _consoleBuffer->Draw( left, 0, framesPerSecondString, ConsoleColor::DarkGrey, ConsoleColor::Black );
+   _consoleBuffer->Draw( left, 0, elapsedSecondsString, ConsoleColor::DarkGrey, ConsoleColor::Black );
    _consoleBuffer->Draw( left, 1, totalFramesString, ConsoleColor::DarkGrey, ConsoleColor::Black );
-   _consoleBuffer->Draw( left, 2, lagFramesString, ConsoleColor::DarkGrey, ConsoleColor::Black );
+   _consoleBuffer->Draw( left, 2, framesPerSecondString, ConsoleColor::DarkGrey, ConsoleColor::Black );
 }

@@ -4,7 +4,6 @@
 
 namespace MegaManLofi
 {
-   class FrameRateDefs;
    class IGameRenderDefs;
    class IGameInputDefs;
    class PlayerDefs;
@@ -14,7 +13,6 @@ namespace MegaManLofi
    class GameDefs
    {
    public:
-      std::shared_ptr<FrameRateDefs> FrameRateDefs;
       std::shared_ptr<IGameRenderDefs> RenderDefs;
       std::shared_ptr<IGameInputDefs> InputDefs;
       std::shared_ptr<PlayerDefs> PlayerDefs;

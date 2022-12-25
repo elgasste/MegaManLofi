@@ -29,7 +29,7 @@ public:
       _playerDefs->DefaultDirection = Direction::Left;
       _playerDefs->DefaultHitBox = { 0, 0, 4, 4 };
 
-      ON_CALL( *_frameRateProviderMock, GetFramesPerSecond() ).WillByDefault( Return( 100 ) );
+      ON_CALL( *_frameRateProviderMock, GetFrameSeconds() ).WillByDefault( Return( 100 ) );
    }
 
    void BuildPlayer()

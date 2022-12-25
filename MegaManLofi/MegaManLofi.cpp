@@ -8,7 +8,6 @@
 #include "KeyCode.h"
 #include "GameButton.h"
 #include "HighResolutionClockWrapper.h"
-#include "SleeperWrapper.h"
 #include "KeyboardWrapper.h"
 #include "ThreadWrapper.h"
 #include "RandomWrapper.h"
@@ -17,7 +16,6 @@
 #include "GameDefs.h"
 #include "KeyboardInputReader.h"
 #include "FrameActionRegistry.h"
-#include "FrameRateDefs.h"
 #include "Player.h"
 #include "Arena.h"
 #include "PlayerPhysics.h"
@@ -55,7 +53,6 @@
 #include "MenuSpriteGenerator.h"
 #include "ConsoleRenderDefs.h"
 #include "KeyboardInputDefs.h"
-#include "FrameRateDefsGenerator.h"
 #include "ConsoleRenderDefsGenerator.h"
 #include "KeyboardInputDefsGenerator.h"
 #include "PlayerDefsGenerator.h"
@@ -102,12 +99,8 @@ void LoadAndRun( const shared_ptr<IConsoleBuffer> consoleBuffer )
    consoleBuffer->Draw( 2, 1, "Loading all the things..." );
    consoleBuffer->Flip();
 
-   // frame rate defs
-   auto frameRateDefs = FrameRateDefsGenerator::GenerateFrateRateDefs();
-
    // wrappers
    auto highResolutionClock = make_shared<HighResolutionClockWrapper>();
-   auto sleeper = make_shared<SleeperWrapper>();
    auto keyboard = make_shared<KeyboardWrapper>();
    auto thread = make_shared<ThreadWrapper>();
    auto random = make_shared<RandomWrapper>();
@@ -115,11 +108,10 @@ void LoadAndRun( const shared_ptr<IConsoleBuffer> consoleBuffer )
    // auxiliary objects
    auto eventAggregator = make_shared<GameEventAggregator>();
    auto frameActionRegistry = make_shared<FrameActionRegistry>();
-   auto clock = shared_ptr<GameClock>( new GameClock( highResolutionClock, sleeper, frameRateDefs->DefaultFramesPerSecond ) );
+   auto clock = shared_ptr<GameClock>( new GameClock( highResolutionClock ) );
 
    // game defs
    auto gameDefs = GameDefsGenerator::GenerateGameDefs( clock );
-   gameDefs->FrameRateDefs = frameRateDefs;
    auto consoleRenderDefs = static_pointer_cast<ConsoleRenderDefs>( gameDefs->RenderDefs );
    auto keyboardInputDefs = static_pointer_cast<KeyboardInputDefs>( gameDefs->InputDefs );
 

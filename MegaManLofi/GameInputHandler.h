@@ -4,13 +4,13 @@
 #include <map>
 
 #include "IGameInputHandler.h"
+#include "GameState.h"
 
 namespace MegaManLofi
 {
    class IGameInputReader;
    class IGameInfoProvider;
    class IGameEventAggregator;
-   enum class GameState;
 
    class GameInputHandler : public IGameInputHandler
    {

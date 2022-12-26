@@ -225,6 +225,9 @@
     <ClCompile Include="EntityDefsGenerator.cpp">
       <Filter>Source Files\GameDefGenerators</Filter>
     </ClCompile>
+    <ClCompile Include="EntityFactory.cpp">
+      <Filter>Source Files\GameObjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameRunner.h">
@@ -548,7 +551,7 @@
     <ClInclude Include="IReadOnlyArena.h">
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="IProjectileFactory.h">
+    <ClInclude Include="IEntityFactory.h">
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
     <ClInclude Include="BasicEntity.h">
@@ -559,6 +562,9 @@
     </ClInclude>
     <ClInclude Include="EntityDefsGenerator.h">
       <Filter>Header Files\GameDefGenerators</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityFactory.h">
+      <Filter>Header Files\GameObjects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

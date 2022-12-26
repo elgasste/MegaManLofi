@@ -95,3 +95,14 @@ ConsoleImage ArenaSpriteGenerator::GenerateGameOverImage()
 
    return image;
 }
+
+ConsoleImage ArenaSpriteGenerator::GenerateBulletImage()
+{
+   ConsoleImage image;
+
+   image.Width = 1;
+   image.Height = 1;
+   image.Pixels.push_back( { 'o', true, ConsoleColor::White, ConsoleColor::Black } );
+
+   return image;
+}

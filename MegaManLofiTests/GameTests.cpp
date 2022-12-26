@@ -17,6 +17,7 @@
 #include "mock_PlayerPhysics.h"
 #include "mock_ArenaPhysics.h"
 #include "mock_EntityFactory.h"
+#include "mock_Entity.h"
 
 using namespace std;
 using namespace testing;
@@ -349,6 +350,50 @@ TEST_F( GameTests, ExecuteCommand_ExtendJumpAndGameIsNotPaused_ExtendsJump )
    EXPECT_CALL( *_playerPhysicsMock, ExtendJump() );
 
    _game->ExecuteCommand( GameCommand::ExtendJump );
+}
+
+TEST_F( GameTests, ExecuteCommand_ShootAndNextStateIsNotPlaying_DoesNotAddBulletToArena )
+{
+   BuildGame();
+
+   EXPECT_CALL( *_arenaMock, AddEntity( _ ) ).Times( 0 );
+
+   _game->ExecuteCommand( GameCommand::Shoot );
+}
+
+TEST_F( GameTests, ExecuteCommand_ShootAndGameIsPaused_DoesNotAddBulletToArena )
+{
+   BuildGame();
+   _game->ExecuteCommand( GameCommand::StartStage );
+   _game->ExecuteCommand( GameCommand::TogglePause );
+
+   EXPECT_CALL( *_arenaMock, AddEntity( _ ) ).Times( 0 );
+
+   _game->ExecuteCommand( GameCommand::Shoot );
+}
+
+TEST_F( GameTests, ExecuteCommand_ShootAndGameIsNotPaused_AddsBulletToArena )
+{
+   BuildGame();
+   _game->ExecuteCommand( GameCommand::StartStage );
+
+   Rectangle<long long> playerHitBox = { 0, 0, 6, 10 };
+   EXPECT_CALL( *_playerMock, GetArenaPositionLeft() ).WillOnce( Return( 1 ) );
+   EXPECT_CALL( *_playerMock, GetArenaPositionTop() ).WillOnce( Return( 2 ) );
+   EXPECT_CALL( *_playerMock, GetHitBox() ).WillRepeatedly( ReturnRef( playerHitBox ) );
+   EXPECT_CALL( *_playerMock, GetDirection() ).WillOnce( Return( Direction::UpRight ) );
+   
+   auto bulletMock = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
+   Coordinate<long long> bulletPosition;
+   EXPECT_CALL( *_entityFactoryMock, CreateBullet( _, Direction::UpRight ) ).WillOnce( DoAll(
+      SaveArg<0>( &bulletPosition ),
+      Return( bulletMock )
+   ) );
+
+   _game->ExecuteCommand( GameCommand::Shoot );
+
+   EXPECT_EQ( bulletPosition.Left, 7 );
+   EXPECT_EQ( bulletPosition.Top, 7 );
 }
 
 TEST_F( GameTests, Tick_RestartingStageNextFrame_ResetsGameObjects )

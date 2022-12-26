@@ -4,6 +4,7 @@
 #include "IArena.h"
 #include "IPlayerPhysics.h"
 #include "IArenaPhysics.h"
+#include "IEntityFactory.h"
 #include "GameState.h"
 #include "GameCommand.h"
 #include "GameEvent.h"
@@ -119,6 +120,9 @@ void Game::ExecuteCommand( GameCommand command, const shared_ptr<GameCommandArgs
       case GameCommand::ExtendJump:
          _playerPhysics->ExtendJump();
          break;
+      case GameCommand::Shoot:
+         Shoot();
+         break;
       case GameCommand::OpenPlayingMenu:
          OpenPlayingMenu();
          break;
@@ -137,6 +141,18 @@ void Game::StartStage()
    _nextState = GameState::Playing;
    _isPaused = false;
    _eventAggregator->RaiseEvent( GameEvent::StageStarted );
+}
+
+void Game::Shoot()
+{
+   if ( _nextState == GameState::Playing )
+   {
+      auto left = _player->GetArenaPositionLeft() + _player->GetHitBox().Width;
+      auto top = _player->GetArenaPositionTop() + ( _player->GetHitBox().Height / 2 );
+      auto bullet = _entityFactory->CreateBullet( { left, top }, _player->GetDirection() );
+
+      _arena->AddEntity( bullet );
+   }
 }
 
 void Game::TogglePause()

@@ -38,6 +38,11 @@ void PlayingStateInputHandler::HandleInput()
       _commandExecutor->ExecuteCommand( GameCommand::ExtendJump );
    }
 
+   if ( _inputReader->WasButtonPressed( GameButton::B ) )
+   {
+      _commandExecutor->ExecuteCommand( GameCommand::Shoot );
+   }
+
    HandleDirections();
 }
 

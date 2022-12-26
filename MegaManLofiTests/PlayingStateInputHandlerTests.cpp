@@ -70,6 +70,14 @@ TEST_F( PlayingStateInputHandlerTests, HandleInput_AButtonWasNotPressedAndIsDown
    _inputHandler->HandleInput();
 }
 
+TEST_F( PlayingStateInputHandlerTests, HandleInput_BButtonWasPressed_ExecutesShootCommand )
+{
+   ON_CALL( *_inputReaderMock, WasButtonPressed( GameButton::B ) ).WillByDefault( Return( true ) );
+   EXPECT_CALL( *_commandExecutorMock, ExecuteCommand( GameCommand::Shoot ) );
+
+   _inputHandler->HandleInput();
+}
+
 TEST_F( PlayingStateInputHandlerTests, HandleInput_LeftButtonIsDown_ExecutesPushAndPointPlayerCommands )
 {
    shared_ptr<GameCommandArgs> pushArgs;

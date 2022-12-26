@@ -27,9 +27,6 @@
     <ClCompile Include="GameRunnerTests.cpp">
       <Filter>Tests</Filter>
     </ClCompile>
-    <ClCompile Include="RectangleUtilitiesTests.cpp">
-      <Filter>Tests\Utilities</Filter>
-    </ClCompile>
     <ClCompile Include="FrameActionRegistryTests.cpp">
       <Filter>Tests</Filter>
     </ClCompile>
@@ -83,6 +80,9 @@
     </ClCompile>
     <ClCompile Include="EntityFactoryTests.cpp">
       <Filter>Tests\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="RectangleUtilitiesTests.cpp">
+      <Filter>Tests\Utilities</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

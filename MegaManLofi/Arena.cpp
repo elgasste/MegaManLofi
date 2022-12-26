@@ -33,10 +33,20 @@ void Arena::Reset()
    }
 }
 
+const shared_ptr<IReadOnlyPlayer> Arena::GetPlayer() const
+{
+   return _player;
+}
+
 void Arena::SetPlayer( const shared_ptr<IPlayer> player )
 {
    _player = player;
    AddEntity( player );
+}
+
+const shared_ptr<IReadOnlyEntity> Arena::GetEntity( int index ) const
+{
+   return _entities[index];
 }
 
 void Arena::AddEntity( const std::shared_ptr<IEntity> entity )

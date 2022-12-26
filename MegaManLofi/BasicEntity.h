@@ -34,6 +34,9 @@ namespace MegaManLofi
 
       bool IsMoving() const override;
 
+      void StopX() override { _velocityX = 0; }
+      void StopY() override { _velocityY = 0; }
+
    private:
       int _entityMetaId;
       EntityType _entityType;

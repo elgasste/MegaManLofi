@@ -173,6 +173,15 @@
     <ClInclude Include="mock_EntityFactory.h">
       <Filter>Mocks</Filter>
     </ClInclude>
+    <ClInclude Include="mock_ReadOnlyEntity.h">
+      <Filter>Mocks</Filter>
+    </ClInclude>
+    <ClInclude Include="mock_ReadOnlyPlayer.h">
+      <Filter>Mocks</Filter>
+    </ClInclude>
+    <ClInclude Include="mock_ReadOnlyArena.h">
+      <Filter>Mocks</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Mocks">

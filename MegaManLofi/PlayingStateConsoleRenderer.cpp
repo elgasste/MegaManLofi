@@ -11,6 +11,7 @@
 #include "IConsoleAnimationProvider.h"
 #include "IConsoleAnimation.h"
 #include "IReadOnlyPlayer.h"
+#include "IReadOnlyEntity.h"
 #include "IReadOnlyArena.h"
 #include "Direction.h"
 #include "GameEvent.h"
@@ -106,7 +107,7 @@ void PlayingStateConsoleRenderer::HandlePitfallEvent()
 
 void PlayingStateConsoleRenderer::HandleTileDeathEvent()
 {
-   const auto& hitBox = _playerInfoProvider->GetPlayer()->GetHitBox();
+   const auto& hitBox = _playerInfoProvider->GetPlayerEntity()->GetHitBox();
    auto particleStartLeftChars = _playerViewportChars.Left + (short)( hitBox.Width / 2 / _renderDefs->ArenaCharWidth ) + _viewportOffsetChars.Left;
    auto particleStartTopChars = _playerViewportChars.Top + (short)( hitBox.Height / 2 / _renderDefs->ArenaCharHeight ) + _viewportOffsetChars.Top;
    Coordinate<short> startPosition = { (short)particleStartLeftChars, (short)particleStartTopChars };
@@ -120,7 +121,7 @@ void PlayingStateConsoleRenderer::UpdateCaches()
 
    auto viewportWidthUnits = _renderDefs->ArenaViewportWidthChars * _renderDefs->ArenaCharWidth;
    auto viewportHeightUnits = _renderDefs->ArenaViewportHeightChars * _renderDefs->ArenaCharHeight;
-   auto playerPosition = _playerInfoProvider->GetPlayer()->GetArenaPosition();
+   auto playerPosition = _playerInfoProvider->GetPlayerEntity()->GetArenaPosition();
 
    _viewportQuadUnits.Left = max( playerPosition.Left - ( viewportWidthUnits / 2 ), 0ll );
    _viewportQuadUnits.Top = max( playerPosition.Top - ( viewportHeightUnits / 2 ), 0ll );
@@ -243,11 +244,12 @@ void PlayingStateConsoleRenderer::DrawPauseOverlay()
 const shared_ptr<IConsoleSprite> PlayingStateConsoleRenderer::GetPlayerSprite() const
 {
    auto player = _playerInfoProvider->GetPlayer();
-   auto direction = player->GetDirection();
+   auto playerEntity = _playerInfoProvider->GetPlayerEntity();
+   auto direction = playerEntity->GetDirection();
 
    if ( player->IsStanding() )
    {
-      return player->IsMoving() ? _renderDefs->PlayerWalkingSpriteMap[direction] : _renderDefs->PlayerStandingSpriteMap[direction];
+      return playerEntity->IsMoving() ? _renderDefs->PlayerWalkingSpriteMap[direction] : _renderDefs->PlayerStandingSpriteMap[direction];
    }
    else
    {

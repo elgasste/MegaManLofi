@@ -7,7 +7,6 @@
 namespace MegaManLofi
 {
    class ArenaDefs;
-   class IPlayer;
 
    class Arena : public IArena
    {
@@ -16,7 +15,8 @@ namespace MegaManLofi
 
       void Reset();
 
-      const std::shared_ptr<IPlayer> GetPlayer() const { return _player; }
+      const std::shared_ptr<IReadOnlyPlayer> GetPlayer() const;
+      const std::shared_ptr<IPlayer> GetMutablePlayer() const { return _player; }
       void SetPlayer( const std::shared_ptr<IPlayer> player ) override;
 
       long long GetWidth() const override { return _width; }
@@ -35,7 +35,8 @@ namespace MegaManLofi
 
       void AddEntity( const std::shared_ptr<IEntity> entity ) override;
       void RemoveEntity( const std::shared_ptr<IEntity> entity ) override;
-      const std::shared_ptr<IEntity> GetEntity( int index ) const override { return _entities[index]; }
+      const std::shared_ptr<IReadOnlyEntity> GetEntity( int index ) const override;
+      const std::shared_ptr<IEntity> GetMutableEntity( int index ) const override { return _entities[index]; }
       int GetEntityCount() const override { return (int)_entities.size(); }
 
    private:

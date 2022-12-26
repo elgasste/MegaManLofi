@@ -35,6 +35,7 @@ namespace MegaManLofi
       bool IsPaused() const override { return _isPaused; }
 
       const std::shared_ptr<IReadOnlyPlayer> GetPlayer() const override;
+      const std::shared_ptr<IReadOnlyEntity> GetPlayerEntity() const override;
       const std::shared_ptr<IReadOnlyArena> GetArena() const override;
 
       void ExecuteCommand( GameCommand command ) override;

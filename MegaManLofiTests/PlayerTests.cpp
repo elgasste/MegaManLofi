@@ -171,24 +171,13 @@ TEST_F( PlayerTests, GetArenaPosition_Always_ReturnsArenaPosition )
    EXPECT_EQ( _player->GetArenaPosition().Top, 5 );
 }
 
-TEST_F( PlayerTests, SetArenaPositionLeft_Always_SetsArenaPositionLeft )
+TEST_F( PlayerTests, SetArenaPosition_Always_SetsArenaPosition )
 {
    BuildPlayer();
    _player->SetArenaPosition( { 4, 5 } );
 
-   _player->SetArenaPositionLeft( 10 );
-
-   EXPECT_EQ( _player->GetArenaPosition().Left, 10 );
-}
-
-TEST_F( PlayerTests, SetArenaPositionTop_Always_SetsArenaPositionTop )
-{
-   BuildPlayer();
-   _player->SetArenaPosition( { 4, 5 } );
-
-   _player->SetArenaPositionTop( 10 );
-
-   EXPECT_EQ( _player->GetArenaPosition().Top, 10 );
+   EXPECT_EQ( _player->GetArenaPosition().Left, 4 );
+   EXPECT_EQ( _player->GetArenaPosition().Top, 5 );
 }
 
 TEST_F( PlayerTests, GetVelocityX_Always_ReturnsVelocityX )

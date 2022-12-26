@@ -62,6 +62,9 @@
     <ClInclude Include="mock_PlayerPhysics.h" />
     <ClInclude Include="mock_Player.h" />
     <ClInclude Include="mock_EntityFactory.h" />
+    <ClInclude Include="mock_ReadOnlyArena.h" />
+    <ClInclude Include="mock_ReadOnlyEntity.h" />
+    <ClInclude Include="mock_ReadOnlyPlayer.h" />
     <ClInclude Include="mock_ScreenBuffer.h" />
     <ClInclude Include="mock_Sleeper.h" />
     <ClInclude Include="mock_Thread.h" />

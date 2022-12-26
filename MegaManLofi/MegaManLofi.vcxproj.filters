@@ -545,12 +545,6 @@
     <ClInclude Include="GameDefsGenerator.h">
       <Filter>Header Files\GameDefGenerators</Filter>
     </ClInclude>
-    <ClInclude Include="IReadOnlyPlayer.h">
-      <Filter>Header Files\Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="IReadOnlyArena.h">
-      <Filter>Header Files\Interfaces</Filter>
-    </ClInclude>
     <ClInclude Include="IEntityFactory.h">
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
@@ -568,6 +562,15 @@
     </ClInclude>
     <ClInclude Include="EntityType.h">
       <Filter>Header Files\DataTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="IReadOnlyEntity.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="IReadOnlyPlayer.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="IReadOnlyArena.h">
+      <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

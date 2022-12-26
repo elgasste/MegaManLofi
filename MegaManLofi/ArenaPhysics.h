@@ -1,6 +1,9 @@
 #pragma once
 
+#include <map>
+
 #include "IArenaPhysics.h"
+#include "Coordinate.h"
 #include "Quad.h"
 
 namespace MegaManLofi
@@ -9,6 +12,7 @@ namespace MegaManLofi
    class IFrameActionRegistry;
    class IGameEventAggregator;
    class ArenaDefs;
+   class IEntity;
 
    class ArenaPhysics : public IArenaPhysics
    {
@@ -22,14 +26,14 @@ namespace MegaManLofi
       void Tick() override;
 
    private:
-      void MovePlayer();
-      void UpdatePlayerOccupyingTileIndices();
-      void MovePlayerX();
-      void MovePlayerY();
-      void DetectPlayerTileCollisionX( long long& newPositionLeft );
-      void DetectPlayerTileCollisionY( long long& newPositionTop );
-      bool DetectTileDeath() const;
+      void UpdateEntityOccupyingTileIndices( const std::shared_ptr<IEntity> entity );
+      void MoveEntities();
+      void MoveEntity( const std::shared_ptr<IEntity> entity );
+      void DetectEntityTileCollisionX( const std::shared_ptr<IEntity> entity, long long& newPositionLeft );
+      void DetectEntityTileCollisionY( const std::shared_ptr<IEntity> entity, long long& newPositionTop );
+
       void UpdateActiveRegion();
+      bool DetectTileDeath() const;
       void DetectPlayerStanding();
 
    private:
@@ -40,6 +44,7 @@ namespace MegaManLofi
 
       std::shared_ptr<IArena> _arena;
 
+      std::map<std::shared_ptr<IEntity>, Quad<long long>> _entityOccupyingTileIndicesMap;
       Quad<long long> _playerOccupyingTileIndices;
    };
 }

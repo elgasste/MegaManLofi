@@ -59,6 +59,11 @@ const shared_ptr<IReadOnlyPlayer> Game::GetPlayer() const
    return _player;
 }
 
+const shared_ptr<IReadOnlyEntity> Game::GetPlayerEntity() const
+{
+   return _player;
+}
+
 const shared_ptr<IReadOnlyArena> Game::GetArena() const
 {
    return _arena;

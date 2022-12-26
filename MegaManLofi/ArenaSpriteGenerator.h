@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <vector>
+#include <map>
 
 #include "ConsoleImage.h"
 
@@ -17,6 +18,6 @@ namespace MegaManLofi
       static std::shared_ptr<IConsoleSprite> GenerateGetReadySprite( const std::shared_ptr<IFrameRateProvider> frameRateProvider );
       static ConsoleImage GeneratePauseOverlayImage();
       static ConsoleImage GenerateGameOverImage();
-      static std::shared_ptr<IConsoleSprite> GenerateBulletSprite( const std::shared_ptr<IFrameRateProvider> frameRateProvider );
+      static std::map<int, std::shared_ptr<IConsoleSprite>> GenerateEntitySpriteMap( const std::shared_ptr<IFrameRateProvider> frameRateProvider );
    };
 }

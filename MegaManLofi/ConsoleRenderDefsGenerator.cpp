@@ -90,7 +90,7 @@ shared_ptr<IGameRenderDefs> ConsoleRenderDefsGenerator::GenerateConsoleRenderDef
    renderDefs->MenuCaratSprite = MenuSpriteGenerator::GenerateMenuCaratSprite( frameRateProvider );
    renderDefs->PlayingMenuPlayerImage = MenuSpriteGenerator::GeneratePlayerImage();
 
-   renderDefs->BulletSprite = ArenaSpriteGenerator::GenerateBulletSprite( frameRateProvider );
+   renderDefs->EntitySpriteMap = ArenaSpriteGenerator::GenerateEntitySpriteMap( frameRateProvider );
 
    renderDefs->PlayerStandingSpriteMap = PlayerSpriteGenerator::GenerateStandingSpriteMap( frameRateProvider );
    renderDefs->PlayerWalkingSpriteMap = PlayerSpriteGenerator::GenerateWalkingSpriteMap( frameRateProvider );

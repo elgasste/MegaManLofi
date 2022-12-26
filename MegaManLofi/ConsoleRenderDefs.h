@@ -62,7 +62,7 @@ namespace MegaManLofi
 
       ConsoleImage PlayingMenuPlayerImage;
 
-      std::shared_ptr<IConsoleSprite> BulletSprite;
+      std::map<int, std::shared_ptr<IConsoleSprite>> EntitySpriteMap;
 
       std::shared_ptr<IConsoleSprite> PlayerThwipSprite;
       std::shared_ptr<IConsoleSprite> PlayerThwipInTransitionSprite;

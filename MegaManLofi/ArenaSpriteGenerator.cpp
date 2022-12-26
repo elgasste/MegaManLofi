@@ -96,9 +96,9 @@ ConsoleImage ArenaSpriteGenerator::GenerateGameOverImage()
    return image;
 }
 
-shared_ptr<IConsoleSprite> ArenaSpriteGenerator::GenerateBulletSprite( const shared_ptr<IFrameRateProvider> frameRateProvider )
+map<int, shared_ptr<IConsoleSprite>> ArenaSpriteGenerator::GenerateEntitySpriteMap( const shared_ptr<IFrameRateProvider> frameRateProvider )
 {
-   auto sprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( frameRateProvider, 0 ) );
+   auto bulletSprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( frameRateProvider, 0 ) );
 
    ConsoleImage bulletImage;
 
@@ -106,7 +106,10 @@ shared_ptr<IConsoleSprite> ArenaSpriteGenerator::GenerateBulletSprite( const sha
    bulletImage.Height = 1;
    bulletImage.Pixels.push_back( { 'o', true, ConsoleColor::White, ConsoleColor::Black } );
 
-   sprite->AddImage( bulletImage );
+   bulletSprite->AddImage( bulletImage );
 
-   return sprite;
+   return
+   {
+      { 1, bulletSprite}
+   };
 }

@@ -24,17 +24,19 @@ Arena::Arena( const shared_ptr<ArenaDefs> arenaDefs ) :
 
 void Arena::Reset()
 {
+   _entities.clear();
+
    if ( _player )
    {
       _player->SetArenaPosition( _arenaDefs->DefaultPlayerPosition );
+      AddEntity( _player );
    }
-
-   _entities.clear();
 }
 
 void Arena::SetPlayer( const shared_ptr<IPlayer> player )
 {
    _player = player;
+   AddEntity( player );
 }
 
 void Arena::AddEntity( const std::shared_ptr<IEntity> entity )

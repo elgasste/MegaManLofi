@@ -85,11 +85,12 @@ TEST_F( ArenaTests, Reset_Always_ClearsEntities )
 
    _arena->AddEntity( make_shared<mock_Entity>() );
 
-   EXPECT_EQ( _arena->GetEntityCount(), 1 );
+   EXPECT_EQ( _arena->GetEntityCount(), 2 );
 
    _arena->Reset();
 
-   EXPECT_EQ( _arena->GetEntityCount(), 0 );
+   EXPECT_EQ( _arena->GetEntityCount(), 1 );
+   EXPECT_EQ( _arena->GetEntity( 0 ), _playerMock );
 }
 
 TEST_F( ArenaTests, AddEntity_EntityIsNotInList_AddsEntity )
@@ -99,8 +100,8 @@ TEST_F( ArenaTests, AddEntity_EntityIsNotInList_AddsEntity )
 
    _arena->AddEntity( entityMock );
 
-   EXPECT_EQ( _arena->GetEntityCount(), 1 );
-   EXPECT_EQ( _arena->GetEntity( 0 ), entityMock );
+   EXPECT_EQ( _arena->GetEntityCount(), 2 );
+   EXPECT_EQ( _arena->GetEntity( 1 ), entityMock );
 }
 
 TEST_F( ArenaTests, AddEntity_EntityIsAlreadyInList_DoesNotAddEntity )
@@ -111,8 +112,8 @@ TEST_F( ArenaTests, AddEntity_EntityIsAlreadyInList_DoesNotAddEntity )
 
    _arena->AddEntity( entityMock );
 
-   EXPECT_EQ( _arena->GetEntityCount(), 1 );
-   EXPECT_EQ( _arena->GetEntity( 0 ), entityMock );
+   EXPECT_EQ( _arena->GetEntityCount(), 2 );
+   EXPECT_EQ( _arena->GetEntity( 1 ), entityMock );
 }
 
 TEST_F( ArenaTests, RemoveEntity_EntityIsNotInList_DoesNotRemoveEntity )
@@ -124,8 +125,8 @@ TEST_F( ArenaTests, RemoveEntity_EntityIsNotInList_DoesNotRemoveEntity )
 
    _arena->RemoveEntity( entityMock2 );
 
-   EXPECT_EQ( _arena->GetEntityCount(), 1 );
-   EXPECT_EQ( _arena->GetEntity( 0 ), entityMock1 );
+   EXPECT_EQ( _arena->GetEntityCount(), 2 );
+   EXPECT_EQ( _arena->GetEntity( 1 ), entityMock1 );
 }
 
 TEST_F( ArenaTests, AddEntity_EntityIsInList_RemovesEntity )
@@ -138,6 +139,6 @@ TEST_F( ArenaTests, AddEntity_EntityIsInList_RemovesEntity )
 
    _arena->RemoveEntity( entityMock1 );
 
-   EXPECT_EQ( _arena->GetEntityCount(), 1 );
-   EXPECT_EQ( _arena->GetEntity( 0 ), entityMock2 );
+   EXPECT_EQ( _arena->GetEntityCount(), 2 );
+   EXPECT_EQ( _arena->GetEntity( 1 ), entityMock2 );
 }

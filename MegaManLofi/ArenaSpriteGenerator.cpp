@@ -96,13 +96,17 @@ ConsoleImage ArenaSpriteGenerator::GenerateGameOverImage()
    return image;
 }
 
-ConsoleImage ArenaSpriteGenerator::GenerateBulletImage()
+shared_ptr<IConsoleSprite> ArenaSpriteGenerator::GenerateBulletSprite( const shared_ptr<IFrameRateProvider> frameRateProvider )
 {
-   ConsoleImage image;
+   auto sprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( frameRateProvider, 0 ) );
 
-   image.Width = 1;
-   image.Height = 1;
-   image.Pixels.push_back( { 'o', true, ConsoleColor::White, ConsoleColor::Black } );
+   ConsoleImage bulletImage;
 
-   return image;
+   bulletImage.Width = 1;
+   bulletImage.Height = 1;
+   bulletImage.Pixels.push_back( { 'o', true, ConsoleColor::White, ConsoleColor::Black } );
+
+   sprite->AddImage( bulletImage );
+
+   return sprite;
 }

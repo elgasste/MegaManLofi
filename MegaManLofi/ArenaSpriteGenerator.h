@@ -17,6 +17,6 @@ namespace MegaManLofi
       static std::shared_ptr<IConsoleSprite> GenerateGetReadySprite( const std::shared_ptr<IFrameRateProvider> frameRateProvider );
       static ConsoleImage GeneratePauseOverlayImage();
       static ConsoleImage GenerateGameOverImage();
-      static ConsoleImage GenerateBulletImage();
+      static std::shared_ptr<IConsoleSprite> GenerateBulletSprite( const std::shared_ptr<IFrameRateProvider> frameRateProvider );
    };
 }

@@ -1,6 +1,5 @@
 #pragma once
 
-#include <memory>
 #include <vector>
 
 #include "IArena.h"
@@ -34,12 +33,18 @@ namespace MegaManLofi
 
       const ArenaTile& GetTile( long long index ) const override { return _tiles[index]; }
 
+      void AddEntity( const std::shared_ptr<IEntity> entity ) override;
+      void RemoveEntity( const std::shared_ptr<IEntity> entity ) override;
+      const std::shared_ptr<IEntity> GetEntity( int index ) const override { return _entities[index]; }
+      int GetEntityCount() const override { return (int)_entities.size(); }
+
    private:
       const std::shared_ptr<ArenaDefs> _arenaDefs;
 
       std::shared_ptr<IPlayer> _player;
 
       std::vector<ArenaTile> _tiles;
+      std::vector<std::shared_ptr<IEntity>> _entities;
 
       long long _width;
       long long _height;

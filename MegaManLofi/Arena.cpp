@@ -1,3 +1,5 @@
+#include <algorithm>
+
 #include "Arena.h"
 #include "ArenaDefs.h"
 #include "IPlayer.h"
@@ -26,9 +28,31 @@ void Arena::Reset()
    {
       _player->SetArenaPosition( _arenaDefs->DefaultPlayerPosition );
    }
+
+   _entities.clear();
 }
 
 void Arena::SetPlayer( const shared_ptr<IPlayer> player )
 {
    _player = player;
+}
+
+void Arena::AddEntity( const std::shared_ptr<IEntity> entity )
+{
+   if ( find( _entities.begin(), _entities.end(), entity ) == _entities.end() )
+   {
+      _entities.push_back( entity );
+   }
+}
+
+void Arena::RemoveEntity( const std::shared_ptr<IEntity> entity )
+{
+   for ( auto it = _entities.begin(); it != _entities.end(); it++ )
+   {
+      if ( *it == entity )
+      {
+         _entities.erase( it );
+         break;
+      }
+   }
 }

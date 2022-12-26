@@ -124,6 +124,7 @@ void ArenaPhysics::DetectEntityTileCollisionX( const std::shared_ptr<IEntity> en
             // we've collided with the left edge of the arena
             newPositionLeft = 0;
             entity->StopX();
+            HandleEntityEnvironmentCollision( entity );
             break;
          }
          else if ( newPositionLeft < leftOccupyingTileLeftEdge )
@@ -134,6 +135,7 @@ void ArenaPhysics::DetectEntityTileCollisionX( const std::shared_ptr<IEntity> en
             {
                newPositionLeft = leftOccupyingTileLeftEdge;
                entity->StopX();
+               HandleEntityEnvironmentCollision( entity );
             }
          }
       }
@@ -148,6 +150,7 @@ void ArenaPhysics::DetectEntityTileCollisionX( const std::shared_ptr<IEntity> en
             // we've collided with the right edge of the arena
             newPositionLeft = arenaWidth - hitBox.Width;
             entity->StopX();
+            HandleEntityEnvironmentCollision( entity );
             break;
          }
          else if ( newPositionRight > rightOccupyingTileRightEdge )
@@ -158,6 +161,7 @@ void ArenaPhysics::DetectEntityTileCollisionX( const std::shared_ptr<IEntity> en
             {
                newPositionLeft = rightOccupyingTileRightEdge - hitBox.Width;
                entity->StopX();
+               HandleEntityEnvironmentCollision( entity );
             }
          }
       }
@@ -182,6 +186,7 @@ void ArenaPhysics::DetectEntityTileCollisionY( const shared_ptr<IEntity> entity,
             // we've collided with the top edge of the arena
             newPositionTop = 0;
             entity->StopY();
+            HandleEntityEnvironmentCollision( entity );
             break;
          }
          else if ( newPositionTop < topOccupyingTileTopEdge )
@@ -192,6 +197,7 @@ void ArenaPhysics::DetectEntityTileCollisionY( const shared_ptr<IEntity> entity,
             {
                newPositionTop = topOccupyingTileTopEdge;
                entity->StopY();
+               HandleEntityEnvironmentCollision( entity );
             }
          }
       }
@@ -209,6 +215,7 @@ void ArenaPhysics::DetectEntityTileCollisionY( const shared_ptr<IEntity> entity,
             {
                _eventAggregator->RaiseEvent( GameEvent::Pitfall );
             }
+            HandleEntityEnvironmentCollision( entity );
             break;
          }
          else if ( newPositionBottom > bottomOccupyingTileBottomEdge )
@@ -219,9 +226,19 @@ void ArenaPhysics::DetectEntityTileCollisionY( const shared_ptr<IEntity> entity,
             {
                newPositionTop = bottomOccupyingTileBottomEdge - hitBox.Height;
                entity->StopY();
+               HandleEntityEnvironmentCollision( entity );
             }
          }
       }
+   }
+}
+
+void ArenaPhysics::HandleEntityEnvironmentCollision( const shared_ptr<IEntity> entity )
+{
+   if ( entity->GetEntityType() == EntityType::Projectile )
+   {
+      _entityOccupyingTileIndicesMap.erase( entity );
+      _arena->RemoveEntity( entity );
    }
 }
 

@@ -264,7 +264,8 @@ void ArenaPhysics::DetectPlayerStanding()
 
    if ( playerHitBoxBottom >= _arena->GetHeight() )
    {
-      // TODO: what's this? wouldn't this indicate a pitfall?
+      // TODO: what's this? I don't think it's possible to get into this state,
+      // but wouldn't it mean a pitfall?
       player->SetIsStanding( true );
       return;
    }

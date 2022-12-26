@@ -8,6 +8,7 @@ shared_ptr<EntityDefs> EntityDefsGenerator::GenerateEntityDefs()
 {
    auto entityDefs = make_shared<EntityDefs>();
 
+   entityDefs->BulletEntityMetaId = 1;
    entityDefs->BulletVelocity = 2'000'000;
 
    // the player is 152,000 x 234,000

@@ -14,6 +14,8 @@ const shared_ptr<IEntity> EntityFactory::CreateBullet( Coordinate<long long> pos
 {
    auto bullet = make_shared<BasicEntity>();
 
+   bullet->SetEntityType( EntityType::Projectile );
+   bullet->SetEntityMetaId( _entityDefs->BulletEntityMetaId );
    bullet->SetArenaPosition( position );
    bullet->SetDirection( direction );
    bullet->SetHitBox( _entityDefs->BulletHitBox );

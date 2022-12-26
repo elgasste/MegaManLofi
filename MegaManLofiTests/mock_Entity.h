@@ -7,6 +7,8 @@
 class mock_Entity : public MegaManLofi::IEntity
 {
 public:
+   MOCK_METHOD( MegaManLofi::EntityType, GetEntityType, ( ), ( const, override ) );
+   MOCK_METHOD( int, GetEntityMetaId, ( ), ( const, override ) );
    MOCK_METHOD( const MegaManLofi::Coordinate<long long>&, GetArenaPosition, ( ), ( const, override ) );
    MOCK_METHOD( long long, GetArenaPositionLeft, ( ), ( const, override ) );
    MOCK_METHOD( long long, GetArenaPositionTop, ( ), ( const, override ) );

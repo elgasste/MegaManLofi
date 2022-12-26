@@ -70,6 +70,20 @@ TEST_F( PlayerTests, Constructor_Always_SetsDefaultPropertiesFromConfig )
    EXPECT_FALSE( _player->IsJumping() );
 }
 
+TEST_F( PlayerTests, GetEntityType_Always_ReturnsBody )
+{
+   BuildPlayer();
+
+   EXPECT_EQ( _player->GetEntityType(), EntityType::Body );
+}
+
+TEST_F( PlayerTests, GetEntityMetaId_Always_ReturnsZero )
+{
+   BuildPlayer();
+
+   EXPECT_EQ( _player->GetEntityMetaId(), 0 );
+}
+
 TEST_F( PlayerTests, Reset_Always_ResetsDefaultPropertiesFromConfig )
 {
    BuildPlayer();

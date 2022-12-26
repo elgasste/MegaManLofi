@@ -4,6 +4,8 @@ using namespace std;
 using namespace MegaManLofi;
 
 BasicEntity::BasicEntity() :
+   _entityType( (EntityType)0 ),
+   _entityMetaId( 0 ),
    _arenaPosition( { 0, 0 } ),
    _velocityX( 0 ),
    _velocityY( 0 ),

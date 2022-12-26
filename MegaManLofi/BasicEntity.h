@@ -9,6 +9,12 @@ namespace MegaManLofi
    public:
       BasicEntity();
 
+      EntityType GetEntityType() const override { return _entityType; }
+      void SetEntityType( EntityType type ) { _entityType = type; }
+
+      int GetEntityMetaId() const override { return _entityMetaId; }
+      void SetEntityMetaId( int id ) { _entityMetaId = id; }
+
       const Coordinate<long long>& GetArenaPosition() const override { return _arenaPosition; }
       long long GetArenaPositionLeft() const override { return _arenaPosition.Left; }
       long long GetArenaPositionTop() const override { return _arenaPosition.Top; }
@@ -29,6 +35,8 @@ namespace MegaManLofi
       bool IsMoving() const override;
 
    private:
+      int _entityMetaId;
+      EntityType _entityType;
       Coordinate<long long> _arenaPosition;
       long long _velocityX;
       long long _velocityY;

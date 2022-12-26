@@ -27,6 +27,9 @@ namespace MegaManLofi
       void SetLivesRemaining( unsigned int lives ) override { _lives = lives; };
       void SetDirection( Direction direction ) override { _direction = direction; }
 
+      EntityType GetEntityType() const override { return EntityType::Body; }
+      int GetEntityMetaId() const override { return 0; }
+
       const Coordinate<long long>& GetArenaPosition() const override { return _arenaPosition; }
       long long GetArenaPositionLeft() const override { return _arenaPosition.Left; }
       long long GetArenaPositionTop() const override { return _arenaPosition.Top; }

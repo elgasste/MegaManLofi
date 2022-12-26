@@ -224,6 +224,7 @@
     <ClInclude Include="EntityDefs.h" />
     <ClInclude Include="EntityDefsGenerator.h" />
     <ClInclude Include="EntityFactory.h" />
+    <ClInclude Include="EntityType.h" />
     <ClInclude Include="FrameAction.h" />
     <ClInclude Include="FrameActionRegistry.h" />
     <ClInclude Include="Game.h" />

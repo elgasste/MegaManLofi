@@ -17,6 +17,7 @@ public:
    {
       _entityDefs.reset( new EntityDefs );
 
+      _entityDefs->BulletEntityMetaId = 4;
       _entityDefs->BulletVelocity = 10;
       _entityDefs->BulletHitBox = { 1, 2, 3, 4 };
    }
@@ -38,6 +39,8 @@ TEST_F( EntityFactoryTests, CreateBullet_Always_SetsPropertiesBasedOnDefs )
 
    auto bullet = _factory->CreateBullet( { 7, 8 }, Direction::Right );
 
+   EXPECT_EQ( bullet->GetEntityType(), EntityType::Projectile );
+   EXPECT_EQ( bullet->GetEntityMetaId(), 4 );
    EXPECT_EQ( bullet->GetArenaPosition().Left, 7 );
    EXPECT_EQ( bullet->GetArenaPosition().Top, 8 );
    EXPECT_EQ( bullet->GetDirection(), Direction::Right );

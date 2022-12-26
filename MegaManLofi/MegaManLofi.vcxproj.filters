@@ -566,5 +566,8 @@
     <ClInclude Include="EntityFactory.h">
       <Filter>Header Files\GameObjects</Filter>
     </ClInclude>
+    <ClInclude Include="EntityType.h">
+      <Filter>Header Files\DataTypes</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

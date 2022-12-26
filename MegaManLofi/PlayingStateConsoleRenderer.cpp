@@ -64,22 +64,27 @@ void PlayingStateConsoleRenderer::Render()
    {
       DrawPlayerThwipInAnimation();
    }
-   else if ( _isAnimatingPitfall )
-   {
-      DrawPitfallAnimation();
-   }
-   else if ( _animationProvider->GetAnimation( ConsoleAnimationType::PlayerExploded )->IsRunning() )
-   {
-      DrawPlayerExplosionAnimation();
-   }
    else if ( _gameInfoProvider->IsPaused() )
    {
       DrawPauseOverlay();
    }
    else
    {
-      DrawPlayer();
-      DrawStatusBar();
+      DrawNonPlayerEntities();
+
+      if ( _isAnimatingPitfall )
+      {
+         DrawPitfallAnimation();
+      }
+      else if ( _animationProvider->GetAnimation( ConsoleAnimationType::PlayerExploded )->IsRunning() )
+      {
+         DrawPlayerExplosionAnimation();
+      }
+      else
+      {
+         DrawPlayer();
+         DrawStatusBar();
+      }
    }
 }
 
@@ -225,6 +230,24 @@ void PlayingStateConsoleRenderer::DrawPlayer()
    auto sprite = GetPlayerSprite();
    _consoleBuffer->Draw( _playerViewportChars.Left + _viewportOffsetChars.Left, _playerViewportChars.Top + _viewportOffsetChars.Top, sprite );
    sprite->Tick();
+}
+
+void PlayingStateConsoleRenderer::DrawNonPlayerEntities()
+{
+   for ( int i = 0; i < _arena->GetEntityCount(); i++ )
+   {
+      auto entity = _arena->GetEntity( i );
+      if ( entity == _playerInfoProvider->GetPlayerEntity() )
+      {
+         continue;
+      }
+
+      auto sprite = _renderDefs->EntitySpriteMap[entity->GetEntityMetaId()];
+      auto left = (short)( ( entity->GetArenaPositionLeft() - _viewportQuadUnits.Left ) / _renderDefs->ArenaCharWidth );
+      auto top = (short)( ( entity->GetArenaPositionTop() - _viewportQuadUnits.Top ) / _renderDefs->ArenaCharHeight );
+
+      _consoleBuffer->Draw( left, top, sprite );
+   }
 }
 
 void PlayingStateConsoleRenderer::DrawStatusBar()

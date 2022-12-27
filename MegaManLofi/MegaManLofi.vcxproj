@@ -159,6 +159,7 @@
     <ClCompile Include="ConsoleBuffer.cpp" />
     <ClCompile Include="ConsoleRenderDefsGenerator.cpp" />
     <ClCompile Include="ConsoleSprite.cpp" />
+    <ClCompile Include="EntityConsoleSprite.cpp" />
     <ClCompile Include="EntityDefsGenerator.cpp" />
     <ClCompile Include="EntityFactory.cpp" />
     <ClCompile Include="FrameActionRegistry.cpp" />
@@ -222,6 +223,7 @@
     <ClInclude Include="Coordinate.h" />
     <ClInclude Include="DiagnosticsConsoleRenderer.h" />
     <ClInclude Include="Direction.h" />
+    <ClInclude Include="EntityConsoleSprite.h" />
     <ClInclude Include="EntityDefs.h" />
     <ClInclude Include="EntityDefsGenerator.h" />
     <ClInclude Include="EntityFactory.h" />

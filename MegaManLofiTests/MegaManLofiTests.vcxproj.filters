@@ -87,6 +87,9 @@
     <ClCompile Include="UniqueNumberGeneratorTests.cpp">
       <Filter>Tests\Utilities</Filter>
     </ClCompile>
+    <ClCompile Include="EntityConsoleSpriteTests.cpp">
+      <Filter>Tests\Render</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="mock_GameEventAggregator.h">

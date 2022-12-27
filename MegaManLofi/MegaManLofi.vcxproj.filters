@@ -231,6 +231,9 @@
     <ClCompile Include="UniqueNumberGenerator.cpp">
       <Filter>Source Files\Utilities</Filter>
     </ClCompile>
+    <ClCompile Include="EntityConsoleSprite.cpp">
+      <Filter>Source Files\Render</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameRunner.h">
@@ -586,6 +589,9 @@
     </ClInclude>
     <ClInclude Include="IEntityConsoleSprite.h">
       <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityConsoleSprite.h">
+      <Filter>Header Files\Render</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

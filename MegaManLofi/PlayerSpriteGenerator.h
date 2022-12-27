@@ -19,6 +19,6 @@ namespace MegaManLofi
 
       static std::map<Direction, std::shared_ptr<IConsoleSprite>> GenerateStandingSpriteMap( const std::shared_ptr<IFrameRateProvider> frameRateProvider );
       static std::map<Direction, std::shared_ptr<IConsoleSprite>> GenerateWalkingSpriteMap( const std::shared_ptr<IFrameRateProvider> frameRateProvider );
-      static std::map<Direction, std::shared_ptr<IConsoleSprite>> GenerateFallingSpriteMap( const std::shared_ptr<IFrameRateProvider> frameRateProvider );
+      static std::map<Direction, std::shared_ptr<IConsoleSprite>> GenerateAirborneSpriteMap( const std::shared_ptr<IFrameRateProvider> frameRateProvider );
    };
 }

@@ -238,7 +238,7 @@ TEST_F( PlayerPhysicsTests, PushTo_RightAndPushVelocityHasMaxedOut_DoesNotChange
 TEST_F( PlayerPhysicsTests, Jump_PlayerIsAirborne_DoesNotChangeVelocityOrFlagAction )
 {
    BuildPhysics();
-   ON_CALL( *_playerMock, GetMovementType() ).WillByDefault( Return( MovementType::Falling ) );
+   ON_CALL( *_playerMock, GetMovementType() ).WillByDefault( Return( MovementType::Airborne ) );
 
    EXPECT_CALL( *_playerMock, SetVelocityY( _ ) ).Times( 0 );
    EXPECT_CALL( *_frameActionRegistryMock, FlagAction( _ ) ).Times( 0 );

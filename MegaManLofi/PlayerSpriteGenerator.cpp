@@ -189,7 +189,7 @@ map<Direction, shared_ptr<IConsoleSprite>> PlayerSpriteGenerator::GenerateWalkin
    return spriteMap;
 }
 
-map<Direction, shared_ptr<IConsoleSprite>> PlayerSpriteGenerator::GenerateFallingSpriteMap( const shared_ptr<IFrameRateProvider> frameRateProvider )
+map<Direction, shared_ptr<IConsoleSprite>> PlayerSpriteGenerator::GenerateAirborneSpriteMap( const shared_ptr<IFrameRateProvider> frameRateProvider )
 {
    auto spriteMap = map<Direction, shared_ptr<IConsoleSprite>>();
 

@@ -41,7 +41,7 @@ TEST_F( BasicEntityTests, Setters_Always_SetsPropertyValues )
    entity->SetVelocityY( 4 );
    entity->SetDirection( Direction::Right );
    entity->SetHitBox( { 6, 7, 8, 9 } );
-   entity->SetMovementType( MovementType::Falling );
+   entity->SetMovementType( MovementType::Airborne );
 
    EXPECT_EQ( entity->GetUniqueId(), 12 );
    EXPECT_EQ( entity->GetEntityType(), EntityType::Projectile );
@@ -55,5 +55,5 @@ TEST_F( BasicEntityTests, Setters_Always_SetsPropertyValues )
    EXPECT_EQ( entity->GetHitBox().Top, 7 );
    EXPECT_EQ( entity->GetHitBox().Width, 8 );
    EXPECT_EQ( entity->GetHitBox().Height, 9 );
-   EXPECT_EQ( entity->GetMovementType(), MovementType::Falling );
+   EXPECT_EQ( entity->GetMovementType(), MovementType::Airborne );
 }

@@ -6,6 +6,6 @@ namespace MegaManLofi
    {
       Standing = 0,
       Walking,
-      Falling
+      Airborne
    };
 }

@@ -297,6 +297,6 @@ void ArenaPhysics::DetectEntityMovementType( const shared_ptr<IEntity> entity ) 
    }
    else
    {
-      entity->SetMovementType( MovementType::Falling );
+      entity->SetMovementType( MovementType::Airborne );
    }
 }

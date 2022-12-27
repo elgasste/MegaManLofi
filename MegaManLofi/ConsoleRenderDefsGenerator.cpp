@@ -94,7 +94,7 @@ shared_ptr<IGameRenderDefs> ConsoleRenderDefsGenerator::GenerateConsoleRenderDef
 
    renderDefs->PlayerStandingSpriteMap = PlayerSpriteGenerator::GenerateStandingSpriteMap( frameRateProvider );
    renderDefs->PlayerWalkingSpriteMap = PlayerSpriteGenerator::GenerateWalkingSpriteMap( frameRateProvider );
-   renderDefs->PlayerFallingSpriteMap = PlayerSpriteGenerator::GenerateFallingSpriteMap( frameRateProvider );
+   renderDefs->PlayerAirborneSpriteMap = PlayerSpriteGenerator::GenerateAirborneSpriteMap( frameRateProvider );
 
    // ground that is impassable in all directions
    renderDefs->ArenaImageMap[0].Width = 1;

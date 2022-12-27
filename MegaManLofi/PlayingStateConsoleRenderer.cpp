@@ -277,8 +277,8 @@ const shared_ptr<IConsoleSprite> PlayingStateConsoleRenderer::GetPlayerSprite() 
          return _renderDefs->PlayerStandingSpriteMap[direction];
       case MovementType::Walking:
          return _renderDefs->PlayerWalkingSpriteMap[direction];
-      case MovementType::Falling:
-         return _renderDefs->PlayerFallingSpriteMap[direction];
+      case MovementType::Airborne:
+         return _renderDefs->PlayerAirborneSpriteMap[direction];
       default:
          return nullptr;
    }

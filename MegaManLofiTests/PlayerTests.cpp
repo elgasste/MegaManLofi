@@ -30,7 +30,7 @@ public:
       _playerDefs->DefaultLives = 5;
       _playerDefs->DefaultDirection = Direction::Left;
       _playerDefs->DefaultHitBox = { 0, 0, 4, 4 };
-      _playerDefs->DefaultMovementType = MovementType::Falling;
+      _playerDefs->DefaultMovementType = MovementType::Airborne;
 
       ON_CALL( *_frameRateProviderMock, GetFrameSeconds() ).WillByDefault( Return( 100 ) );
    }
@@ -71,7 +71,7 @@ TEST_F( PlayerTests, Constructor_Always_SetsDefaultPropertiesFromConfig )
    EXPECT_EQ( _player->GetHitBox().Top, 2 );
    EXPECT_EQ( _player->GetHitBox().Width, 3 );
    EXPECT_EQ( _player->GetHitBox().Height, 4 );
-   EXPECT_EQ( _player->GetMovementType(), MovementType::Falling );
+   EXPECT_EQ( _player->GetMovementType(), MovementType::Airborne );
    EXPECT_FALSE( _player->IsJumping() );
 }
 
@@ -103,7 +103,7 @@ TEST_F( PlayerTests, Reset_Always_ResetsDefaultPropertiesFromConfig )
    EXPECT_EQ( _player->GetVelocityX(), 0 );
    EXPECT_EQ( _player->GetVelocityY(), 0 );
    EXPECT_EQ( _player->GetDirection(), Direction::Left );
-   EXPECT_EQ( _player->GetMovementType(), MovementType::Falling );
+   EXPECT_EQ( _player->GetMovementType(), MovementType::Airborne );
    EXPECT_FALSE( _player->IsJumping() );
 }
 

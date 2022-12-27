@@ -96,7 +96,7 @@ namespace MegaManLofi
 
       std::map<Direction, std::shared_ptr<IConsoleSprite>> PlayerStandingSpriteMap;
       std::map<Direction, std::shared_ptr<IConsoleSprite>> PlayerWalkingSpriteMap;
-      std::map<Direction, std::shared_ptr<IConsoleSprite>> PlayerFallingSpriteMap;
+      std::map<Direction, std::shared_ptr<IConsoleSprite>> PlayerAirborneSpriteMap;
 
       std::map<int, ConsoleImage> ArenaImageMap;
       std::vector<int> ArenaTiles;

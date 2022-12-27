@@ -18,17 +18,14 @@ PlayerPhysics::PlayerPhysics( const shared_ptr<IFrameRateProvider> frameRateProv
    _frameActionRegistry( frameActionRegistry ),
    _physicsDefs( physicsDefs ),
    _player( nullptr ),
-   _lastExtendJumpFrame( 0 ),
-   _elapsedJumpExtensionSeconds( 0. )
+   _lastExtendJumpFrame( 0 )
 {
 }
 
 void PlayerPhysics::AssignTo( const shared_ptr<IPlayer> player )
 {
    _player = player;
-
    _lastExtendJumpFrame = 0;
-   _elapsedJumpExtensionSeconds = 0;
 }
 
 void PlayerPhysics::Tick()
@@ -98,11 +95,23 @@ void PlayerPhysics::ApplyFriction() const
 
 void PlayerPhysics::ApplyGravity() const
 {
-   if ( !_frameActionRegistry->ActionFlagged( FrameAction::PlayerJumping ) &&
-        _player->GetVelocityY() < _physicsDefs->MaxGravityVelocity )
+   auto currentVelocityY = _player->GetVelocityY();
+   auto gravityVelocityDelta = (long long)( _physicsDefs->GravityAccelerationPerSecond * _frameRateProvider->GetFrameSeconds() );
+
+   if ( currentVelocityY < 0 )
    {
-      auto velocityDelta = (long long)( _physicsDefs->GravityAccelerationPerSecond * _frameRateProvider->GetFrameSeconds() );
-      _player->SetVelocityY( min( _player->GetVelocityY() + velocityDelta, _physicsDefs->MaxGravityVelocity ) );
+      if ( _frameActionRegistry->ActionFlagged( FrameAction::PlayerJumping ) )
+      {
+         _player->SetVelocityY( currentVelocityY + gravityVelocityDelta );
+      }
+      else
+      {
+         _player->SetVelocityY( 0 );
+      }
+   }
+   else
+   {
+      _player->SetVelocityY( min( currentVelocityY + gravityVelocityDelta, _physicsDefs->MaxGravityVelocity ) );
    }
 }
 
@@ -113,7 +122,6 @@ void PlayerPhysics::Jump()
       _player->SetIsJumping( true );
       _player->SetVelocityY( -( _physicsDefs->JumpAccelerationPerSecond ) );
       _lastExtendJumpFrame = _frameRateProvider->GetCurrentFrame();
-      _elapsedJumpExtensionSeconds = 0.;
       _frameActionRegistry->FlagAction( FrameAction::PlayerJumping );
    }
 }
@@ -124,6 +132,11 @@ void PlayerPhysics::ExtendJump()
    {
       return;
    }
+   else if ( _player->GetVelocityY() >= 0 )
+   {
+      _player->SetIsJumping( false );
+      return;
+   }
    
    auto currentFrame = _frameRateProvider->GetCurrentFrame();
 
@@ -132,15 +145,9 @@ void PlayerPhysics::ExtendJump()
       // don't allow re-extending a jump
       return;
    }
-   else if ( _elapsedJumpExtensionSeconds >= _physicsDefs->MaxJumpExtensionSeconds )
-   {
-      _player->SetIsJumping( false );
-   }
    else
    {
       _lastExtendJumpFrame = currentFrame;
-      _elapsedJumpExtensionSeconds += _frameRateProvider->GetFrameSeconds();
-      _player->SetVelocityY( -( _physicsDefs->JumpAccelerationPerSecond ) );
       _frameActionRegistry->FlagAction( FrameAction::PlayerJumping );
    }
 }

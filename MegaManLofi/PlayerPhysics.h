@@ -34,6 +34,5 @@ namespace MegaManLofi
       std::shared_ptr<IPlayer> _player;
 
       long long _lastExtendJumpFrame;
-      double _elapsedJumpExtensionSeconds;
    };
 }

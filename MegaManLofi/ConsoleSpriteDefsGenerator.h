@@ -29,6 +29,6 @@ namespace MegaManLofi
 
       static std::shared_ptr<IConsoleSprite> GenerateMenuCaratSprite( const std::shared_ptr<IFrameRateProvider> frameRateProvider );
 
-      static std::map<int, std::shared_ptr<IConsoleSprite>> GenerateEntitySpriteMap( const std::shared_ptr<IFrameRateProvider> frameRateProvider );
+      static std::map<int, std::shared_ptr<IConsoleSprite>> GenerateOldSpriteMap( const std::shared_ptr<IFrameRateProvider> frameRateProvider );
    };
 }

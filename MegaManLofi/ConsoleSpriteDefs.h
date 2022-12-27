@@ -8,6 +8,7 @@
 namespace MegaManLofi
 {
    class IConsoleSprite;
+   class IEntityConsoleSprite;
 
    class ConsoleSpriteDefs
    {
@@ -24,6 +25,8 @@ namespace MegaManLofi
       std::shared_ptr<IConsoleSprite> StageGetReadySprite;
       std::shared_ptr<IConsoleSprite> MenuCaratSprite;
 
-      std::map<int, std::shared_ptr<IConsoleSprite>> EntitySpriteMap;
+      std::map<int, std::shared_ptr<IConsoleSprite>> OldSpriteMap;
+
+      std::map<int, std::shared_ptr<IEntityConsoleSprite>> EntitySpriteMap;
    };
 }

@@ -243,7 +243,7 @@ void PlayingStateConsoleRenderer::DrawNonPlayerEntities()
          continue;
       }
 
-      auto sprite = _renderDefs->SpriteDefs->EntitySpriteMap[entity->GetEntityMetaId()];
+      auto sprite = _renderDefs->SpriteDefs->OldSpriteMap[entity->GetEntityMetaId()];
       auto left = (short)( ( entity->GetArenaPositionLeft() - _viewportQuadUnits.Left ) / _renderDefs->ArenaCharWidth );
       auto top = (short)( ( entity->GetArenaPositionTop() - _viewportQuadUnits.Top ) / _renderDefs->ArenaCharHeight );
 

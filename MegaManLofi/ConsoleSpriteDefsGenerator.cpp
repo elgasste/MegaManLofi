@@ -23,7 +23,7 @@ shared_ptr<ConsoleSpriteDefs> ConsoleSpriteDefsGenerator::GenerateConsoleSpriteD
 
    spriteDefs->MenuCaratSprite = GenerateMenuCaratSprite( frameRateProvider );
 
-   spriteDefs->EntitySpriteMap = GenerateEntitySpriteMap( frameRateProvider );
+   spriteDefs->OldSpriteMap = GenerateOldSpriteMap( frameRateProvider );
 
    return spriteDefs;
 }
@@ -287,7 +287,7 @@ shared_ptr<IConsoleSprite> ConsoleSpriteDefsGenerator::GenerateMenuCaratSprite( 
    return sprite;
 }
 
-map<int, shared_ptr<IConsoleSprite>> ConsoleSpriteDefsGenerator::GenerateEntitySpriteMap( const shared_ptr<IFrameRateProvider> frameRateProvider )
+map<int, shared_ptr<IConsoleSprite>> ConsoleSpriteDefsGenerator::GenerateOldSpriteMap( const shared_ptr<IFrameRateProvider> frameRateProvider )
 {
    auto bulletSprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( frameRateProvider, 0 ) );
 

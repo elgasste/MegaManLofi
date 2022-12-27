@@ -188,6 +188,9 @@
     <ClInclude Include="mock_UniqueNumberGenerator.h">
       <Filter>Mocks</Filter>
     </ClInclude>
+    <ClInclude Include="mock_EntityConsoleSprite.h">
+      <Filter>Mocks</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Mocks">

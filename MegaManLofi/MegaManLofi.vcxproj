@@ -250,6 +250,7 @@
     <ClInclude Include="IConsoleAnimationProvider.h" />
     <ClInclude Include="IConsoleSprite.h" />
     <ClInclude Include="IEntity.h" />
+    <ClInclude Include="IEntityConsoleSprite.h" />
     <ClInclude Include="IFrameActionRegistry.h" />
     <ClInclude Include="IFrameRateProvider.h" />
     <ClInclude Include="IGame.h" />

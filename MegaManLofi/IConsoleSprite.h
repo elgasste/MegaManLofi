@@ -14,6 +14,6 @@ namespace MegaManLofi
       virtual short GetWidth() const = 0;
       virtual short GetHeight() const = 0;
       virtual double GetTotalTraversalSeconds() const = 0;
-      virtual const ConsoleImage& GetCurrentImage() const = 0;;
+      virtual const ConsoleImage& GetCurrentImage() const = 0;
    };
 }

@@ -9,6 +9,7 @@
 #include "mock_Player.h"
 #include "mock_FrameActionRegistry.h"
 #include "mock_FrameRateProvider.h"
+#include "mock_Entity.h"
 
 using namespace std;
 using namespace testing;
@@ -76,4 +77,68 @@ TEST_F( ArenaTests, Reset_Always_ResetsPlayerPosition )
 
    EXPECT_EQ( position.Left, 10 );
    EXPECT_EQ( position.Top, 8 );
+}
+
+TEST_F( ArenaTests, Reset_Always_ClearsEntities )
+{
+   BuildArena();
+
+   _arena->AddEntity( make_shared<mock_Entity>() );
+
+   EXPECT_EQ( _arena->GetEntityCount(), 2 );
+
+   _arena->Reset();
+
+   EXPECT_EQ( _arena->GetEntityCount(), 1 );
+   EXPECT_EQ( _arena->GetEntity( 0 ), _playerMock );
+}
+
+TEST_F( ArenaTests, AddEntity_EntityIsNotInList_AddsEntity )
+{
+   BuildArena();
+   auto entityMock = make_shared<mock_Entity>();
+
+   _arena->AddEntity( entityMock );
+
+   EXPECT_EQ( _arena->GetEntityCount(), 2 );
+   EXPECT_EQ( _arena->GetEntity( 1 ), entityMock );
+}
+
+TEST_F( ArenaTests, AddEntity_EntityIsAlreadyInList_DoesNotAddEntity )
+{
+   BuildArena();
+   auto entityMock = make_shared<mock_Entity>();
+   _arena->AddEntity( entityMock );
+
+   _arena->AddEntity( entityMock );
+
+   EXPECT_EQ( _arena->GetEntityCount(), 2 );
+   EXPECT_EQ( _arena->GetEntity( 1 ), entityMock );
+}
+
+TEST_F( ArenaTests, RemoveEntity_EntityIsNotInList_DoesNotRemoveEntity )
+{
+   BuildArena();
+   auto entityMock1 = make_shared<mock_Entity>();
+   auto entityMock2 = make_shared<mock_Entity>();
+   _arena->AddEntity( entityMock1 );
+
+   _arena->RemoveEntity( entityMock2 );
+
+   EXPECT_EQ( _arena->GetEntityCount(), 2 );
+   EXPECT_EQ( _arena->GetEntity( 1 ), entityMock1 );
+}
+
+TEST_F( ArenaTests, AddEntity_EntityIsInList_RemovesEntity )
+{
+   BuildArena();
+   auto entityMock1 = make_shared<mock_Entity>();
+   auto entityMock2 = make_shared<mock_Entity>();
+   _arena->AddEntity( entityMock1 );
+   _arena->AddEntity( entityMock2 );
+
+   _arena->RemoveEntity( entityMock1 );
+
+   EXPECT_EQ( _arena->GetEntityCount(), 2 );
+   EXPECT_EQ( _arena->GetEntity( 1 ), entityMock2 );
 }

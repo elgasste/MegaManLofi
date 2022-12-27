@@ -22,17 +22,23 @@ namespace MegaManLofi
 
       unsigned int GetLivesRemaining() const override { return _lives; }
       Direction GetDirection() const override { return _direction; }
+
       const Rectangle<long long>& GetHitBox() const override { return _hitBox; }
+      void SetHitBox( Rectangle<long long> hitBox ) override { }
 
       void SetLivesRemaining( unsigned int lives ) override { _lives = lives; };
       void SetDirection( Direction direction ) override { _direction = direction; }
+
+      EntityType GetEntityType() const override { return EntityType::Body; }
+      void SetEntityType( EntityType type ) override { }
+
+      int GetEntityMetaId() const override { return 0; }
+      void SetEntityMetaId( int id ) override { }
 
       const Coordinate<long long>& GetArenaPosition() const override { return _arenaPosition; }
       long long GetArenaPositionLeft() const override { return _arenaPosition.Left; }
       long long GetArenaPositionTop() const override { return _arenaPosition.Top; }
       void SetArenaPosition( Coordinate<long long> position ) override { _arenaPosition = position; }
-      void SetArenaPositionLeft( long long left ) override { _arenaPosition.Left = left; }
-      void SetArenaPositionTop( long long top ) override { _arenaPosition.Top = top; }
 
       long long GetVelocityX() const override { return _velocityX; }
       long long GetVelocityY() const override { return _velocityY; }

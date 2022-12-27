@@ -78,11 +78,11 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -154,10 +154,13 @@
     <ClCompile Include="ArenaSpriteGenerator.cpp" />
     <ClCompile Include="ArenaTileGenerator.cpp" />
     <ClCompile Include="ArenaPhysics.cpp" />
+    <ClCompile Include="BasicEntity.cpp" />
     <ClCompile Include="ConsoleAnimationRepository.cpp" />
     <ClCompile Include="ConsoleBuffer.cpp" />
     <ClCompile Include="ConsoleRenderDefsGenerator.cpp" />
     <ClCompile Include="ConsoleSprite.cpp" />
+    <ClCompile Include="EntityDefsGenerator.cpp" />
+    <ClCompile Include="EntityFactory.cpp" />
     <ClCompile Include="FrameActionRegistry.cpp" />
     <ClCompile Include="GameDefsGenerator.cpp" />
     <ClCompile Include="GameOverStateConsoleRenderer.cpp" />
@@ -207,6 +210,7 @@
     <ClInclude Include="ArenaTileGenerator.h" />
     <ClInclude Include="ArenaPhysics.h" />
     <ClInclude Include="ArenaTile.h" />
+    <ClInclude Include="BasicEntity.h" />
     <ClInclude Include="ConsoleAnimationRepository.h" />
     <ClInclude Include="ConsoleAnimationType.h" />
     <ClInclude Include="ConsoleColor.h" />
@@ -217,6 +221,10 @@
     <ClInclude Include="Coordinate.h" />
     <ClInclude Include="DiagnosticsConsoleRenderer.h" />
     <ClInclude Include="Direction.h" />
+    <ClInclude Include="EntityDefs.h" />
+    <ClInclude Include="EntityDefsGenerator.h" />
+    <ClInclude Include="EntityFactory.h" />
+    <ClInclude Include="EntityType.h" />
     <ClInclude Include="FrameAction.h" />
     <ClInclude Include="FrameActionRegistry.h" />
     <ClInclude Include="Game.h" />
@@ -252,8 +260,10 @@
     <ClInclude Include="IPlayerPhysics.h" />
     <ClInclude Include="IPlayer.h" />
     <ClInclude Include="IPlayerInfoProvider.h" />
+    <ClInclude Include="IEntityFactory.h" />
     <ClInclude Include="IRandom.h" />
     <ClInclude Include="IReadOnlyArena.h" />
+    <ClInclude Include="IReadOnlyEntity.h" />
     <ClInclude Include="IReadOnlyPlayer.h" />
     <ClInclude Include="IScreenBuffer.h" />
     <ClInclude Include="IThread.h" />

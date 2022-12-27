@@ -1,23 +1,21 @@
 #pragma once
 
-#include "Coordinate.h"
-#include "Rectangle.h"
-#include "Direction.h"
+#include "IReadOnlyEntity.h"
 
 namespace MegaManLofi
 {
-   class __declspec( novtable ) IEntity
+   class __declspec( novtable ) IEntity : public IReadOnlyEntity
    {
    public:
-      virtual const Coordinate<long long>& GetArenaPosition() const = 0;
-      virtual long long GetArenaPositionLeft() const = 0;
-      virtual long long GetArenaPositionTop() const = 0;
+      virtual void SetEntityType( EntityType type ) = 0;
+      virtual void SetEntityMetaId( int id ) = 0;
+      virtual void SetArenaPosition( Coordinate<long long> position ) = 0;
+      virtual void SetVelocityX( long long velocity ) = 0;
+      virtual void SetVelocityY( long long velocity ) = 0;
+      virtual void SetDirection( Direction direction ) = 0;
+      virtual void SetHitBox( Rectangle<long long> hitBox ) = 0;
 
-      virtual long long GetVelocityX() const = 0;
-      virtual long long GetVelocityY() const = 0;
-      virtual Direction GetDirection() const = 0;
-      virtual const Rectangle<long long>& GetHitBox() const = 0;
-
-      virtual bool IsMoving() const = 0;
+      virtual void StopX() = 0;
+      virtual void StopY() = 0;
    };
 }

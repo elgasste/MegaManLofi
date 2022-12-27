@@ -95,3 +95,21 @@ ConsoleImage ArenaSpriteGenerator::GenerateGameOverImage()
 
    return image;
 }
+
+map<int, shared_ptr<IConsoleSprite>> ArenaSpriteGenerator::GenerateEntitySpriteMap( const shared_ptr<IFrameRateProvider> frameRateProvider )
+{
+   auto bulletSprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( frameRateProvider, 0 ) );
+
+   ConsoleImage bulletImage;
+
+   bulletImage.Width = 1;
+   bulletImage.Height = 1;
+   bulletImage.Pixels.push_back( { 'o', true, ConsoleColor::White, ConsoleColor::Black } );
+
+   bulletSprite->AddImage( bulletImage );
+
+   return
+   {
+      { 1, bulletSprite}
+   };
+}

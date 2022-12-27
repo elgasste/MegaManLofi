@@ -4,6 +4,7 @@
 #include "IArena.h"
 #include "IPlayerPhysics.h"
 #include "IArenaPhysics.h"
+#include "IEntityFactory.h"
 #include "GameState.h"
 #include "GameCommand.h"
 #include "GameEvent.h"
@@ -17,12 +18,14 @@ Game::Game( const shared_ptr<IGameEventAggregator> eventAggregator,
             const shared_ptr<IPlayer> player,
             const shared_ptr<IArena> arena,
             const shared_ptr<IPlayerPhysics> playerPhysics,
-            const shared_ptr<IArenaPhysics> arenaPhysics ) :
+            const shared_ptr<IArenaPhysics> arenaPhysics,
+            const shared_ptr<IEntityFactory> entityFactory ) :
    _eventAggregator( eventAggregator ),
    _player( player ),
    _arena( arena ),
    _playerPhysics( playerPhysics ),
    _arenaPhysics( arenaPhysics ),
+   _entityFactory( entityFactory ),
    _state( GameState::Title ),
    _nextState( GameState::Title ),
    _isPaused( false ),
@@ -55,6 +58,11 @@ void Game::Tick()
 }
 
 const shared_ptr<IReadOnlyPlayer> Game::GetPlayer() const
+{
+   return _player;
+}
+
+const shared_ptr<IReadOnlyEntity> Game::GetPlayerEntity() const
 {
    return _player;
 }
@@ -112,6 +120,9 @@ void Game::ExecuteCommand( GameCommand command, const shared_ptr<GameCommandArgs
       case GameCommand::ExtendJump:
          _playerPhysics->ExtendJump();
          break;
+      case GameCommand::Shoot:
+         Shoot();
+         break;
       case GameCommand::OpenPlayingMenu:
          OpenPlayingMenu();
          break;
@@ -130,6 +141,30 @@ void Game::StartStage()
    _nextState = GameState::Playing;
    _isPaused = false;
    _eventAggregator->RaiseEvent( GameEvent::StageStarted );
+}
+
+void Game::Shoot()
+{
+   if ( _nextState != GameState::Playing )
+   {
+      return;
+   }
+
+   auto left = _player->GetArenaPositionLeft();
+   auto top = _player->GetArenaPositionTop();
+   const auto& hitBox = _player->GetHitBox();
+   auto direction = _player->GetDirection();
+
+   left +=
+      ( direction == Direction::Up || direction == Direction::Down ) ? hitBox.Width / 2 :
+      ( direction == Direction::UpRight || direction == Direction::Right || direction == Direction::DownRight ) ? hitBox.Width : 0;
+   top +=
+      ( direction == Direction::Left || direction == Direction::Right ) ? hitBox.Height / 2 :
+      ( direction == Direction::DownLeft || direction == Direction::Down || direction == Direction::DownRight ) ? hitBox.Height : 0;
+
+   auto bullet = _entityFactory->CreateBullet( { left, top }, _player->GetDirection() );
+
+   _arena->AddEntity( bullet );
 }
 
 void Game::TogglePause()

@@ -16,6 +16,8 @@
 #include "mock_Arena.h"
 #include "mock_PlayerPhysics.h"
 #include "mock_ArenaPhysics.h"
+#include "mock_EntityFactory.h"
+#include "mock_Entity.h"
 
 using namespace std;
 using namespace testing;
@@ -31,13 +33,19 @@ public:
       _arenaMock.reset( new NiceMock<mock_Arena> );
       _playerPhysicsMock.reset( new NiceMock<mock_PlayerPhysics> );
       _arenaPhysicsMock.reset( new NiceMock<mock_ArenaPhysics> );
+      _entityFactoryMock.reset( new NiceMock<mock_EntityFactory> );
 
+      _playerHitBox = { 0, 0, 6, 10 };
+      ON_CALL( *_playerMock, GetArenaPositionLeft() ).WillByDefault( Return( 20 ) );
+      ON_CALL( *_playerMock, GetArenaPositionTop() ).WillByDefault( Return( 10 ) );
+      ON_CALL( *_playerMock, GetHitBox() ).WillByDefault( ReturnRef( _playerHitBox ) );
+      ON_CALL( *_playerMock, GetDirection() ).WillByDefault( Return( Direction::Right ) );
       ON_CALL( *_playerMock, GetLivesRemaining() ).WillByDefault( Return( 5 ) );
    }
 
    void BuildGame()
    {
-      _game.reset( new Game( _eventAggregatorMock, _playerMock, _arenaMock, _playerPhysicsMock, _arenaPhysicsMock ) );
+      _game.reset( new Game( _eventAggregatorMock, _playerMock, _arenaMock, _playerPhysicsMock, _arenaPhysicsMock, _entityFactoryMock ) );
    }
 
 protected:
@@ -46,6 +54,9 @@ protected:
    shared_ptr<mock_Arena> _arenaMock;
    shared_ptr<mock_PlayerPhysics> _playerPhysicsMock;
    shared_ptr<mock_ArenaPhysics> _arenaPhysicsMock;
+   shared_ptr<mock_EntityFactory> _entityFactoryMock;
+
+   Rectangle<long long> _playerHitBox;
 
    shared_ptr<Game> _game;
 };
@@ -348,12 +359,160 @@ TEST_F( GameTests, ExecuteCommand_ExtendJumpAndGameIsNotPaused_ExtendsJump )
    _game->ExecuteCommand( GameCommand::ExtendJump );
 }
 
+TEST_F( GameTests, ExecuteCommand_ShootAndNextStateIsNotPlaying_DoesNotAddBulletToArena )
+{
+   BuildGame();
+
+   EXPECT_CALL( *_arenaMock, AddEntity( _ ) ).Times( 0 );
+
+   _game->ExecuteCommand( GameCommand::Shoot );
+}
+
+TEST_F( GameTests, ExecuteCommand_ShootAndGameIsPaused_DoesNotAddBulletToArena )
+{
+   BuildGame();
+   _game->ExecuteCommand( GameCommand::StartStage );
+   _game->ExecuteCommand( GameCommand::TogglePause );
+
+   EXPECT_CALL( *_arenaMock, AddEntity( _ ) ).Times( 0 );
+
+   _game->ExecuteCommand( GameCommand::Shoot );
+}
+
+TEST_F( GameTests, ExecuteCommand_ShootLeft_AddsBulletToArenaInCorrectPosition )
+{
+   ON_CALL( *_playerMock, GetDirection() ).WillByDefault( Return( Direction::Left ) );
+   BuildGame();
+   _game->ExecuteCommand( GameCommand::StartStage );
+   
+   auto bulletMock = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
+   Coordinate<long long> bulletPosition;
+   EXPECT_CALL( *_entityFactoryMock, CreateBullet( _, Direction::Left ) ).WillOnce( DoAll( SaveArg<0>( &bulletPosition ), Return( bulletMock ) ) );
+
+   _game->ExecuteCommand( GameCommand::Shoot );
+
+   EXPECT_EQ( bulletPosition.Left, 20 );
+   EXPECT_EQ( bulletPosition.Top, 15 );
+}
+
+TEST_F( GameTests, ExecuteCommand_ShootUpLeft_AddsBulletToArenaInCorrectPosition )
+{
+   ON_CALL( *_playerMock, GetDirection() ).WillByDefault( Return( Direction::UpLeft ) );
+   BuildGame();
+   _game->ExecuteCommand( GameCommand::StartStage );
+
+   auto bulletMock = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
+   Coordinate<long long> bulletPosition;
+   EXPECT_CALL( *_entityFactoryMock, CreateBullet( _, Direction::UpLeft ) ).WillOnce( DoAll( SaveArg<0>( &bulletPosition ), Return( bulletMock ) ) );
+
+   _game->ExecuteCommand( GameCommand::Shoot );
+
+   EXPECT_EQ( bulletPosition.Left, 20 );
+   EXPECT_EQ( bulletPosition.Top, 10 );
+}
+
+TEST_F( GameTests, ExecuteCommand_ShootUp_AddsBulletToArenaInCorrectPosition )
+{
+   ON_CALL( *_playerMock, GetDirection() ).WillByDefault( Return( Direction::Up ) );
+   BuildGame();
+   _game->ExecuteCommand( GameCommand::StartStage );
+
+   auto bulletMock = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
+   Coordinate<long long> bulletPosition;
+   EXPECT_CALL( *_entityFactoryMock, CreateBullet( _, Direction::Up ) ).WillOnce( DoAll( SaveArg<0>( &bulletPosition ), Return( bulletMock ) ) );
+
+   _game->ExecuteCommand( GameCommand::Shoot );
+
+   EXPECT_EQ( bulletPosition.Left, 23 );
+   EXPECT_EQ( bulletPosition.Top, 10 );
+}
+
+TEST_F( GameTests, ExecuteCommand_ShootUpRight_AddsBulletToArenaInCorrectPosition )
+{
+   ON_CALL( *_playerMock, GetDirection() ).WillByDefault( Return( Direction::UpRight ) );
+   BuildGame();
+   _game->ExecuteCommand( GameCommand::StartStage );
+
+   auto bulletMock = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
+   Coordinate<long long> bulletPosition;
+   EXPECT_CALL( *_entityFactoryMock, CreateBullet( _, Direction::UpRight ) ).WillOnce( DoAll( SaveArg<0>( &bulletPosition ), Return( bulletMock ) ) );
+
+   _game->ExecuteCommand( GameCommand::Shoot );
+
+   EXPECT_EQ( bulletPosition.Left, 26 );
+   EXPECT_EQ( bulletPosition.Top, 10 );
+}
+
+TEST_F( GameTests, ExecuteCommand_ShootRight_AddsBulletToArenaInCorrectPosition )
+{
+   ON_CALL( *_playerMock, GetDirection() ).WillByDefault( Return( Direction::Right ) );
+   BuildGame();
+   _game->ExecuteCommand( GameCommand::StartStage );
+
+   auto bulletMock = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
+   Coordinate<long long> bulletPosition;
+   EXPECT_CALL( *_entityFactoryMock, CreateBullet( _, Direction::Right ) ).WillOnce( DoAll( SaveArg<0>( &bulletPosition ), Return( bulletMock ) ) );
+
+   _game->ExecuteCommand( GameCommand::Shoot );
+
+   EXPECT_EQ( bulletPosition.Left, 26 );
+   EXPECT_EQ( bulletPosition.Top, 15 );
+}
+
+TEST_F( GameTests, ExecuteCommand_ShootDownRight_AddsBulletToArenaInCorrectPosition )
+{
+   ON_CALL( *_playerMock, GetDirection() ).WillByDefault( Return( Direction::DownRight ) );
+   BuildGame();
+   _game->ExecuteCommand( GameCommand::StartStage );
+
+   auto bulletMock = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
+   Coordinate<long long> bulletPosition;
+   EXPECT_CALL( *_entityFactoryMock, CreateBullet( _, Direction::DownRight ) ).WillOnce( DoAll( SaveArg<0>( &bulletPosition ), Return( bulletMock ) ) );
+
+   _game->ExecuteCommand( GameCommand::Shoot );
+
+   EXPECT_EQ( bulletPosition.Left, 26 );
+   EXPECT_EQ( bulletPosition.Top, 20 );
+}
+
+TEST_F( GameTests, ExecuteCommand_ShootDown_AddsBulletToArenaInCorrectPosition )
+{
+   ON_CALL( *_playerMock, GetDirection() ).WillByDefault( Return( Direction::Down ) );
+   BuildGame();
+   _game->ExecuteCommand( GameCommand::StartStage );
+
+   auto bulletMock = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
+   Coordinate<long long> bulletPosition;
+   EXPECT_CALL( *_entityFactoryMock, CreateBullet( _, Direction::Down ) ).WillOnce( DoAll( SaveArg<0>( &bulletPosition ), Return( bulletMock ) ) );
+
+   _game->ExecuteCommand( GameCommand::Shoot );
+
+   EXPECT_EQ( bulletPosition.Left, 23 );
+   EXPECT_EQ( bulletPosition.Top, 20 );
+}
+
+TEST_F( GameTests, ExecuteCommand_ShootDownLeft_AddsBulletToArenaInCorrectPosition )
+{
+   ON_CALL( *_playerMock, GetDirection() ).WillByDefault( Return( Direction::DownLeft ) );
+   BuildGame();
+   _game->ExecuteCommand( GameCommand::StartStage );
+
+   auto bulletMock = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
+   Coordinate<long long> bulletPosition;
+   EXPECT_CALL( *_entityFactoryMock, CreateBullet( _, Direction::DownLeft ) ).WillOnce( DoAll( SaveArg<0>( &bulletPosition ), Return( bulletMock ) ) );
+
+   _game->ExecuteCommand( GameCommand::Shoot );
+
+   EXPECT_EQ( bulletPosition.Left, 20 );
+   EXPECT_EQ( bulletPosition.Top, 20 );
+}
+
 TEST_F( GameTests, Tick_RestartingStageNextFrame_ResetsGameObjects )
 {
    EXPECT_CALL( *_playerMock, SetLivesRemaining( 4 ) );
 
    auto eventAggregator = make_shared<GameEventAggregator>();
-   _game.reset( new Game( eventAggregator, _playerMock, _arenaMock, _playerPhysicsMock, _arenaPhysicsMock ) );
+   _game.reset( new Game( eventAggregator, _playerMock, _arenaMock, _playerPhysicsMock, _arenaPhysicsMock, _entityFactoryMock ) );
    eventAggregator->RaiseEvent( GameEvent::TileDeath );
 
    EXPECT_CALL( *_playerMock, ResetPhysics() );
@@ -398,7 +557,7 @@ TEST_F( GameTests, Tick_GameStateIsPlayingAndNotPaused_DoesPlayerAndArenaActions
 TEST_F( GameTests, EventHandling_PitfallEventRaisedWithLivesLeft_DecrementsPlayerLivesRemaining )
 {
    auto eventAggregator = make_shared<GameEventAggregator>();
-   _game.reset( new Game( eventAggregator, _playerMock, _arenaMock, _playerPhysicsMock, _arenaPhysicsMock ) );
+   _game.reset( new Game( eventAggregator, _playerMock, _arenaMock, _playerPhysicsMock, _arenaPhysicsMock, _entityFactoryMock ) );
 
    EXPECT_CALL( *_playerMock, SetLivesRemaining( 4 ) );
 
@@ -410,7 +569,7 @@ TEST_F( GameTests, EventHandling_PitfallEventRaisedWithNoLivesLeft_ChangesNextGa
 {
    ON_CALL( *_playerMock, GetLivesRemaining() ).WillByDefault( Return( 0 ) );
    auto eventAggregator = make_shared<GameEventAggregator>();
-   _game.reset( new Game( eventAggregator, _playerMock, _arenaMock, _playerPhysicsMock, _arenaPhysicsMock ) );
+   _game.reset( new Game( eventAggregator, _playerMock, _arenaMock, _playerPhysicsMock, _arenaPhysicsMock, _entityFactoryMock ) );
 
    eventAggregator->RaiseEvent( GameEvent::Pitfall );
    _game->Tick();
@@ -421,7 +580,7 @@ TEST_F( GameTests, EventHandling_PitfallEventRaisedWithNoLivesLeft_ChangesNextGa
 TEST_F( GameTests, EventHandling_TileDeathEventRaisedWithLivesLeft_DecrementsPlayerLivesRemaining )
 {
    auto eventAggregator = make_shared<GameEventAggregator>();
-   _game.reset( new Game( eventAggregator, _playerMock, _arenaMock, _playerPhysicsMock, _arenaPhysicsMock ) );
+   _game.reset( new Game( eventAggregator, _playerMock, _arenaMock, _playerPhysicsMock, _arenaPhysicsMock, _entityFactoryMock ) );
 
    EXPECT_CALL( *_playerMock, SetLivesRemaining( 4 ) );
 
@@ -433,7 +592,7 @@ TEST_F( GameTests, EventHandling_TileDeathEventRaised_ChangesNextGameStateToGame
 {
    ON_CALL( *_playerMock, GetLivesRemaining() ).WillByDefault( Return( 0 ) );
    auto eventAggregator = make_shared<GameEventAggregator>();
-   _game.reset( new Game( eventAggregator, _playerMock, _arenaMock, _playerPhysicsMock, _arenaPhysicsMock ) );
+   _game.reset( new Game( eventAggregator, _playerMock, _arenaMock, _playerPhysicsMock, _arenaPhysicsMock, _entityFactoryMock ) );
 
    eventAggregator->RaiseEvent( GameEvent::TileDeath );
    _game->Tick();

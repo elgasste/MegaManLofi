@@ -15,6 +15,7 @@ namespace MegaManLofi
    class IArena;
    class IPlayerPhysics;
    class IArenaPhysics;
+   class IEntityFactory;
 
    class Game : public IGame,
                 public IGameCommandExecutor,
@@ -27,7 +28,8 @@ namespace MegaManLofi
             const std::shared_ptr<IPlayer> player,
             const std::shared_ptr<IArena> arena,
             const std::shared_ptr<IPlayerPhysics> playerPhysics,
-            const std::shared_ptr<IArenaPhysics> arenaPhysics );
+            const std::shared_ptr<IArenaPhysics> arenaPhysics,
+            const std::shared_ptr<IEntityFactory> entityFactory );
 
       void Tick() override;
 
@@ -35,6 +37,7 @@ namespace MegaManLofi
       bool IsPaused() const override { return _isPaused; }
 
       const std::shared_ptr<IReadOnlyPlayer> GetPlayer() const override;
+      const std::shared_ptr<IReadOnlyEntity> GetPlayerEntity() const override;
       const std::shared_ptr<IReadOnlyArena> GetArena() const override;
 
       void ExecuteCommand( GameCommand command ) override;
@@ -42,6 +45,7 @@ namespace MegaManLofi
 
    private:
       void StartStage();
+      void Shoot();
       void TogglePause();
       void OpenPlayingMenu();
       void ClosePlayingMenu();
@@ -53,6 +57,7 @@ namespace MegaManLofi
       const std::shared_ptr<IArena> _arena;
       const std::shared_ptr<IPlayerPhysics> _playerPhysics;
       const std::shared_ptr<IArenaPhysics> _arenaPhysics;
+      const std::shared_ptr<IEntityFactory> _entityFactory;
 
       GameState _state;
       GameState _nextState;

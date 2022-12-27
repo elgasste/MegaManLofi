@@ -7,9 +7,17 @@
 
 namespace MegaManLofi
 {
+   class IReadOnlyPlayer;
+   class IReadOnlyEntity;
+
    class __declspec( novtable ) IReadOnlyArena
    {
    public:
+      virtual const std::shared_ptr<IReadOnlyPlayer> GetPlayer() const = 0;
+
+      virtual const std::shared_ptr<IReadOnlyEntity> GetEntity( int index ) const = 0;
+      virtual int GetEntityCount() const = 0;
+
       virtual long long GetWidth() const = 0;
       virtual long long GetHeight() const = 0;
 

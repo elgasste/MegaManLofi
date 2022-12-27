@@ -22,6 +22,7 @@
 #include "ArenaPhysics.h"
 #include "Player.h"
 #include "Arena.h"
+#include "EntityFactory.h"
 #include "Game.h"
 #include "PlayingMenu.h"
 #include "MenuRepository.h"
@@ -108,7 +109,8 @@ void LoadAndRun( const shared_ptr<IConsoleBuffer> consoleBuffer )
    // game objects
    auto player = shared_ptr<Player>( new Player( gameDefs->PlayerDefs, frameActionRegistry, clock ) );
    auto arena = shared_ptr<Arena>( new Arena( gameDefs->ArenaDefs ) );
-   auto game = shared_ptr<Game>( new Game( eventAggregator, player, arena, playerPhysics, arenaPhysics ) );
+   auto entityFactory = shared_ptr<EntityFactory>( new EntityFactory( gameDefs->EntityDefs ) );
+   auto game = shared_ptr<Game>( new Game( eventAggregator, player, arena, playerPhysics, arenaPhysics, entityFactory ) );
 
    // menus
    auto playingMenu = shared_ptr<PlayingMenu>( new PlayingMenu( game ) );

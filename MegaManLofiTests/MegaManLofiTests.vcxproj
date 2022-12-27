@@ -61,6 +61,10 @@
     <ClInclude Include="mock_PlayerInfoProvider.h" />
     <ClInclude Include="mock_PlayerPhysics.h" />
     <ClInclude Include="mock_Player.h" />
+    <ClInclude Include="mock_EntityFactory.h" />
+    <ClInclude Include="mock_ReadOnlyArena.h" />
+    <ClInclude Include="mock_ReadOnlyEntity.h" />
+    <ClInclude Include="mock_ReadOnlyPlayer.h" />
     <ClInclude Include="mock_ScreenBuffer.h" />
     <ClInclude Include="mock_Sleeper.h" />
     <ClInclude Include="mock_Thread.h" />
@@ -68,8 +72,10 @@
   <ItemGroup>
     <ClCompile Include="ArenaPhysicsTests.cpp" />
     <ClCompile Include="ArenaTests.cpp" />
+    <ClCompile Include="BasicEntityTests.cpp" />
     <ClCompile Include="ConsoleAnimationRepositoryTests.cpp" />
     <ClCompile Include="ConsoleSpriteTests.cpp" />
+    <ClCompile Include="EntityFactoryTests.cpp" />
     <ClCompile Include="FrameActionRegistryTests.cpp" />
     <ClCompile Include="GameClockTests.cpp" />
     <ClCompile Include="GameOverStateInputHandlerTests.cpp" />

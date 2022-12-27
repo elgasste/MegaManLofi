@@ -1,6 +1,5 @@
 #pragma once
 
-#include <memory>
 #include <vector>
 
 #include "IArena.h"
@@ -8,7 +7,6 @@
 namespace MegaManLofi
 {
    class ArenaDefs;
-   class IPlayer;
 
    class Arena : public IArena
    {
@@ -17,7 +15,8 @@ namespace MegaManLofi
 
       void Reset();
 
-      const std::shared_ptr<IPlayer> GetPlayer() const { return _player; }
+      const std::shared_ptr<IReadOnlyPlayer> GetPlayer() const;
+      const std::shared_ptr<IPlayer> GetMutablePlayer() const { return _player; }
       void SetPlayer( const std::shared_ptr<IPlayer> player ) override;
 
       long long GetWidth() const override { return _width; }
@@ -34,12 +33,19 @@ namespace MegaManLofi
 
       const ArenaTile& GetTile( long long index ) const override { return _tiles[index]; }
 
+      void AddEntity( const std::shared_ptr<IEntity> entity ) override;
+      void RemoveEntity( const std::shared_ptr<IEntity> entity ) override;
+      const std::shared_ptr<IReadOnlyEntity> GetEntity( int index ) const override;
+      const std::shared_ptr<IEntity> GetMutableEntity( int index ) const override { return _entities[index]; }
+      int GetEntityCount() const override { return (int)_entities.size(); }
+
    private:
       const std::shared_ptr<ArenaDefs> _arenaDefs;
 
       std::shared_ptr<IPlayer> _player;
 
       std::vector<ArenaTile> _tiles;
+      std::vector<std::shared_ptr<IEntity>> _entities;
 
       long long _width;
       long long _height;

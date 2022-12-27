@@ -1,10 +1,8 @@
 #pragma once
 
-#include "IEntity.h"
-
 namespace MegaManLofi
 {
-   class __declspec( novtable ) IReadOnlyPlayer : public IEntity
+   class __declspec( novtable ) IReadOnlyPlayer
    {
    public:
       virtual unsigned int GetLivesRemaining() const = 0;

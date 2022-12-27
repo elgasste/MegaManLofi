@@ -27,9 +27,6 @@
     <ClCompile Include="GameRunnerTests.cpp">
       <Filter>Tests</Filter>
     </ClCompile>
-    <ClCompile Include="RectangleUtilitiesTests.cpp">
-      <Filter>Tests\Utilities</Filter>
-    </ClCompile>
     <ClCompile Include="FrameActionRegistryTests.cpp">
       <Filter>Tests</Filter>
     </ClCompile>
@@ -77,6 +74,15 @@
     </ClCompile>
     <ClCompile Include="PlayingMenuTests.cpp">
       <Filter>Tests\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="BasicEntityTests.cpp">
+      <Filter>Tests\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityFactoryTests.cpp">
+      <Filter>Tests\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="RectangleUtilitiesTests.cpp">
+      <Filter>Tests\Utilities</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -162,6 +168,18 @@
       <Filter>Mocks</Filter>
     </ClInclude>
     <ClInclude Include="mock_ArenaInfoProvider.h">
+      <Filter>Mocks</Filter>
+    </ClInclude>
+    <ClInclude Include="mock_EntityFactory.h">
+      <Filter>Mocks</Filter>
+    </ClInclude>
+    <ClInclude Include="mock_ReadOnlyEntity.h">
+      <Filter>Mocks</Filter>
+    </ClInclude>
+    <ClInclude Include="mock_ReadOnlyPlayer.h">
+      <Filter>Mocks</Filter>
+    </ClInclude>
+    <ClInclude Include="mock_ReadOnlyArena.h">
       <Filter>Mocks</Filter>
     </ClInclude>
   </ItemGroup>

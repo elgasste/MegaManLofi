@@ -48,6 +48,7 @@ namespace MegaManLofi
       void DrawPlayerExplosionAnimation();
       void DrawArenaSprites();
       void DrawPlayer();
+      void DrawNonPlayerEntities();
       void DrawStatusBar();
       void DrawPauseOverlay();
 

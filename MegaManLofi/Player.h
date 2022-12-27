@@ -51,11 +51,7 @@ namespace MegaManLofi
       MovementType GetMovementType() const override { return _movementType; }
       void SetMovementType( MovementType type ) override { _movementType = type; }
 
-      bool IsMoving() const override;
-      bool IsStanding() const override { return _isStanding; }
       bool IsJumping() const override { return _isJumping; }
-
-      void SetIsStanding( bool isStanding ) override { _isStanding = isStanding; }
       void SetIsJumping( bool isJumping ) override { _isJumping = isJumping; }
 
       void StopX() override;

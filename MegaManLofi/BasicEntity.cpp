@@ -15,8 +15,3 @@ BasicEntity::BasicEntity() :
    _movementType( (MovementType)0 )
 {
 }
-
-bool BasicEntity::IsMoving() const
-{
-   return _velocityX != 0 || _velocityY != 0;
-}

@@ -22,6 +22,5 @@ namespace MegaManLofi
       virtual Direction GetDirection() const = 0;
       virtual const Rectangle<long long>& GetHitBox() const = 0;
       virtual MovementType GetMovementType() const = 0;
-      virtual bool IsMoving() const = 0;
    };
 }

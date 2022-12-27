@@ -24,7 +24,6 @@ public:
    MOCK_METHOD( MegaManLofi::MovementType, GetMovementType, ( ), ( const, override ) );
    MOCK_METHOD( void, SetHitBox, ( MegaManLofi::Rectangle<long long> ), ( override ) );
    MOCK_METHOD( void, SetMovementType, ( MegaManLofi::MovementType ), ( override ) );
-   MOCK_METHOD( bool, IsMoving, ( ), ( const, override ) );
    MOCK_METHOD( void, Reset, ( ), ( override ) );
    MOCK_METHOD( void, ResetPhysics, ( ), ( override ) );
    MOCK_METHOD( unsigned int, GetLivesRemaining, ( ), ( const, override ) );
@@ -32,9 +31,7 @@ public:
    MOCK_METHOD( void, SetDirection, ( MegaManLofi::Direction ), ( override ) );
    MOCK_METHOD( void, SetVelocityX, ( long long ), ( override ) );
    MOCK_METHOD( void, SetVelocityY, ( long long ), ( override ) );
-   MOCK_METHOD( bool, IsStanding, ( ), ( const, override ) );
    MOCK_METHOD( bool, IsJumping, ( ), ( const, override ) );
-   MOCK_METHOD( void, SetIsStanding, ( bool isStanding ), ( override ) );
    MOCK_METHOD( void, SetIsJumping, ( bool isJumping ), ( override ) );
    MOCK_METHOD( void, StopX, ( ), ( override ) );
    MOCK_METHOD( void, StopY, ( ), ( override ) );

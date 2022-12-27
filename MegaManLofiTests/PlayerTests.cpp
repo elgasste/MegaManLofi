@@ -72,7 +72,6 @@ TEST_F( PlayerTests, Constructor_Always_SetsDefaultPropertiesFromConfig )
    EXPECT_EQ( _player->GetHitBox().Width, 3 );
    EXPECT_EQ( _player->GetHitBox().Height, 4 );
    EXPECT_EQ( _player->GetMovementType(), MovementType::Falling );
-   EXPECT_FALSE( _player->IsStanding() );
    EXPECT_FALSE( _player->IsJumping() );
 }
 
@@ -91,14 +90,12 @@ TEST_F( PlayerTests, Reset_Always_ResetsDefaultPropertiesFromConfig )
    _player->SetVelocityY( 200 );
    _player->SetDirection( Direction::Right );
    _player->SetMovementType( MovementType::Walking );
-   _player->SetIsStanding( true );
    _player->SetIsJumping( true );
 
    EXPECT_EQ( _player->GetVelocityX(), 100 );
    EXPECT_EQ( _player->GetVelocityY(), 200 );
    EXPECT_EQ( _player->GetDirection(), Direction::Right );
    EXPECT_EQ( _player->GetMovementType(), MovementType::Walking );
-   EXPECT_TRUE( _player->IsStanding() );
    EXPECT_TRUE( _player->IsJumping() );
 
    _player->Reset();
@@ -107,7 +104,6 @@ TEST_F( PlayerTests, Reset_Always_ResetsDefaultPropertiesFromConfig )
    EXPECT_EQ( _player->GetVelocityY(), 0 );
    EXPECT_EQ( _player->GetDirection(), Direction::Left );
    EXPECT_EQ( _player->GetMovementType(), MovementType::Falling );
-   EXPECT_FALSE( _player->IsStanding() );
    EXPECT_FALSE( _player->IsJumping() );
 }
 
@@ -124,33 +120,6 @@ TEST_F( PlayerTests, GetDirection_Always_ReturnsDirection )
    BuildPlayer();
 
    EXPECT_EQ( _player->GetDirection(), Direction::Right );
-}
-
-TEST_F( PlayerTests, IsMoving_NotMoving_ReturnsFalse )
-{
-   BuildPlayer();
-
-   EXPECT_EQ( _player->GetVelocityX(), 0 );
-   EXPECT_EQ( _player->GetVelocityY(), 0 );
-   EXPECT_FALSE( _player->IsMoving() );
-}
-
-TEST_F( PlayerTests, IsMoving_MovingHorizontally_ReturnsTrue )
-{
-   BuildPlayer();
-
-   _player->SetVelocityX( -2 );
-
-   EXPECT_TRUE( _player->IsMoving() );
-}
-
-TEST_F( PlayerTests, IsMoving_MovingVertically_ReturnsTrue )
-{
-   BuildPlayer();
-
-   _player->SetVelocityY( 2 );
-
-   EXPECT_TRUE( _player->IsMoving() );
 }
 
 TEST_F( PlayerTests, GetHitBox_Always_ReturnsHitBox )

@@ -18,5 +18,4 @@ public:
    MOCK_METHOD( MegaManLofi::Direction, GetDirection, ( ), ( const, override ) );
    MOCK_METHOD( const MegaManLofi::Rectangle<long long>&, GetHitBox, ( ), ( const, override ) );
    MOCK_METHOD( MegaManLofi::MovementType, GetMovementType, ( ), ( const, override ) );
-   MOCK_METHOD( bool, IsMoving, ( ), ( const, override ) );
 };

@@ -269,13 +269,17 @@ const shared_ptr<IConsoleSprite> PlayingStateConsoleRenderer::GetPlayerSprite() 
    auto player = _playerInfoProvider->GetPlayer();
    auto playerEntity = _playerInfoProvider->GetPlayerEntity();
    auto direction = playerEntity->GetDirection();
+   auto movementType = playerEntity->GetMovementType();
 
-   if ( player->IsStanding() )
+   switch ( movementType )
    {
-      return playerEntity->IsMoving() ? _renderDefs->PlayerWalkingSpriteMap[direction] : _renderDefs->PlayerStandingSpriteMap[direction];
-   }
-   else
-   {
-      return _renderDefs->PlayerFallingSpriteMap[direction];
+      case MovementType::Standing:
+         return _renderDefs->PlayerStandingSpriteMap[direction];
+      case MovementType::Walking:
+         return _renderDefs->PlayerWalkingSpriteMap[direction];
+      case MovementType::Falling:
+         return _renderDefs->PlayerFallingSpriteMap[direction];
+      default:
+         return nullptr;
    }
 }

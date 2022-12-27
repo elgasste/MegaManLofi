@@ -40,11 +40,6 @@ void Player::ResetPhysics()
    _isJumping = false;
 }
 
-bool Player::IsMoving() const
-{
-   return _velocityX != 0 || _velocityY != 0;
-}
-
 void Player::StopX()
 {
    _velocityX = 0;

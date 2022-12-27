@@ -117,7 +117,9 @@ void PlayerPhysics::ApplyGravity() const
 
 void PlayerPhysics::Jump()
 {
-   if ( _player->IsStanding() )
+   auto movementType = _player->GetMovementType();
+
+   if ( movementType == MovementType::Standing || movementType == MovementType::Walking )
    {
       _player->SetIsJumping( true );
       _player->SetVelocityY( -( _physicsDefs->JumpAccelerationPerSecond ) );

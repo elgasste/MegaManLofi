@@ -111,7 +111,7 @@ void LoadAndRun( const shared_ptr<IConsoleBuffer> consoleBuffer )
    // game objects
    auto player = shared_ptr<Player>( new Player( gameDefs->PlayerDefs, frameActionRegistry, clock ) );
    auto arena = shared_ptr<Arena>( new Arena( gameDefs->ArenaDefs ) );
-   auto entityFactory = shared_ptr<EntityFactory>( new EntityFactory( gameDefs->EntityDefs ) );
+   auto entityFactory = shared_ptr<EntityFactory>( new EntityFactory( gameDefs->EntityDefs, uniqueNumberGenerator ) );
    auto game = shared_ptr<Game>( new Game( eventAggregator, player, arena, playerPhysics, arenaPhysics, entityFactory ) );
 
    // menus

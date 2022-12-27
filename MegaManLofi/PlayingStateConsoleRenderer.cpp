@@ -3,6 +3,7 @@
 #include "PlayingStateConsoleRenderer.h"
 #include "IConsoleBuffer.h"
 #include "ConsoleRenderDefs.h"
+#include "ConsoleSpriteDefs.h"
 #include "IGameInfoProvider.h"
 #include "IPlayerInfoProvider.h"
 #include "IArenaInfoProvider.h"
@@ -172,7 +173,7 @@ void PlayingStateConsoleRenderer::DrawStageStartAnimation()
       Coordinate<short> thwipStartPosition =
       {
          _viewportOffsetChars.Left + _playerViewportChars.Left,
-         _viewportOffsetChars.Top - _renderDefs->PlayerThwipInTransitionSprite->GetHeight()
+         _viewportOffsetChars.Top - _renderDefs->SpriteDefs->PlayerThwipInTransitionSprite->GetHeight()
       };
       Coordinate<short> thwipEndPosition =
       {
@@ -242,7 +243,7 @@ void PlayingStateConsoleRenderer::DrawNonPlayerEntities()
          continue;
       }
 
-      auto sprite = _renderDefs->EntitySpriteMap[entity->GetEntityMetaId()];
+      auto sprite = _renderDefs->SpriteDefs->EntitySpriteMap[entity->GetEntityMetaId()];
       auto left = (short)( ( entity->GetArenaPositionLeft() - _viewportQuadUnits.Left ) / _renderDefs->ArenaCharWidth );
       auto top = (short)( ( entity->GetArenaPositionTop() - _viewportQuadUnits.Top ) / _renderDefs->ArenaCharHeight );
 
@@ -274,11 +275,11 @@ const shared_ptr<IConsoleSprite> PlayingStateConsoleRenderer::GetPlayerSprite() 
    switch ( movementType )
    {
       case MovementType::Standing:
-         return _renderDefs->PlayerStandingSpriteMap[direction];
+         return _renderDefs->SpriteDefs->PlayerStandingSpriteMap[direction];
       case MovementType::Walking:
-         return _renderDefs->PlayerWalkingSpriteMap[direction];
+         return _renderDefs->SpriteDefs->PlayerWalkingSpriteMap[direction];
       case MovementType::Airborne:
-         return _renderDefs->PlayerAirborneSpriteMap[direction];
+         return _renderDefs->SpriteDefs->PlayerAirborneSpriteMap[direction];
       default:
          return nullptr;
    }

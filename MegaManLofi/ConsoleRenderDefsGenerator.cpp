@@ -1,10 +1,10 @@
 #include "ConsoleRenderDefsGenerator.h"
 #include "ConsoleRenderDefs.h"
 #include "IFrameRateProvider.h"
-#include "PlayerSpriteGenerator.h"
-#include "TitleSpriteGenerator.h"
-#include "ArenaSpriteGenerator.h"
-#include "MenuSpriteGenerator.h"
+#include "TitleImageGenerator.h"
+#include "ArenaImageGenerator.h"
+#include "MenuImageGenerator.h"
+#include "ConsoleSpriteDefsGenerator.h"
 
 using namespace std;
 using namespace MegaManLofi;
@@ -34,7 +34,6 @@ shared_ptr<IGameRenderDefs> ConsoleRenderDefsGenerator::GenerateConsoleRenderDef
    // player explosion should swap between two sprites in 1/4 second increments
    renderDefs->PlayerExplosionAnimationSeconds = 3;
    renderDefs->PlayerExplosionParticleVelocity = 1'000'000;
-   renderDefs->PlayerExplosionParticleSprite = PlayerSpriteGenerator::GenerateExplosionParticleSprite( frameRateProvider );
 
    renderDefs->DefaultForegroundColor = ConsoleColor::Grey;
    renderDefs->DefaultBackgroundColor = ConsoleColor::Black;
@@ -52,16 +51,13 @@ shared_ptr<IGameRenderDefs> ConsoleRenderDefsGenerator::GenerateConsoleRenderDef
 
    renderDefs->TitleKeyBindingsForegroundColor = ConsoleColor::DarkGrey;
 
-   renderDefs->TitleTextImage = TitleSpriteGenerator::GenerateTitleTextImage();
-   renderDefs->TitleSubTextImage = TitleSpriteGenerator::GenerateTitleSubTextImage();
-   renderDefs->TitlePlayerImage = TitleSpriteGenerator::GeneratePlayerImage();
-   renderDefs->TitleBuildingImage = TitleSpriteGenerator::GenerateBuildingImage();
-   renderDefs->TitleStartMessageImage = TitleSpriteGenerator::GenerateStartMessageImage();
-   renderDefs->TitleStarImage = TitleSpriteGenerator::GenerateStarImage();
+   renderDefs->TitleTextImage = TitleImageGenerator::GenerateTitleTextImage();
+   renderDefs->TitleSubTextImage = TitleImageGenerator::GenerateTitleSubTextImage();
+   renderDefs->TitlePlayerImage = TitleImageGenerator::GeneratePlayerImage();
+   renderDefs->TitleBuildingImage = TitleImageGenerator::GenerateBuildingImage();
+   renderDefs->TitleStartMessageImage = TitleImageGenerator::GenerateStartMessageImage();
+   renderDefs->TitleStarImage = TitleImageGenerator::GenerateStarImage();
 
-   renderDefs->PlayerThwipSprite = PlayerSpriteGenerator::GenerateThwipSprite( frameRateProvider );
-   renderDefs->PlayerThwipInTransitionSprite = PlayerSpriteGenerator::GenerateThwipInTransitionSprite( frameRateProvider );
-   renderDefs->PlayerThwipOutTransitionSprite = PlayerSpriteGenerator::GenerateThwipOutTransitionSprite( frameRateProvider );
    renderDefs->PlayerThwipVelocity = 5'000'000;
    renderDefs->PlayerPostThwipDelaySeconds = 1;
 
@@ -81,20 +77,12 @@ shared_ptr<IGameRenderDefs> ConsoleRenderDefsGenerator::GenerateConsoleRenderDef
    renderDefs->MinTitleStarVelocity = 500'000;
    renderDefs->MaxTitleStarVelocity = 1'500'000;
 
-   renderDefs->GetReadySprite = ArenaSpriteGenerator::GenerateGetReadySprite( frameRateProvider );
    renderDefs->GetReadyAnimationSeconds = 2;
 
-   renderDefs->PauseOverlayImage = ArenaSpriteGenerator::GeneratePauseOverlayImage();
-   renderDefs->GameOverImage = ArenaSpriteGenerator::GenerateGameOverImage();
+   renderDefs->PauseOverlayImage = ArenaImageGenerator::GeneratePauseOverlayImage();
+   renderDefs->GameOverImage = ArenaImageGenerator::GenerateGameOverImage();
 
-   renderDefs->MenuCaratSprite = MenuSpriteGenerator::GenerateMenuCaratSprite( frameRateProvider );
-   renderDefs->PlayingMenuPlayerImage = MenuSpriteGenerator::GeneratePlayerImage();
-
-   renderDefs->EntitySpriteMap = ArenaSpriteGenerator::GenerateEntitySpriteMap( frameRateProvider );
-
-   renderDefs->PlayerStandingSpriteMap = PlayerSpriteGenerator::GenerateStandingSpriteMap( frameRateProvider );
-   renderDefs->PlayerWalkingSpriteMap = PlayerSpriteGenerator::GenerateWalkingSpriteMap( frameRateProvider );
-   renderDefs->PlayerAirborneSpriteMap = PlayerSpriteGenerator::GenerateAirborneSpriteMap( frameRateProvider );
+   renderDefs->PlayingMenuPlayerImage = MenuImageGenerator::GeneratePlayerImage();
 
    // ground that is impassable in all directions
    renderDefs->ArenaImageMap[0].Width = 1;
@@ -111,7 +99,9 @@ shared_ptr<IGameRenderDefs> ConsoleRenderDefsGenerator::GenerateConsoleRenderDef
    renderDefs->ArenaImageMap[2].Height = 1;
    renderDefs->ArenaImageMap[2].Pixels.push_back( { '+', true, ConsoleColor::Red, ConsoleColor::Black } );
 
-   renderDefs->ArenaTiles = ArenaSpriteGenerator::GenerateArenaTiles();
+   renderDefs->ArenaTiles = ArenaImageGenerator::GenerateArenaTiles();
+
+   renderDefs->SpriteDefs = ConsoleSpriteDefsGenerator::GenerateConsoleSpriteDefs( frameRateProvider );
 
    return renderDefs;
 }

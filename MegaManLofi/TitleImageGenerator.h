@@ -6,7 +6,7 @@
 
 namespace MegaManLofi
 {
-   class TitleSpriteGenerator
+   class TitleImageGenerator
    {
    public:
       static ConsoleImage GenerateTitleTextImage();

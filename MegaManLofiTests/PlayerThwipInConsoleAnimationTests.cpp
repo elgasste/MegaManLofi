@@ -4,6 +4,7 @@
 
 #include <MegaManLofi/PlayerThwipInConsoleAnimation.h>
 #include <MegaManLofi/ConsoleRenderDefs.h>
+#include <MegaManLofi/ConsoleSpriteDefs.h>
 
 #include "mock_ConsoleBuffer.h"
 #include "mock_FrameRateProvider.h"
@@ -18,21 +19,23 @@ class PlayerThwipInConsoleAnimationTests : public Test
 public:
    void SetUp() override
    {
+      _spriteDefs.reset( new ConsoleSpriteDefs );
       _renderDefs.reset( new ConsoleRenderDefs );
       _consoleBufferMock.reset( new NiceMock<mock_ConsoleBuffer> );
       _frameRateProviderMock.reset( new NiceMock<mock_FrameRateProvider> );
       _transitionSpriteMock.reset( new NiceMock<mock_ConsoleSprite> );
       _thwipSpriteMock.reset( new NiceMock<mock_ConsoleSprite> );
 
+      _spriteDefs->PlayerThwipSprite = _thwipSpriteMock;
+      _spriteDefs->PlayerThwipInTransitionSprite = _transitionSpriteMock;
+
       _renderDefs->ArenaCharWidth = 1;
       _renderDefs->ArenaCharHeight = 1;
       _renderDefs->PlayerThwipVelocity = 1;
+      _renderDefs->SpriteDefs = _spriteDefs;
 
       ON_CALL( *_frameRateProviderMock, GetFrameSeconds() ).WillByDefault( Return( 1 ) );
       ON_CALL( *_transitionSpriteMock, GetTotalTraversalSeconds() ).WillByDefault( Return( 10 ) );
-
-      _renderDefs->PlayerThwipSprite = _thwipSpriteMock;
-      _renderDefs->PlayerThwipInTransitionSprite = _transitionSpriteMock;
    }
 
    void BuildAnimation()
@@ -42,7 +45,9 @@ public:
 
 protected:
    shared_ptr<mock_ConsoleBuffer> _consoleBufferMock;
+   shared_ptr<ConsoleSpriteDefs> _spriteDefs;
    shared_ptr<ConsoleRenderDefs> _renderDefs;
+
    shared_ptr<mock_FrameRateProvider> _frameRateProviderMock;
 
    shared_ptr<mock_ConsoleSprite> _thwipSpriteMock;

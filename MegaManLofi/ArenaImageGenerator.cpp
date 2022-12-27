@@ -1,11 +1,11 @@
-#include "ArenaSpriteGenerator.h"
+#include "ArenaImageGenerator.h"
 #include "ArenaGenerationStrings.h"
 #include "ConsoleSprite.h"
 
 using namespace std;
 using namespace MegaManLofi;
 
-vector<int> ArenaSpriteGenerator::GenerateArenaTiles()
+vector<int> ArenaImageGenerator::GenerateArenaTiles()
 {
    vector<int> imageIds;
    auto arenaTilesString = ArenaGenerationStrings::GetArenaTilesString();
@@ -32,24 +32,7 @@ vector<int> ArenaSpriteGenerator::GenerateArenaTiles()
    return imageIds;
 }
 
-shared_ptr<IConsoleSprite> ArenaSpriteGenerator::GenerateGetReadySprite( const shared_ptr<IFrameRateProvider> frameRateProvider )
-{
-   auto sprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( frameRateProvider, .25 ) );
-
-   ConsoleImage getReadyImage = { 10, 1 };
-   string message = "GET READY!";
-   for ( int i = 0; i < (int)message.size(); i++ )
-   {
-      getReadyImage.Pixels.push_back( { message[i], false, ConsoleColor::Cyan, ConsoleColor::Black } );
-   }
-
-   sprite->AddImage( getReadyImage );
-   sprite->AddImage( { 0, 0 } );
-
-   return sprite;
-}
-
-ConsoleImage ArenaSpriteGenerator::GeneratePauseOverlayImage()
+ConsoleImage ArenaImageGenerator::GeneratePauseOverlayImage()
 {
    ConsoleImage image;
 
@@ -69,7 +52,7 @@ ConsoleImage ArenaSpriteGenerator::GeneratePauseOverlayImage()
    return image;
 }
 
-ConsoleImage ArenaSpriteGenerator::GenerateGameOverImage()
+ConsoleImage ArenaImageGenerator::GenerateGameOverImage()
 {
    ConsoleImage image;
 
@@ -94,22 +77,4 @@ ConsoleImage ArenaSpriteGenerator::GenerateGameOverImage()
    }
 
    return image;
-}
-
-map<int, shared_ptr<IConsoleSprite>> ArenaSpriteGenerator::GenerateEntitySpriteMap( const shared_ptr<IFrameRateProvider> frameRateProvider )
-{
-   auto bulletSprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( frameRateProvider, 0 ) );
-
-   ConsoleImage bulletImage;
-
-   bulletImage.Width = 1;
-   bulletImage.Height = 1;
-   bulletImage.Pixels.push_back( { 'o', true, ConsoleColor::White, ConsoleColor::Black } );
-
-   bulletSprite->AddImage( bulletImage );
-
-   return
-   {
-      { 1, bulletSprite}
-   };
 }

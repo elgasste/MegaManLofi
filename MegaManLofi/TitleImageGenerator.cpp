@@ -1,11 +1,11 @@
 #include <string>
 
-#include "TitleSpriteGenerator.h"
+#include "TitleImageGenerator.h"
 
 using namespace std;
 using namespace MegaManLofi;
 
-ConsoleImage TitleSpriteGenerator::GenerateTitleTextImage()
+ConsoleImage TitleImageGenerator::GenerateTitleTextImage()
 {
    ConsoleImage image;
 
@@ -29,7 +29,7 @@ ConsoleImage TitleSpriteGenerator::GenerateTitleTextImage()
    return image;
 }
 
-ConsoleImage TitleSpriteGenerator::GenerateTitleSubTextImage()
+ConsoleImage TitleImageGenerator::GenerateTitleSubTextImage()
 {
    ConsoleImage image;
 
@@ -53,7 +53,7 @@ ConsoleImage TitleSpriteGenerator::GenerateTitleSubTextImage()
    return image;
 }
 
-ConsoleImage TitleSpriteGenerator::GeneratePlayerImage()
+ConsoleImage TitleImageGenerator::GeneratePlayerImage()
 {
    ConsoleImage image;
 
@@ -73,7 +73,7 @@ ConsoleImage TitleSpriteGenerator::GeneratePlayerImage()
    return image;
 }
 
-ConsoleImage TitleSpriteGenerator::GenerateBuildingImage()
+ConsoleImage TitleImageGenerator::GenerateBuildingImage()
 {
    ConsoleImage image;
 
@@ -102,7 +102,7 @@ ConsoleImage TitleSpriteGenerator::GenerateBuildingImage()
    return image;
 }
 
-ConsoleImage TitleSpriteGenerator::GenerateStartMessageImage()
+ConsoleImage TitleImageGenerator::GenerateStartMessageImage()
 {
    ConsoleImage image;
 
@@ -121,7 +121,7 @@ ConsoleImage TitleSpriteGenerator::GenerateStartMessageImage()
    return image;
 }
 
-ConsoleImage TitleSpriteGenerator::GenerateStarImage()
+ConsoleImage TitleImageGenerator::GenerateStarImage()
 {
    ConsoleImage image;
 

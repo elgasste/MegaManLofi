@@ -1,6 +1,7 @@
 #include "PlayingMenuStateConsoleRenderer.h"
 #include "IConsoleBuffer.h"
 #include "ConsoleRenderDefs.h"
+#include "ConsoleSpriteDefs.h"
 #include "IConsoleSprite.h"
 #include "IMenuProvider.h"
 #include "IMenu.h"
@@ -33,10 +34,10 @@ void PlayingMenuStateConsoleRenderer::Render()
    {
       if ( menu->GetSelectedIndex() == i )
       {
-         _consoleBuffer->Draw( leftOffset + 18, top, _renderDefs->MenuCaratSprite );
+         _consoleBuffer->Draw( leftOffset + 18, top, _renderDefs->SpriteDefs->MenuCaratSprite );
       }
       _consoleBuffer->Draw( leftOffset + 20, top, menu->GetOptionTitle( i ) );
    }
 
-   _renderDefs->MenuCaratSprite->Tick();
+   _renderDefs->SpriteDefs->MenuCaratSprite->Tick();
 }

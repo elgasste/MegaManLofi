@@ -4,6 +4,7 @@
 #include "IConsoleBuffer.h"
 #include "IFrameRateProvider.h"
 #include "ConsoleRenderDefs.h"
+#include "ConsoleSpriteDefs.h"
 #include "IConsoleSprite.h"
 
 using namespace std;
@@ -33,14 +34,15 @@ void StageStartedConsoleAnimation::Start( optional<Coordinate<short>> startPosit
    _elapsedSeconds = 0;
    _positionChars = startPositionChars.value();
 
-   _renderDefs->GetReadySprite->Reset();
+   _renderDefs->SpriteDefs->StageGetReadySprite->Reset();
 }
 
 void StageStartedConsoleAnimation::Draw()
 {
-   auto leftOffset = (short)( _renderDefs->GetReadySprite->GetWidth() / 2 );
-   auto topOffset = (short)( _renderDefs->GetReadySprite->GetHeight() / 2 );
-   _consoleBuffer->Draw( _positionChars.Left - leftOffset, _positionChars.Top - topOffset, _renderDefs->GetReadySprite );
+   auto getReadySprite = _renderDefs->SpriteDefs->StageGetReadySprite;
+   auto leftOffset = (short)( getReadySprite->GetWidth() / 2 );
+   auto topOffset = (short)( getReadySprite->GetHeight() / 2 );
+   _consoleBuffer->Draw( _positionChars.Left - leftOffset, _positionChars.Top - topOffset, getReadySprite );
 }
 
 void StageStartedConsoleAnimation::Tick()
@@ -48,7 +50,7 @@ void StageStartedConsoleAnimation::Tick()
    if ( _isRunning )
    {
       _elapsedSeconds += _frameRateProvider->GetFrameSeconds();
-      _renderDefs->GetReadySprite->Tick();
+      _renderDefs->SpriteDefs->StageGetReadySprite->Tick();
 
       if ( _elapsedSeconds >= _renderDefs->GetReadyAnimationSeconds )
       {

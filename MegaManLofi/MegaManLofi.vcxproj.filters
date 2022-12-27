@@ -189,19 +189,16 @@
     <ClCompile Include="ArenaDefsGenerator.cpp">
       <Filter>Source Files\GameDefGenerators</Filter>
     </ClCompile>
-    <ClCompile Include="ArenaSpriteGenerator.cpp">
+    <ClCompile Include="ArenaImageGenerator.cpp">
       <Filter>Source Files\GameDefGenerators\SubGenerators</Filter>
     </ClCompile>
     <ClCompile Include="ArenaTileGenerator.cpp">
       <Filter>Source Files\GameDefGenerators\SubGenerators</Filter>
     </ClCompile>
-    <ClCompile Include="MenuSpriteGenerator.cpp">
+    <ClCompile Include="MenuImageGenerator.cpp">
       <Filter>Source Files\GameDefGenerators\SubGenerators</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerSpriteGenerator.cpp">
-      <Filter>Source Files\GameDefGenerators\SubGenerators</Filter>
-    </ClCompile>
-    <ClCompile Include="TitleSpriteGenerator.cpp">
+    <ClCompile Include="TitleImageGenerator.cpp">
       <Filter>Source Files\GameDefGenerators\SubGenerators</Filter>
     </ClCompile>
     <ClCompile Include="PlayerDefsGenerator.cpp">
@@ -233,6 +230,9 @@
     </ClCompile>
     <ClCompile Include="EntityConsoleSprite.cpp">
       <Filter>Source Files\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="ConsoleSpriteDefsGenerator.cpp">
+      <Filter>Source Files\GameDefGenerators</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -515,19 +515,16 @@
     <ClInclude Include="IEntity.h">
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="ArenaSpriteGenerator.h">
+    <ClInclude Include="ArenaImageGenerator.h">
       <Filter>Header Files\GameDefGenerators\SubGenerators</Filter>
     </ClInclude>
     <ClInclude Include="ArenaTileGenerator.h">
       <Filter>Header Files\GameDefGenerators\SubGenerators</Filter>
     </ClInclude>
-    <ClInclude Include="MenuSpriteGenerator.h">
+    <ClInclude Include="MenuImageGenerator.h">
       <Filter>Header Files\GameDefGenerators\SubGenerators</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerSpriteGenerator.h">
-      <Filter>Header Files\GameDefGenerators\SubGenerators</Filter>
-    </ClInclude>
-    <ClInclude Include="TitleSpriteGenerator.h">
+    <ClInclude Include="TitleImageGenerator.h">
       <Filter>Header Files\GameDefGenerators\SubGenerators</Filter>
     </ClInclude>
     <ClInclude Include="PlayerDefsGenerator.h">
@@ -592,6 +589,12 @@
     </ClInclude>
     <ClInclude Include="EntityConsoleSprite.h">
       <Filter>Header Files\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="ConsoleSpriteDefs.h">
+      <Filter>Header Files\GameDefs</Filter>
+    </ClInclude>
+    <ClInclude Include="ConsoleSpriteDefsGenerator.h">
+      <Filter>Header Files\GameDefGenerators</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

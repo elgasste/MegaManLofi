@@ -68,6 +68,7 @@
     <ClInclude Include="mock_ScreenBuffer.h" />
     <ClInclude Include="mock_Sleeper.h" />
     <ClInclude Include="mock_Thread.h" />
+    <ClInclude Include="mock_UniqueNumberGenerator.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ArenaPhysicsTests.cpp" />
@@ -97,6 +98,7 @@
     <ClCompile Include="RectangleUtilitiesTests.cpp" />
     <ClCompile Include="StageStartedConsoleAnimationTests.cpp" />
     <ClCompile Include="TitleStateInputHandlerTests.cpp" />
+    <ClCompile Include="UniqueNumberGeneratorTests.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MegaManLofi\MegaManLofi.vcxproj">

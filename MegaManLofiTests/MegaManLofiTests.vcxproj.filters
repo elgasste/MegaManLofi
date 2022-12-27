@@ -84,6 +84,9 @@
     <ClCompile Include="RectangleUtilitiesTests.cpp">
       <Filter>Tests\Utilities</Filter>
     </ClCompile>
+    <ClCompile Include="UniqueNumberGeneratorTests.cpp">
+      <Filter>Tests\Utilities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="mock_GameEventAggregator.h">
@@ -180,6 +183,9 @@
       <Filter>Mocks</Filter>
     </ClInclude>
     <ClInclude Include="mock_ReadOnlyArena.h">
+      <Filter>Mocks</Filter>
+    </ClInclude>
+    <ClInclude Include="mock_UniqueNumberGenerator.h">
       <Filter>Mocks</Filter>
     </ClInclude>
   </ItemGroup>

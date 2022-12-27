@@ -200,6 +200,7 @@
     <ClCompile Include="TitleStateInputHandler.cpp" />
     <ClCompile Include="ThreadWrapper.cpp" />
     <ClCompile Include="TitleSpriteGenerator.cpp" />
+    <ClCompile Include="UniqueNumberGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Arena.h" />
@@ -267,6 +268,7 @@
     <ClInclude Include="IReadOnlyPlayer.h" />
     <ClInclude Include="IScreenBuffer.h" />
     <ClInclude Include="IThread.h" />
+    <ClInclude Include="IUniqueNumberGenerator.h" />
     <ClInclude Include="KeyboardInputDefsGenerator.h" />
     <ClInclude Include="KeyboardWrapper.h" />
     <ClInclude Include="HighResolutionClockWrapper.h" />
@@ -316,6 +318,7 @@
     <ClInclude Include="ThreadWrapper.h" />
     <ClInclude Include="Quad.h" />
     <ClInclude Include="TitleSpriteGenerator.h" />
+    <ClInclude Include="UniqueNumberGenerator.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

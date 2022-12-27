@@ -10,6 +10,7 @@ namespace MegaManLofi
    class __declspec( novtable ) IReadOnlyEntity
    {
    public:
+      virtual int GetUniqueId() const = 0;
       virtual EntityType GetEntityType() const = 0;
       virtual int GetEntityMetaId() const = 0;
       virtual const Coordinate<long long>& GetArenaPosition() const = 0;

@@ -7,6 +7,8 @@
 class mock_Player : public MegaManLofi::IPlayer
 {
 public:
+   MOCK_METHOD( int, GetUniqueId, ( ), ( const, override ) );
+   MOCK_METHOD( void, SetUniqueId, ( int ), ( override ) );
    MOCK_METHOD( MegaManLofi::EntityType, GetEntityType, ( ), ( const, override ) );
    MOCK_METHOD( void, SetEntityType, ( MegaManLofi::EntityType ), ( override ) );
    MOCK_METHOD( int, GetEntityMetaId, ( ), ( const, override ) );

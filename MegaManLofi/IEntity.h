@@ -7,6 +7,7 @@ namespace MegaManLofi
    class __declspec( novtable ) IEntity : public IReadOnlyEntity
    {
    public:
+      virtual void SetUniqueId( int id ) = 0;
       virtual void SetEntityType( EntityType type ) = 0;
       virtual void SetEntityMetaId( int id ) = 0;
       virtual void SetArenaPosition( Coordinate<long long> position ) = 0;

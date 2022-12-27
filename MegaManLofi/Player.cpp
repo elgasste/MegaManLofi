@@ -16,6 +16,8 @@ Player::Player( const shared_ptr<PlayerDefs> playerDefs,
    _playerDefs( playerDefs ),
    _frameActionRegistry( frameActionRegistry ),
    _frameRateProvider( frameRateProvider ),
+   _uniqueId( 0 ),
+   _metaId( 0 ),
    _arenaPosition( { 0, 0 } )
 {
    Reset();

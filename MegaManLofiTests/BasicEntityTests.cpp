@@ -14,6 +14,7 @@ TEST_F( BasicEntityTests, Constructor_Always_InitializesProperties )
 {
    auto entity = make_shared<BasicEntity>();
 
+   EXPECT_EQ( entity->GetUniqueId(), 0 );
    EXPECT_EQ( entity->GetEntityType(), (EntityType)0 );
    EXPECT_EQ( entity->GetEntityMetaId(), 0 );
    EXPECT_EQ( entity->GetArenaPosition().Left, 0 );
@@ -27,10 +28,11 @@ TEST_F( BasicEntityTests, Constructor_Always_InitializesProperties )
    EXPECT_EQ( entity->GetHitBox().Height, 0 );
 }
 
-TEST_F( BasicEntityTests, Setters_Always_SetPropertyValues )
+TEST_F( BasicEntityTests, Setters_Always_SetsPropertyValues )
 {
    auto entity = make_shared<BasicEntity>();
 
+   entity->SetUniqueId( 12 );
    entity->SetEntityType( EntityType::Projectile );
    entity->SetEntityMetaId( 5 );
    entity->SetArenaPosition( { 1, 2 } );
@@ -39,6 +41,7 @@ TEST_F( BasicEntityTests, Setters_Always_SetPropertyValues )
    entity->SetDirection( Direction::Right );
    entity->SetHitBox( { 6, 7, 8, 9 } );
 
+   EXPECT_EQ( entity->GetUniqueId(), 12 );
    EXPECT_EQ( entity->GetEntityType(), EntityType::Projectile );
    EXPECT_EQ( entity->GetEntityMetaId(), 5 );
    EXPECT_EQ( entity->GetArenaPosition().Left, 1 );

@@ -29,11 +29,14 @@ namespace MegaManLofi
       void SetLivesRemaining( unsigned int lives ) override { _lives = lives; };
       void SetDirection( Direction direction ) override { _direction = direction; }
 
+      int GetUniqueId() const override { return _uniqueId; }
+      void SetUniqueId( int id ) override { _uniqueId = id; }
+
       EntityType GetEntityType() const override { return EntityType::Body; }
       void SetEntityType( EntityType type ) override { }
 
-      int GetEntityMetaId() const override { return 0; }
-      void SetEntityMetaId( int id ) override { }
+      int GetEntityMetaId() const override { return _metaId; }
+      void SetEntityMetaId( int id ) override { _metaId = id; }
 
       const Coordinate<long long>& GetArenaPosition() const override { return _arenaPosition; }
       long long GetArenaPositionLeft() const override { return _arenaPosition.Left; }
@@ -59,6 +62,9 @@ namespace MegaManLofi
       const std::shared_ptr<PlayerDefs> _playerDefs;
       const std::shared_ptr<IFrameActionRegistry> _frameActionRegistry;
       const std::shared_ptr<IFrameRateProvider> _frameRateProvider;
+
+      int _uniqueId;
+      int _metaId;
 
       Coordinate<long long> _arenaPosition;
 

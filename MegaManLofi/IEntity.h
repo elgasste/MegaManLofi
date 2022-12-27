@@ -15,6 +15,7 @@ namespace MegaManLofi
       virtual void SetVelocityY( long long velocity ) = 0;
       virtual void SetDirection( Direction direction ) = 0;
       virtual void SetHitBox( Rectangle<long long> hitBox ) = 0;
+      virtual void SetMovementType( MovementType type ) = 0;
 
       virtual void StopX() = 0;
       virtual void StopY() = 0;

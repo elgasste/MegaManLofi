@@ -290,6 +290,7 @@
     <ClInclude Include="MenuRepository.h" />
     <ClInclude Include="MenuSpriteGenerator.h" />
     <ClInclude Include="MenuType.h" />
+    <ClInclude Include="MovementType.h" />
     <ClInclude Include="PlayerDefsGenerator.h" />
     <ClInclude Include="PlayerExplodedConsoleAnimation.h" />
     <ClInclude Include="PlayerPhysics.h" />

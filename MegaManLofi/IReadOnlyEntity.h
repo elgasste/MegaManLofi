@@ -4,6 +4,7 @@
 #include "Coordinate.h"
 #include "Rectangle.h"
 #include "Direction.h"
+#include "MovementType.h"
 
 namespace MegaManLofi
 {
@@ -20,6 +21,7 @@ namespace MegaManLofi
       virtual long long GetVelocityY() const = 0;
       virtual Direction GetDirection() const = 0;
       virtual const Rectangle<long long>& GetHitBox() const = 0;
+      virtual MovementType GetMovementType() const = 0;
       virtual bool IsMoving() const = 0;
    };
 }

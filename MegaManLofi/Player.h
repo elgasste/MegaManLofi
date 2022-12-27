@@ -48,6 +48,9 @@ namespace MegaManLofi
       void SetVelocityX( long long velocityX ) override { _velocityX = velocityX; }
       void SetVelocityY( long long velocityY ) override { _velocityY = velocityY; }
 
+      MovementType GetMovementType() const override { return _movementType; }
+      void SetMovementType( MovementType type ) override { _movementType = type; }
+
       bool IsMoving() const override;
       bool IsStanding() const override { return _isStanding; }
       bool IsJumping() const override { return _isJumping; }
@@ -74,6 +77,7 @@ namespace MegaManLofi
       unsigned int _lives;
       Direction _direction;
       Rectangle<long long> _hitBox;
+      MovementType _movementType;
 
       bool _isStanding;
       bool _isJumping;

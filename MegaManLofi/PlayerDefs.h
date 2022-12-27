@@ -2,6 +2,7 @@
 
 #include "Rectangle.h"
 #include "Direction.h"
+#include "MovementType.h"
 
 namespace MegaManLofi
 {
@@ -17,5 +18,6 @@ namespace MegaManLofi
       unsigned int DefaultLives = 0;
       Direction DefaultDirection = (Direction)0;
       Rectangle<long long> DefaultHitBox = { 0, 0, 0, 0 };
+      MovementType DefaultMovementType = (MovementType)0;
    };
 }

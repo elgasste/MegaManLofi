@@ -30,6 +30,7 @@ public:
       _playerDefs->DefaultLives = 5;
       _playerDefs->DefaultDirection = Direction::Left;
       _playerDefs->DefaultHitBox = { 0, 0, 4, 4 };
+      _playerDefs->DefaultMovementType = MovementType::Falling;
 
       ON_CALL( *_frameRateProviderMock, GetFrameSeconds() ).WillByDefault( Return( 100 ) );
    }
@@ -70,6 +71,7 @@ TEST_F( PlayerTests, Constructor_Always_SetsDefaultPropertiesFromConfig )
    EXPECT_EQ( _player->GetHitBox().Top, 2 );
    EXPECT_EQ( _player->GetHitBox().Width, 3 );
    EXPECT_EQ( _player->GetHitBox().Height, 4 );
+   EXPECT_EQ( _player->GetMovementType(), MovementType::Falling );
    EXPECT_FALSE( _player->IsStanding() );
    EXPECT_FALSE( _player->IsJumping() );
 }
@@ -88,12 +90,14 @@ TEST_F( PlayerTests, Reset_Always_ResetsDefaultPropertiesFromConfig )
    _player->SetVelocityX( 100 );
    _player->SetVelocityY( 200 );
    _player->SetDirection( Direction::Right );
+   _player->SetMovementType( MovementType::Walking );
    _player->SetIsStanding( true );
    _player->SetIsJumping( true );
 
    EXPECT_EQ( _player->GetVelocityX(), 100 );
    EXPECT_EQ( _player->GetVelocityY(), 200 );
    EXPECT_EQ( _player->GetDirection(), Direction::Right );
+   EXPECT_EQ( _player->GetMovementType(), MovementType::Walking );
    EXPECT_TRUE( _player->IsStanding() );
    EXPECT_TRUE( _player->IsJumping() );
 
@@ -102,6 +106,7 @@ TEST_F( PlayerTests, Reset_Always_ResetsDefaultPropertiesFromConfig )
    EXPECT_EQ( _player->GetVelocityX(), 0 );
    EXPECT_EQ( _player->GetVelocityY(), 0 );
    EXPECT_EQ( _player->GetDirection(), Direction::Left );
+   EXPECT_EQ( _player->GetMovementType(), MovementType::Falling );
    EXPECT_FALSE( _player->IsStanding() );
    EXPECT_FALSE( _player->IsJumping() );
 }

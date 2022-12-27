@@ -35,6 +35,9 @@ namespace MegaManLofi
       const Rectangle<long long>& GetHitBox() const override { return _hitBox; }
       void SetHitBox( Rectangle<long long> hitBox ) { _hitBox = hitBox; }
 
+      MovementType GetMovementType() const override { return _movementType; }
+      void SetMovementType( MovementType type ) override { _movementType = type; }
+
       bool IsMoving() const override;
 
       void StopX() override { _velocityX = 0; }
@@ -49,5 +52,6 @@ namespace MegaManLofi
       long long _velocityY;
       Direction _direction;
       Rectangle<long long> _hitBox;
+      MovementType _movementType;
    };
 }

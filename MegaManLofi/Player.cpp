@@ -35,6 +35,7 @@ void Player::ResetPhysics()
    _velocityX = _playerDefs->DefaultVelocityX;
    _velocityY = _playerDefs->DefaultVelocityY;
    _direction = _playerDefs->DefaultDirection;
+   _movementType = _playerDefs->DefaultMovementType;
    _isStanding = false;
    _isJumping = false;
 }

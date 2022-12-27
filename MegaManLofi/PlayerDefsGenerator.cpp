@@ -21,6 +21,7 @@ shared_ptr<PlayerDefs> PlayerDefsGenerator::GeneratePlayerDefs( const shared_ptr
 
    playerDefs->DefaultLives = 3;
    playerDefs->DefaultDirection = Direction::Right;
+   playerDefs->DefaultMovementType = MovementType::Standing;
 
    return playerDefs;
 }

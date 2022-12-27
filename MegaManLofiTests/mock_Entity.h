@@ -18,6 +18,7 @@ public:
    MOCK_METHOD( long long, GetVelocityY, ( ), ( const, override ) );
    MOCK_METHOD( MegaManLofi::Direction, GetDirection, ( ), ( const, override ) );
    MOCK_METHOD( const MegaManLofi::Rectangle<long long>&, GetHitBox, ( ), ( const, override ) );
+   MOCK_METHOD( MegaManLofi::MovementType, GetMovementType, ( ), ( const, override ) );
    MOCK_METHOD( bool, IsMoving, ( ), ( const, override ) );
    MOCK_METHOD( void, SetEntityType, ( MegaManLofi::EntityType ), ( override ) );
    MOCK_METHOD( void, SetEntityMetaId, ( int ), ( override ) );
@@ -26,6 +27,7 @@ public:
    MOCK_METHOD( void, SetVelocityY, ( long long ), ( override ) );
    MOCK_METHOD( void, SetDirection, ( MegaManLofi::Direction ), ( override ) );
    MOCK_METHOD( void, SetHitBox, ( MegaManLofi::Rectangle<long long> ), ( override ) );
+   MOCK_METHOD( void, SetMovementType, ( MegaManLofi::MovementType ), ( override ) );
    MOCK_METHOD( void, StopX, ( ), ( override ) );
    MOCK_METHOD( void, StopY, ( ), ( override ) );
 };

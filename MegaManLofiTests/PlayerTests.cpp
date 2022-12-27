@@ -23,6 +23,8 @@ public:
       _frameActionRegistryMock.reset( new NiceMock<mock_FrameActionRegistry> );
       _frameRateProviderMock.reset( new NiceMock<mock_FrameRateProvider> );
 
+      _playerDefs->DefaultUniqueId = 10;
+      _playerDefs->DefaultEntityMetaId = 2;
       _playerDefs->DefaultVelocityX = 0;
       _playerDefs->DefaultVelocityY = 0;
       _playerDefs->DefaultLives = 5;
@@ -56,6 +58,8 @@ TEST_F( PlayerTests, Constructor_Always_SetsDefaultPropertiesFromConfig )
    _playerDefs->DefaultHitBox = { 1, 2, 3, 4 };
    BuildPlayer();
 
+   EXPECT_EQ( _player->GetUniqueId(), 10 );
+   EXPECT_EQ( _player->GetEntityMetaId(), 2 );
    EXPECT_EQ( _player->GetArenaPosition().Left, 0 );
    EXPECT_EQ( _player->GetArenaPosition().Top, 0 );
    EXPECT_EQ( _player->GetVelocityX(), 100 );
@@ -75,13 +79,6 @@ TEST_F( PlayerTests, GetEntityType_Always_ReturnsBody )
    BuildPlayer();
 
    EXPECT_EQ( _player->GetEntityType(), EntityType::Body );
-}
-
-TEST_F( PlayerTests, GetEntityMetaId_Always_ReturnsZero )
-{
-   BuildPlayer();
-
-   EXPECT_EQ( _player->GetEntityMetaId(), 0 );
 }
 
 TEST_F( PlayerTests, Reset_Always_ResetsDefaultPropertiesFromConfig )

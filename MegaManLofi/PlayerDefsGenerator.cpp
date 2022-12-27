@@ -1,12 +1,16 @@
 #include "PlayerDefsGenerator.h"
 #include "PlayerDefs.h"
+#include "IUniqueNumberGenerator.h"
 
 using namespace std;
 using namespace MegaManLofi;
 
-shared_ptr<PlayerDefs> PlayerDefsGenerator::GeneratePlayerDefs()
+shared_ptr<PlayerDefs> PlayerDefsGenerator::GeneratePlayerDefs( const shared_ptr<IUniqueNumberGenerator> uniqueNumberGenerator )
 {
    auto playerDefs = make_shared<PlayerDefs>();
+
+   playerDefs->DefaultUniqueId = uniqueNumberGenerator->GetNext();
+   playerDefs->DefaultEntityMetaId = 0;
 
    // one character is 38,000 x 78,000 units, and our player sprites are 4 x 3 characters,
    // so this hit box should match the player's sprite size

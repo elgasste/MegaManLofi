@@ -8,6 +8,9 @@ namespace MegaManLofi
    class PlayerDefs
    {
    public:
+      int DefaultUniqueId = 0;
+      int DefaultEntityMetaId = 0;
+
       long long DefaultVelocityX = 0;
       long long DefaultVelocityY = 0;
 

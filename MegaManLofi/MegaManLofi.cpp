@@ -13,6 +13,7 @@
 #include "GameEventAggregator.h"
 #include "FrameActionRegistry.h"
 #include "GameClock.h"
+#include "UniqueNumberGenerator.h"
 #include "GameDefsGenerator.h"
 #include "GameDefs.h"
 #include "ConsoleRenderDefs.h"
@@ -93,9 +94,10 @@ void LoadAndRun( const shared_ptr<IConsoleBuffer> consoleBuffer )
    auto eventAggregator = make_shared<GameEventAggregator>();
    auto frameActionRegistry = make_shared<FrameActionRegistry>();
    auto clock = shared_ptr<GameClock>( new GameClock( highResolutionClock ) );
+   auto uniqueNumberGenerator = make_shared<UniqueNumberGenerator>();
 
    // game defs
-   auto gameDefs = GameDefsGenerator::GenerateGameDefs( clock );
+   auto gameDefs = GameDefsGenerator::GenerateGameDefs( clock, uniqueNumberGenerator );
    auto consoleRenderDefs = static_pointer_cast<ConsoleRenderDefs>( gameDefs->RenderDefs );
    auto keyboardInputDefs = static_pointer_cast<KeyboardInputDefs>( gameDefs->InputDefs );
 

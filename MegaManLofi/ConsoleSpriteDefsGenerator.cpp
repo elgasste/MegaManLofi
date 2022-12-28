@@ -95,6 +95,7 @@ shared_ptr<IConsoleSprite> ConsoleSpriteDefsGenerator::GeneratePlayerWalkingSpri
             " O  " \
             "/|-o" \
             "/|  ";
+         break;
       case Direction::Up:
       case Direction::Down:
          chars1 =
@@ -108,11 +109,11 @@ shared_ptr<IConsoleSprite> ConsoleSpriteDefsGenerator::GeneratePlayerWalkingSpri
          break;
    }
 
-   auto sprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( frameRateProvider, 0 ) );
+   auto sprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( frameRateProvider, .15 ) );
    ConsoleImage image1 = { 4, 3 };
    ConsoleImage image2 = { 4, 3 };
    for ( int i = 0; i < (int)chars1.size(); i++ ) { image1.Pixels.push_back( { chars1[i], true, ConsoleColor::Cyan, ConsoleColor::Black } ); }
-   for ( int i = 0; i < (int)chars2.size(); i++ ) { image2.Pixels.push_back( { chars1[i], true, ConsoleColor::Cyan, ConsoleColor::Black } ); }
+   for ( int i = 0; i < (int)chars2.size(); i++ ) { image2.Pixels.push_back( { chars2[i], true, ConsoleColor::Cyan, ConsoleColor::Black } ); }
    sprite->AddImage( image1 );
    sprite->AddImage( image2 );
 
@@ -196,20 +197,20 @@ shared_ptr<IConsoleSprite> ConsoleSpriteDefsGenerator::GeneratePlayerThwipInTran
 {
    auto sprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( frameRateProvider, .05 ) );
 
-   string chars0 =
+   string chars1 =
       "    " \
       "    " \
       " ## ";
-   string chars1 =
+   string chars2 =
       "    " \
       "*  *" \
       " ** ";
-   ConsoleImage image0 = { 4, 3 };
    ConsoleImage image1 = { 4, 3 };
-   for ( int i = 0; i < (int)chars0.size(); i++ ) { image0.Pixels.push_back( { chars0[i], true, ConsoleColor::Blue, ConsoleColor::Black } ); }
-   for ( int i = 0; i < (int)chars1.size(); i++ ) { image1.Pixels.push_back( { chars1[i], true, ConsoleColor::Cyan, ConsoleColor::Black } ); }
-   sprite->AddImage( image0 );
+   ConsoleImage image2 = { 4, 3 };
+   for ( int i = 0; i < (int)chars1.size(); i++ ) { image1.Pixels.push_back( { chars1[i], true, ConsoleColor::Blue, ConsoleColor::Black } ); }
+   for ( int i = 0; i < (int)chars2.size(); i++ ) { image2.Pixels.push_back( { chars2[i], true, ConsoleColor::Cyan, ConsoleColor::Black } ); }
    sprite->AddImage( image1 );
+   sprite->AddImage( image2 );
 
    return sprite;
 }
@@ -218,20 +219,20 @@ shared_ptr<IConsoleSprite> ConsoleSpriteDefsGenerator::GeneratePlayerThwipOutTra
 {
    auto sprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( frameRateProvider, .05 ) );
 
-   string chars0 =
+   string chars1 =
       "    " \
       "*  *" \
       " ** ";
-   string chars1 =
+   string chars2 =
       "    " \
       "    " \
       " ## ";
-   ConsoleImage image0 = { 4, 3 };
    ConsoleImage image1 = { 4, 3 };
-   for ( int i = 0; i < (int)chars0.size(); i++ ) { image0.Pixels.push_back( { chars0[i], true, ConsoleColor::Cyan, ConsoleColor::Black } ); }
-   for ( int i = 0; i < (int)chars1.size(); i++ ) { image1.Pixels.push_back( { chars1[i], true, ConsoleColor::Blue, ConsoleColor::Black } ); }
-   sprite->AddImage( image0 );
+   ConsoleImage image2 = { 4, 3 };
+   for ( int i = 0; i < (int)chars1.size(); i++ ) { image1.Pixels.push_back( { chars1[i], true, ConsoleColor::Cyan, ConsoleColor::Black } ); }
+   for ( int i = 0; i < (int)chars2.size(); i++ ) { image2.Pixels.push_back( { chars2[i], true, ConsoleColor::Blue, ConsoleColor::Black } ); }
    sprite->AddImage( image1 );
+   sprite->AddImage( image2 );
 
    return sprite;
 }
@@ -240,13 +241,13 @@ shared_ptr<IConsoleSprite> ConsoleSpriteDefsGenerator::GeneratePlayerExplosionPa
 {
    auto particleSprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( frameRateProvider, .25 ) );
 
-   ConsoleImage image0 = { 1, 1 };
-   image0.Pixels.push_back( { 'O', true, ConsoleColor::Blue, ConsoleColor::Black } );
-   particleSprite->AddImage( image0 );
-
    ConsoleImage image1 = { 1, 1 };
-   image1.Pixels.push_back( { 'o', true, ConsoleColor::DarkBlue, ConsoleColor::Black } );
+   image1.Pixels.push_back( { 'O', true, ConsoleColor::Blue, ConsoleColor::Black } );
    particleSprite->AddImage( image1 );
+
+   ConsoleImage image2 = { 1, 1 };
+   image2.Pixels.push_back( { 'o', true, ConsoleColor::DarkBlue, ConsoleColor::Black } );
+   particleSprite->AddImage( image2 );
 
    return particleSprite;
 }
@@ -272,13 +273,13 @@ shared_ptr<IConsoleSprite> ConsoleSpriteDefsGenerator::GenerateMenuCaratSprite( 
 {
    auto sprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( frameRateProvider, .25 ) );
 
-   ConsoleImage image0 = { 1, 1 };
-   image0.Pixels.push_back( { '>', true, ConsoleColor::White, ConsoleColor::Black } );
-   sprite->AddImage( image0 );
-
    ConsoleImage image1 = { 1, 1 };
-   image1.Pixels.push_back( { '>', true, ConsoleColor::DarkGrey, ConsoleColor::Black } );
+   image1.Pixels.push_back( { '>', true, ConsoleColor::White, ConsoleColor::Black } );
    sprite->AddImage( image1 );
+
+   ConsoleImage image2 = { 1, 1 };
+   image2.Pixels.push_back( { '>', true, ConsoleColor::DarkGrey, ConsoleColor::Black } );
+   sprite->AddImage( image2 );
 
    return sprite;
 }

@@ -252,8 +252,8 @@ void PlayingStateConsoleRenderer::DrawEntity( const shared_ptr<IReadOnlyEntity> 
    auto sprite = _spriteRepository->GetSprite( entity->GetUniqueId() );
    sprite->SetDirection( entity->GetDirection() );
    sprite->SetMovementType( entity->GetMovementType() );
-   auto left = (short)( ( entity->GetArenaPositionLeft() - _viewportQuadUnits.Left ) / _renderDefs->ArenaCharWidth );
-   auto top = (short)( ( entity->GetArenaPositionTop() - _viewportQuadUnits.Top ) / _renderDefs->ArenaCharHeight );
+   auto left = (short)( ( entity->GetArenaPositionLeft() - _viewportQuadUnits.Left ) / _renderDefs->ArenaCharWidth ) + _viewportOffsetChars.Left;
+   auto top = (short)( ( entity->GetArenaPositionTop() - _viewportQuadUnits.Top ) / _renderDefs->ArenaCharHeight ) + _viewportOffsetChars.Top;
 
    _consoleBuffer->Draw( left, top, sprite );
    sprite->Tick();

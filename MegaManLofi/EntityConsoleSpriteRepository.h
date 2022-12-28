@@ -8,6 +8,7 @@ namespace MegaManLofi
 {
    class IGameEventAggregator;
    class IReadOnlyArena;
+   class IEntityConsoleSpriteCopier;
    class ConsoleSpriteDefs;
 
    class EntityConsoleSpriteRepository : public IEntityConsoleSpriteRepository
@@ -15,6 +16,7 @@ namespace MegaManLofi
    public:
       EntityConsoleSpriteRepository( const std::shared_ptr<IGameEventAggregator> eventAggregator,
                                      const std::shared_ptr<IReadOnlyArena> arena,
+                                     const std::shared_ptr<IEntityConsoleSpriteCopier> spriteCopier,
                                      const std::shared_ptr<ConsoleSpriteDefs> spriteDefs );
 
       const std::shared_ptr<IEntityConsoleSprite> GetSprite( int uniqueId ) const override;
@@ -26,6 +28,7 @@ namespace MegaManLofi
 
    private:
       const std::shared_ptr<IReadOnlyArena> _arena;
+      const std::shared_ptr<IEntityConsoleSpriteCopier> _spriteCopier;
       const std::shared_ptr<ConsoleSpriteDefs> _spriteDefs;
 
       std::map<int, std::shared_ptr<IEntityConsoleSprite>> _spriteMap;

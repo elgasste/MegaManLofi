@@ -3,6 +3,7 @@
 #include "EntityConsoleSpriteRepository.h"
 #include "IGameEventAggregator.h"
 #include "IReadOnlyArena.h"
+#include "IEntityConsoleSpriteCopier.h"
 #include "ConsoleSpriteDefs.h"
 #include "IReadOnlyEntity.h"
 
@@ -11,8 +12,10 @@ using namespace MegaManLofi;
 
 EntityConsoleSpriteRepository::EntityConsoleSpriteRepository( const shared_ptr<IGameEventAggregator> eventAggregator,
                                                               const shared_ptr<IReadOnlyArena> arena,
+                                                              const shared_ptr<IEntityConsoleSpriteCopier> spriteCopier,
                                                               const shared_ptr<ConsoleSpriteDefs> spriteDefs ) :
    _arena( arena ),
+   _spriteCopier( spriteCopier ),
    _spriteDefs( spriteDefs )
 {
    eventAggregator->RegisterEventHandler( GameEvent::ArenaEntitySpawned, std::bind( &EntityConsoleSpriteRepository::HandleEntitySpawned, this ) );
@@ -22,29 +25,26 @@ EntityConsoleSpriteRepository::EntityConsoleSpriteRepository( const shared_ptr<I
 
 const shared_ptr<IEntityConsoleSprite> EntityConsoleSpriteRepository::GetSprite( int uniqueId ) const
 {
-   // TODO: unit tests
    return _spriteMap.at( uniqueId );
 }
 
 void EntityConsoleSpriteRepository::HandleEntitySpawned()
 {
-   // TODO: unit tests
    for ( int i = 0; i < _arena->GetEntityCount(); i++ )
    {
       auto entity = _arena->GetEntity( i );
+      auto uniqueId = entity->GetUniqueId();
 
-      if ( _spriteMap.count( entity->GetUniqueId() ) == 0 )
+      if ( _spriteMap.count( uniqueId ) == 0 )
       {
          auto sprite = _spriteDefs->EntitySpriteMap[entity->GetEntityMetaId()];
-
-         // TODO: COPY this sprite to our map
+         _spriteMap[uniqueId] = _spriteCopier->MakeCopy( sprite );
       }
    }
 }
 
 void EntityConsoleSpriteRepository::HandleEntityDeSpawned()
 {
-   // TODO: unit tests
    vector<int> idsToRemove;
 
    for ( auto [uniqueId, entity] : _spriteMap )
@@ -63,6 +63,5 @@ void EntityConsoleSpriteRepository::HandleEntityDeSpawned()
 
 void EntityConsoleSpriteRepository::HandleEntitiesCleared()
 {
-   // TODO: unit tests
    _spriteMap.clear();
 }

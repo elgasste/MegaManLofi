@@ -90,6 +90,9 @@
     <ClCompile Include="EntityConsoleSpriteTests.cpp">
       <Filter>Tests\Render</Filter>
     </ClCompile>
+    <ClCompile Include="EntityConsoleSpriteRepositoryTests.cpp">
+      <Filter>Tests\Render</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="mock_GameEventAggregator.h">

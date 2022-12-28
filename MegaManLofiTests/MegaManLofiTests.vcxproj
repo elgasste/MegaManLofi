@@ -79,6 +79,7 @@
     <ClCompile Include="BasicEntityTests.cpp" />
     <ClCompile Include="ConsoleAnimationRepositoryTests.cpp" />
     <ClCompile Include="ConsoleSpriteTests.cpp" />
+    <ClCompile Include="EntityConsoleSpriteRepositoryTests.cpp" />
     <ClCompile Include="EntityConsoleSpriteTests.cpp" />
     <ClCompile Include="EntityFactoryTests.cpp" />
     <ClCompile Include="FrameActionRegistryTests.cpp" />

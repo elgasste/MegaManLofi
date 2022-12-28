@@ -49,9 +49,10 @@ void EntityConsoleSpriteRepository::HandleEntityDeSpawned()
 
    for ( auto [uniqueId, entity] : _spriteMap )
    {
-      // TODO:
-      // 1) ask the arena if it has this entity
-      // 2) if it doesn't, add the ID to the list of IDs to remove
+      if ( !_arena->HasEntity( uniqueId ) )
+      {
+         idsToRemove.push_back( uniqueId );
+      }
    }
 
    for ( auto id : idsToRemove )

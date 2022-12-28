@@ -2,14 +2,17 @@
 
 #include "Arena.h"
 #include "ArenaDefs.h"
+#include "IGameEventAggregator.h"
 #include "IPlayer.h"
 #include "ArenaTile.h"
 
 using namespace std;
 using namespace MegaManLofi;
 
-Arena::Arena( const shared_ptr<ArenaDefs> arenaDefs ) :
+Arena::Arena( const shared_ptr<ArenaDefs> arenaDefs,
+              const shared_ptr<IGameEventAggregator> eventAggregator ) :
    _arenaDefs( arenaDefs ),
+   _eventAggregator( eventAggregator ),
    _player( nullptr ),
    _tiles( arenaDefs->DefaultTiles ),
    _width( arenaDefs->DefaultTileWidth * arenaDefs->DefaultHorizontalTiles ),

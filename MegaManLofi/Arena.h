@@ -7,11 +7,13 @@
 namespace MegaManLofi
 {
    class ArenaDefs;
+   class IGameEventAggregator;
 
    class Arena : public IArena
    {
    public:
-      Arena( const std::shared_ptr<ArenaDefs> arenaDefs );
+      Arena( const std::shared_ptr<ArenaDefs> arenaDefs,
+             const std::shared_ptr<IGameEventAggregator> eventAggregator );
 
       void Reset();
 
@@ -41,6 +43,7 @@ namespace MegaManLofi
 
    private:
       const std::shared_ptr<ArenaDefs> _arenaDefs;
+      const std::shared_ptr<IGameEventAggregator> _eventAggregator;
 
       std::shared_ptr<IPlayer> _player;
 

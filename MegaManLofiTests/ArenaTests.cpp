@@ -6,6 +6,7 @@
 #include <MegaManLofi/ArenaDefs.h>
 #include <MegaManLofi/FrameAction.h>
 
+#include "mock_GameEventAggregator.h"
 #include "mock_Player.h"
 #include "mock_FrameActionRegistry.h"
 #include "mock_FrameRateProvider.h"
@@ -21,6 +22,7 @@ public:
    void SetUp() override
    {
       _arenaDefs.reset( new ArenaDefs );
+      _eventAggregatorMock.reset( new NiceMock<mock_GameEventAggregator> );
       _playerMock.reset( new NiceMock<mock_Player> );
 
       _arenaDefs->DefaultTileWidth = 2;
@@ -37,12 +39,13 @@ public:
 
    void BuildArena()
    {
-      _arena.reset( new Arena( _arenaDefs ) );
+      _arena.reset( new Arena( _arenaDefs, _eventAggregatorMock ) );
       _arena->SetPlayer( _playerMock );
    }
 
 protected:
    shared_ptr<ArenaDefs> _arenaDefs;
+   shared_ptr<mock_GameEventAggregator> _eventAggregatorMock;
    shared_ptr<mock_Player> _playerMock;
 
    shared_ptr<Arena> _arena;

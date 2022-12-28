@@ -10,5 +10,6 @@ namespace MegaManLofi
    {
    public:
       virtual const std::shared_ptr<IEntityConsoleSprite> GetSprite( int uniqueId ) const = 0;
+      virtual int GetSpriteCount() const = 0;
    };
 }

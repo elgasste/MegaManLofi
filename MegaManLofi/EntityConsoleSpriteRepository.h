@@ -20,6 +20,7 @@ namespace MegaManLofi
                                      const std::shared_ptr<ConsoleSpriteDefs> spriteDefs );
 
       const std::shared_ptr<IEntityConsoleSprite> GetSprite( int uniqueId ) const override;
+      int GetSpriteCount() const override { return (int)_spriteMap.size(); }
 
    private:
       void HandleEntitySpawned();

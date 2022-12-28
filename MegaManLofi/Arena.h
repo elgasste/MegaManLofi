@@ -35,6 +35,8 @@ namespace MegaManLofi
 
       const ArenaTile& GetTile( long long index ) const override { return _tiles[index]; }
 
+      bool HasEntity( int uniqueId ) const override;
+
       void AddEntity( const std::shared_ptr<IEntity> entity ) override;
       void RemoveEntity( const std::shared_ptr<IEntity> entity ) override;
       const std::shared_ptr<IReadOnlyEntity> GetEntity( int index ) const override;

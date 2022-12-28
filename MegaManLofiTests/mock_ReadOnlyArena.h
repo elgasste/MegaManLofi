@@ -18,4 +18,5 @@ public:
    MOCK_METHOD( int, GetHorizontalTiles, ( ), ( const, override ) );
    MOCK_METHOD( int, GetVerticalTiles, ( ), ( const, override ) );
    MOCK_METHOD( const MegaManLofi::ArenaTile&, GetTile, ( long long ), ( const, override ) );
+   MOCK_METHOD( bool, HasEntity, ( int ), ( const, override ) );
 };

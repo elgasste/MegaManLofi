@@ -106,6 +106,33 @@ TEST_F( ArenaTests, Reset_Always_RaisesArenaEntitiesClearedEvent )
    _arena->Reset();
 }
 
+TEST_F( ArenaTests, HasEntity_DoesNotHaveEntity_ReturnsFalse )
+{
+   BuildArena();
+   auto entityMock1 = make_shared<mock_Entity>();
+   auto entityMock2 = make_shared<mock_Entity>();
+   ON_CALL( *entityMock1, GetUniqueId() ).WillByDefault( Return( 3 ) );
+   ON_CALL( *entityMock2, GetUniqueId() ).WillByDefault( Return( 7 ) );
+
+   _arena->AddEntity( entityMock1 );
+
+   EXPECT_FALSE( _arena->HasEntity( 7 ) );
+}
+
+TEST_F( ArenaTests, HasEntity_HasEntity_ReturnsTrue )
+{
+   BuildArena();
+   auto entityMock1 = make_shared<mock_Entity>();
+   auto entityMock2 = make_shared<mock_Entity>();
+   ON_CALL( *entityMock1, GetUniqueId() ).WillByDefault( Return( 3 ) );
+   ON_CALL( *entityMock2, GetUniqueId() ).WillByDefault( Return( 7 ) );
+
+   _arena->AddEntity( entityMock1 );
+   _arena->AddEntity( entityMock2 );
+
+   EXPECT_TRUE( _arena->HasEntity( 7 ) );
+}
+
 TEST_F( ArenaTests, AddEntity_EntityIsNotInList_AddsEntity )
 {
    BuildArena();

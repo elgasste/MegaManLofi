@@ -53,6 +53,16 @@ const shared_ptr<IReadOnlyEntity> Arena::GetEntity( int index ) const
    return _entities[index];
 }
 
+bool Arena::HasEntity( int uniqueId ) const
+{
+   auto it = find_if( _entities.begin(), _entities.end(), [&uniqueId]( const shared_ptr<IEntity>& entity )
+   {
+      return entity->GetUniqueId() == uniqueId;
+   } );
+
+   return it != _entities.end();
+}
+
 void Arena::AddEntity( const std::shared_ptr<IEntity> entity )
 {
    if ( find( _entities.begin(), _entities.end(), entity ) == _entities.end() )

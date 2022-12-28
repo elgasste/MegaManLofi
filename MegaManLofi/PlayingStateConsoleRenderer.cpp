@@ -3,19 +3,21 @@
 #include "PlayingStateConsoleRenderer.h"
 #include "IConsoleBuffer.h"
 #include "ConsoleRenderDefs.h"
+#include "ConsoleSpriteDefs.h"
 #include "IGameInfoProvider.h"
 #include "IPlayerInfoProvider.h"
 #include "IArenaInfoProvider.h"
 #include "IGameEventAggregator.h"
 #include "IFrameRateProvider.h"
 #include "IConsoleAnimationProvider.h"
+#include "IEntityConsoleSpriteRepository.h"
 #include "IConsoleAnimation.h"
 #include "IReadOnlyPlayer.h"
 #include "IReadOnlyEntity.h"
 #include "IReadOnlyArena.h"
 #include "Direction.h"
-#include "GameEvent.h"
 #include "IConsoleSprite.h"
+#include "IEntityConsoleSprite.h"
 
 using namespace std;
 using namespace MegaManLofi;
@@ -27,7 +29,8 @@ PlayingStateConsoleRenderer::PlayingStateConsoleRenderer( const shared_ptr<ICons
                                                           const shared_ptr<IArenaInfoProvider> arenaInfoProvider,
                                                           const shared_ptr<IGameEventAggregator> eventAggregator,
                                                           const shared_ptr<IFrameRateProvider> frameRateProvider,
-                                                          const shared_ptr<IConsoleAnimationProvider> animationProvider ) :
+                                                          const shared_ptr<IConsoleAnimationProvider> animationProvider,
+                                                          const shared_ptr<IEntityConsoleSpriteRepository> spriteRepository ) :
    _consoleBuffer( consoleBuffer ),
    _renderDefs( renderDefs ),
    _gameInfoProvider( gameInfoProvider ),
@@ -36,6 +39,7 @@ PlayingStateConsoleRenderer::PlayingStateConsoleRenderer( const shared_ptr<ICons
    _eventAggregator( eventAggregator ),
    _frameRateProvider( frameRateProvider ),
    _animationProvider( animationProvider ),
+   _spriteRepository( spriteRepository ),
    _viewportQuadUnits( { 0, 0, 0, 0 } ),
    _viewportRectChars( { 0, 0, 0, 0 } ),
    _viewportOffsetChars( { 0, 0 } ),
@@ -172,7 +176,7 @@ void PlayingStateConsoleRenderer::DrawStageStartAnimation()
       Coordinate<short> thwipStartPosition =
       {
          _viewportOffsetChars.Left + _playerViewportChars.Left,
-         _viewportOffsetChars.Top - _renderDefs->PlayerThwipInTransitionSprite->GetHeight()
+         _viewportOffsetChars.Top - _renderDefs->SpriteDefs->PlayerThwipInTransitionSprite->GetHeight()
       };
       Coordinate<short> thwipEndPosition =
       {
@@ -227,9 +231,8 @@ void PlayingStateConsoleRenderer::DrawArenaSprites()
 
 void PlayingStateConsoleRenderer::DrawPlayer()
 {
-   auto sprite = GetPlayerSprite();
-   _consoleBuffer->Draw( _playerViewportChars.Left + _viewportOffsetChars.Left, _playerViewportChars.Top + _viewportOffsetChars.Top, sprite );
-   sprite->Tick();
+   auto player = _playerInfoProvider->GetPlayerEntity();
+   DrawEntity( player );
 }
 
 void PlayingStateConsoleRenderer::DrawNonPlayerEntities()
@@ -237,17 +240,23 @@ void PlayingStateConsoleRenderer::DrawNonPlayerEntities()
    for ( int i = 0; i < _arena->GetEntityCount(); i++ )
    {
       auto entity = _arena->GetEntity( i );
-      if ( entity == _playerInfoProvider->GetPlayerEntity() )
+      if ( entity != _playerInfoProvider->GetPlayerEntity() )
       {
-         continue;
+         DrawEntity( entity );
       }
-
-      auto sprite = _renderDefs->EntitySpriteMap[entity->GetEntityMetaId()];
-      auto left = (short)( ( entity->GetArenaPositionLeft() - _viewportQuadUnits.Left ) / _renderDefs->ArenaCharWidth );
-      auto top = (short)( ( entity->GetArenaPositionTop() - _viewportQuadUnits.Top ) / _renderDefs->ArenaCharHeight );
-
-      _consoleBuffer->Draw( left, top, sprite );
    }
+}
+
+void PlayingStateConsoleRenderer::DrawEntity( const shared_ptr<IReadOnlyEntity> entity )
+{
+   auto sprite = _spriteRepository->GetSprite( entity->GetUniqueId() );
+   sprite->SetDirection( entity->GetDirection() );
+   sprite->SetMovementType( entity->GetMovementType() );
+   auto left = (short)( ( entity->GetArenaPositionLeft() - _viewportQuadUnits.Left ) / _renderDefs->ArenaCharWidth ) + _viewportOffsetChars.Left;
+   auto top = (short)( ( entity->GetArenaPositionTop() - _viewportQuadUnits.Top ) / _renderDefs->ArenaCharHeight ) + _viewportOffsetChars.Top;
+
+   _consoleBuffer->Draw( left, top, sprite );
+   sprite->Tick();
 }
 
 void PlayingStateConsoleRenderer::DrawStatusBar()
@@ -262,20 +271,4 @@ void PlayingStateConsoleRenderer::DrawPauseOverlay()
    auto top = ( _viewportRectChars.Height / 2 ) - ( _renderDefs->PauseOverlayImage.Height / 2 );
 
    _consoleBuffer->Draw( left + _viewportOffsetChars.Left, top + _viewportOffsetChars.Top, _renderDefs->PauseOverlayImage );
-}
-
-const shared_ptr<IConsoleSprite> PlayingStateConsoleRenderer::GetPlayerSprite() const
-{
-   auto player = _playerInfoProvider->GetPlayer();
-   auto playerEntity = _playerInfoProvider->GetPlayerEntity();
-   auto direction = playerEntity->GetDirection();
-
-   if ( player->IsStanding() )
-   {
-      return playerEntity->IsMoving() ? _renderDefs->PlayerWalkingSpriteMap[direction] : _renderDefs->PlayerStandingSpriteMap[direction];
-   }
-   else
-   {
-      return _renderDefs->PlayerFallingSpriteMap[direction];
-   }
 }

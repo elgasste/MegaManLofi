@@ -30,5 +30,7 @@ namespace MegaManLofi
       virtual const Quad<long long>& GetActiveRegion() const = 0;
 
       virtual const ArenaTile& GetTile( long long index ) const = 0;
+
+      virtual bool HasEntity( int uniqueId ) const = 0;
    };
 }

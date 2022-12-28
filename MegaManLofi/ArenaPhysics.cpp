@@ -6,7 +6,6 @@
 #include "IPlayer.h"
 #include "IArena.h"
 #include "FrameAction.h"
-#include "GameEvent.h"
 #include "BasicEntity.h"
 
 using namespace std;
@@ -39,11 +38,7 @@ void ArenaPhysics::Tick()
 {
    MoveEntities();
    UpdateActiveRegion();
-
-   if ( !DetectTileDeath() )
-   {
-      DetectPlayerStanding();
-   }
+   DetectTileDeath();
 }
 
 void ArenaPhysics::UpdateEntityOccupyingTileIndices( const shared_ptr<IEntity> entity )
@@ -78,6 +73,7 @@ void ArenaPhysics::MoveEntities()
       auto entity = _arena->GetMutableEntity( i );
       MoveEntity( entity );
       UpdateEntityOccupyingTileIndices( entity );
+      DetectEntityMovementType( entity );
    }
 }
 
@@ -124,7 +120,7 @@ void ArenaPhysics::DetectEntityTileCollisionX( const std::shared_ptr<IEntity> en
             // we've collided with the left edge of the arena
             newPositionLeft = 0;
             entity->StopX();
-            HandleEntityEnvironmentCollision( entity );
+            DetectEntityEnvironmentCollision( entity );
             break;
          }
          else if ( newPositionLeft < leftOccupyingTileLeftEdge )
@@ -135,7 +131,7 @@ void ArenaPhysics::DetectEntityTileCollisionX( const std::shared_ptr<IEntity> en
             {
                newPositionLeft = leftOccupyingTileLeftEdge;
                entity->StopX();
-               HandleEntityEnvironmentCollision( entity );
+               DetectEntityEnvironmentCollision( entity );
             }
          }
       }
@@ -150,7 +146,7 @@ void ArenaPhysics::DetectEntityTileCollisionX( const std::shared_ptr<IEntity> en
             // we've collided with the right edge of the arena
             newPositionLeft = arenaWidth - hitBox.Width;
             entity->StopX();
-            HandleEntityEnvironmentCollision( entity );
+            DetectEntityEnvironmentCollision( entity );
             break;
          }
          else if ( newPositionRight > rightOccupyingTileRightEdge )
@@ -161,7 +157,7 @@ void ArenaPhysics::DetectEntityTileCollisionX( const std::shared_ptr<IEntity> en
             {
                newPositionLeft = rightOccupyingTileRightEdge - hitBox.Width;
                entity->StopX();
-               HandleEntityEnvironmentCollision( entity );
+               DetectEntityEnvironmentCollision( entity );
             }
          }
       }
@@ -186,7 +182,7 @@ void ArenaPhysics::DetectEntityTileCollisionY( const shared_ptr<IEntity> entity,
             // we've collided with the top edge of the arena
             newPositionTop = 0;
             entity->StopY();
-            HandleEntityEnvironmentCollision( entity );
+            DetectEntityEnvironmentCollision( entity );
             break;
          }
          else if ( newPositionTop < topOccupyingTileTopEdge )
@@ -197,7 +193,7 @@ void ArenaPhysics::DetectEntityTileCollisionY( const shared_ptr<IEntity> entity,
             {
                newPositionTop = topOccupyingTileTopEdge;
                entity->StopY();
-               HandleEntityEnvironmentCollision( entity );
+               DetectEntityEnvironmentCollision( entity );
             }
          }
       }
@@ -215,7 +211,7 @@ void ArenaPhysics::DetectEntityTileCollisionY( const shared_ptr<IEntity> entity,
             {
                _eventAggregator->RaiseEvent( GameEvent::Pitfall );
             }
-            HandleEntityEnvironmentCollision( entity );
+            DetectEntityEnvironmentCollision( entity );
             break;
          }
          else if ( newPositionBottom > bottomOccupyingTileBottomEdge )
@@ -226,14 +222,14 @@ void ArenaPhysics::DetectEntityTileCollisionY( const shared_ptr<IEntity> entity,
             {
                newPositionTop = bottomOccupyingTileBottomEdge - hitBox.Height;
                entity->StopY();
-               HandleEntityEnvironmentCollision( entity );
+               DetectEntityEnvironmentCollision( entity );
             }
          }
       }
    }
 }
 
-void ArenaPhysics::HandleEntityEnvironmentCollision( const shared_ptr<IEntity> entity )
+void ArenaPhysics::DetectEntityEnvironmentCollision( const shared_ptr<IEntity> entity )
 {
    if ( entity->GetEntityType() == EntityType::Projectile )
    {
@@ -273,36 +269,33 @@ bool ArenaPhysics::DetectTileDeath() const
    return false;
 }
 
-void ArenaPhysics::DetectPlayerStanding()
+void ArenaPhysics::DetectEntityMovementType( const shared_ptr<IEntity> entity ) const
 {
-   auto player = _arena->GetMutablePlayer();
-   const auto& hitBox = player->GetHitBox();
-   auto positionTop = player->GetArenaPositionTop();
+   const auto& hitBox = entity->GetHitBox();
+   auto positionTop = entity->GetArenaPositionTop();
    auto hitBoxBottom = positionTop + hitBox.Top + hitBox.Height;
 
-   player->SetIsStanding( false );
+   bool isOnGround = false;
+   const auto& occupyingTileIndices = _entityOccupyingTileIndicesMap.at( entity );
 
-   if ( hitBoxBottom >= _arena->GetHeight() )
-   {
-      // TODO: what's this? I don't think it's possible to get into this state,
-      // but wouldn't it mean a pitfall?
-      player->SetIsStanding( true );
-      return;
-   }
-   else if ( ( hitBoxBottom % _arena->GetTileHeight() ) != 0 )
-   {
-      return;
-   }
-
-   const auto& occupyingTileIndices = _entityOccupyingTileIndicesMap[player];
    for ( long long x = occupyingTileIndices.Left; x <= occupyingTileIndices.Right; x++ )
    {
       const auto& nextTileDown = _arena->GetTile( ( ( occupyingTileIndices.Bottom + 1 ) * _arena->GetHorizontalTiles() ) + x );
 
       if ( !nextTileDown.DownPassable )
       {
-         player->SetIsStanding( true );
-         return;
+         isOnGround = true;
+         break;
       }
+   }
+
+   if ( isOnGround )
+   {
+      auto type = ( entity->GetVelocityX() == 0 ) ? MovementType::Standing : MovementType::Walking;
+      entity->SetMovementType( type );
+   }
+   else
+   {
+      entity->SetMovementType( MovementType::Airborne );
    }
 }

@@ -43,6 +43,9 @@
     <ClInclude Include="mock_ConsoleAnimationProvider.h" />
     <ClInclude Include="mock_ConsoleSprite.h" />
     <ClInclude Include="mock_Entity.h" />
+    <ClInclude Include="mock_EntityConsoleSprite.h" />
+    <ClInclude Include="mock_EntityConsoleSpriteCopier.h" />
+    <ClInclude Include="mock_EntityConsoleSpriteRepository.h" />
     <ClInclude Include="mock_FrameActionRegistry.h" />
     <ClInclude Include="mock_FrameRateProvider.h" />
     <ClInclude Include="mock_Game.h" />
@@ -68,6 +71,7 @@
     <ClInclude Include="mock_ScreenBuffer.h" />
     <ClInclude Include="mock_Sleeper.h" />
     <ClInclude Include="mock_Thread.h" />
+    <ClInclude Include="mock_UniqueNumberGenerator.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ArenaPhysicsTests.cpp" />
@@ -75,6 +79,8 @@
     <ClCompile Include="BasicEntityTests.cpp" />
     <ClCompile Include="ConsoleAnimationRepositoryTests.cpp" />
     <ClCompile Include="ConsoleSpriteTests.cpp" />
+    <ClCompile Include="EntityConsoleSpriteRepositoryTests.cpp" />
+    <ClCompile Include="EntityConsoleSpriteTests.cpp" />
     <ClCompile Include="EntityFactoryTests.cpp" />
     <ClCompile Include="FrameActionRegistryTests.cpp" />
     <ClCompile Include="GameClockTests.cpp" />
@@ -97,6 +103,7 @@
     <ClCompile Include="RectangleUtilitiesTests.cpp" />
     <ClCompile Include="StageStartedConsoleAnimationTests.cpp" />
     <ClCompile Include="TitleStateInputHandlerTests.cpp" />
+    <ClCompile Include="UniqueNumberGeneratorTests.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MegaManLofi\MegaManLofi.vcxproj">

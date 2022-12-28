@@ -2,17 +2,22 @@
 
 #include "Rectangle.h"
 #include "Direction.h"
+#include "MovementType.h"
 
 namespace MegaManLofi
 {
    class PlayerDefs
    {
    public:
+      int DefaultUniqueId = 0;
+      int DefaultEntityMetaId = 0;
+
       long long DefaultVelocityX = 0;
       long long DefaultVelocityY = 0;
 
       unsigned int DefaultLives = 0;
       Direction DefaultDirection = (Direction)0;
       Rectangle<long long> DefaultHitBox = { 0, 0, 0, 0 };
+      MovementType DefaultMovementType = (MovementType)0;
    };
 }

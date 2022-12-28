@@ -12,7 +12,6 @@
 #include "IConsoleAnimation.h"
 #include "IConsoleSprite.h"
 #include "ConsoleColor.h"
-#include "GameEvent.h"
 
 using namespace std;
 using namespace MegaManLofi;

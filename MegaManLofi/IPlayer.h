@@ -13,7 +13,6 @@ namespace MegaManLofi
       virtual void ResetPhysics() = 0;
 
       virtual void SetLivesRemaining( unsigned int lives ) = 0;
-      virtual void SetIsStanding( bool isStanding ) = 0;
       virtual void SetIsJumping( bool isJumping ) = 0;
    };
 }

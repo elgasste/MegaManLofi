@@ -3,6 +3,7 @@
 #include "PlayerThwipOutConsoleAnimation.h"
 #include "IConsoleBuffer.h"
 #include "ConsoleRenderDefs.h"
+#include "ConsoleSpriteDefs.h"
 #include "IFrameRateProvider.h"
 #include "IConsoleSprite.h"
 
@@ -47,22 +48,23 @@ void PlayerThwipOutConsoleAnimation::Start( optional<Coordinate<short>> startPos
    _postThwipping = false;
    _elapsedSeconds = 0;
 
-   _renderDefs->PlayerThwipOutTransitionSprite->Reset();
-   _renderDefs->PlayerThwipSprite->Reset();
+   _renderDefs->SpriteDefs->PlayerThwipOutTransitionSprite->Reset();
+   _renderDefs->SpriteDefs->PlayerThwipSprite->Reset();
 }
 
 void PlayerThwipOutConsoleAnimation::Draw()
 {
+   auto transitionSprite = _renderDefs->SpriteDefs->PlayerThwipOutTransitionSprite;
+
    if ( _preThwipping )
    {
-      _consoleBuffer->Draw( _startPositionChars.Left, _startPositionChars.Top, _renderDefs->PlayerThwipOutTransitionSprite );
+      _consoleBuffer->Draw( _startPositionChars.Left, _startPositionChars.Top, transitionSprite );
    }
    else if ( !_postThwipping )
    {
-      auto leftOffset = short( ( _renderDefs->PlayerThwipOutTransitionSprite->GetWidth() - _renderDefs->PlayerThwipSprite->GetWidth() ) / 2 );
-      _consoleBuffer->Draw( _startPositionChars.Left + leftOffset,
-                            (short)( _currentTopPositionUnits / _renderDefs->ArenaCharHeight ),
-                            _renderDefs->PlayerThwipSprite );
+      auto thwipSprite = _renderDefs->SpriteDefs->PlayerThwipSprite;
+      auto leftOffset = short( ( transitionSprite->GetWidth() - thwipSprite->GetWidth() ) / 2 );
+      _consoleBuffer->Draw( _startPositionChars.Left + leftOffset, (short)( _currentTopPositionUnits / _renderDefs->ArenaCharHeight ), thwipSprite );
    }
 }
 
@@ -77,9 +79,10 @@ void PlayerThwipOutConsoleAnimation::Tick()
 
    if ( _preThwipping )
    {
-      _renderDefs->PlayerThwipOutTransitionSprite->Tick();
+      auto transitionSprite = _renderDefs->SpriteDefs->PlayerThwipOutTransitionSprite;
+      transitionSprite->Tick();
 
-      if ( _elapsedSeconds >= _renderDefs->PlayerThwipOutTransitionSprite->GetTotalTraversalSeconds() )
+      if ( _elapsedSeconds >= transitionSprite->GetTotalTraversalSeconds() )
       {
          _preThwipping = false;
          _elapsedSeconds = 0;
@@ -94,7 +97,7 @@ void PlayerThwipOutConsoleAnimation::Tick()
    }
    else
    {
-      _renderDefs->PlayerThwipSprite->Tick();
+      _renderDefs->SpriteDefs->PlayerThwipSprite->Tick();
       auto topDelta = (long long)( _renderDefs->PlayerThwipVelocity * _frameRateProvider->GetFrameSeconds() );
 
       if ( _endPositionChars.Top < _startPositionChars.Top )

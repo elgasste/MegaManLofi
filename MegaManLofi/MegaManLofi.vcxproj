@@ -151,7 +151,7 @@
   <ItemGroup>
     <ClCompile Include="Arena.cpp" />
     <ClCompile Include="ArenaDefsGenerator.cpp" />
-    <ClCompile Include="ArenaSpriteGenerator.cpp" />
+    <ClCompile Include="ArenaImageGenerator.cpp" />
     <ClCompile Include="ArenaTileGenerator.cpp" />
     <ClCompile Include="ArenaPhysics.cpp" />
     <ClCompile Include="BasicEntity.cpp" />
@@ -159,8 +159,12 @@
     <ClCompile Include="ConsoleBuffer.cpp" />
     <ClCompile Include="ConsoleRenderDefsGenerator.cpp" />
     <ClCompile Include="ConsoleSprite.cpp" />
+    <ClCompile Include="ConsoleSpriteDefsGenerator.cpp" />
+    <ClCompile Include="EntityConsoleSprite.cpp" />
+    <ClCompile Include="EntityConsoleSpriteCopier.cpp" />
     <ClCompile Include="EntityDefsGenerator.cpp" />
     <ClCompile Include="EntityFactory.cpp" />
+    <ClCompile Include="EntityConsoleSpriteRepository.cpp" />
     <ClCompile Include="FrameActionRegistry.cpp" />
     <ClCompile Include="GameDefsGenerator.cpp" />
     <ClCompile Include="GameOverStateConsoleRenderer.cpp" />
@@ -178,13 +182,12 @@
     <ClCompile Include="KeyboardInputReader.cpp" />
     <ClCompile Include="KeyboardWrapper.cpp" />
     <ClCompile Include="MenuRepository.cpp" />
-    <ClCompile Include="MenuSpriteGenerator.cpp" />
+    <ClCompile Include="MenuImageGenerator.cpp" />
     <ClCompile Include="PlayerDefsGenerator.cpp" />
     <ClCompile Include="PlayerExplodedConsoleAnimation.cpp" />
     <ClCompile Include="PlayerPhysics.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerPhysicsDefsGenerator.cpp" />
-    <ClCompile Include="PlayerSpriteGenerator.cpp" />
     <ClCompile Include="PlayerThwipInConsoleAnimation.cpp" />
     <ClCompile Include="PlayerThwipOutConsoleAnimation.cpp" />
     <ClCompile Include="PlayingMenu.cpp" />
@@ -199,13 +202,14 @@
     <ClCompile Include="TitleStateConsoleRenderer.cpp" />
     <ClCompile Include="TitleStateInputHandler.cpp" />
     <ClCompile Include="ThreadWrapper.cpp" />
-    <ClCompile Include="TitleSpriteGenerator.cpp" />
+    <ClCompile Include="TitleImageGenerator.cpp" />
+    <ClCompile Include="UniqueNumberGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Arena.h" />
     <ClInclude Include="ArenaDefs.h" />
     <ClInclude Include="ArenaDefsGenerator.h" />
-    <ClInclude Include="ArenaSpriteGenerator.h" />
+    <ClInclude Include="ArenaImageGenerator.h" />
     <ClInclude Include="ArenaGenerationStrings.h" />
     <ClInclude Include="ArenaTileGenerator.h" />
     <ClInclude Include="ArenaPhysics.h" />
@@ -218,12 +222,17 @@
     <ClInclude Include="ConsoleImage.h" />
     <ClInclude Include="ConsoleRenderDefsGenerator.h" />
     <ClInclude Include="ConsoleSprite.h" />
+    <ClInclude Include="ConsoleSpriteDefs.h" />
+    <ClInclude Include="ConsoleSpriteDefsGenerator.h" />
     <ClInclude Include="Coordinate.h" />
     <ClInclude Include="DiagnosticsConsoleRenderer.h" />
     <ClInclude Include="Direction.h" />
+    <ClInclude Include="EntityConsoleSprite.h" />
+    <ClInclude Include="EntityConsoleSpriteCopier.h" />
     <ClInclude Include="EntityDefs.h" />
     <ClInclude Include="EntityDefsGenerator.h" />
     <ClInclude Include="EntityFactory.h" />
+    <ClInclude Include="EntityConsoleSpriteRepository.h" />
     <ClInclude Include="EntityType.h" />
     <ClInclude Include="FrameAction.h" />
     <ClInclude Include="FrameActionRegistry.h" />
@@ -249,6 +258,9 @@
     <ClInclude Include="IConsoleAnimationProvider.h" />
     <ClInclude Include="IConsoleSprite.h" />
     <ClInclude Include="IEntity.h" />
+    <ClInclude Include="IEntityConsoleSprite.h" />
+    <ClInclude Include="IEntityConsoleSpriteCopier.h" />
+    <ClInclude Include="IEntityConsoleSpriteRepository.h" />
     <ClInclude Include="IFrameActionRegistry.h" />
     <ClInclude Include="IFrameRateProvider.h" />
     <ClInclude Include="IGame.h" />
@@ -267,6 +279,7 @@
     <ClInclude Include="IReadOnlyPlayer.h" />
     <ClInclude Include="IScreenBuffer.h" />
     <ClInclude Include="IThread.h" />
+    <ClInclude Include="IUniqueNumberGenerator.h" />
     <ClInclude Include="KeyboardInputDefsGenerator.h" />
     <ClInclude Include="KeyboardWrapper.h" />
     <ClInclude Include="HighResolutionClockWrapper.h" />
@@ -286,14 +299,14 @@
     <ClInclude Include="KeyboardInputReader.h" />
     <ClInclude Include="KeyCode.h" />
     <ClInclude Include="MenuRepository.h" />
-    <ClInclude Include="MenuSpriteGenerator.h" />
+    <ClInclude Include="MenuImageGenerator.h" />
     <ClInclude Include="MenuType.h" />
+    <ClInclude Include="MovementType.h" />
     <ClInclude Include="PlayerDefsGenerator.h" />
     <ClInclude Include="PlayerExplodedConsoleAnimation.h" />
     <ClInclude Include="PlayerPhysics.h" />
     <ClInclude Include="PlayerPhysicsDefs.h" />
     <ClInclude Include="PlayerPhysicsDefsGenerator.h" />
-    <ClInclude Include="PlayerSpriteGenerator.h" />
     <ClInclude Include="PlayerThwipInConsoleAnimation.h" />
     <ClInclude Include="PlayerThwipOutConsoleAnimation.h" />
     <ClInclude Include="PlayingMenu.h" />
@@ -315,7 +328,8 @@
     <ClInclude Include="TitleStateConsoleRenderer.h" />
     <ClInclude Include="ThreadWrapper.h" />
     <ClInclude Include="Quad.h" />
-    <ClInclude Include="TitleSpriteGenerator.h" />
+    <ClInclude Include="TitleImageGenerator.h" />
+    <ClInclude Include="UniqueNumberGenerator.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

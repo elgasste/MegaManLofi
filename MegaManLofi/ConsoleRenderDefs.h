@@ -1,6 +1,5 @@
 #pragma once
 
-#include <memory>
 #include <map>
 #include <vector>
 
@@ -10,7 +9,7 @@
 
 namespace MegaManLofi
 {
-   class IConsoleSprite;
+   class ConsoleSpriteDefs;
 
    class ConsoleRenderDefs : public IGameRenderDefs
    {
@@ -33,8 +32,7 @@ namespace MegaManLofi
 
       double PitfallAnimationSeconds = 0;
 
-      double PlayerExplosionAnimationSeconds = 0;
-      std::shared_ptr<IConsoleSprite> PlayerExplosionParticleSprite;
+      double PlayerExplosionAnimationSeconds = 0;      
       long long PlayerExplosionParticleVelocity = 0;
 
       ConsoleColor DefaultForegroundColor = (ConsoleColor)0;
@@ -62,11 +60,6 @@ namespace MegaManLofi
 
       ConsoleImage PlayingMenuPlayerImage;
 
-      std::map<int, std::shared_ptr<IConsoleSprite>> EntitySpriteMap;
-
-      std::shared_ptr<IConsoleSprite> PlayerThwipSprite;
-      std::shared_ptr<IConsoleSprite> PlayerThwipInTransitionSprite;
-      std::shared_ptr<IConsoleSprite> PlayerThwipOutTransitionSprite;
       long long PlayerThwipVelocity = 0;
       double PlayerPostThwipDelaySeconds = 0;
 
@@ -86,19 +79,14 @@ namespace MegaManLofi
       long long MinTitleStarVelocity = 0;
       long long MaxTitleStarVelocity = 0;
 
-      std::shared_ptr<IConsoleSprite> GetReadySprite;
       double GetReadyAnimationSeconds = 0;
 
       ConsoleImage PauseOverlayImage;
       ConsoleImage GameOverImage;
 
-      std::shared_ptr<IConsoleSprite> MenuCaratSprite;
-
-      std::map<Direction, std::shared_ptr<IConsoleSprite>> PlayerStandingSpriteMap;
-      std::map<Direction, std::shared_ptr<IConsoleSprite>> PlayerWalkingSpriteMap;
-      std::map<Direction, std::shared_ptr<IConsoleSprite>> PlayerFallingSpriteMap;
-
       std::map<int, ConsoleImage> ArenaImageMap;
       std::vector<int> ArenaTiles;
+
+      std::shared_ptr<ConsoleSpriteDefs> SpriteDefs;
    };
 }

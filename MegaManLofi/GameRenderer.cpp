@@ -6,7 +6,6 @@
 #include "IGameInfoProvider.h"
 #include "IGameEventAggregator.h"
 #include "GameState.h"
-#include "GameEvent.h"
 #include "ConsoleColor.h"
 
 using namespace std;

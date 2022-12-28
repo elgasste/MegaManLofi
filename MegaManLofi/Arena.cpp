@@ -2,14 +2,17 @@
 
 #include "Arena.h"
 #include "ArenaDefs.h"
+#include "IGameEventAggregator.h"
 #include "IPlayer.h"
 #include "ArenaTile.h"
 
 using namespace std;
 using namespace MegaManLofi;
 
-Arena::Arena( const shared_ptr<ArenaDefs> arenaDefs ) :
+Arena::Arena( const shared_ptr<ArenaDefs> arenaDefs,
+              const shared_ptr<IGameEventAggregator> eventAggregator ) :
    _arenaDefs( arenaDefs ),
+   _eventAggregator( eventAggregator ),
    _player( nullptr ),
    _tiles( arenaDefs->DefaultTiles ),
    _width( arenaDefs->DefaultTileWidth * arenaDefs->DefaultHorizontalTiles ),
@@ -25,6 +28,7 @@ Arena::Arena( const shared_ptr<ArenaDefs> arenaDefs ) :
 void Arena::Reset()
 {
    _entities.clear();
+   _eventAggregator->RaiseEvent( GameEvent::ArenaEntitiesCleared );
 
    if ( _player )
    {
@@ -49,11 +53,22 @@ const shared_ptr<IReadOnlyEntity> Arena::GetEntity( int index ) const
    return _entities[index];
 }
 
+bool Arena::HasEntity( int uniqueId ) const
+{
+   auto it = find_if( _entities.begin(), _entities.end(), [&uniqueId]( const shared_ptr<IEntity>& entity )
+   {
+      return entity->GetUniqueId() == uniqueId;
+   } );
+
+   return it != _entities.end();
+}
+
 void Arena::AddEntity( const std::shared_ptr<IEntity> entity )
 {
    if ( find( _entities.begin(), _entities.end(), entity ) == _entities.end() )
    {
       _entities.push_back( entity );
+      _eventAggregator->RaiseEvent( GameEvent::ArenaEntitySpawned );
    }
 }
 
@@ -64,6 +79,7 @@ void Arena::RemoveEntity( const std::shared_ptr<IEntity> entity )
       if ( *it == entity )
       {
          _entities.erase( it );
+         _eventAggregator->RaiseEvent( GameEvent::ArenaEntityDeSpawned );
          break;
       }
    }

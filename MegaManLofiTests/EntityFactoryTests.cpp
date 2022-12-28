@@ -6,6 +6,8 @@
 #include <MegaManLofi/EntityDefs.h>
 #include <MegaManLofi/IEntity.h>
 
+#include "mock_UniqueNumberGenerator.h"
+
 using namespace std;
 using namespace testing;
 using namespace MegaManLofi;
@@ -16,19 +18,23 @@ public:
    void SetUp() override
    {
       _entityDefs.reset( new EntityDefs );
+      _uniqueNumberGeneratorMock.reset( new NiceMock<mock_UniqueNumberGenerator> );
 
       _entityDefs->BulletEntityMetaId = 4;
       _entityDefs->BulletVelocity = 10;
       _entityDefs->BulletHitBox = { 1, 2, 3, 4 };
+
+      ON_CALL( *_uniqueNumberGeneratorMock, GetNext() ).WillByDefault( Return( 3 ) );
    }
 
    void BuildFactory()
    {
-      _factory.reset( new EntityFactory( _entityDefs ) );
+      _factory.reset( new EntityFactory( _entityDefs, _uniqueNumberGeneratorMock ) );
    }
 
 protected:
    shared_ptr<EntityDefs> _entityDefs;
+   shared_ptr<mock_UniqueNumberGenerator> _uniqueNumberGeneratorMock;
 
    shared_ptr<EntityFactory> _factory;
 };
@@ -48,6 +54,16 @@ TEST_F( EntityFactoryTests, CreateBullet_Always_SetsPropertiesBasedOnDefs )
    EXPECT_EQ( bullet->GetHitBox().Top, 2 );
    EXPECT_EQ( bullet->GetHitBox().Width, 3 );
    EXPECT_EQ( bullet->GetHitBox().Height, 4 );
+}
+
+TEST_F( EntityFactoryTests, CreateBullet_Always_GetsUniqueIdFromNumberGenerator )
+{
+   BuildFactory();
+
+   EXPECT_CALL( *_uniqueNumberGeneratorMock, GetNext() ).WillOnce( Return( 33 ) );
+   auto bullet = _factory->CreateBullet( { 7, 8 }, Direction::Right );
+
+   EXPECT_EQ( bullet->GetUniqueId(), 33 );
 }
 
 TEST_F( EntityFactoryTests, CreateBullet_MovingLeft_SetsCorrectVelocityValues )

@@ -7,6 +7,8 @@
 class mock_Player : public MegaManLofi::IPlayer
 {
 public:
+   MOCK_METHOD( int, GetUniqueId, ( ), ( const, override ) );
+   MOCK_METHOD( void, SetUniqueId, ( int ), ( override ) );
    MOCK_METHOD( MegaManLofi::EntityType, GetEntityType, ( ), ( const, override ) );
    MOCK_METHOD( void, SetEntityType, ( MegaManLofi::EntityType ), ( override ) );
    MOCK_METHOD( int, GetEntityMetaId, ( ), ( const, override ) );
@@ -19,8 +21,9 @@ public:
    MOCK_METHOD( long long, GetVelocityY, ( ), ( const, override ) );
    MOCK_METHOD( MegaManLofi::Direction, GetDirection, ( ), ( const, override ) );
    MOCK_METHOD( const MegaManLofi::Rectangle<long long>&, GetHitBox, ( ), ( const, override ) );
+   MOCK_METHOD( MegaManLofi::MovementType, GetMovementType, ( ), ( const, override ) );
    MOCK_METHOD( void, SetHitBox, ( MegaManLofi::Rectangle<long long> ), ( override ) );
-   MOCK_METHOD( bool, IsMoving, ( ), ( const, override ) );
+   MOCK_METHOD( void, SetMovementType, ( MegaManLofi::MovementType ), ( override ) );
    MOCK_METHOD( void, Reset, ( ), ( override ) );
    MOCK_METHOD( void, ResetPhysics, ( ), ( override ) );
    MOCK_METHOD( unsigned int, GetLivesRemaining, ( ), ( const, override ) );
@@ -28,9 +31,7 @@ public:
    MOCK_METHOD( void, SetDirection, ( MegaManLofi::Direction ), ( override ) );
    MOCK_METHOD( void, SetVelocityX, ( long long ), ( override ) );
    MOCK_METHOD( void, SetVelocityY, ( long long ), ( override ) );
-   MOCK_METHOD( bool, IsStanding, ( ), ( const, override ) );
    MOCK_METHOD( bool, IsJumping, ( ), ( const, override ) );
-   MOCK_METHOD( void, SetIsStanding, ( bool isStanding ), ( override ) );
    MOCK_METHOD( void, SetIsJumping, ( bool isJumping ), ( override ) );
    MOCK_METHOD( void, StopX, ( ), ( override ) );
    MOCK_METHOD( void, StopY, ( ), ( override ) );

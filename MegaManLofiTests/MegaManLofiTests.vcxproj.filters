@@ -84,6 +84,15 @@
     <ClCompile Include="RectangleUtilitiesTests.cpp">
       <Filter>Tests\Utilities</Filter>
     </ClCompile>
+    <ClCompile Include="UniqueNumberGeneratorTests.cpp">
+      <Filter>Tests\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityConsoleSpriteTests.cpp">
+      <Filter>Tests\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityConsoleSpriteRepositoryTests.cpp">
+      <Filter>Tests\Render</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="mock_GameEventAggregator.h">
@@ -180,6 +189,18 @@
       <Filter>Mocks</Filter>
     </ClInclude>
     <ClInclude Include="mock_ReadOnlyArena.h">
+      <Filter>Mocks</Filter>
+    </ClInclude>
+    <ClInclude Include="mock_UniqueNumberGenerator.h">
+      <Filter>Mocks</Filter>
+    </ClInclude>
+    <ClInclude Include="mock_EntityConsoleSprite.h">
+      <Filter>Mocks</Filter>
+    </ClInclude>
+    <ClInclude Include="mock_EntityConsoleSpriteRepository.h">
+      <Filter>Mocks</Filter>
+    </ClInclude>
+    <ClInclude Include="mock_EntityConsoleSpriteCopier.h">
       <Filter>Mocks</Filter>
     </ClInclude>
   </ItemGroup>

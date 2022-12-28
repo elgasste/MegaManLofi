@@ -13,6 +13,7 @@
 #include "GameEventAggregator.h"
 #include "FrameActionRegistry.h"
 #include "GameClock.h"
+#include "UniqueNumberGenerator.h"
 #include "GameDefsGenerator.h"
 #include "GameDefs.h"
 #include "ConsoleRenderDefs.h"
@@ -36,6 +37,8 @@
 #include "PlayerThwipInConsoleAnimation.h"
 #include "PlayerExplodedConsoleAnimation.h"
 #include "ConsoleAnimationRepository.h"
+#include "EntityConsoleSpriteCopier.h"
+#include "EntityConsoleSpriteRepository.h"
 #include "DiagnosticsConsoleRenderer.h"
 #include "TitleStateConsoleRenderer.h"
 #include "PlayingStateConsoleRenderer.h"
@@ -93,9 +96,10 @@ void LoadAndRun( const shared_ptr<IConsoleBuffer> consoleBuffer )
    auto eventAggregator = make_shared<GameEventAggregator>();
    auto frameActionRegistry = make_shared<FrameActionRegistry>();
    auto clock = shared_ptr<GameClock>( new GameClock( highResolutionClock ) );
+   auto uniqueNumberGenerator = make_shared<UniqueNumberGenerator>();
 
    // game defs
-   auto gameDefs = GameDefsGenerator::GenerateGameDefs( clock );
+   auto gameDefs = GameDefsGenerator::GenerateGameDefs( clock, uniqueNumberGenerator );
    auto consoleRenderDefs = static_pointer_cast<ConsoleRenderDefs>( gameDefs->RenderDefs );
    auto keyboardInputDefs = static_pointer_cast<KeyboardInputDefs>( gameDefs->InputDefs );
 
@@ -108,8 +112,8 @@ void LoadAndRun( const shared_ptr<IConsoleBuffer> consoleBuffer )
 
    // game objects
    auto player = shared_ptr<Player>( new Player( gameDefs->PlayerDefs, frameActionRegistry, clock ) );
-   auto arena = shared_ptr<Arena>( new Arena( gameDefs->ArenaDefs ) );
-   auto entityFactory = shared_ptr<EntityFactory>( new EntityFactory( gameDefs->EntityDefs ) );
+   auto arena = shared_ptr<Arena>( new Arena( gameDefs->ArenaDefs, eventAggregator ) );
+   auto entityFactory = shared_ptr<EntityFactory>( new EntityFactory( gameDefs->EntityDefs, uniqueNumberGenerator ) );
    auto game = shared_ptr<Game>( new Game( eventAggregator, player, arena, playerPhysics, arenaPhysics, entityFactory ) );
 
    // menus
@@ -139,10 +143,14 @@ void LoadAndRun( const shared_ptr<IConsoleBuffer> consoleBuffer )
    animationRepository->AddAnimation( ConsoleAnimationType::PlayerThwipIn, playerThwipInAnimation );
    animationRepository->AddAnimation( ConsoleAnimationType::PlayerExploded, playerExplodedAnimation );
 
-   // rendering objects
+   // rendering utilities
+   auto spriteCopier = shared_ptr<IEntityConsoleSpriteCopier>( new EntityConsoleSpriteCopier );
+   auto spriteRepository = shared_ptr<EntityConsoleSpriteRepository>( new EntityConsoleSpriteRepository( eventAggregator, arena, spriteCopier, consoleRenderDefs->SpriteDefs ) );
+
+   // renderers objects
    auto diagnosticsRenderer = shared_ptr<DiagnosticsConsoleRenderer>( new DiagnosticsConsoleRenderer( consoleBuffer, clock, consoleRenderDefs ) );
    auto titleStateConsoleRenderer = shared_ptr<TitleStateConsoleRenderer>( new TitleStateConsoleRenderer( consoleBuffer, random, clock, eventAggregator, consoleRenderDefs, keyboardInputDefs, animationRepository ) );
-   auto playingStateConsoleRenderer = shared_ptr<PlayingStateConsoleRenderer>( new PlayingStateConsoleRenderer( consoleBuffer, consoleRenderDefs, game, game, game, eventAggregator, clock, animationRepository ) );
+   auto playingStateConsoleRenderer = shared_ptr<PlayingStateConsoleRenderer>( new PlayingStateConsoleRenderer( consoleBuffer, consoleRenderDefs, game, game, game, eventAggregator, clock, animationRepository, spriteRepository ) );
    auto playingMenuStateConsoleRenderer = shared_ptr<PlayingMenuStateConsoleRenderer>( new PlayingMenuStateConsoleRenderer( consoleBuffer, consoleRenderDefs, menuRepository ) );
    auto gameOverStateConsoleRenderer = shared_ptr<GameOverStateConsoleRenderer>( new GameOverStateConsoleRenderer( consoleBuffer, consoleRenderDefs ) );
    auto renderer = shared_ptr<GameRenderer>( new GameRenderer( consoleRenderDefs, consoleBuffer, game, diagnosticsRenderer, eventAggregator ) );

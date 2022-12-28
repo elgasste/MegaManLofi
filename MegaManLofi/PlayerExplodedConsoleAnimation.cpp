@@ -4,6 +4,7 @@
 #include "IConsoleBuffer.h"
 #include "IFrameRateProvider.h"
 #include "ConsoleRenderDefs.h"
+#include "ConsoleSpriteDefs.h"
 #include "IConsoleSprite.h"
 
 using namespace std;
@@ -35,7 +36,7 @@ void PlayerExplodedConsoleAnimation::Start( optional<Coordinate<short>> startPos
    _totalParticleDeltaUnits = 0;
    _startPositionChars = startPositionChars.value();
 
-   _renderDefs->PlayerExplosionParticleSprite->Reset();
+   _renderDefs->SpriteDefs->PlayerExplosionParticleSprite->Reset();
 }
 
 void PlayerExplodedConsoleAnimation::Draw()
@@ -43,7 +44,7 @@ void PlayerExplodedConsoleAnimation::Draw()
    auto particleDeltaXChars = (short)( _totalParticleDeltaUnits / _renderDefs->ArenaCharWidth );
    auto particleDeltaYChars = (short)( _totalParticleDeltaUnits / _renderDefs->ArenaCharHeight );
 
-   auto particleSprite = _renderDefs->PlayerExplosionParticleSprite;
+   auto particleSprite = _renderDefs->SpriteDefs->PlayerExplosionParticleSprite;
 
    // horizontal and vertical particles
    _consoleBuffer->Draw( _startPositionChars.Left + particleDeltaXChars, _startPositionChars.Top, particleSprite );
@@ -77,7 +78,7 @@ void PlayerExplodedConsoleAnimation::Tick()
    _elapsedSeconds += frameSeconds;
    _totalParticleDeltaUnits += (long long)( _renderDefs->PlayerExplosionParticleVelocity * frameSeconds );
 
-   _renderDefs->PlayerExplosionParticleSprite->Tick();
+   _renderDefs->SpriteDefs->PlayerExplosionParticleSprite->Tick();
 
    if ( _elapsedSeconds >= _renderDefs->PlayerExplosionAnimationSeconds )
    {

@@ -9,11 +9,14 @@ namespace MegaManLofi
    public:
       BasicEntity();
 
+      int GetUniqueId() const override { return _uniqueId; }
+      void SetUniqueId( int id ) override { _uniqueId = id; }
+
       EntityType GetEntityType() const override { return _entityType; }
       void SetEntityType( EntityType type ) { _entityType = type; }
 
-      int GetEntityMetaId() const override { return _entityMetaId; }
-      void SetEntityMetaId( int id ) { _entityMetaId = id; }
+      int GetEntityMetaId() const override { return _metaId; }
+      void SetEntityMetaId( int id ) { _metaId = id; }
 
       const Coordinate<long long>& GetArenaPosition() const override { return _arenaPosition; }
       long long GetArenaPositionLeft() const override { return _arenaPosition.Left; }
@@ -32,18 +35,21 @@ namespace MegaManLofi
       const Rectangle<long long>& GetHitBox() const override { return _hitBox; }
       void SetHitBox( Rectangle<long long> hitBox ) { _hitBox = hitBox; }
 
-      bool IsMoving() const override;
+      MovementType GetMovementType() const override { return _movementType; }
+      void SetMovementType( MovementType type ) override { _movementType = type; }
 
       void StopX() override { _velocityX = 0; }
       void StopY() override { _velocityY = 0; }
 
    private:
-      int _entityMetaId;
+      int _uniqueId;
       EntityType _entityType;
+      int _metaId;
       Coordinate<long long> _arenaPosition;
       long long _velocityX;
       long long _velocityY;
       Direction _direction;
       Rectangle<long long> _hitBox;
+      MovementType _movementType;
    };
 }

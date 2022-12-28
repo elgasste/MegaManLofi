@@ -189,19 +189,16 @@
     <ClCompile Include="ArenaDefsGenerator.cpp">
       <Filter>Source Files\GameDefGenerators</Filter>
     </ClCompile>
-    <ClCompile Include="ArenaSpriteGenerator.cpp">
+    <ClCompile Include="ArenaImageGenerator.cpp">
       <Filter>Source Files\GameDefGenerators\SubGenerators</Filter>
     </ClCompile>
     <ClCompile Include="ArenaTileGenerator.cpp">
       <Filter>Source Files\GameDefGenerators\SubGenerators</Filter>
     </ClCompile>
-    <ClCompile Include="MenuSpriteGenerator.cpp">
+    <ClCompile Include="MenuImageGenerator.cpp">
       <Filter>Source Files\GameDefGenerators\SubGenerators</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerSpriteGenerator.cpp">
-      <Filter>Source Files\GameDefGenerators\SubGenerators</Filter>
-    </ClCompile>
-    <ClCompile Include="TitleSpriteGenerator.cpp">
+    <ClCompile Include="TitleImageGenerator.cpp">
       <Filter>Source Files\GameDefGenerators\SubGenerators</Filter>
     </ClCompile>
     <ClCompile Include="PlayerDefsGenerator.cpp">
@@ -227,6 +224,21 @@
     </ClCompile>
     <ClCompile Include="EntityFactory.cpp">
       <Filter>Source Files\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="UniqueNumberGenerator.cpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityConsoleSprite.cpp">
+      <Filter>Source Files\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="ConsoleSpriteDefsGenerator.cpp">
+      <Filter>Source Files\GameDefGenerators</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityConsoleSpriteRepository.cpp">
+      <Filter>Source Files\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityConsoleSpriteCopier.cpp">
+      <Filter>Source Files\Utilities</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -509,19 +521,16 @@
     <ClInclude Include="IEntity.h">
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="ArenaSpriteGenerator.h">
+    <ClInclude Include="ArenaImageGenerator.h">
       <Filter>Header Files\GameDefGenerators\SubGenerators</Filter>
     </ClInclude>
     <ClInclude Include="ArenaTileGenerator.h">
       <Filter>Header Files\GameDefGenerators\SubGenerators</Filter>
     </ClInclude>
-    <ClInclude Include="MenuSpriteGenerator.h">
+    <ClInclude Include="MenuImageGenerator.h">
       <Filter>Header Files\GameDefGenerators\SubGenerators</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerSpriteGenerator.h">
-      <Filter>Header Files\GameDefGenerators\SubGenerators</Filter>
-    </ClInclude>
-    <ClInclude Include="TitleSpriteGenerator.h">
+    <ClInclude Include="TitleImageGenerator.h">
       <Filter>Header Files\GameDefGenerators\SubGenerators</Filter>
     </ClInclude>
     <ClInclude Include="PlayerDefsGenerator.h">
@@ -571,6 +580,39 @@
     </ClInclude>
     <ClInclude Include="IReadOnlyArena.h">
       <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="IUniqueNumberGenerator.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="UniqueNumberGenerator.h">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="MovementType.h">
+      <Filter>Header Files\DataTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="IEntityConsoleSprite.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityConsoleSprite.h">
+      <Filter>Header Files\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="ConsoleSpriteDefs.h">
+      <Filter>Header Files\GameDefs</Filter>
+    </ClInclude>
+    <ClInclude Include="ConsoleSpriteDefsGenerator.h">
+      <Filter>Header Files\GameDefGenerators</Filter>
+    </ClInclude>
+    <ClInclude Include="IEntityConsoleSpriteRepository.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityConsoleSpriteRepository.h">
+      <Filter>Header Files\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="IEntityConsoleSpriteCopier.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityConsoleSpriteCopier.h">
+      <Filter>Header Files\Utilities</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

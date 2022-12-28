@@ -1,12 +1,15 @@
 #include "EntityFactory.h"
 #include "EntityDefs.h"
+#include "IUniqueNumberGenerator.h"
 #include "BasicEntity.h"
 
 using namespace std;
 using namespace MegaManLofi;
 
-EntityFactory::EntityFactory( const shared_ptr<EntityDefs> entityDefs ) :
-   _entityDefs( entityDefs )
+EntityFactory::EntityFactory( const shared_ptr<EntityDefs> entityDefs,
+                              const shared_ptr<IUniqueNumberGenerator> uniqueNumberGenerator ) :
+   _entityDefs( entityDefs ),
+   _uniqueNumberGenerator( uniqueNumberGenerator )
 {
 }
 
@@ -14,6 +17,7 @@ const shared_ptr<IEntity> EntityFactory::CreateBullet( Coordinate<long long> pos
 {
    auto bullet = make_shared<BasicEntity>();
 
+   bullet->SetUniqueId( _uniqueNumberGenerator->GetNext() );
    bullet->SetEntityType( EntityType::Projectile );
    bullet->SetEntityMetaId( _entityDefs->BulletEntityMetaId );
    bullet->SetArenaPosition( position );

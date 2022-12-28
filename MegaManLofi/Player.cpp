@@ -16,6 +16,8 @@ Player::Player( const shared_ptr<PlayerDefs> playerDefs,
    _playerDefs( playerDefs ),
    _frameActionRegistry( frameActionRegistry ),
    _frameRateProvider( frameRateProvider ),
+   _uniqueId( playerDefs->DefaultUniqueId ),
+   _metaId( playerDefs->DefaultEntityMetaId ),
    _arenaPosition( { 0, 0 } )
 {
    Reset();
@@ -33,13 +35,9 @@ void Player::ResetPhysics()
    _velocityX = _playerDefs->DefaultVelocityX;
    _velocityY = _playerDefs->DefaultVelocityY;
    _direction = _playerDefs->DefaultDirection;
+   _movementType = _playerDefs->DefaultMovementType;
    _isStanding = false;
    _isJumping = false;
-}
-
-bool Player::IsMoving() const
-{
-   return _velocityX != 0 || _velocityY != 0;
 }
 
 void Player::StopX()

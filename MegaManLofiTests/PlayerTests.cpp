@@ -23,11 +23,14 @@ public:
       _frameActionRegistryMock.reset( new NiceMock<mock_FrameActionRegistry> );
       _frameRateProviderMock.reset( new NiceMock<mock_FrameRateProvider> );
 
+      _playerDefs->DefaultUniqueId = 10;
+      _playerDefs->DefaultEntityMetaId = 2;
       _playerDefs->DefaultVelocityX = 0;
       _playerDefs->DefaultVelocityY = 0;
       _playerDefs->DefaultLives = 5;
       _playerDefs->DefaultDirection = Direction::Left;
       _playerDefs->DefaultHitBox = { 0, 0, 4, 4 };
+      _playerDefs->DefaultMovementType = MovementType::Airborne;
 
       ON_CALL( *_frameRateProviderMock, GetFrameSeconds() ).WillByDefault( Return( 100 ) );
    }
@@ -56,6 +59,8 @@ TEST_F( PlayerTests, Constructor_Always_SetsDefaultPropertiesFromConfig )
    _playerDefs->DefaultHitBox = { 1, 2, 3, 4 };
    BuildPlayer();
 
+   EXPECT_EQ( _player->GetUniqueId(), 10 );
+   EXPECT_EQ( _player->GetEntityMetaId(), 2 );
    EXPECT_EQ( _player->GetArenaPosition().Left, 0 );
    EXPECT_EQ( _player->GetArenaPosition().Top, 0 );
    EXPECT_EQ( _player->GetVelocityX(), 100 );
@@ -66,7 +71,7 @@ TEST_F( PlayerTests, Constructor_Always_SetsDefaultPropertiesFromConfig )
    EXPECT_EQ( _player->GetHitBox().Top, 2 );
    EXPECT_EQ( _player->GetHitBox().Width, 3 );
    EXPECT_EQ( _player->GetHitBox().Height, 4 );
-   EXPECT_FALSE( _player->IsStanding() );
+   EXPECT_EQ( _player->GetMovementType(), MovementType::Airborne );
    EXPECT_FALSE( _player->IsJumping() );
 }
 
@@ -77,13 +82,6 @@ TEST_F( PlayerTests, GetEntityType_Always_ReturnsBody )
    EXPECT_EQ( _player->GetEntityType(), EntityType::Body );
 }
 
-TEST_F( PlayerTests, GetEntityMetaId_Always_ReturnsZero )
-{
-   BuildPlayer();
-
-   EXPECT_EQ( _player->GetEntityMetaId(), 0 );
-}
-
 TEST_F( PlayerTests, Reset_Always_ResetsDefaultPropertiesFromConfig )
 {
    BuildPlayer();
@@ -91,13 +89,13 @@ TEST_F( PlayerTests, Reset_Always_ResetsDefaultPropertiesFromConfig )
    _player->SetVelocityX( 100 );
    _player->SetVelocityY( 200 );
    _player->SetDirection( Direction::Right );
-   _player->SetIsStanding( true );
+   _player->SetMovementType( MovementType::Walking );
    _player->SetIsJumping( true );
 
    EXPECT_EQ( _player->GetVelocityX(), 100 );
    EXPECT_EQ( _player->GetVelocityY(), 200 );
    EXPECT_EQ( _player->GetDirection(), Direction::Right );
-   EXPECT_TRUE( _player->IsStanding() );
+   EXPECT_EQ( _player->GetMovementType(), MovementType::Walking );
    EXPECT_TRUE( _player->IsJumping() );
 
    _player->Reset();
@@ -105,7 +103,7 @@ TEST_F( PlayerTests, Reset_Always_ResetsDefaultPropertiesFromConfig )
    EXPECT_EQ( _player->GetVelocityX(), 0 );
    EXPECT_EQ( _player->GetVelocityY(), 0 );
    EXPECT_EQ( _player->GetDirection(), Direction::Left );
-   EXPECT_FALSE( _player->IsStanding() );
+   EXPECT_EQ( _player->GetMovementType(), MovementType::Airborne );
    EXPECT_FALSE( _player->IsJumping() );
 }
 
@@ -122,33 +120,6 @@ TEST_F( PlayerTests, GetDirection_Always_ReturnsDirection )
    BuildPlayer();
 
    EXPECT_EQ( _player->GetDirection(), Direction::Right );
-}
-
-TEST_F( PlayerTests, IsMoving_NotMoving_ReturnsFalse )
-{
-   BuildPlayer();
-
-   EXPECT_EQ( _player->GetVelocityX(), 0 );
-   EXPECT_EQ( _player->GetVelocityY(), 0 );
-   EXPECT_FALSE( _player->IsMoving() );
-}
-
-TEST_F( PlayerTests, IsMoving_MovingHorizontally_ReturnsTrue )
-{
-   BuildPlayer();
-
-   _player->SetVelocityX( -2 );
-
-   EXPECT_TRUE( _player->IsMoving() );
-}
-
-TEST_F( PlayerTests, IsMoving_MovingVertically_ReturnsTrue )
-{
-   BuildPlayer();
-
-   _player->SetVelocityY( 2 );
-
-   EXPECT_TRUE( _player->IsMoving() );
 }
 
 TEST_F( PlayerTests, GetHitBox_Always_ReturnsHitBox )

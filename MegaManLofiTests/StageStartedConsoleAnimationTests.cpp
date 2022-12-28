@@ -4,6 +4,7 @@
 
 #include <MegaManLofi/StageStartedConsoleAnimation.h>
 #include <MegaManLofi/ConsoleRenderDefs.h>
+#include <MegaManLofi/ConsoleSpriteDefs.h>
 
 #include "mock_ConsoleBuffer.h"
 #include "mock_FrameRateProvider.h"
@@ -20,10 +21,13 @@ public:
    {
       _consoleBufferMock.reset( new NiceMock<mock_ConsoleBuffer> );
       _frameRateProviderMock.reset( new NiceMock<mock_FrameRateProvider> );
+      _spriteDefs.reset( new ConsoleSpriteDefs );
       _renderDefs.reset( new ConsoleRenderDefs );
       _getReadySpriteMock.reset( new NiceMock<mock_ConsoleSprite> );
 
-      _renderDefs->GetReadySprite = _getReadySpriteMock;
+      _spriteDefs->StageGetReadySprite = _getReadySpriteMock;
+
+      _renderDefs->SpriteDefs = _spriteDefs;
 
       ON_CALL( *_frameRateProviderMock, GetFrameSeconds() ).WillByDefault( Return( 1 ) );
    }
@@ -36,6 +40,7 @@ public:
 protected:
    shared_ptr<mock_ConsoleBuffer> _consoleBufferMock;
    shared_ptr<mock_FrameRateProvider> _frameRateProviderMock;
+   shared_ptr<ConsoleSpriteDefs> _spriteDefs;
    shared_ptr<ConsoleRenderDefs> _renderDefs;
 
    shared_ptr<mock_ConsoleSprite> _getReadySpriteMock;

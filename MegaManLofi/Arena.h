@@ -7,11 +7,13 @@
 namespace MegaManLofi
 {
    class ArenaDefs;
+   class IGameEventAggregator;
 
    class Arena : public IArena
    {
    public:
-      Arena( const std::shared_ptr<ArenaDefs> arenaDefs );
+      Arena( const std::shared_ptr<ArenaDefs> arenaDefs,
+             const std::shared_ptr<IGameEventAggregator> eventAggregator );
 
       void Reset();
 
@@ -33,6 +35,8 @@ namespace MegaManLofi
 
       const ArenaTile& GetTile( long long index ) const override { return _tiles[index]; }
 
+      bool HasEntity( int uniqueId ) const override;
+
       void AddEntity( const std::shared_ptr<IEntity> entity ) override;
       void RemoveEntity( const std::shared_ptr<IEntity> entity ) override;
       const std::shared_ptr<IReadOnlyEntity> GetEntity( int index ) const override;
@@ -41,6 +45,7 @@ namespace MegaManLofi
 
    private:
       const std::shared_ptr<ArenaDefs> _arenaDefs;
+      const std::shared_ptr<IGameEventAggregator> _eventAggregator;
 
       std::shared_ptr<IPlayer> _player;
 

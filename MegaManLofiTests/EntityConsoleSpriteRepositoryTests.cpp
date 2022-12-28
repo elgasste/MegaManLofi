@@ -74,7 +74,7 @@ protected:
    shared_ptr<EntityConsoleSpriteRepository> _repository;
 };
 
-TEST_F( EntityConsoleSpriteRepositoryTests, EntitySpawned_DoNotAlreadyHaveEntity_AddsSpriteToMap )
+TEST_F( EntityConsoleSpriteRepositoryTests, EntitySpawned_DoNotHaveMatchingSprite_AddsSpriteToMap )
 {
    ON_CALL( *_arenaMock, GetEntityCount() ).WillByDefault( Return( 1 ) );
    ON_CALL( *_arenaMock, GetEntity( 0 ) ).WillByDefault( Return( _entityMock1 ) );
@@ -84,10 +84,11 @@ TEST_F( EntityConsoleSpriteRepositoryTests, EntitySpawned_DoNotAlreadyHaveEntity
 
    _eventAggregator->RaiseEvent( GameEvent::ArenaEntitySpawned );
 
+   EXPECT_EQ( _repository->GetSpriteCount(), 1 );
    EXPECT_EQ( _repository->GetSprite( 10 ), _spriteCopyMock1 );
 }
 
-TEST_F( EntityConsoleSpriteRepositoryTests, EntitySpawned_AlreadyHaveEntity_DoesNotAddSpriteToMap )
+TEST_F( EntityConsoleSpriteRepositoryTests, EntitySpawned_AlreadyHaveMatchingSprite_DoesNotAddSpriteToMap )
 {
    ON_CALL( *_arenaMock, GetEntityCount() ).WillByDefault( Return( 1 ) );
    ON_CALL( *_arenaMock, GetEntity( 0 ) ).WillByDefault( Return( _entityMock1 ) );
@@ -96,8 +97,33 @@ TEST_F( EntityConsoleSpriteRepositoryTests, EntitySpawned_AlreadyHaveEntity_Does
    EXPECT_EQ( _repository->GetSprite( 10 ), _spriteCopyMock1 );
 
    EXPECT_CALL( *_spriteCopier, MakeCopy( _ ) ).Times( 0 );
-
    _eventAggregator->RaiseEvent( GameEvent::ArenaEntitySpawned );
+
+   EXPECT_EQ( _repository->GetSpriteCount(), 1 );
 }
 
-// TODO: figure out how to effectively test the rest of this class
+TEST_F( EntityConsoleSpriteRepositoryTests, EntityDeSpawned_HaveMatchingSprite_RemovesSpriteFromMap )
+{
+   // arena has three entities
+   ON_CALL( *_arenaMock, GetEntityCount() ).WillByDefault( Return( 3 ) );
+   ON_CALL( *_arenaMock, GetEntity( 0 ) ).WillByDefault( Return( _entityMock1 ) );
+   ON_CALL( *_arenaMock, GetEntity( 1 ) ).WillByDefault( Return( _entityMock2 ) );
+   ON_CALL( *_arenaMock, GetEntity( 2 ) ).WillByDefault( Return( _entityMock3 ) );
+
+   // should add three sprites
+   _eventAggregator->RaiseEvent( GameEvent::ArenaEntitySpawned );
+   EXPECT_EQ( _repository->GetSpriteCount(), 3 );
+   EXPECT_EQ( _repository->GetSprite( 10 ), _spriteCopyMock1 );
+   EXPECT_EQ( _repository->GetSprite( 11 ), _spriteCopyMock2 );
+   EXPECT_EQ( _repository->GetSprite( 12 ), _spriteCopyMock3 );
+
+   // first two entities are gone from arena
+   ON_CALL( *_arenaMock, HasEntity( 10 ) ).WillByDefault( Return( false ) );
+   ON_CALL( *_arenaMock, HasEntity( 11 ) ).WillByDefault( Return( false ) );
+   ON_CALL( *_arenaMock, HasEntity( 12 ) ).WillByDefault( Return( true ) );
+
+   // should remove first two sprites
+   _eventAggregator->RaiseEvent( GameEvent::ArenaEntityDeSpawned );
+   EXPECT_EQ( _repository->GetSpriteCount(), 1 );
+   EXPECT_EQ( _repository->GetSprite( 12 ), _spriteCopyMock3 );
+}

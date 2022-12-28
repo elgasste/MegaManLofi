@@ -10,6 +10,10 @@ namespace MegaManLofi
       GameStarted,
       StageStarted,
 
+      ArenaEntitySpawned,
+      ArenaEntityDeSpawned,
+      ArenaEntitiesCleared,
+
       Pitfall,
       TileDeath
    };

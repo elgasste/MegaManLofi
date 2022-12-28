@@ -4,7 +4,6 @@
 #include <map>
 
 #include "IGameRenderer.h"
-#include "GameEvent.h"
 
 namespace MegaManLofi
 {

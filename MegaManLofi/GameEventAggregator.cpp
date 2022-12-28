@@ -1,5 +1,4 @@
 #include "GameEventAggregator.h"
-#include "GameEvent.h"
 
 using namespace std;
 using namespace MegaManLofi;

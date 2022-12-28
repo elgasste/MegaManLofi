@@ -6,7 +6,6 @@
 #include "IPlayer.h"
 #include "IArena.h"
 #include "FrameAction.h"
-#include "GameEvent.h"
 #include "BasicEntity.h"
 
 using namespace std;

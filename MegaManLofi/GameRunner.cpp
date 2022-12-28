@@ -6,7 +6,6 @@
 #include "IFrameActionRegistry.h"
 #include "IGame.h"
 #include "IThread.h"
-#include "GameEvent.h"
 
 using namespace MegaManLofi;
 

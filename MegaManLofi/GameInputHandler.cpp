@@ -3,7 +3,6 @@
 #include "IGameInfoProvider.h"
 #include "IGameEventAggregator.h"
 #include "GameButton.h"
-#include "GameEvent.h"
 #include "GameState.h"
 
 using namespace std;

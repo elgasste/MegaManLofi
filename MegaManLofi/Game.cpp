@@ -7,7 +7,6 @@
 #include "IEntityFactory.h"
 #include "GameState.h"
 #include "GameCommand.h"
-#include "GameEvent.h"
 #include "PushPlayerCommandArgs.h"
 #include "PointPlayerCommandArgs.h"
 

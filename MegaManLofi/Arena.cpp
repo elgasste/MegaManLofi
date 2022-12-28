@@ -28,6 +28,7 @@ Arena::Arena( const shared_ptr<ArenaDefs> arenaDefs,
 void Arena::Reset()
 {
    _entities.clear();
+   _eventAggregator->RaiseEvent( GameEvent::ArenaEntitiesCleared );
 
    if ( _player )
    {
@@ -57,6 +58,7 @@ void Arena::AddEntity( const std::shared_ptr<IEntity> entity )
    if ( find( _entities.begin(), _entities.end(), entity ) == _entities.end() )
    {
       _entities.push_back( entity );
+      _eventAggregator->RaiseEvent( GameEvent::ArenaEntitySpawned );
    }
 }
 
@@ -67,6 +69,7 @@ void Arena::RemoveEntity( const std::shared_ptr<IEntity> entity )
       if ( *it == entity )
       {
          _entities.erase( it );
+         _eventAggregator->RaiseEvent( GameEvent::ArenaEntityDeSpawned );
          break;
       }
    }

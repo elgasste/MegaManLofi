@@ -2,10 +2,10 @@
 
 #include <functional>
 
+#include "GameEvent.h"
+
 namespace MegaManLofi
 {
-   enum class GameEvent;
-
    class __declspec( novtable ) IGameEventAggregator
    {
    public:

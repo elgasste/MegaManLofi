@@ -96,6 +96,16 @@ TEST_F( ArenaTests, Reset_Always_ClearsEntities )
    EXPECT_EQ( _arena->GetEntity( 0 ), _playerMock );
 }
 
+TEST_F( ArenaTests, Reset_Always_RaisesArenaEntitiesClearedEvent )
+{
+   BuildArena();
+
+   EXPECT_CALL( *_eventAggregatorMock, RaiseEvent( GameEvent::ArenaEntitiesCleared ) );
+   EXPECT_CALL( *_eventAggregatorMock, RaiseEvent( GameEvent::ArenaEntitySpawned ) );
+
+   _arena->Reset();
+}
+
 TEST_F( ArenaTests, AddEntity_EntityIsNotInList_AddsEntity )
 {
    BuildArena();
@@ -105,6 +115,16 @@ TEST_F( ArenaTests, AddEntity_EntityIsNotInList_AddsEntity )
 
    EXPECT_EQ( _arena->GetEntityCount(), 2 );
    EXPECT_EQ( _arena->GetEntity( 1 ), entityMock );
+}
+
+TEST_F( ArenaTests, AddEntity_EntityIsNotInList_RaisesArenaEntitySpawnedEvent )
+{
+   BuildArena();
+   auto entityMock = make_shared<mock_Entity>();
+
+   EXPECT_CALL( *_eventAggregatorMock, RaiseEvent( GameEvent::ArenaEntitySpawned ) );
+
+   _arena->AddEntity( entityMock );
 }
 
 TEST_F( ArenaTests, AddEntity_EntityIsAlreadyInList_DoesNotAddEntity )
@@ -117,6 +137,17 @@ TEST_F( ArenaTests, AddEntity_EntityIsAlreadyInList_DoesNotAddEntity )
 
    EXPECT_EQ( _arena->GetEntityCount(), 2 );
    EXPECT_EQ( _arena->GetEntity( 1 ), entityMock );
+}
+
+TEST_F( ArenaTests, AddEntity_EntityIsAlreadyInList_DoesNotRaiseArenaEntitySpawnedEvent )
+{
+   BuildArena();
+   auto entityMock = make_shared<mock_Entity>();
+   _arena->AddEntity( entityMock );
+
+   EXPECT_CALL( *_eventAggregatorMock, RaiseEvent( GameEvent::ArenaEntitySpawned ) ).Times( 0 );
+
+   _arena->AddEntity( entityMock );
 }
 
 TEST_F( ArenaTests, RemoveEntity_EntityIsNotInList_DoesNotRemoveEntity )
@@ -132,7 +163,19 @@ TEST_F( ArenaTests, RemoveEntity_EntityIsNotInList_DoesNotRemoveEntity )
    EXPECT_EQ( _arena->GetEntity( 1 ), entityMock1 );
 }
 
-TEST_F( ArenaTests, AddEntity_EntityIsInList_RemovesEntity )
+TEST_F( ArenaTests, RemoveEntity_EntityIsNotInList_DoesNotRaiseArenaEntityDeSpawnedEvent )
+{
+   BuildArena();
+   auto entityMock1 = make_shared<mock_Entity>();
+   auto entityMock2 = make_shared<mock_Entity>();
+   _arena->AddEntity( entityMock1 );
+
+   EXPECT_CALL( *_eventAggregatorMock, RaiseEvent( GameEvent::ArenaEntityDeSpawned ) ).Times( 0 );
+
+   _arena->RemoveEntity( entityMock2 );
+}
+
+TEST_F( ArenaTests, RemoveEntity_EntityIsInList_RemovesEntity )
 {
    BuildArena();
    auto entityMock1 = make_shared<mock_Entity>();
@@ -144,4 +187,17 @@ TEST_F( ArenaTests, AddEntity_EntityIsInList_RemovesEntity )
 
    EXPECT_EQ( _arena->GetEntityCount(), 2 );
    EXPECT_EQ( _arena->GetEntity( 1 ), entityMock2 );
+}
+
+TEST_F( ArenaTests, RemoveEntity_EntityIsInList_RaisesArenaEntityDeSpawnedEvent )
+{
+   BuildArena();
+   auto entityMock1 = make_shared<mock_Entity>();
+   auto entityMock2 = make_shared<mock_Entity>();
+   _arena->AddEntity( entityMock1 );
+   _arena->AddEntity( entityMock2 );
+
+   EXPECT_CALL( *_eventAggregatorMock, RaiseEvent( GameEvent::ArenaEntityDeSpawned ) );
+
+   _arena->RemoveEntity( entityMock2 );
 }

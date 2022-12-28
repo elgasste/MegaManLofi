@@ -15,7 +15,6 @@
 #include "IReadOnlyEntity.h"
 #include "IReadOnlyArena.h"
 #include "Direction.h"
-#include "GameEvent.h"
 #include "IConsoleSprite.h"
 
 using namespace std;

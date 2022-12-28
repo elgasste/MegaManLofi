@@ -232,12 +232,7 @@ void PlayingStateConsoleRenderer::DrawArenaSprites()
 void PlayingStateConsoleRenderer::DrawPlayer()
 {
    auto player = _playerInfoProvider->GetPlayerEntity();
-   auto sprite = _spriteRepository->GetSprite( player->GetUniqueId() );
-   sprite->SetDirection( player->GetDirection() );
-   sprite->SetMovementType( player->GetMovementType() );
-
-   _consoleBuffer->Draw( _playerViewportChars.Left + _viewportOffsetChars.Left, _playerViewportChars.Top + _viewportOffsetChars.Top, sprite );
-   sprite->Tick();
+   DrawEntity( player );
 }
 
 void PlayingStateConsoleRenderer::DrawNonPlayerEntities()
@@ -245,20 +240,23 @@ void PlayingStateConsoleRenderer::DrawNonPlayerEntities()
    for ( int i = 0; i < _arena->GetEntityCount(); i++ )
    {
       auto entity = _arena->GetEntity( i );
-      if ( entity == _playerInfoProvider->GetPlayerEntity() )
+      if ( entity != _playerInfoProvider->GetPlayerEntity() )
       {
-         continue;
+         DrawEntity( entity );
       }
-
-      auto sprite = _spriteRepository->GetSprite( entity->GetUniqueId() );
-      sprite->SetDirection( entity->GetDirection() );
-      sprite->SetMovementType( entity->GetMovementType() );
-      auto left = (short)( ( entity->GetArenaPositionLeft() - _viewportQuadUnits.Left ) / _renderDefs->ArenaCharWidth );
-      auto top = (short)( ( entity->GetArenaPositionTop() - _viewportQuadUnits.Top ) / _renderDefs->ArenaCharHeight );
-
-      _consoleBuffer->Draw( left, top, sprite );
-      sprite->Tick();
    }
+}
+
+void PlayingStateConsoleRenderer::DrawEntity( const shared_ptr<IReadOnlyEntity> entity )
+{
+   auto sprite = _spriteRepository->GetSprite( entity->GetUniqueId() );
+   sprite->SetDirection( entity->GetDirection() );
+   sprite->SetMovementType( entity->GetMovementType() );
+   auto left = (short)( ( entity->GetArenaPositionLeft() - _viewportQuadUnits.Left ) / _renderDefs->ArenaCharWidth );
+   auto top = (short)( ( entity->GetArenaPositionTop() - _viewportQuadUnits.Top ) / _renderDefs->ArenaCharHeight );
+
+   _consoleBuffer->Draw( left, top, sprite );
+   sprite->Tick();
 }
 
 void PlayingStateConsoleRenderer::DrawStatusBar()

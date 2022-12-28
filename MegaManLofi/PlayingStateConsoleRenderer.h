@@ -20,6 +20,7 @@ namespace MegaManLofi
    class IEntityConsoleSpriteRepository;
    class IConsoleSprite;
    class IReadOnlyArena;
+   class IReadOnlyEntity;
 
    class PlayingStateConsoleRenderer : public IGameRenderer
    {
@@ -51,6 +52,7 @@ namespace MegaManLofi
       void DrawArenaSprites();
       void DrawPlayer();
       void DrawNonPlayerEntities();
+      void DrawEntity( const std::shared_ptr<IReadOnlyEntity> entity );
       void DrawStatusBar();
       void DrawPauseOverlay();
 

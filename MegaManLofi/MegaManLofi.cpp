@@ -148,7 +148,7 @@ void LoadAndRun( const shared_ptr<IConsoleBuffer> consoleBuffer )
    auto spriteRepository = shared_ptr<EntityConsoleSpriteRepository>( new EntityConsoleSpriteRepository( eventAggregator, arena, spriteCopier, consoleRenderDefs->SpriteDefs ) );
 
    // renderers objects
-   auto diagnosticsRenderer = shared_ptr<DiagnosticsConsoleRenderer>( new DiagnosticsConsoleRenderer( consoleBuffer, clock, consoleRenderDefs ) );
+   auto diagnosticsRenderer = shared_ptr<DiagnosticsConsoleRenderer>( new DiagnosticsConsoleRenderer( consoleBuffer, clock, consoleRenderDefs, game, spriteRepository ) );
    auto titleStateConsoleRenderer = shared_ptr<TitleStateConsoleRenderer>( new TitleStateConsoleRenderer( consoleBuffer, random, clock, eventAggregator, consoleRenderDefs, keyboardInputDefs, animationRepository ) );
    auto playingStateConsoleRenderer = shared_ptr<PlayingStateConsoleRenderer>( new PlayingStateConsoleRenderer( consoleBuffer, consoleRenderDefs, game, game, game, eventAggregator, clock, animationRepository, spriteRepository ) );
    auto playingMenuStateConsoleRenderer = shared_ptr<PlayingMenuStateConsoleRenderer>( new PlayingMenuStateConsoleRenderer( consoleBuffer, consoleRenderDefs, menuRepository ) );

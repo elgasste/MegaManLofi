@@ -6,6 +6,7 @@
 #include "IEntityConsoleSpriteCopier.h"
 #include "ConsoleSpriteDefs.h"
 #include "IReadOnlyEntity.h"
+#include "IEntityConsoleSprite.h"
 
 using namespace std;
 using namespace MegaManLofi;
@@ -38,7 +39,10 @@ void EntityConsoleSpriteRepository::HandleEntitySpawned()
       if ( _spriteMap.count( uniqueId ) == 0 )
       {
          auto sprite = _spriteDefs->EntitySpriteMap[entity->GetEntityMetaId()];
-         _spriteMap[uniqueId] = _spriteCopier->MakeCopy( sprite );
+         auto spriteCopy = _spriteCopier->MakeCopy( sprite );
+         spriteCopy->AssignTo( entity );
+
+         _spriteMap[uniqueId] = spriteCopy;
       }
    }
 }

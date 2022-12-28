@@ -8,4 +8,5 @@ class mock_EntityConsoleSpriteRepository : public MegaManLofi::IEntityConsoleSpr
 {
 public:
    MOCK_METHOD( const std::shared_ptr<MegaManLofi::IEntityConsoleSprite>, GetSprite, ( int ), ( const, override ) );
+   MOCK_METHOD( int, GetSpriteCount, ( ), ( const, override ) );
 };

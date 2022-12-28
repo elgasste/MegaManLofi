@@ -1,18 +1,17 @@
 #include "EntityConsoleSprite.h"
 #include "ConsoleSprite.h"
+#include "IReadOnlyEntity.h"
 
 using namespace std;
 using namespace MegaManLofi;
 
 EntityConsoleSprite::EntityConsoleSprite() :
-   _currentMovementType( (MovementType)0 ),
-   _currentDirection( (Direction)0 )
+   _entity( nullptr )
 {
 }
 
 EntityConsoleSprite::EntityConsoleSprite( EntityConsoleSprite& ecs ) :
-   _currentMovementType( ecs._currentMovementType ),
-   _currentDirection( ecs._currentDirection )
+   _entity( ecs._entity )
 {
    for ( auto [movementType, directionSpriteMap] : ecs._movementSpriteMaps )
    {
@@ -24,6 +23,12 @@ EntityConsoleSprite::EntityConsoleSprite( EntityConsoleSprite& ecs ) :
    }
 }
 
+void EntityConsoleSprite::AssignTo( const shared_ptr<IReadOnlyEntity> entity )
+{
+   _entity = entity;
+   Reset();
+}
+
 void EntityConsoleSprite::AddSprite( MovementType movementType,
                                      Direction direction,
                                      const std::shared_ptr<IConsoleSprite> sprite )
@@ -33,7 +38,7 @@ void EntityConsoleSprite::AddSprite( MovementType movementType,
 
 void EntityConsoleSprite::Tick()
 {
-   _movementSpriteMaps[_currentMovementType][_currentDirection]->Tick();
+   _movementSpriteMaps[_entity->GetMovementType()][_entity->GetDirection()]->Tick();
 }
 
 void EntityConsoleSprite::Reset()
@@ -49,20 +54,20 @@ void EntityConsoleSprite::Reset()
 
 short EntityConsoleSprite::GetWidth() const
 {
-   return _movementSpriteMaps.at( _currentMovementType ).at( _currentDirection )->GetWidth();
+   return _movementSpriteMaps.at( _entity->GetMovementType() ).at( _entity->GetDirection() )->GetWidth();
 }
 
 short EntityConsoleSprite::GetHeight() const
 {
-   return _movementSpriteMaps.at( _currentMovementType ).at( _currentDirection )->GetHeight();
+   return _movementSpriteMaps.at( _entity->GetMovementType() ).at( _entity->GetDirection() )->GetHeight();
 }
 
 double EntityConsoleSprite::GetTotalTraversalSeconds() const
 {
-   return _movementSpriteMaps.at( _currentMovementType ).at( _currentDirection )->GetTotalTraversalSeconds();
+   return _movementSpriteMaps.at( _entity->GetMovementType() ).at( _entity->GetDirection() )->GetTotalTraversalSeconds();
 }
 
 const ConsoleImage& EntityConsoleSprite::GetCurrentImage() const
 {
-   return _movementSpriteMaps.at( _currentMovementType ).at( _currentDirection )->GetCurrentImage();
+   return _movementSpriteMaps.at( _entity->GetMovementType() ).at( _entity->GetDirection() )->GetCurrentImage();
 }

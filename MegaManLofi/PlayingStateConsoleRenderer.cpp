@@ -250,8 +250,6 @@ void PlayingStateConsoleRenderer::DrawNonPlayerEntities()
 void PlayingStateConsoleRenderer::DrawEntity( const shared_ptr<IReadOnlyEntity> entity )
 {
    auto sprite = _spriteRepository->GetSprite( entity->GetUniqueId() );
-   sprite->SetDirection( entity->GetDirection() );
-   sprite->SetMovementType( entity->GetMovementType() );
    auto left = (short)( ( entity->GetArenaPositionLeft() - _viewportQuadUnits.Left ) / _renderDefs->ArenaCharWidth ) + _viewportOffsetChars.Left;
    auto top = (short)( ( entity->GetArenaPositionTop() - _viewportQuadUnits.Top ) / _renderDefs->ArenaCharHeight ) + _viewportOffsetChars.Top;
 

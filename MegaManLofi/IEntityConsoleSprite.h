@@ -9,10 +9,12 @@
 namespace MegaManLofi
 {
    class IConsoleSprite;
+   class IReadOnlyEntity;
 
    class __declspec( novtable ) IEntityConsoleSprite
    {
    public:
+      virtual void AssignTo( const std::shared_ptr<IReadOnlyEntity> entity );
       virtual void AddSprite( MovementType movementType,
                               Direction direction,
                               const std::shared_ptr<IConsoleSprite> sprite ) = 0;
@@ -23,8 +25,5 @@ namespace MegaManLofi
       virtual short GetHeight() const = 0;
       virtual double GetTotalTraversalSeconds() const = 0;
       virtual const ConsoleImage& GetCurrentImage() const = 0;
-
-      virtual void SetMovementType( MovementType type ) = 0;
-      virtual void SetDirection( Direction direction ) = 0;
    };
 }

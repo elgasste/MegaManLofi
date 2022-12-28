@@ -12,6 +12,7 @@ namespace MegaManLofi
       EntityConsoleSprite();
       EntityConsoleSprite( EntityConsoleSprite& ecs );
 
+      void AssignTo( const std::shared_ptr<IReadOnlyEntity> entity ) override;
       void AddSprite( MovementType movementType,
                       Direction direction,
                       const std::shared_ptr<IConsoleSprite> sprite ) override;
@@ -23,13 +24,9 @@ namespace MegaManLofi
       double GetTotalTraversalSeconds() const override;
       const ConsoleImage& GetCurrentImage() const override;
 
-      void SetMovementType( MovementType type ) override { _currentMovementType = type; }
-      void SetDirection( Direction direction ) override { _currentDirection = direction; }
-
    private:
       std::map<MovementType, std::map<Direction, std::shared_ptr<IConsoleSprite>>> _movementSpriteMaps;
 
-      MovementType _currentMovementType;
-      Direction _currentDirection;
+      std::shared_ptr<IReadOnlyEntity> _entity;
    };
 }

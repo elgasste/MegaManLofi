@@ -234,6 +234,9 @@
     <ClCompile Include="ConsoleSpriteDefsGenerator.cpp">
       <Filter>Source Files\GameDefGenerators</Filter>
     </ClCompile>
+    <ClCompile Include="EntityConsoleSpriteRepository.cpp">
+      <Filter>Source Files\Render</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameRunner.h">
@@ -595,6 +598,12 @@
     </ClInclude>
     <ClInclude Include="ConsoleSpriteDefsGenerator.h">
       <Filter>Header Files\GameDefGenerators</Filter>
+    </ClInclude>
+    <ClInclude Include="IEntityConsoleSpriteRepository.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityConsoleSpriteRepository.h">
+      <Filter>Header Files\Render</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

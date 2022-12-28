@@ -14,6 +14,7 @@ namespace MegaManLofi
    public:
       ConsoleSprite( const std::shared_ptr<IFrameRateProvider> frameRateProvider,
                      double imageTraversalSeconds );
+      ConsoleSprite( ConsoleSprite& cs );
 
       void AddImage( ConsoleImage image ) override;
       void Tick() override;

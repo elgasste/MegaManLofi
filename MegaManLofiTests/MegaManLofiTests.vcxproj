@@ -44,6 +44,7 @@
     <ClInclude Include="mock_ConsoleSprite.h" />
     <ClInclude Include="mock_Entity.h" />
     <ClInclude Include="mock_EntityConsoleSprite.h" />
+    <ClInclude Include="mock_EntityConsoleSpriteCopier.h" />
     <ClInclude Include="mock_EntityConsoleSpriteRepository.h" />
     <ClInclude Include="mock_FrameActionRegistry.h" />
     <ClInclude Include="mock_FrameRateProvider.h" />

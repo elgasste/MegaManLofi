@@ -237,6 +237,9 @@
     <ClCompile Include="EntityConsoleSpriteRepository.cpp">
       <Filter>Source Files\Render</Filter>
     </ClCompile>
+    <ClCompile Include="EntityConsoleSpriteCopier.cpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameRunner.h">
@@ -604,6 +607,12 @@
     </ClInclude>
     <ClInclude Include="EntityConsoleSpriteRepository.h">
       <Filter>Header Files\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="IEntityConsoleSpriteCopier.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityConsoleSpriteCopier.h">
+      <Filter>Header Files\Utilities</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

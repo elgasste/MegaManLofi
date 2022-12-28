@@ -161,6 +161,7 @@
     <ClCompile Include="ConsoleSprite.cpp" />
     <ClCompile Include="ConsoleSpriteDefsGenerator.cpp" />
     <ClCompile Include="EntityConsoleSprite.cpp" />
+    <ClCompile Include="EntityConsoleSpriteCopier.cpp" />
     <ClCompile Include="EntityDefsGenerator.cpp" />
     <ClCompile Include="EntityFactory.cpp" />
     <ClCompile Include="EntityConsoleSpriteRepository.cpp" />
@@ -227,6 +228,7 @@
     <ClInclude Include="DiagnosticsConsoleRenderer.h" />
     <ClInclude Include="Direction.h" />
     <ClInclude Include="EntityConsoleSprite.h" />
+    <ClInclude Include="EntityConsoleSpriteCopier.h" />
     <ClInclude Include="EntityDefs.h" />
     <ClInclude Include="EntityDefsGenerator.h" />
     <ClInclude Include="EntityFactory.h" />
@@ -257,6 +259,7 @@
     <ClInclude Include="IConsoleSprite.h" />
     <ClInclude Include="IEntity.h" />
     <ClInclude Include="IEntityConsoleSprite.h" />
+    <ClInclude Include="IEntityConsoleSpriteCopier.h" />
     <ClInclude Include="IEntityConsoleSpriteRepository.h" />
     <ClInclude Include="IFrameActionRegistry.h" />
     <ClInclude Include="IFrameRateProvider.h" />

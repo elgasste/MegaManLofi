@@ -14,6 +14,19 @@ ConsoleSprite::ConsoleSprite( const shared_ptr<IFrameRateProvider> frameRateProv
 {
 }
 
+ConsoleSprite::ConsoleSprite( ConsoleSprite& cs ) :
+   _frameRateProvider( cs._frameRateProvider ),
+   _currentImageIndex( cs._currentImageIndex ),
+   _imageTraversalSeconds( cs._imageTraversalSeconds ),
+   _totalSpriteSeconds( cs._totalSpriteSeconds ),
+   _spriteElapsedSeconds( cs._spriteElapsedSeconds )
+{
+   for ( auto image : cs._images )
+   {
+      _images.push_back( image );
+   }
+}
+
 void ConsoleSprite::AddImage( ConsoleImage image )
 {
    _images.push_back( image );

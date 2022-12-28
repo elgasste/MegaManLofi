@@ -1,5 +1,5 @@
 #include "EntityConsoleSprite.h"
-#include "IConsoleSprite.h"
+#include "ConsoleSprite.h"
 
 using namespace std;
 using namespace MegaManLofi;
@@ -8,6 +8,20 @@ EntityConsoleSprite::EntityConsoleSprite() :
    _currentMovementType( (MovementType)0 ),
    _currentDirection( (Direction)0 )
 {
+}
+
+EntityConsoleSprite::EntityConsoleSprite( EntityConsoleSprite& ecs ) :
+   _currentMovementType( ecs._currentMovementType ),
+   _currentDirection( ecs._currentDirection )
+{
+   for ( auto [movementType, directionSpriteMap] : ecs._movementSpriteMaps )
+   {
+      for ( auto [direction, sprite] : directionSpriteMap )
+      {
+         auto realSprite = static_pointer_cast<ConsoleSprite>( sprite );
+         _movementSpriteMaps[movementType][direction] = make_shared<ConsoleSprite>( *realSprite );
+      }
+   }
 }
 
 void EntityConsoleSprite::AddSprite( MovementType movementType,

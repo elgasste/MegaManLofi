@@ -10,6 +10,7 @@ namespace MegaManLofi
    {
    public:
       EntityConsoleSprite();
+      EntityConsoleSprite( EntityConsoleSprite& ecs );
 
       void AddSprite( MovementType movementType,
                       Direction direction,

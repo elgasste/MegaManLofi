@@ -10,12 +10,14 @@
 #include "IGameEventAggregator.h"
 #include "IFrameRateProvider.h"
 #include "IConsoleAnimationProvider.h"
+#include "IEntityConsoleSpriteRepository.h"
 #include "IConsoleAnimation.h"
 #include "IReadOnlyPlayer.h"
 #include "IReadOnlyEntity.h"
 #include "IReadOnlyArena.h"
 #include "Direction.h"
 #include "IConsoleSprite.h"
+#include "IEntityConsoleSprite.h"
 
 using namespace std;
 using namespace MegaManLofi;
@@ -27,7 +29,8 @@ PlayingStateConsoleRenderer::PlayingStateConsoleRenderer( const shared_ptr<ICons
                                                           const shared_ptr<IArenaInfoProvider> arenaInfoProvider,
                                                           const shared_ptr<IGameEventAggregator> eventAggregator,
                                                           const shared_ptr<IFrameRateProvider> frameRateProvider,
-                                                          const shared_ptr<IConsoleAnimationProvider> animationProvider ) :
+                                                          const shared_ptr<IConsoleAnimationProvider> animationProvider,
+                                                          const shared_ptr<IEntityConsoleSpriteRepository> spriteRepository ) :
    _consoleBuffer( consoleBuffer ),
    _renderDefs( renderDefs ),
    _gameInfoProvider( gameInfoProvider ),
@@ -36,6 +39,7 @@ PlayingStateConsoleRenderer::PlayingStateConsoleRenderer( const shared_ptr<ICons
    _eventAggregator( eventAggregator ),
    _frameRateProvider( frameRateProvider ),
    _animationProvider( animationProvider ),
+   _spriteRepository( spriteRepository ),
    _viewportQuadUnits( { 0, 0, 0, 0 } ),
    _viewportRectChars( { 0, 0, 0, 0 } ),
    _viewportOffsetChars( { 0, 0 } ),
@@ -227,7 +231,11 @@ void PlayingStateConsoleRenderer::DrawArenaSprites()
 
 void PlayingStateConsoleRenderer::DrawPlayer()
 {
-   auto sprite = GetPlayerSprite();
+   auto player = _playerInfoProvider->GetPlayerEntity();
+   auto sprite = _spriteRepository->GetSprite( player->GetUniqueId() );
+   sprite->SetDirection( player->GetDirection() );
+   sprite->SetMovementType( player->GetMovementType() );
+
    _consoleBuffer->Draw( _playerViewportChars.Left + _viewportOffsetChars.Left, _playerViewportChars.Top + _viewportOffsetChars.Top, sprite );
    sprite->Tick();
 }
@@ -242,11 +250,14 @@ void PlayingStateConsoleRenderer::DrawNonPlayerEntities()
          continue;
       }
 
-      auto sprite = _renderDefs->SpriteDefs->OldSpriteMap[entity->GetEntityMetaId()];
+      auto sprite = _spriteRepository->GetSprite( entity->GetUniqueId() );
+      sprite->SetDirection( entity->GetDirection() );
+      sprite->SetMovementType( entity->GetMovementType() );
       auto left = (short)( ( entity->GetArenaPositionLeft() - _viewportQuadUnits.Left ) / _renderDefs->ArenaCharWidth );
       auto top = (short)( ( entity->GetArenaPositionTop() - _viewportQuadUnits.Top ) / _renderDefs->ArenaCharHeight );
 
       _consoleBuffer->Draw( left, top, sprite );
+      sprite->Tick();
    }
 }
 
@@ -262,24 +273,4 @@ void PlayingStateConsoleRenderer::DrawPauseOverlay()
    auto top = ( _viewportRectChars.Height / 2 ) - ( _renderDefs->PauseOverlayImage.Height / 2 );
 
    _consoleBuffer->Draw( left + _viewportOffsetChars.Left, top + _viewportOffsetChars.Top, _renderDefs->PauseOverlayImage );
-}
-
-const shared_ptr<IConsoleSprite> PlayingStateConsoleRenderer::GetPlayerSprite() const
-{
-   auto player = _playerInfoProvider->GetPlayer();
-   auto playerEntity = _playerInfoProvider->GetPlayerEntity();
-   auto direction = playerEntity->GetDirection();
-   auto movementType = playerEntity->GetMovementType();
-
-   switch ( movementType )
-   {
-      case MovementType::Standing:
-         return _renderDefs->SpriteDefs->PlayerStandingSpriteMap[direction];
-      case MovementType::Walking:
-         return _renderDefs->SpriteDefs->PlayerWalkingSpriteMap[direction];
-      case MovementType::Airborne:
-         return _renderDefs->SpriteDefs->PlayerAirborneSpriteMap[direction];
-      default:
-         return nullptr;
-   }
 }

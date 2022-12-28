@@ -6,6 +6,7 @@
 #include "ConsoleBuffer.h"
 #include "ConsoleRenderDefs.h"
 #include "IConsoleSprite.h"
+#include "IEntityConsoleSprite.h"
 
 namespace MegaManLofi
 {
@@ -195,6 +196,11 @@ void ConsoleBuffer::Draw( short left, short top, const ConsoleImage& image )
 }
 
 void ConsoleBuffer::Draw( short left, short top, const std::shared_ptr<IConsoleSprite> sprite )
+{
+   Draw( left, top, sprite->GetCurrentImage() );
+}
+
+void ConsoleBuffer::Draw( short left, short top, const std::shared_ptr<IEntityConsoleSprite> sprite )
 {
    Draw( left, top, sprite->GetCurrentImage() );
 }

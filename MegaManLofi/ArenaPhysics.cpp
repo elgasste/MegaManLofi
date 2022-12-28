@@ -120,7 +120,7 @@ void ArenaPhysics::DetectEntityTileCollisionX( const std::shared_ptr<IEntity> en
             // we've collided with the left edge of the arena
             newPositionLeft = 0;
             entity->StopX();
-            DetectEntityEnvironmentCollision( entity );
+            HandleEntityEnvironmentCollision( entity );
             break;
          }
          else if ( newPositionLeft < leftOccupyingTileLeftEdge )
@@ -131,7 +131,7 @@ void ArenaPhysics::DetectEntityTileCollisionX( const std::shared_ptr<IEntity> en
             {
                newPositionLeft = leftOccupyingTileLeftEdge;
                entity->StopX();
-               DetectEntityEnvironmentCollision( entity );
+               HandleEntityEnvironmentCollision( entity );
             }
          }
       }
@@ -146,7 +146,7 @@ void ArenaPhysics::DetectEntityTileCollisionX( const std::shared_ptr<IEntity> en
             // we've collided with the right edge of the arena
             newPositionLeft = arenaWidth - hitBox.Width;
             entity->StopX();
-            DetectEntityEnvironmentCollision( entity );
+            HandleEntityEnvironmentCollision( entity );
             break;
          }
          else if ( newPositionRight > rightOccupyingTileRightEdge )
@@ -157,7 +157,7 @@ void ArenaPhysics::DetectEntityTileCollisionX( const std::shared_ptr<IEntity> en
             {
                newPositionLeft = rightOccupyingTileRightEdge - hitBox.Width;
                entity->StopX();
-               DetectEntityEnvironmentCollision( entity );
+               HandleEntityEnvironmentCollision( entity );
             }
          }
       }
@@ -182,7 +182,7 @@ void ArenaPhysics::DetectEntityTileCollisionY( const shared_ptr<IEntity> entity,
             // we've collided with the top edge of the arena
             newPositionTop = 0;
             entity->StopY();
-            DetectEntityEnvironmentCollision( entity );
+            HandleEntityEnvironmentCollision( entity );
             break;
          }
          else if ( newPositionTop < topOccupyingTileTopEdge )
@@ -193,7 +193,7 @@ void ArenaPhysics::DetectEntityTileCollisionY( const shared_ptr<IEntity> entity,
             {
                newPositionTop = topOccupyingTileTopEdge;
                entity->StopY();
-               DetectEntityEnvironmentCollision( entity );
+               HandleEntityEnvironmentCollision( entity );
             }
          }
       }
@@ -211,7 +211,7 @@ void ArenaPhysics::DetectEntityTileCollisionY( const shared_ptr<IEntity> entity,
             {
                _eventAggregator->RaiseEvent( GameEvent::Pitfall );
             }
-            DetectEntityEnvironmentCollision( entity );
+            HandleEntityEnvironmentCollision( entity );
             break;
          }
          else if ( newPositionBottom > bottomOccupyingTileBottomEdge )
@@ -222,14 +222,14 @@ void ArenaPhysics::DetectEntityTileCollisionY( const shared_ptr<IEntity> entity,
             {
                newPositionTop = bottomOccupyingTileBottomEdge - hitBox.Height;
                entity->StopY();
-               DetectEntityEnvironmentCollision( entity );
+               HandleEntityEnvironmentCollision( entity );
             }
          }
       }
    }
 }
 
-void ArenaPhysics::DetectEntityEnvironmentCollision( const shared_ptr<IEntity> entity )
+void ArenaPhysics::HandleEntityEnvironmentCollision( const shared_ptr<IEntity> entity )
 {
    if ( entity->GetEntityType() == EntityType::Projectile )
    {
@@ -280,7 +280,14 @@ void ArenaPhysics::DetectEntityMovementType( const shared_ptr<IEntity> entity ) 
 
    for ( long long x = occupyingTileIndices.Left; x <= occupyingTileIndices.Right; x++ )
    {
-      const auto& nextTileDown = _arena->GetTile( ( ( occupyingTileIndices.Bottom + 1 ) * _arena->GetHorizontalTiles() ) + x );
+      auto nextTileDownIndex = occupyingTileIndices.Bottom + 1;
+
+      if ( nextTileDownIndex >= _arena->GetVerticalTiles() )
+      {
+         break;
+      }
+
+      const auto& nextTileDown = _arena->GetTile( ( nextTileDownIndex * _arena->GetHorizontalTiles() ) + x );
 
       if ( !nextTileDown.DownPassable )
       {

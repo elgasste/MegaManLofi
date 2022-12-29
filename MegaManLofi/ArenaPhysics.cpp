@@ -79,27 +79,12 @@ void ArenaPhysics::MoveEntities()
 
 void ArenaPhysics::MoveEntity( const shared_ptr<IEntity> entity )
 {
-   auto currentPositionLeft = entity->GetArenaPositionLeft();
-   auto currentPositionTop = entity->GetArenaPositionTop();
-   auto newPositionLeft = (long long)( currentPositionLeft + ( entity->GetVelocityX() * _frameRateProvider->GetFrameSeconds() ) );
-   auto newPositionTop = (long long)( currentPositionTop + ( entity->GetVelocityY() * _frameRateProvider->GetFrameSeconds() ) );
+   auto newPositionLeft = (long long)( entity->GetArenaPositionLeft() + ( entity->GetVelocityX() * _frameRateProvider->GetFrameSeconds() ) );
+   auto newPositionTop = (long long)( entity->GetArenaPositionTop() + ( entity->GetVelocityY() * _frameRateProvider->GetFrameSeconds() ) );
    DetectEntityTileCollisionX( entity, newPositionLeft );
    DetectEntityTileCollisionY( entity, newPositionTop );
 
    entity->SetArenaPosition( { newPositionLeft, newPositionTop } );
-
-   auto player = _arena->GetMutablePlayer();
-   if ( entity == player )
-   {
-      if ( currentPositionLeft != newPositionLeft )
-      {
-         _frameActionRegistry->FlagAction( FrameAction::PlayerMovedHorizontal );
-      }
-      if ( currentPositionTop != newPositionTop )
-      {
-         _frameActionRegistry->FlagAction( FrameAction::PlayerMovedVertical );
-      }
-   }
 }
 
 void ArenaPhysics::DetectEntityTileCollisionX( const std::shared_ptr<IEntity> entity, long long& newPositionLeft )

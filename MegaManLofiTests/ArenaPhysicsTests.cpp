@@ -80,16 +80,6 @@ protected:
    shared_ptr<ArenaPhysics> _arenaPhysics;
 };
 
-TEST_F( ArenaPhysicsTests, Tick_PlayerDidNotMove_DoesNotFlagMoveActions )
-{
-   BuildArenaPhysics();
-
-   EXPECT_CALL( *_frameActionRegistryMock, FlagAction( FrameAction::PlayerMovedHorizontal ) ).Times( 0 );
-   EXPECT_CALL( *_frameActionRegistryMock, FlagAction( FrameAction::PlayerMovedVertical ) ).Times( 0 );
-
-   _arenaPhysics->Tick();
-}
-
 // TODO: I'd very much like to refactor ArenaPhysics into smaller parts, and in the
 // meantime it seems like a waste of time to fix these tests.
 

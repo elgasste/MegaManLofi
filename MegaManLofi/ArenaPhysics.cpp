@@ -1,6 +1,5 @@
 #include "ArenaPhysics.h"
 #include "IFrameRateProvider.h"
-#include "IFrameActionRegistry.h"
 #include "IGameEventAggregator.h"
 #include "ArenaDefs.h"
 #include "IPlayer.h"
@@ -12,11 +11,9 @@ using namespace std;
 using namespace MegaManLofi;
 
 ArenaPhysics::ArenaPhysics( const shared_ptr<IFrameRateProvider> frameRateProvider,
-                            const shared_ptr<IFrameActionRegistry> frameActionRegistry,
                             const shared_ptr<IGameEventAggregator> eventAggregator,
                             const shared_ptr<ArenaDefs> arenaDefs ) :
    _frameRateProvider( frameRateProvider ),
-   _frameActionRegistry( frameActionRegistry ),
    _eventAggregator( eventAggregator ),
    _arenaDefs( arenaDefs ),
    _arena( nullptr )

@@ -43,6 +43,5 @@ namespace MegaManLofi
       std::shared_ptr<IArena> _arena;
 
       std::map<std::shared_ptr<IEntity>, Quad<long long>> _entityOccupyingTileIndicesMap;
-      Quad<long long> _playerOccupyingTileIndices;
    };
 }

@@ -1,6 +1,5 @@
 #include "ArenaPhysics.h"
 #include "IFrameRateProvider.h"
-#include "IFrameActionRegistry.h"
 #include "IGameEventAggregator.h"
 #include "ArenaDefs.h"
 #include "IPlayer.h"
@@ -12,11 +11,9 @@ using namespace std;
 using namespace MegaManLofi;
 
 ArenaPhysics::ArenaPhysics( const shared_ptr<IFrameRateProvider> frameRateProvider,
-                            const shared_ptr<IFrameActionRegistry> frameActionRegistry,
                             const shared_ptr<IGameEventAggregator> eventAggregator,
                             const shared_ptr<ArenaDefs> arenaDefs ) :
    _frameRateProvider( frameRateProvider ),
-   _frameActionRegistry( frameActionRegistry ),
    _eventAggregator( eventAggregator ),
    _arenaDefs( arenaDefs ),
    _arena( nullptr )
@@ -25,12 +22,12 @@ ArenaPhysics::ArenaPhysics( const shared_ptr<IFrameRateProvider> frameRateProvid
 
 void ArenaPhysics::AssignTo( const shared_ptr<IArena> arena )
 {
-   _entityOccupyingTileIndicesMap.clear();
+   _entityTileIndicesCache.clear();
    _arena = arena;
 
    for ( int i = 0; i < _arena->GetEntityCount(); i++ )
    {
-      UpdateEntityOccupyingTileIndices( _arena->GetMutableEntity( i ) );
+      UpdateEntityTileIndicesCache( _arena->GetMutableEntity( i ) );
    }
 }
 
@@ -41,12 +38,12 @@ void ArenaPhysics::Tick()
    DetectTileDeath();
 }
 
-void ArenaPhysics::UpdateEntityOccupyingTileIndices( const shared_ptr<IEntity> entity )
+void ArenaPhysics::UpdateEntityTileIndicesCache( const shared_ptr<IEntity> entity )
 {
    const auto& hitBox = entity->GetHitBox();
    auto position = entity->GetArenaPosition();
 
-   _entityOccupyingTileIndicesMap[entity] =
+   _entityTileIndicesCache[entity] =
    {
       ( position.Left + hitBox.Left ) / _arena->GetTileWidth(),
       ( position.Top + hitBox.Top ) / _arena->GetTileHeight(),
@@ -58,11 +55,11 @@ void ArenaPhysics::UpdateEntityOccupyingTileIndices( const shared_ptr<IEntity> e
    // these indices will be incorrect, and need to be decremented.
    if ( ( ( position.Left + hitBox.Left + hitBox.Width ) % _arena->GetTileWidth() ) == 0 )
    {
-      _entityOccupyingTileIndicesMap[entity].Right--;
+      _entityTileIndicesCache[entity].Right--;
    }
    if ( ( ( position.Top + hitBox.Top + hitBox.Height ) % _arena->GetTileHeight() ) == 0 )
    {
-      _entityOccupyingTileIndicesMap[entity].Bottom--;
+      _entityTileIndicesCache[entity].Bottom--;
    }
 }
 
@@ -72,41 +69,26 @@ void ArenaPhysics::MoveEntities()
    {
       auto entity = _arena->GetMutableEntity( i );
       MoveEntity( entity );
-      UpdateEntityOccupyingTileIndices( entity );
+      UpdateEntityTileIndicesCache( entity );
       DetectEntityMovementType( entity );
    }
 }
 
 void ArenaPhysics::MoveEntity( const shared_ptr<IEntity> entity )
 {
-   auto currentPositionLeft = entity->GetArenaPositionLeft();
-   auto currentPositionTop = entity->GetArenaPositionTop();
-   auto newPositionLeft = (long long)( currentPositionLeft + ( entity->GetVelocityX() * _frameRateProvider->GetFrameSeconds() ) );
-   auto newPositionTop = (long long)( currentPositionTop + ( entity->GetVelocityY() * _frameRateProvider->GetFrameSeconds() ) );
+   auto newPositionLeft = (long long)( entity->GetArenaPositionLeft() + ( entity->GetVelocityX() * _frameRateProvider->GetFrameSeconds() ) );
+   auto newPositionTop = (long long)( entity->GetArenaPositionTop() + ( entity->GetVelocityY() * _frameRateProvider->GetFrameSeconds() ) );
    DetectEntityTileCollisionX( entity, newPositionLeft );
    DetectEntityTileCollisionY( entity, newPositionTop );
 
    entity->SetArenaPosition( { newPositionLeft, newPositionTop } );
-
-   auto player = _arena->GetMutablePlayer();
-   if ( entity == player )
-   {
-      if ( currentPositionLeft != newPositionLeft )
-      {
-         _frameActionRegistry->FlagAction( FrameAction::PlayerMovedHorizontal );
-      }
-      if ( currentPositionTop != newPositionTop )
-      {
-         _frameActionRegistry->FlagAction( FrameAction::PlayerMovedVertical );
-      }
-   }
 }
 
 void ArenaPhysics::DetectEntityTileCollisionX( const std::shared_ptr<IEntity> entity, long long& newPositionLeft )
 {
    const auto& hitBox = entity->GetHitBox();
    auto currentPositionLeft = entity->GetArenaPositionLeft();
-   const auto& occupyingTileIndices = _entityOccupyingTileIndicesMap[entity];
+   const auto& occupyingTileIndices = _entityTileIndicesCache[entity];
 
    // cycle from the top tile we're currently occupying to the bottom tile we're currently occupying
    for ( long long y = occupyingTileIndices.Top; y <= occupyingTileIndices.Bottom; y++ )
@@ -168,7 +150,7 @@ void ArenaPhysics::DetectEntityTileCollisionY( const shared_ptr<IEntity> entity,
 {
    const auto& hitBox = entity->GetHitBox();
    auto currentPositionTop = entity->GetArenaPositionTop();
-   const auto& occupyingTileIndices = _entityOccupyingTileIndicesMap[entity];
+   const auto& occupyingTileIndices = _entityTileIndicesCache[entity];
 
    // cycle from the left tile we're currently occupying to the right tile we're currently occupying
    for ( long long x = occupyingTileIndices.Left; x <= occupyingTileIndices.Right; x++ )
@@ -233,7 +215,7 @@ void ArenaPhysics::HandleEntityEnvironmentCollision( const shared_ptr<IEntity> e
 {
    if ( entity->GetEntityType() == EntityType::Projectile )
    {
-      _entityOccupyingTileIndicesMap.erase( entity );
+      _entityTileIndicesCache.erase( entity );
       _arena->RemoveEntity( entity );
    }
 }
@@ -250,7 +232,7 @@ void ArenaPhysics::UpdateActiveRegion()
 bool ArenaPhysics::DetectTileDeath() const
 {
    auto player = _arena->GetMutablePlayer();
-   const auto& occupyingTileIndices = _entityOccupyingTileIndicesMap.at( player );
+   const auto& occupyingTileIndices = _entityTileIndicesCache.at( player );
 
    for ( long long x = occupyingTileIndices.Left; x <= occupyingTileIndices.Right; x++ )
    {
@@ -276,7 +258,7 @@ void ArenaPhysics::DetectEntityMovementType( const shared_ptr<IEntity> entity ) 
    auto hitBoxBottom = positionTop + hitBox.Top + hitBox.Height;
 
    bool isOnGround = false;
-   const auto& occupyingTileIndices = _entityOccupyingTileIndicesMap.at( entity );
+   const auto& occupyingTileIndices = _entityTileIndicesCache.at( entity );
 
    for ( long long x = occupyingTileIndices.Left; x <= occupyingTileIndices.Right; x++ )
    {

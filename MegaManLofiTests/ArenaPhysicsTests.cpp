@@ -9,7 +9,6 @@
 #include <MegaManLofi/GameEvent.h>
 
 #include "mock_FrameRateProvider.h"
-#include "mock_FrameActionRegistry.h"
 #include "mock_GameEventAggregator.h"
 #include "mock_Arena.h"
 #include "mock_Player.h"
@@ -24,7 +23,6 @@ public:
    void SetUp() override
    {
       _frameRateProviderMock.reset( new NiceMock<mock_FrameRateProvider> );
-      _frameActionRegistryMock.reset( new NiceMock<mock_FrameActionRegistry> );
       _eventAggregatorMock.reset( new NiceMock<mock_GameEventAggregator> );
       _arenaDefs.reset( new ArenaDefs() );
       _arenaMock.reset( new NiceMock<mock_Arena> );
@@ -61,13 +59,12 @@ public:
       ON_CALL( *_playerMock, GetArenaPositionTop() ).WillByDefault( Return( _playerArenaPosition.Top ) );
       ON_CALL( *_playerMock, GetHitBox() ).WillByDefault( ReturnRef( _playerHitBox ) );
 
-      _arenaPhysics.reset( new ArenaPhysics( _frameRateProviderMock, _frameActionRegistryMock, _eventAggregatorMock, _arenaDefs ) );
+      _arenaPhysics.reset( new ArenaPhysics( _frameRateProviderMock, _eventAggregatorMock, _arenaDefs ) );
       _arenaPhysics->AssignTo( _arenaMock );
    }
 
 protected:
    shared_ptr<mock_FrameRateProvider> _frameRateProviderMock;
-   shared_ptr<mock_FrameActionRegistry> _frameActionRegistryMock;
    shared_ptr<mock_GameEventAggregator> _eventAggregatorMock;
    shared_ptr<ArenaDefs> _arenaDefs;
    shared_ptr<mock_Arena> _arenaMock;
@@ -79,16 +76,6 @@ protected:
 
    shared_ptr<ArenaPhysics> _arenaPhysics;
 };
-
-TEST_F( ArenaPhysicsTests, Tick_PlayerDidNotMove_DoesNotFlagMoveActions )
-{
-   BuildArenaPhysics();
-
-   EXPECT_CALL( *_frameActionRegistryMock, FlagAction( FrameAction::PlayerMovedHorizontal ) ).Times( 0 );
-   EXPECT_CALL( *_frameActionRegistryMock, FlagAction( FrameAction::PlayerMovedVertical ) ).Times( 0 );
-
-   _arenaPhysics->Tick();
-}
 
 // TODO: I'd very much like to refactor ArenaPhysics into smaller parts, and in the
 // meantime it seems like a waste of time to fix these tests.

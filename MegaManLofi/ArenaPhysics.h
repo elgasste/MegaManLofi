@@ -24,7 +24,7 @@ namespace MegaManLofi
       void Tick() override;
 
    private:
-      void UpdateEntityOccupyingTileIndices( const std::shared_ptr<IEntity> entity );
+      void UpdateEntityTileIndicesCache( const std::shared_ptr<IEntity> entity );
       void MoveEntities();
       void MoveEntity( const std::shared_ptr<IEntity> entity );
       void DetectEntityTileCollisionX( const std::shared_ptr<IEntity> entity, long long& newPositionLeft );
@@ -42,6 +42,6 @@ namespace MegaManLofi
 
       std::shared_ptr<IArena> _arena;
 
-      std::map<std::shared_ptr<IEntity>, Quad<long long>> _entityOccupyingTileIndicesMap;
+      std::map<std::shared_ptr<IEntity>, Quad<long long>> _entityTileIndicesCache;
    };
 }

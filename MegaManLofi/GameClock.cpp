@@ -11,7 +11,9 @@ GameClock::GameClock( const shared_ptr<IHighResolutionClock> highResolutionClock
    _minimumFrameRate( -1 ),
    _minNanoSecondsPerFrame( -1 ),
    _hasMinimumFrameRate( false ),
+   _wasLagFrame( false ),
    _totalFrameCount( 0 ),
+   _lagFrameCount( 0 ),
    _absoluteStartTimeNano( 0 ),
    _frameStartTimeNano( 0 ),
    _lastFrameDurationNano( 0 ),
@@ -51,6 +53,12 @@ void GameClock::EndFrame()
    auto now = _highResolutionClock->Now();
    _lastFrameDurationNano = now - _frameStartTimeNano;
    _totalDurationNano = now - _absoluteStartTimeNano;
+   _wasLagFrame = _hasMinimumFrameRate && ( _lastFrameDurationNano > _minNanoSecondsPerFrame );
+
+   if ( _wasLagFrame )
+   {
+      _lagFrameCount++;
+   }
 }
 
 long long GameClock::GetAverageFrameRate() const
@@ -60,20 +68,5 @@ long long GameClock::GetAverageFrameRate() const
 
 double GameClock::GetFrameSeconds() const
 {
-   if ( _hasMinimumFrameRate )
-   {
-      if ( _lastFrameDurationNano > _minNanoSecondsPerFrame )
-      {
-         // TODO: count this is a lag frame
-         return _minNanoSecondsPerFrame / 1'000'000'000.;
-      }
-      else
-      {
-         return _lastFrameDurationNano / 1'000'000'000.;
-      }
-   }
-   else
-   {
-      return _lastFrameDurationNano / 1'000'000'000.;
-   }
+   return _wasLagFrame ? _minNanoSecondsPerFrame / 1'000'000'000. : _lastFrameDurationNano / 1'000'000'000.;
 }

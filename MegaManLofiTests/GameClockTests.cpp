@@ -33,6 +33,7 @@ TEST_F( GameClockTests, Constructor_Always_InitializesAllValues )
 {
    EXPECT_EQ( _clock->GetMinimumFrameRate(), -1 );
    EXPECT_FALSE( _clock->HasMinimumFrameRate() );
+   EXPECT_EQ( _clock->GetLagFrameCount(), 0 );
    EXPECT_EQ( _clock->GetElapsedNanoseconds(), 0 );
    EXPECT_EQ( _clock->GetCurrentFrame(), 0 );
    EXPECT_EQ( _clock->GetAverageFrameRate(), 0 );
@@ -113,6 +114,7 @@ TEST_F( GameClockTests, GetFrameSeconds_FrameWasFasterThanMinimumFrameRate_Retur
    _clock->EndFrame();
 
    EXPECT_EQ( _clock->GetFrameSeconds(), .09 );
+   EXPECT_EQ( _clock->GetLagFrameCount(), 0 );
 }
 
 TEST_F( GameClockTests, GetFrameSeconds_FrameWasEqualToMinimumFrameRate_ReturnsTotalFrameSeconds )
@@ -124,6 +126,7 @@ TEST_F( GameClockTests, GetFrameSeconds_FrameWasEqualToMinimumFrameRate_ReturnsT
    _clock->EndFrame();
 
    EXPECT_EQ( _clock->GetFrameSeconds(), .1 );
+   EXPECT_EQ( _clock->GetLagFrameCount(), 0 );
 }
 
 TEST_F( GameClockTests, GetFrameSeconds_FrameWasSlowerThanMinimumFrameRate_ReturnsMinimumFrameSeconds )
@@ -135,4 +138,5 @@ TEST_F( GameClockTests, GetFrameSeconds_FrameWasSlowerThanMinimumFrameRate_Retur
    _clock->EndFrame();
 
    EXPECT_EQ( _clock->GetFrameSeconds(), .1 );
+   EXPECT_EQ( _clock->GetLagFrameCount(), 1 );
 }

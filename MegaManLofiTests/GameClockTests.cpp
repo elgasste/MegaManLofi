@@ -94,3 +94,45 @@ TEST_F( GameClockTests, EndFrame_Always_UpdatesProperties )
    EXPECT_EQ( _clock->GetAverageFrameRate(), 2 );
    EXPECT_EQ( _clock->GetFrameSeconds(), .5 );
 }
+
+TEST_F( GameClockTests, GetFrameSeconds_DoesNotHaveMinimumFrameRateAlways_ReturnsTotalFrameSeconds )
+{
+   _clock->StartFrame();
+   EXPECT_CALL( *_highResolutionClockMock, Now() ).WillOnce( Return( 1'000'000'000 ) ); // 1 second
+   _clock->EndFrame();
+
+   EXPECT_EQ( _clock->GetFrameSeconds(), 1. );
+}
+
+TEST_F( GameClockTests, GetFrameSeconds_FrameWasFasterThanMinimumFrameRate_ReturnsTotalFrameSeconds )
+{
+   _clock->SetMinimumFrameRate( 10 ); // 100,000,000 nanoseconds per frame
+
+   _clock->StartFrame();
+   EXPECT_CALL( *_highResolutionClockMock, Now() ).WillOnce( Return( 90'000'000 ) );
+   _clock->EndFrame();
+
+   EXPECT_EQ( _clock->GetFrameSeconds(), .09 );
+}
+
+TEST_F( GameClockTests, GetFrameSeconds_FrameWasEqualToMinimumFrameRate_ReturnsTotalFrameSeconds )
+{
+   _clock->SetMinimumFrameRate( 10 ); // 100,000,000 nanoseconds per frame
+
+   _clock->StartFrame();
+   EXPECT_CALL( *_highResolutionClockMock, Now() ).WillOnce( Return( 100'000'000 ) );
+   _clock->EndFrame();
+
+   EXPECT_EQ( _clock->GetFrameSeconds(), .1 );
+}
+
+TEST_F( GameClockTests, GetFrameSeconds_FrameWasSlowerThanMinimumFrameRate_ReturnsMinimumFrameSeconds )
+{
+   _clock->SetMinimumFrameRate( 10 ); // 100,000,000 nanoseconds per frame
+
+   _clock->StartFrame();
+   EXPECT_CALL( *_highResolutionClockMock, Now() ).WillOnce( Return( 110'000'000 ) );
+   _clock->EndFrame();
+
+   EXPECT_EQ( _clock->GetFrameSeconds(), .1 );
+}

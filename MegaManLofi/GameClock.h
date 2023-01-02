@@ -29,7 +29,7 @@ namespace MegaManLofi
       const std::shared_ptr<IHighResolutionClock> _highResolutionClock;
 
       long long _minimumFrameRate;
-      double _minSecondsPerFrame;
+      long long _minNanoSecondsPerFrame;
       bool _hasMinimumFrameRate;
 
       long long _totalFrameCount;

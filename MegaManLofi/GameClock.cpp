@@ -9,7 +9,7 @@ using namespace MegaManLofi;
 GameClock::GameClock( const shared_ptr<IHighResolutionClock> highResolutionClock ) :
    _highResolutionClock( highResolutionClock ),
    _minimumFrameRate( -1 ),
-   _minSecondsPerFrame( -1 ),
+   _minNanoSecondsPerFrame( -1 ),
    _hasMinimumFrameRate( false ),
    _totalFrameCount( 0 ),
    _absoluteStartTimeNano( 0 ),
@@ -29,13 +29,13 @@ void GameClock::SetMinimumFrameRate( long long frameRate )
    else if ( frameRate < 0 )
    {
       _minimumFrameRate = -1;
-      _minSecondsPerFrame = -1;
+      _minNanoSecondsPerFrame = -1;
       _hasMinimumFrameRate = false;
    }
    else
    {
       _minimumFrameRate = frameRate;
-      _minSecondsPerFrame = 1 / (double)frameRate;
+      _minNanoSecondsPerFrame = (long long)( ( 1 / (double)frameRate ) * 1'000'000'000 );
       _hasMinimumFrameRate = true;
    }
 }
@@ -60,5 +60,20 @@ long long GameClock::GetAverageFrameRate() const
 
 double GameClock::GetFrameSeconds() const
 {
-   return _lastFrameDurationNano / 1'000'000'000.;
+   if ( _hasMinimumFrameRate )
+   {
+      if ( _lastFrameDurationNano > _minNanoSecondsPerFrame )
+      {
+         // TODO: count this is a lag frame
+         return _minNanoSecondsPerFrame / 1'000'000'000.;
+      }
+      else
+      {
+         return _lastFrameDurationNano / 1'000'000'000.;
+      }
+   }
+   else
+   {
+      return _lastFrameDurationNano / 1'000'000'000.;
+   }
 }

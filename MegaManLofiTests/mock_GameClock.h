@@ -8,6 +8,10 @@
 class mock_GameClock : public MegaManLofi::IGameClock
 {
 public:
+   MOCK_METHOD( long long, GetMinimumFrameRate, ( ), ( const, override ) );
+   MOCK_METHOD( void, SetMinimumFrameRate, ( long long ), ( override ) );
+   MOCK_METHOD( bool, HasMinimumFrameRate, ( ), ( const, override ) );
+   MOCK_METHOD( long long, GetLagFrameCount, ( ), ( const, override ) );
    MOCK_METHOD( long long, GetCurrentFrame, ( ), ( const, override ) );
    MOCK_METHOD( double, GetFrameSeconds, ( ), ( const, override ) );
    MOCK_METHOD( void, StartFrame, ( ), ( override ) );

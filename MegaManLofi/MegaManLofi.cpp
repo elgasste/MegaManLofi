@@ -100,6 +100,10 @@ void LoadAndRun( const shared_ptr<IConsoleBuffer> consoleBuffer )
 
    // game defs
    auto gameDefs = GameDefsGenerator::GenerateGameDefs( clock, uniqueNumberGenerator );
+   if ( gameDefs->MinimumFrameRate > 0 )
+   {
+      clock->SetMinimumFrameRate( gameDefs->MinimumFrameRate );
+   }
    auto consoleRenderDefs = static_pointer_cast<ConsoleRenderDefs>( gameDefs->RenderDefs );
    auto keyboardInputDefs = static_pointer_cast<KeyboardInputDefs>( gameDefs->InputDefs );
 

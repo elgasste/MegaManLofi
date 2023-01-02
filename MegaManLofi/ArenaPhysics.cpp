@@ -84,7 +84,7 @@ void ArenaPhysics::MoveEntity( const shared_ptr<IEntity> entity )
    entity->SetArenaPosition( { newPositionLeft, newPositionTop } );
 }
 
-void ArenaPhysics::DetectEntityTileCollisionX( const std::shared_ptr<IEntity> entity, long long& newPositionLeft )
+void ArenaPhysics::DetectEntityTileCollisionX( const shared_ptr<IEntity> entity, long long& newPositionLeft )
 {
    const auto& hitBox = entity->GetHitBox();
    auto currentPositionLeft = entity->GetArenaPositionLeft();

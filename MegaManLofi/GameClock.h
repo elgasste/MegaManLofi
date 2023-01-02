@@ -13,6 +13,11 @@ namespace MegaManLofi
    public:
       GameClock( const std::shared_ptr<IHighResolutionClock> highResolutionClock );
 
+      long long GetMinimumFrameRate() const override { return _minimumFrameRate; }
+      void SetMinimumFrameRate( long long frameRate ) override;
+      bool HasMinimumFrameRate() const override { return _hasMinimumFrameRate; }
+      long long GetLagFrameCount() const override { return _lagFrameCount; }
+
       void StartFrame() override;
       void EndFrame() override;
 
@@ -24,7 +29,13 @@ namespace MegaManLofi
    private:
       const std::shared_ptr<IHighResolutionClock> _highResolutionClock;
 
+      long long _minimumFrameRate;
+      long long _minNanoSecondsPerFrame;
+      bool _hasMinimumFrameRate;
+      bool _wasLagFrame;
+
       long long _totalFrameCount;
+      long long _lagFrameCount;
       long long _absoluteStartTimeNano;
       long long _frameStartTimeNano;
       long long _lastFrameDurationNano;

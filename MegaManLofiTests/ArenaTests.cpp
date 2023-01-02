@@ -86,7 +86,7 @@ TEST_F( ArenaTests, Reset_Always_ClearsEntities )
 {
    BuildArena();
 
-   _arena->AddEntity( make_shared<mock_Entity>() );
+   _arena->AddEntity( shared_ptr<mock_Entity>( new NiceMock<mock_Entity> ) );
 
    EXPECT_EQ( _arena->GetEntityCount(), 2 );
 
@@ -109,8 +109,8 @@ TEST_F( ArenaTests, Reset_Always_RaisesArenaEntitiesClearedEvent )
 TEST_F( ArenaTests, HasEntity_DoesNotHaveEntity_ReturnsFalse )
 {
    BuildArena();
-   auto entityMock1 = make_shared<mock_Entity>();
-   auto entityMock2 = make_shared<mock_Entity>();
+   auto entityMock1 = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
+   auto entityMock2 = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
    ON_CALL( *entityMock1, GetUniqueId() ).WillByDefault( Return( 3 ) );
    ON_CALL( *entityMock2, GetUniqueId() ).WillByDefault( Return( 7 ) );
 
@@ -122,8 +122,8 @@ TEST_F( ArenaTests, HasEntity_DoesNotHaveEntity_ReturnsFalse )
 TEST_F( ArenaTests, HasEntity_HasEntity_ReturnsTrue )
 {
    BuildArena();
-   auto entityMock1 = make_shared<mock_Entity>();
-   auto entityMock2 = make_shared<mock_Entity>();
+   auto entityMock1 = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
+   auto entityMock2 = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
    ON_CALL( *entityMock1, GetUniqueId() ).WillByDefault( Return( 3 ) );
    ON_CALL( *entityMock2, GetUniqueId() ).WillByDefault( Return( 7 ) );
 
@@ -136,7 +136,7 @@ TEST_F( ArenaTests, HasEntity_HasEntity_ReturnsTrue )
 TEST_F( ArenaTests, AddEntity_EntityIsNotInList_AddsEntity )
 {
    BuildArena();
-   auto entityMock = make_shared<mock_Entity>();
+   auto entityMock = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
 
    _arena->AddEntity( entityMock );
 
@@ -147,7 +147,7 @@ TEST_F( ArenaTests, AddEntity_EntityIsNotInList_AddsEntity )
 TEST_F( ArenaTests, AddEntity_EntityIsNotInList_RaisesArenaEntitySpawnedEvent )
 {
    BuildArena();
-   auto entityMock = make_shared<mock_Entity>();
+   auto entityMock = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
 
    EXPECT_CALL( *_eventAggregatorMock, RaiseEvent( GameEvent::ArenaEntitySpawned ) );
 
@@ -157,7 +157,7 @@ TEST_F( ArenaTests, AddEntity_EntityIsNotInList_RaisesArenaEntitySpawnedEvent )
 TEST_F( ArenaTests, AddEntity_EntityIsAlreadyInList_DoesNotAddEntity )
 {
    BuildArena();
-   auto entityMock = make_shared<mock_Entity>();
+   auto entityMock = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
    _arena->AddEntity( entityMock );
 
    _arena->AddEntity( entityMock );
@@ -169,7 +169,7 @@ TEST_F( ArenaTests, AddEntity_EntityIsAlreadyInList_DoesNotAddEntity )
 TEST_F( ArenaTests, AddEntity_EntityIsAlreadyInList_DoesNotRaiseArenaEntitySpawnedEvent )
 {
    BuildArena();
-   auto entityMock = make_shared<mock_Entity>();
+   auto entityMock = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
    _arena->AddEntity( entityMock );
 
    EXPECT_CALL( *_eventAggregatorMock, RaiseEvent( GameEvent::ArenaEntitySpawned ) ).Times( 0 );
@@ -180,8 +180,8 @@ TEST_F( ArenaTests, AddEntity_EntityIsAlreadyInList_DoesNotRaiseArenaEntitySpawn
 TEST_F( ArenaTests, RemoveEntity_EntityIsNotInList_DoesNotRemoveEntity )
 {
    BuildArena();
-   auto entityMock1 = make_shared<mock_Entity>();
-   auto entityMock2 = make_shared<mock_Entity>();
+   auto entityMock1 = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
+   auto entityMock2 = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
    _arena->AddEntity( entityMock1 );
 
    _arena->RemoveEntity( entityMock2 );
@@ -193,8 +193,8 @@ TEST_F( ArenaTests, RemoveEntity_EntityIsNotInList_DoesNotRemoveEntity )
 TEST_F( ArenaTests, RemoveEntity_EntityIsNotInList_DoesNotRaiseArenaEntityDeSpawnedEvent )
 {
    BuildArena();
-   auto entityMock1 = make_shared<mock_Entity>();
-   auto entityMock2 = make_shared<mock_Entity>();
+   auto entityMock1 = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
+   auto entityMock2 = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
    _arena->AddEntity( entityMock1 );
 
    EXPECT_CALL( *_eventAggregatorMock, RaiseEvent( GameEvent::ArenaEntityDeSpawned ) ).Times( 0 );
@@ -205,8 +205,8 @@ TEST_F( ArenaTests, RemoveEntity_EntityIsNotInList_DoesNotRaiseArenaEntityDeSpaw
 TEST_F( ArenaTests, RemoveEntity_EntityIsInList_RemovesEntity )
 {
    BuildArena();
-   auto entityMock1 = make_shared<mock_Entity>();
-   auto entityMock2 = make_shared<mock_Entity>();
+   auto entityMock1 = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
+   auto entityMock2 = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
    _arena->AddEntity( entityMock1 );
    _arena->AddEntity( entityMock2 );
 
@@ -219,8 +219,8 @@ TEST_F( ArenaTests, RemoveEntity_EntityIsInList_RemovesEntity )
 TEST_F( ArenaTests, RemoveEntity_EntityIsInList_RaisesArenaEntityDeSpawnedEvent )
 {
    BuildArena();
-   auto entityMock1 = make_shared<mock_Entity>();
-   auto entityMock2 = make_shared<mock_Entity>();
+   auto entityMock1 = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
+   auto entityMock2 = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
    _arena->AddEntity( entityMock1 );
    _arena->AddEntity( entityMock2 );
 

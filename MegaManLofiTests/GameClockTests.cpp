@@ -31,10 +31,47 @@ protected:
 
 TEST_F( GameClockTests, Constructor_Always_InitializesAllValues )
 {
+   EXPECT_EQ( _clock->GetMinimumFrameRate(), -1 );
+   EXPECT_FALSE( _clock->HasMinimumFrameRate() );
    EXPECT_EQ( _clock->GetElapsedNanoseconds(), 0 );
    EXPECT_EQ( _clock->GetCurrentFrame(), 0 );
    EXPECT_EQ( _clock->GetAverageFrameRate(), 0 );
    EXPECT_EQ( _clock->GetFrameSeconds(), 0 );
+}
+
+TEST_F( GameClockTests, SetMinimumFrameRate_FrameRateIsZero_ThrowsException )
+{
+   string message;
+
+   try
+   {
+      _clock->SetMinimumFrameRate( 0 );
+   }
+   catch ( invalid_argument e )
+   {
+      message = e.what();
+   }
+
+   EXPECT_EQ( message, "Minimum frame rate cannot be zero" );
+}
+
+TEST_F( GameClockTests, SetMinimumFrameRate_FrameRateIsPositive_SetsMinimumFrameRate )
+{
+   _clock->SetMinimumFrameRate( 60 );
+
+   EXPECT_TRUE( _clock->HasMinimumFrameRate() );
+   EXPECT_EQ( _clock->GetMinimumFrameRate(), 60 );
+}
+
+TEST_F( GameClockTests, SetMinimumFrameRate_FrameRateIsNegative_RemovesMinimumFrameRate )
+{
+   _clock->SetMinimumFrameRate( 20 );
+   EXPECT_TRUE( _clock->HasMinimumFrameRate() );
+
+   _clock->SetMinimumFrameRate( -20 );
+
+   EXPECT_FALSE( _clock->HasMinimumFrameRate() );
+   EXPECT_EQ( _clock->GetMinimumFrameRate(), -1 );
 }
 
 TEST_F( GameClockTests, StartFrame_Always_SetsFrameStartTime )

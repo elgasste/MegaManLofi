@@ -1,3 +1,5 @@
+#include <stdexcept>
+
 #include "GameClock.h"
 #include "IHighResolutionClock.h"
 
@@ -6,6 +8,9 @@ using namespace MegaManLofi;
 
 GameClock::GameClock( const shared_ptr<IHighResolutionClock> highResolutionClock ) :
    _highResolutionClock( highResolutionClock ),
+   _minimumFrameRate( -1 ),
+   _minSecondsPerFrame( -1 ),
+   _hasMinimumFrameRate( false ),
    _totalFrameCount( 0 ),
    _absoluteStartTimeNano( 0 ),
    _frameStartTimeNano( 0 ),
@@ -13,6 +18,26 @@ GameClock::GameClock( const shared_ptr<IHighResolutionClock> highResolutionClock
    _totalDurationNano( 0 )
 {
    _absoluteStartTimeNano = _highResolutionClock->Now();
+}
+
+void GameClock::SetMinimumFrameRate( long long frameRate )
+{
+   if ( frameRate == 0 )
+   {
+      throw invalid_argument( "Minimum frame rate cannot be zero" );
+   }
+   else if ( frameRate < 0 )
+   {
+      _minimumFrameRate = -1;
+      _minSecondsPerFrame = -1;
+      _hasMinimumFrameRate = false;
+   }
+   else
+   {
+      _minimumFrameRate = frameRate;
+      _minSecondsPerFrame = 1 / (double)frameRate;
+      _hasMinimumFrameRate = true;
+   }
 }
 
 void GameClock::StartFrame()

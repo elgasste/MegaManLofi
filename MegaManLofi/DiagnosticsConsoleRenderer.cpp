@@ -31,21 +31,35 @@ void DiagnosticsConsoleRenderer::Render()
 {
    auto left = _renderDefs->ConsoleWidthChars - DIAGNOSTICS_WIDTH;
 
-   auto elapsedSecondsString = format( " Elapsed Seconds:    {0} ", _clock->GetElapsedNanoseconds() / 1'000'000'000 );
+   auto elapsedSecondsString = format( " Elapsed seconds:    {0} ", _clock->GetElapsedNanoseconds() / 1'000'000'000 );
+   auto minFrameRateString = format( " Min frame rate:     {0} ", _clock->GetMinimumFrameRate() );
    auto totalFramesString = format( " Total frames:       {0} ", _clock->GetCurrentFrame() );
    auto framesPerSecondString = format( " Average frame rate: {0} ", _clock->GetAverageFrameRate() );
+   auto lagFramesString = format( " Lag frames:         {0} ", _clock->GetLagFrameCount() );
    auto arenaEntitiesString = format( " Arena entities:     {0} ", _arenaInfoProvider->GetArena()->GetEntityCount() );
    auto activeSpritesString = format( " Active sprites:     {0} ", _spriteRepository->GetSpriteCount() );
 
    while ( elapsedSecondsString.length() < DIAGNOSTICS_WIDTH ) { elapsedSecondsString += ' '; }
+   while ( minFrameRateString.length() < DIAGNOSTICS_WIDTH ) { minFrameRateString += ' '; }
    while ( totalFramesString.length() < DIAGNOSTICS_WIDTH ) { totalFramesString += ' '; }
    while ( framesPerSecondString.length() < DIAGNOSTICS_WIDTH ) { framesPerSecondString += ' '; }
+   while ( lagFramesString.length() < DIAGNOSTICS_WIDTH ) { lagFramesString += ' '; }
    while ( arenaEntitiesString.length() < DIAGNOSTICS_WIDTH ) { arenaEntitiesString += ' '; }
    while ( activeSpritesString.length() < DIAGNOSTICS_WIDTH ) { activeSpritesString += ' '; }
 
-   _consoleBuffer->Draw( left, 0, elapsedSecondsString, ConsoleColor::DarkGrey, ConsoleColor::Black );
-   _consoleBuffer->Draw( left, 1, totalFramesString, ConsoleColor::DarkGrey, ConsoleColor::Black );
-   _consoleBuffer->Draw( left, 2, framesPerSecondString, ConsoleColor::DarkGrey, ConsoleColor::Black );
-   _consoleBuffer->Draw( left, 3, arenaEntitiesString, ConsoleColor::DarkGrey, ConsoleColor::Black );
-   _consoleBuffer->Draw( left, 4, activeSpritesString, ConsoleColor::DarkGrey, ConsoleColor::Black );
+   short top = 0;
+
+   _consoleBuffer->Draw( left, top++, elapsedSecondsString, ConsoleColor::DarkGrey, ConsoleColor::Black );
+   if ( _clock->HasMinimumFrameRate() )
+   {
+      _consoleBuffer->Draw( left, top++, minFrameRateString, ConsoleColor::DarkGrey, ConsoleColor::Black );
+   }
+   _consoleBuffer->Draw( left, top++, totalFramesString, ConsoleColor::DarkGrey, ConsoleColor::Black );
+   _consoleBuffer->Draw( left, top++, framesPerSecondString, ConsoleColor::DarkGrey, ConsoleColor::Black );
+   if ( _clock->HasMinimumFrameRate() )
+   {
+      _consoleBuffer->Draw( left, top++, lagFramesString, ConsoleColor::DarkGrey, ConsoleColor::Black );
+   }
+   _consoleBuffer->Draw( left, top++, arenaEntitiesString, ConsoleColor::DarkGrey, ConsoleColor::Black );
+   _consoleBuffer->Draw( left, top++, activeSpritesString, ConsoleColor::DarkGrey, ConsoleColor::Black );
 }

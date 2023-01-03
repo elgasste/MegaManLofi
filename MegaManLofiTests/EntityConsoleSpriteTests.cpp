@@ -105,12 +105,12 @@ TEST_F( EntityConsoleSpriteTests, GetTotalTraversalSeconds_Always_ReturnsCurrent
    _entitySprite->AddSprite( MovementType::Standing, Direction::Left, spriteMock1 );
    _entitySprite->AddSprite( MovementType::Walking, Direction::Right, spriteMock2 );
 
-   EXPECT_CALL( *spriteMock2, GetTotalTraversalSeconds() ).WillOnce( Return( 8.2 ) );
+   EXPECT_CALL( *spriteMock2, GetTotalTraversalSeconds() ).WillOnce( Return( 8.2f ) );
 
    ON_CALL( *_entityMock, GetMovementType() ).WillByDefault( Return( MovementType::Walking ) );
    ON_CALL( *_entityMock, GetDirection() ).WillByDefault( Return( Direction::Right ) );
 
-   EXPECT_EQ( _entitySprite->GetTotalTraversalSeconds(), 8.2 );
+   EXPECT_EQ( _entitySprite->GetTotalTraversalSeconds(), 8.2f );
 }
 
 TEST_F( EntityConsoleSpriteTests, GetCurrentImage_Always_ReturnsCurrentSpriteCurrentImage )

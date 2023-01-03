@@ -45,19 +45,19 @@ void ArenaPhysics::UpdateEntityTileIndicesCache( const shared_ptr<IEntity> entit
 
    _entityTileIndicesCache[entity] =
    {
-      ( position.Left + hitBox.Left ) / _arena->GetTileWidth(),
-      ( position.Top + hitBox.Top ) / _arena->GetTileHeight(),
-      (long long)( ( position.Left + hitBox.Left + hitBox.Width ) / _arena->GetTileWidth() ),
-      (long long)( ( position.Top + hitBox.Top + hitBox.Height ) / _arena->GetTileHeight() )
+      (int)( ( position.Left + hitBox.Left ) / _arena->GetTileWidth() ),
+      (int)( ( position.Top + hitBox.Top ) / _arena->GetTileHeight() ),
+      (int)( ( position.Left + hitBox.Left + hitBox.Width ) / _arena->GetTileWidth() ),
+      (int)( ( position.Top + hitBox.Top + hitBox.Height ) / _arena->GetTileHeight() )
    };
 
    // when the entity is positioned exactly at the edge of the right or bottom tile,
    // these indices will be incorrect, and need to be decremented.
-   if ( ( ( position.Left + hitBox.Left + hitBox.Width ) % _arena->GetTileWidth() ) == 0 )
+   if ( fmod( position.Left + hitBox.Left + hitBox.Width, _arena->GetTileWidth() ) == 0 )
    {
       _entityTileIndicesCache[entity].Right--;
    }
-   if ( ( ( position.Top + hitBox.Top + hitBox.Height ) % _arena->GetTileHeight() ) == 0 )
+   if ( fmod( position.Top + hitBox.Top + hitBox.Height, _arena->GetTileHeight() ) == 0 )
    {
       _entityTileIndicesCache[entity].Bottom--;
    }
@@ -76,22 +76,22 @@ void ArenaPhysics::MoveEntities()
 
 void ArenaPhysics::MoveEntity( const shared_ptr<IEntity> entity )
 {
-   auto newPositionLeft = (long long)( entity->GetArenaPositionLeft() + ( entity->GetVelocityX() * _frameRateProvider->GetFrameSeconds() ) );
-   auto newPositionTop = (long long)( entity->GetArenaPositionTop() + ( entity->GetVelocityY() * _frameRateProvider->GetFrameSeconds() ) );
+   auto newPositionLeft = entity->GetArenaPositionLeft() + ( entity->GetVelocityX() * _frameRateProvider->GetFrameSeconds() );
+   auto newPositionTop = entity->GetArenaPositionTop() + ( entity->GetVelocityY() * _frameRateProvider->GetFrameSeconds() );
    DetectEntityTileCollisionX( entity, newPositionLeft );
    DetectEntityTileCollisionY( entity, newPositionTop );
 
    entity->SetArenaPosition( { newPositionLeft, newPositionTop } );
 }
 
-void ArenaPhysics::DetectEntityTileCollisionX( const shared_ptr<IEntity> entity, long long& newPositionLeft )
+void ArenaPhysics::DetectEntityTileCollisionX( const shared_ptr<IEntity> entity, float& newPositionLeft )
 {
    const auto& hitBox = entity->GetHitBox();
    auto currentPositionLeft = entity->GetArenaPositionLeft();
    const auto& occupyingTileIndices = _entityTileIndicesCache[entity];
 
    // cycle from the top tile we're currently occupying to the bottom tile we're currently occupying
-   for ( long long y = occupyingTileIndices.Top; y <= occupyingTileIndices.Bottom; y++ )
+   for ( auto y = occupyingTileIndices.Top; y <= occupyingTileIndices.Bottom; y++ )
    {
       if ( newPositionLeft < currentPositionLeft ) // moving left
       {
@@ -146,14 +146,14 @@ void ArenaPhysics::DetectEntityTileCollisionX( const shared_ptr<IEntity> entity,
    }
 }
 
-void ArenaPhysics::DetectEntityTileCollisionY( const shared_ptr<IEntity> entity, long long& newPositionTop )
+void ArenaPhysics::DetectEntityTileCollisionY( const shared_ptr<IEntity> entity, float& newPositionTop )
 {
    const auto& hitBox = entity->GetHitBox();
    auto currentPositionTop = entity->GetArenaPositionTop();
    const auto& occupyingTileIndices = _entityTileIndicesCache[entity];
 
    // cycle from the left tile we're currently occupying to the right tile we're currently occupying
-   for ( long long x = occupyingTileIndices.Left; x <= occupyingTileIndices.Right; x++ )
+   for ( auto x = occupyingTileIndices.Left; x <= occupyingTileIndices.Right; x++ )
    {
       if ( newPositionTop < currentPositionTop ) // moving up
       {
@@ -234,9 +234,9 @@ bool ArenaPhysics::DetectTileDeath() const
    auto player = _arena->GetMutablePlayer();
    const auto& occupyingTileIndices = _entityTileIndicesCache.at( player );
 
-   for ( long long x = occupyingTileIndices.Left; x <= occupyingTileIndices.Right; x++ )
+   for ( auto x = occupyingTileIndices.Left; x <= occupyingTileIndices.Right; x++ )
    {
-      for ( long long y = occupyingTileIndices.Top; y <= occupyingTileIndices.Bottom; y++ )
+      for ( auto y = occupyingTileIndices.Top; y <= occupyingTileIndices.Bottom; y++ )
       {
          auto tile = _arena->GetTile( ( y * _arena->GetHorizontalTiles() ) + x );
 
@@ -260,7 +260,7 @@ void ArenaPhysics::DetectEntityMovementType( const shared_ptr<IEntity> entity ) 
    bool isOnGround = false;
    const auto& occupyingTileIndices = _entityTileIndicesCache.at( entity );
 
-   for ( long long x = occupyingTileIndices.Left; x <= occupyingTileIndices.Right; x++ )
+   for ( auto x = occupyingTileIndices.Left; x <= occupyingTileIndices.Right; x++ )
    {
       auto nextTileDownIndex = occupyingTileIndices.Bottom + 1;
 

@@ -27,8 +27,8 @@ namespace MegaManLofi
       void UpdateEntityTileIndicesCache( const std::shared_ptr<IEntity> entity );
       void MoveEntities();
       void MoveEntity( const std::shared_ptr<IEntity> entity );
-      void DetectEntityTileCollisionX( const std::shared_ptr<IEntity> entity, long long& newPositionLeft );
-      void DetectEntityTileCollisionY( const std::shared_ptr<IEntity> entity, long long& newPositionTop );
+      void DetectEntityTileCollisionX( const std::shared_ptr<IEntity> entity, float& newPositionLeft );
+      void DetectEntityTileCollisionY( const std::shared_ptr<IEntity> entity, float& newPositionTop );
       void HandleEntityEnvironmentCollision( const std::shared_ptr<IEntity> entity );
       void DetectEntityMovementType( const std::shared_ptr<IEntity> entity ) const;
 
@@ -42,6 +42,6 @@ namespace MegaManLofi
 
       std::shared_ptr<IArena> _arena;
 
-      std::map<std::shared_ptr<IEntity>, Quad<long long>> _entityTileIndicesCache;
+      std::map<std::shared_ptr<IEntity>, Quad<int>> _entityTileIndicesCache;
    };
 }

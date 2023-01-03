@@ -5,7 +5,7 @@ using namespace std;
 using namespace MegaManLofi;
 
 ConsoleSprite::ConsoleSprite( const shared_ptr<IFrameRateProvider> frameRateProvider,
-                              double imageTraversalSeconds ) :
+                              float imageTraversalSeconds ) :
    _frameRateProvider( frameRateProvider ),
    _currentImageIndex( 0 ),
    _imageTraversalSeconds( imageTraversalSeconds ),

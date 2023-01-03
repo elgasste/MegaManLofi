@@ -14,13 +14,13 @@ namespace MegaManLofi
       virtual int GetUniqueId() const = 0;
       virtual EntityType GetEntityType() const = 0;
       virtual int GetEntityMetaId() const = 0;
-      virtual const Coordinate<long long>& GetArenaPosition() const = 0;
-      virtual long long GetArenaPositionLeft() const = 0;
-      virtual long long GetArenaPositionTop() const = 0;
-      virtual long long GetVelocityX() const = 0;
-      virtual long long GetVelocityY() const = 0;
+      virtual const Coordinate<float>& GetArenaPosition() const = 0;
+      virtual float GetArenaPositionLeft() const = 0;
+      virtual float GetArenaPositionTop() const = 0;
+      virtual float GetVelocityX() const = 0;
+      virtual float GetVelocityY() const = 0;
       virtual Direction GetDirection() const = 0;
-      virtual const Rectangle<long long>& GetHitBox() const = 0;
+      virtual const Rectangle<float>& GetHitBox() const = 0;
       virtual MovementType GetMovementType() const = 0;
    };
 }

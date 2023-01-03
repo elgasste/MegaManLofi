@@ -12,12 +12,12 @@ namespace MegaManLofi
       int DefaultUniqueId = 0;
       int DefaultEntityMetaId = 0;
 
-      long long DefaultVelocityX = 0;
-      long long DefaultVelocityY = 0;
+      float DefaultVelocityX = 0;
+      float DefaultVelocityY = 0;
 
       unsigned int DefaultLives = 0;
       Direction DefaultDirection = (Direction)0;
-      Rectangle<long long> DefaultHitBox = { 0, 0, 0, 0 };
+      Rectangle<float> DefaultHitBox = { 0, 0, 0, 0 };
       MovementType DefaultMovementType = (MovementType)0;
    };
 }

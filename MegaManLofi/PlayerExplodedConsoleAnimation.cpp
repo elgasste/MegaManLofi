@@ -57,13 +57,13 @@ void PlayerExplodedConsoleAnimation::Draw()
    _consoleBuffer->Draw( _startPositionChars.Left, _startPositionChars.Top - ( particleDeltaYChars / 2 ), particleSprite );
 
    // diagonal particles
-   _consoleBuffer->Draw( _startPositionChars.Left + (short)( particleDeltaXChars / 1.5 ), _startPositionChars.Top + (short)( particleDeltaYChars / 1.5 ), particleSprite );
+   _consoleBuffer->Draw( _startPositionChars.Left + (short)( particleDeltaXChars / 1.5f ), _startPositionChars.Top + (short)( particleDeltaYChars / 1.5f ), particleSprite );
    _consoleBuffer->Draw( _startPositionChars.Left + (short)( particleDeltaXChars / 3 ), _startPositionChars.Top + (short)( particleDeltaYChars / 3 ), particleSprite );
-   _consoleBuffer->Draw( _startPositionChars.Left - (short)( particleDeltaXChars / 1.5 ), _startPositionChars.Top + (short)( particleDeltaYChars / 1.5 ), particleSprite );
+   _consoleBuffer->Draw( _startPositionChars.Left - (short)( particleDeltaXChars / 1.5f ), _startPositionChars.Top + (short)( particleDeltaYChars / 1.5f ), particleSprite );
    _consoleBuffer->Draw( _startPositionChars.Left - (short)( particleDeltaXChars / 3 ), _startPositionChars.Top + (short)( particleDeltaYChars / 3 ), particleSprite );
-   _consoleBuffer->Draw( _startPositionChars.Left + (short)( particleDeltaXChars / 1.5 ), _startPositionChars.Top - (short)( particleDeltaYChars / 1.5 ), particleSprite );
+   _consoleBuffer->Draw( _startPositionChars.Left + (short)( particleDeltaXChars / 1.5f ), _startPositionChars.Top - (short)( particleDeltaYChars / 1.5f ), particleSprite );
    _consoleBuffer->Draw( _startPositionChars.Left + (short)( particleDeltaXChars / 3 ), _startPositionChars.Top - (short)( particleDeltaYChars / 3 ), particleSprite );
-   _consoleBuffer->Draw( _startPositionChars.Left - (short)( particleDeltaXChars / 1.5 ), _startPositionChars.Top - (short)( particleDeltaYChars / 1.5 ), particleSprite );
+   _consoleBuffer->Draw( _startPositionChars.Left - (short)( particleDeltaXChars / 1.5f ), _startPositionChars.Top - (short)( particleDeltaYChars / 1.5f ), particleSprite );
    _consoleBuffer->Draw( _startPositionChars.Left - (short)( particleDeltaXChars / 3 ), _startPositionChars.Top - (short)( particleDeltaYChars / 3 ), particleSprite );
 }
 
@@ -76,7 +76,7 @@ void PlayerExplodedConsoleAnimation::Tick()
 
    auto frameSeconds = _frameRateProvider->GetFrameSeconds();
    _elapsedSeconds += frameSeconds;
-   _totalParticleDeltaUnits += (long long)( _renderDefs->PlayerExplosionParticleVelocity * frameSeconds );
+   _totalParticleDeltaUnits += ( _renderDefs->PlayerExplosionParticleVelocity * frameSeconds );
 
    _renderDefs->SpriteDefs->PlayerExplosionParticleSprite->Tick();
 

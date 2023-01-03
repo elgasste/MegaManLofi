@@ -23,8 +23,8 @@ namespace MegaManLofi
       unsigned int GetLivesRemaining() const override { return _lives; }
       Direction GetDirection() const override { return _direction; }
 
-      const Rectangle<long long>& GetHitBox() const override { return _hitBox; }
-      void SetHitBox( Rectangle<long long> hitBox ) override { }
+      const Rectangle<float>& GetHitBox() const override { return _hitBox; }
+      void SetHitBox( Rectangle<float> hitBox ) override { }
 
       void SetLivesRemaining( unsigned int lives ) override { _lives = lives; };
       void SetDirection( Direction direction ) override { _direction = direction; }
@@ -38,15 +38,15 @@ namespace MegaManLofi
       int GetEntityMetaId() const override { return _metaId; }
       void SetEntityMetaId( int id ) override { _metaId = id; }
 
-      const Coordinate<long long>& GetArenaPosition() const override { return _arenaPosition; }
-      long long GetArenaPositionLeft() const override { return _arenaPosition.Left; }
-      long long GetArenaPositionTop() const override { return _arenaPosition.Top; }
-      void SetArenaPosition( Coordinate<long long> position ) override { _arenaPosition = position; }
+      const Coordinate<float>& GetArenaPosition() const override { return _arenaPosition; }
+      float GetArenaPositionLeft() const override { return _arenaPosition.Left; }
+      float GetArenaPositionTop() const override { return _arenaPosition.Top; }
+      void SetArenaPosition( Coordinate<float> position ) override { _arenaPosition = position; }
 
-      long long GetVelocityX() const override { return _velocityX; }
-      long long GetVelocityY() const override { return _velocityY; }
-      void SetVelocityX( long long velocityX ) override { _velocityX = velocityX; }
-      void SetVelocityY( long long velocityY ) override { _velocityY = velocityY; }
+      float GetVelocityX() const override { return _velocityX; }
+      float GetVelocityY() const override { return _velocityY; }
+      void SetVelocityX( float velocityX ) override { _velocityX = velocityX; }
+      void SetVelocityY( float velocityY ) override { _velocityY = velocityY; }
 
       MovementType GetMovementType() const override { return _movementType; }
       void SetMovementType( MovementType type ) override { _movementType = type; }
@@ -65,14 +65,14 @@ namespace MegaManLofi
       int _uniqueId;
       int _metaId;
 
-      Coordinate<long long> _arenaPosition;
+      Coordinate<float> _arenaPosition;
 
-      long long _velocityX;
-      long long _velocityY;
+      float _velocityX;
+      float _velocityY;
 
       unsigned int _lives;
       Direction _direction;
-      Rectangle<long long> _hitBox;
+      Rectangle<float> _hitBox;
       MovementType _movementType;
 
       bool _isStanding;

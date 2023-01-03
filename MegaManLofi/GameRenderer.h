@@ -4,6 +4,8 @@
 #include <map>
 
 #include "IGameRenderer.h"
+#include "GameState.h"
+#include "GameEvent.h"
 
 namespace MegaManLofi
 {
@@ -11,8 +13,6 @@ namespace MegaManLofi
    class IScreenBuffer;
    class IGameInfoProvider;
    class IGameEventAggregator;
-   enum class GameState;
-   enum class GameEvent;
 
    class GameRenderer : public IGameRenderer
    {

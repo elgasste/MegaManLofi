@@ -32,7 +32,7 @@ public:
       _playerDefs->DefaultHitBox = { 0, 0, 4, 4 };
       _playerDefs->DefaultMovementType = MovementType::Airborne;
 
-      ON_CALL( *_frameRateProviderMock, GetFrameSeconds() ).WillByDefault( Return( 100 ) );
+      ON_CALL( *_frameRateProviderMock, GetFrameSeconds() ).WillByDefault( Return( 100.0f ) );
    }
 
    void BuildPlayer()

@@ -12,6 +12,6 @@ public:
    MOCK_METHOD( void, Reset, ( ), ( override ) );
    MOCK_METHOD( short, GetWidth, ( ), ( const, override ) );
    MOCK_METHOD( short, GetHeight, ( ), ( const, override ) );
-   MOCK_METHOD( double, GetTotalTraversalSeconds, ( ), ( const, override ) );
+   MOCK_METHOD( float, GetTotalTraversalSeconds, ( ), ( const, override ) );
    MOCK_METHOD( const MegaManLofi::ConsoleImage&, GetCurrentImage, ( ), ( const, override ) );
 };

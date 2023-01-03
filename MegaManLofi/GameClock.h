@@ -24,7 +24,7 @@ namespace MegaManLofi
       long long GetElapsedNanoseconds() const override { return _totalDurationNano; }
       long long GetCurrentFrame() const override { return _totalFrameCount; }
       long long GetAverageFrameRate() const override;
-      double GetFrameSeconds() const override;
+      float GetFrameSeconds() const override;
 
    private:
       const std::shared_ptr<IHighResolutionClock> _highResolutionClock;

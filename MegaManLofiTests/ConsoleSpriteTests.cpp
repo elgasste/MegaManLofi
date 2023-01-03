@@ -17,7 +17,7 @@ public:
    {
       _frameRateProviderMock.reset( new NiceMock<mock_FrameRateProvider> );
 
-      ON_CALL( *_frameRateProviderMock, GetFrameSeconds() ).WillByDefault( Return( 1 ) );
+      ON_CALL( *_frameRateProviderMock, GetFrameSeconds() ).WillByDefault( Return( 1.0f ) );
 
       _imageTraversalSeconds = 1;
    }
@@ -30,7 +30,7 @@ public:
 protected:
    shared_ptr<mock_FrameRateProvider> _frameRateProviderMock;
 
-   double _imageTraversalSeconds;
+   float _imageTraversalSeconds;
 
    shared_ptr<ConsoleSprite> _sprite;
 };
@@ -70,7 +70,7 @@ TEST_F( ConsoleSpriteTests, GetCurrentImage_ElapsedTimeMatchesTotalSpriteTime_Re
 
 TEST_F( ConsoleSpriteTests, GetCurrentImage_ElapsedTimeLandsOnImageBoundary_ReturnsCorrectImage )
 {
-   ON_CALL( *_frameRateProviderMock, GetFrameSeconds() ).WillByDefault( Return( .25 ) );
+   ON_CALL( *_frameRateProviderMock, GetFrameSeconds() ).WillByDefault( Return( .25f ) );
    _imageTraversalSeconds = .25;
    BuildSprite();
    _sprite->AddImage( { 0, 0 } );

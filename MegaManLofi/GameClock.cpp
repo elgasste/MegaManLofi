@@ -66,7 +66,7 @@ long long GameClock::GetAverageFrameRate() const
    return _totalFrameCount == 0 ? 0 : ( 1'000'000'000 / ( _totalDurationNano / _totalFrameCount ) );
 }
 
-double GameClock::GetFrameSeconds() const
+float GameClock::GetFrameSeconds() const
 {
-   return _wasLagFrame ? _minNanoSecondsPerFrame / 1'000'000'000. : _lastFrameDurationNano / 1'000'000'000.;
+   return _wasLagFrame ? _minNanoSecondsPerFrame / 1'000'000'000.0f : _lastFrameDurationNano / 1'000'000'000.0f;
 }

@@ -31,7 +31,7 @@ public:
       _physicsDefs->GravityAccelerationPerSecond = 4;
       _physicsDefs->MaxJumpExtensionSeconds = 0.25;
 
-      ON_CALL( *_frameRateProviderMock, GetFrameSeconds() ).WillByDefault( Return( 1 ) );
+      ON_CALL( *_frameRateProviderMock, GetFrameSeconds() ).WillByDefault( Return( 1.0f ) );
       ON_CALL( *_frameActionRegistryMock, ActionFlagged( FrameAction::PlayerPushed ) ).WillByDefault( Return( false ) );
       ON_CALL( *_frameActionRegistryMock, ActionFlagged( FrameAction::PlayerJumping ) ).WillByDefault( Return( false ) );
       ON_CALL( *_playerMock, GetMovementType() ).WillByDefault( Return( MovementType::Standing ) );
@@ -67,7 +67,7 @@ TEST_F( PlayerPhysicsTests, Tick_PlayerIsMovingLeft_SlowsDownCorrectly )
 {
    BuildPhysics();
 
-   ON_CALL( *_playerMock, GetVelocityX() ).WillByDefault( Return( -4 ) );
+   ON_CALL( *_playerMock, GetVelocityX() ).WillByDefault( Return( -4.0f ) );
 
    EXPECT_CALL( *_playerMock, SetVelocityX( -2 ) );
 
@@ -78,7 +78,7 @@ TEST_F( PlayerPhysicsTests, Tick_PlayerIsMovingRight_SlowsDownCorrectly )
 {
    BuildPhysics();
 
-   ON_CALL( *_playerMock, GetVelocityX() ).WillByDefault( Return( 4 ) );
+   ON_CALL( *_playerMock, GetVelocityX() ).WillByDefault( Return( 4.0f ) );
 
    EXPECT_CALL( *_playerMock, SetVelocityX( 2 ) );
 
@@ -89,7 +89,7 @@ TEST_F( PlayerPhysicsTests, Tick_PlayerIsMovingUpwardAndJumping_AppliesNormalGra
 {
    BuildPhysics();
 
-   ON_CALL( *_playerMock, GetVelocityY() ).WillByDefault( Return( -2 ) );
+   ON_CALL( *_playerMock, GetVelocityY() ).WillByDefault( Return( -2.0f ) );
    ON_CALL( *_frameActionRegistryMock, ActionFlagged( FrameAction::PlayerJumping ) ).WillByDefault( Return( true ) );
 
    EXPECT_CALL( *_playerMock, SetVelocityY( 2 ) );
@@ -101,7 +101,7 @@ TEST_F( PlayerPhysicsTests, Tick_PlayerIsMovingUpwardAndNotJumping_SetsYVelocity
 {
    BuildPhysics();
 
-   ON_CALL( *_playerMock, GetVelocityY() ).WillByDefault( Return( -2 ) );
+   ON_CALL( *_playerMock, GetVelocityY() ).WillByDefault( Return( -2.0f ) );
    ON_CALL( *_frameActionRegistryMock, ActionFlagged( FrameAction::PlayerJumping ) ).WillByDefault( Return( false ) );
 
    EXPECT_CALL( *_playerMock, SetVelocityY( 0 ) );
@@ -113,7 +113,7 @@ TEST_F( PlayerPhysicsTests, Tick_PlayerIsMovingDown_IncreasesYVelocity )
 {
    BuildPhysics();
 
-   ON_CALL( *_playerMock, GetVelocityY() ).WillByDefault( Return( 10 ) );
+   ON_CALL( *_playerMock, GetVelocityY() ).WillByDefault( Return( 10.0f ) );
 
    EXPECT_CALL( *_playerMock, SetVelocityY( 14 ) );
 
@@ -124,7 +124,7 @@ TEST_F( PlayerPhysicsTests, Tick_PlayerIsNearTerminalVelocity_ClampsToTerminalVe
 {
    BuildPhysics();
 
-   ON_CALL( *_playerMock, GetVelocityY() ).WillByDefault( Return( 19 ) );
+   ON_CALL( *_playerMock, GetVelocityY() ).WillByDefault( Return( 19.0f ) );
 
    EXPECT_CALL( *_playerMock, SetVelocityY( 20 ) );
 
@@ -135,7 +135,7 @@ TEST_F( PlayerPhysicsTests, Tick_PlayerIsAtTerminalVelocity_DoesNotChangeYVeloci
 {
    BuildPhysics();
 
-   ON_CALL( *_playerMock, GetVelocityY() ).WillByDefault( Return( 20 ) );
+   ON_CALL( *_playerMock, GetVelocityY() ).WillByDefault( Return( 20.0f ) );
 
    EXPECT_CALL( *_playerMock, SetVelocityY( 20 ) );
 
@@ -173,7 +173,7 @@ TEST_F( PlayerPhysicsTests, PushTo_Left_ChangesXVelocity )
 {
    BuildPhysics();
 
-   ON_CALL( *_playerMock, GetVelocityX() ).WillByDefault( Return( -6 ) );
+   ON_CALL( *_playerMock, GetVelocityX() ).WillByDefault( Return( -6.0f ) );
 
    EXPECT_CALL( *_playerMock, SetVelocityX( -8 ) );
 
@@ -184,7 +184,7 @@ TEST_F( PlayerPhysicsTests, PushTo_LeftAndPushVelocityHasAlmostMaxedOut_ClampsTo
 {
    BuildPhysics();
 
-   ON_CALL( *_playerMock, GetVelocityX() ).WillByDefault( Return( -9 ) );
+   ON_CALL( *_playerMock, GetVelocityX() ).WillByDefault( Return( -9.0f ) );
 
    EXPECT_CALL( *_playerMock, SetVelocityX( -10 ) );
 
@@ -195,7 +195,7 @@ TEST_F( PlayerPhysicsTests, PushTo_LeftAndPushVelocityHasMaxedOut_DoesNotChangeX
 {
    BuildPhysics();
 
-   ON_CALL( *_playerMock, GetVelocityX() ).WillByDefault( Return( -10 ) );
+   ON_CALL( *_playerMock, GetVelocityX() ).WillByDefault( Return( -10.0f ) );
 
    EXPECT_CALL( *_playerMock, SetVelocityX( _ ) ).Times( 0 );
 
@@ -206,7 +206,7 @@ TEST_F( PlayerPhysicsTests, PushTo_Right_ChangesXVelocity )
 {
    BuildPhysics();
 
-   ON_CALL( *_playerMock, GetVelocityX() ).WillByDefault( Return( 6 ) );
+   ON_CALL( *_playerMock, GetVelocityX() ).WillByDefault( Return( 6.0f ) );
 
    EXPECT_CALL( *_playerMock, SetVelocityX( 8 ) );
 
@@ -217,7 +217,7 @@ TEST_F( PlayerPhysicsTests, PushTo_RightAndPushVelocityHasAlmostMaxedOut_ClampsT
 {
    BuildPhysics();
 
-   ON_CALL( *_playerMock, GetVelocityX() ).WillByDefault( Return( 9 ) );
+   ON_CALL( *_playerMock, GetVelocityX() ).WillByDefault( Return( 9.0f ) );
 
    EXPECT_CALL( *_playerMock, SetVelocityX( 10 ) );
 
@@ -228,7 +228,7 @@ TEST_F( PlayerPhysicsTests, PushTo_RightAndPushVelocityHasMaxedOut_DoesNotChange
 {
    BuildPhysics();
 
-   ON_CALL( *_playerMock, GetVelocityX() ).WillByDefault( Return( 10 ) );
+   ON_CALL( *_playerMock, GetVelocityX() ).WillByDefault( Return( 10.0f ) );
 
    EXPECT_CALL( *_playerMock, SetVelocityX( _ ) ).Times( 0 );
 
@@ -309,7 +309,7 @@ TEST_F( PlayerPhysicsTests, Jump_PlayerIsWalking_SetsIsJumpingToTrue )
 TEST_F( PlayerPhysicsTests, ExtendJump_PlayerIsMovingDownward_SetsIsJumpingToFalse )
 {
    ON_CALL( *_playerMock, IsJumping() ).WillByDefault( Return( true ) );
-   ON_CALL( *_playerMock, GetVelocityY() ).WillByDefault( Return( 2 ) );
+   ON_CALL( *_playerMock, GetVelocityY() ).WillByDefault( Return( 2.0f ) );
    BuildPhysics();
 
    EXPECT_CALL( *_playerMock, SetIsJumping( false ) );
@@ -320,7 +320,7 @@ TEST_F( PlayerPhysicsTests, ExtendJump_PlayerIsMovingDownward_SetsIsJumpingToFal
 TEST_F( PlayerPhysicsTests, ExtendJump_StillExtendingJump_FlagsPlayerJumpingAction )
 {
    ON_CALL( *_playerMock, IsJumping() ).WillByDefault( Return( true ) );
-   ON_CALL( *_playerMock, GetVelocityY() ).WillByDefault( Return( -2 ) );
+   ON_CALL( *_playerMock, GetVelocityY() ).WillByDefault( Return( -2.0f ) );
    BuildPhysics();
 
    EXPECT_CALL( *_frameActionRegistryMock, FlagAction( FrameAction::PlayerJumping ) );

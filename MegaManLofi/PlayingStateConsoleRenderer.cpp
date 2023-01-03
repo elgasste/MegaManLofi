@@ -103,8 +103,8 @@ bool PlayingStateConsoleRenderer::HasFocus() const
 void PlayingStateConsoleRenderer::HandleStageStartedEvent()
 {
    UpdateCaches();
-   Coordinate<short> position = { _viewportOffsetChars.Left + _viewportRectChars.Width / 2,
-                                  _viewportOffsetChars.Top + _viewportRectChars.Height / 2 };
+   Coordinate<short> position = { _viewportOffsetChars.Left + ( _viewportRectChars.Width / 2 ),
+                                  _viewportOffsetChars.Top + ( _viewportRectChars.Height / 2 ) };
    _animationProvider->GetAnimation( ConsoleAnimationType::StageStarted )->Start( position, nullopt );
 }
 
@@ -132,8 +132,8 @@ void PlayingStateConsoleRenderer::UpdateCaches()
    auto viewportHeightUnits = _renderDefs->ArenaViewportHeightChars * _renderDefs->ArenaCharHeight;
    auto playerPosition = _playerInfoProvider->GetPlayerEntity()->GetArenaPosition();
 
-   _viewportQuadUnits.Left = max( playerPosition.Left - ( viewportWidthUnits / 2 ), 0ll );
-   _viewportQuadUnits.Top = max( playerPosition.Top - ( viewportHeightUnits / 2 ), 0ll );
+   _viewportQuadUnits.Left = max( playerPosition.Left - ( viewportWidthUnits / 2 ), 0.0f );
+   _viewportQuadUnits.Top = max( playerPosition.Top - ( viewportHeightUnits / 2 ), 0.0f );
    _viewportQuadUnits.Right = _viewportQuadUnits.Left + viewportWidthUnits;
    _viewportQuadUnits.Bottom = _viewportQuadUnits.Top + viewportHeightUnits;
 
@@ -141,14 +141,14 @@ void PlayingStateConsoleRenderer::UpdateCaches()
    if ( _viewportQuadUnits.Right > arenaWidth )
    {
       _viewportQuadUnits.Right = arenaWidth;
-      _viewportQuadUnits.Left = max( 0ll, _viewportQuadUnits.Right - viewportWidthUnits );
+      _viewportQuadUnits.Left = max( 0.0f, _viewportQuadUnits.Right - viewportWidthUnits );
    }
 
    auto arenaHeight = _arena->GetHeight();
    if ( _viewportQuadUnits.Bottom > arenaHeight )
    {
       _viewportQuadUnits.Bottom = arenaHeight;
-      _viewportQuadUnits.Top = max( 0ll, _viewportQuadUnits.Bottom - viewportHeightUnits );
+      _viewportQuadUnits.Top = max( 0.0f, _viewportQuadUnits.Bottom - viewportHeightUnits );
    }
 
    _viewportRectChars.Left = (short)( _viewportQuadUnits.Left / _renderDefs->ArenaCharWidth );

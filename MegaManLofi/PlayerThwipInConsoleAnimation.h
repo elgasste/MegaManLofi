@@ -31,9 +31,9 @@ namespace MegaManLofi
       bool _isRunning;
       Coordinate<short> _startPositionChars;
       Coordinate<short> _endPositionChars;
-      long long _currentTopPositionUnits;
-      long long _endTopPositionUnits;
+      float _currentTopPositionUnits;
+      float _endTopPositionUnits;
       bool _postThwipping;
-      double _elapsedSeconds;
+      float _elapsedSeconds;
    };
 }

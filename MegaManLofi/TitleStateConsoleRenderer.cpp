@@ -34,10 +34,10 @@ TitleStateConsoleRenderer::TitleStateConsoleRenderer( const shared_ptr<IConsoleB
 {
    for ( int i = 0; i < renderDefs->TitleStarCount; i++ )
    {
-      _starCoordinates.push_back( { random->GetUnsignedInt( 0, (unsigned int)( ( renderDefs->ConsoleWidthChars - 1 ) * renderDefs->ArenaCharWidth ) ),
-                                    random->GetUnsignedInt( 0, (unsigned int)( ( renderDefs->ConsoleHeightChars - 1 ) * renderDefs->ArenaCharHeight ) ) } );
-      _starVelocities.push_back( random->GetUnsignedInt( (unsigned int)renderDefs->MinTitleStarVelocity,
-                                                         (unsigned int)renderDefs->MaxTitleStarVelocity ) );
+      _starCoordinates.push_back( { (float)random->GetUnsignedInt( 0, (unsigned int)( ( renderDefs->ConsoleWidthChars - 1 ) * renderDefs->ArenaCharWidth ) ),
+                                    (float)random->GetUnsignedInt( 0, (unsigned int)( ( renderDefs->ConsoleHeightChars - 1 ) * renderDefs->ArenaCharHeight ) ) } );
+      _starVelocities.push_back( (float)random->GetUnsignedInt( (unsigned int)renderDefs->MinTitleStarVelocity,
+                                                                (unsigned int)renderDefs->MaxTitleStarVelocity ) );
    }
 
    _eventAggregator->RegisterEventHandler( GameEvent::GameStarted, std::bind( &TitleStateConsoleRenderer::HandleGameStartedEvent, this ) );
@@ -88,13 +88,13 @@ void TitleStateConsoleRenderer::DrawStars()
       auto top = (short)( _starCoordinates[i].Top / _renderDefs->ArenaCharHeight );
       _consoleBuffer->Draw( left, top, _renderDefs->TitleStarImage );
 
-      _starCoordinates[i].Left += (long long)( _starVelocities[i] * _frameRateProvider->GetFrameSeconds() );
+      _starCoordinates[i].Left += ( _starVelocities[i] * _frameRateProvider->GetFrameSeconds() );
 
       // if it's flown off the screen, generate a new star
       if ( _starCoordinates[i].Left >= ( _renderDefs->ArenaCharWidth * _renderDefs->ConsoleWidthChars ) )
       {
-         _starCoordinates[i] = { 0, _random->GetUnsignedInt( 0, (unsigned int)( ( _renderDefs->ConsoleHeightChars - 1 ) * _renderDefs->ArenaCharHeight ) ) };
-         _starVelocities[i] = _random->GetUnsignedInt( (unsigned int)_renderDefs->MinTitleStarVelocity, (unsigned int)_renderDefs->MaxTitleStarVelocity );
+         _starCoordinates[i] = { 0, (float)_random->GetUnsignedInt( 0, (unsigned int)( ( _renderDefs->ConsoleHeightChars - 1 ) * _renderDefs->ArenaCharHeight ) ) };
+         _starVelocities[i] = (float)_random->GetUnsignedInt( (unsigned int)_renderDefs->MinTitleStarVelocity, (unsigned int)_renderDefs->MaxTitleStarVelocity );
       }
    }
 }

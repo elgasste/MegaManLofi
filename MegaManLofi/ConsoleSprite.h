@@ -13,7 +13,7 @@ namespace MegaManLofi
    {
    public:
       ConsoleSprite( const std::shared_ptr<IFrameRateProvider> frameRateProvider,
-                     double imageTraversalSeconds );
+                     float imageTraversalSeconds );
       ConsoleSprite( ConsoleSprite& cs );
 
       void AddImage( ConsoleImage image ) override;
@@ -22,7 +22,7 @@ namespace MegaManLofi
 
       short GetWidth() const override;
       short GetHeight() const override;
-      double GetTotalTraversalSeconds() const override { return _totalSpriteSeconds; }
+      float GetTotalTraversalSeconds() const override { return _totalSpriteSeconds; }
       const ConsoleImage& GetCurrentImage() const override;
 
    private:
@@ -30,8 +30,8 @@ namespace MegaManLofi
 
       std::vector<ConsoleImage> _images;
       int _currentImageIndex;
-      double _imageTraversalSeconds;
-      double _totalSpriteSeconds;
-      double _spriteElapsedSeconds;
+      float _imageTraversalSeconds;
+      float _totalSpriteSeconds;
+      float _spriteElapsedSeconds;
    };
 }

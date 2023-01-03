@@ -29,7 +29,7 @@ namespace MegaManLofi
       const std::shared_ptr<ConsoleRenderDefs> _renderDefs;
 
       bool _isRunning;
-      double _elapsedSeconds;
+      float _elapsedSeconds;
       Coordinate<short> _positionChars;
    };
 }

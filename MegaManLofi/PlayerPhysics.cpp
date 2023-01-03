@@ -41,7 +41,7 @@ void PlayerPhysics::PointTo( Direction direction ) const
 
 void PlayerPhysics::PushTo( Direction direction ) const
 {
-   auto velocityDelta = 0ll;
+   float velocityDelta = 0;
 
    switch ( direction )
    {
@@ -53,7 +53,7 @@ void PlayerPhysics::PushTo( Direction direction ) const
          {
             return;
          }
-         velocityDelta = -( (long long)( _physicsDefs->PushAccelerationPerSecond * _frameRateProvider->GetFrameSeconds() ) );
+         velocityDelta = -( _physicsDefs->PushAccelerationPerSecond * _frameRateProvider->GetFrameSeconds() );
          _player->SetVelocityX( max( -( _physicsDefs->MaxPushVelocity ), _player->GetVelocityX() + velocityDelta ) );
          break;
       case Direction::Right:
@@ -64,7 +64,7 @@ void PlayerPhysics::PushTo( Direction direction ) const
          {
             return;
          }
-         velocityDelta = (long long)( _physicsDefs->PushAccelerationPerSecond * _frameRateProvider->GetFrameSeconds() );
+         velocityDelta = _physicsDefs->PushAccelerationPerSecond * _frameRateProvider->GetFrameSeconds();
          _player->SetVelocityX( min( _physicsDefs->MaxPushVelocity, _player->GetVelocityX() + velocityDelta ) );
          break;
    }
@@ -77,17 +77,17 @@ void PlayerPhysics::ApplyFriction() const
       return;
    }
 
-   auto velocityDelta = (long long)( _physicsDefs->FrictionDecelerationPerSecond * _frameRateProvider->GetFrameSeconds() );
+   auto velocityDelta = _physicsDefs->FrictionDecelerationPerSecond * _frameRateProvider->GetFrameSeconds();
    auto currentVelocityX = _player->GetVelocityX();
-   auto newVelocityX = 0ll;
+   float newVelocityX = 0;
 
    if ( currentVelocityX < 0 )
    {
-      newVelocityX = min( currentVelocityX + velocityDelta, 0ll );
+      newVelocityX = min( currentVelocityX + velocityDelta, 0.0f );
    }
    else if ( currentVelocityX > 0 )
    {
-      newVelocityX = max( currentVelocityX - velocityDelta, 0ll );
+      newVelocityX = max( currentVelocityX - velocityDelta, 0.0f );
    }
 
    _player->SetVelocityX( newVelocityX );
@@ -96,7 +96,7 @@ void PlayerPhysics::ApplyFriction() const
 void PlayerPhysics::ApplyGravity() const
 {
    auto currentVelocityY = _player->GetVelocityY();
-   auto gravityVelocityDelta = (long long)( _physicsDefs->GravityAccelerationPerSecond * _frameRateProvider->GetFrameSeconds() );
+   auto gravityVelocityDelta = _physicsDefs->GravityAccelerationPerSecond * _frameRateProvider->GetFrameSeconds();
 
    if ( currentVelocityY < 0 )
    {

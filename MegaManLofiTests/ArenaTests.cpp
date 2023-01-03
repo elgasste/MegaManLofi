@@ -73,7 +73,7 @@ TEST_F( ArenaTests, Reset_Always_ResetsPlayerPosition )
 {
    BuildArena();
 
-   Coordinate<long long> position;
+   Coordinate<float> position;
    EXPECT_CALL( *_playerMock, SetArenaPosition( _ ) ).WillOnce( SaveArg<0>( &position ) );
 
    _arena->Reset();

@@ -47,7 +47,7 @@ namespace MegaManLofi
 
       const std::shared_ptr<IConsoleAnimation> _thwipOutAnimation;
 
-      std::vector<Coordinate<long long>> _starCoordinates;
-      std::vector<long long> _starVelocities;
+      std::vector<Coordinate<float>> _starCoordinates;
+      std::vector<float> _starVelocities;
    };
 }

@@ -29,7 +29,7 @@ public:
 
       _renderDefs->SpriteDefs = _spriteDefs;
 
-      ON_CALL( *_frameRateProviderMock, GetFrameSeconds() ).WillByDefault( Return( 1 ) );
+      ON_CALL( *_frameRateProviderMock, GetFrameSeconds() ).WillByDefault( Return( 1.0f ) );
    }
 
    void BuildAnimation()

@@ -109,7 +109,7 @@ shared_ptr<IConsoleSprite> ConsoleSpriteDefsGenerator::GeneratePlayerWalkingSpri
          break;
    }
 
-   auto sprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( frameRateProvider, .15 ) );
+   auto sprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( frameRateProvider, .15f ) );
    ConsoleImage image1 = { 4, 3 };
    ConsoleImage image2 = { 4, 3 };
    for ( int i = 0; i < (int)chars1.size(); i++ ) { image1.Pixels.push_back( { chars1[i], true, ConsoleColor::Cyan, ConsoleColor::Black } ); }
@@ -176,7 +176,7 @@ std::shared_ptr<IConsoleSprite> ConsoleSpriteDefsGenerator::GenerateBulletSprite
 
 shared_ptr<IConsoleSprite> ConsoleSpriteDefsGenerator::GeneratePlayerThwipSprite( const shared_ptr<IFrameRateProvider> frameRateProvider )
 {
-   auto thwipSprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( frameRateProvider, .05 ) );
+   auto thwipSprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( frameRateProvider, .05f ) );
 
    ConsoleImage image0 = { 1, 3 };
    image0.Pixels.push_back( { '#', true, ConsoleColor::Blue, ConsoleColor::Black } );
@@ -195,7 +195,7 @@ shared_ptr<IConsoleSprite> ConsoleSpriteDefsGenerator::GeneratePlayerThwipSprite
 
 shared_ptr<IConsoleSprite> ConsoleSpriteDefsGenerator::GeneratePlayerThwipInTransitionSprite( const shared_ptr<IFrameRateProvider> frameRateProvider )
 {
-   auto sprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( frameRateProvider, .05 ) );
+   auto sprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( frameRateProvider, .05f ) );
 
    string chars1 =
       "    " \
@@ -217,7 +217,7 @@ shared_ptr<IConsoleSprite> ConsoleSpriteDefsGenerator::GeneratePlayerThwipInTran
 
 shared_ptr<IConsoleSprite> ConsoleSpriteDefsGenerator::GeneratePlayerThwipOutTransitionSprite( const shared_ptr<IFrameRateProvider> frameRateProvider )
 {
-   auto sprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( frameRateProvider, .05 ) );
+   auto sprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( frameRateProvider, .05f ) );
 
    string chars1 =
       "    " \
@@ -239,7 +239,7 @@ shared_ptr<IConsoleSprite> ConsoleSpriteDefsGenerator::GeneratePlayerThwipOutTra
 
 shared_ptr<IConsoleSprite> ConsoleSpriteDefsGenerator::GeneratePlayerExplosionParticleSprite( const shared_ptr<IFrameRateProvider> frameRateProvider )
 {
-   auto particleSprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( frameRateProvider, .25 ) );
+   auto particleSprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( frameRateProvider, .25f ) );
 
    ConsoleImage image1 = { 1, 1 };
    image1.Pixels.push_back( { 'O', true, ConsoleColor::Blue, ConsoleColor::Black } );
@@ -254,7 +254,7 @@ shared_ptr<IConsoleSprite> ConsoleSpriteDefsGenerator::GeneratePlayerExplosionPa
 
 shared_ptr<IConsoleSprite> ConsoleSpriteDefsGenerator::GenerateStageGetReadySprite( const shared_ptr<IFrameRateProvider> frameRateProvider )
 {
-   auto sprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( frameRateProvider, .25 ) );
+   auto sprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( frameRateProvider, .25f ) );
 
    ConsoleImage getReadyImage = { 10, 1 };
    string message = "GET READY!";
@@ -271,7 +271,7 @@ shared_ptr<IConsoleSprite> ConsoleSpriteDefsGenerator::GenerateStageGetReadySpri
 
 shared_ptr<IConsoleSprite> ConsoleSpriteDefsGenerator::GenerateMenuCaratSprite( const shared_ptr<IFrameRateProvider> frameRateProvider )
 {
-   auto sprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( frameRateProvider, .25 ) );
+   auto sprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( frameRateProvider, .25f ) );
 
    ConsoleImage image1 = { 1, 1 };
    image1.Pixels.push_back( { '>', true, ConsoleColor::White, ConsoleColor::Black } );

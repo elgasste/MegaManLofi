@@ -10,17 +10,17 @@ namespace MegaManLofi
    class ArenaDefs
    {
    public:
-      long long DefaultTileWidth = 0;
-      long long DefaultTileHeight = 0;
+      float DefaultTileWidth = 0;
+      float DefaultTileHeight = 0;
 
       int DefaultHorizontalTiles = 0;
       int DefaultVerticalTiles = 0;
 
-      long long ActiveRegionWidth = 0;
-      long long ActiveRegionHeight = 0;
+      float ActiveRegionWidth = 0;
+      float ActiveRegionHeight = 0;
 
       std::vector<ArenaTile> DefaultTiles;
 
-      Coordinate<long long> DefaultPlayerPosition = { 0, 0 };
+      Coordinate<float> DefaultPlayerPosition = { 0, 0 };
    };
 }

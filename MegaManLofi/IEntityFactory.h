@@ -12,6 +12,6 @@ namespace MegaManLofi
    class __declspec( novtable ) IEntityFactory
    {
    public:
-      virtual const std::shared_ptr<IEntity> CreateBullet( Coordinate<long long> position, Direction direction ) const = 0;
+      virtual const std::shared_ptr<IEntity> CreateBullet( Coordinate<float> position, Direction direction ) const = 0;
    };
 }

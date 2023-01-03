@@ -8,15 +8,15 @@ shared_ptr<PlayerPhysicsDefs> PlayerPhysicsDefsGenerator::GeneratePlayerPhysicsD
 {
    auto playerPhysicsDefs = make_shared<PlayerPhysicsDefs>();
 
-   playerPhysicsDefs->MaxPushVelocity = 1'200'000;
-   playerPhysicsDefs->MaxGravityVelocity = 4'000'000;
+   playerPhysicsDefs->MaxPushVelocity = 1'200;
+   playerPhysicsDefs->MaxGravityVelocity = 4'000;
 
-   playerPhysicsDefs->PushAccelerationPerSecond = 8'500'000;
-   playerPhysicsDefs->FrictionDecelerationPerSecond = 10'000'000;
-   playerPhysicsDefs->JumpAccelerationPerSecond = 4'000'000;
-   playerPhysicsDefs->GravityAccelerationPerSecond = 10'000'000;
+   playerPhysicsDefs->PushAccelerationPerSecond = 8'500;
+   playerPhysicsDefs->FrictionDecelerationPerSecond = 10'000;
+   playerPhysicsDefs->JumpAccelerationPerSecond = 4'000;
+   playerPhysicsDefs->GravityAccelerationPerSecond = 10'000;
 
-   playerPhysicsDefs->MaxJumpExtensionSeconds = 0.25;
+   playerPhysicsDefs->MaxJumpExtensionSeconds = .25f;
 
    return playerPhysicsDefs;
 }

@@ -13,7 +13,7 @@ namespace MegaManLofi
       EntityFactory( const std::shared_ptr<EntityDefs> entityDefs,
                      const std::shared_ptr<IUniqueNumberGenerator> uniqueNumberGenerator );
 
-      const std::shared_ptr<IEntity> CreateBullet( Coordinate<long long> position, Direction direction ) const override;
+      const std::shared_ptr<IEntity> CreateBullet( Coordinate<float> position, Direction direction ) const override;
 
    private:
       const std::shared_ptr<EntityDefs> _entityDefs;

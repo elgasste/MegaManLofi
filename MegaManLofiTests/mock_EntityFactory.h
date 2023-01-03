@@ -7,5 +7,5 @@
 class mock_EntityFactory : public MegaManLofi::IEntityFactory
 {
 public:
-   MOCK_METHOD( const std::shared_ptr<MegaManLofi::IEntity>, CreateBullet, ( MegaManLofi::Coordinate<long long>, MegaManLofi::Direction ), ( const, override ) );
+   MOCK_METHOD( const std::shared_ptr<MegaManLofi::IEntity>, CreateBullet, ( MegaManLofi::Coordinate<float>, MegaManLofi::Direction ), ( const, override ) );
 };

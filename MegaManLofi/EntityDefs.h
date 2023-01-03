@@ -8,7 +8,7 @@ namespace MegaManLofi
    {
    public:
       int BulletEntityMetaId = 0;
-      long long BulletVelocity = 0;
-      Rectangle<long long> BulletHitBox;
+      float BulletVelocity = 0;
+      Rectangle<float> BulletHitBox;
    };
 }

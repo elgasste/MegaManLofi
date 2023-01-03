@@ -21,7 +21,7 @@ namespace MegaManLofi
 
       short GetWidth() const override;
       short GetHeight() const override;
-      double GetTotalTraversalSeconds() const override;
+      float GetTotalTraversalSeconds() const override;
       const ConsoleImage& GetCurrentImage() const override;
 
    private:

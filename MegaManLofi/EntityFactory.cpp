@@ -13,7 +13,7 @@ EntityFactory::EntityFactory( const shared_ptr<EntityDefs> entityDefs,
 {
 }
 
-const shared_ptr<IEntity> EntityFactory::CreateBullet( Coordinate<long long> position, Direction direction ) const
+const shared_ptr<IEntity> EntityFactory::CreateBullet( Coordinate<float> position, Direction direction ) const
 {
    auto bullet = make_shared<BasicEntity>();
 

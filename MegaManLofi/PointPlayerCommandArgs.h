@@ -1,11 +1,10 @@
 #pragma once
 
 #include "GameCommandArgs.h"
+#include "Direction.h"
 
 namespace MegaManLofi
 {
-   enum class Direction;
-
    class PointPlayerCommandArgs : public GameCommandArgs
    {
    public:

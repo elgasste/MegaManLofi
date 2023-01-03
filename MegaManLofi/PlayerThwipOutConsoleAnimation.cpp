@@ -98,7 +98,7 @@ void PlayerThwipOutConsoleAnimation::Tick()
    else
    {
       _renderDefs->SpriteDefs->PlayerThwipSprite->Tick();
-      auto topDelta = (long long)( _renderDefs->PlayerThwipVelocity * _frameRateProvider->GetFrameSeconds() );
+      auto topDelta = _renderDefs->PlayerThwipVelocity * _frameRateProvider->GetFrameSeconds();
 
       if ( _endPositionChars.Top < _startPositionChars.Top )
       {

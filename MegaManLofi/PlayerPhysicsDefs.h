@@ -5,14 +5,14 @@ namespace MegaManLofi
    class PlayerPhysicsDefs
    {
    public:
-      long long MaxPushVelocity = 0;
-      long long MaxGravityVelocity = 0;
+      float MaxPushVelocity = 0;
+      float MaxGravityVelocity = 0;
 
-      long long PushAccelerationPerSecond = 0;
-      long long FrictionDecelerationPerSecond = 0;
-      long long JumpAccelerationPerSecond = 0;
-      long long GravityAccelerationPerSecond = 0;
+      float PushAccelerationPerSecond = 0;
+      float FrictionDecelerationPerSecond = 0;
+      float JumpAccelerationPerSecond = 0;
+      float GravityAccelerationPerSecond = 0;
 
-      double MaxJumpExtensionSeconds = 0.;
+      float MaxJumpExtensionSeconds = 0.;
    };
 }

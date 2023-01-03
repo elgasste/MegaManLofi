@@ -35,21 +35,21 @@ public:
       _playerArenaPosition = { 10, 8 };
       _playerHitBox = { 0, 0, 4, 6 };
 
-      ON_CALL( *_playerMock, GetVelocityX() ).WillByDefault( Return( 0 ) );
-      ON_CALL( *_playerMock, GetVelocityY() ).WillByDefault( Return( 0 ) );
+      ON_CALL( *_playerMock, GetVelocityX() ).WillByDefault( Return( 0.0f ) );
+      ON_CALL( *_playerMock, GetVelocityY() ).WillByDefault( Return( 0.0f ) );
 
       ON_CALL( *_arenaMock, GetMutablePlayer() ).WillByDefault( Return( _playerMock ) );
-      ON_CALL( *_arenaMock, GetWidth() ).WillByDefault( Return( 20 ) );
-      ON_CALL( *_arenaMock, GetHeight() ).WillByDefault( Return( 16 ) );
-      ON_CALL( *_arenaMock, GetTileWidth() ).WillByDefault( Return( 2 ) );
-      ON_CALL( *_arenaMock, GetTileHeight() ).WillByDefault( Return( 2 ) );
+      ON_CALL( *_arenaMock, GetWidth() ).WillByDefault( Return( 20.0f ) );
+      ON_CALL( *_arenaMock, GetHeight() ).WillByDefault( Return( 16.0f ) );
+      ON_CALL( *_arenaMock, GetTileWidth() ).WillByDefault( Return( 2.0f ) );
+      ON_CALL( *_arenaMock, GetTileHeight() ).WillByDefault( Return( 2.0f ) );
       ON_CALL( *_arenaMock, GetHorizontalTiles() ).WillByDefault( Return( 10 ) );
       ON_CALL( *_arenaMock, GetVerticalTiles() ).WillByDefault( Return( 8 ) );
       ON_CALL( *_arenaMock, GetTile( _ ) ).WillByDefault( ReturnRef( _defaultTile ) );
       ON_CALL( *_arenaMock, GetEntityCount() ).WillByDefault( Return( 1 ) );
       ON_CALL( *_arenaMock, GetMutableEntity( 0 ) ).WillByDefault( Return( _playerMock ) );
 
-      ON_CALL( *_frameRateProviderMock, GetFrameSeconds() ).WillByDefault( Return( 1 ) );
+      ON_CALL( *_frameRateProviderMock, GetFrameSeconds() ).WillByDefault( Return( 1.0f ) );
    }
 
    void BuildArenaPhysics()
@@ -71,8 +71,8 @@ protected:
    shared_ptr<mock_Player> _playerMock;
 
    ArenaTile _defaultTile;
-   Rectangle<long long> _playerHitBox;
-   Coordinate<long long> _playerArenaPosition;
+   Rectangle<float> _playerHitBox;
+   Coordinate<float> _playerArenaPosition;
 
    shared_ptr<ArenaPhysics> _arenaPhysics;
 };
@@ -541,7 +541,7 @@ protected:
 //{
 //   BuildArenaPhysics();
 //
-//   Quad<long long> region;
+//   Quad<float> region;
 //   EXPECT_CALL( *_arenaMock, SetActiveRegion( _ ) ).WillOnce( SaveArg<0>( &region ) );
 //
 //   _arenaPhysics->Tick();

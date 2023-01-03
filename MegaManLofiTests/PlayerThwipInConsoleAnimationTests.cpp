@@ -34,8 +34,8 @@ public:
       _renderDefs->PlayerThwipVelocity = 1;
       _renderDefs->SpriteDefs = _spriteDefs;
 
-      ON_CALL( *_frameRateProviderMock, GetFrameSeconds() ).WillByDefault( Return( 1 ) );
-      ON_CALL( *_transitionSpriteMock, GetTotalTraversalSeconds() ).WillByDefault( Return( 10 ) );
+      ON_CALL( *_frameRateProviderMock, GetFrameSeconds() ).WillByDefault( Return( 1.0f ) );
+      ON_CALL( *_transitionSpriteMock, GetTotalTraversalSeconds() ).WillByDefault( Return( 10.0f ) );
    }
 
    void BuildAnimation()
@@ -132,7 +132,7 @@ TEST_F( PlayerThwipInConsoleAnimationTests, Draw_PostThwipping_DrawsSpriteInEndP
 
 TEST_F( PlayerThwipInConsoleAnimationTests, Draw_ThwippingDownward_DrawsSpriteInCorrectTopPosition )
 {
-   ON_CALL( *_transitionSpriteMock, GetTotalTraversalSeconds() ).WillByDefault( Return( 1 ) );
+   ON_CALL( *_transitionSpriteMock, GetTotalTraversalSeconds() ).WillByDefault( Return( 1.0f ) );
    BuildAnimation();
    _animation->Start( Coordinate<short>( { 0, 0 } ), Coordinate<short>( { 10, 10 } ) );
 
@@ -147,7 +147,7 @@ TEST_F( PlayerThwipInConsoleAnimationTests, Draw_ThwippingDownward_DrawsSpriteIn
 
 TEST_F( PlayerThwipInConsoleAnimationTests, Draw_ThwippingUpward_DrawsSpriteInCorrectTopPosition )
 {
-   ON_CALL( *_transitionSpriteMock, GetTotalTraversalSeconds() ).WillByDefault( Return( 1 ) );
+   ON_CALL( *_transitionSpriteMock, GetTotalTraversalSeconds() ).WillByDefault( Return( 1.0f ) );
    BuildAnimation();
    _animation->Start( Coordinate<short>( { 10, 10 } ), Coordinate<short>( { 0, 0 } ) );
 

@@ -21,19 +21,19 @@ namespace MegaManLofi
       const std::shared_ptr<IPlayer> GetMutablePlayer() const { return _player; }
       void SetPlayer( const std::shared_ptr<IPlayer> player ) override;
 
-      long long GetWidth() const override { return _width; }
-      long long GetHeight() const override { return _height; }
+      float GetWidth() const override { return _width; }
+      float GetHeight() const override { return _height; }
 
-      long long GetTileWidth() const override { return _tileWidth; }
-      long long GetTileHeight() const override { return _tileHeight; }
+      float GetTileWidth() const override { return _tileWidth; }
+      float GetTileHeight() const override { return _tileHeight; }
 
       int GetHorizontalTiles() const override { return _horizontalTiles; }
       int GetVerticalTiles() const override { return _verticalTiles; }
 
-      const Quad<long long>& GetActiveRegion() const override { return _activeRegion; }
-      void SetActiveRegion( Quad<long long> region ) override { _activeRegion = region; }
+      const Quad<float>& GetActiveRegion() const override { return _activeRegion; }
+      void SetActiveRegion( Quad<float> region ) override { _activeRegion = region; }
 
-      const ArenaTile& GetTile( long long index ) const override { return _tiles[index]; }
+      const ArenaTile& GetTile( int index ) const override { return _tiles[index]; }
 
       bool HasEntity( int uniqueId ) const override;
 
@@ -52,18 +52,18 @@ namespace MegaManLofi
       std::vector<ArenaTile> _tiles;
       std::vector<std::shared_ptr<IEntity>> _entities;
 
-      long long _width;
-      long long _height;
+      float _width;
+      float _height;
 
-      long long _playerPositionX;
-      long long _playerPositionY;
+      float _playerPositionX;
+      float _playerPositionY;
 
-      long long _tileWidth;
-      long long _tileHeight;
+      float _tileWidth;
+      float _tileHeight;
 
       int _horizontalTiles;
       int _verticalTiles;
 
-      Quad<long long> _activeRegion;
+      Quad<float> _activeRegion;
    };
 }

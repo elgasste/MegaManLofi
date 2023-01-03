@@ -69,12 +69,12 @@ namespace MegaManLofi
 
       std::shared_ptr<IReadOnlyArena> _arena;
 
-      Quad<long long> _viewportQuadUnits;
+      Quad<float> _viewportQuadUnits;
       Rectangle<short> _viewportRectChars;
       Coordinate<short> _viewportOffsetChars;
       Coordinate<short> _playerViewportChars;
 
       bool _isAnimatingPitfall;
-      double _pitfallAnimationElapsedSeconds;
+      float _pitfallAnimationElapsedSeconds;
    };
 }

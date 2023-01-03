@@ -62,7 +62,7 @@ short EntityConsoleSprite::GetHeight() const
    return _movementSpriteMaps.at( _entity->GetMovementType() ).at( _entity->GetDirection() )->GetHeight();
 }
 
-double EntityConsoleSprite::GetTotalTraversalSeconds() const
+float EntityConsoleSprite::GetTotalTraversalSeconds() const
 {
    return _movementSpriteMaps.at( _entity->GetMovementType() ).at( _entity->GetDirection() )->GetTotalTraversalSeconds();
 }

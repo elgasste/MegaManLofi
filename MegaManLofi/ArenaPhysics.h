@@ -9,7 +9,7 @@
 namespace MegaManLofi
 {
    class IFrameRateProvider;
-   class IGameEventAggregator;
+   class GameEventAggregator;
    class ArenaDefs;
    class Arena;
    class Entity;
@@ -20,7 +20,7 @@ namespace MegaManLofi
    public:
       ArenaPhysics() { }
       ArenaPhysics( const std::shared_ptr<IFrameRateProvider> frameRateProvider,
-                    const std::shared_ptr<IGameEventAggregator> eventAggregator,
+                    const std::shared_ptr<GameEventAggregator> eventAggregator,
                     const std::shared_ptr<ArenaDefs> arenaDefs );
 
       virtual void AssignTo( const std::shared_ptr<Arena> arena );
@@ -40,7 +40,7 @@ namespace MegaManLofi
 
    private:
       const std::shared_ptr<IFrameRateProvider> _frameRateProvider;
-      const std::shared_ptr<IGameEventAggregator> _eventAggregator;
+      const std::shared_ptr<GameEventAggregator> _eventAggregator;
       const std::shared_ptr<ArenaDefs> _arenaDefs;
 
       std::shared_ptr<Arena> _arena;

@@ -12,7 +12,7 @@ using namespace MegaManLofi;
 class ShutdownEventHandler
 {
 public:
-   ShutdownEventHandler( const shared_ptr<IGameEventAggregator> eventAggregator )
+   ShutdownEventHandler( const shared_ptr<GameEventAggregator> eventAggregator )
    {
       eventAggregator->RegisterEventHandler( GameEvent::Shutdown, std::bind( &ShutdownEventHandler::HandleQuitEvent, this ) );
    }

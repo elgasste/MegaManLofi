@@ -2,14 +2,14 @@
 
 #include "Arena.h"
 #include "ArenaDefs.h"
-#include "IGameEventAggregator.h"
+#include "GameEventAggregator.h"
 #include "Entity.h"
 
 using namespace std;
 using namespace MegaManLofi;
 
 Arena::Arena( const shared_ptr<ArenaDefs> arenaDefs,
-              const shared_ptr<IGameEventAggregator> eventAggregator ) :
+              const shared_ptr<GameEventAggregator> eventAggregator ) :
    _arenaDefs( arenaDefs ),
    _eventAggregator( eventAggregator )
 {

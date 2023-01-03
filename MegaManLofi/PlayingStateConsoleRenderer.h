@@ -14,7 +14,7 @@ namespace MegaManLofi
    class IGameInfoProvider;
    class IPlayerInfoProvider;
    class IArenaInfoProvider;
-   class IGameEventAggregator;
+   class GameEventAggregator;
    class IFrameRateProvider;
    class IConsoleAnimationProvider;
    class EntityConsoleSpriteRepository;
@@ -30,7 +30,7 @@ namespace MegaManLofi
                                    const std::shared_ptr<IGameInfoProvider> gameInfoProvider,
                                    const std::shared_ptr<IPlayerInfoProvider> playerInfoProvider,
                                    const std::shared_ptr<IArenaInfoProvider> arenaInfoProvider,
-                                   const std::shared_ptr<IGameEventAggregator> eventAggregator,
+                                   const std::shared_ptr<GameEventAggregator> eventAggregator,
                                    const std::shared_ptr<IFrameRateProvider> frameRateProvider,
                                    const std::shared_ptr<IConsoleAnimationProvider> animationProvider,
                                    const std::shared_ptr<EntityConsoleSpriteRepository> spriteRepository );
@@ -62,7 +62,7 @@ namespace MegaManLofi
       const std::shared_ptr<IPlayerInfoProvider> _playerInfoProvider;
       const std::shared_ptr<IGameInfoProvider> _gameInfoProvider;
       const std::shared_ptr<IArenaInfoProvider> _arenaInfoProvider;
-      const std::shared_ptr<IGameEventAggregator> _eventAggregator;
+      const std::shared_ptr<GameEventAggregator> _eventAggregator;
       const std::shared_ptr<IFrameRateProvider> _frameRateProvider;
       const std::shared_ptr<IConsoleAnimationProvider> _animationProvider;
       const std::shared_ptr<EntityConsoleSpriteRepository> _spriteRepository;

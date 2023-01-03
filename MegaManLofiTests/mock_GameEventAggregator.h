@@ -2,9 +2,9 @@
 
 #include <gmock/gmock.h>
 
-#include <MegaManLofi/IGameEventAggregator.h>
+#include <MegaManLofi/GameEventAggregator.h>
 
-class mock_GameEventAggregator : public MegaManLofi::IGameEventAggregator
+class mock_GameEventAggregator : public MegaManLofi::GameEventAggregator
 {
 public:
    MOCK_METHOD( void, RegisterEventHandler, ( MegaManLofi::GameEvent, std::function<void()> ), ( override ) );

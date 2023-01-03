@@ -273,7 +273,6 @@
     <ClInclude Include="HighResolutionClockWrapper.h" />
     <ClInclude Include="IGameCommandExecutor.h" />
     <ClInclude Include="IGameClock.h" />
-    <ClInclude Include="IGameEventAggregator.h" />
     <ClInclude Include="IGameInputHandler.h" />
     <ClInclude Include="IGameInputReader.h" />
     <ClInclude Include="IGameRenderer.h" />

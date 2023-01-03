@@ -1,5 +1,5 @@
 #include "GameRunner.h"
-#include "IGameEventAggregator.h"
+#include "GameEventAggregator.h"
 #include "IGameClock.h"
 #include "IGameInputHandler.h"
 #include "IGameRenderer.h"
@@ -9,7 +9,7 @@
 
 using namespace MegaManLofi;
 
-GameRunner::GameRunner( const std::shared_ptr<IGameEventAggregator> eventAggregator,
+GameRunner::GameRunner( const std::shared_ptr<GameEventAggregator> eventAggregator,
                         const std::shared_ptr<IGameClock> clock,
                         const std::shared_ptr<IGameInputHandler> inputHandler,
                         const std::shared_ptr<IGameRenderer> renderer,

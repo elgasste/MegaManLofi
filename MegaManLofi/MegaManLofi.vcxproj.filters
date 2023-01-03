@@ -260,9 +260,6 @@
     <ClInclude Include="IGameClock.h">
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="IGameEventAggregator.h">
-      <Filter>Header Files\Interfaces</Filter>
-    </ClInclude>
     <ClInclude Include="IGameInputHandler.h">
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>

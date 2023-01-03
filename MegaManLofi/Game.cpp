@@ -1,5 +1,5 @@
 #include "Game.h"
-#include "IGameEventAggregator.h"
+#include "GameEventAggregator.h"
 #include "Player.h"
 #include "Arena.h"
 #include "PlayerPhysics.h"
@@ -13,7 +13,7 @@
 using namespace std;
 using namespace MegaManLofi;
 
-Game::Game( const shared_ptr<IGameEventAggregator> eventAggregator,
+Game::Game( const shared_ptr<GameEventAggregator> eventAggregator,
             const shared_ptr<Player> player,
             const shared_ptr<Arena> arena,
             const shared_ptr<PlayerPhysics> playerPhysics,

@@ -10,7 +10,7 @@
 
 namespace MegaManLofi
 {
-   class IGameEventAggregator;
+   class GameEventAggregator;
    class Player;
    class Arena;
    class PlayerPhysics;
@@ -24,7 +24,7 @@ namespace MegaManLofi
                 public IArenaInfoProvider
    {
    public:
-      Game( const std::shared_ptr<IGameEventAggregator> eventAggregator,
+      Game( const std::shared_ptr<GameEventAggregator> eventAggregator,
             const std::shared_ptr<Player> player,
             const std::shared_ptr<Arena> arena,
             const std::shared_ptr<PlayerPhysics> playerPhysics,
@@ -52,7 +52,7 @@ namespace MegaManLofi
       void KillPlayer();
 
    private:
-      const std::shared_ptr<IGameEventAggregator> _eventAggregator;
+      const std::shared_ptr<GameEventAggregator> _eventAggregator;
       const std::shared_ptr<Player> _player;
       const std::shared_ptr<Arena> _arena;
       const std::shared_ptr<PlayerPhysics> _playerPhysics;

@@ -7,7 +7,7 @@
 #include "IGameInfoProvider.h"
 #include "IPlayerInfoProvider.h"
 #include "IArenaInfoProvider.h"
-#include "IGameEventAggregator.h"
+#include "GameEventAggregator.h"
 #include "IFrameRateProvider.h"
 #include "IConsoleAnimationProvider.h"
 #include "EntityConsoleSpriteRepository.h"
@@ -27,7 +27,7 @@ PlayingStateConsoleRenderer::PlayingStateConsoleRenderer( const shared_ptr<Conso
                                                           const shared_ptr<IGameInfoProvider> gameInfoProvider,
                                                           const shared_ptr<IPlayerInfoProvider> playerInfoProvider,
                                                           const shared_ptr<IArenaInfoProvider> arenaInfoProvider,
-                                                          const shared_ptr<IGameEventAggregator> eventAggregator,
+                                                          const shared_ptr<GameEventAggregator> eventAggregator,
                                                           const shared_ptr<IFrameRateProvider> frameRateProvider,
                                                           const shared_ptr<IConsoleAnimationProvider> animationProvider,
                                                           const shared_ptr<EntityConsoleSpriteRepository> spriteRepository ) :

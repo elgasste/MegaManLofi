@@ -11,7 +11,7 @@ namespace MegaManLofi
    class ConsoleBuffer;
    class IRandom;
    class IFrameRateProvider;
-   class IGameEventAggregator;
+   class GameEventAggregator;
    class ConsoleRenderDefs;
    class KeyboardInputDefs;
    class IConsoleAnimationProvider;
@@ -23,7 +23,7 @@ namespace MegaManLofi
       TitleStateConsoleRenderer( const std::shared_ptr<ConsoleBuffer> consoleBuffer,
                                  const std::shared_ptr<IRandom> random,
                                  const std::shared_ptr<IFrameRateProvider> frameRateProvider,
-                                 const std::shared_ptr<IGameEventAggregator> eventAggregator,
+                                 const std::shared_ptr<GameEventAggregator> eventAggregator,
                                  const std::shared_ptr<ConsoleRenderDefs> renderDefs,
                                  const std::shared_ptr<KeyboardInputDefs> inputDefs,
                                  const std::shared_ptr<IConsoleAnimationProvider> animationProvider );
@@ -40,7 +40,7 @@ namespace MegaManLofi
       const std::shared_ptr<ConsoleBuffer> _consoleBuffer;
       const std::shared_ptr<IRandom> _random;
       const std::shared_ptr<IFrameRateProvider> _frameRateProvider;
-      const std::shared_ptr<IGameEventAggregator> _eventAggregator;
+      const std::shared_ptr<GameEventAggregator> _eventAggregator;
       const std::shared_ptr<ConsoleRenderDefs> _renderDefs;
       const std::shared_ptr<KeyboardInputDefs> _inputDefs;
       const std::shared_ptr<IConsoleAnimationProvider> _animationProvider;

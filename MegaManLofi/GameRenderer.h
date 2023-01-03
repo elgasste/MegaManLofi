@@ -12,7 +12,7 @@ namespace MegaManLofi
    class ConsoleRenderDefs;
    class IScreenBuffer;
    class IGameInfoProvider;
-   class IGameEventAggregator;
+   class GameEventAggregator;
 
    class GameRenderer : public IGameRenderer
    {
@@ -21,7 +21,7 @@ namespace MegaManLofi
                     const std::shared_ptr<IScreenBuffer> screenBuffer,
                     const std::shared_ptr<IGameInfoProvider> gameInfoProvider,
                     const std::shared_ptr<IGameRenderer> diagnosticsRenderer,
-                    const std::shared_ptr<IGameEventAggregator> eventAggregator );
+                    const std::shared_ptr<GameEventAggregator> eventAggregator );
 
       void AddRendererForGameState( GameState state, std::shared_ptr<IGameRenderer> renderer );
 

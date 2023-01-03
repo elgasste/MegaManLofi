@@ -5,7 +5,7 @@
 #include "ConsoleBuffer.h"
 #include "IRandom.h"
 #include "IFrameRateProvider.h"
-#include "IGameEventAggregator.h"
+#include "GameEventAggregator.h"
 #include "ConsoleRenderDefs.h"
 #include "KeyboardInputDefs.h"
 #include "IConsoleAnimationProvider.h"
@@ -19,7 +19,7 @@ using namespace MegaManLofi;
 TitleStateConsoleRenderer::TitleStateConsoleRenderer( const shared_ptr<ConsoleBuffer> consoleBuffer,
                                                       const shared_ptr<IRandom> random,
                                                       const shared_ptr<IFrameRateProvider> frameRateProvider,
-                                                      const shared_ptr<IGameEventAggregator> eventAggregator,
+                                                      const shared_ptr<GameEventAggregator> eventAggregator,
                                                       const shared_ptr<ConsoleRenderDefs> renderDefs,
                                                       const shared_ptr<KeyboardInputDefs> inputDefs,
                                                       const shared_ptr<IConsoleAnimationProvider> animationProvider ) :

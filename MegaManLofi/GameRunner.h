@@ -6,7 +6,7 @@
 
 namespace MegaManLofi
 {
-   class IGameEventAggregator;
+   class GameEventAggregator;
    class IGameClock;
    class IGameInputHandler;
    class IGameRenderer;
@@ -17,7 +17,7 @@ namespace MegaManLofi
    class GameRunner : public IGameRunner
    {
    public:
-      GameRunner( const std::shared_ptr<IGameEventAggregator> eventAggregator,
+      GameRunner( const std::shared_ptr<GameEventAggregator> eventAggregator,
                   const std::shared_ptr<IGameClock> clock,
                   const std::shared_ptr<IGameInputHandler> inputHandler,
                   const std::shared_ptr<IGameRenderer> renderer,

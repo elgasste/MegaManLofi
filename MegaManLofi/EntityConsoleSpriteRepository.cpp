@@ -1,7 +1,7 @@
 #include <vector>
 
 #include "EntityConsoleSpriteRepository.h"
-#include "IGameEventAggregator.h"
+#include "GameEventAggregator.h"
 #include "ReadOnlyArena.h"
 #include "EntityConsoleSpriteCopier.h"
 #include "ConsoleSpriteDefs.h"
@@ -11,7 +11,7 @@
 using namespace std;
 using namespace MegaManLofi;
 
-EntityConsoleSpriteRepository::EntityConsoleSpriteRepository( const shared_ptr<IGameEventAggregator> eventAggregator,
+EntityConsoleSpriteRepository::EntityConsoleSpriteRepository( const shared_ptr<GameEventAggregator> eventAggregator,
                                                               const shared_ptr<ReadOnlyArena> arena,
                                                               const shared_ptr<EntityConsoleSpriteCopier> spriteCopier,
                                                               const shared_ptr<ConsoleSpriteDefs> spriteDefs ) :

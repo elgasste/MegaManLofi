@@ -1,6 +1,6 @@
 #include "ArenaPhysics.h"
 #include "IFrameRateProvider.h"
-#include "IGameEventAggregator.h"
+#include "GameEventAggregator.h"
 #include "ArenaDefs.h"
 #include "Arena.h"
 #include "Entity.h"
@@ -10,7 +10,7 @@ using namespace std;
 using namespace MegaManLofi;
 
 ArenaPhysics::ArenaPhysics( const shared_ptr<IFrameRateProvider> frameRateProvider,
-                            const shared_ptr<IGameEventAggregator> eventAggregator,
+                            const shared_ptr<GameEventAggregator> eventAggregator,
                             const shared_ptr<ArenaDefs> arenaDefs ) :
    _frameRateProvider( frameRateProvider ),
    _eventAggregator( eventAggregator ),

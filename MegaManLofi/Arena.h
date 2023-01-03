@@ -5,14 +5,14 @@
 namespace MegaManLofi
 {
    class ArenaDefs;
-   class IGameEventAggregator;
+   class GameEventAggregator;
 
    class Arena : public ReadOnlyArena
    {
    public:
       Arena() { }
       Arena( const std::shared_ptr<ArenaDefs> arenaDefs,
-             const std::shared_ptr<IGameEventAggregator> eventAggregator );
+             const std::shared_ptr<GameEventAggregator> eventAggregator );
 
       virtual void Reset();
 
@@ -23,6 +23,6 @@ namespace MegaManLofi
 
    private:
       const std::shared_ptr<ArenaDefs> _arenaDefs;
-      const std::shared_ptr<IGameEventAggregator> _eventAggregator;
+      const std::shared_ptr<GameEventAggregator> _eventAggregator;
    };
 }

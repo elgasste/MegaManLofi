@@ -1,7 +1,7 @@
 #include <stdexcept>
 
 #include "PlayerThwipInConsoleAnimation.h"
-#include "IConsoleBuffer.h"
+#include "ConsoleBuffer.h"
 #include "ConsoleRenderDefs.h"
 #include "ConsoleSpriteDefs.h"
 #include "IFrameRateProvider.h"
@@ -10,7 +10,7 @@
 using namespace std;
 using namespace MegaManLofi;
 
-PlayerThwipInConsoleAnimation::PlayerThwipInConsoleAnimation( const shared_ptr<IConsoleBuffer> consoleBuffer,
+PlayerThwipInConsoleAnimation::PlayerThwipInConsoleAnimation( const shared_ptr<ConsoleBuffer> consoleBuffer,
                                                               const shared_ptr<ConsoleRenderDefs> renderDefs,
                                                               const shared_ptr<IFrameRateProvider> frameRateProvider ) :
    _consoleBuffer( consoleBuffer ),

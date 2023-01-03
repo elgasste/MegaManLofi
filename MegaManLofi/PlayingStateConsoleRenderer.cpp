@@ -1,7 +1,7 @@
 #include <format>
 
 #include "PlayingStateConsoleRenderer.h"
-#include "IConsoleBuffer.h"
+#include "ConsoleBuffer.h"
 #include "ConsoleRenderDefs.h"
 #include "ConsoleSpriteDefs.h"
 #include "IGameInfoProvider.h"
@@ -22,7 +22,7 @@
 using namespace std;
 using namespace MegaManLofi;
 
-PlayingStateConsoleRenderer::PlayingStateConsoleRenderer( const shared_ptr<IConsoleBuffer> consoleBuffer,
+PlayingStateConsoleRenderer::PlayingStateConsoleRenderer( const shared_ptr<ConsoleBuffer> consoleBuffer,
                                                           const shared_ptr<ConsoleRenderDefs> renderDefs,
                                                           const shared_ptr<IGameInfoProvider> gameInfoProvider,
                                                           const shared_ptr<IPlayerInfoProvider> playerInfoProvider,

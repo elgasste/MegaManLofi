@@ -278,7 +278,6 @@
     <ClInclude Include="KeyboardWrapper.h" />
     <ClInclude Include="HighResolutionClockWrapper.h" />
     <ClInclude Include="IGameCommandExecutor.h" />
-    <ClInclude Include="IConsoleBuffer.h" />
     <ClInclude Include="IGameClock.h" />
     <ClInclude Include="IGameEventAggregator.h" />
     <ClInclude Include="IGameInputHandler.h" />

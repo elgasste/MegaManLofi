@@ -284,9 +284,6 @@
     <ClInclude Include="IGameInputReader.h">
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="IConsoleBuffer.h">
-      <Filter>Header Files\Interfaces</Filter>
-    </ClInclude>
     <ClInclude Include="ConsoleColor.h">
       <Filter>Header Files\DataTypes</Filter>
     </ClInclude>

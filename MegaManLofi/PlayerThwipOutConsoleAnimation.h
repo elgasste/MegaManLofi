@@ -6,14 +6,14 @@
 
 namespace MegaManLofi
 {
-   class IConsoleBuffer;
+   class ConsoleBuffer;
    class ConsoleRenderDefs;
    class IFrameRateProvider;
 
    class PlayerThwipOutConsoleAnimation : public IConsoleAnimation
    {
    public:
-      PlayerThwipOutConsoleAnimation( const std::shared_ptr<IConsoleBuffer> consoleBuffer,
+      PlayerThwipOutConsoleAnimation( const std::shared_ptr<ConsoleBuffer> consoleBuffer,
                                       const std::shared_ptr<ConsoleRenderDefs> renderDefs,
                                       const std::shared_ptr<IFrameRateProvider> frameRateProvider );
 
@@ -24,7 +24,7 @@ namespace MegaManLofi
       void Tick() override;
 
    private:
-      const std::shared_ptr<IConsoleBuffer> _consoleBuffer;
+      const std::shared_ptr<ConsoleBuffer> _consoleBuffer;
       const std::shared_ptr<ConsoleRenderDefs> _renderDefs;
       const std::shared_ptr<IFrameRateProvider> _frameRateProvider;
 

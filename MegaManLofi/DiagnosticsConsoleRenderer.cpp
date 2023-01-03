@@ -1,7 +1,7 @@
 #include <format>
 
 #include "DiagnosticsConsoleRenderer.h"
-#include "IConsoleBuffer.h"
+#include "ConsoleBuffer.h"
 #include "IFrameRateProvider.h"
 #include "ConsoleRenderDefs.h"
 #include "IArenaInfoProvider.h"
@@ -14,7 +14,7 @@
 using namespace std;
 using namespace MegaManLofi;
 
-DiagnosticsConsoleRenderer::DiagnosticsConsoleRenderer( const shared_ptr<IConsoleBuffer> consoleBuffer,
+DiagnosticsConsoleRenderer::DiagnosticsConsoleRenderer( const shared_ptr<ConsoleBuffer> consoleBuffer,
                                                         const shared_ptr<IFrameRateProvider> frameRateProvider,
                                                         const shared_ptr<ConsoleRenderDefs> renderDefs,
                                                         const shared_ptr<IArenaInfoProvider> arenaInfoProvider,

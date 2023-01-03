@@ -1,37 +1,45 @@
 #pragma once
 
 #include <memory>
+#include <string>
 
-#include "IConsoleBuffer.h"
+#include "IScreenBuffer.h"
+#include "ConsoleImage.h"
 
 namespace MegaManLofi
 {
+   class IConsoleSprite;
+   class IEntityConsoleSprite;
    struct ConsoleBufferInfo;
 
-   class ConsoleBuffer : public IConsoleBuffer
+   class ConsoleBuffer : public IScreenBuffer
    {
    public:
       ConsoleBuffer();
       ~ConsoleBuffer();
 
-      void LoadRenderDefs( const std::shared_ptr<IGameRenderDefs> renderDefs ) override;
-      void CleanUp() override;
+      virtual void Initialize( ConsoleColor defaultForegroundColor,
+                               ConsoleColor defaultBackgroundColor,
+                               short defaultWidth,
+                               short defaultHeight );
+      virtual void LoadRenderDefs( const std::shared_ptr<IGameRenderDefs> renderDefs );
+      virtual void CleanUp() override;
 
-      void SetDefaultForegroundColor( ConsoleColor color ) override;
-      void SetDefaultBackgroundColor( ConsoleColor color ) override;
-      void Clear() override;
+      virtual void SetDefaultForegroundColor( ConsoleColor color );
+      virtual void SetDefaultBackgroundColor( ConsoleColor color );
+      virtual void Clear() override;
 
-      void Draw( short left, short top, char buffer ) override;
-      void Draw( short left, short top, char buffer, ConsoleColor foregroundColor ) override;
-      void Draw( short left, short top, char buffer, ConsoleColor foregroundColor, ConsoleColor backgroundColor ) override;
-      void Draw( short left, short top, const std::string& buffer ) override;
-      void Draw( short left, short top, const std::string& buffer, ConsoleColor foregroundColor ) override;
-      void Draw( short left, short top, const std::string& buffer, ConsoleColor foregroundColor, ConsoleColor backgroundColor ) override;
-      void Draw( short left, short top, const ConsoleImage& image ) override;
-      void Draw( short left, short top, const std::shared_ptr<IConsoleSprite> sprite ) override;
-      void Draw( short left, short top, const std::shared_ptr<IEntityConsoleSprite> sprite ) override;
+      virtual void Draw( short left, short top, char buffer );
+      virtual void Draw( short left, short top, char buffer, ConsoleColor foregroundColor );
+      virtual void Draw( short left, short top, char buffer, ConsoleColor foregroundColor, ConsoleColor backgroundColor );
+      virtual void Draw( short left, short top, const std::string& buffer );
+      virtual void Draw( short left, short top, const std::string& buffer, ConsoleColor foregroundColor );
+      virtual void Draw( short left, short top, const std::string& buffer, ConsoleColor foregroundColor, ConsoleColor backgroundColor );
+      virtual void Draw( short left, short top, const ConsoleImage& image );
+      virtual void Draw( short left, short top, const std::shared_ptr<IConsoleSprite> sprite );
+      virtual void Draw( short left, short top, const std::shared_ptr<IEntityConsoleSprite> sprite );
 
-      void Flip() override;
+      virtual void Flip();
 
    private:
       void ResetDrawBuffer();
@@ -40,6 +48,7 @@ namespace MegaManLofi
 
    private:
       std::shared_ptr<ConsoleBufferInfo> _bufferInfo;
+      bool _drawBufferAllocated;
 
       ConsoleColor _defaultForegroundColor;
       ConsoleColor _defaultBackgroundColor;

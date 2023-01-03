@@ -52,7 +52,7 @@ using namespace MegaManLofi;
 
 // TODO: I suppose all the game objects should be loaded from disk at some point,
 // but for now let's just do it all in here.
-void LoadAndRun( const shared_ptr<IConsoleBuffer> consoleBuffer );
+void LoadAndRun( const shared_ptr<ConsoleBuffer> consoleBuffer );
 
 INT WINAPI WinMain( _In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ PSTR lpCmdLine, _In_ INT nCmdShow )
 {
@@ -78,10 +78,12 @@ INT WINAPI WinMain( _In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
    setvbuf( stderr, NULL, _IONBF, 0 );
 
    auto consoleBuffer = shared_ptr<ConsoleBuffer>( new ConsoleBuffer() );
+   consoleBuffer->Initialize( ConsoleColor::Grey, ConsoleColor::Black, 120, 30 );
+
    LoadAndRun( consoleBuffer );
 }
 
-void LoadAndRun( const shared_ptr<IConsoleBuffer> consoleBuffer )
+void LoadAndRun( const shared_ptr<ConsoleBuffer> consoleBuffer )
 {
    consoleBuffer->Draw( 2, 1, "Loading all the things..." );
    consoleBuffer->Flip();

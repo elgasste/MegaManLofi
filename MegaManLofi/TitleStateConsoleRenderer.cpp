@@ -2,7 +2,7 @@
 #include <format>
 
 #include "TitleStateConsoleRenderer.h"
-#include "IConsoleBuffer.h"
+#include "ConsoleBuffer.h"
 #include "IRandom.h"
 #include "IFrameRateProvider.h"
 #include "IGameEventAggregator.h"
@@ -16,7 +16,7 @@
 using namespace std;
 using namespace MegaManLofi;
 
-TitleStateConsoleRenderer::TitleStateConsoleRenderer( const shared_ptr<IConsoleBuffer> consoleBuffer,
+TitleStateConsoleRenderer::TitleStateConsoleRenderer( const shared_ptr<ConsoleBuffer> consoleBuffer,
                                                       const shared_ptr<IRandom> random,
                                                       const shared_ptr<IFrameRateProvider> frameRateProvider,
                                                       const shared_ptr<IGameEventAggregator> eventAggregator,

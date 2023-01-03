@@ -9,7 +9,7 @@
 
 namespace MegaManLofi
 {
-   class IConsoleBuffer;
+   class ConsoleBuffer;
    class ConsoleRenderDefs;
    class IGameInfoProvider;
    class IPlayerInfoProvider;
@@ -25,7 +25,7 @@ namespace MegaManLofi
    class PlayingStateConsoleRenderer : public IGameRenderer
    {
    public:
-      PlayingStateConsoleRenderer( const std::shared_ptr<IConsoleBuffer> consoleBuffer,
+      PlayingStateConsoleRenderer( const std::shared_ptr<ConsoleBuffer> consoleBuffer,
                                    const std::shared_ptr<ConsoleRenderDefs> renderDefs,
                                    const std::shared_ptr<IGameInfoProvider> gameInfoProvider,
                                    const std::shared_ptr<IPlayerInfoProvider> playerInfoProvider,
@@ -57,7 +57,7 @@ namespace MegaManLofi
       void DrawPauseOverlay();
 
    private:
-      const std::shared_ptr<IConsoleBuffer> _consoleBuffer;
+      const std::shared_ptr<ConsoleBuffer> _consoleBuffer;
       const std::shared_ptr<ConsoleRenderDefs> _renderDefs;
       const std::shared_ptr<IPlayerInfoProvider> _playerInfoProvider;
       const std::shared_ptr<IGameInfoProvider> _gameInfoProvider;

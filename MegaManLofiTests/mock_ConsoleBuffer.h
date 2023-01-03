@@ -2,9 +2,9 @@
 
 #include <gmock/gmock.h>
 
-#include <MegaManLofi/IConsoleBuffer.h>
+#include <MegaManLofi/ConsoleBuffer.h>
 
-class mock_ConsoleBuffer : public MegaManLofi::IConsoleBuffer
+class mock_ConsoleBuffer : public MegaManLofi::ConsoleBuffer
 {
 public:
    MOCK_METHOD( void, LoadRenderDefs, ( std::shared_ptr<MegaManLofi::IGameRenderDefs> ), ( override ) );

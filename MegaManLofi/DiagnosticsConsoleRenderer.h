@@ -6,7 +6,7 @@
 
 namespace MegaManLofi
 {
-   class IConsoleBuffer;
+   class ConsoleBuffer;
    class IFrameRateProvider;
    class ConsoleRenderDefs;
    class IArenaInfoProvider;
@@ -15,7 +15,7 @@ namespace MegaManLofi
    class DiagnosticsConsoleRenderer : public IGameRenderer
    {
    public:
-      DiagnosticsConsoleRenderer( const std::shared_ptr<IConsoleBuffer> consoleBuffer,
+      DiagnosticsConsoleRenderer( const std::shared_ptr<ConsoleBuffer> consoleBuffer,
                                   const std::shared_ptr<IFrameRateProvider> frameRateProvider,
                                   const std::shared_ptr<ConsoleRenderDefs> renderDefs,
                                   const std::shared_ptr<IArenaInfoProvider> arenaInfoProvider,
@@ -25,7 +25,7 @@ namespace MegaManLofi
       bool HasFocus() const override { return false; }
 
    private:
-      const std::shared_ptr<IConsoleBuffer> _consoleBuffer;
+      const std::shared_ptr<ConsoleBuffer> _consoleBuffer;
       const std::shared_ptr<IFrameRateProvider> _frameRateProvider;
       const std::shared_ptr<ConsoleRenderDefs> _renderDefs;
       const std::shared_ptr<IArenaInfoProvider> _arenaInfoProvider;

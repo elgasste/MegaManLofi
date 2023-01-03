@@ -254,7 +254,6 @@
     <ClInclude Include="GameRunner.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="IArenaInfoProvider.h" />
-    <ClInclude Include="IArenaPhysics.h" />
     <ClInclude Include="IConsoleAnimation.h" />
     <ClInclude Include="IConsoleAnimationProvider.h" />
     <ClInclude Include="IConsoleSprite.h" />

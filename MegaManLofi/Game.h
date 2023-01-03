@@ -14,7 +14,7 @@ namespace MegaManLofi
    class Player;
    class Arena;
    class IPlayerPhysics;
-   class IArenaPhysics;
+   class ArenaPhysics;
    class IEntityFactory;
 
    class Game : public IGame,
@@ -28,7 +28,7 @@ namespace MegaManLofi
             const std::shared_ptr<Player> player,
             const std::shared_ptr<Arena> arena,
             const std::shared_ptr<IPlayerPhysics> playerPhysics,
-            const std::shared_ptr<IArenaPhysics> arenaPhysics,
+            const std::shared_ptr<ArenaPhysics> arenaPhysics,
             const std::shared_ptr<IEntityFactory> entityFactory );
 
       void Tick() override;
@@ -56,7 +56,7 @@ namespace MegaManLofi
       const std::shared_ptr<Player> _player;
       const std::shared_ptr<Arena> _arena;
       const std::shared_ptr<IPlayerPhysics> _playerPhysics;
-      const std::shared_ptr<IArenaPhysics> _arenaPhysics;
+      const std::shared_ptr<ArenaPhysics> _arenaPhysics;
       const std::shared_ptr<IEntityFactory> _entityFactory;
 
       GameState _state;

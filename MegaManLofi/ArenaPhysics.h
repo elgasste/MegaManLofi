@@ -1,8 +1,8 @@
 #pragma once
 
+#include <memory>
 #include <map>
 
-#include "IArenaPhysics.h"
 #include "Coordinate.h"
 #include "Quad.h"
 
@@ -11,18 +11,20 @@ namespace MegaManLofi
    class IFrameRateProvider;
    class IGameEventAggregator;
    class ArenaDefs;
+   class Arena;
    class Entity;
    class ReadOnlyEntity;
 
-   class ArenaPhysics : public IArenaPhysics
+   class ArenaPhysics
    {
    public:
+      ArenaPhysics() { }
       ArenaPhysics( const std::shared_ptr<IFrameRateProvider> frameRateProvider,
                     const std::shared_ptr<IGameEventAggregator> eventAggregator,
                     const std::shared_ptr<ArenaDefs> arenaDefs );
 
-      void AssignTo( const std::shared_ptr<Arena> arena ) override;
-      void Tick() override;
+      virtual void AssignTo( const std::shared_ptr<Arena> arena );
+      virtual void Tick();
 
    private:
       void UpdateEntityTileIndicesCache( const std::shared_ptr<ReadOnlyEntity> entity );

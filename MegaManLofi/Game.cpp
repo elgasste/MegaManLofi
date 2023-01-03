@@ -3,7 +3,7 @@
 #include "Player.h"
 #include "Arena.h"
 #include "IPlayerPhysics.h"
-#include "IArenaPhysics.h"
+#include "ArenaPhysics.h"
 #include "IEntityFactory.h"
 #include "GameState.h"
 #include "GameCommand.h"
@@ -17,7 +17,7 @@ Game::Game( const shared_ptr<IGameEventAggregator> eventAggregator,
             const shared_ptr<Player> player,
             const shared_ptr<Arena> arena,
             const shared_ptr<IPlayerPhysics> playerPhysics,
-            const shared_ptr<IArenaPhysics> arenaPhysics,
+            const shared_ptr<ArenaPhysics> arenaPhysics,
             const shared_ptr<IEntityFactory> entityFactory ) :
    _eventAggregator( eventAggregator ),
    _player( player ),

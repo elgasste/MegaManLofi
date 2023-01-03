@@ -200,6 +200,9 @@
     <ClInclude Include="mock_EntityConsoleSpriteCopier.h">
       <Filter>Mocks</Filter>
     </ClInclude>
+    <ClInclude Include="mock_GameRunner.h">
+      <Filter>Mocks</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Mocks">

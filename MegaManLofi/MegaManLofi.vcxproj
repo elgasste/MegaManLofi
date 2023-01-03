@@ -276,7 +276,6 @@
     <ClInclude Include="IGameInputHandler.h" />
     <ClInclude Include="IGameInputReader.h" />
     <ClInclude Include="IGameRenderer.h" />
-    <ClInclude Include="IGameRunner.h" />
     <ClInclude Include="GameInputHandler.h" />
     <ClInclude Include="KeyboardInputDefs.h" />
     <ClInclude Include="IHighResolutionClock.h" />

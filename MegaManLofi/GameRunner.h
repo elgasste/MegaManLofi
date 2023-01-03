@@ -2,8 +2,6 @@
 
 #include <memory>
 
-#include "IGameRunner.h"
-
 namespace MegaManLofi
 {
    class GameEventAggregator;
@@ -14,7 +12,7 @@ namespace MegaManLofi
    class IGame;
    class IThread;
 
-   class GameRunner : public IGameRunner
+   class GameRunner
    {
    public:
       GameRunner( const std::shared_ptr<GameEventAggregator> eventAggregator,
@@ -25,7 +23,7 @@ namespace MegaManLofi
                   const std::shared_ptr<IGame> game,
                   const std::shared_ptr<IThread> thread );
 
-      void Run() override;
+      virtual void Run();
 
    private:
       void HandleShutdownEvent();

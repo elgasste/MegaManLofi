@@ -2,7 +2,7 @@
 
 #include "PlayerPhysics.h"
 #include "IFrameRateProvider.h"
-#include "IFrameActionRegistry.h"
+#include "FrameActionRegistry.h"
 #include "PlayerPhysicsDefs.h"
 #include "Player.h"
 #include "FrameAction.h"
@@ -12,7 +12,7 @@ using namespace std;
 using namespace MegaManLofi;
 
 PlayerPhysics::PlayerPhysics( const shared_ptr<IFrameRateProvider> frameRateProvider,
-                              const shared_ptr<IFrameActionRegistry> frameActionRegistry,
+                              const shared_ptr<FrameActionRegistry> frameActionRegistry,
                               const shared_ptr<PlayerPhysicsDefs> physicsDefs ) :
    _frameRateProvider( frameRateProvider ),
    _frameActionRegistry( frameActionRegistry ),

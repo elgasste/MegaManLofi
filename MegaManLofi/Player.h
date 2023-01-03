@@ -8,7 +8,7 @@
 namespace MegaManLofi
 {
    class PlayerDefs;
-   class IFrameActionRegistry;
+   class FrameActionRegistry;
    class IFrameRateProvider;
 
    class Player : public ReadOnlyPlayer,
@@ -17,7 +17,7 @@ namespace MegaManLofi
    public:
       Player() { }
       Player( const std::shared_ptr<PlayerDefs> playerDefs,
-              const std::shared_ptr<IFrameActionRegistry> frameActionRegistry,
+              const std::shared_ptr<FrameActionRegistry> frameActionRegistry,
               const std::shared_ptr<IFrameRateProvider> frameRateProvider );
 
       virtual void Reset();
@@ -30,7 +30,7 @@ namespace MegaManLofi
 
    private:
       const std::shared_ptr<PlayerDefs> _playerDefs;
-      const std::shared_ptr<IFrameActionRegistry> _frameActionRegistry;
+      const std::shared_ptr<FrameActionRegistry> _frameActionRegistry;
       const std::shared_ptr<IFrameRateProvider> _frameRateProvider;
    };
 }

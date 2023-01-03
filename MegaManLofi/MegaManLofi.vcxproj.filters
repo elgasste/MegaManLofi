@@ -398,9 +398,6 @@
     <ClInclude Include="FrameAction.h">
       <Filter>Header Files\DataTypes</Filter>
     </ClInclude>
-    <ClInclude Include="IFrameActionRegistry.h">
-      <Filter>Header Files\Interfaces</Filter>
-    </ClInclude>
     <ClInclude Include="FrameActionRegistry.h">
       <Filter>Header Files</Filter>
     </ClInclude>

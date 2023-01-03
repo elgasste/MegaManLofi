@@ -2,18 +2,18 @@
 
 #include <map>
 
-#include "IFrameActionRegistry.h"
+#include "FrameAction.h"
 
 namespace MegaManLofi
 {
-   class FrameActionRegistry : public IFrameActionRegistry
+   class FrameActionRegistry
    {
    public:
       FrameActionRegistry();
 
-      void Clear() override;
-      void FlagAction( FrameAction action ) override;
-      bool ActionFlagged( FrameAction action ) const override;
+      virtual void Clear();
+      virtual void FlagAction( FrameAction action );
+      virtual bool ActionFlagged( FrameAction action ) const;
 
    private:
       std::map<FrameAction, bool> _frameActions;

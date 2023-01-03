@@ -3,7 +3,7 @@
 #include "IGameClock.h"
 #include "IGameInputHandler.h"
 #include "IGameRenderer.h"
-#include "IFrameActionRegistry.h"
+#include "FrameActionRegistry.h"
 #include "IGame.h"
 #include "IThread.h"
 
@@ -13,7 +13,7 @@ GameRunner::GameRunner( const std::shared_ptr<IGameEventAggregator> eventAggrega
                         const std::shared_ptr<IGameClock> clock,
                         const std::shared_ptr<IGameInputHandler> inputHandler,
                         const std::shared_ptr<IGameRenderer> renderer,
-                        const std::shared_ptr<IFrameActionRegistry> frameActionRegistry,
+                        const std::shared_ptr<FrameActionRegistry> frameActionRegistry,
                         const std::shared_ptr<IGame> game,
                         const std::shared_ptr<IThread> thread ) :
    _clock( clock ),

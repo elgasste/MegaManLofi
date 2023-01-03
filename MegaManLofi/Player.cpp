@@ -2,7 +2,7 @@
 
 #include "Player.h"
 #include "PlayerDefs.h"
-#include "IFrameActionRegistry.h"
+#include "FrameActionRegistry.h"
 #include "IFrameRateProvider.h"
 #include "FrameAction.h"
 #include "Rectangle.h"
@@ -11,7 +11,7 @@ using namespace std;
 using namespace MegaManLofi;
 
 Player::Player( const shared_ptr<PlayerDefs> playerDefs,
-                const shared_ptr<IFrameActionRegistry> frameActionRegistry,
+                const shared_ptr<FrameActionRegistry> frameActionRegistry,
                 const shared_ptr<IFrameRateProvider> frameRateProvider ) :
    _playerDefs( playerDefs ),
    _frameActionRegistry( frameActionRegistry ),

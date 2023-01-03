@@ -1,32 +1,38 @@
 #pragma once
 
+#include <memory>
 #include <map>
 
-#include "IEntityConsoleSprite.h"
+#include "ConsoleImage.h"
+#include "MovementType.h"
+#include "Direction.h"
 
 namespace MegaManLofi
 {
-   class EntityConsoleSprite : public IEntityConsoleSprite
+   class ConsoleSprite;
+   class ReadOnlyEntity;
+
+   class EntityConsoleSprite
    {
    public:
-      EntityConsoleSprite();
+      EntityConsoleSprite() { }
       EntityConsoleSprite( EntityConsoleSprite& ecs );
 
-      void AssignTo( const std::shared_ptr<IReadOnlyEntity> entity ) override;
-      void AddSprite( MovementType movementType,
-                      Direction direction,
-                      const std::shared_ptr<IConsoleSprite> sprite ) override;
-      void Tick() override;
-      void Reset() override;
+      virtual void AssignTo( const std::shared_ptr<ReadOnlyEntity> entity );
+      virtual void AddSprite( MovementType movementType,
+                              Direction direction,
+                              const std::shared_ptr<ConsoleSprite> sprite );
+      virtual void Tick();
+      virtual void Reset();
 
-      short GetWidth() const override;
-      short GetHeight() const override;
-      float GetTotalTraversalSeconds() const override;
-      const ConsoleImage& GetCurrentImage() const override;
+      virtual short GetWidth() const;
+      virtual short GetHeight() const;
+      virtual float GetTotalTraversalSeconds() const;
+      virtual const ConsoleImage& GetCurrentImage() const;
 
    private:
-      std::map<MovementType, std::map<Direction, std::shared_ptr<IConsoleSprite>>> _movementSpriteMaps;
+      std::map<MovementType, std::map<Direction, std::shared_ptr<ConsoleSprite>>> _movementSpriteMaps;
 
-      std::shared_ptr<IReadOnlyEntity> _entity;
+      std::shared_ptr<ReadOnlyEntity> _entity;
    };
 }

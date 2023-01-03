@@ -100,30 +100,30 @@ TEST_F( PlayerExplodedConsoleAnimationTests, Draw_Always_DrawsAllParticlesInCorr
    ON_CALL( *_frameRateProviderMock, GetFrameSeconds() ).WillByDefault( Return( 3.0f ) );
    BuildAnimation();
 
-   EXPECT_CALL( *_consoleBufferMock, Draw( 30, 30, static_pointer_cast<IConsoleSprite>( _particleSpriteMock ) ) ).Times( 16 );
+   EXPECT_CALL( *_consoleBufferMock, Draw( 30, 30, static_pointer_cast<ConsoleSprite>( _particleSpriteMock ) ) ).Times( 16 );
 
    _animation->Start( Coordinate<short>( { 30, 30 } ), nullopt );
    _animation->Draw();
 
    // horizontal and vertical particles
-   EXPECT_CALL( *_consoleBufferMock, Draw( 36, 30, static_pointer_cast<IConsoleSprite>( _particleSpriteMock ) ) );
-   EXPECT_CALL( *_consoleBufferMock, Draw( 33, 30, static_pointer_cast<IConsoleSprite>( _particleSpriteMock ) ) );
-   EXPECT_CALL( *_consoleBufferMock, Draw( 27, 30, static_pointer_cast<IConsoleSprite>( _particleSpriteMock ) ) );
-   EXPECT_CALL( *_consoleBufferMock, Draw( 24, 30, static_pointer_cast<IConsoleSprite>( _particleSpriteMock ) ) );
-   EXPECT_CALL( *_consoleBufferMock, Draw( 30, 36, static_pointer_cast<IConsoleSprite>( _particleSpriteMock ) ) );
-   EXPECT_CALL( *_consoleBufferMock, Draw( 30, 33, static_pointer_cast<IConsoleSprite>( _particleSpriteMock ) ) );
-   EXPECT_CALL( *_consoleBufferMock, Draw( 30, 27, static_pointer_cast<IConsoleSprite>( _particleSpriteMock ) ) );
-   EXPECT_CALL( *_consoleBufferMock, Draw( 30, 24, static_pointer_cast<IConsoleSprite>( _particleSpriteMock ) ) );
+   EXPECT_CALL( *_consoleBufferMock, Draw( 36, 30, static_pointer_cast<ConsoleSprite>( _particleSpriteMock ) ) );
+   EXPECT_CALL( *_consoleBufferMock, Draw( 33, 30, static_pointer_cast<ConsoleSprite>( _particleSpriteMock ) ) );
+   EXPECT_CALL( *_consoleBufferMock, Draw( 27, 30, static_pointer_cast<ConsoleSprite>( _particleSpriteMock ) ) );
+   EXPECT_CALL( *_consoleBufferMock, Draw( 24, 30, static_pointer_cast<ConsoleSprite>( _particleSpriteMock ) ) );
+   EXPECT_CALL( *_consoleBufferMock, Draw( 30, 36, static_pointer_cast<ConsoleSprite>( _particleSpriteMock ) ) );
+   EXPECT_CALL( *_consoleBufferMock, Draw( 30, 33, static_pointer_cast<ConsoleSprite>( _particleSpriteMock ) ) );
+   EXPECT_CALL( *_consoleBufferMock, Draw( 30, 27, static_pointer_cast<ConsoleSprite>( _particleSpriteMock ) ) );
+   EXPECT_CALL( *_consoleBufferMock, Draw( 30, 24, static_pointer_cast<ConsoleSprite>( _particleSpriteMock ) ) );
 
    // diagonal particles
-   EXPECT_CALL( *_consoleBufferMock, Draw( 26, 26, static_pointer_cast<IConsoleSprite>( _particleSpriteMock ) ) );
-   EXPECT_CALL( *_consoleBufferMock, Draw( 28, 28, static_pointer_cast<IConsoleSprite>( _particleSpriteMock ) ) );
-   EXPECT_CALL( *_consoleBufferMock, Draw( 26, 34, static_pointer_cast<IConsoleSprite>( _particleSpriteMock ) ) );
-   EXPECT_CALL( *_consoleBufferMock, Draw( 28, 32, static_pointer_cast<IConsoleSprite>( _particleSpriteMock ) ) );
-   EXPECT_CALL( *_consoleBufferMock, Draw( 34, 26, static_pointer_cast<IConsoleSprite>( _particleSpriteMock ) ) );
-   EXPECT_CALL( *_consoleBufferMock, Draw( 32, 28, static_pointer_cast<IConsoleSprite>( _particleSpriteMock ) ) );
-   EXPECT_CALL( *_consoleBufferMock, Draw( 34, 34, static_pointer_cast<IConsoleSprite>( _particleSpriteMock ) ) );
-   EXPECT_CALL( *_consoleBufferMock, Draw( 32, 32, static_pointer_cast<IConsoleSprite>( _particleSpriteMock ) ) );
+   EXPECT_CALL( *_consoleBufferMock, Draw( 26, 26, static_pointer_cast<ConsoleSprite>( _particleSpriteMock ) ) );
+   EXPECT_CALL( *_consoleBufferMock, Draw( 28, 28, static_pointer_cast<ConsoleSprite>( _particleSpriteMock ) ) );
+   EXPECT_CALL( *_consoleBufferMock, Draw( 26, 34, static_pointer_cast<ConsoleSprite>( _particleSpriteMock ) ) );
+   EXPECT_CALL( *_consoleBufferMock, Draw( 28, 32, static_pointer_cast<ConsoleSprite>( _particleSpriteMock ) ) );
+   EXPECT_CALL( *_consoleBufferMock, Draw( 34, 26, static_pointer_cast<ConsoleSprite>( _particleSpriteMock ) ) );
+   EXPECT_CALL( *_consoleBufferMock, Draw( 32, 28, static_pointer_cast<ConsoleSprite>( _particleSpriteMock ) ) );
+   EXPECT_CALL( *_consoleBufferMock, Draw( 34, 34, static_pointer_cast<ConsoleSprite>( _particleSpriteMock ) ) );
+   EXPECT_CALL( *_consoleBufferMock, Draw( 32, 32, static_pointer_cast<ConsoleSprite>( _particleSpriteMock ) ) );
 
    _animation->Tick();
    _animation->Draw();

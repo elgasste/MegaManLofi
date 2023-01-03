@@ -9,8 +9,8 @@ namespace MegaManLofi
 {
    class ConsoleSpriteDefs;
    class IFrameRateProvider;
-   class IConsoleSprite;
-   class IEntityConsoleSprite;
+   class ConsoleSprite;
+   class EntityConsoleSprite;
 
    class ConsoleSpriteDefsGenerator
    {
@@ -18,21 +18,21 @@ namespace MegaManLofi
       static std::shared_ptr<ConsoleSpriteDefs> GenerateConsoleSpriteDefs( const std::shared_ptr<IFrameRateProvider> frameRateProvider );
 
    private:
-      static std::shared_ptr<IConsoleSprite> GeneratePlayerStandingSprite( Direction direction, const std::shared_ptr<IFrameRateProvider> frameRateProvider );
-      static std::shared_ptr<IConsoleSprite> GeneratePlayerWalkingSprite( Direction direction, const std::shared_ptr<IFrameRateProvider> frameRateProvider );
-      static std::shared_ptr<IConsoleSprite> GeneratePlayerAirborneSprite( Direction direction, const std::shared_ptr<IFrameRateProvider> frameRateProvider );
+      static std::shared_ptr<ConsoleSprite> GeneratePlayerStandingSprite( Direction direction, const std::shared_ptr<IFrameRateProvider> frameRateProvider );
+      static std::shared_ptr<ConsoleSprite> GeneratePlayerWalkingSprite( Direction direction, const std::shared_ptr<IFrameRateProvider> frameRateProvider );
+      static std::shared_ptr<ConsoleSprite> GeneratePlayerAirborneSprite( Direction direction, const std::shared_ptr<IFrameRateProvider> frameRateProvider );
 
-      static std::shared_ptr<IConsoleSprite> GenerateBulletSprite( const std::shared_ptr<IFrameRateProvider> frameRateProvider );
+      static std::shared_ptr<ConsoleSprite> GenerateBulletSprite( const std::shared_ptr<IFrameRateProvider> frameRateProvider );
 
-      static std::shared_ptr<IConsoleSprite> GeneratePlayerThwipSprite( const std::shared_ptr<IFrameRateProvider> frameRateProvider );
-      static std::shared_ptr<IConsoleSprite> GeneratePlayerThwipInTransitionSprite( const std::shared_ptr<IFrameRateProvider> frameRateProvider );
-      static std::shared_ptr<IConsoleSprite> GeneratePlayerThwipOutTransitionSprite( const std::shared_ptr<IFrameRateProvider> frameRateProvider );
-      static std::shared_ptr<IConsoleSprite> GeneratePlayerExplosionParticleSprite( const std::shared_ptr<IFrameRateProvider> frameRateProvider );
+      static std::shared_ptr<ConsoleSprite> GeneratePlayerThwipSprite( const std::shared_ptr<IFrameRateProvider> frameRateProvider );
+      static std::shared_ptr<ConsoleSprite> GeneratePlayerThwipInTransitionSprite( const std::shared_ptr<IFrameRateProvider> frameRateProvider );
+      static std::shared_ptr<ConsoleSprite> GeneratePlayerThwipOutTransitionSprite( const std::shared_ptr<IFrameRateProvider> frameRateProvider );
+      static std::shared_ptr<ConsoleSprite> GeneratePlayerExplosionParticleSprite( const std::shared_ptr<IFrameRateProvider> frameRateProvider );
 
-      static std::shared_ptr<IConsoleSprite> GenerateStageGetReadySprite( const std::shared_ptr<IFrameRateProvider> frameRateProvider );
+      static std::shared_ptr<ConsoleSprite> GenerateStageGetReadySprite( const std::shared_ptr<IFrameRateProvider> frameRateProvider );
 
-      static std::shared_ptr<IConsoleSprite> GenerateMenuCaratSprite( const std::shared_ptr<IFrameRateProvider> frameRateProvider );
+      static std::shared_ptr<ConsoleSprite> GenerateMenuCaratSprite( const std::shared_ptr<IFrameRateProvider> frameRateProvider );
 
-      static std::map<int, std::shared_ptr<IEntityConsoleSprite>> GenerateEntitySpriteMap( const std::shared_ptr<IFrameRateProvider> frameRateProvider );
+      static std::map<int, std::shared_ptr<EntityConsoleSprite>> GenerateEntitySpriteMap( const std::shared_ptr<IFrameRateProvider> frameRateProvider );
    };
 }

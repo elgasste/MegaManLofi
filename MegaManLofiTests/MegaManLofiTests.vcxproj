@@ -57,6 +57,7 @@
     <ClInclude Include="mock_GameInputHandler.h" />
     <ClInclude Include="mock_GameInputReader.h" />
     <ClInclude Include="mock_GameRenderer.h" />
+    <ClInclude Include="mock_GameRunner.h" />
     <ClInclude Include="mock_HighResolutionClock.h" />
     <ClInclude Include="mock_Keyboard.h" />
     <ClInclude Include="mock_Menu.h" />
@@ -69,14 +70,13 @@
     <ClInclude Include="mock_ReadOnlyEntity.h" />
     <ClInclude Include="mock_ReadOnlyPlayer.h" />
     <ClInclude Include="mock_ScreenBuffer.h" />
-    <ClInclude Include="mock_Sleeper.h" />
     <ClInclude Include="mock_Thread.h" />
     <ClInclude Include="mock_UniqueNumberGenerator.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ArenaPhysicsTests.cpp" />
     <ClCompile Include="ArenaTests.cpp" />
-    <ClCompile Include="BasicEntityTests.cpp" />
+    <ClCompile Include="EntityTests.cpp" />
     <ClCompile Include="ConsoleAnimationRepositoryTests.cpp" />
     <ClCompile Include="ConsoleSpriteTests.cpp" />
     <ClCompile Include="EntityConsoleSpriteRepositoryTests.cpp" />

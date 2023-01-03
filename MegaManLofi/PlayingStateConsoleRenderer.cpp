@@ -1,36 +1,36 @@
 #include <format>
 
 #include "PlayingStateConsoleRenderer.h"
-#include "IConsoleBuffer.h"
+#include "ConsoleBuffer.h"
 #include "ConsoleRenderDefs.h"
 #include "ConsoleSpriteDefs.h"
 #include "IGameInfoProvider.h"
 #include "IPlayerInfoProvider.h"
 #include "IArenaInfoProvider.h"
-#include "IGameEventAggregator.h"
+#include "GameEventAggregator.h"
 #include "IFrameRateProvider.h"
 #include "IConsoleAnimationProvider.h"
-#include "IEntityConsoleSpriteRepository.h"
+#include "EntityConsoleSpriteRepository.h"
 #include "IConsoleAnimation.h"
-#include "IReadOnlyPlayer.h"
-#include "IReadOnlyEntity.h"
-#include "IReadOnlyArena.h"
+#include "ReadOnlyPlayer.h"
+#include "ReadOnlyEntity.h"
+#include "ReadOnlyArena.h"
 #include "Direction.h"
-#include "IConsoleSprite.h"
-#include "IEntityConsoleSprite.h"
+#include "ConsoleSprite.h"
+#include "EntityConsoleSprite.h"
 
 using namespace std;
 using namespace MegaManLofi;
 
-PlayingStateConsoleRenderer::PlayingStateConsoleRenderer( const shared_ptr<IConsoleBuffer> consoleBuffer,
+PlayingStateConsoleRenderer::PlayingStateConsoleRenderer( const shared_ptr<ConsoleBuffer> consoleBuffer,
                                                           const shared_ptr<ConsoleRenderDefs> renderDefs,
                                                           const shared_ptr<IGameInfoProvider> gameInfoProvider,
                                                           const shared_ptr<IPlayerInfoProvider> playerInfoProvider,
                                                           const shared_ptr<IArenaInfoProvider> arenaInfoProvider,
-                                                          const shared_ptr<IGameEventAggregator> eventAggregator,
+                                                          const shared_ptr<GameEventAggregator> eventAggregator,
                                                           const shared_ptr<IFrameRateProvider> frameRateProvider,
                                                           const shared_ptr<IConsoleAnimationProvider> animationProvider,
-                                                          const shared_ptr<IEntityConsoleSpriteRepository> spriteRepository ) :
+                                                          const shared_ptr<EntityConsoleSpriteRepository> spriteRepository ) :
    _consoleBuffer( consoleBuffer ),
    _renderDefs( renderDefs ),
    _gameInfoProvider( gameInfoProvider ),
@@ -247,7 +247,7 @@ void PlayingStateConsoleRenderer::DrawNonPlayerEntities()
    }
 }
 
-void PlayingStateConsoleRenderer::DrawEntity( const shared_ptr<IReadOnlyEntity> entity )
+void PlayingStateConsoleRenderer::DrawEntity( const shared_ptr<ReadOnlyEntity> entity )
 {
    auto sprite = _spriteRepository->GetSprite( entity->GetUniqueId() );
    auto left = (short)( ( entity->GetArenaPositionLeft() - _viewportQuadUnits.Left ) / _renderDefs->ArenaCharWidth ) + _viewportOffsetChars.Left;

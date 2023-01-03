@@ -1,5 +1,4 @@
 #include "FrameActionRegistry.h"
-#include "FrameAction.h"
 
 using namespace std;
 using namespace MegaManLofi;

@@ -40,7 +40,7 @@ public:
    void BuildArena()
    {
       _arena.reset( new Arena( _arenaDefs, _eventAggregatorMock ) );
-      _arena->SetPlayer( _playerMock );
+      _arena->SetPlayerEntity( _playerMock );
    }
 
 protected:
@@ -67,19 +67,6 @@ TEST_F( ArenaTests, Constructor_Always_SetsDefaultInfoBasedOnConfig )
    EXPECT_TRUE( _arena->GetTile( 5 ).UpPassable );
    EXPECT_FALSE( _arena->GetTile( 5 ).RightPassable );
    EXPECT_TRUE( _arena->GetTile( 5 ).DownPassable );
-}
-
-TEST_F( ArenaTests, Reset_Always_ResetsPlayerPosition )
-{
-   BuildArena();
-
-   Coordinate<float> position;
-   EXPECT_CALL( *_playerMock, SetArenaPosition( _ ) ).WillOnce( SaveArg<0>( &position ) );
-
-   _arena->Reset();
-
-   EXPECT_EQ( position.Left, 10 );
-   EXPECT_EQ( position.Top, 8 );
 }
 
 TEST_F( ArenaTests, Reset_Always_ClearsEntities )

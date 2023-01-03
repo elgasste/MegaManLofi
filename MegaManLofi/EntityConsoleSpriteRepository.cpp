@@ -1,19 +1,19 @@
 #include <vector>
 
 #include "EntityConsoleSpriteRepository.h"
-#include "IGameEventAggregator.h"
-#include "IReadOnlyArena.h"
-#include "IEntityConsoleSpriteCopier.h"
+#include "GameEventAggregator.h"
+#include "ReadOnlyArena.h"
+#include "EntityConsoleSpriteCopier.h"
 #include "ConsoleSpriteDefs.h"
-#include "IReadOnlyEntity.h"
-#include "IEntityConsoleSprite.h"
+#include "ReadOnlyEntity.h"
+#include "EntityConsoleSprite.h"
 
 using namespace std;
 using namespace MegaManLofi;
 
-EntityConsoleSpriteRepository::EntityConsoleSpriteRepository( const shared_ptr<IGameEventAggregator> eventAggregator,
-                                                              const shared_ptr<IReadOnlyArena> arena,
-                                                              const shared_ptr<IEntityConsoleSpriteCopier> spriteCopier,
+EntityConsoleSpriteRepository::EntityConsoleSpriteRepository( const shared_ptr<GameEventAggregator> eventAggregator,
+                                                              const shared_ptr<ReadOnlyArena> arena,
+                                                              const shared_ptr<EntityConsoleSpriteCopier> spriteCopier,
                                                               const shared_ptr<ConsoleSpriteDefs> spriteDefs ) :
    _arena( arena ),
    _spriteCopier( spriteCopier ),
@@ -24,7 +24,7 @@ EntityConsoleSpriteRepository::EntityConsoleSpriteRepository( const shared_ptr<I
    eventAggregator->RegisterEventHandler( GameEvent::ArenaEntitiesCleared, std::bind( &EntityConsoleSpriteRepository::HandleEntitiesCleared, this ) );
 }
 
-const shared_ptr<IEntityConsoleSprite> EntityConsoleSpriteRepository::GetSprite( int uniqueId ) const
+const shared_ptr<EntityConsoleSprite> EntityConsoleSpriteRepository::GetSprite( int uniqueId ) const
 {
    return _spriteMap.at( uniqueId );
 }

@@ -2,9 +2,9 @@
 
 #include <gmock/gmock.h>
 
-#include <MegaManLofi/IConsoleSprite.h>
+#include <MegaManLofi/ConsoleSprite.h>
 
-class mock_ConsoleSprite : public MegaManLofi::IConsoleSprite
+class mock_ConsoleSprite : public MegaManLofi::ConsoleSprite
 {
 public:
    MOCK_METHOD( void, AddImage, ( MegaManLofi::ConsoleImage ), ( override ) );

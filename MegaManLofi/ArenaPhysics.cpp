@@ -1,17 +1,16 @@
 #include "ArenaPhysics.h"
 #include "IFrameRateProvider.h"
-#include "IGameEventAggregator.h"
+#include "GameEventAggregator.h"
 #include "ArenaDefs.h"
-#include "IPlayer.h"
-#include "IArena.h"
+#include "Arena.h"
+#include "Entity.h"
 #include "FrameAction.h"
-#include "BasicEntity.h"
 
 using namespace std;
 using namespace MegaManLofi;
 
 ArenaPhysics::ArenaPhysics( const shared_ptr<IFrameRateProvider> frameRateProvider,
-                            const shared_ptr<IGameEventAggregator> eventAggregator,
+                            const shared_ptr<GameEventAggregator> eventAggregator,
                             const shared_ptr<ArenaDefs> arenaDefs ) :
    _frameRateProvider( frameRateProvider ),
    _eventAggregator( eventAggregator ),
@@ -20,14 +19,14 @@ ArenaPhysics::ArenaPhysics( const shared_ptr<IFrameRateProvider> frameRateProvid
 {
 }
 
-void ArenaPhysics::AssignTo( const shared_ptr<IArena> arena )
+void ArenaPhysics::AssignTo( const shared_ptr<Arena> arena )
 {
    _entityTileIndicesCache.clear();
    _arena = arena;
 
    for ( int i = 0; i < _arena->GetEntityCount(); i++ )
    {
-      UpdateEntityTileIndicesCache( _arena->GetMutableEntity( i ) );
+      UpdateEntityTileIndicesCache( _arena->GetEntity( i ) );
    }
 }
 
@@ -38,7 +37,7 @@ void ArenaPhysics::Tick()
    DetectTileDeath();
 }
 
-void ArenaPhysics::UpdateEntityTileIndicesCache( const shared_ptr<IEntity> entity )
+void ArenaPhysics::UpdateEntityTileIndicesCache( const shared_ptr<ReadOnlyEntity> entity )
 {
    const auto& hitBox = entity->GetHitBox();
    auto position = entity->GetArenaPosition();
@@ -67,14 +66,14 @@ void ArenaPhysics::MoveEntities()
 {
    for ( int i = 0; i < _arena->GetEntityCount(); i++ )
    {
-      auto entity = _arena->GetMutableEntity( i );
+      auto entity = static_pointer_cast<Entity>( _arena->GetEntity( i ) );
       MoveEntity( entity );
       UpdateEntityTileIndicesCache( entity );
       DetectEntityMovementType( entity );
    }
 }
 
-void ArenaPhysics::MoveEntity( const shared_ptr<IEntity> entity )
+void ArenaPhysics::MoveEntity( const shared_ptr<Entity> entity )
 {
    auto newPositionLeft = entity->GetArenaPositionLeft() + ( entity->GetVelocityX() * _frameRateProvider->GetFrameSeconds() );
    auto newPositionTop = entity->GetArenaPositionTop() + ( entity->GetVelocityY() * _frameRateProvider->GetFrameSeconds() );
@@ -84,7 +83,7 @@ void ArenaPhysics::MoveEntity( const shared_ptr<IEntity> entity )
    entity->SetArenaPosition( { newPositionLeft, newPositionTop } );
 }
 
-void ArenaPhysics::DetectEntityTileCollisionX( const shared_ptr<IEntity> entity, float& newPositionLeft )
+void ArenaPhysics::DetectEntityTileCollisionX( const shared_ptr<Entity> entity, float& newPositionLeft )
 {
    const auto& hitBox = entity->GetHitBox();
    auto currentPositionLeft = entity->GetArenaPositionLeft();
@@ -146,7 +145,7 @@ void ArenaPhysics::DetectEntityTileCollisionX( const shared_ptr<IEntity> entity,
    }
 }
 
-void ArenaPhysics::DetectEntityTileCollisionY( const shared_ptr<IEntity> entity, float& newPositionTop )
+void ArenaPhysics::DetectEntityTileCollisionY( const shared_ptr<Entity> entity, float& newPositionTop )
 {
    const auto& hitBox = entity->GetHitBox();
    auto currentPositionTop = entity->GetArenaPositionTop();
@@ -189,7 +188,7 @@ void ArenaPhysics::DetectEntityTileCollisionY( const shared_ptr<IEntity> entity,
          {
             // we've collided with the bottom edge of the arena
             newPositionTop = arenaHeight - hitBox.Height;
-            if ( entity == _arena->GetMutablePlayer() )
+            if ( entity == _arena->GetPlayerEntity() )
             {
                _eventAggregator->RaiseEvent( GameEvent::Pitfall );
             }
@@ -211,7 +210,7 @@ void ArenaPhysics::DetectEntityTileCollisionY( const shared_ptr<IEntity> entity,
    }
 }
 
-void ArenaPhysics::HandleEntityEnvironmentCollision( const shared_ptr<IEntity> entity )
+void ArenaPhysics::HandleEntityEnvironmentCollision( const shared_ptr<Entity> entity )
 {
    if ( entity->GetEntityType() == EntityType::Projectile )
    {
@@ -222,7 +221,7 @@ void ArenaPhysics::HandleEntityEnvironmentCollision( const shared_ptr<IEntity> e
 
 void ArenaPhysics::UpdateActiveRegion()
 {
-   const auto& playerPosition = _arena->GetMutablePlayer()->GetArenaPosition();
+   const auto& playerPosition = _arena->GetPlayerEntity()->GetArenaPosition();
    auto regionLeft = playerPosition.Left - ( _arenaDefs->ActiveRegionWidth / 2 );
    auto regionTop = playerPosition.Top - ( _arenaDefs->ActiveRegionHeight / 2 );
 
@@ -231,7 +230,7 @@ void ArenaPhysics::UpdateActiveRegion()
 
 bool ArenaPhysics::DetectTileDeath() const
 {
-   auto player = _arena->GetMutablePlayer();
+   auto player = _arena->GetPlayerEntity();
    const auto& occupyingTileIndices = _entityTileIndicesCache.at( player );
 
    for ( auto x = occupyingTileIndices.Left; x <= occupyingTileIndices.Right; x++ )
@@ -251,7 +250,7 @@ bool ArenaPhysics::DetectTileDeath() const
    return false;
 }
 
-void ArenaPhysics::DetectEntityMovementType( const shared_ptr<IEntity> entity ) const
+void ArenaPhysics::DetectEntityMovementType( const shared_ptr<Entity> entity ) const
 {
    const auto& hitBox = entity->GetHitBox();
    auto positionTop = entity->GetArenaPositionTop();

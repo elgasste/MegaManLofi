@@ -1,11 +1,11 @@
 #include "GameOverStateConsoleRenderer.h"
-#include "IConsoleBuffer.h"
+#include "ConsoleBuffer.h"
 #include "ConsoleRenderDefs.h"
 
 using namespace std;
 using namespace MegaManLofi;
 
-GameOverStateConsoleRenderer::GameOverStateConsoleRenderer( const shared_ptr<IConsoleBuffer> consoleBuffer,
+GameOverStateConsoleRenderer::GameOverStateConsoleRenderer( const shared_ptr<ConsoleBuffer> consoleBuffer,
                                                             const shared_ptr<ConsoleRenderDefs> renderDefs ) :
    _consoleBuffer( consoleBuffer ),
    _renderDefs( renderDefs )

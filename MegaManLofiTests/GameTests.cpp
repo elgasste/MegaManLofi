@@ -70,7 +70,7 @@ TEST_F( GameTests, Constructor_Always_SetsGameStateToTitle )
 
 TEST_F( GameTests, Constructor_Always_AddsPlayerToArena )
 {
-   EXPECT_CALL( *_arenaMock, SetPlayer( static_pointer_cast<IPlayer>( _playerMock ) ) );
+   EXPECT_CALL( *_arenaMock, SetPlayerEntity( static_pointer_cast<Entity>( _playerMock ) ) );
 
    BuildGame();
 }
@@ -89,8 +89,8 @@ TEST_F( GameTests, ExecuteCommand_StartGame_AssignsObjectsToPhysics )
 {
    BuildGame();
 
-   auto basePlayer = static_pointer_cast<IPlayer>( _playerMock );
-   auto baseArena = static_pointer_cast<IArena>( _arenaMock );
+   auto basePlayer = static_pointer_cast<Player>( _playerMock );
+   auto baseArena = static_pointer_cast<Arena>( _arenaMock );
 
    EXPECT_CALL( *_playerPhysicsMock, AssignTo( basePlayer ) );
    EXPECT_CALL( *_arenaPhysicsMock, AssignTo( baseArena ) );
@@ -132,8 +132,8 @@ TEST_F( GameTests, ExecuteCommand_StartStage_AssignsObjectsToPhysics )
 {
    BuildGame();
 
-   auto basePlayer = static_pointer_cast<IPlayer>( _playerMock );
-   auto baseArena = static_pointer_cast<IArena>( _arenaMock );
+   auto basePlayer = static_pointer_cast<Player>( _playerMock );
+   auto baseArena = static_pointer_cast<Arena>( _arenaMock );
 
    EXPECT_CALL( *_playerPhysicsMock, AssignTo( basePlayer ) );
    EXPECT_CALL( *_arenaPhysicsMock, AssignTo( baseArena ) );

@@ -2,18 +2,17 @@
 
 #include <map>
 #include <vector>
+#include <functional>
 
-#include "IGameEventAggregator.h"
+#include "GameEvent.h"
 
 namespace MegaManLofi
 {
-   enum class GameEvent;
-
-   class GameEventAggregator : public IGameEventAggregator
+   class GameEventAggregator
    {
    public:
-      void RegisterEventHandler( GameEvent event, std::function<void()> handler ) override;
-      void RaiseEvent( GameEvent event ) const override;
+      virtual void RegisterEventHandler( GameEvent event, std::function<void()> handler );
+      virtual void RaiseEvent( GameEvent event ) const;
 
    private:
       std::map<GameEvent, std::vector<std::function<void()>>> _eventHandlers;

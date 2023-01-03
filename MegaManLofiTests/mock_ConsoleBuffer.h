@@ -2,9 +2,9 @@
 
 #include <gmock/gmock.h>
 
-#include <MegaManLofi/IConsoleBuffer.h>
+#include <MegaManLofi/ConsoleBuffer.h>
 
-class mock_ConsoleBuffer : public MegaManLofi::IConsoleBuffer
+class mock_ConsoleBuffer : public MegaManLofi::ConsoleBuffer
 {
 public:
    MOCK_METHOD( void, LoadRenderDefs, ( std::shared_ptr<MegaManLofi::IGameRenderDefs> ), ( override ) );
@@ -19,7 +19,7 @@ public:
    MOCK_METHOD( void, Draw, ( short, short, const std::string&, MegaManLofi::ConsoleColor ), ( override ) );
    MOCK_METHOD( void, Draw, ( short, short, const std::string&, MegaManLofi::ConsoleColor, MegaManLofi::ConsoleColor ), ( override ) );
    MOCK_METHOD( void, Draw, ( short, short, const MegaManLofi::ConsoleImage& ), ( override ) );
-   MOCK_METHOD( void, Draw, ( short, short, const std::shared_ptr<MegaManLofi::IConsoleSprite> ), ( override ) );
-   MOCK_METHOD( void, Draw, ( short, short, const std::shared_ptr<MegaManLofi::IEntityConsoleSprite> ), ( override ) );
+   MOCK_METHOD( void, Draw, ( short, short, const std::shared_ptr<MegaManLofi::ConsoleSprite> ), ( override ) );
+   MOCK_METHOD( void, Draw, ( short, short, const std::shared_ptr<MegaManLofi::EntityConsoleSprite> ), ( override ) );
    MOCK_METHOD( void, Flip, ( ), ( override ) );
 };

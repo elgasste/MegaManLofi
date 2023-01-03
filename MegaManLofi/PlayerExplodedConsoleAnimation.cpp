@@ -1,16 +1,16 @@
 #include <stdexcept>
 
 #include "PlayerExplodedConsoleAnimation.h"
-#include "IConsoleBuffer.h"
+#include "ConsoleBuffer.h"
 #include "IFrameRateProvider.h"
 #include "ConsoleRenderDefs.h"
 #include "ConsoleSpriteDefs.h"
-#include "IConsoleSprite.h"
+#include "ConsoleSprite.h"
 
 using namespace std;
 using namespace MegaManLofi;
 
-PlayerExplodedConsoleAnimation::PlayerExplodedConsoleAnimation( const shared_ptr<IConsoleBuffer> consoleBuffer,
+PlayerExplodedConsoleAnimation::PlayerExplodedConsoleAnimation( const shared_ptr<ConsoleBuffer> consoleBuffer,
                                                                 const shared_ptr<IFrameRateProvider> frameRateProvider,
                                                                 const shared_ptr<ConsoleRenderDefs> renderDefs ) :
    _consoleBuffer( consoleBuffer ),

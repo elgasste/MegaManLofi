@@ -2,24 +2,24 @@
 #include <format>
 
 #include "TitleStateConsoleRenderer.h"
-#include "IConsoleBuffer.h"
+#include "ConsoleBuffer.h"
 #include "IRandom.h"
 #include "IFrameRateProvider.h"
-#include "IGameEventAggregator.h"
+#include "GameEventAggregator.h"
 #include "ConsoleRenderDefs.h"
 #include "KeyboardInputDefs.h"
 #include "IConsoleAnimationProvider.h"
 #include "IConsoleAnimation.h"
-#include "IConsoleSprite.h"
+#include "ConsoleSprite.h"
 #include "ConsoleColor.h"
 
 using namespace std;
 using namespace MegaManLofi;
 
-TitleStateConsoleRenderer::TitleStateConsoleRenderer( const shared_ptr<IConsoleBuffer> consoleBuffer,
+TitleStateConsoleRenderer::TitleStateConsoleRenderer( const shared_ptr<ConsoleBuffer> consoleBuffer,
                                                       const shared_ptr<IRandom> random,
                                                       const shared_ptr<IFrameRateProvider> frameRateProvider,
-                                                      const shared_ptr<IGameEventAggregator> eventAggregator,
+                                                      const shared_ptr<GameEventAggregator> eventAggregator,
                                                       const shared_ptr<ConsoleRenderDefs> renderDefs,
                                                       const shared_ptr<KeyboardInputDefs> inputDefs,
                                                       const shared_ptr<IConsoleAnimationProvider> animationProvider ) :

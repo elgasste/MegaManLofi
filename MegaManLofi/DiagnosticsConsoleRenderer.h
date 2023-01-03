@@ -6,29 +6,29 @@
 
 namespace MegaManLofi
 {
-   class IConsoleBuffer;
+   class ConsoleBuffer;
    class IFrameRateProvider;
    class ConsoleRenderDefs;
    class IArenaInfoProvider;
-   class IEntityConsoleSpriteRepository;
+   class EntityConsoleSpriteRepository;
 
    class DiagnosticsConsoleRenderer : public IGameRenderer
    {
    public:
-      DiagnosticsConsoleRenderer( const std::shared_ptr<IConsoleBuffer> consoleBuffer,
+      DiagnosticsConsoleRenderer( const std::shared_ptr<ConsoleBuffer> consoleBuffer,
                                   const std::shared_ptr<IFrameRateProvider> frameRateProvider,
                                   const std::shared_ptr<ConsoleRenderDefs> renderDefs,
                                   const std::shared_ptr<IArenaInfoProvider> arenaInfoProvider,
-                                  const std::shared_ptr<IEntityConsoleSpriteRepository> spriteRepository );
+                                  const std::shared_ptr<EntityConsoleSpriteRepository> spriteRepository );
 
       void Render() override;
       bool HasFocus() const override { return false; }
 
    private:
-      const std::shared_ptr<IConsoleBuffer> _consoleBuffer;
+      const std::shared_ptr<ConsoleBuffer> _consoleBuffer;
       const std::shared_ptr<IFrameRateProvider> _frameRateProvider;
       const std::shared_ptr<ConsoleRenderDefs> _renderDefs;
       const std::shared_ptr<IArenaInfoProvider> _arenaInfoProvider;
-      const std::shared_ptr<IEntityConsoleSpriteRepository> _spriteRepository;
+      const std::shared_ptr<EntityConsoleSpriteRepository> _spriteRepository;
    };
 }

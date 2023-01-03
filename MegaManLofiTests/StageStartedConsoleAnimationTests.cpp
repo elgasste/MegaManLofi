@@ -95,7 +95,7 @@ TEST_F( StageStartedConsoleAnimationTests, Draw_Always_DrawsStartPosition )
    BuildAnimation();
    _animation->Start( Coordinate<short>( { 1, 2 } ), nullopt );
 
-   EXPECT_CALL( *_consoleBufferMock, Draw( 1, 2, static_pointer_cast<IConsoleSprite>( _getReadySpriteMock ) ) );
+   EXPECT_CALL( *_consoleBufferMock, Draw( 1, 2, static_pointer_cast<ConsoleSprite>( _getReadySpriteMock ) ) );
    _animation->Tick();
 
    _animation->Draw();

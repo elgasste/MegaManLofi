@@ -6,14 +6,14 @@
 
 namespace MegaManLofi
 {
-   class IConsoleBuffer;
+   class ConsoleBuffer;
    class ConsoleRenderDefs;
    class IMenuProvider;
 
    class PlayingMenuStateConsoleRenderer : public IGameRenderer
    {
    public:
-      PlayingMenuStateConsoleRenderer( const std::shared_ptr<IConsoleBuffer> consoleBuffer,
+      PlayingMenuStateConsoleRenderer( const std::shared_ptr<ConsoleBuffer> consoleBuffer,
                                        const std::shared_ptr<ConsoleRenderDefs> renderDefs,
                                        const std::shared_ptr<IMenuProvider> menuProvider );
 
@@ -21,7 +21,7 @@ namespace MegaManLofi
       bool HasFocus() const override { return false; }
 
    private:
-      const std::shared_ptr<IConsoleBuffer> _consoleBuffer;
+      const std::shared_ptr<ConsoleBuffer> _consoleBuffer;
       const std::shared_ptr<ConsoleRenderDefs> _renderDefs;
       const std::shared_ptr<IMenuProvider> _menuProvider;
    };

@@ -75,7 +75,7 @@
     <ClCompile Include="PlayingMenuTests.cpp">
       <Filter>Tests\GameObjects</Filter>
     </ClCompile>
-    <ClCompile Include="BasicEntityTests.cpp">
+    <ClCompile Include="EntityTests.cpp">
       <Filter>Tests\GameObjects</Filter>
     </ClCompile>
     <ClCompile Include="EntityFactoryTests.cpp">
@@ -105,9 +105,6 @@
       <Filter>Mocks</Filter>
     </ClInclude>
     <ClInclude Include="mock_HighResolutionClock.h">
-      <Filter>Mocks</Filter>
-    </ClInclude>
-    <ClInclude Include="mock_Sleeper.h">
       <Filter>Mocks</Filter>
     </ClInclude>
     <ClInclude Include="mock_Keyboard.h">
@@ -201,6 +198,9 @@
       <Filter>Mocks</Filter>
     </ClInclude>
     <ClInclude Include="mock_EntityConsoleSpriteCopier.h">
+      <Filter>Mocks</Filter>
+    </ClInclude>
+    <ClInclude Include="mock_GameRunner.h">
       <Filter>Mocks</Filter>
     </ClInclude>
   </ItemGroup>

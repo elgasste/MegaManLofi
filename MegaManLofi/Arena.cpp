@@ -2,26 +2,25 @@
 
 #include "Arena.h"
 #include "ArenaDefs.h"
-#include "IGameEventAggregator.h"
-#include "IPlayer.h"
-#include "ArenaTile.h"
+#include "GameEventAggregator.h"
+#include "Entity.h"
 
 using namespace std;
 using namespace MegaManLofi;
 
 Arena::Arena( const shared_ptr<ArenaDefs> arenaDefs,
-              const shared_ptr<IGameEventAggregator> eventAggregator ) :
+              const shared_ptr<GameEventAggregator> eventAggregator ) :
    _arenaDefs( arenaDefs ),
-   _eventAggregator( eventAggregator ),
-   _player( nullptr ),
-   _tiles( arenaDefs->DefaultTiles ),
-   _width( arenaDefs->DefaultTileWidth * arenaDefs->DefaultHorizontalTiles ),
-   _height( arenaDefs->DefaultTileHeight * arenaDefs->DefaultVerticalTiles ),
-   _tileWidth( arenaDefs->DefaultTileWidth ),
-   _tileHeight( arenaDefs->DefaultTileHeight ),
-   _horizontalTiles( arenaDefs->DefaultHorizontalTiles ),
-   _verticalTiles( arenaDefs->DefaultVerticalTiles )
+   _eventAggregator( eventAggregator )
 {
+   _tiles = arenaDefs->DefaultTiles;
+   _width = arenaDefs->DefaultTileWidth * arenaDefs->DefaultHorizontalTiles;
+   _height = arenaDefs->DefaultTileHeight * arenaDefs->DefaultVerticalTiles;
+   _tileWidth = arenaDefs->DefaultTileWidth;
+   _tileHeight = arenaDefs->DefaultTileHeight;
+   _horizontalTiles = arenaDefs->DefaultHorizontalTiles;
+   _verticalTiles = arenaDefs->DefaultVerticalTiles;
+
    Reset();
 }
 
@@ -30,40 +29,20 @@ void Arena::Reset()
    _entities.clear();
    _eventAggregator->RaiseEvent( GameEvent::ArenaEntitiesCleared );
 
-   if ( _player )
+   if ( _playerEntity )
    {
-      _player->SetArenaPosition( _arenaDefs->DefaultPlayerPosition );
-      AddEntity( _player );
+      _playerEntity->SetArenaPosition( _arenaDefs->DefaultPlayerPosition );
+      AddEntity( _playerEntity );
    }
 }
 
-const shared_ptr<IReadOnlyPlayer> Arena::GetPlayer() const
+void Arena::SetPlayerEntity( const shared_ptr<Entity> playerEntity )
 {
-   return _player;
+   _playerEntity = playerEntity;
+   AddEntity( playerEntity );
 }
 
-void Arena::SetPlayer( const shared_ptr<IPlayer> player )
-{
-   _player = player;
-   AddEntity( player );
-}
-
-const shared_ptr<IReadOnlyEntity> Arena::GetEntity( int index ) const
-{
-   return _entities[index];
-}
-
-bool Arena::HasEntity( int uniqueId ) const
-{
-   auto it = find_if( _entities.begin(), _entities.end(), [&uniqueId]( const shared_ptr<IEntity>& entity )
-   {
-      return entity->GetUniqueId() == uniqueId;
-   } );
-
-   return it != _entities.end();
-}
-
-void Arena::AddEntity( const std::shared_ptr<IEntity> entity )
+void Arena::AddEntity( const std::shared_ptr<Entity> entity )
 {
    if ( find( _entities.begin(), _entities.end(), entity ) == _entities.end() )
    {
@@ -72,7 +51,7 @@ void Arena::AddEntity( const std::shared_ptr<IEntity> entity )
    }
 }
 
-void Arena::RemoveEntity( const std::shared_ptr<IEntity> entity )
+void Arena::RemoveEntity( const std::shared_ptr<Entity> entity )
 {
    for ( auto it = _entities.begin(); it != _entities.end(); it++ )
    {

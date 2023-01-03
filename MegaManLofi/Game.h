@@ -10,12 +10,12 @@
 
 namespace MegaManLofi
 {
-   class IGameEventAggregator;
-   class IPlayer;
-   class IArena;
-   class IPlayerPhysics;
-   class IArenaPhysics;
-   class IEntityFactory;
+   class GameEventAggregator;
+   class Player;
+   class Arena;
+   class PlayerPhysics;
+   class ArenaPhysics;
+   class EntityFactory;
 
    class Game : public IGame,
                 public IGameCommandExecutor,
@@ -24,21 +24,21 @@ namespace MegaManLofi
                 public IArenaInfoProvider
    {
    public:
-      Game( const std::shared_ptr<IGameEventAggregator> eventAggregator,
-            const std::shared_ptr<IPlayer> player,
-            const std::shared_ptr<IArena> arena,
-            const std::shared_ptr<IPlayerPhysics> playerPhysics,
-            const std::shared_ptr<IArenaPhysics> arenaPhysics,
-            const std::shared_ptr<IEntityFactory> entityFactory );
+      Game( const std::shared_ptr<GameEventAggregator> eventAggregator,
+            const std::shared_ptr<Player> player,
+            const std::shared_ptr<Arena> arena,
+            const std::shared_ptr<PlayerPhysics> playerPhysics,
+            const std::shared_ptr<ArenaPhysics> arenaPhysics,
+            const std::shared_ptr<EntityFactory> entityFactory );
 
       void Tick() override;
 
       GameState GetGameState() const override { return _state; }
       bool IsPaused() const override { return _isPaused; }
 
-      const std::shared_ptr<IReadOnlyPlayer> GetPlayer() const override;
-      const std::shared_ptr<IReadOnlyEntity> GetPlayerEntity() const override;
-      const std::shared_ptr<IReadOnlyArena> GetArena() const override;
+      const std::shared_ptr<ReadOnlyPlayer> GetPlayer() const override;
+      const std::shared_ptr<ReadOnlyEntity> GetPlayerEntity() const override;
+      const std::shared_ptr<ReadOnlyArena> GetArena() const override;
 
       void ExecuteCommand( GameCommand command ) override;
       void ExecuteCommand( GameCommand command, const std::shared_ptr<GameCommandArgs> args ) override;
@@ -52,12 +52,12 @@ namespace MegaManLofi
       void KillPlayer();
 
    private:
-      const std::shared_ptr<IGameEventAggregator> _eventAggregator;
-      const std::shared_ptr<IPlayer> _player;
-      const std::shared_ptr<IArena> _arena;
-      const std::shared_ptr<IPlayerPhysics> _playerPhysics;
-      const std::shared_ptr<IArenaPhysics> _arenaPhysics;
-      const std::shared_ptr<IEntityFactory> _entityFactory;
+      const std::shared_ptr<GameEventAggregator> _eventAggregator;
+      const std::shared_ptr<Player> _player;
+      const std::shared_ptr<Arena> _arena;
+      const std::shared_ptr<PlayerPhysics> _playerPhysics;
+      const std::shared_ptr<ArenaPhysics> _arenaPhysics;
+      const std::shared_ptr<EntityFactory> _entityFactory;
 
       GameState _state;
       GameState _nextState;

@@ -1,8 +1,8 @@
 #include "PlayingMenuStateConsoleRenderer.h"
-#include "IConsoleBuffer.h"
+#include "ConsoleBuffer.h"
 #include "ConsoleRenderDefs.h"
 #include "ConsoleSpriteDefs.h"
-#include "IConsoleSprite.h"
+#include "ConsoleSprite.h"
 #include "IMenuProvider.h"
 #include "IMenu.h"
 #include "MenuType.h"
@@ -10,7 +10,7 @@
 using namespace std;
 using namespace MegaManLofi;
 
-PlayingMenuStateConsoleRenderer::PlayingMenuStateConsoleRenderer( const shared_ptr<IConsoleBuffer> consoleBuffer,
+PlayingMenuStateConsoleRenderer::PlayingMenuStateConsoleRenderer( const shared_ptr<ConsoleBuffer> consoleBuffer,
                                                                   const shared_ptr<ConsoleRenderDefs> renderDefs,
                                                                   const shared_ptr<IMenuProvider> menuProvider ) :
    _consoleBuffer( consoleBuffer ),

@@ -6,12 +6,12 @@ namespace MegaManLofi
 {
    class GameDefs;
    class IFrameRateProvider;
-   class IUniqueNumberGenerator;
+   class UniqueNumberGenerator;
 
    class GameDefsGenerator
    {
    public:
       static std::shared_ptr<GameDefs> GenerateGameDefs( const std::shared_ptr<IFrameRateProvider> frameRateProvider,
-                                                         const std::shared_ptr<IUniqueNumberGenerator> uniqueNumberGenerator );
+                                                         const std::shared_ptr<UniqueNumberGenerator> uniqueNumberGenerator );
    };
 }

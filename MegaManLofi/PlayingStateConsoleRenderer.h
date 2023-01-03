@@ -9,31 +9,31 @@
 
 namespace MegaManLofi
 {
-   class IConsoleBuffer;
+   class ConsoleBuffer;
    class ConsoleRenderDefs;
    class IGameInfoProvider;
    class IPlayerInfoProvider;
    class IArenaInfoProvider;
-   class IGameEventAggregator;
+   class GameEventAggregator;
    class IFrameRateProvider;
    class IConsoleAnimationProvider;
-   class IEntityConsoleSpriteRepository;
-   class IConsoleSprite;
-   class IReadOnlyArena;
-   class IReadOnlyEntity;
+   class EntityConsoleSpriteRepository;
+   class ConsoleSprite;
+   class ReadOnlyArena;
+   class ReadOnlyEntity;
 
    class PlayingStateConsoleRenderer : public IGameRenderer
    {
    public:
-      PlayingStateConsoleRenderer( const std::shared_ptr<IConsoleBuffer> consoleBuffer,
+      PlayingStateConsoleRenderer( const std::shared_ptr<ConsoleBuffer> consoleBuffer,
                                    const std::shared_ptr<ConsoleRenderDefs> renderDefs,
                                    const std::shared_ptr<IGameInfoProvider> gameInfoProvider,
                                    const std::shared_ptr<IPlayerInfoProvider> playerInfoProvider,
                                    const std::shared_ptr<IArenaInfoProvider> arenaInfoProvider,
-                                   const std::shared_ptr<IGameEventAggregator> eventAggregator,
+                                   const std::shared_ptr<GameEventAggregator> eventAggregator,
                                    const std::shared_ptr<IFrameRateProvider> frameRateProvider,
                                    const std::shared_ptr<IConsoleAnimationProvider> animationProvider,
-                                   const std::shared_ptr<IEntityConsoleSpriteRepository> spriteRepository );
+                                   const std::shared_ptr<EntityConsoleSpriteRepository> spriteRepository );
 
       void Render() override;
       bool HasFocus() const override;
@@ -52,22 +52,22 @@ namespace MegaManLofi
       void DrawArenaSprites();
       void DrawPlayer();
       void DrawNonPlayerEntities();
-      void DrawEntity( const std::shared_ptr<IReadOnlyEntity> entity );
+      void DrawEntity( const std::shared_ptr<ReadOnlyEntity> entity );
       void DrawStatusBar();
       void DrawPauseOverlay();
 
    private:
-      const std::shared_ptr<IConsoleBuffer> _consoleBuffer;
+      const std::shared_ptr<ConsoleBuffer> _consoleBuffer;
       const std::shared_ptr<ConsoleRenderDefs> _renderDefs;
       const std::shared_ptr<IPlayerInfoProvider> _playerInfoProvider;
       const std::shared_ptr<IGameInfoProvider> _gameInfoProvider;
       const std::shared_ptr<IArenaInfoProvider> _arenaInfoProvider;
-      const std::shared_ptr<IGameEventAggregator> _eventAggregator;
+      const std::shared_ptr<GameEventAggregator> _eventAggregator;
       const std::shared_ptr<IFrameRateProvider> _frameRateProvider;
       const std::shared_ptr<IConsoleAnimationProvider> _animationProvider;
-      const std::shared_ptr<IEntityConsoleSpriteRepository> _spriteRepository;
+      const std::shared_ptr<EntityConsoleSpriteRepository> _spriteRepository;
 
-      std::shared_ptr<IReadOnlyArena> _arena;
+      std::shared_ptr<ReadOnlyArena> _arena;
 
       Quad<float> _viewportQuadUnits;
       Rectangle<short> _viewportRectChars;

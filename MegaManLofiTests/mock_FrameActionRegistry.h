@@ -2,9 +2,9 @@
 
 #include <gmock/gmock.h>
 
-#include <MegaManLofi/IFrameActionRegistry.h>
+#include <MegaManLofi/FrameActionRegistry.h>
 
-class mock_FrameActionRegistry : public MegaManLofi::IFrameActionRegistry
+class mock_FrameActionRegistry : public MegaManLofi::FrameActionRegistry
 {
 public:
    MOCK_METHOD( void, Clear, ( ), ( override ) );

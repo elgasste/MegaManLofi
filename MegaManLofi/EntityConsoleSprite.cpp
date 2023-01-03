@@ -1,14 +1,9 @@
 #include "EntityConsoleSprite.h"
 #include "ConsoleSprite.h"
-#include "IReadOnlyEntity.h"
+#include "ReadOnlyEntity.h"
 
 using namespace std;
 using namespace MegaManLofi;
-
-EntityConsoleSprite::EntityConsoleSprite() :
-   _entity( nullptr )
-{
-}
 
 EntityConsoleSprite::EntityConsoleSprite( EntityConsoleSprite& ecs ) :
    _entity( ecs._entity )
@@ -23,7 +18,7 @@ EntityConsoleSprite::EntityConsoleSprite( EntityConsoleSprite& ecs ) :
    }
 }
 
-void EntityConsoleSprite::AssignTo( const shared_ptr<IReadOnlyEntity> entity )
+void EntityConsoleSprite::AssignTo( const shared_ptr<ReadOnlyEntity> entity )
 {
    _entity = entity;
    Reset();
@@ -31,7 +26,7 @@ void EntityConsoleSprite::AssignTo( const shared_ptr<IReadOnlyEntity> entity )
 
 void EntityConsoleSprite::AddSprite( MovementType movementType,
                                      Direction direction,
-                                     const std::shared_ptr<IConsoleSprite> sprite )
+                                     const std::shared_ptr<ConsoleSprite> sprite )
 {
    _movementSpriteMaps[movementType][direction] = sprite;
 }

@@ -1,19 +1,19 @@
 #include "GameRunner.h"
-#include "IGameEventAggregator.h"
+#include "GameEventAggregator.h"
 #include "IGameClock.h"
 #include "IGameInputHandler.h"
 #include "IGameRenderer.h"
-#include "IFrameActionRegistry.h"
+#include "FrameActionRegistry.h"
 #include "IGame.h"
 #include "IThread.h"
 
 using namespace MegaManLofi;
 
-GameRunner::GameRunner( const std::shared_ptr<IGameEventAggregator> eventAggregator,
+GameRunner::GameRunner( const std::shared_ptr<GameEventAggregator> eventAggregator,
                         const std::shared_ptr<IGameClock> clock,
                         const std::shared_ptr<IGameInputHandler> inputHandler,
                         const std::shared_ptr<IGameRenderer> renderer,
-                        const std::shared_ptr<IFrameActionRegistry> frameActionRegistry,
+                        const std::shared_ptr<FrameActionRegistry> frameActionRegistry,
                         const std::shared_ptr<IGame> game,
                         const std::shared_ptr<IThread> thread ) :
    _clock( clock ),

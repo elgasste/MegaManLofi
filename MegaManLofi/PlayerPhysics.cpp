@@ -2,9 +2,9 @@
 
 #include "PlayerPhysics.h"
 #include "IFrameRateProvider.h"
-#include "IFrameActionRegistry.h"
+#include "FrameActionRegistry.h"
 #include "PlayerPhysicsDefs.h"
-#include "IPlayer.h"
+#include "Player.h"
 #include "FrameAction.h"
 #include "Direction.h"
 
@@ -12,7 +12,7 @@ using namespace std;
 using namespace MegaManLofi;
 
 PlayerPhysics::PlayerPhysics( const shared_ptr<IFrameRateProvider> frameRateProvider,
-                              const shared_ptr<IFrameActionRegistry> frameActionRegistry,
+                              const shared_ptr<FrameActionRegistry> frameActionRegistry,
                               const shared_ptr<PlayerPhysicsDefs> physicsDefs ) :
    _frameRateProvider( frameRateProvider ),
    _frameActionRegistry( frameActionRegistry ),
@@ -22,7 +22,7 @@ PlayerPhysics::PlayerPhysics( const shared_ptr<IFrameRateProvider> frameRateProv
 {
 }
 
-void PlayerPhysics::AssignTo( const shared_ptr<IPlayer> player )
+void PlayerPhysics::AssignTo( const shared_ptr<Player> player )
 {
    _player = player;
    _lastExtendJumpFrame = 0;

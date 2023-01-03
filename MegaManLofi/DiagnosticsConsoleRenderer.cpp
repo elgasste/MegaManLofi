@@ -1,12 +1,12 @@
 #include <format>
 
 #include "DiagnosticsConsoleRenderer.h"
-#include "IConsoleBuffer.h"
+#include "ConsoleBuffer.h"
 #include "IFrameRateProvider.h"
 #include "ConsoleRenderDefs.h"
 #include "IArenaInfoProvider.h"
-#include "IEntityConsoleSpriteRepository.h"
-#include "IReadOnlyArena.h"
+#include "EntityConsoleSpriteRepository.h"
+#include "ReadOnlyArena.h"
 #include "ConsoleColor.h"
 
 #define DIAGNOSTICS_WIDTH 35
@@ -14,11 +14,11 @@
 using namespace std;
 using namespace MegaManLofi;
 
-DiagnosticsConsoleRenderer::DiagnosticsConsoleRenderer( const shared_ptr<IConsoleBuffer> consoleBuffer,
+DiagnosticsConsoleRenderer::DiagnosticsConsoleRenderer( const shared_ptr<ConsoleBuffer> consoleBuffer,
                                                         const shared_ptr<IFrameRateProvider> frameRateProvider,
                                                         const shared_ptr<ConsoleRenderDefs> renderDefs,
                                                         const shared_ptr<IArenaInfoProvider> arenaInfoProvider,
-                                                        const shared_ptr<IEntityConsoleSpriteRepository> spriteRepository ) :
+                                                        const shared_ptr<EntityConsoleSpriteRepository> spriteRepository ) :
    _consoleBuffer( consoleBuffer ),
    _frameRateProvider( frameRateProvider ),
    _renderDefs( renderDefs ),

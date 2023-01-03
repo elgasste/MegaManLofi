@@ -5,7 +5,7 @@
 #include "IFrameRateProvider.h"
 #include "ConsoleRenderDefs.h"
 #include "IArenaInfoProvider.h"
-#include "IEntityConsoleSpriteRepository.h"
+#include "EntityConsoleSpriteRepository.h"
 #include "ReadOnlyArena.h"
 #include "ConsoleColor.h"
 
@@ -18,7 +18,7 @@ DiagnosticsConsoleRenderer::DiagnosticsConsoleRenderer( const shared_ptr<Console
                                                         const shared_ptr<IFrameRateProvider> frameRateProvider,
                                                         const shared_ptr<ConsoleRenderDefs> renderDefs,
                                                         const shared_ptr<IArenaInfoProvider> arenaInfoProvider,
-                                                        const shared_ptr<IEntityConsoleSpriteRepository> spriteRepository ) :
+                                                        const shared_ptr<EntityConsoleSpriteRepository> spriteRepository ) :
    _consoleBuffer( consoleBuffer ),
    _frameRateProvider( frameRateProvider ),
    _renderDefs( renderDefs ),

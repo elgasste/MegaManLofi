@@ -17,7 +17,7 @@ namespace MegaManLofi
    class IGameEventAggregator;
    class IFrameRateProvider;
    class IConsoleAnimationProvider;
-   class IEntityConsoleSpriteRepository;
+   class EntityConsoleSpriteRepository;
    class ConsoleSprite;
    class ReadOnlyArena;
    class ReadOnlyEntity;
@@ -33,7 +33,7 @@ namespace MegaManLofi
                                    const std::shared_ptr<IGameEventAggregator> eventAggregator,
                                    const std::shared_ptr<IFrameRateProvider> frameRateProvider,
                                    const std::shared_ptr<IConsoleAnimationProvider> animationProvider,
-                                   const std::shared_ptr<IEntityConsoleSpriteRepository> spriteRepository );
+                                   const std::shared_ptr<EntityConsoleSpriteRepository> spriteRepository );
 
       void Render() override;
       bool HasFocus() const override;
@@ -65,7 +65,7 @@ namespace MegaManLofi
       const std::shared_ptr<IGameEventAggregator> _eventAggregator;
       const std::shared_ptr<IFrameRateProvider> _frameRateProvider;
       const std::shared_ptr<IConsoleAnimationProvider> _animationProvider;
-      const std::shared_ptr<IEntityConsoleSpriteRepository> _spriteRepository;
+      const std::shared_ptr<EntityConsoleSpriteRepository> _spriteRepository;
 
       std::shared_ptr<ReadOnlyArena> _arena;
 

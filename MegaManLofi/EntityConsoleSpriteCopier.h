@@ -1,12 +1,14 @@
 #pragma once
 
-#include "IEntityConsoleSpriteCopier.h"
+#include <memory>
 
 namespace MegaManLofi
 {
-   class EntityConsoleSpriteCopier : public IEntityConsoleSpriteCopier
+   class EntityConsoleSprite;
+
+   class EntityConsoleSpriteCopier
    {
    public:
-      const std::shared_ptr<IEntityConsoleSprite> MakeCopy( const std::shared_ptr<IEntityConsoleSprite> sprite ) const override;
+      virtual const std::shared_ptr<EntityConsoleSprite> MakeCopy( const std::shared_ptr<EntityConsoleSprite> sprite ) const;
    };
 }

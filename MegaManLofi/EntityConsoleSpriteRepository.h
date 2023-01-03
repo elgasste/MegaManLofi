@@ -1,26 +1,26 @@
 #pragma once
 
+#include <memory>
 #include <map>
-
-#include "IEntityConsoleSpriteRepository.h"
 
 namespace MegaManLofi
 {
    class IGameEventAggregator;
    class ReadOnlyArena;
-   class IEntityConsoleSpriteCopier;
+   class EntityConsoleSprite;
+   class EntityConsoleSpriteCopier;
    class ConsoleSpriteDefs;
 
-   class EntityConsoleSpriteRepository : public IEntityConsoleSpriteRepository
+   class EntityConsoleSpriteRepository
    {
    public:
       EntityConsoleSpriteRepository( const std::shared_ptr<IGameEventAggregator> eventAggregator,
                                      const std::shared_ptr<ReadOnlyArena> arena,
-                                     const std::shared_ptr<IEntityConsoleSpriteCopier> spriteCopier,
+                                     const std::shared_ptr<EntityConsoleSpriteCopier> spriteCopier,
                                      const std::shared_ptr<ConsoleSpriteDefs> spriteDefs );
 
-      const std::shared_ptr<IEntityConsoleSprite> GetSprite( int uniqueId ) const override;
-      int GetSpriteCount() const override { return (int)_spriteMap.size(); }
+      virtual const std::shared_ptr<EntityConsoleSprite> GetSprite( int uniqueId ) const;
+      virtual int GetSpriteCount() const { return (int)_spriteMap.size(); }
 
    private:
       void HandleEntitySpawned();
@@ -29,9 +29,9 @@ namespace MegaManLofi
 
    private:
       const std::shared_ptr<ReadOnlyArena> _arena;
-      const std::shared_ptr<IEntityConsoleSpriteCopier> _spriteCopier;
+      const std::shared_ptr<EntityConsoleSpriteCopier> _spriteCopier;
       const std::shared_ptr<ConsoleSpriteDefs> _spriteDefs;
 
-      std::map<int, std::shared_ptr<IEntityConsoleSprite>> _spriteMap;
+      std::map<int, std::shared_ptr<EntityConsoleSprite>> _spriteMap;
    };
 }

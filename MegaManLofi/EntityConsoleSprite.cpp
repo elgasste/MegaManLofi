@@ -5,11 +5,6 @@
 using namespace std;
 using namespace MegaManLofi;
 
-EntityConsoleSprite::EntityConsoleSprite() :
-   _entity( nullptr )
-{
-}
-
 EntityConsoleSprite::EntityConsoleSprite( EntityConsoleSprite& ecs ) :
    _entity( ecs._entity )
 {

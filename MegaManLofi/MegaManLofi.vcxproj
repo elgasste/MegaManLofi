@@ -256,9 +256,6 @@
     <ClInclude Include="IArenaInfoProvider.h" />
     <ClInclude Include="IConsoleAnimation.h" />
     <ClInclude Include="IConsoleAnimationProvider.h" />
-    <ClInclude Include="IEntityConsoleSprite.h" />
-    <ClInclude Include="IEntityConsoleSpriteCopier.h" />
-    <ClInclude Include="IEntityConsoleSpriteRepository.h" />
     <ClInclude Include="IFrameActionRegistry.h" />
     <ClInclude Include="IFrameRateProvider.h" />
     <ClInclude Include="IGame.h" />

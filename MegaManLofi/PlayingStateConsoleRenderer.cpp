@@ -10,14 +10,14 @@
 #include "IGameEventAggregator.h"
 #include "IFrameRateProvider.h"
 #include "IConsoleAnimationProvider.h"
-#include "IEntityConsoleSpriteRepository.h"
+#include "EntityConsoleSpriteRepository.h"
 #include "IConsoleAnimation.h"
 #include "ReadOnlyPlayer.h"
 #include "ReadOnlyEntity.h"
 #include "ReadOnlyArena.h"
 #include "Direction.h"
 #include "ConsoleSprite.h"
-#include "IEntityConsoleSprite.h"
+#include "EntityConsoleSprite.h"
 
 using namespace std;
 using namespace MegaManLofi;
@@ -30,7 +30,7 @@ PlayingStateConsoleRenderer::PlayingStateConsoleRenderer( const shared_ptr<Conso
                                                           const shared_ptr<IGameEventAggregator> eventAggregator,
                                                           const shared_ptr<IFrameRateProvider> frameRateProvider,
                                                           const shared_ptr<IConsoleAnimationProvider> animationProvider,
-                                                          const shared_ptr<IEntityConsoleSpriteRepository> spriteRepository ) :
+                                                          const shared_ptr<EntityConsoleSpriteRepository> spriteRepository ) :
    _consoleBuffer( consoleBuffer ),
    _renderDefs( renderDefs ),
    _gameInfoProvider( gameInfoProvider ),

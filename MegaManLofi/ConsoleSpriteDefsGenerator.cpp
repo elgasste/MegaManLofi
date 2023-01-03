@@ -284,9 +284,9 @@ shared_ptr<ConsoleSprite> ConsoleSpriteDefsGenerator::GenerateMenuCaratSprite( c
    return sprite;
 }
 
-map<int, shared_ptr<IEntityConsoleSprite>> ConsoleSpriteDefsGenerator::GenerateEntitySpriteMap( const shared_ptr<IFrameRateProvider> frameRateProvider )
+map<int, shared_ptr<EntityConsoleSprite>> ConsoleSpriteDefsGenerator::GenerateEntitySpriteMap( const shared_ptr<IFrameRateProvider> frameRateProvider )
 {
-   auto entitySpriteMap = map<int, shared_ptr<IEntityConsoleSprite>>();
+   auto entitySpriteMap = map<int, shared_ptr<EntityConsoleSprite>>();
 
    auto playerEntitySprite = make_shared<EntityConsoleSprite>();
 

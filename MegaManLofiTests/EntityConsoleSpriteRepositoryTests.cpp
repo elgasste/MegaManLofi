@@ -46,9 +46,9 @@ public:
       _spriteDefs->EntitySpriteMap[21] = _spriteMock2;
       _spriteDefs->EntitySpriteMap[22] = _spriteMock3;
 
-      ON_CALL( *_spriteCopier, MakeCopy( static_pointer_cast<IEntityConsoleSprite>( _spriteMock1 ) ) ).WillByDefault( Return( _spriteCopyMock1 ) );
-      ON_CALL( *_spriteCopier, MakeCopy( static_pointer_cast<IEntityConsoleSprite>( _spriteMock2 ) ) ).WillByDefault( Return( _spriteCopyMock2 ) );
-      ON_CALL( *_spriteCopier, MakeCopy( static_pointer_cast<IEntityConsoleSprite>( _spriteMock3 ) ) ).WillByDefault( Return( _spriteCopyMock3 ) );
+      ON_CALL( *_spriteCopier, MakeCopy( static_pointer_cast<EntityConsoleSprite>( _spriteMock1 ) ) ).WillByDefault( Return( _spriteCopyMock1 ) );
+      ON_CALL( *_spriteCopier, MakeCopy( static_pointer_cast<EntityConsoleSprite>( _spriteMock2 ) ) ).WillByDefault( Return( _spriteCopyMock2 ) );
+      ON_CALL( *_spriteCopier, MakeCopy( static_pointer_cast<EntityConsoleSprite>( _spriteMock3 ) ) ).WillByDefault( Return( _spriteCopyMock3 ) );
 
       _repository.reset( new EntityConsoleSpriteRepository( _eventAggregator, _arenaMock, _spriteCopier, _spriteDefs ) );
    }
@@ -79,7 +79,7 @@ TEST_F( EntityConsoleSpriteRepositoryTests, EntitySpawned_DoNotHaveMatchingSprit
    ON_CALL( *_arenaMock, GetEntityCount() ).WillByDefault( Return( 1 ) );
    ON_CALL( *_arenaMock, GetEntity( 0 ) ).WillByDefault( Return( _entityMock1 ) );
 
-   EXPECT_CALL( *_spriteCopier, MakeCopy( static_pointer_cast<IEntityConsoleSprite>( _spriteMock1 ) ) );
+   EXPECT_CALL( *_spriteCopier, MakeCopy( static_pointer_cast<EntityConsoleSprite>( _spriteMock1 ) ) );
    EXPECT_CALL( *_spriteCopyMock1, AssignTo( static_pointer_cast<ReadOnlyEntity>( _entityMock1 ) ) );
 
    _eventAggregator->RaiseEvent( GameEvent::ArenaEntitySpawned );

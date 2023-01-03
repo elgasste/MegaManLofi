@@ -2,9 +2,9 @@
 
 #include <gmock/gmock.h>
 
-#include <MegaManLofi/IEntityConsoleSprite.h>
+#include <MegaManLofi/EntityConsoleSprite.h>
 
-class mock_EntityConsoleSprite : public MegaManLofi::IEntityConsoleSprite
+class mock_EntityConsoleSprite : public MegaManLofi::EntityConsoleSprite
 {
 public:
    MOCK_METHOD( void, AssignTo, ( const std::shared_ptr<MegaManLofi::ReadOnlyEntity> ), ( override ) );

@@ -150,7 +150,7 @@ void LoadAndRun( const shared_ptr<ConsoleBuffer> consoleBuffer )
    animationRepository->AddAnimation( ConsoleAnimationType::PlayerExploded, playerExplodedAnimation );
 
    // rendering utilities
-   auto spriteCopier = shared_ptr<IEntityConsoleSpriteCopier>( new EntityConsoleSpriteCopier );
+   auto spriteCopier = shared_ptr<EntityConsoleSpriteCopier>( new EntityConsoleSpriteCopier );
    auto spriteRepository = shared_ptr<EntityConsoleSpriteRepository>( new EntityConsoleSpriteRepository( eventAggregator, arena, spriteCopier, consoleRenderDefs->SpriteDefs ) );
 
    // renderers objects

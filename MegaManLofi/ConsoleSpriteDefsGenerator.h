@@ -10,7 +10,7 @@ namespace MegaManLofi
    class ConsoleSpriteDefs;
    class IFrameRateProvider;
    class ConsoleSprite;
-   class IEntityConsoleSprite;
+   class EntityConsoleSprite;
 
    class ConsoleSpriteDefsGenerator
    {
@@ -33,6 +33,6 @@ namespace MegaManLofi
 
       static std::shared_ptr<ConsoleSprite> GenerateMenuCaratSprite( const std::shared_ptr<IFrameRateProvider> frameRateProvider );
 
-      static std::map<int, std::shared_ptr<IEntityConsoleSprite>> GenerateEntitySpriteMap( const std::shared_ptr<IFrameRateProvider> frameRateProvider );
+      static std::map<int, std::shared_ptr<EntityConsoleSprite>> GenerateEntitySpriteMap( const std::shared_ptr<IFrameRateProvider> frameRateProvider );
    };
 }

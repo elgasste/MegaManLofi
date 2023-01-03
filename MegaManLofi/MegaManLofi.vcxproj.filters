@@ -560,9 +560,6 @@
     <ClInclude Include="MovementType.h">
       <Filter>Header Files\DataTypes</Filter>
     </ClInclude>
-    <ClInclude Include="IEntityConsoleSprite.h">
-      <Filter>Header Files\Interfaces</Filter>
-    </ClInclude>
     <ClInclude Include="EntityConsoleSprite.h">
       <Filter>Header Files\Render</Filter>
     </ClInclude>
@@ -572,14 +569,8 @@
     <ClInclude Include="ConsoleSpriteDefsGenerator.h">
       <Filter>Header Files\GameDefGenerators</Filter>
     </ClInclude>
-    <ClInclude Include="IEntityConsoleSpriteRepository.h">
-      <Filter>Header Files\Interfaces</Filter>
-    </ClInclude>
     <ClInclude Include="EntityConsoleSpriteRepository.h">
       <Filter>Header Files\Render</Filter>
-    </ClInclude>
-    <ClInclude Include="IEntityConsoleSpriteCopier.h">
-      <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
     <ClInclude Include="EntityConsoleSpriteCopier.h">
       <Filter>Header Files\Utilities</Filter>

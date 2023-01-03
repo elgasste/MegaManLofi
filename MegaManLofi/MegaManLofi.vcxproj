@@ -154,7 +154,7 @@
     <ClCompile Include="ArenaImageGenerator.cpp" />
     <ClCompile Include="ArenaTileGenerator.cpp" />
     <ClCompile Include="ArenaPhysics.cpp" />
-    <ClCompile Include="BasicEntity.cpp" />
+    <ClCompile Include="Entity.cpp" />
     <ClCompile Include="ConsoleAnimationRepository.cpp" />
     <ClCompile Include="ConsoleBuffer.cpp" />
     <ClCompile Include="ConsoleRenderDefsGenerator.cpp" />
@@ -196,6 +196,9 @@
     <ClCompile Include="PlayingStateConsoleRenderer.cpp" />
     <ClCompile Include="PlayingStateInputHandler.cpp" />
     <ClCompile Include="RandomWrapper.cpp" />
+    <ClCompile Include="ReadOnlyArena.cpp" />
+    <ClCompile Include="ReadOnlyEntity.cpp" />
+    <ClCompile Include="ReadOnlyPlayer.cpp" />
     <ClCompile Include="RectangleUtilities.cpp" />
     <ClCompile Include="SleeperWrapper.cpp" />
     <ClCompile Include="StageStartedConsoleAnimation.cpp" />
@@ -214,7 +217,7 @@
     <ClInclude Include="ArenaTileGenerator.h" />
     <ClInclude Include="ArenaPhysics.h" />
     <ClInclude Include="ArenaTile.h" />
-    <ClInclude Include="BasicEntity.h" />
+    <ClInclude Include="Entity.h" />
     <ClInclude Include="ConsoleAnimationRepository.h" />
     <ClInclude Include="ConsoleAnimationType.h" />
     <ClInclude Include="ConsoleColor.h" />
@@ -251,13 +254,11 @@
     <ClInclude Include="ConsoleRenderDefs.h" />
     <ClInclude Include="GameRunner.h" />
     <ClInclude Include="GameState.h" />
-    <ClInclude Include="IArena.h" />
     <ClInclude Include="IArenaInfoProvider.h" />
     <ClInclude Include="IArenaPhysics.h" />
     <ClInclude Include="IConsoleAnimation.h" />
     <ClInclude Include="IConsoleAnimationProvider.h" />
     <ClInclude Include="IConsoleSprite.h" />
-    <ClInclude Include="IEntity.h" />
     <ClInclude Include="IEntityConsoleSprite.h" />
     <ClInclude Include="IEntityConsoleSpriteCopier.h" />
     <ClInclude Include="IEntityConsoleSpriteRepository.h" />
@@ -270,13 +271,9 @@
     <ClInclude Include="IMenu.h" />
     <ClInclude Include="IMenuProvider.h" />
     <ClInclude Include="IPlayerPhysics.h" />
-    <ClInclude Include="IPlayer.h" />
     <ClInclude Include="IPlayerInfoProvider.h" />
     <ClInclude Include="IEntityFactory.h" />
     <ClInclude Include="IRandom.h" />
-    <ClInclude Include="IReadOnlyArena.h" />
-    <ClInclude Include="IReadOnlyEntity.h" />
-    <ClInclude Include="IReadOnlyPlayer.h" />
     <ClInclude Include="IScreenBuffer.h" />
     <ClInclude Include="IThread.h" />
     <ClInclude Include="IUniqueNumberGenerator.h" />
@@ -320,6 +317,9 @@
     <ClInclude Include="PlayingStateConsoleRenderer.h" />
     <ClInclude Include="PlayingStateInputHandler.h" />
     <ClInclude Include="RandomWrapper.h" />
+    <ClInclude Include="ReadOnlyArena.h" />
+    <ClInclude Include="ReadOnlyEntity.h" />
+    <ClInclude Include="ReadOnlyPlayer.h" />
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="RectangleUtilities.h" />
     <ClInclude Include="SleeperWrapper.h" />

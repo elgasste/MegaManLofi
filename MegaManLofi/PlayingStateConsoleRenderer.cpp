@@ -12,9 +12,9 @@
 #include "IConsoleAnimationProvider.h"
 #include "IEntityConsoleSpriteRepository.h"
 #include "IConsoleAnimation.h"
-#include "IReadOnlyPlayer.h"
-#include "IReadOnlyEntity.h"
-#include "IReadOnlyArena.h"
+#include "ReadOnlyPlayer.h"
+#include "ReadOnlyEntity.h"
+#include "ReadOnlyArena.h"
 #include "Direction.h"
 #include "IConsoleSprite.h"
 #include "IEntityConsoleSprite.h"
@@ -247,7 +247,7 @@ void PlayingStateConsoleRenderer::DrawNonPlayerEntities()
    }
 }
 
-void PlayingStateConsoleRenderer::DrawEntity( const shared_ptr<IReadOnlyEntity> entity )
+void PlayingStateConsoleRenderer::DrawEntity( const shared_ptr<ReadOnlyEntity> entity )
 {
    auto sprite = _spriteRepository->GetSprite( entity->GetUniqueId() );
    auto left = (short)( ( entity->GetArenaPositionLeft() - _viewportQuadUnits.Left ) / _renderDefs->ArenaCharWidth ) + _viewportOffsetChars.Left;

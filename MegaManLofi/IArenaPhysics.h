@@ -4,12 +4,12 @@
 
 namespace MegaManLofi
 {
-   class IArena;
+   class Arena;
 
    class __declspec( novtable ) IArenaPhysics
    {
    public:
-      virtual void AssignTo( const std::shared_ptr<IArena> arena ) = 0;
+      virtual void AssignTo( const std::shared_ptr<Arena> arena ) = 0;
       virtual void Tick() = 0;
    };
 }

@@ -216,7 +216,7 @@
     <ClCompile Include="GameDefsGenerator.cpp">
       <Filter>Source Files\GameDefGenerators</Filter>
     </ClCompile>
-    <ClCompile Include="BasicEntity.cpp">
+    <ClCompile Include="Entity.cpp">
       <Filter>Source Files\GameObjects</Filter>
     </ClCompile>
     <ClCompile Include="EntityDefsGenerator.cpp">
@@ -239,6 +239,15 @@
     </ClCompile>
     <ClCompile Include="EntityConsoleSpriteCopier.cpp">
       <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="ReadOnlyEntity.cpp">
+      <Filter>Source Files\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="ReadOnlyPlayer.cpp">
+      <Filter>Source Files\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="ReadOnlyArena.cpp">
+      <Filter>Source Files\GameObjects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -398,9 +407,6 @@
     <ClInclude Include="IPlayerInfoProvider.h">
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="IPlayer.h">
-      <Filter>Header Files\Interfaces</Filter>
-    </ClInclude>
     <ClInclude Include="FrameAction.h">
       <Filter>Header Files\DataTypes</Filter>
     </ClInclude>
@@ -418,9 +424,6 @@
     </ClInclude>
     <ClInclude Include="Arena.h">
       <Filter>Header Files\GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="IArena.h">
-      <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
     <ClInclude Include="IArenaInfoProvider.h">
       <Filter>Header Files\Interfaces</Filter>
@@ -518,9 +521,6 @@
     <ClInclude Include="PlayingMenu.h">
       <Filter>Header Files\GameObjects</Filter>
     </ClInclude>
-    <ClInclude Include="IEntity.h">
-      <Filter>Header Files\Interfaces</Filter>
-    </ClInclude>
     <ClInclude Include="ArenaImageGenerator.h">
       <Filter>Header Files\GameDefGenerators\SubGenerators</Filter>
     </ClInclude>
@@ -557,7 +557,7 @@
     <ClInclude Include="IEntityFactory.h">
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="BasicEntity.h">
+    <ClInclude Include="Entity.h">
       <Filter>Header Files\GameObjects</Filter>
     </ClInclude>
     <ClInclude Include="EntityDefs.h">
@@ -571,15 +571,6 @@
     </ClInclude>
     <ClInclude Include="EntityType.h">
       <Filter>Header Files\DataTypes</Filter>
-    </ClInclude>
-    <ClInclude Include="IReadOnlyEntity.h">
-      <Filter>Header Files\Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="IReadOnlyPlayer.h">
-      <Filter>Header Files\Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="IReadOnlyArena.h">
-      <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
     <ClInclude Include="IUniqueNumberGenerator.h">
       <Filter>Header Files\Interfaces</Filter>
@@ -613,6 +604,15 @@
     </ClInclude>
     <ClInclude Include="EntityConsoleSpriteCopier.h">
       <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="ReadOnlyEntity.h">
+      <Filter>Header Files\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="ReadOnlyPlayer.h">
+      <Filter>Header Files\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="ReadOnlyArena.h">
+      <Filter>Header Files\GameObjects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

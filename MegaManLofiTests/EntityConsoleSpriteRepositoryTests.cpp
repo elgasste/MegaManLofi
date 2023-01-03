@@ -80,7 +80,7 @@ TEST_F( EntityConsoleSpriteRepositoryTests, EntitySpawned_DoNotHaveMatchingSprit
    ON_CALL( *_arenaMock, GetEntity( 0 ) ).WillByDefault( Return( _entityMock1 ) );
 
    EXPECT_CALL( *_spriteCopier, MakeCopy( static_pointer_cast<IEntityConsoleSprite>( _spriteMock1 ) ) );
-   EXPECT_CALL( *_spriteCopyMock1, AssignTo( static_pointer_cast<IReadOnlyEntity>( _entityMock1 ) ) );
+   EXPECT_CALL( *_spriteCopyMock1, AssignTo( static_pointer_cast<ReadOnlyEntity>( _entityMock1 ) ) );
 
    _eventAggregator->RaiseEvent( GameEvent::ArenaEntitySpawned );
 

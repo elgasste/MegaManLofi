@@ -12,7 +12,7 @@ namespace MegaManLofi
       EntityConsoleSprite();
       EntityConsoleSprite( EntityConsoleSprite& ecs );
 
-      void AssignTo( const std::shared_ptr<IReadOnlyEntity> entity ) override;
+      void AssignTo( const std::shared_ptr<ReadOnlyEntity> entity ) override;
       void AddSprite( MovementType movementType,
                       Direction direction,
                       const std::shared_ptr<IConsoleSprite> sprite ) override;
@@ -27,6 +27,6 @@ namespace MegaManLofi
    private:
       std::map<MovementType, std::map<Direction, std::shared_ptr<IConsoleSprite>>> _movementSpriteMaps;
 
-      std::shared_ptr<IReadOnlyEntity> _entity;
+      std::shared_ptr<ReadOnlyEntity> _entity;
    };
 }

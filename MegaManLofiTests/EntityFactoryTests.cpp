@@ -4,7 +4,7 @@
 
 #include <MegaManLofi/EntityFactory.h>
 #include <MegaManLofi/EntityDefs.h>
-#include <MegaManLofi/IEntity.h>
+#include <MegaManLofi/Entity.h>
 
 #include "mock_UniqueNumberGenerator.h"
 

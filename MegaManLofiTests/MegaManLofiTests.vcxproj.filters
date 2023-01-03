@@ -75,7 +75,7 @@
     <ClCompile Include="PlayingMenuTests.cpp">
       <Filter>Tests\GameObjects</Filter>
     </ClCompile>
-    <ClCompile Include="BasicEntityTests.cpp">
+    <ClCompile Include="EntityTests.cpp">
       <Filter>Tests\GameObjects</Filter>
     </ClCompile>
     <ClCompile Include="EntityFactoryTests.cpp">

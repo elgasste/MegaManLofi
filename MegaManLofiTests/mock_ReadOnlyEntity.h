@@ -2,9 +2,9 @@
 
 #include <gmock/gmock.h>
 
-#include <MegaManLofi/IReadOnlyEntity.h>
+#include <MegaManLofi/ReadOnlyEntity.h>
 
-class mock_ReadOnlyEntity : public MegaManLofi::IReadOnlyEntity
+class mock_ReadOnlyEntity : public MegaManLofi::ReadOnlyEntity
 {
 public:
    MOCK_METHOD( int, GetUniqueId, ( ), ( const, override ) );

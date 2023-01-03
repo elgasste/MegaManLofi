@@ -1,7 +1,7 @@
 #include "Game.h"
 #include "IGameEventAggregator.h"
-#include "IPlayer.h"
-#include "IArena.h"
+#include "Player.h"
+#include "Arena.h"
 #include "IPlayerPhysics.h"
 #include "IArenaPhysics.h"
 #include "IEntityFactory.h"
@@ -14,8 +14,8 @@ using namespace std;
 using namespace MegaManLofi;
 
 Game::Game( const shared_ptr<IGameEventAggregator> eventAggregator,
-            const shared_ptr<IPlayer> player,
-            const shared_ptr<IArena> arena,
+            const shared_ptr<Player> player,
+            const shared_ptr<Arena> arena,
             const shared_ptr<IPlayerPhysics> playerPhysics,
             const shared_ptr<IArenaPhysics> arenaPhysics,
             const shared_ptr<IEntityFactory> entityFactory ) :
@@ -33,7 +33,7 @@ Game::Game( const shared_ptr<IGameEventAggregator> eventAggregator,
    _eventAggregator->RegisterEventHandler( GameEvent::Pitfall, std::bind( &Game::KillPlayer, this ) );
    _eventAggregator->RegisterEventHandler( GameEvent::TileDeath, std::bind( &Game::KillPlayer, this ) );
 
-   _arena->SetPlayer( _player );
+   _arena->SetPlayerEntity( _player );
 }
 
 void Game::Tick()
@@ -56,17 +56,17 @@ void Game::Tick()
    }
 }
 
-const shared_ptr<IReadOnlyPlayer> Game::GetPlayer() const
+const shared_ptr<ReadOnlyPlayer> Game::GetPlayer() const
 {
    return _player;
 }
 
-const shared_ptr<IReadOnlyEntity> Game::GetPlayerEntity() const
+const shared_ptr<ReadOnlyEntity> Game::GetPlayerEntity() const
 {
    return _player;
 }
 
-const shared_ptr<IReadOnlyArena> Game::GetArena() const
+const shared_ptr<ReadOnlyArena> Game::GetArena() const
 {
    return _arena;
 }

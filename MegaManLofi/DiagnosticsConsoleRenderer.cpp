@@ -6,7 +6,7 @@
 #include "ConsoleRenderDefs.h"
 #include "IArenaInfoProvider.h"
 #include "IEntityConsoleSpriteRepository.h"
-#include "IReadOnlyArena.h"
+#include "ReadOnlyArena.h"
 #include "ConsoleColor.h"
 
 #define DIAGNOSTICS_WIDTH 35

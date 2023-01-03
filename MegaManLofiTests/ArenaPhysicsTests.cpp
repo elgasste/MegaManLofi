@@ -11,7 +11,6 @@
 #include "mock_FrameRateProvider.h"
 #include "mock_GameEventAggregator.h"
 #include "mock_Arena.h"
-#include "mock_Player.h"
 
 using namespace std;
 using namespace testing;
@@ -26,19 +25,11 @@ public:
       _eventAggregatorMock.reset( new NiceMock<mock_GameEventAggregator> );
       _arenaDefs.reset( new ArenaDefs() );
       _arenaMock.reset( new NiceMock<mock_Arena> );
-      _playerMock.reset( new NiceMock<mock_Player> );
       _defaultTile = { true, true, true, true, false };
 
       _arenaDefs->ActiveRegionWidth = 20;
       _arenaDefs->ActiveRegionHeight = 10;
 
-      _playerArenaPosition = { 10, 8 };
-      _playerHitBox = { 0, 0, 4, 6 };
-
-      ON_CALL( *_playerMock, GetVelocityX() ).WillByDefault( Return( 0.0f ) );
-      ON_CALL( *_playerMock, GetVelocityY() ).WillByDefault( Return( 0.0f ) );
-
-      ON_CALL( *_arenaMock, GetMutablePlayer() ).WillByDefault( Return( _playerMock ) );
       ON_CALL( *_arenaMock, GetWidth() ).WillByDefault( Return( 20.0f ) );
       ON_CALL( *_arenaMock, GetHeight() ).WillByDefault( Return( 16.0f ) );
       ON_CALL( *_arenaMock, GetTileWidth() ).WillByDefault( Return( 2.0f ) );
@@ -47,18 +38,12 @@ public:
       ON_CALL( *_arenaMock, GetVerticalTiles() ).WillByDefault( Return( 8 ) );
       ON_CALL( *_arenaMock, GetTile( _ ) ).WillByDefault( ReturnRef( _defaultTile ) );
       ON_CALL( *_arenaMock, GetEntityCount() ).WillByDefault( Return( 1 ) );
-      ON_CALL( *_arenaMock, GetMutableEntity( 0 ) ).WillByDefault( Return( _playerMock ) );
 
       ON_CALL( *_frameRateProviderMock, GetFrameSeconds() ).WillByDefault( Return( 1.0f ) );
    }
 
    void BuildArenaPhysics()
    {
-      ON_CALL( *_playerMock, GetArenaPosition() ).WillByDefault( ReturnRef( _playerArenaPosition ) );
-      ON_CALL( *_playerMock, GetArenaPositionLeft() ).WillByDefault( Return( _playerArenaPosition.Left ) );
-      ON_CALL( *_playerMock, GetArenaPositionTop() ).WillByDefault( Return( _playerArenaPosition.Top ) );
-      ON_CALL( *_playerMock, GetHitBox() ).WillByDefault( ReturnRef( _playerHitBox ) );
-
       _arenaPhysics.reset( new ArenaPhysics( _frameRateProviderMock, _eventAggregatorMock, _arenaDefs ) );
       _arenaPhysics->AssignTo( _arenaMock );
    }
@@ -68,7 +53,6 @@ protected:
    shared_ptr<mock_GameEventAggregator> _eventAggregatorMock;
    shared_ptr<ArenaDefs> _arenaDefs;
    shared_ptr<mock_Arena> _arenaMock;
-   shared_ptr<mock_Player> _playerMock;
 
    ArenaTile _defaultTile;
    Rectangle<float> _playerHitBox;

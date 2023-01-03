@@ -15,7 +15,7 @@ namespace MegaManLofi
                      const std::shared_ptr<IFrameActionRegistry> frameActionRegistry,
                      const std::shared_ptr<PlayerPhysicsDefs> physicsDefs );
 
-      void AssignTo( const std::shared_ptr<IPlayer> player ) override;
+      void AssignTo( const std::shared_ptr<Player> player ) override;
       void Tick() override;
 
       void PointTo( Direction direction ) const override;
@@ -31,7 +31,7 @@ namespace MegaManLofi
       const std::shared_ptr<IFrameRateProvider> _frameRateProvider;
       const std::shared_ptr<IFrameActionRegistry> _frameActionRegistry;
       const std::shared_ptr<PlayerPhysicsDefs> _physicsDefs;
-      std::shared_ptr<IPlayer> _player;
+      std::shared_ptr<Player> _player;
 
       long long _lastExtendJumpFrame;
    };

@@ -2,17 +2,17 @@
 
 #include <memory>
 
-#include <MegaManLofi/BasicEntity.h>
+#include <MegaManLofi/Entity.h>
 
 using namespace std;
 using namespace testing;
 using namespace MegaManLofi;
 
-class BasicEntityTests : public Test { };
+class EntityTests : public Test { };
 
-TEST_F( BasicEntityTests, Constructor_Always_InitializesProperties )
+TEST_F( EntityTests, Constructor_Always_InitializesProperties )
 {
-   auto entity = make_shared<BasicEntity>();
+   auto entity = make_shared<Entity>();
 
    EXPECT_EQ( entity->GetUniqueId(), 0 );
    EXPECT_EQ( entity->GetEntityType(), (EntityType)0 );
@@ -29,9 +29,9 @@ TEST_F( BasicEntityTests, Constructor_Always_InitializesProperties )
    EXPECT_EQ( entity->GetMovementType(), (MovementType)0 );
 }
 
-TEST_F( BasicEntityTests, Setters_Always_SetsPropertyValues )
+TEST_F( EntityTests, Setters_Always_SetsPropertyValues )
 {
-   auto entity = make_shared<BasicEntity>();
+   auto entity = make_shared<Entity>();
 
    entity->SetUniqueId( 12 );
    entity->SetEntityType( EntityType::Projectile );

@@ -4,7 +4,7 @@
 #include "IFrameRateProvider.h"
 #include "IFrameActionRegistry.h"
 #include "PlayerPhysicsDefs.h"
-#include "IPlayer.h"
+#include "Player.h"
 #include "FrameAction.h"
 #include "Direction.h"
 
@@ -22,7 +22,7 @@ PlayerPhysics::PlayerPhysics( const shared_ptr<IFrameRateProvider> frameRateProv
 {
 }
 
-void PlayerPhysics::AssignTo( const shared_ptr<IPlayer> player )
+void PlayerPhysics::AssignTo( const shared_ptr<Player> player )
 {
    _player = player;
    _lastExtendJumpFrame = 0;

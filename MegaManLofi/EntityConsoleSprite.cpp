@@ -1,6 +1,6 @@
 #include "EntityConsoleSprite.h"
 #include "ConsoleSprite.h"
-#include "IReadOnlyEntity.h"
+#include "ReadOnlyEntity.h"
 
 using namespace std;
 using namespace MegaManLofi;
@@ -23,7 +23,7 @@ EntityConsoleSprite::EntityConsoleSprite( EntityConsoleSprite& ecs ) :
    }
 }
 
-void EntityConsoleSprite::AssignTo( const shared_ptr<IReadOnlyEntity> entity )
+void EntityConsoleSprite::AssignTo( const shared_ptr<ReadOnlyEntity> entity )
 {
    _entity = entity;
    Reset();

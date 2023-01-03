@@ -15,18 +15,18 @@ Player::Player( const shared_ptr<PlayerDefs> playerDefs,
                 const shared_ptr<IFrameRateProvider> frameRateProvider ) :
    _playerDefs( playerDefs ),
    _frameActionRegistry( frameActionRegistry ),
-   _frameRateProvider( frameRateProvider ),
-   _uniqueId( playerDefs->DefaultUniqueId ),
-   _metaId( playerDefs->DefaultEntityMetaId ),
-   _arenaPosition( { 0, 0 } )
+   _frameRateProvider( frameRateProvider )
 {
+   _uniqueId = playerDefs->DefaultUniqueId;
+   _entityMetaId = playerDefs->DefaultEntityMetaId;
+
    Reset();
 }
 
 void Player::Reset()
 {
    ResetPhysics();
-   _lives = _playerDefs->DefaultLives;
+   _livesRemaining = _playerDefs->DefaultLives;
 }
 
 void Player::ResetPhysics()
@@ -36,13 +36,7 @@ void Player::ResetPhysics()
    _velocityY = _playerDefs->DefaultVelocityY;
    _direction = _playerDefs->DefaultDirection;
    _movementType = _playerDefs->DefaultMovementType;
-   _isStanding = false;
    _isJumping = false;
-}
-
-void Player::StopX()
-{
-   _velocityX = 0;
 }
 
 void Player::StopY()

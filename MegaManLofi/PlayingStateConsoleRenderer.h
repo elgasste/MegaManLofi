@@ -19,8 +19,8 @@ namespace MegaManLofi
    class IConsoleAnimationProvider;
    class IEntityConsoleSpriteRepository;
    class IConsoleSprite;
-   class IReadOnlyArena;
-   class IReadOnlyEntity;
+   class ReadOnlyArena;
+   class ReadOnlyEntity;
 
    class PlayingStateConsoleRenderer : public IGameRenderer
    {
@@ -52,7 +52,7 @@ namespace MegaManLofi
       void DrawArenaSprites();
       void DrawPlayer();
       void DrawNonPlayerEntities();
-      void DrawEntity( const std::shared_ptr<IReadOnlyEntity> entity );
+      void DrawEntity( const std::shared_ptr<ReadOnlyEntity> entity );
       void DrawStatusBar();
       void DrawPauseOverlay();
 
@@ -67,7 +67,7 @@ namespace MegaManLofi
       const std::shared_ptr<IConsoleAnimationProvider> _animationProvider;
       const std::shared_ptr<IEntityConsoleSpriteRepository> _spriteRepository;
 
-      std::shared_ptr<IReadOnlyArena> _arena;
+      std::shared_ptr<ReadOnlyArena> _arena;
 
       Quad<float> _viewportQuadUnits;
       Rectangle<short> _viewportRectChars;

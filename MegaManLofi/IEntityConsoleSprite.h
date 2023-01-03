@@ -9,12 +9,12 @@
 namespace MegaManLofi
 {
    class IConsoleSprite;
-   class IReadOnlyEntity;
+   class ReadOnlyEntity;
 
    class __declspec( novtable ) IEntityConsoleSprite
    {
    public:
-      virtual void AssignTo( const std::shared_ptr<IReadOnlyEntity> entity ) = 0;
+      virtual void AssignTo( const std::shared_ptr<ReadOnlyEntity> entity ) = 0;
       virtual void AddSprite( MovementType movementType,
                               Direction direction,
                               const std::shared_ptr<IConsoleSprite> sprite ) = 0;

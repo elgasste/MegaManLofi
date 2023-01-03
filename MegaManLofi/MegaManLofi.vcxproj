@@ -200,7 +200,6 @@
     <ClCompile Include="ReadOnlyEntity.cpp" />
     <ClCompile Include="ReadOnlyPlayer.cpp" />
     <ClCompile Include="RectangleUtilities.cpp" />
-    <ClCompile Include="SleeperWrapper.cpp" />
     <ClCompile Include="StageStartedConsoleAnimation.cpp" />
     <ClCompile Include="TitleStateConsoleRenderer.cpp" />
     <ClCompile Include="TitleStateInputHandler.cpp" />
@@ -292,7 +291,6 @@
     <ClInclude Include="KeyboardInputDefs.h" />
     <ClInclude Include="IHighResolutionClock.h" />
     <ClInclude Include="IKeyboard.h" />
-    <ClInclude Include="ISleeper.h" />
     <ClInclude Include="KeyboardInputReader.h" />
     <ClInclude Include="KeyCode.h" />
     <ClInclude Include="MenuRepository.h" />
@@ -322,7 +320,6 @@
     <ClInclude Include="ReadOnlyPlayer.h" />
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="RectangleUtilities.h" />
-    <ClInclude Include="SleeperWrapper.h" />
     <ClInclude Include="StageStartedConsoleAnimation.h" />
     <ClInclude Include="TitleStateInputHandler.h" />
     <ClInclude Include="TitleStateConsoleRenderer.h" />

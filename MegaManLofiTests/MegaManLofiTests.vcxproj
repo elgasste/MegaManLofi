@@ -69,7 +69,6 @@
     <ClInclude Include="mock_ReadOnlyEntity.h" />
     <ClInclude Include="mock_ReadOnlyPlayer.h" />
     <ClInclude Include="mock_ScreenBuffer.h" />
-    <ClInclude Include="mock_Sleeper.h" />
     <ClInclude Include="mock_Thread.h" />
     <ClInclude Include="mock_UniqueNumberGenerator.h" />
   </ItemGroup>

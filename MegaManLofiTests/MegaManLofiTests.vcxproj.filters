@@ -107,9 +107,6 @@
     <ClInclude Include="mock_HighResolutionClock.h">
       <Filter>Mocks</Filter>
     </ClInclude>
-    <ClInclude Include="mock_Sleeper.h">
-      <Filter>Mocks</Filter>
-    </ClInclude>
     <ClInclude Include="mock_Keyboard.h">
       <Filter>Mocks</Filter>
     </ClInclude>

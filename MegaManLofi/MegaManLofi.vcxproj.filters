@@ -114,9 +114,6 @@
     <ClCompile Include="PlayingStateConsoleRenderer.cpp">
       <Filter>Source Files\Render</Filter>
     </ClCompile>
-    <ClCompile Include="SleeperWrapper.cpp">
-      <Filter>Source Files\Wrappers</Filter>
-    </ClCompile>
     <ClCompile Include="HighResolutionClockWrapper.cpp">
       <Filter>Source Files\Wrappers</Filter>
     </ClCompile>
@@ -345,12 +342,6 @@
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
     <ClInclude Include="HighResolutionClockWrapper.h">
-      <Filter>Header Files\Wrappers</Filter>
-    </ClInclude>
-    <ClInclude Include="ISleeper.h">
-      <Filter>Header Files\Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="SleeperWrapper.h">
       <Filter>Header Files\Wrappers</Filter>
     </ClInclude>
     <ClInclude Include="IKeyboard.h">

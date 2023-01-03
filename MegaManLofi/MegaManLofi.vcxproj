@@ -265,7 +265,6 @@
     <ClInclude Include="IMenu.h" />
     <ClInclude Include="IMenuProvider.h" />
     <ClInclude Include="IPlayerInfoProvider.h" />
-    <ClInclude Include="IEntityFactory.h" />
     <ClInclude Include="IRandom.h" />
     <ClInclude Include="IScreenBuffer.h" />
     <ClInclude Include="IThread.h" />

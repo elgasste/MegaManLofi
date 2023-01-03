@@ -4,7 +4,7 @@
 #include "Arena.h"
 #include "PlayerPhysics.h"
 #include "ArenaPhysics.h"
-#include "IEntityFactory.h"
+#include "EntityFactory.h"
 #include "GameState.h"
 #include "GameCommand.h"
 #include "PushPlayerCommandArgs.h"
@@ -18,7 +18,7 @@ Game::Game( const shared_ptr<IGameEventAggregator> eventAggregator,
             const shared_ptr<Arena> arena,
             const shared_ptr<PlayerPhysics> playerPhysics,
             const shared_ptr<ArenaPhysics> arenaPhysics,
-            const shared_ptr<IEntityFactory> entityFactory ) :
+            const shared_ptr<EntityFactory> entityFactory ) :
    _eventAggregator( eventAggregator ),
    _player( player ),
    _arena( arena ),

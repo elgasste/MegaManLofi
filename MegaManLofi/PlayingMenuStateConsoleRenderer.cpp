@@ -2,7 +2,7 @@
 #include "ConsoleBuffer.h"
 #include "ConsoleRenderDefs.h"
 #include "ConsoleSpriteDefs.h"
-#include "IConsoleSprite.h"
+#include "ConsoleSprite.h"
 #include "IMenuProvider.h"
 #include "IMenu.h"
 #include "MenuType.h"

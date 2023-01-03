@@ -8,7 +8,7 @@
 
 namespace MegaManLofi
 {
-   class IConsoleSprite;
+   class ConsoleSprite;
    class IFrameRateProvider;
 
    class ArenaImageGenerator

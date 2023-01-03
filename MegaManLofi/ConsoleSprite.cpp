@@ -4,6 +4,14 @@
 using namespace std;
 using namespace MegaManLofi;
 
+ConsoleSprite::ConsoleSprite() :
+   _currentImageIndex( 0 ),
+   _imageTraversalSeconds( 0 ),
+   _totalSpriteSeconds( 0 ),
+   _spriteElapsedSeconds( 0 )
+{
+}
+
 ConsoleSprite::ConsoleSprite( const shared_ptr<IFrameRateProvider> frameRateProvider,
                               float imageTraversalSeconds ) :
    _frameRateProvider( frameRateProvider ),

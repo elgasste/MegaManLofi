@@ -5,7 +5,7 @@
 #include "IFrameRateProvider.h"
 #include "ConsoleRenderDefs.h"
 #include "ConsoleSpriteDefs.h"
-#include "IConsoleSprite.h"
+#include "ConsoleSprite.h"
 
 using namespace std;
 using namespace MegaManLofi;

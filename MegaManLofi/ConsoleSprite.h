@@ -3,27 +3,28 @@
 #include <memory>
 #include <vector>
 
-#include "IConsoleSprite.h"
+#include "ConsoleImage.h"
 
 namespace MegaManLofi
 {
    class IFrameRateProvider;
 
-   class ConsoleSprite : public IConsoleSprite
+   class ConsoleSprite
    {
    public:
+      ConsoleSprite();
       ConsoleSprite( const std::shared_ptr<IFrameRateProvider> frameRateProvider,
                      float imageTraversalSeconds );
       ConsoleSprite( ConsoleSprite& cs );
 
-      void AddImage( ConsoleImage image ) override;
-      void Tick() override;
-      void Reset() override;
+      virtual void AddImage( ConsoleImage image );
+      virtual void Tick();
+      virtual void Reset();
 
-      short GetWidth() const override;
-      short GetHeight() const override;
-      float GetTotalTraversalSeconds() const override { return _totalSpriteSeconds; }
-      const ConsoleImage& GetCurrentImage() const override;
+      virtual short GetWidth() const;
+      virtual short GetHeight() const;
+      virtual float GetTotalTraversalSeconds() const { return _totalSpriteSeconds; }
+      virtual const ConsoleImage& GetCurrentImage() const;
 
    private:
       const std::shared_ptr<IFrameRateProvider> _frameRateProvider;

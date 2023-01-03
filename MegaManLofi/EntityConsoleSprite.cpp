@@ -31,7 +31,7 @@ void EntityConsoleSprite::AssignTo( const shared_ptr<ReadOnlyEntity> entity )
 
 void EntityConsoleSprite::AddSprite( MovementType movementType,
                                      Direction direction,
-                                     const std::shared_ptr<IConsoleSprite> sprite )
+                                     const std::shared_ptr<ConsoleSprite> sprite )
 {
    _movementSpriteMaps[movementType][direction] = sprite;
 }

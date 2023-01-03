@@ -8,7 +8,7 @@
 
 namespace MegaManLofi
 {
-   class IConsoleSprite;
+   class ConsoleSprite;
    class IEntityConsoleSprite;
    struct ConsoleBufferInfo;
 
@@ -36,7 +36,7 @@ namespace MegaManLofi
       virtual void Draw( short left, short top, const std::string& buffer, ConsoleColor foregroundColor );
       virtual void Draw( short left, short top, const std::string& buffer, ConsoleColor foregroundColor, ConsoleColor backgroundColor );
       virtual void Draw( short left, short top, const ConsoleImage& image );
-      virtual void Draw( short left, short top, const std::shared_ptr<IConsoleSprite> sprite );
+      virtual void Draw( short left, short top, const std::shared_ptr<ConsoleSprite> sprite );
       virtual void Draw( short left, short top, const std::shared_ptr<IEntityConsoleSprite> sprite );
 
       virtual void Flip();

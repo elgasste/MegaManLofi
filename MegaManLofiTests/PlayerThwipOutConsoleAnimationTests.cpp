@@ -121,13 +121,13 @@ TEST_F( PlayerThwipOutConsoleAnimationTests, Draw_PreThwipping_DrawsSpriteInStar
    BuildAnimation();
    _animation->Start( Coordinate<short>( { 0, 0 } ), Coordinate<short>( { 10, 10 } ) );
 
-   EXPECT_CALL( *_consoleBufferMock, Draw( 0, 0, static_pointer_cast<IConsoleSprite>( _transitionSpriteMock ) ) );
+   EXPECT_CALL( *_consoleBufferMock, Draw( 0, 0, static_pointer_cast<ConsoleSprite>( _transitionSpriteMock ) ) );
    _animation->Draw();
 
    EXPECT_CALL( *_transitionSpriteMock, Tick() );
    _animation->Tick();
 
-   EXPECT_CALL( *_consoleBufferMock, Draw( 0, 0, static_pointer_cast<IConsoleSprite>( _transitionSpriteMock ) ) );
+   EXPECT_CALL( *_consoleBufferMock, Draw( 0, 0, static_pointer_cast<ConsoleSprite>( _transitionSpriteMock ) ) );
    _animation->Draw();
 }
 
@@ -139,12 +139,12 @@ TEST_F( PlayerThwipOutConsoleAnimationTests, Draw_ThwippingDownward_DrawsSpriteI
 
    _animation->Tick(); // should switch from pre-thwipping to thwipping
 
-   EXPECT_CALL( *_consoleBufferMock, Draw( 0, 0, static_pointer_cast<IConsoleSprite>( _thwipSpriteMock ) ) );
+   EXPECT_CALL( *_consoleBufferMock, Draw( 0, 0, static_pointer_cast<ConsoleSprite>( _thwipSpriteMock ) ) );
    _animation->Draw();
 
    for( int i = 0; i < 3; i++ ) _animation->Tick(); // 3 seconds, should be 3 chars down
 
-   EXPECT_CALL( *_consoleBufferMock, Draw( 0, 3, static_pointer_cast<IConsoleSprite>( _thwipSpriteMock ) ) );
+   EXPECT_CALL( *_consoleBufferMock, Draw( 0, 3, static_pointer_cast<ConsoleSprite>( _thwipSpriteMock ) ) );
    _animation->Draw();
 }
 
@@ -156,12 +156,12 @@ TEST_F( PlayerThwipOutConsoleAnimationTests, Draw_ThwippingUpward_DrawsSpriteInC
 
    _animation->Tick(); // should switch from pre-thwipping to thwipping
 
-   EXPECT_CALL( *_consoleBufferMock, Draw( 10, 10, static_pointer_cast<IConsoleSprite>( _thwipSpriteMock ) ) );
+   EXPECT_CALL( *_consoleBufferMock, Draw( 10, 10, static_pointer_cast<ConsoleSprite>( _thwipSpriteMock ) ) );
    _animation->Draw();
 
    for( int i = 0; i < 3; i++ ) _animation->Tick(); // 3 seconds, should be 3 chars up
 
-   EXPECT_CALL( *_consoleBufferMock, Draw( 10, 7, static_pointer_cast<IConsoleSprite>( _thwipSpriteMock ) ) );
+   EXPECT_CALL( *_consoleBufferMock, Draw( 10, 7, static_pointer_cast<ConsoleSprite>( _thwipSpriteMock ) ) );
    _animation->Draw();
 }
 

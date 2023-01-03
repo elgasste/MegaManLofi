@@ -10,7 +10,7 @@
 #include "KeyboardInputDefs.h"
 #include "IConsoleAnimationProvider.h"
 #include "IConsoleAnimation.h"
-#include "IConsoleSprite.h"
+#include "ConsoleSprite.h"
 #include "ConsoleColor.h"
 
 using namespace std;

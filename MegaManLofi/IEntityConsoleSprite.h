@@ -8,7 +8,7 @@
 
 namespace MegaManLofi
 {
-   class IConsoleSprite;
+   class ConsoleSprite;
    class ReadOnlyEntity;
 
    class __declspec( novtable ) IEntityConsoleSprite
@@ -17,7 +17,7 @@ namespace MegaManLofi
       virtual void AssignTo( const std::shared_ptr<ReadOnlyEntity> entity ) = 0;
       virtual void AddSprite( MovementType movementType,
                               Direction direction,
-                              const std::shared_ptr<IConsoleSprite> sprite ) = 0;
+                              const std::shared_ptr<ConsoleSprite> sprite ) = 0;
       virtual void Tick() = 0;
       virtual void Reset() = 0;
 

@@ -256,7 +256,6 @@
     <ClInclude Include="IArenaInfoProvider.h" />
     <ClInclude Include="IConsoleAnimation.h" />
     <ClInclude Include="IConsoleAnimationProvider.h" />
-    <ClInclude Include="IConsoleSprite.h" />
     <ClInclude Include="IEntityConsoleSprite.h" />
     <ClInclude Include="IEntityConsoleSpriteCopier.h" />
     <ClInclude Include="IEntityConsoleSpriteRepository.h" />

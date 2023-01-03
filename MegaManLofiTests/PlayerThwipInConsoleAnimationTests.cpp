@@ -126,7 +126,7 @@ TEST_F( PlayerThwipInConsoleAnimationTests, Draw_PostThwipping_DrawsSpriteInEndP
       _animation->Tick(); // 10 seconds later, should be post-thwipping
    }
 
-   EXPECT_CALL( *_consoleBufferMock, Draw( 0, 10, static_pointer_cast<IConsoleSprite>( _transitionSpriteMock ) ) );
+   EXPECT_CALL( *_consoleBufferMock, Draw( 0, 10, static_pointer_cast<ConsoleSprite>( _transitionSpriteMock ) ) );
    _animation->Draw();
 }
 
@@ -136,12 +136,12 @@ TEST_F( PlayerThwipInConsoleAnimationTests, Draw_ThwippingDownward_DrawsSpriteIn
    BuildAnimation();
    _animation->Start( Coordinate<short>( { 0, 0 } ), Coordinate<short>( { 10, 10 } ) );
 
-   EXPECT_CALL( *_consoleBufferMock, Draw( 0, 0, static_pointer_cast<IConsoleSprite>( _thwipSpriteMock ) ) );
+   EXPECT_CALL( *_consoleBufferMock, Draw( 0, 0, static_pointer_cast<ConsoleSprite>( _thwipSpriteMock ) ) );
    _animation->Draw();
 
    for( int i = 0; i < 3; i++ ) _animation->Tick(); // 3 seconds, should be 3 chars down
 
-   EXPECT_CALL( *_consoleBufferMock, Draw( 0, 3, static_pointer_cast<IConsoleSprite>( _thwipSpriteMock ) ) );
+   EXPECT_CALL( *_consoleBufferMock, Draw( 0, 3, static_pointer_cast<ConsoleSprite>( _thwipSpriteMock ) ) );
    _animation->Draw();
 }
 
@@ -151,12 +151,12 @@ TEST_F( PlayerThwipInConsoleAnimationTests, Draw_ThwippingUpward_DrawsSpriteInCo
    BuildAnimation();
    _animation->Start( Coordinate<short>( { 10, 10 } ), Coordinate<short>( { 0, 0 } ) );
 
-   EXPECT_CALL( *_consoleBufferMock, Draw( 10, 10, static_pointer_cast<IConsoleSprite>( _thwipSpriteMock ) ) );
+   EXPECT_CALL( *_consoleBufferMock, Draw( 10, 10, static_pointer_cast<ConsoleSprite>( _thwipSpriteMock ) ) );
    _animation->Draw();
 
    for( int i = 0; i < 3; i++ ) _animation->Tick(); // 3 seconds, should be 3 chars up
 
-   EXPECT_CALL( *_consoleBufferMock, Draw( 10, 7, static_pointer_cast<IConsoleSprite>( _thwipSpriteMock ) ) );
+   EXPECT_CALL( *_consoleBufferMock, Draw( 10, 7, static_pointer_cast<ConsoleSprite>( _thwipSpriteMock ) ) );
    _animation->Draw();
 }
 

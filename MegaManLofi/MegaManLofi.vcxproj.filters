@@ -461,9 +461,6 @@
     <ClInclude Include="ConsoleAnimationType.h">
       <Filter>Header Files\DataTypes</Filter>
     </ClInclude>
-    <ClInclude Include="IConsoleSprite.h">
-      <Filter>Header Files\Interfaces</Filter>
-    </ClInclude>
     <ClInclude Include="IConsoleAnimationProvider.h">
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>

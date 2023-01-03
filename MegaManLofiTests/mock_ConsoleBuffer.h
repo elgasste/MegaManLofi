@@ -19,7 +19,7 @@ public:
    MOCK_METHOD( void, Draw, ( short, short, const std::string&, MegaManLofi::ConsoleColor ), ( override ) );
    MOCK_METHOD( void, Draw, ( short, short, const std::string&, MegaManLofi::ConsoleColor, MegaManLofi::ConsoleColor ), ( override ) );
    MOCK_METHOD( void, Draw, ( short, short, const MegaManLofi::ConsoleImage& ), ( override ) );
-   MOCK_METHOD( void, Draw, ( short, short, const std::shared_ptr<MegaManLofi::IConsoleSprite> ), ( override ) );
+   MOCK_METHOD( void, Draw, ( short, short, const std::shared_ptr<MegaManLofi::ConsoleSprite> ), ( override ) );
    MOCK_METHOD( void, Draw, ( short, short, const std::shared_ptr<MegaManLofi::IEntityConsoleSprite> ), ( override ) );
    MOCK_METHOD( void, Flip, ( ), ( override ) );
 };

@@ -26,7 +26,7 @@ shared_ptr<ConsoleSpriteDefs> ConsoleSpriteDefsGenerator::GenerateConsoleSpriteD
    return spriteDefs;
 }
 
-shared_ptr<IConsoleSprite> ConsoleSpriteDefsGenerator::GeneratePlayerStandingSprite( Direction direction, const shared_ptr<IFrameRateProvider> frameRateProvider )
+shared_ptr<ConsoleSprite> ConsoleSpriteDefsGenerator::GeneratePlayerStandingSprite( Direction direction, const shared_ptr<IFrameRateProvider> frameRateProvider )
 {
    string chars = "";
 
@@ -65,7 +65,7 @@ shared_ptr<IConsoleSprite> ConsoleSpriteDefsGenerator::GeneratePlayerStandingSpr
    return sprite;
 }
 
-shared_ptr<IConsoleSprite> ConsoleSpriteDefsGenerator::GeneratePlayerWalkingSprite( Direction direction, const shared_ptr<IFrameRateProvider> frameRateProvider )
+shared_ptr<ConsoleSprite> ConsoleSpriteDefsGenerator::GeneratePlayerWalkingSprite( Direction direction, const shared_ptr<IFrameRateProvider> frameRateProvider )
 {
    string chars1 = "";
    string chars2 = "";
@@ -120,7 +120,7 @@ shared_ptr<IConsoleSprite> ConsoleSpriteDefsGenerator::GeneratePlayerWalkingSpri
    return sprite;
 }
 
-shared_ptr<IConsoleSprite> ConsoleSpriteDefsGenerator::GeneratePlayerAirborneSprite( Direction direction, const shared_ptr<IFrameRateProvider> frameRateProvider )
+shared_ptr<ConsoleSprite> ConsoleSpriteDefsGenerator::GeneratePlayerAirborneSprite( Direction direction, const shared_ptr<IFrameRateProvider> frameRateProvider )
 {
    string chars = "";
 
@@ -159,7 +159,7 @@ shared_ptr<IConsoleSprite> ConsoleSpriteDefsGenerator::GeneratePlayerAirborneSpr
    return sprite;
 }
 
-std::shared_ptr<IConsoleSprite> ConsoleSpriteDefsGenerator::GenerateBulletSprite( const std::shared_ptr<IFrameRateProvider> frameRateProvider )
+std::shared_ptr<ConsoleSprite> ConsoleSpriteDefsGenerator::GenerateBulletSprite( const std::shared_ptr<IFrameRateProvider> frameRateProvider )
 {
    auto sprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( frameRateProvider, 0 ) );
    
@@ -174,7 +174,7 @@ std::shared_ptr<IConsoleSprite> ConsoleSpriteDefsGenerator::GenerateBulletSprite
    return sprite;
 }
 
-shared_ptr<IConsoleSprite> ConsoleSpriteDefsGenerator::GeneratePlayerThwipSprite( const shared_ptr<IFrameRateProvider> frameRateProvider )
+shared_ptr<ConsoleSprite> ConsoleSpriteDefsGenerator::GeneratePlayerThwipSprite( const shared_ptr<IFrameRateProvider> frameRateProvider )
 {
    auto thwipSprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( frameRateProvider, .05f ) );
 
@@ -193,7 +193,7 @@ shared_ptr<IConsoleSprite> ConsoleSpriteDefsGenerator::GeneratePlayerThwipSprite
    return thwipSprite;
 }
 
-shared_ptr<IConsoleSprite> ConsoleSpriteDefsGenerator::GeneratePlayerThwipInTransitionSprite( const shared_ptr<IFrameRateProvider> frameRateProvider )
+shared_ptr<ConsoleSprite> ConsoleSpriteDefsGenerator::GeneratePlayerThwipInTransitionSprite( const shared_ptr<IFrameRateProvider> frameRateProvider )
 {
    auto sprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( frameRateProvider, .05f ) );
 
@@ -215,7 +215,7 @@ shared_ptr<IConsoleSprite> ConsoleSpriteDefsGenerator::GeneratePlayerThwipInTran
    return sprite;
 }
 
-shared_ptr<IConsoleSprite> ConsoleSpriteDefsGenerator::GeneratePlayerThwipOutTransitionSprite( const shared_ptr<IFrameRateProvider> frameRateProvider )
+shared_ptr<ConsoleSprite> ConsoleSpriteDefsGenerator::GeneratePlayerThwipOutTransitionSprite( const shared_ptr<IFrameRateProvider> frameRateProvider )
 {
    auto sprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( frameRateProvider, .05f ) );
 
@@ -237,7 +237,7 @@ shared_ptr<IConsoleSprite> ConsoleSpriteDefsGenerator::GeneratePlayerThwipOutTra
    return sprite;
 }
 
-shared_ptr<IConsoleSprite> ConsoleSpriteDefsGenerator::GeneratePlayerExplosionParticleSprite( const shared_ptr<IFrameRateProvider> frameRateProvider )
+shared_ptr<ConsoleSprite> ConsoleSpriteDefsGenerator::GeneratePlayerExplosionParticleSprite( const shared_ptr<IFrameRateProvider> frameRateProvider )
 {
    auto particleSprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( frameRateProvider, .25f ) );
 
@@ -252,7 +252,7 @@ shared_ptr<IConsoleSprite> ConsoleSpriteDefsGenerator::GeneratePlayerExplosionPa
    return particleSprite;
 }
 
-shared_ptr<IConsoleSprite> ConsoleSpriteDefsGenerator::GenerateStageGetReadySprite( const shared_ptr<IFrameRateProvider> frameRateProvider )
+shared_ptr<ConsoleSprite> ConsoleSpriteDefsGenerator::GenerateStageGetReadySprite( const shared_ptr<IFrameRateProvider> frameRateProvider )
 {
    auto sprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( frameRateProvider, .25f ) );
 
@@ -269,7 +269,7 @@ shared_ptr<IConsoleSprite> ConsoleSpriteDefsGenerator::GenerateStageGetReadySpri
    return sprite;
 }
 
-shared_ptr<IConsoleSprite> ConsoleSpriteDefsGenerator::GenerateMenuCaratSprite( const shared_ptr<IFrameRateProvider> frameRateProvider )
+shared_ptr<ConsoleSprite> ConsoleSpriteDefsGenerator::GenerateMenuCaratSprite( const shared_ptr<IFrameRateProvider> frameRateProvider )
 {
    auto sprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( frameRateProvider, .25f ) );
 

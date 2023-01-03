@@ -16,7 +16,7 @@
 #include "ReadOnlyEntity.h"
 #include "ReadOnlyArena.h"
 #include "Direction.h"
-#include "IConsoleSprite.h"
+#include "ConsoleSprite.h"
 #include "IEntityConsoleSprite.h"
 
 using namespace std;

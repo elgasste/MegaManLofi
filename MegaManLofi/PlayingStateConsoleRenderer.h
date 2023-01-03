@@ -18,7 +18,7 @@ namespace MegaManLofi
    class IFrameRateProvider;
    class IConsoleAnimationProvider;
    class IEntityConsoleSpriteRepository;
-   class IConsoleSprite;
+   class ConsoleSprite;
    class ReadOnlyArena;
    class ReadOnlyEntity;
 

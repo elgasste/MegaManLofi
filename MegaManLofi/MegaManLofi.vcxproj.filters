@@ -428,9 +428,6 @@
     <ClInclude Include="IFrameRateProvider.h">
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="IPlayerPhysics.h">
-      <Filter>Header Files\Interfaces</Filter>
-    </ClInclude>
     <ClInclude Include="PlayerPhysics.h">
       <Filter>Header Files\Utilities</Filter>
     </ClInclude>

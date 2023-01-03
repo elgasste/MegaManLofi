@@ -268,7 +268,6 @@
     <ClInclude Include="IGameRenderDefs.h" />
     <ClInclude Include="IMenu.h" />
     <ClInclude Include="IMenuProvider.h" />
-    <ClInclude Include="IPlayerPhysics.h" />
     <ClInclude Include="IPlayerInfoProvider.h" />
     <ClInclude Include="IEntityFactory.h" />
     <ClInclude Include="IRandom.h" />

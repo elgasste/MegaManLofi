@@ -3,9 +3,9 @@
 #include <gmock/gmock.h>
 #include <string>
 
-#include <MegaManLofi/IPlayerPhysics.h>
+#include <MegaManLofi/PlayerPhysics.h>
 
-class mock_PlayerPhysics : public MegaManLofi::IPlayerPhysics
+class mock_PlayerPhysics : public MegaManLofi::PlayerPhysics
 {
 public:
    MOCK_METHOD( void, AssignTo, ( std::shared_ptr<MegaManLofi::Player> ), ( override ) );

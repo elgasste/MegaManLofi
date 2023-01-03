@@ -1,11 +1,11 @@
 #include "PlayerDefsGenerator.h"
 #include "PlayerDefs.h"
-#include "IUniqueNumberGenerator.h"
+#include "UniqueNumberGenerator.h"
 
 using namespace std;
 using namespace MegaManLofi;
 
-shared_ptr<PlayerDefs> PlayerDefsGenerator::GeneratePlayerDefs( const shared_ptr<IUniqueNumberGenerator> uniqueNumberGenerator )
+shared_ptr<PlayerDefs> PlayerDefsGenerator::GeneratePlayerDefs( const shared_ptr<UniqueNumberGenerator> uniqueNumberGenerator )
 {
    auto playerDefs = make_shared<PlayerDefs>();
 

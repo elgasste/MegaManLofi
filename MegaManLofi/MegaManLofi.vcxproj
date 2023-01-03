@@ -267,7 +267,6 @@
     <ClInclude Include="IRandom.h" />
     <ClInclude Include="IScreenBuffer.h" />
     <ClInclude Include="IThread.h" />
-    <ClInclude Include="IUniqueNumberGenerator.h" />
     <ClInclude Include="KeyboardInputDefsGenerator.h" />
     <ClInclude Include="KeyboardWrapper.h" />
     <ClInclude Include="HighResolutionClockWrapper.h" />

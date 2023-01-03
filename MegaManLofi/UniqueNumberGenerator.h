@@ -1,15 +1,13 @@
 #pragma once
 
-#include "IUniqueNumberGenerator.h"
-
 namespace MegaManLofi
 {
-   class UniqueNumberGenerator : public IUniqueNumberGenerator
+   class UniqueNumberGenerator
    {
    public:
       UniqueNumberGenerator();
 
-      int GetNext() override;
+      virtual int GetNext();
 
    private:
       int _nextNumber;

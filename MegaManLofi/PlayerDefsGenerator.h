@@ -5,11 +5,11 @@
 namespace MegaManLofi
 {
    class PlayerDefs;
-   class IUniqueNumberGenerator;
+   class UniqueNumberGenerator;
 
    class PlayerDefsGenerator
    {
    public:
-      static std::shared_ptr<PlayerDefs> GeneratePlayerDefs( const std::shared_ptr<IUniqueNumberGenerator> uniqueNumberGenerator );
+      static std::shared_ptr<PlayerDefs> GeneratePlayerDefs( const std::shared_ptr<UniqueNumberGenerator> uniqueNumberGenerator );
    };
 }

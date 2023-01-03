@@ -11,7 +11,7 @@ using namespace std;
 using namespace MegaManLofi;
 
 shared_ptr<GameDefs> GameDefsGenerator::GenerateGameDefs( const shared_ptr<IFrameRateProvider> frameRateProvider,
-                                                          const shared_ptr<IUniqueNumberGenerator> uniqueNumberGenerator )
+                                                          const shared_ptr<UniqueNumberGenerator> uniqueNumberGenerator )
 {
    auto gameDefs = make_shared<GameDefs>();
 

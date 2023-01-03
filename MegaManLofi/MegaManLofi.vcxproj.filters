@@ -539,9 +539,6 @@
     <ClInclude Include="EntityType.h">
       <Filter>Header Files\DataTypes</Filter>
     </ClInclude>
-    <ClInclude Include="IUniqueNumberGenerator.h">
-      <Filter>Header Files\Interfaces</Filter>
-    </ClInclude>
     <ClInclude Include="UniqueNumberGenerator.h">
       <Filter>Header Files\Utilities</Filter>
     </ClInclude>

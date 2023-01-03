@@ -1,13 +1,13 @@
 #include "EntityFactory.h"
 #include "EntityDefs.h"
-#include "IUniqueNumberGenerator.h"
+#include "UniqueNumberGenerator.h"
 #include "Entity.h"
 
 using namespace std;
 using namespace MegaManLofi;
 
 EntityFactory::EntityFactory( const shared_ptr<EntityDefs> entityDefs,
-                              const shared_ptr<IUniqueNumberGenerator> uniqueNumberGenerator ) :
+                              const shared_ptr<UniqueNumberGenerator> uniqueNumberGenerator ) :
    _entityDefs( entityDefs ),
    _uniqueNumberGenerator( uniqueNumberGenerator )
 {

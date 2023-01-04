@@ -10,6 +10,8 @@ namespace MegaManLofi
    class ArenaDefs
    {
    public:
+      int ArenaId = 0;
+
       float DefaultTileWidth = 0;
       float DefaultTileHeight = 0;
 

@@ -23,10 +23,16 @@ void ArenaPhysics::AssignTo( const shared_ptr<Arena> arena )
 {
    _entityTileIndicesCache.clear();
    _arena = arena;
+   UpdateEntityTileIndicesCaches();
+}
 
-   for ( int i = 0; i < _arena->GetEntityCount(); i++ )
+void ArenaPhysics::Reset()
+{
+   _entityTileIndicesCache.clear();
+
+   if ( _arena )
    {
-      UpdateEntityTileIndicesCache( _arena->GetEntity( i ) );
+      UpdateEntityTileIndicesCaches();
    }
 }
 
@@ -35,6 +41,14 @@ void ArenaPhysics::Tick()
    MoveEntities();
    UpdateActiveRegion();
    DetectTileDeath();
+}
+
+void ArenaPhysics::UpdateEntityTileIndicesCaches()
+{
+   for ( int i = 0; i < _arena->GetEntityCount(); i++ )
+   {
+      UpdateEntityTileIndicesCache( _arena->GetEntity( i ) );
+   }
 }
 
 void ArenaPhysics::UpdateEntityTileIndicesCache( const shared_ptr<ReadOnlyEntity> entity )

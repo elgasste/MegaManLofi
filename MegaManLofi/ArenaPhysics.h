@@ -24,9 +24,11 @@ namespace MegaManLofi
                     const std::shared_ptr<ArenaDefs> arenaDefs );
 
       virtual void AssignTo( const std::shared_ptr<Arena> arena );
+      virtual void Reset();
       virtual void Tick();
 
    private:
+      void UpdateEntityTileIndicesCaches();
       void UpdateEntityTileIndicesCache( const std::shared_ptr<ReadOnlyEntity> entity );
       void MoveEntities();
       void MoveEntity( const std::shared_ptr<Entity> entity );

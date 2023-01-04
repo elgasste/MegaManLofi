@@ -517,6 +517,7 @@ TEST_F( GameTests, Tick_RestartingStageNextFrame_ResetsGameObjects )
 
    EXPECT_CALL( *_playerMock, ResetPhysics() );
    EXPECT_CALL( *_arenaMock, Reset() );
+   EXPECT_CALL( *_arenaPhysicsMock, Reset() );
 
    _game->Tick();
 }

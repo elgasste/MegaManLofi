@@ -258,6 +258,9 @@
     <ClCompile Include="StageDefsGenerator.cpp">
       <Filter>Source Files\GameDefGenerators</Filter>
     </ClCompile>
+    <ClCompile Include="ReadOnlyStage.cpp">
+      <Filter>Source Files\GameObjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameRunner.h">
@@ -592,6 +595,9 @@
     </ClInclude>
     <ClInclude Include="StageDefsGenerator.h">
       <Filter>Header Files\GameDefGenerators</Filter>
+    </ClInclude>
+    <ClInclude Include="ReadOnlyStage.h">
+      <Filter>Header Files\GameObjects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

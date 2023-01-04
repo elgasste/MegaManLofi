@@ -199,6 +199,7 @@
     <ClCompile Include="ReadOnlyArena.cpp" />
     <ClCompile Include="ReadOnlyEntity.cpp" />
     <ClCompile Include="ReadOnlyPlayer.cpp" />
+    <ClCompile Include="ReadOnlyStage.cpp" />
     <ClCompile Include="RectangleUtilities.cpp" />
     <ClCompile Include="StageDefsGenerator.cpp" />
     <ClCompile Include="StageStartedConsoleAnimation.cpp" />
@@ -308,6 +309,7 @@
     <ClInclude Include="ReadOnlyArena.h" />
     <ClInclude Include="ReadOnlyEntity.h" />
     <ClInclude Include="ReadOnlyPlayer.h" />
+    <ClInclude Include="ReadOnlyStage.h" />
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="RectangleUtilities.h" />
     <ClInclude Include="StageDefs.h" />

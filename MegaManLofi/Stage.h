@@ -12,7 +12,8 @@ namespace MegaManLofi
       Stage() { }
       Stage( const std::shared_ptr<StageDefs> stageDefs );
 
-      virtual void AddArena( std::shared_ptr<ReadOnlyArena> arena );
+      virtual const std::shared_ptr<Arena> GetMutableActiveArena() const { return _arenaMap.at( _activeArenaId ); }
+      virtual void AddArena( std::shared_ptr<Arena> arena );
       virtual void Reset();
       virtual void SetActiveArena( int arenaId ) { _activeArenaId = arenaId; }
 

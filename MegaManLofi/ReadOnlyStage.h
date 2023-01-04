@@ -5,6 +5,7 @@
 
 namespace MegaManLofi
 {
+   class Arena;
    class ReadOnlyArena;
 
    class ReadOnlyStage
@@ -12,11 +13,11 @@ namespace MegaManLofi
    public:
       ReadOnlyStage();
 
-      virtual const std::shared_ptr<ReadOnlyArena> GetArena( int arenaId ) const { return _arenaMap.at( arenaId ); }
-      virtual const std::shared_ptr<ReadOnlyArena> GetActiveArena() const { return _arenaMap.at( _activeArenaId ); }
+      virtual const std::shared_ptr<ReadOnlyArena> GetArena( int arenaId ) const;
+      virtual const std::shared_ptr<ReadOnlyArena> GetActiveArena() const;
 
    protected:
-      std::map<int, std::shared_ptr<ReadOnlyArena>> _arenaMap;
+      std::map<int, std::shared_ptr<Arena>> _arenaMap;
       int _activeArenaId;
    };
 }

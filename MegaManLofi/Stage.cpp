@@ -11,7 +11,7 @@ Stage::Stage( const shared_ptr<StageDefs> stageDefs ) :
    _activeArenaId = _stageDefs->StartArenaId;
 }
 
-void Stage::AddArena( std::shared_ptr<ReadOnlyArena> arena )
+void Stage::AddArena( std::shared_ptr<Arena> arena )
 {
    _arenaMap[arena->GetArenaId()] = arena;
 }

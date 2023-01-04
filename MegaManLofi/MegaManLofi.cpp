@@ -114,21 +114,21 @@ void LoadAndRun( const shared_ptr<ConsoleBuffer> consoleBuffer )
    // input
    auto keyboardInputReader = shared_ptr<KeyboardInputReader>( new KeyboardInputReader( keyboardInputDefs, keyboard ) );
 
-   // utilities
+   // physics objects
    auto playerPhysics = shared_ptr<PlayerPhysics>( new PlayerPhysics( clock, frameActionRegistry, gameDefs->PlayerPhysicsDefs ) );
-   auto arenaPhysics = shared_ptr<ArenaPhysics>( new ArenaPhysics( clock, eventAggregator, gameDefs->ArenaDefs, gameDefs->WorldDefs ) );
+   auto arenaPhysics = shared_ptr<ArenaPhysics>( new ArenaPhysics( clock, eventAggregator, gameDefs->WorldDefs ) );
 
    // game objects
    auto player = shared_ptr<Player>( new Player( gameDefs->PlayerDefs, frameActionRegistry, clock ) );
    auto stage = shared_ptr<Stage>( new Stage( gameDefs->StageDefs ) );
-   for ( auto [arenaId, arenaDef] : gameDefs->StageDefs->ArenaMap )
+   for ( auto [arenaId, arenaDefs] : gameDefs->StageDefs->ArenaMap )
    {
-      auto arena = shared_ptr<Arena>( new Arena( gameDefs->ArenaDefs, gameDefs->WorldDefs, eventAggregator ) );
+      auto arena = shared_ptr<Arena>( new Arena( arenaDefs, gameDefs->WorldDefs, eventAggregator ) );
       arena->SetArenaId( arenaId );
       stage->AddArena( arena );
    }
    auto entityFactory = shared_ptr<EntityFactory>( new EntityFactory( gameDefs->EntityDefs, uniqueNumberGenerator ) );
-   auto game = shared_ptr<Game>( new Game( eventAggregator, player, stage, playerPhysics, arenaPhysics, entityFactory ) );
+   auto game = shared_ptr<Game>( new Game( eventAggregator, player, stage, playerPhysics, arenaPhysics, entityFactory ) );   
 
    // menus
    auto playingMenu = shared_ptr<PlayingMenu>( new PlayingMenu( game ) );

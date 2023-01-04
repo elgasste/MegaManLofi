@@ -120,7 +120,7 @@ void LoadAndRun( const shared_ptr<ConsoleBuffer> consoleBuffer )
 
    // game objects
    auto player = shared_ptr<Player>( new Player( gameDefs->PlayerDefs, frameActionRegistry, clock ) );
-   auto stage = shared_ptr<Stage>( new Stage( gameDefs->StageDefs ) );
+   auto stage = shared_ptr<Stage>( new Stage( gameDefs->StageDefs, eventAggregator ) );
    for ( auto [arenaId, arenaDefs] : gameDefs->StageDefs->ArenaMap )
    {
       auto arena = shared_ptr<Arena>( new Arena( arenaDefs, gameDefs->WorldDefs, eventAggregator ) );

@@ -1,12 +1,15 @@
 #include "Stage.h"
 #include "StageDefs.h"
+#include "GameEventAggregator.h"
 #include "Arena.h"
 
 using namespace std;
 using namespace MegaManLofi;
 
-Stage::Stage( const shared_ptr<StageDefs> stageDefs ) :
-   _stageDefs( stageDefs )
+Stage::Stage( const shared_ptr<StageDefs> stageDefs,
+              const shared_ptr<GameEventAggregator> eventAggregator ) :
+   _stageDefs( stageDefs ),
+   _eventAggregator( eventAggregator )
 {
    _activeArenaId = _stageDefs->StartArenaId;
 }
@@ -18,8 +21,16 @@ void Stage::AddArena( std::shared_ptr<Arena> arena )
 
 void Stage::Reset()
 {
-   auto activeArena = static_pointer_cast<Arena>( GetActiveArena() );
-   activeArena->Clear();
-
+   _arenaMap[_activeArenaId]->Clear();
    _activeArenaId = _stageDefs->StartArenaId;
+}
+
+void Stage::SetActiveArena( int arenaId )
+{
+   if ( arenaId != _activeArenaId )
+   {
+      _arenaMap[_activeArenaId]->Clear();
+      _activeArenaId = arenaId;
+      _eventAggregator->RaiseEvent( GameEvent::ActiveArenaChanged );
+   }
 }

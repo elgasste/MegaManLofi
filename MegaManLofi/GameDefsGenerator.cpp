@@ -4,6 +4,8 @@
 #include "KeyboardInputDefsGenerator.h"
 #include "EntityDefsGenerator.h"
 #include "PlayerDefsGenerator.h"
+#include "WorldDefsGenerator.h"
+#include "StageDefsGenerator.h"
 #include "ArenaDefsGenerator.h"
 #include "PlayerPhysicsDefsGenerator.h"
 
@@ -23,7 +25,9 @@ shared_ptr<GameDefs> GameDefsGenerator::GenerateGameDefs( const shared_ptr<IFram
    gameDefs->InputDefs = KeyboardInputDefsGenerator::GenerateKeyboardInputDefs();
    gameDefs->EntityDefs = EntityDefsGenerator::GenerateEntityDefs();
    gameDefs->PlayerDefs = PlayerDefsGenerator::GeneratePlayerDefs( uniqueNumberGenerator );
-   gameDefs->ArenaDefs = ArenaDefsGenerator::GenerateArenaDefs();
+   gameDefs->WorldDefs = WorldDefsGenerator::GenerateWorldDefs();
+   gameDefs->StageDefs = StageDefsGenerator::GenerateStageDefs( gameDefs->WorldDefs );
+   gameDefs->ArenaDefs = ArenaDefsGenerator::GenerateArenaDefs( gameDefs->WorldDefs );
    gameDefs->PlayerPhysicsDefs = PlayerPhysicsDefsGenerator::GeneratePlayerPhysicsDefs();
 
    return gameDefs;

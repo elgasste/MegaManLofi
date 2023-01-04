@@ -1,6 +1,7 @@
 #include "Game.h"
 #include "GameEventAggregator.h"
 #include "Player.h"
+#include "Stage.h"
 #include "Arena.h"
 #include "PlayerPhysics.h"
 #include "ArenaPhysics.h"
@@ -15,13 +16,13 @@ using namespace MegaManLofi;
 
 Game::Game( const shared_ptr<GameEventAggregator> eventAggregator,
             const shared_ptr<Player> player,
-            const shared_ptr<Arena> arena,
+            const shared_ptr<Stage> stage,
             const shared_ptr<PlayerPhysics> playerPhysics,
             const shared_ptr<ArenaPhysics> arenaPhysics,
             const shared_ptr<EntityFactory> entityFactory ) :
    _eventAggregator( eventAggregator ),
    _player( player ),
-   _arena( arena ),
+   _stage( stage ),
    _playerPhysics( playerPhysics ),
    _arenaPhysics( arenaPhysics ),
    _entityFactory( entityFactory ),
@@ -32,24 +33,18 @@ Game::Game( const shared_ptr<GameEventAggregator> eventAggregator,
 {
    _eventAggregator->RegisterEventHandler( GameEvent::Pitfall, std::bind( &Game::KillPlayer, this ) );
    _eventAggregator->RegisterEventHandler( GameEvent::TileDeath, std::bind( &Game::KillPlayer, this ) );
-
-   _arena->SetPlayerEntity( _player );
 }
 
 void Game::Tick()
 {
-   if ( _restartStageNextFrame )
-   {
-      _player->ResetPhysics();
-      _arena->Reset();
-      _arenaPhysics->AssignTo( _arena );
-      _restartStageNextFrame = false;
-      _eventAggregator->RaiseEvent( GameEvent::StageStarted );
-   }
-
    _state = _nextState;
 
-   if ( _state == GameState::Playing && !_isPaused )
+   if ( _restartStageNextFrame )
+   {
+      _restartStageNextFrame = false;
+      StartStage();
+   }
+   else if ( _state == GameState::Playing && !_isPaused )
    {
       _playerPhysics->Tick();
       _arenaPhysics->Tick();
@@ -66,9 +61,9 @@ const shared_ptr<ReadOnlyEntity> Game::GetPlayerEntity() const
    return _player;
 }
 
-const shared_ptr<ReadOnlyArena> Game::GetArena() const
+const shared_ptr<ReadOnlyArena> Game::GetActiveArena() const
 {
-   return _arena;
+   return _stage->GetActiveArena();
 }
 
 void Game::ExecuteCommand( GameCommand command )
@@ -82,8 +77,7 @@ void Game::ExecuteCommand( GameCommand command, const shared_ptr<GameCommandArgs
    switch ( command )
    {
       case GameCommand::StartGame:
-         StartStage();
-         _eventAggregator->RaiseEvent( GameEvent::GameStarted );
+         StartGame();
          break;
       case GameCommand::StartStage:
          StartStage();
@@ -131,12 +125,26 @@ void Game::ExecuteCommand( GameCommand command, const shared_ptr<GameCommandArgs
    }
 }
 
-void Game::StartStage()
+void Game::StartGame()
 {
    _player->Reset();
-   _arena->Reset();
    _playerPhysics->AssignTo( _player );
-   _arenaPhysics->AssignTo( _arena );
+   StartStage();
+   _eventAggregator->RaiseEvent( GameEvent::GameStarted );
+}
+
+void Game::StartStage()
+{
+   _stage->Reset();
+   _player->ResetPosition();
+
+   auto arena = _stage->GetMutableActiveArena();
+   arena->SetPlayerEntity( _player );
+   _arenaPhysics->AssignTo( arena );
+
+   _playerPhysics->Reset();
+   _arenaPhysics->Reset();
+
    _nextState = GameState::Playing;
    _isPaused = false;
    _eventAggregator->RaiseEvent( GameEvent::StageStarted );
@@ -163,7 +171,7 @@ void Game::Shoot()
 
    auto bullet = _entityFactory->CreateBullet( { left, top }, _player->GetDirection() );
 
-   _arena->AddEntity( bullet );
+   _stage->GetMutableActiveArena()->AddEntity( bullet );
 }
 
 void Game::TogglePause()

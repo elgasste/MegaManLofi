@@ -50,7 +50,7 @@ protected:
    shared_ptr<Player> _player;
 };
 
-TEST_F( PlayerTests, Constructor_Always_SetsDefaultPropertiesFromConfig )
+TEST_F( PlayerTests, Constructor_Always_SetsDefaultPropertiesFromDefs )
 {
    _playerDefs->DefaultVelocityX = 100;
    _playerDefs->DefaultVelocityY = 200;
@@ -82,7 +82,7 @@ TEST_F( PlayerTests, GetEntityType_Always_ReturnsBody )
    EXPECT_EQ( _player->GetEntityType(), EntityType::Body );
 }
 
-TEST_F( PlayerTests, Reset_Always_ResetsDefaultPropertiesFromConfig )
+TEST_F( PlayerTests, Reset_Always_ResetsDefaultPropertiesFromDefs )
 {
    BuildPlayer();
 
@@ -100,6 +100,30 @@ TEST_F( PlayerTests, Reset_Always_ResetsDefaultPropertiesFromConfig )
 
    _player->Reset();
 
+   EXPECT_EQ( _player->GetVelocityX(), 0 );
+   EXPECT_EQ( _player->GetVelocityY(), 0 );
+   EXPECT_EQ( _player->GetDirection(), Direction::Left );
+   EXPECT_EQ( _player->GetMovementType(), MovementType::Airborne );
+   EXPECT_FALSE( _player->IsJumping() );
+}
+
+TEST_F( PlayerTests, ResetPosition_Always_ResetsPositionPropertiesFromDefs )
+{
+   BuildPlayer();
+
+   _player->SetHitBox( { 100, 200, 300, 400 } );
+   _player->SetVelocityX( 100 );
+   _player->SetVelocityY( 200 );
+   _player->SetDirection( Direction::Right );
+   _player->SetMovementType( MovementType::Walking );
+   _player->SetIsJumping( true );
+
+   _player->ResetPosition();
+
+   EXPECT_EQ( _player->GetHitBox().Left, 0 );
+   EXPECT_EQ( _player->GetHitBox().Top, 0 );
+   EXPECT_EQ( _player->GetHitBox().Width, 4 );
+   EXPECT_EQ( _player->GetHitBox().Height, 4 );
    EXPECT_EQ( _player->GetVelocityX(), 0 );
    EXPECT_EQ( _player->GetVelocityY(), 0 );
    EXPECT_EQ( _player->GetDirection(), Direction::Left );

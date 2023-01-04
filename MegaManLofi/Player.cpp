@@ -25,11 +25,11 @@ Player::Player( const shared_ptr<PlayerDefs> playerDefs,
 
 void Player::Reset()
 {
-   ResetPhysics();
    _livesRemaining = _playerDefs->DefaultLives;
+   ResetPosition();
 }
 
-void Player::ResetPhysics()
+void Player::ResetPosition()
 {
    _hitBox = _playerDefs->DefaultHitBox;
    _velocityX = _playerDefs->DefaultVelocityX;

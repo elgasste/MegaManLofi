@@ -4,6 +4,7 @@
 
 #include <MegaManLofi/ArenaPhysics.h>
 #include <MegaManLofi/ArenaDefs.h>
+#include <MegaManLofi/WorldDefs.h>
 #include <MegaManLofi/FrameAction.h>
 #include <MegaManLofi/Rectangle.h>
 #include <MegaManLofi/GameEvent.h>
@@ -24,11 +25,12 @@ public:
       _frameRateProviderMock.reset( new NiceMock<mock_FrameRateProvider> );
       _eventAggregatorMock.reset( new NiceMock<mock_GameEventAggregator> );
       _arenaDefs.reset( new ArenaDefs() );
+      _worldDefs.reset( new WorldDefs() );
       _arenaMock.reset( new NiceMock<mock_Arena> );
       _defaultTile = { true, true, true, true, false };
 
-      _arenaDefs->ActiveRegionWidth = 20;
-      _arenaDefs->ActiveRegionHeight = 10;
+      _worldDefs->ActiveRegionWidth = 20;
+      _worldDefs->ActiveRegionHeight = 10;
 
       ON_CALL( *_arenaMock, GetWidth() ).WillByDefault( Return( 20.0f ) );
       ON_CALL( *_arenaMock, GetHeight() ).WillByDefault( Return( 16.0f ) );
@@ -44,7 +46,7 @@ public:
 
    void BuildArenaPhysics()
    {
-      _arenaPhysics.reset( new ArenaPhysics( _frameRateProviderMock, _eventAggregatorMock, _arenaDefs ) );
+      _arenaPhysics.reset( new ArenaPhysics( _frameRateProviderMock, _eventAggregatorMock, _arenaDefs, _worldDefs ) );
       _arenaPhysics->AssignTo( _arenaMock );
    }
 
@@ -52,6 +54,7 @@ protected:
    shared_ptr<mock_FrameRateProvider> _frameRateProviderMock;
    shared_ptr<mock_GameEventAggregator> _eventAggregatorMock;
    shared_ptr<ArenaDefs> _arenaDefs;
+   shared_ptr<WorldDefs> _worldDefs;
    shared_ptr<mock_Arena> _arenaMock;
 
    ArenaTile _defaultTile;

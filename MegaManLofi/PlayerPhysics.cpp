@@ -25,6 +25,11 @@ PlayerPhysics::PlayerPhysics( const shared_ptr<IFrameRateProvider> frameRateProv
 void PlayerPhysics::AssignTo( const shared_ptr<Player> player )
 {
    _player = player;
+   Reset();
+}
+
+void PlayerPhysics::Reset()
+{
    _lastExtendJumpFrame = 0;
 }
 

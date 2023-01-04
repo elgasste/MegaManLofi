@@ -5,6 +5,7 @@
 namespace MegaManLofi
 {
    class ArenaDefs;
+   class WorldDefs;
    class GameEventAggregator;
 
    class Arena : public ReadOnlyArena
@@ -12,10 +13,13 @@ namespace MegaManLofi
    public:
       Arena() { }
       Arena( const std::shared_ptr<ArenaDefs> arenaDefs,
+             const std::shared_ptr<WorldDefs> worldDefs,
              const std::shared_ptr<GameEventAggregator> eventAggregator );
 
       virtual void Reset();
+      virtual void Clear();
 
+      virtual void SetArenaId( int id ) { _arenaId = id; }
       virtual void SetPlayerEntity( const std::shared_ptr<Entity> playerEntity );
       virtual void SetActiveRegion( Quad<float> region ) { _activeRegion = region; }
       virtual void AddEntity( const std::shared_ptr<Entity> entity );

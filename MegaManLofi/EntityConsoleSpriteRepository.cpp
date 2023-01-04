@@ -2,6 +2,7 @@
 
 #include "EntityConsoleSpriteRepository.h"
 #include "GameEventAggregator.h"
+#include "ReadOnlyStage.h"
 #include "ReadOnlyArena.h"
 #include "EntityConsoleSpriteCopier.h"
 #include "ConsoleSpriteDefs.h"
@@ -12,10 +13,10 @@ using namespace std;
 using namespace MegaManLofi;
 
 EntityConsoleSpriteRepository::EntityConsoleSpriteRepository( const shared_ptr<GameEventAggregator> eventAggregator,
-                                                              const shared_ptr<ReadOnlyArena> arena,
+                                                              const shared_ptr<ReadOnlyStage> stage,
                                                               const shared_ptr<EntityConsoleSpriteCopier> spriteCopier,
                                                               const shared_ptr<ConsoleSpriteDefs> spriteDefs ) :
-   _arena( arena ),
+   _stage( stage ),
    _spriteCopier( spriteCopier ),
    _spriteDefs( spriteDefs )
 {
@@ -31,9 +32,11 @@ const shared_ptr<EntityConsoleSprite> EntityConsoleSpriteRepository::GetSprite( 
 
 void EntityConsoleSpriteRepository::HandleEntitySpawned()
 {
-   for ( int i = 0; i < _arena->GetEntityCount(); i++ )
+   auto arena = _stage->GetActiveArena();
+
+   for ( int i = 0; i < arena->GetEntityCount(); i++ )
    {
-      auto entity = _arena->GetEntity( i );
+      auto entity = arena->GetEntity( i );
       auto uniqueId = entity->GetUniqueId();
 
       if ( _spriteMap.count( uniqueId ) == 0 )
@@ -53,7 +56,7 @@ void EntityConsoleSpriteRepository::HandleEntityDeSpawned()
 
    for ( auto [uniqueId, entity] : _spriteMap )
    {
-      if ( !_arena->HasEntity( uniqueId ) )
+      if ( !_stage->GetActiveArena()->HasEntity( uniqueId ) )
       {
          idsToRemove.push_back( uniqueId );
       }

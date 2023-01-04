@@ -61,8 +61,8 @@ protected:
 
 TEST_F( GameRendererTests, Constructor_Always_InitializesScreenBuffer )
 {
-   auto baseConfig = static_pointer_cast<IGameRenderDefs>( _renderDefs );
-   EXPECT_CALL( *_screenBufferMock, LoadRenderDefs( baseConfig ) );
+   auto baseDefs = static_pointer_cast<IGameRenderDefs>( _renderDefs );
+   EXPECT_CALL( *_screenBufferMock, LoadRenderDefs( baseDefs ) );
 
    BuildRenderer();
 }

@@ -2,6 +2,7 @@
 #include "IFrameRateProvider.h"
 #include "GameEventAggregator.h"
 #include "ArenaDefs.h"
+#include "WorldDefs.h"
 #include "Arena.h"
 #include "Entity.h"
 #include "FrameAction.h"
@@ -11,10 +12,12 @@ using namespace MegaManLofi;
 
 ArenaPhysics::ArenaPhysics( const shared_ptr<IFrameRateProvider> frameRateProvider,
                             const shared_ptr<GameEventAggregator> eventAggregator,
-                            const shared_ptr<ArenaDefs> arenaDefs ) :
+                            const shared_ptr<ArenaDefs> arenaDefs,
+                            const shared_ptr<WorldDefs> worldDefs ) :
    _frameRateProvider( frameRateProvider ),
    _eventAggregator( eventAggregator ),
    _arenaDefs( arenaDefs ),
+   _worldDefs( worldDefs ),
    _arena( nullptr )
 {
 }
@@ -23,10 +26,16 @@ void ArenaPhysics::AssignTo( const shared_ptr<Arena> arena )
 {
    _entityTileIndicesCache.clear();
    _arena = arena;
+   UpdateEntityTileIndicesCaches();
+}
 
-   for ( int i = 0; i < _arena->GetEntityCount(); i++ )
+void ArenaPhysics::Reset()
+{
+   _entityTileIndicesCache.clear();
+
+   if ( _arena )
    {
-      UpdateEntityTileIndicesCache( _arena->GetEntity( i ) );
+      UpdateEntityTileIndicesCaches();
    }
 }
 
@@ -35,6 +44,14 @@ void ArenaPhysics::Tick()
    MoveEntities();
    UpdateActiveRegion();
    DetectTileDeath();
+}
+
+void ArenaPhysics::UpdateEntityTileIndicesCaches()
+{
+   for ( int i = 0; i < _arena->GetEntityCount(); i++ )
+   {
+      UpdateEntityTileIndicesCache( _arena->GetEntity( i ) );
+   }
 }
 
 void ArenaPhysics::UpdateEntityTileIndicesCache( const shared_ptr<ReadOnlyEntity> entity )
@@ -222,10 +239,10 @@ void ArenaPhysics::HandleEntityEnvironmentCollision( const shared_ptr<Entity> en
 void ArenaPhysics::UpdateActiveRegion()
 {
    const auto& playerPosition = _arena->GetPlayerEntity()->GetArenaPosition();
-   auto regionLeft = playerPosition.Left - ( _arenaDefs->ActiveRegionWidth / 2 );
-   auto regionTop = playerPosition.Top - ( _arenaDefs->ActiveRegionHeight / 2 );
+   auto regionLeft = playerPosition.Left - ( _worldDefs->ActiveRegionWidth / 2 );
+   auto regionTop = playerPosition.Top - ( _worldDefs->ActiveRegionHeight / 2 );
 
-   _arena->SetActiveRegion( { regionLeft, regionTop, regionLeft + _arenaDefs->ActiveRegionWidth, regionTop + _arenaDefs->ActiveRegionHeight } );
+   _arena->SetActiveRegion( { regionLeft, regionTop, regionLeft + _worldDefs->ActiveRegionWidth, regionTop + _worldDefs->ActiveRegionHeight } );
 }
 
 bool ArenaPhysics::DetectTileDeath() const

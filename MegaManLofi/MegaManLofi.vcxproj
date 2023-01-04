@@ -199,13 +199,17 @@
     <ClCompile Include="ReadOnlyArena.cpp" />
     <ClCompile Include="ReadOnlyEntity.cpp" />
     <ClCompile Include="ReadOnlyPlayer.cpp" />
+    <ClCompile Include="ReadOnlyStage.cpp" />
     <ClCompile Include="RectangleUtilities.cpp" />
+    <ClCompile Include="Stage.cpp" />
+    <ClCompile Include="StageDefsGenerator.cpp" />
     <ClCompile Include="StageStartedConsoleAnimation.cpp" />
     <ClCompile Include="TitleStateConsoleRenderer.cpp" />
     <ClCompile Include="TitleStateInputHandler.cpp" />
     <ClCompile Include="ThreadWrapper.cpp" />
     <ClCompile Include="TitleImageGenerator.cpp" />
     <ClCompile Include="UniqueNumberGenerator.cpp" />
+    <ClCompile Include="WorldDefsGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Arena.h" />
@@ -306,8 +310,12 @@
     <ClInclude Include="ReadOnlyArena.h" />
     <ClInclude Include="ReadOnlyEntity.h" />
     <ClInclude Include="ReadOnlyPlayer.h" />
+    <ClInclude Include="ReadOnlyStage.h" />
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="RectangleUtilities.h" />
+    <ClInclude Include="Stage.h" />
+    <ClInclude Include="StageDefs.h" />
+    <ClInclude Include="StageDefsGenerator.h" />
     <ClInclude Include="StageStartedConsoleAnimation.h" />
     <ClInclude Include="TitleStateInputHandler.h" />
     <ClInclude Include="TitleStateConsoleRenderer.h" />
@@ -315,6 +323,8 @@
     <ClInclude Include="Quad.h" />
     <ClInclude Include="TitleImageGenerator.h" />
     <ClInclude Include="UniqueNumberGenerator.h" />
+    <ClInclude Include="WorldDefs.h" />
+    <ClInclude Include="WorldDefsGenerator.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

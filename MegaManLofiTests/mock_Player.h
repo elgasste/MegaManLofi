@@ -35,7 +35,7 @@ public:
    MOCK_METHOD( bool, IsJumping, ( ), ( const, override ) );
 
    MOCK_METHOD( void, Reset, ( ), ( override ) );
-   MOCK_METHOD( void, ResetPhysics, ( ), ( override ) );
+   MOCK_METHOD( void, ResetPosition, ( ), ( override ) );
    MOCK_METHOD( void, SetLivesRemaining, ( unsigned int ), ( override ) );
    MOCK_METHOD( void, SetIsJumping, ( bool ), ( override ) );
 };

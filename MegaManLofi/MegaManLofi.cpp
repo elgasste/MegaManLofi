@@ -16,12 +16,14 @@
 #include "UniqueNumberGenerator.h"
 #include "GameDefsGenerator.h"
 #include "GameDefs.h"
+#include "StageDefs.h"
 #include "ConsoleRenderDefs.h"
 #include "KeyboardInputDefs.h"
 #include "KeyboardInputReader.h"
 #include "PlayerPhysics.h"
 #include "ArenaPhysics.h"
 #include "Player.h"
+#include "Stage.h"
 #include "Arena.h"
 #include "EntityFactory.h"
 #include "Game.h"
@@ -114,13 +116,19 @@ void LoadAndRun( const shared_ptr<ConsoleBuffer> consoleBuffer )
 
    // utilities
    auto playerPhysics = shared_ptr<PlayerPhysics>( new PlayerPhysics( clock, frameActionRegistry, gameDefs->PlayerPhysicsDefs ) );
-   auto arenaPhysics = shared_ptr<ArenaPhysics>( new ArenaPhysics( clock, eventAggregator, gameDefs->ArenaDefs ) );
+   auto arenaPhysics = shared_ptr<ArenaPhysics>( new ArenaPhysics( clock, eventAggregator, gameDefs->ArenaDefs, gameDefs->WorldDefs ) );
 
    // game objects
    auto player = shared_ptr<Player>( new Player( gameDefs->PlayerDefs, frameActionRegistry, clock ) );
-   auto arena = shared_ptr<Arena>( new Arena( gameDefs->ArenaDefs, eventAggregator ) );
+   auto stage = shared_ptr<Stage>( new Stage( gameDefs->StageDefs ) );
+   for ( auto [arenaId, arenaDef] : gameDefs->StageDefs->ArenaMap )
+   {
+      auto arena = shared_ptr<Arena>( new Arena( gameDefs->ArenaDefs, gameDefs->WorldDefs, eventAggregator ) );
+      arena->SetArenaId( arenaId );
+      stage->AddArena( arena );
+   }
    auto entityFactory = shared_ptr<EntityFactory>( new EntityFactory( gameDefs->EntityDefs, uniqueNumberGenerator ) );
-   auto game = shared_ptr<Game>( new Game( eventAggregator, player, arena, playerPhysics, arenaPhysics, entityFactory ) );
+   auto game = shared_ptr<Game>( new Game( eventAggregator, player, stage, playerPhysics, arenaPhysics, entityFactory ) );
 
    // menus
    auto playingMenu = shared_ptr<PlayingMenu>( new PlayingMenu( game ) );
@@ -151,7 +159,7 @@ void LoadAndRun( const shared_ptr<ConsoleBuffer> consoleBuffer )
 
    // rendering utilities
    auto spriteCopier = shared_ptr<EntityConsoleSpriteCopier>( new EntityConsoleSpriteCopier );
-   auto spriteRepository = shared_ptr<EntityConsoleSpriteRepository>( new EntityConsoleSpriteRepository( eventAggregator, arena, spriteCopier, consoleRenderDefs->SpriteDefs ) );
+   auto spriteRepository = shared_ptr<EntityConsoleSpriteRepository>( new EntityConsoleSpriteRepository( eventAggregator, stage, spriteCopier, consoleRenderDefs->SpriteDefs ) );
 
    // renderers objects
    auto diagnosticsRenderer = shared_ptr<DiagnosticsConsoleRenderer>( new DiagnosticsConsoleRenderer( consoleBuffer, clock, consoleRenderDefs, game, spriteRepository ) );

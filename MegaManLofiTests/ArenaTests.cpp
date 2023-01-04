@@ -1,9 +1,8 @@
 #include "gtest/gtest.h"
 
-#include <memory>
-
 #include <MegaManLofi/Arena.h>
 #include <MegaManLofi/ArenaDefs.h>
+#include <MegaManLofi/WorldDefs.h>
 #include <MegaManLofi/FrameAction.h>
 
 #include "mock_GameEventAggregator.h"
@@ -22,40 +21,45 @@ public:
    void SetUp() override
    {
       _arenaDefs.reset( new ArenaDefs );
+      _worldDefs.reset( new WorldDefs );
       _eventAggregatorMock.reset( new NiceMock<mock_GameEventAggregator> );
       _playerMock.reset( new NiceMock<mock_Player> );
 
-      _arenaDefs->DefaultTileWidth = 2;
-      _arenaDefs->DefaultTileHeight = 2;
-      _arenaDefs->DefaultHorizontalTiles = 10;
-      _arenaDefs->DefaultVerticalTiles = 8;
-      _arenaDefs->DefaultPlayerPosition = { 10, 8 };
+      _arenaDefs->ArenaId = 11;
+      _arenaDefs->HorizontalTiles = 10;
+      _arenaDefs->VerticalTiles = 8;
+      _arenaDefs->PlayerStartPosition = { 10, 8 };
 
-      for ( int i = 0; i < _arenaDefs->DefaultHorizontalTiles * _arenaDefs->DefaultVerticalTiles; i++ )
+      _worldDefs->TileWidth = 2;
+      _worldDefs->TileHeight = 2;
+
+      for ( int i = 0; i < _arenaDefs->HorizontalTiles * _arenaDefs->VerticalTiles; i++ )
       {
-         _arenaDefs->DefaultTiles.push_back( { true, true, true, true } );
+         _arenaDefs->Tiles.push_back( { true, true, true, true } );
       }
    }
 
    void BuildArena()
    {
-      _arena.reset( new Arena( _arenaDefs, _eventAggregatorMock ) );
+      _arena.reset( new Arena( _arenaDefs, _worldDefs, _eventAggregatorMock ) );
       _arena->SetPlayerEntity( _playerMock );
    }
 
 protected:
    shared_ptr<ArenaDefs> _arenaDefs;
+   shared_ptr<WorldDefs> _worldDefs;
    shared_ptr<mock_GameEventAggregator> _eventAggregatorMock;
    shared_ptr<mock_Player> _playerMock;
 
    shared_ptr<Arena> _arena;
 };
 
-TEST_F( ArenaTests, Constructor_Always_SetsDefaultInfoBasedOnConfig )
+TEST_F( ArenaTests, Constructor_Always_SetsDefaultInfoBasedOnDefs )
 {
-   _arenaDefs->DefaultTiles[5] = { false, true, false, true };
+   _arenaDefs->Tiles[5] = { false, true, false, true };
    BuildArena();
 
+   EXPECT_EQ( _arena->GetArenaId(), 11 );
    EXPECT_EQ( _arena->GetWidth(), 20 );
    EXPECT_EQ( _arena->GetHeight(), 16 );
    EXPECT_EQ( _arena->GetTileWidth(), 2 );
@@ -91,6 +95,41 @@ TEST_F( ArenaTests, Reset_Always_RaisesArenaEntitiesClearedEvent )
    EXPECT_CALL( *_eventAggregatorMock, RaiseEvent( GameEvent::ArenaEntitySpawned ) );
 
    _arena->Reset();
+}
+
+TEST_F( ArenaTests, Clear_Always_ClearsEntitiesAndPlayer )
+{
+   BuildArena();
+
+   EXPECT_EQ( _arena->GetEntityCount(), 1 );
+   EXPECT_EQ( _arena->GetPlayerEntity(), _playerMock );
+
+   _arena->Clear();
+
+   EXPECT_EQ( _arena->GetEntityCount(), 0 );
+   EXPECT_EQ( _arena->GetPlayerEntity(), nullptr );
+}
+
+TEST_F( ArenaTests, Clear_Always_RaisesArenaEntitiesClearedEvent )
+{
+   BuildArena();
+
+   EXPECT_CALL( *_eventAggregatorMock, RaiseEvent( GameEvent::ArenaEntitiesCleared ) );
+
+   _arena->Clear();
+}
+
+TEST_F( ArenaTests, SetPlayerEntity_Always_ResetsPlayerEntityPositionFromDefs )
+{
+   BuildArena();
+
+   Coordinate<float> position;
+   EXPECT_CALL( *_playerMock, SetArenaPosition( _ ) ).WillOnce( SaveArg<0>( &position ) );
+
+   _arena->SetPlayerEntity( _playerMock );
+
+   EXPECT_EQ( position.Left, _arenaDefs->PlayerStartPosition.Left );
+   EXPECT_EQ( position.Top, _arenaDefs->PlayerStartPosition.Top );
 }
 
 TEST_F( ArenaTests, HasEntity_DoesNotHaveEntity_ReturnsFalse )

@@ -36,7 +36,7 @@ void DiagnosticsConsoleRenderer::Render()
    auto totalFramesString = format( " Total frames:       {0} ", _frameRateProvider->GetCurrentFrame() );
    auto framesPerSecondString = format( " Average frame rate: {0} ", _frameRateProvider->GetAverageFrameRate() );
    auto lagFramesString = format( " Lag frames:         {0} ", _frameRateProvider->GetLagFrameCount() );
-   auto arenaEntitiesString = format( " Arena entities:     {0} ", _arenaInfoProvider->GetArena()->GetEntityCount() );
+   auto arenaEntitiesString = format( " Arena entities:     {0} ", _arenaInfoProvider->GetActiveArena()->GetEntityCount() );
    auto activeSpritesString = format( " Active sprites:     {0} ", _spriteRepository->GetSpriteCount() );
 
    while ( elapsedSecondsString.length() < DIAGNOSTICS_WIDTH ) { elapsedSecondsString += ' '; }

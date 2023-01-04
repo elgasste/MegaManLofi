@@ -73,6 +73,12 @@
     <Filter Include="Source Files\GameDefGenerators\SubGenerators">
       <UniqueIdentifier>{7bd07139-5eaf-4aae-82b1-1e2e6210d460}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Physics">
+      <UniqueIdentifier>{577ac10b-e9d1-4eae-931b-c239b85d65e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Physics">
+      <UniqueIdentifier>{510ade20-7d9f-4f32-8fdc-e979fb3bd212}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MegaManLofi.cpp">
@@ -137,12 +143,6 @@
     </ClCompile>
     <ClCompile Include="Arena.cpp">
       <Filter>Source Files\GameObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerPhysics.cpp">
-      <Filter>Source Files\Utilities</Filter>
-    </ClCompile>
-    <ClCompile Include="ArenaPhysics.cpp">
-      <Filter>Source Files\Utilities</Filter>
     </ClCompile>
     <ClCompile Include="GameOverStateConsoleRenderer.cpp">
       <Filter>Source Files\Render</Filter>
@@ -244,6 +244,24 @@
       <Filter>Source Files\GameObjects</Filter>
     </ClCompile>
     <ClCompile Include="ReadOnlyArena.cpp">
+      <Filter>Source Files\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="ArenaPhysics.cpp">
+      <Filter>Source Files\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerPhysics.cpp">
+      <Filter>Source Files\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="WorldDefsGenerator.cpp">
+      <Filter>Source Files\GameDefGenerators</Filter>
+    </ClCompile>
+    <ClCompile Include="StageDefsGenerator.cpp">
+      <Filter>Source Files\GameDefGenerators</Filter>
+    </ClCompile>
+    <ClCompile Include="ReadOnlyStage.cpp">
+      <Filter>Source Files\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage.cpp">
       <Filter>Source Files\GameObjects</Filter>
     </ClCompile>
   </ItemGroup>
@@ -416,12 +434,6 @@
     <ClInclude Include="IFrameRateProvider.h">
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerPhysics.h">
-      <Filter>Header Files\Utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="ArenaPhysics.h">
-      <Filter>Header Files\Utilities</Filter>
-    </ClInclude>
     <ClInclude Include="Quad.h">
       <Filter>Header Files\DataTypes</Filter>
     </ClInclude>
@@ -567,6 +579,30 @@
       <Filter>Header Files\GameObjects</Filter>
     </ClInclude>
     <ClInclude Include="ReadOnlyArena.h">
+      <Filter>Header Files\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="ArenaPhysics.h">
+      <Filter>Header Files\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerPhysics.h">
+      <Filter>Header Files\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="WorldDefs.h">
+      <Filter>Header Files\GameDefs</Filter>
+    </ClInclude>
+    <ClInclude Include="WorldDefsGenerator.h">
+      <Filter>Header Files\GameDefGenerators</Filter>
+    </ClInclude>
+    <ClInclude Include="StageDefs.h">
+      <Filter>Header Files\GameDefs</Filter>
+    </ClInclude>
+    <ClInclude Include="StageDefsGenerator.h">
+      <Filter>Header Files\GameDefGenerators</Filter>
+    </ClInclude>
+    <ClInclude Include="ReadOnlyStage.h">
+      <Filter>Header Files\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage.h">
       <Filter>Header Files\GameObjects</Filter>
     </ClInclude>
   </ItemGroup>

@@ -13,6 +13,7 @@
 
 #include "mock_GameEventAggregator.h"
 #include "mock_Player.h"
+#include "mock_Stage.h"
 #include "mock_Arena.h"
 #include "mock_PlayerPhysics.h"
 #include "mock_ArenaPhysics.h"
@@ -30,6 +31,7 @@ public:
    {
       _eventAggregatorMock.reset( new NiceMock<mock_GameEventAggregator> );
       _playerMock.reset( new NiceMock<mock_Player> );
+      _stageMock.reset( new NiceMock<mock_Stage> );
       _arenaMock.reset( new NiceMock<mock_Arena> );
       _playerPhysicsMock.reset( new NiceMock<mock_PlayerPhysics> );
       _arenaPhysicsMock.reset( new NiceMock<mock_ArenaPhysics> );
@@ -41,16 +43,20 @@ public:
       ON_CALL( *_playerMock, GetHitBox() ).WillByDefault( ReturnRef( _playerHitBox ) );
       ON_CALL( *_playerMock, GetDirection() ).WillByDefault( Return( Direction::Right ) );
       ON_CALL( *_playerMock, GetLivesRemaining() ).WillByDefault( Return( 5 ) );
+
+      ON_CALL( *_stageMock, GetActiveArena() ).WillByDefault( Return( _arenaMock ) );
+      ON_CALL( *_stageMock, GetMutableActiveArena() ).WillByDefault( Return( _arenaMock ) );
    }
 
    void BuildGame()
    {
-      _game.reset( new Game( _eventAggregatorMock, _playerMock, _arenaMock, _playerPhysicsMock, _arenaPhysicsMock, _entityFactoryMock ) );
+      _game.reset( new Game( _eventAggregatorMock, _playerMock, _stageMock, _playerPhysicsMock, _arenaPhysicsMock, _entityFactoryMock ) );
    }
 
 protected:
    shared_ptr<mock_GameEventAggregator> _eventAggregatorMock;
    shared_ptr<mock_Player> _playerMock;
+   shared_ptr<mock_Stage> _stageMock;
    shared_ptr<mock_Arena> _arenaMock;
    shared_ptr<mock_PlayerPhysics> _playerPhysicsMock;
    shared_ptr<mock_ArenaPhysics> _arenaPhysicsMock;
@@ -68,32 +74,17 @@ TEST_F( GameTests, Constructor_Always_SetsGameStateToTitle )
    EXPECT_EQ( _game->GetGameState(), GameState::Title );
 }
 
-TEST_F( GameTests, Constructor_Always_AddsPlayerToArena )
-{
-   EXPECT_CALL( *_arenaMock, SetPlayerEntity( static_pointer_cast<Entity>( _playerMock ) ) );
-
-   BuildGame();
-}
-
 TEST_F( GameTests, ExecuteCommand_StartGame_ResetsGameObjects )
 {
    BuildGame();
 
    EXPECT_CALL( *_playerMock, Reset() );
-   EXPECT_CALL( *_arenaMock, Reset() );
-
-   _game->ExecuteCommand( GameCommand::StartGame );
-}
-
-TEST_F( GameTests, ExecuteCommand_StartGame_AssignsObjectsToPhysics )
-{
-   BuildGame();
-
-   auto basePlayer = static_pointer_cast<Player>( _playerMock );
-   auto baseArena = static_pointer_cast<Arena>( _arenaMock );
-
-   EXPECT_CALL( *_playerPhysicsMock, AssignTo( basePlayer ) );
-   EXPECT_CALL( *_arenaPhysicsMock, AssignTo( baseArena ) );
+   EXPECT_CALL( *_playerPhysicsMock, AssignTo( static_pointer_cast<Player>( _playerMock ) ) );
+   EXPECT_CALL( *_stageMock, Reset() );
+   EXPECT_CALL( *_playerMock, ResetPosition() );
+   EXPECT_CALL( *_arenaMock, SetPlayerEntity( static_pointer_cast<Entity>( _playerMock ) ) );
+   EXPECT_CALL( *_arenaPhysicsMock, AssignTo( static_pointer_cast<Arena>( _arenaMock ) ) );
+   EXPECT_CALL( *_arenaPhysicsMock, Reset() );
 
    _game->ExecuteCommand( GameCommand::StartGame );
 }
@@ -122,21 +113,11 @@ TEST_F( GameTests, ExecuteCommand_StartStage_ResetsGameObjects )
 {
    BuildGame();
 
-   EXPECT_CALL( *_playerMock, Reset() );
-   EXPECT_CALL( *_arenaMock, Reset() );
-
-   _game->ExecuteCommand( GameCommand::StartStage );
-}
-
-TEST_F( GameTests, ExecuteCommand_StartStage_AssignsObjectsToPhysics )
-{
-   BuildGame();
-
-   auto basePlayer = static_pointer_cast<Player>( _playerMock );
-   auto baseArena = static_pointer_cast<Arena>( _arenaMock );
-
-   EXPECT_CALL( *_playerPhysicsMock, AssignTo( basePlayer ) );
-   EXPECT_CALL( *_arenaPhysicsMock, AssignTo( baseArena ) );
+   EXPECT_CALL( *_stageMock, Reset() );
+   EXPECT_CALL( *_playerMock, ResetPosition() );
+   EXPECT_CALL( *_arenaMock, SetPlayerEntity( static_pointer_cast<Entity>( _playerMock ) ) );
+   EXPECT_CALL( *_arenaPhysicsMock, AssignTo( static_pointer_cast<Arena>( _arenaMock ) ) );
+   EXPECT_CALL( *_arenaPhysicsMock, Reset() );
 
    _game->ExecuteCommand( GameCommand::StartStage );
 }
@@ -512,11 +493,14 @@ TEST_F( GameTests, Tick_RestartingStageNextFrame_ResetsGameObjects )
    EXPECT_CALL( *_playerMock, SetLivesRemaining( 4 ) );
 
    auto eventAggregator = make_shared<GameEventAggregator>();
-   _game.reset( new Game( eventAggregator, _playerMock, _arenaMock, _playerPhysicsMock, _arenaPhysicsMock, _entityFactoryMock ) );
+   _game.reset( new Game( eventAggregator, _playerMock, _stageMock, _playerPhysicsMock, _arenaPhysicsMock, _entityFactoryMock ) );
    eventAggregator->RaiseEvent( GameEvent::TileDeath );
 
-   EXPECT_CALL( *_playerMock, ResetPhysics() );
-   EXPECT_CALL( *_arenaMock, Reset() );
+   EXPECT_CALL( *_stageMock, Reset() );
+   EXPECT_CALL( *_playerMock, ResetPosition() );
+   EXPECT_CALL( *_arenaMock, SetPlayerEntity( static_pointer_cast<Entity>( _playerMock ) ) );
+   EXPECT_CALL( *_arenaPhysicsMock, AssignTo( static_pointer_cast<Arena>( _arenaMock ) ) );
+   EXPECT_CALL( *_arenaPhysicsMock, Reset() );
 
    _game->Tick();
 }
@@ -557,7 +541,7 @@ TEST_F( GameTests, Tick_GameStateIsPlayingAndNotPaused_DoesPlayerAndArenaActions
 TEST_F( GameTests, EventHandling_PitfallEventRaisedWithLivesLeft_DecrementsPlayerLivesRemaining )
 {
    auto eventAggregator = make_shared<GameEventAggregator>();
-   _game.reset( new Game( eventAggregator, _playerMock, _arenaMock, _playerPhysicsMock, _arenaPhysicsMock, _entityFactoryMock ) );
+   _game.reset( new Game( eventAggregator, _playerMock, _stageMock, _playerPhysicsMock, _arenaPhysicsMock, _entityFactoryMock ) );
 
    EXPECT_CALL( *_playerMock, SetLivesRemaining( 4 ) );
 
@@ -569,7 +553,7 @@ TEST_F( GameTests, EventHandling_PitfallEventRaisedWithNoLivesLeft_ChangesNextGa
 {
    ON_CALL( *_playerMock, GetLivesRemaining() ).WillByDefault( Return( 0 ) );
    auto eventAggregator = make_shared<GameEventAggregator>();
-   _game.reset( new Game( eventAggregator, _playerMock, _arenaMock, _playerPhysicsMock, _arenaPhysicsMock, _entityFactoryMock ) );
+   _game.reset( new Game( eventAggregator, _playerMock, _stageMock, _playerPhysicsMock, _arenaPhysicsMock, _entityFactoryMock ) );
 
    eventAggregator->RaiseEvent( GameEvent::Pitfall );
    _game->Tick();
@@ -580,7 +564,7 @@ TEST_F( GameTests, EventHandling_PitfallEventRaisedWithNoLivesLeft_ChangesNextGa
 TEST_F( GameTests, EventHandling_TileDeathEventRaisedWithLivesLeft_DecrementsPlayerLivesRemaining )
 {
    auto eventAggregator = make_shared<GameEventAggregator>();
-   _game.reset( new Game( eventAggregator, _playerMock, _arenaMock, _playerPhysicsMock, _arenaPhysicsMock, _entityFactoryMock ) );
+   _game.reset( new Game( eventAggregator, _playerMock, _stageMock, _playerPhysicsMock, _arenaPhysicsMock, _entityFactoryMock ) );
 
    EXPECT_CALL( *_playerMock, SetLivesRemaining( 4 ) );
 
@@ -592,10 +576,31 @@ TEST_F( GameTests, EventHandling_TileDeathEventRaised_ChangesNextGameStateToGame
 {
    ON_CALL( *_playerMock, GetLivesRemaining() ).WillByDefault( Return( 0 ) );
    auto eventAggregator = make_shared<GameEventAggregator>();
-   _game.reset( new Game( eventAggregator, _playerMock, _arenaMock, _playerPhysicsMock, _arenaPhysicsMock, _entityFactoryMock ) );
+   _game.reset( new Game( eventAggregator, _playerMock, _stageMock, _playerPhysicsMock, _arenaPhysicsMock, _entityFactoryMock ) );
 
    eventAggregator->RaiseEvent( GameEvent::TileDeath );
    _game->Tick();
 
    EXPECT_EQ( _game->GetGameState(), GameState::GameOver );
+}
+
+TEST_F( GameTests, GetPlayer_Always_ReturnsPlayer )
+{
+   BuildGame();
+
+   EXPECT_EQ( _game->GetPlayer(), _playerMock );
+}
+
+TEST_F( GameTests, GetPlayerEntity_Always_ReturnsPlayerAsEntity )
+{
+   BuildGame();
+
+   EXPECT_EQ( _game->GetPlayerEntity(), _playerMock );
+}
+
+TEST_F( GameTests, GetActiveArena_Always_ReturnsActiveArena )
+{
+   BuildGame();
+
+   EXPECT_EQ( _game->GetActiveArena(), _arenaMock );
 }

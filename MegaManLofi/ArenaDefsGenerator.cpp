@@ -1,30 +1,23 @@
 #include "ArenaDefsGenerator.h"
-#include "ArenaDefs.h"
 #include "ArenaTileGenerator.h"
+#include "ArenaDefs.h"
+#include "WorldDefs.h"
 
 using namespace std;
 using namespace MegaManLofi;
 
-shared_ptr<ArenaDefs> ArenaDefsGenerator::GenerateArenaDefs()
+shared_ptr<ArenaDefs> ArenaDefsGenerator::GenerateArenaDefs( const shared_ptr<WorldDefs> worldDefs )
 {
    auto arenaDefs = make_shared<ArenaDefs>();
 
    arenaDefs->ArenaId = 0;
 
-   // this results in a 4,560 x 2,340 unit viewport, which translates super well to a 120 x 30 character console
-   arenaDefs->DefaultTileWidth = 38;
-   arenaDefs->DefaultTileHeight = 78;
+   arenaDefs->HorizontalTiles = 360;
+   arenaDefs->VerticalTiles = 60;
 
-   arenaDefs->DefaultHorizontalTiles = 360;
-   arenaDefs->DefaultVerticalTiles = 60;
+   arenaDefs->Tiles = ArenaTileGenerator::GenerateArenaTiles();
 
-   arenaDefs->DefaultTiles = ArenaTileGenerator::GenerateArenaTiles();
-
-   // this conveniently matches the console viewport size
-   arenaDefs->ActiveRegionWidth = 120 * arenaDefs->DefaultTileWidth;
-   arenaDefs->ActiveRegionHeight = 30 * arenaDefs->DefaultTileHeight;
-
-   arenaDefs->DefaultPlayerPosition = { arenaDefs->DefaultTileWidth * 8, arenaDefs->DefaultTileHeight * 6 };
+   arenaDefs->PlayerStartPosition = { worldDefs->TileWidth * 8, worldDefs->TileHeight * 6 };
 
    return arenaDefs;
 }

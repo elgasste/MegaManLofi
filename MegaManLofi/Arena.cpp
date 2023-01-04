@@ -2,6 +2,7 @@
 
 #include "Arena.h"
 #include "ArenaDefs.h"
+#include "WorldDefs.h"
 #include "GameEventAggregator.h"
 #include "Entity.h"
 
@@ -9,18 +10,19 @@ using namespace std;
 using namespace MegaManLofi;
 
 Arena::Arena( const shared_ptr<ArenaDefs> arenaDefs,
+              const shared_ptr<WorldDefs> worldDefs,
               const shared_ptr<GameEventAggregator> eventAggregator ) :
    _arenaDefs( arenaDefs ),
    _eventAggregator( eventAggregator )
 {
    _arenaId = arenaDefs->ArenaId;
-   _tiles = arenaDefs->DefaultTiles;
-   _width = arenaDefs->DefaultTileWidth * arenaDefs->DefaultHorizontalTiles;
-   _height = arenaDefs->DefaultTileHeight * arenaDefs->DefaultVerticalTiles;
-   _tileWidth = arenaDefs->DefaultTileWidth;
-   _tileHeight = arenaDefs->DefaultTileHeight;
-   _horizontalTiles = arenaDefs->DefaultHorizontalTiles;
-   _verticalTiles = arenaDefs->DefaultVerticalTiles;
+   _tiles = arenaDefs->Tiles;
+   _width = worldDefs->TileWidth * arenaDefs->HorizontalTiles;
+   _height = worldDefs->TileHeight * arenaDefs->VerticalTiles;
+   _tileWidth = worldDefs->TileWidth;
+   _tileHeight = worldDefs->TileHeight;
+   _horizontalTiles = arenaDefs->HorizontalTiles;
+   _verticalTiles = arenaDefs->VerticalTiles;
 
    Reset();
 }
@@ -32,7 +34,7 @@ void Arena::Reset()
 
    if ( _playerEntity )
    {
-      _playerEntity->SetArenaPosition( _arenaDefs->DefaultPlayerPosition );
+      _playerEntity->SetArenaPosition( _arenaDefs->PlayerStartPosition );
       AddEntity( _playerEntity );
    }
 }

@@ -4,6 +4,7 @@
 
 #include <MegaManLofi/Arena.h>
 #include <MegaManLofi/ArenaDefs.h>
+#include <MegaManLofi/WorldDefs.h>
 #include <MegaManLofi/FrameAction.h>
 
 #include "mock_GameEventAggregator.h"
@@ -22,30 +23,33 @@ public:
    void SetUp() override
    {
       _arenaDefs.reset( new ArenaDefs );
+      _worldDefs.reset( new WorldDefs );
       _eventAggregatorMock.reset( new NiceMock<mock_GameEventAggregator> );
       _playerMock.reset( new NiceMock<mock_Player> );
 
       _arenaDefs->ArenaId = 11;
-      _arenaDefs->DefaultTileWidth = 2;
-      _arenaDefs->DefaultTileHeight = 2;
-      _arenaDefs->DefaultHorizontalTiles = 10;
-      _arenaDefs->DefaultVerticalTiles = 8;
-      _arenaDefs->DefaultPlayerPosition = { 10, 8 };
+      _arenaDefs->HorizontalTiles = 10;
+      _arenaDefs->VerticalTiles = 8;
+      _arenaDefs->PlayerStartPosition = { 10, 8 };
 
-      for ( int i = 0; i < _arenaDefs->DefaultHorizontalTiles * _arenaDefs->DefaultVerticalTiles; i++ )
+      _worldDefs->TileWidth = 2;
+      _worldDefs->TileHeight = 2;
+
+      for ( int i = 0; i < _arenaDefs->HorizontalTiles * _arenaDefs->VerticalTiles; i++ )
       {
-         _arenaDefs->DefaultTiles.push_back( { true, true, true, true } );
+         _arenaDefs->Tiles.push_back( { true, true, true, true } );
       }
    }
 
    void BuildArena()
    {
-      _arena.reset( new Arena( _arenaDefs, _eventAggregatorMock ) );
+      _arena.reset( new Arena( _arenaDefs, _worldDefs, _eventAggregatorMock ) );
       _arena->SetPlayerEntity( _playerMock );
    }
 
 protected:
    shared_ptr<ArenaDefs> _arenaDefs;
+   shared_ptr<WorldDefs> _worldDefs;
    shared_ptr<mock_GameEventAggregator> _eventAggregatorMock;
    shared_ptr<mock_Player> _playerMock;
 
@@ -54,7 +58,7 @@ protected:
 
 TEST_F( ArenaTests, Constructor_Always_SetsDefaultInfoBasedOnDefs )
 {
-   _arenaDefs->DefaultTiles[5] = { false, true, false, true };
+   _arenaDefs->Tiles[5] = { false, true, false, true };
    BuildArena();
 
    EXPECT_EQ( _arena->GetArenaId(), 11 );

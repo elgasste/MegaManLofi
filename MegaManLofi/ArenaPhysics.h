@@ -11,6 +11,7 @@ namespace MegaManLofi
    class IFrameRateProvider;
    class GameEventAggregator;
    class ArenaDefs;
+   class WorldDefs;
    class Arena;
    class Entity;
    class ReadOnlyEntity;
@@ -21,7 +22,8 @@ namespace MegaManLofi
       ArenaPhysics() { }
       ArenaPhysics( const std::shared_ptr<IFrameRateProvider> frameRateProvider,
                     const std::shared_ptr<GameEventAggregator> eventAggregator,
-                    const std::shared_ptr<ArenaDefs> arenaDefs );
+                    const std::shared_ptr<ArenaDefs> arenaDefs,
+                    const std::shared_ptr<WorldDefs> worldDefs );
 
       virtual void AssignTo( const std::shared_ptr<Arena> arena );
       virtual void Reset();
@@ -44,6 +46,7 @@ namespace MegaManLofi
       const std::shared_ptr<IFrameRateProvider> _frameRateProvider;
       const std::shared_ptr<GameEventAggregator> _eventAggregator;
       const std::shared_ptr<ArenaDefs> _arenaDefs;
+      const std::shared_ptr<WorldDefs> _worldDefs;
 
       std::shared_ptr<Arena> _arena;
 

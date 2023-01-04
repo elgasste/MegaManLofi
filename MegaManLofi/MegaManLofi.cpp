@@ -114,11 +114,11 @@ void LoadAndRun( const shared_ptr<ConsoleBuffer> consoleBuffer )
 
    // utilities
    auto playerPhysics = shared_ptr<PlayerPhysics>( new PlayerPhysics( clock, frameActionRegistry, gameDefs->PlayerPhysicsDefs ) );
-   auto arenaPhysics = shared_ptr<ArenaPhysics>( new ArenaPhysics( clock, eventAggregator, gameDefs->ArenaDefs ) );
+   auto arenaPhysics = shared_ptr<ArenaPhysics>( new ArenaPhysics( clock, eventAggregator, gameDefs->ArenaDefs, gameDefs->WorldDefs ) );
 
    // game objects
    auto player = shared_ptr<Player>( new Player( gameDefs->PlayerDefs, frameActionRegistry, clock ) );
-   auto arena = shared_ptr<Arena>( new Arena( gameDefs->ArenaDefs, eventAggregator ) );
+   auto arena = shared_ptr<Arena>( new Arena( gameDefs->ArenaDefs, gameDefs->WorldDefs, eventAggregator ) );
    auto entityFactory = shared_ptr<EntityFactory>( new EntityFactory( gameDefs->EntityDefs, uniqueNumberGenerator ) );
    auto game = shared_ptr<Game>( new Game( eventAggregator, player, arena, playerPhysics, arenaPhysics, entityFactory ) );
 

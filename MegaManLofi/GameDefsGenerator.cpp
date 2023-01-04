@@ -25,7 +25,7 @@ shared_ptr<GameDefs> GameDefsGenerator::GenerateGameDefs( const shared_ptr<IFram
    gameDefs->EntityDefs = EntityDefsGenerator::GenerateEntityDefs();
    gameDefs->PlayerDefs = PlayerDefsGenerator::GeneratePlayerDefs( uniqueNumberGenerator );
    gameDefs->WorldDefs = WorldDefsGenerator::GenerateWorldDefs();
-   gameDefs->ArenaDefs = ArenaDefsGenerator::GenerateArenaDefs();
+   gameDefs->ArenaDefs = ArenaDefsGenerator::GenerateArenaDefs( gameDefs->WorldDefs );
    gameDefs->PlayerPhysicsDefs = PlayerPhysicsDefsGenerator::GeneratePlayerPhysicsDefs();
 
    return gameDefs;

@@ -22,7 +22,7 @@ namespace MegaManLofi
                                ConsoleColor defaultBackgroundColor,
                                short defaultWidth,
                                short defaultHeight );
-      virtual void LoadRenderDefs( const std::shared_ptr<IGameRenderDefs> renderDefs );
+      virtual void LoadRenderDefs( const std::shared_ptr<IGameRenderDefs> renderDefs ) override;
       virtual void CleanUp() override;
 
       virtual void SetDefaultForegroundColor( ConsoleColor color );
@@ -39,7 +39,7 @@ namespace MegaManLofi
       virtual void Draw( short left, short top, const std::shared_ptr<ConsoleSprite> sprite );
       virtual void Draw( short left, short top, const std::shared_ptr<EntityConsoleSprite> sprite );
 
-      virtual void Flip();
+      virtual void Flip() override;
 
    private:
       void ResetDrawBuffer();

@@ -584,5 +584,8 @@
     <ClInclude Include="WorldDefsGenerator.h">
       <Filter>Header Files\GameDefGenerators</Filter>
     </ClInclude>
+    <ClInclude Include="StageDefs.h">
+      <Filter>Header Files\GameDefs</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

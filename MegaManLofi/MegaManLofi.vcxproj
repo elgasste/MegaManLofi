@@ -309,6 +309,7 @@
     <ClInclude Include="ReadOnlyPlayer.h" />
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="RectangleUtilities.h" />
+    <ClInclude Include="StageDefs.h" />
     <ClInclude Include="StageStartedConsoleAnimation.h" />
     <ClInclude Include="TitleStateInputHandler.h" />
     <ClInclude Include="TitleStateConsoleRenderer.h" />

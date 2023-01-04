@@ -16,6 +16,7 @@ namespace MegaManLofi
    public:
       ReadOnlyArena();
 
+      virtual int GetArenaId() const { return _arenaId; }
       virtual const std::shared_ptr<ReadOnlyEntity> GetEntity( int index ) const;
       virtual const std::shared_ptr<ReadOnlyEntity> GetPlayerEntity() const;
       virtual int GetEntityCount() const { return (int)_entities.size(); }
@@ -30,6 +31,7 @@ namespace MegaManLofi
       virtual bool HasEntity( int uniqueId ) const;
 
    protected:
+      int _arenaId;
       std::vector<std::shared_ptr<Entity>> _entities;
       std::shared_ptr<Entity> _playerEntity;
       std::vector<ArenaTile> _tiles;

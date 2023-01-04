@@ -7,6 +7,7 @@
 class mock_Arena : public MegaManLofi::Arena
 {
 public:
+   MOCK_METHOD( int, GetArenaId, ( ), ( const, override ) );
    MOCK_METHOD( const std::shared_ptr<MegaManLofi::ReadOnlyEntity>, GetEntity, ( int ), ( const, override ) );
    MOCK_METHOD( const std::shared_ptr<MegaManLofi::ReadOnlyEntity>, GetPlayerEntity, ( ), ( const, override ) );
    MOCK_METHOD( int, GetEntityCount, ( ), ( const, override ) );

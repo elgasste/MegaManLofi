@@ -13,6 +13,7 @@ Arena::Arena( const shared_ptr<ArenaDefs> arenaDefs,
    _arenaDefs( arenaDefs ),
    _eventAggregator( eventAggregator )
 {
+   _arenaId = arenaDefs->ArenaId;
    _tiles = arenaDefs->DefaultTiles;
    _width = arenaDefs->DefaultTileWidth * arenaDefs->DefaultHorizontalTiles;
    _height = arenaDefs->DefaultTileHeight * arenaDefs->DefaultVerticalTiles;

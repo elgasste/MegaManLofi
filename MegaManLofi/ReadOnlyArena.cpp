@@ -5,6 +5,7 @@ using namespace std;
 using namespace MegaManLofi;
 
 ReadOnlyArena::ReadOnlyArena() :
+   _arenaId( 0 ),
    _playerEntity( nullptr ),
    _width( 0 ),
    _height( 0 ),

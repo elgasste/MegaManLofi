@@ -39,12 +39,6 @@
     <ClCompile Include="ArenaTests.cpp">
       <Filter>Tests\GameObjects</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerPhysicsTests.cpp">
-      <Filter>Tests\Utilities</Filter>
-    </ClCompile>
-    <ClCompile Include="ArenaPhysicsTests.cpp">
-      <Filter>Tests\Utilities</Filter>
-    </ClCompile>
     <ClCompile Include="GameOverStateInputHandlerTests.cpp">
       <Filter>Tests\Input</Filter>
     </ClCompile>
@@ -92,6 +86,12 @@
     </ClCompile>
     <ClCompile Include="EntityConsoleSpriteRepositoryTests.cpp">
       <Filter>Tests\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="ArenaPhysicsTests.cpp">
+      <Filter>Tests\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerPhysicsTests.cpp">
+      <Filter>Tests\Physics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -225,6 +225,9 @@
     </Filter>
     <Filter Include="Tests\Render\Animations">
       <UniqueIdentifier>{da0cac45-9def-420d-9060-6a4218471f8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tests\Physics">
+      <UniqueIdentifier>{2529fc09-d4e0-4ba7-9adc-c02a2b74bbbc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

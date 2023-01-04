@@ -34,8 +34,7 @@ void Arena::Reset()
 
    if ( _playerEntity )
    {
-      _playerEntity->SetArenaPosition( _arenaDefs->PlayerStartPosition );
-      AddEntity( _playerEntity );
+      SetPlayerEntity( _playerEntity );
    }
 }
 
@@ -46,9 +45,11 @@ void Arena::Clear()
    _playerEntity = nullptr;
 }
 
+// MUFFINS: test this
 void Arena::SetPlayerEntity( const shared_ptr<Entity> playerEntity )
 {
    _playerEntity = playerEntity;
+   _playerEntity->SetArenaPosition( _arenaDefs->PlayerStartPosition );
    AddEntity( playerEntity );
 }
 

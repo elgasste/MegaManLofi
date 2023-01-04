@@ -128,8 +128,7 @@ void LoadAndRun( const shared_ptr<ConsoleBuffer> consoleBuffer )
       stage->AddArena( arena );
    }
    auto entityFactory = shared_ptr<EntityFactory>( new EntityFactory( gameDefs->EntityDefs, uniqueNumberGenerator ) );
-   // TODO: give the game a stage instead of an Arena
-   auto game = shared_ptr<Game>( new Game( eventAggregator, player, static_pointer_cast<Arena>( stage->GetActiveArena() ), playerPhysics, arenaPhysics, entityFactory ) );
+   auto game = shared_ptr<Game>( new Game( eventAggregator, player, stage, playerPhysics, arenaPhysics, entityFactory ) );
 
    // menus
    auto playingMenu = shared_ptr<PlayingMenu>( new PlayingMenu( game ) );

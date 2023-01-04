@@ -119,6 +119,19 @@ TEST_F( ArenaTests, Clear_Always_RaisesArenaEntitiesClearedEvent )
    _arena->Clear();
 }
 
+TEST_F( ArenaTests, SetPlayerEntity_Always_ResetsPlayerEntityPositionFromDefs )
+{
+   BuildArena();
+
+   Coordinate<float> position;
+   EXPECT_CALL( *_playerMock, SetArenaPosition( _ ) ).WillOnce( SaveArg<0>( &position ) );
+
+   _arena->SetPlayerEntity( _playerMock );
+
+   EXPECT_EQ( position.Left, _arenaDefs->PlayerStartPosition.Left );
+   EXPECT_EQ( position.Top, _arenaDefs->PlayerStartPosition.Top );
+}
+
 TEST_F( ArenaTests, HasEntity_DoesNotHaveEntity_ReturnsFalse )
 {
    BuildArena();

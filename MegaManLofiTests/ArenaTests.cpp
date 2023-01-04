@@ -1,7 +1,5 @@
 #include "gtest/gtest.h"
 
-#include <memory>
-
 #include <MegaManLofi/Arena.h>
 #include <MegaManLofi/ArenaDefs.h>
 #include <MegaManLofi/WorldDefs.h>

@@ -93,6 +93,9 @@
     <ClCompile Include="PlayerPhysicsTests.cpp">
       <Filter>Tests\Physics</Filter>
     </ClCompile>
+    <ClCompile Include="StageTests.cpp">
+      <Filter>Tests\GameObjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="mock_GameEventAggregator.h">
@@ -204,6 +207,9 @@
       <Filter>Mocks</Filter>
     </ClInclude>
     <ClInclude Include="mock_ReadOnlyStage.h">
+      <Filter>Mocks</Filter>
+    </ClInclude>
+    <ClInclude Include="mock_Stage.h">
       <Filter>Mocks</Filter>
     </ClInclude>
   </ItemGroup>

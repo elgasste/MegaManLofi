@@ -201,6 +201,7 @@
     <ClCompile Include="ReadOnlyPlayer.cpp" />
     <ClCompile Include="ReadOnlyStage.cpp" />
     <ClCompile Include="RectangleUtilities.cpp" />
+    <ClCompile Include="Stage.cpp" />
     <ClCompile Include="StageDefsGenerator.cpp" />
     <ClCompile Include="StageStartedConsoleAnimation.cpp" />
     <ClCompile Include="TitleStateConsoleRenderer.cpp" />
@@ -312,6 +313,7 @@
     <ClInclude Include="ReadOnlyStage.h" />
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="RectangleUtilities.h" />
+    <ClInclude Include="Stage.h" />
     <ClInclude Include="StageDefs.h" />
     <ClInclude Include="StageDefsGenerator.h" />
     <ClInclude Include="StageStartedConsoleAnimation.h" />

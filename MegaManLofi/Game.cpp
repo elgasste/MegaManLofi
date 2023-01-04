@@ -42,6 +42,7 @@ void Game::Tick()
    {
       _player->ResetPosition();
       _arena->Reset();
+      _playerPhysics->Reset();
       _arenaPhysics->Reset();
       _restartStageNextFrame = false;
       _eventAggregator->RaiseEvent( GameEvent::StageStarted );

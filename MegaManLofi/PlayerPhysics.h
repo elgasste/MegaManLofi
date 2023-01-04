@@ -20,6 +20,7 @@ namespace MegaManLofi
                      const std::shared_ptr<PlayerPhysicsDefs> physicsDefs );
 
       virtual void AssignTo( const std::shared_ptr<Player> player );
+      virtual void Reset();
       virtual void Tick();
 
       virtual void PointTo( Direction direction ) const;

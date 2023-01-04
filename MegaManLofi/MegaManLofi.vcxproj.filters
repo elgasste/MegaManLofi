@@ -252,6 +252,9 @@
     <ClCompile Include="PlayerPhysics.cpp">
       <Filter>Source Files\Physics</Filter>
     </ClCompile>
+    <ClCompile Include="WorldDefsGenerator.cpp">
+      <Filter>Source Files\GameDefGenerators</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameRunner.h">
@@ -574,6 +577,12 @@
     </ClInclude>
     <ClInclude Include="PlayerPhysics.h">
       <Filter>Header Files\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="WorldDefs.h">
+      <Filter>Header Files\GameDefs</Filter>
+    </ClInclude>
+    <ClInclude Include="WorldDefsGenerator.h">
+      <Filter>Header Files\GameDefGenerators</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

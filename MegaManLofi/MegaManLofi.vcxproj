@@ -206,6 +206,7 @@
     <ClCompile Include="ThreadWrapper.cpp" />
     <ClCompile Include="TitleImageGenerator.cpp" />
     <ClCompile Include="UniqueNumberGenerator.cpp" />
+    <ClCompile Include="WorldDefsGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Arena.h" />
@@ -315,6 +316,8 @@
     <ClInclude Include="Quad.h" />
     <ClInclude Include="TitleImageGenerator.h" />
     <ClInclude Include="UniqueNumberGenerator.h" />
+    <ClInclude Include="WorldDefs.h" />
+    <ClInclude Include="WorldDefsGenerator.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

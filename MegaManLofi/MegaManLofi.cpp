@@ -160,8 +160,7 @@ void LoadAndRun( const shared_ptr<ConsoleBuffer> consoleBuffer )
 
    // rendering utilities
    auto spriteCopier = shared_ptr<EntityConsoleSpriteCopier>( new EntityConsoleSpriteCopier );
-   // TODO: what do we do about this?
-   auto spriteRepository = shared_ptr<EntityConsoleSpriteRepository>( new EntityConsoleSpriteRepository( eventAggregator, static_pointer_cast<Arena>( stage->GetActiveArena() ), spriteCopier, consoleRenderDefs->SpriteDefs ) );
+   auto spriteRepository = shared_ptr<EntityConsoleSpriteRepository>( new EntityConsoleSpriteRepository( eventAggregator, stage, spriteCopier, consoleRenderDefs->SpriteDefs ) );
 
    // renderers objects
    auto diagnosticsRenderer = shared_ptr<DiagnosticsConsoleRenderer>( new DiagnosticsConsoleRenderer( consoleBuffer, clock, consoleRenderDefs, game, spriteRepository ) );

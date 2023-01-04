@@ -5,6 +5,7 @@
 #include <MegaManLofi/ConsoleSpriteDefs.h>
 #include <MegaManLofi/GameEvent.h>
 
+#include "mock_ReadOnlyStage.h"
 #include "mock_ReadOnlyArena.h"
 #include "mock_EntityConsoleSpriteCopier.h"
 #include "mock_ReadOnlyEntity.h"
@@ -20,6 +21,7 @@ public:
    void SetUp() override
    {
       _eventAggregator.reset( new GameEventAggregator );
+      _stageMock.reset( new NiceMock<mock_ReadOnlyStage> );
       _arenaMock.reset( new NiceMock<mock_ReadOnlyArena> );
       _spriteCopier.reset( new NiceMock<mock_EntityConsoleSpriteCopier> );
       _spriteDefs.reset( new ConsoleSpriteDefs );
@@ -32,6 +34,8 @@ public:
       _spriteCopyMock1.reset( new NiceMock<mock_EntityConsoleSprite> );
       _spriteCopyMock2.reset( new NiceMock<mock_EntityConsoleSprite> );
       _spriteCopyMock3.reset( new NiceMock<mock_EntityConsoleSprite> );
+
+      ON_CALL( *_stageMock, GetActiveArena() ).WillByDefault( Return( _arenaMock ) );
 
       ON_CALL( *_entityMock1, GetUniqueId() ).WillByDefault( Return( 10 ) );
       ON_CALL( *_entityMock1, GetEntityMetaId() ).WillByDefault( Return( 20 ) );
@@ -50,11 +54,12 @@ public:
       ON_CALL( *_spriteCopier, MakeCopy( static_pointer_cast<EntityConsoleSprite>( _spriteMock2 ) ) ).WillByDefault( Return( _spriteCopyMock2 ) );
       ON_CALL( *_spriteCopier, MakeCopy( static_pointer_cast<EntityConsoleSprite>( _spriteMock3 ) ) ).WillByDefault( Return( _spriteCopyMock3 ) );
 
-      _repository.reset( new EntityConsoleSpriteRepository( _eventAggregator, _arenaMock, _spriteCopier, _spriteDefs ) );
+      _repository.reset( new EntityConsoleSpriteRepository( _eventAggregator, _stageMock, _spriteCopier, _spriteDefs ) );
    }
 
 protected:
    shared_ptr<GameEventAggregator> _eventAggregator;
+   shared_ptr<mock_ReadOnlyStage> _stageMock;
    shared_ptr<mock_ReadOnlyArena> _arenaMock;
    shared_ptr<mock_EntityConsoleSpriteCopier> _spriteCopier;
    shared_ptr<ConsoleSpriteDefs> _spriteDefs;

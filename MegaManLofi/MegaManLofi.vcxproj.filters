@@ -255,6 +255,9 @@
     <ClCompile Include="WorldDefsGenerator.cpp">
       <Filter>Source Files\GameDefGenerators</Filter>
     </ClCompile>
+    <ClCompile Include="StageDefsGenerator.cpp">
+      <Filter>Source Files\GameDefGenerators</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameRunner.h">
@@ -586,6 +589,9 @@
     </ClInclude>
     <ClInclude Include="StageDefs.h">
       <Filter>Header Files\GameDefs</Filter>
+    </ClInclude>
+    <ClInclude Include="StageDefsGenerator.h">
+      <Filter>Header Files\GameDefGenerators</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

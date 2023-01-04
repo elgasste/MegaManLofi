@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory>
 #include <map>
 
 namespace MegaManLofi
@@ -12,6 +13,6 @@ namespace MegaManLofi
 
       int StartArenaId = 0;
 
-      std::map<int, ArenaDefs> ArenaMap;
+      std::map<int, std::shared_ptr<ArenaDefs>> ArenaMap;
    };
 }

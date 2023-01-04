@@ -39,6 +39,13 @@ void Arena::Reset()
    }
 }
 
+void Arena::Clear()
+{
+   _entities.clear();
+   _eventAggregator->RaiseEvent( GameEvent::ArenaEntitiesCleared );
+   _playerEntity = nullptr;
+}
+
 void Arena::SetPlayerEntity( const shared_ptr<Entity> playerEntity )
 {
    _playerEntity = playerEntity;

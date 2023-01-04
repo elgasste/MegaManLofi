@@ -99,6 +99,28 @@ TEST_F( ArenaTests, Reset_Always_RaisesArenaEntitiesClearedEvent )
    _arena->Reset();
 }
 
+TEST_F( ArenaTests, Clear_Always_ClearsEntitiesAndPlayer )
+{
+   BuildArena();
+
+   EXPECT_EQ( _arena->GetEntityCount(), 1 );
+   EXPECT_EQ( _arena->GetPlayerEntity(), _playerMock );
+
+   _arena->Clear();
+
+   EXPECT_EQ( _arena->GetEntityCount(), 0 );
+   EXPECT_EQ( _arena->GetPlayerEntity(), nullptr );
+}
+
+TEST_F( ArenaTests, Clear_Always_RaisesArenaEntitiesClearedEvent )
+{
+   BuildArena();
+
+   EXPECT_CALL( *_eventAggregatorMock, RaiseEvent( GameEvent::ArenaEntitiesCleared ) );
+
+   _arena->Clear();
+}
+
 TEST_F( ArenaTests, HasEntity_DoesNotHaveEntity_ReturnsFalse )
 {
    BuildArena();

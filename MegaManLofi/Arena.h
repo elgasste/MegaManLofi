@@ -17,6 +17,7 @@ namespace MegaManLofi
              const std::shared_ptr<GameEventAggregator> eventAggregator );
 
       virtual void Reset();
+      virtual void Clear();
 
       virtual void SetArenaId( int id ) { _arenaId = id; }
       virtual void SetPlayerEntity( const std::shared_ptr<Entity> playerEntity );

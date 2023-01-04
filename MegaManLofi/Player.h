@@ -21,7 +21,7 @@ namespace MegaManLofi
               const std::shared_ptr<IFrameRateProvider> frameRateProvider );
 
       virtual void Reset();
-      virtual void ResetPhysics();
+      virtual void ResetPosition();
 
       virtual void SetLivesRemaining( unsigned int lives ) { _livesRemaining = lives; };
       virtual void SetIsJumping( bool isJumping ) { _isJumping = isJumping; }

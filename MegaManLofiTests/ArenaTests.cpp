@@ -51,7 +51,7 @@ protected:
    shared_ptr<Arena> _arena;
 };
 
-TEST_F( ArenaTests, Constructor_Always_SetsDefaultInfoBasedOnConfig )
+TEST_F( ArenaTests, Constructor_Always_SetsDefaultInfoBasedOnDefs )
 {
    _arenaDefs->DefaultTiles[5] = { false, true, false, true };
    BuildArena();

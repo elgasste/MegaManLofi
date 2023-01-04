@@ -40,7 +40,7 @@ void Game::Tick()
 {
    if ( _restartStageNextFrame )
    {
-      _player->ResetPhysics();
+      _player->ResetPosition();
       _arena->Reset();
       _arenaPhysics->Reset();
       _restartStageNextFrame = false;

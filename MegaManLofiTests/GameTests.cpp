@@ -515,7 +515,7 @@ TEST_F( GameTests, Tick_RestartingStageNextFrame_ResetsGameObjects )
    _game.reset( new Game( eventAggregator, _playerMock, _arenaMock, _playerPhysicsMock, _arenaPhysicsMock, _entityFactoryMock ) );
    eventAggregator->RaiseEvent( GameEvent::TileDeath );
 
-   EXPECT_CALL( *_playerMock, ResetPhysics() );
+   EXPECT_CALL( *_playerMock, ResetPosition() );
    EXPECT_CALL( *_arenaMock, Reset() );
    EXPECT_CALL( *_arenaPhysicsMock, Reset() );
 

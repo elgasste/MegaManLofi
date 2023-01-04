@@ -3,7 +3,6 @@
 #include <memory>
 
 #include <MegaManLofi/ArenaPhysics.h>
-#include <MegaManLofi/ArenaDefs.h>
 #include <MegaManLofi/WorldDefs.h>
 #include <MegaManLofi/FrameAction.h>
 #include <MegaManLofi/Rectangle.h>
@@ -24,7 +23,6 @@ public:
    {
       _frameRateProviderMock.reset( new NiceMock<mock_FrameRateProvider> );
       _eventAggregatorMock.reset( new NiceMock<mock_GameEventAggregator> );
-      _arenaDefs.reset( new ArenaDefs() );
       _worldDefs.reset( new WorldDefs() );
       _arenaMock.reset( new NiceMock<mock_Arena> );
       _defaultTile = { true, true, true, true, false };
@@ -46,14 +44,13 @@ public:
 
    void BuildArenaPhysics()
    {
-      _arenaPhysics.reset( new ArenaPhysics( _frameRateProviderMock, _eventAggregatorMock, _arenaDefs, _worldDefs ) );
+      _arenaPhysics.reset( new ArenaPhysics( _frameRateProviderMock, _eventAggregatorMock, _worldDefs ) );
       _arenaPhysics->AssignTo( _arenaMock );
    }
 
 protected:
    shared_ptr<mock_FrameRateProvider> _frameRateProviderMock;
    shared_ptr<mock_GameEventAggregator> _eventAggregatorMock;
-   shared_ptr<ArenaDefs> _arenaDefs;
    shared_ptr<WorldDefs> _worldDefs;
    shared_ptr<mock_Arena> _arenaMock;
 

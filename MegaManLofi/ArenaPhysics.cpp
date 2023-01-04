@@ -12,11 +12,9 @@ using namespace MegaManLofi;
 
 ArenaPhysics::ArenaPhysics( const shared_ptr<IFrameRateProvider> frameRateProvider,
                             const shared_ptr<GameEventAggregator> eventAggregator,
-                            const shared_ptr<ArenaDefs> arenaDefs,
                             const shared_ptr<WorldDefs> worldDefs ) :
    _frameRateProvider( frameRateProvider ),
    _eventAggregator( eventAggregator ),
-   _arenaDefs( arenaDefs ),
    _worldDefs( worldDefs ),
    _arena( nullptr )
 {

@@ -61,7 +61,7 @@ const shared_ptr<ReadOnlyEntity> Game::GetPlayerEntity() const
    return _player;
 }
 
-const shared_ptr<ReadOnlyArena> Game::GetArena() const
+const shared_ptr<ReadOnlyArena> Game::GetActiveArena() const
 {
    return _stage->GetActiveArena();
 }

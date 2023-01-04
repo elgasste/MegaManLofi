@@ -9,6 +9,6 @@ namespace MegaManLofi
    class __declspec( novtable ) IArenaInfoProvider
    {
    public:
-      virtual const std::shared_ptr<ReadOnlyArena> GetArena() const = 0;
+      virtual const std::shared_ptr<ReadOnlyArena> GetActiveArena() const = 0;
    };
 }

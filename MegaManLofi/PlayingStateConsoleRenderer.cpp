@@ -126,7 +126,7 @@ void PlayingStateConsoleRenderer::HandleTileDeathEvent()
 
 void PlayingStateConsoleRenderer::UpdateCaches()
 {
-   _arena = _arenaInfoProvider->GetArena();
+   _arena = _arenaInfoProvider->GetActiveArena();
 
    auto viewportWidthUnits = _renderDefs->ArenaViewportWidthChars * _renderDefs->ArenaCharWidth;
    auto viewportHeightUnits = _renderDefs->ArenaViewportHeightChars * _renderDefs->ArenaCharHeight;

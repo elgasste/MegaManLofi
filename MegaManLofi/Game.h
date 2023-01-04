@@ -38,7 +38,7 @@ namespace MegaManLofi
 
       const std::shared_ptr<ReadOnlyPlayer> GetPlayer() const override;
       const std::shared_ptr<ReadOnlyEntity> GetPlayerEntity() const override;
-      const std::shared_ptr<ReadOnlyArena> GetArena() const override;
+      const std::shared_ptr<ReadOnlyArena> GetActiveArena() const override;
 
       void ExecuteCommand( GameCommand command ) override;
       void ExecuteCommand( GameCommand command, const std::shared_ptr<GameCommandArgs> args ) override;

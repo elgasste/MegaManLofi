@@ -598,9 +598,9 @@ TEST_F( GameTests, GetPlayerEntity_Always_ReturnsPlayerAsEntity )
    EXPECT_EQ( _game->GetPlayerEntity(), _playerMock );
 }
 
-TEST_F( GameTests, GetArena_Always_ReturnsActiveArena )
+TEST_F( GameTests, GetActiveArena_Always_ReturnsActiveArena )
 {
    BuildGame();
 
-   EXPECT_EQ( _game->GetArena(), _arenaMock );
+   EXPECT_EQ( _game->GetActiveArena(), _arenaMock );
 }

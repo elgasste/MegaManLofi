@@ -1,6 +1,6 @@
 #include "Stage.h"
 #include "StageDefs.h"
-#include "ReadOnlyArena.h"
+#include "Arena.h"
 
 using namespace std;
 using namespace MegaManLofi;
@@ -8,7 +8,7 @@ using namespace MegaManLofi;
 Stage::Stage( const shared_ptr<StageDefs> stageDefs ) :
    _stageDefs( stageDefs )
 {
-   Reset();
+   _activeArenaId = _stageDefs->StartArenaId;
 }
 
 void Stage::AddArena( std::shared_ptr<ReadOnlyArena> arena )
@@ -18,5 +18,8 @@ void Stage::AddArena( std::shared_ptr<ReadOnlyArena> arena )
 
 void Stage::Reset()
 {
+   auto activeArena = static_pointer_cast<Arena>( GetActiveArena() );
+   activeArena->Clear();
+
    _activeArenaId = _stageDefs->StartArenaId;
 }

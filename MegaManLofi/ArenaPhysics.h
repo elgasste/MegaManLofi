@@ -12,7 +12,7 @@ namespace MegaManLofi
    class IFrameRateProvider;
    class GameEventAggregator;
    class WorldDefs;
-   class Arena;
+   class Stage;
    class Entity;
    class ReadOnlyEntity;
 
@@ -24,7 +24,7 @@ namespace MegaManLofi
                     const std::shared_ptr<GameEventAggregator> eventAggregator,
                     const std::shared_ptr<WorldDefs> worldDefs );
 
-      virtual void AssignTo( const std::shared_ptr<Arena> arena );
+      virtual void AssignTo( const std::shared_ptr<Stage> stage );
       virtual void Reset();
       virtual void Tick();
 
@@ -47,7 +47,7 @@ namespace MegaManLofi
       const std::shared_ptr<GameEventAggregator> _eventAggregator;
       const std::shared_ptr<WorldDefs> _worldDefs;
 
-      std::shared_ptr<Arena> _arena;
+      std::shared_ptr<Stage> _stage;
 
       std::map<std::shared_ptr<ReadOnlyEntity>, Quad<int>> _entityTileIndicesCache;
    };

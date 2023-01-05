@@ -21,6 +21,7 @@ public:
 
    MOCK_METHOD( void, Reset, ( ), ( override ) );
    MOCK_METHOD( void, Clear, ( ), ( override ) );
+   MOCK_METHOD( const std::shared_ptr<MegaManLofi::Entity>, GetMutableEntity, ( int ), ( const, override ) );
    MOCK_METHOD( void, SetPlayerEntity, ( const std::shared_ptr<MegaManLofi::Entity> ), ( override ) );
    MOCK_METHOD( void, SetActiveRegion, ( MegaManLofi::Quad<float> ), ( override ) );
    MOCK_METHOD( void, AddEntity, ( const std::shared_ptr<MegaManLofi::Entity> ), ( override ) );

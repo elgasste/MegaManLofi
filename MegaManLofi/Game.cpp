@@ -139,9 +139,8 @@ void Game::StartStage()
    _stage->Reset();
    _player->ResetPosition();
 
-   auto arena = _stage->GetMutableActiveArena();
-   arena->SetPlayerEntity( _player );
-   _arenaPhysics->AssignTo( arena );
+   _stage->GetMutableActiveArena()->SetPlayerEntity( _player );
+   _arenaPhysics->AssignTo( _stage );
 
    _playerPhysics->Reset();
    _arenaPhysics->Reset();
@@ -215,7 +214,6 @@ void Game::KillPlayer()
 
 void Game::HandleActiveArenaChanged()
 {
-   auto arena = _stage->GetMutableActiveArena();
-   arena->SetPlayerEntity( _player );
-   _arenaPhysics->AssignTo( arena );
+   _stage->GetMutableActiveArena()->SetPlayerEntity( _player );
+   _arenaPhysics->AssignTo( _stage );
 }

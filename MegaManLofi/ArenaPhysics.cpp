@@ -3,6 +3,7 @@
 #include "GameEventAggregator.h"
 #include "ArenaDefs.h"
 #include "WorldDefs.h"
+#include "Stage.h"
 #include "Arena.h"
 #include "Entity.h"
 #include "FrameAction.h"
@@ -16,14 +17,14 @@ ArenaPhysics::ArenaPhysics( const shared_ptr<IFrameRateProvider> frameRateProvid
    _frameRateProvider( frameRateProvider ),
    _eventAggregator( eventAggregator ),
    _worldDefs( worldDefs ),
-   _arena( nullptr )
+   _stage( nullptr )
 {
 }
 
-void ArenaPhysics::AssignTo( const shared_ptr<Arena> arena )
+void ArenaPhysics::AssignTo( const shared_ptr<Stage> stage )
 {
    _entityTileIndicesCache.clear();
-   _arena = arena;
+   _stage = stage;
    UpdateEntityTileIndicesCaches();
 }
 
@@ -31,7 +32,7 @@ void ArenaPhysics::Reset()
 {
    _entityTileIndicesCache.clear();
 
-   if ( _arena )
+   if ( _stage )
    {
       UpdateEntityTileIndicesCaches();
    }
@@ -46,9 +47,11 @@ void ArenaPhysics::Tick()
 
 void ArenaPhysics::UpdateEntityTileIndicesCaches()
 {
-   for ( int i = 0; i < _arena->GetEntityCount(); i++ )
+   auto arena = _stage->GetActiveArena();
+
+   for ( int i = 0; i < arena->GetEntityCount(); i++ )
    {
-      UpdateEntityTileIndicesCache( _arena->GetEntity( i ) );
+      UpdateEntityTileIndicesCache( arena->GetEntity( i ) );
    }
 }
 
@@ -79,11 +82,12 @@ void ArenaPhysics::UpdateEntityTileIndicesCache( const shared_ptr<ReadOnlyEntity
 
 void ArenaPhysics::MoveEntities()
 {
+   auto arena = _stage->GetMutableActiveArena();
    bool crossedPortal = false;
 
-   for ( int i = 0; i < _arena->GetEntityCount(); i++ )
+   for ( int i = 0; i < arena->GetEntityCount(); i++ )
    {
-      auto entity = static_pointer_cast<Entity>( _arena->GetEntity( i ) );
+      auto entity = arena->GetMutableEntity( i );
       MoveEntity( entity, crossedPortal );
 
       if ( crossedPortal )
@@ -119,6 +123,7 @@ void ArenaPhysics::DetectEntityTileCollisionX( const shared_ptr<Entity> entity, 
    const auto& hitBox = entity->GetHitBox();
    auto currentPositionLeft = entity->GetArenaPositionLeft();
    const auto& occupyingTileIndices = _entityTileIndicesCache[entity];
+   auto arena = _stage->GetActiveArena();
 
    // cycle from the top tile we're currently occupying to the bottom tile we're currently occupying
    for ( auto y = occupyingTileIndices.Top; y <= occupyingTileIndices.Bottom; y++ )
@@ -146,7 +151,7 @@ void ArenaPhysics::DetectEntityTileCollisionX( const shared_ptr<Entity> entity, 
          else if ( newPositionLeft < leftOccupyingTileLeftEdge )
          {
             // check if we're trying to enter a new tile to the left
-            const auto& nextLeftTile = _arena->GetTile( ( y * _arena->GetHorizontalTiles() ) + ( occupyingTileIndices.Left - 1 ) );
+            const auto& nextLeftTile = arena->GetTile( ( y * arena->GetHorizontalTiles() ) + ( occupyingTileIndices.Left - 1 ) );
             if ( !nextLeftTile.LeftPassable )
             {
                newPositionLeft = leftOccupyingTileLeftEdge;
@@ -159,7 +164,7 @@ void ArenaPhysics::DetectEntityTileCollisionX( const shared_ptr<Entity> entity, 
       {
          auto rightOccupyingTileRightEdge = ( occupyingTileIndices.Right + 1 ) * _worldDefs->TileWidth;
          auto newPositionRight = newPositionLeft + hitBox.Width;
-         auto arenaWidth = _arena->GetWidth();
+         auto arenaWidth = arena->GetWidth();
 
          if ( newPositionRight > arenaWidth )
          {
@@ -180,7 +185,7 @@ void ArenaPhysics::DetectEntityTileCollisionX( const shared_ptr<Entity> entity, 
          else if ( newPositionRight > rightOccupyingTileRightEdge )
          {
             // check if we're trying to enter a new tile to the right
-            const auto& nextRightTile = _arena->GetTile( ( y * _arena->GetHorizontalTiles() ) + ( occupyingTileIndices.Right + 1 ) );
+            const auto& nextRightTile = arena->GetTile( ( y * arena->GetHorizontalTiles() ) + ( occupyingTileIndices.Right + 1 ) );
             if ( !nextRightTile.RightPassable )
             {
                newPositionLeft = rightOccupyingTileRightEdge - hitBox.Width;
@@ -197,6 +202,7 @@ void ArenaPhysics::DetectEntityTileCollisionY( const shared_ptr<Entity> entity, 
    const auto& hitBox = entity->GetHitBox();
    auto currentPositionTop = entity->GetArenaPositionTop();
    const auto& occupyingTileIndices = _entityTileIndicesCache[entity];
+   auto arena = _stage->GetActiveArena();
 
    // cycle from the left tile we're currently occupying to the right tile we're currently occupying
    for ( auto x = occupyingTileIndices.Left; x <= occupyingTileIndices.Right; x++ )
@@ -224,7 +230,7 @@ void ArenaPhysics::DetectEntityTileCollisionY( const shared_ptr<Entity> entity, 
          else if ( newPositionTop < topOccupyingTileTopEdge )
          {
             // check if we're trying to enter a new tile upward
-            const auto& nextTileUp = _arena->GetTile( ( ( occupyingTileIndices.Top - 1 ) * _arena->GetHorizontalTiles() ) + x );
+            const auto& nextTileUp = arena->GetTile( ( ( occupyingTileIndices.Top - 1 ) * arena->GetHorizontalTiles() ) + x );
             if ( !nextTileUp.UpPassable )
             {
                newPositionTop = topOccupyingTileTopEdge;
@@ -237,7 +243,7 @@ void ArenaPhysics::DetectEntityTileCollisionY( const shared_ptr<Entity> entity, 
       {
          auto bottomOccupyingTileBottomEdge = ( occupyingTileIndices.Bottom + 1 ) * _worldDefs->TileHeight;
          auto newPositionBottom = newPositionTop + hitBox.Height;
-         auto arenaHeight = _arena->GetHeight();
+         auto arenaHeight = arena->GetHeight();
 
          if ( ( newPositionBottom ) > arenaHeight )
          {
@@ -250,7 +256,7 @@ void ArenaPhysics::DetectEntityTileCollisionY( const shared_ptr<Entity> entity, 
             }
             else
             {
-               if ( entity == _arena->GetPlayerEntity() )
+               if ( entity == arena->GetPlayerEntity() )
                {
                   _eventAggregator->RaiseEvent( GameEvent::Pitfall );
                }
@@ -261,7 +267,7 @@ void ArenaPhysics::DetectEntityTileCollisionY( const shared_ptr<Entity> entity, 
          else if ( newPositionBottom > bottomOccupyingTileBottomEdge )
          {
             // check if we're trying to enter a new tile downward
-            const auto& nextTileDown = _arena->GetTile( ( ( occupyingTileIndices.Bottom + 1 ) * _arena->GetHorizontalTiles() ) + x );
+            const auto& nextTileDown = arena->GetTile( ( ( occupyingTileIndices.Bottom + 1 ) * arena->GetHorizontalTiles() ) + x );
             if ( !nextTileDown.DownPassable )
             {
                newPositionTop = bottomOccupyingTileBottomEdge - hitBox.Height;
@@ -275,7 +281,9 @@ void ArenaPhysics::DetectEntityTileCollisionY( const shared_ptr<Entity> entity, 
 
 bool ArenaPhysics::DetectPlayerCrossedPortal( Direction direction, const shared_ptr<Entity> entity ) const
 {
-   if ( entity != _arena->GetPlayerEntity() )
+   auto arena = _stage->GetActiveArena();
+
+   if ( entity != arena->GetPlayerEntity() )
    {
       return false;
    }
@@ -294,29 +302,31 @@ void ArenaPhysics::HandleEntityEnvironmentCollision( const shared_ptr<Entity> en
    if ( entity->GetEntityType() == EntityType::Projectile )
    {
       _entityTileIndicesCache.erase( entity );
-      _arena->RemoveEntity( entity );
+      _stage->GetMutableActiveArena()->RemoveEntity( entity );
    }
 }
 
 void ArenaPhysics::UpdateActiveRegion()
 {
-   const auto& playerPosition = _arena->GetPlayerEntity()->GetArenaPosition();
+   auto arena = _stage->GetMutableActiveArena();
+   const auto& playerPosition = arena->GetPlayerEntity()->GetArenaPosition();
    auto regionLeft = playerPosition.Left - ( _worldDefs->ActiveRegionWidth / 2 );
    auto regionTop = playerPosition.Top - ( _worldDefs->ActiveRegionHeight / 2 );
 
-   _arena->SetActiveRegion( { regionLeft, regionTop, regionLeft + _worldDefs->ActiveRegionWidth, regionTop + _worldDefs->ActiveRegionHeight } );
+   arena->SetActiveRegion( { regionLeft, regionTop, regionLeft + _worldDefs->ActiveRegionWidth, regionTop + _worldDefs->ActiveRegionHeight } );
 }
 
 bool ArenaPhysics::DetectTileDeath() const
 {
-   auto player = _arena->GetPlayerEntity();
+   auto arena = _stage->GetActiveArena();
+   auto player = arena->GetPlayerEntity();
    const auto& occupyingTileIndices = _entityTileIndicesCache.at( player );
 
    for ( auto x = occupyingTileIndices.Left; x <= occupyingTileIndices.Right; x++ )
    {
       for ( auto y = occupyingTileIndices.Top; y <= occupyingTileIndices.Bottom; y++ )
       {
-         auto tile = _arena->GetTile( ( y * _arena->GetHorizontalTiles() ) + x );
+         auto tile = arena->GetTile( ( y * arena->GetHorizontalTiles() ) + x );
 
          if ( tile.CausesDeath )
          {
@@ -334,6 +344,7 @@ void ArenaPhysics::DetectEntityMovementType( const shared_ptr<Entity> entity ) c
    const auto& hitBox = entity->GetHitBox();
    auto positionTop = entity->GetArenaPositionTop();
    auto hitBoxBottom = positionTop + hitBox.Top + hitBox.Height;
+   auto arena = _stage->GetActiveArena();
 
    bool isOnGround = false;
    const auto& occupyingTileIndices = _entityTileIndicesCache.at( entity );
@@ -342,12 +353,12 @@ void ArenaPhysics::DetectEntityMovementType( const shared_ptr<Entity> entity ) c
    {
       auto nextTileDownIndex = occupyingTileIndices.Bottom + 1;
 
-      if ( nextTileDownIndex >= _arena->GetVerticalTiles() )
+      if ( nextTileDownIndex >= arena->GetVerticalTiles() )
       {
          break;
       }
 
-      const auto& nextTileDown = _arena->GetTile( ( nextTileDownIndex * _arena->GetHorizontalTiles() ) + x );
+      const auto& nextTileDown = arena->GetTile( ( nextTileDownIndex * arena->GetHorizontalTiles() ) + x );
 
       if ( !nextTileDown.DownPassable )
       {

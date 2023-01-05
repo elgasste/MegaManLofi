@@ -10,6 +10,7 @@
 
 #include "mock_FrameRateProvider.h"
 #include "mock_GameEventAggregator.h"
+#include "mock_Stage.h"
 #include "mock_Arena.h"
 
 using namespace std;
@@ -24,11 +25,15 @@ public:
       _frameRateProviderMock.reset( new NiceMock<mock_FrameRateProvider> );
       _eventAggregatorMock.reset( new NiceMock<mock_GameEventAggregator> );
       _worldDefs.reset( new WorldDefs() );
+      _stageMock.reset( new NiceMock<mock_Stage> );
       _arenaMock.reset( new NiceMock<mock_Arena> );
       _defaultTile = { true, true, true, true, false };
 
       _worldDefs->ActiveRegionWidth = 20;
       _worldDefs->ActiveRegionHeight = 10;
+
+      ON_CALL( *_stageMock, GetActiveArena() ).WillByDefault( Return( _arenaMock ) );
+      ON_CALL( *_stageMock, GetMutableActiveArena() ).WillByDefault( Return( _arenaMock ) );
 
       ON_CALL( *_arenaMock, GetWidth() ).WillByDefault( Return( 20.0f ) );
       ON_CALL( *_arenaMock, GetHeight() ).WillByDefault( Return( 16.0f ) );
@@ -43,13 +48,14 @@ public:
    void BuildArenaPhysics()
    {
       _arenaPhysics.reset( new ArenaPhysics( _frameRateProviderMock, _eventAggregatorMock, _worldDefs ) );
-      _arenaPhysics->AssignTo( _arenaMock );
+      _arenaPhysics->AssignTo( _stageMock );
    }
 
 protected:
    shared_ptr<mock_FrameRateProvider> _frameRateProviderMock;
    shared_ptr<mock_GameEventAggregator> _eventAggregatorMock;
    shared_ptr<WorldDefs> _worldDefs;
+   shared_ptr<mock_Stage> _stageMock;
    shared_ptr<mock_Arena> _arenaMock;
 
    ArenaTile _defaultTile;

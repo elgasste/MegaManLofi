@@ -83,7 +83,7 @@ TEST_F( GameTests, ExecuteCommand_StartGame_ResetsGameObjects )
    EXPECT_CALL( *_stageMock, Reset() );
    EXPECT_CALL( *_playerMock, ResetPosition() );
    EXPECT_CALL( *_arenaMock, SetPlayerEntity( static_pointer_cast<Entity>( _playerMock ) ) );
-   EXPECT_CALL( *_arenaPhysicsMock, AssignTo( static_pointer_cast<Arena>( _arenaMock ) ) );
+   EXPECT_CALL( *_arenaPhysicsMock, AssignTo( static_pointer_cast<Stage>( _stageMock ) ) );
    EXPECT_CALL( *_arenaPhysicsMock, Reset() );
 
    _game->ExecuteCommand( GameCommand::StartGame );
@@ -116,7 +116,7 @@ TEST_F( GameTests, ExecuteCommand_StartStage_ResetsGameObjects )
    EXPECT_CALL( *_stageMock, Reset() );
    EXPECT_CALL( *_playerMock, ResetPosition() );
    EXPECT_CALL( *_arenaMock, SetPlayerEntity( static_pointer_cast<Entity>( _playerMock ) ) );
-   EXPECT_CALL( *_arenaPhysicsMock, AssignTo( static_pointer_cast<Arena>( _arenaMock ) ) );
+   EXPECT_CALL( *_arenaPhysicsMock, AssignTo( static_pointer_cast<Stage>( _stageMock ) ) );
    EXPECT_CALL( *_arenaPhysicsMock, Reset() );
 
    _game->ExecuteCommand( GameCommand::StartStage );
@@ -499,7 +499,7 @@ TEST_F( GameTests, Tick_RestartingStageNextFrame_ResetsGameObjects )
    EXPECT_CALL( *_stageMock, Reset() );
    EXPECT_CALL( *_playerMock, ResetPosition() );
    EXPECT_CALL( *_arenaMock, SetPlayerEntity( static_pointer_cast<Entity>( _playerMock ) ) );
-   EXPECT_CALL( *_arenaPhysicsMock, AssignTo( static_pointer_cast<Arena>( _arenaMock ) ) );
+   EXPECT_CALL( *_arenaPhysicsMock, AssignTo( static_pointer_cast<Stage>( _stageMock ) ) );
    EXPECT_CALL( *_arenaPhysicsMock, Reset() );
 
    _game->Tick();
@@ -590,7 +590,7 @@ TEST_F( GameTests, EventHandling_ActiveArenaChangedEventRaised_AssignsPlayerAndP
    _game.reset( new Game( eventAggregator, _playerMock, _stageMock, _playerPhysicsMock, _arenaPhysicsMock, _entityFactoryMock ) );
 
    EXPECT_CALL( *_arenaMock, SetPlayerEntity( static_pointer_cast<Entity>( _playerMock ) ) );
-   EXPECT_CALL( *_arenaPhysicsMock, AssignTo( static_pointer_cast<Arena>( _arenaMock ) ) );
+   EXPECT_CALL( *_arenaPhysicsMock, AssignTo( static_pointer_cast<Stage>( _stageMock ) ) );
 
    eventAggregator->RaiseEvent( GameEvent::ActiveArenaChanged );
 }

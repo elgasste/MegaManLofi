@@ -14,7 +14,7 @@ namespace MegaManLofi
       {
          switch ( arenaId )
          {
-            case 0:
+            case 0: // 360 x 60
                return
                   "                                                                                                                                                                                                                                                                                                                                         sssssssssssssssssssssssssssssss" \
                   "                                                                                                                                                                                                                                                                                                                                         s                              " \
@@ -76,7 +76,100 @@ namespace MegaManLofi
                   "s                                                                                                                                                                                                                                                                                                                                                                      s" \
                   "s                                                                                                                                                                                                                                                                                                                                                                      s" \
                   "ssssssssssssssssssssssssssssssssssssssssss                                  sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss                   sssssssssssssssssssssssssssssssssssssssssss                                                                                            s";
-               break;
+            case 1: // 120 x 30
+               return
+                  "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss" \
+                  "s                                                                                                                       " \
+                  "s                                                                                                                       " \
+                  "s                                                                                                                       " \
+                  "s                                                                                                                       " \
+                  "s                      sssssssssss                                                                                      " \
+                  "s                                                                                                                       " \
+                  "s                                                                                                                       " \
+                  "s                                                                                                                       " \
+                  "s     sssss                                                                                                             " \
+                  "s                                            sssssssssssssssssssssssss                                                  " \
+                  "s                                                                                                                       " \
+                  "s                                                                                                                       " \
+                  "s                                                                                                                       " \
+                  "s                                                                                ss                                     " \
+                  "sssssssssssssssss                                                                                                       " \
+                  "s                                                                                                                       " \
+                  "s                                                                                                                       " \
+                  "                                                                                                                        " \
+                  "                                                                                                                        " \
+                  "                                                                                              ss                        " \
+                  "                                                                                                                        " \
+                  "ssssssssssssssssssssssss                                                                                                " \
+                  "s                                                                                                                       " \
+                  "s                                                                                                                       " \
+                  "s                                                                                                                       " \
+                  "s                                                                                                                       " \
+                  "s                                                                                                             ssss      " \
+                  "s                                                                                                                       " \
+                  "sssssssssssssssssssssssssssssssssssssxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
+            case 2: // 120 x 60
+               return
+                  "sssssssss                                  sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss" \
+                  "s                                                                                                                      s" \
+                  "s                                                                                                                      s" \
+                  "s                                                                                                                      s" \
+                  "s                                                                                                                      s" \
+                  "s                   sssssssssssssssssssss                                                                              s" \
+                  "s                                                                                                                      s" \
+                  "s                                                                                                 ppp          ppp     s" \
+                  "s                                                                                                                      s" \
+                  "s                                                                                                                      s" \
+                  "s                                                                                    ppp                               s" \
+                  "s                                                                                                                      s" \
+                  "s                                                                                                                      s" \
+                  "s                        ppppppppppppppppppppsssssssssssssssssssssssssss                                               s" \
+                  "s                                                                                                                      s" \
+                  "s                                                                                                                      s" \
+                  "s                                                                                                                      s" \
+                  "s                                                                                                                      s" \
+                  "s                                                                                                                      s" \
+                  "s                                                                                                                      s" \
+                  "s                                sssssssssssssssssssssssssssssssssssssss                                               s" \
+                  "s                                                                                                                      s" \
+                  "s                                                                                                                      s" \
+                  "s                                                                                                                      s" \
+                  "s                                                                                                                      s" \
+                  "s                                                                                                                      s" \
+                  "s                                                                                                                      s" \
+                  "s                                                                                                                      s" \
+                  "s                                                                                                                      s" \
+                  "s                   pppppppppppppp             ppppppppppppp                                                           s" \
+                  "s                                                                                                                      s" \
+                  "s                                                                                                                      s" \
+                  "s                                                                                                                      s" \
+                  "s                                                                                                                      s" \
+                  "s                                                                                                                      s" \
+                  "s                                                                                                                      s" \
+                  "s                                                                                                                      s" \
+                  "s                                                                                                                      s" \
+                  "s                                                                                                                      s" \
+                  "s                                                                                                                      s" \
+                  "s                                                                                                                      s" \
+                  "s                                                                                                                      s" \
+                  "s                                                                                                                      s" \
+                  "s                                                                                                                      s" \
+                  "s                                                                                                                      s" \
+                  "s                                                                                                                      s" \
+                  "s                                                                                                                      s" \
+                  "s                                                                                                                      s" \
+                  "s                                                                                                                      s" \
+                  "s                                                                                                                      s" \
+                  "s                                                                                                                      s" \
+                  "s                                                                                                                      s" \
+                  "s                                                                                                                      s" \
+                  "s                                                                                                                      s" \
+                  "s                                                                                                                      s" \
+                  "s                                                                                                                      s" \
+                  "s                                                                                                                      s" \
+                  "s                                                                                                                      s" \
+                  "s                                                                                                                      s" \
+                  "s                                                                                                                      s";
             default:
                return "";
          }

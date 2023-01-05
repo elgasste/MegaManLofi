@@ -10,15 +10,26 @@ map<int, shared_ptr<ArenaDefs>> ArenaDefsGenerator::GenerateArenaDefsMap( const 
 {
    map<int, shared_ptr<ArenaDefs>> arenaDefsMap;
 
-   int arenaId = 0;
-   arenaDefsMap[arenaId] = make_shared<ArenaDefs>();
-   arenaDefsMap[arenaId]->ArenaId = arenaId;
-   arenaDefsMap[arenaId]->HorizontalTiles = 360;
-   arenaDefsMap[arenaId]->VerticalTiles = 60;
-   arenaDefsMap[arenaId]->Tiles = ArenaTileGenerator::GenerateArenaTiles( arenaId );
-   arenaDefsMap[arenaId]->PlayerStartPosition = { worldDefs->TileWidth * 8, worldDefs->TileHeight * 6 };
+   arenaDefsMap[0] = make_shared<ArenaDefs>();
+   arenaDefsMap[0]->ArenaId = 0;
+   arenaDefsMap[0]->HorizontalTiles = 360;
+   arenaDefsMap[0]->VerticalTiles = 60;
+   arenaDefsMap[0]->Tiles = ArenaTileGenerator::GenerateArenaTiles( 0 );
+   arenaDefsMap[0]->PlayerStartPosition = { worldDefs->TileWidth * 8, worldDefs->TileHeight * 6 };
 
-   // TODO: increment arena ID and add another arena
+   arenaDefsMap[1] = make_shared<ArenaDefs>();
+   arenaDefsMap[1]->ArenaId = 1;
+   arenaDefsMap[1]->HorizontalTiles = 120;
+   arenaDefsMap[1]->VerticalTiles = 30;
+   arenaDefsMap[1]->Tiles = ArenaTileGenerator::GenerateArenaTiles( 1 );
+   arenaDefsMap[1]->PlayerStartPosition = { 0, 0 };
+
+   arenaDefsMap[2] = make_shared<ArenaDefs>();
+   arenaDefsMap[2]->ArenaId = 2;
+   arenaDefsMap[2]->HorizontalTiles = 120;
+   arenaDefsMap[2]->VerticalTiles = 60;
+   arenaDefsMap[2]->Tiles = ArenaTileGenerator::GenerateArenaTiles( 2 );
+   arenaDefsMap[2]->PlayerStartPosition = { 0, 0 };
 
    return arenaDefsMap;
 }

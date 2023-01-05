@@ -342,10 +342,23 @@ void ArenaPhysics::UpdateActiveRegion()
 {
    auto arena = _stage->GetMutableActiveArena();
    const auto& playerPosition = arena->GetPlayerEntity()->GetArenaPosition();
-   auto regionLeft = playerPosition.Left - ( _worldDefs->ActiveRegionWidth / 2 );
-   auto regionTop = playerPosition.Top - ( _worldDefs->ActiveRegionHeight / 2 );
+   auto regionLeft = max( 0.0f, playerPosition.Left - ( _worldDefs->ActiveRegionWidth / 2 ) );
+   auto regionTop = max( 0.0f, playerPosition.Top - ( _worldDefs->ActiveRegionHeight / 2 ) );
+   auto regionRight = regionLeft + _worldDefs->ActiveRegionWidth;
+   auto regionBottom = regionTop + _worldDefs->ActiveRegionHeight;
 
-   arena->SetActiveRegion( { regionLeft, regionTop, regionLeft + _worldDefs->ActiveRegionWidth, regionTop + _worldDefs->ActiveRegionHeight } );
+   if ( regionRight > arena->GetWidth() )
+   {
+      regionLeft = max( 0.0f, regionLeft - ( regionRight - arena->GetWidth() ) );
+      regionRight = arena->GetWidth();
+   }
+   if ( regionBottom > arena->GetHeight() )
+   {
+      regionTop = max( 0.0f, regionTop - ( regionBottom - arena->GetHeight() ) );
+      regionBottom = arena->GetHeight();
+   }
+
+   arena->SetActiveRegion( { regionLeft, regionTop, regionRight, regionBottom } );
 }
 
 bool ArenaPhysics::DetectTileDeath() const

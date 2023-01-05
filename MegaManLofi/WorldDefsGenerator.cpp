@@ -14,7 +14,7 @@ shared_ptr<WorldDefs> WorldDefsGenerator::GenerateWorldDefs()
 
    // this conveniently matches the console viewport size
    worldDefs->ActiveRegionWidth = 120 * worldDefs->TileWidth;
-   worldDefs->ActiveRegionHeight = 30 * worldDefs->TileHeight;
+   worldDefs->ActiveRegionHeight = 28 * worldDefs->TileHeight;
 
    return worldDefs;
 }

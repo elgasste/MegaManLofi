@@ -58,7 +58,8 @@ void PlayingStateConsoleRenderer::Render()
    _consoleBuffer->SetDefaultBackgroundColor( _renderDefs->ArenaBackgroundColor );
 
    UpdateCaches();
-   DrawArenaSprites();
+   DrawStatusBar();
+   DrawArenaTiles();
 
    if ( _animationProvider->GetAnimation( ConsoleAnimationType::StageStarted )->IsRunning() )
    {
@@ -87,7 +88,6 @@ void PlayingStateConsoleRenderer::Render()
       else
       {
          DrawPlayer();
-         DrawStatusBar();
       }
    }
 }
@@ -210,7 +210,7 @@ void PlayingStateConsoleRenderer::DrawPlayerExplosionAnimation()
    _animationProvider->GetAnimation( ConsoleAnimationType::PlayerExploded )->Tick();
 }
 
-void PlayingStateConsoleRenderer::DrawArenaSprites()
+void PlayingStateConsoleRenderer::DrawArenaTiles()
 {
    auto arenaWidthChars = (short)( _arena->GetWidth() / _renderDefs->ArenaCharWidth );
    auto arenaId = _arenaInfoProvider->GetActiveArena()->GetArenaId();
@@ -261,7 +261,12 @@ void PlayingStateConsoleRenderer::DrawEntity( const shared_ptr<ReadOnlyEntity> e
 void PlayingStateConsoleRenderer::DrawStatusBar()
 {
    auto player = _playerInfoProvider->GetPlayer();
-   _consoleBuffer->Draw( _renderDefs->ArenaStatusBarLeftChars, _renderDefs->ArenaStatusBarTopChars, format( "Lives: {}", player->GetLivesRemaining() ) );
+   auto left = _renderDefs->ArenaStatusBarLeftChars + 2;
+   auto top = _renderDefs->ArenaStatusBarTopChars;
+
+   _consoleBuffer->Draw( left, top, format( "Lives:  {}", player->GetLivesRemaining() ) );
+   _consoleBuffer->Draw( left, top + 1, "Health: ||||||||||||||||||||||||||" );
+   _consoleBuffer->Draw( left + 34, top + 1, "|||||", ConsoleColor::DarkGrey );
 }
 
 void PlayingStateConsoleRenderer::DrawPauseOverlay()

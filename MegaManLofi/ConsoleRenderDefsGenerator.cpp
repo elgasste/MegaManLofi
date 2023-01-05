@@ -18,17 +18,17 @@ shared_ptr<IGameRenderDefs> ConsoleRenderDefsGenerator::GenerateConsoleRenderDef
    renderDefs->ConsoleHeightChars = 30;
 
    renderDefs->ArenaViewportLeftChars = 0;
-   renderDefs->ArenaViewportTopChars = 0;
+   renderDefs->ArenaViewportTopChars = 2;
 
    renderDefs->ArenaCharWidth = 38;
    renderDefs->ArenaCharHeight = 78;
 
    renderDefs->ArenaViewportWidthChars = 120;
-   renderDefs->ArenaViewportHeightChars = 30;
+   renderDefs->ArenaViewportHeightChars = 28;
 
-   renderDefs->ArenaStatusBarLeftChars = renderDefs->ArenaViewportLeftChars;
-   renderDefs->ArenaStatusBarTopChars = renderDefs->ArenaViewportTopChars;
-   renderDefs->ArenaStatusBarWidthChars = 20;
+   renderDefs->ArenaStatusBarLeftChars = 0;
+   renderDefs->ArenaStatusBarTopChars = 0;
+   renderDefs->ArenaStatusBarWidthChars = 120;
 
    renderDefs->PitfallAnimationSeconds = 2;
 

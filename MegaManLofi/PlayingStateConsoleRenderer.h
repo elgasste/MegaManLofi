@@ -49,7 +49,7 @@ namespace MegaManLofi
       void DrawPlayerThwipInAnimation();
       void DrawPitfallAnimation();
       void DrawPlayerExplosionAnimation();
-      void DrawArenaSprites();
+      void DrawArenaTiles();
       void DrawPlayer();
       void DrawNonPlayerEntities();
       void DrawEntity( const std::shared_ptr<ReadOnlyEntity> entity );

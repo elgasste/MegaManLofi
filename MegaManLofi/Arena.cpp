@@ -45,7 +45,6 @@ void Arena::Clear()
    _playerEntity = nullptr;
 }
 
-// MUFFINS: test this
 void Arena::SetPlayerEntity( const shared_ptr<Entity> playerEntity )
 {
    _playerEntity = playerEntity;

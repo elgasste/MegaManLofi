@@ -19,6 +19,11 @@ void Stage::AddArena( std::shared_ptr<Arena> arena )
    _arenaMap[arena->GetArenaId()] = arena;
 }
 
+void Stage::AddArenaPortal( Direction direction, ArenaPortal portal )
+{
+   _arenaPortalMap[direction].push_back( portal );
+}
+
 void Stage::Reset()
 {
    _arenaMap[_activeArenaId]->Clear();

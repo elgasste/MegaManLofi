@@ -85,6 +85,37 @@ TEST_F( StageTests, GetArena_Always_ReturnsCorrectArena )
    EXPECT_EQ( _stage->GetArena( 2 ), _arenaMock2 );
 }
 
+TEST_F( StageTests, GetArenaPortal_PortalNotFoundForDirection_ReturnsNoValue )
+{
+   BuildStage();
+
+   auto portal = _stage->GetArenaPortal( Direction::Left, 1 );
+
+   EXPECT_FALSE( portal.has_value() );
+}
+
+TEST_F( StageTests, GetArenaPortal_PortalNotFoundForArenaId_ReturnsNoValue )
+{
+   BuildStage();
+   _stage->AddArenaPortal( Direction::Left, { 2, 1, 0, 0 } ); // from 2 to 1
+
+   auto portal = _stage->GetArenaPortal( Direction::Left, 1 );
+
+   EXPECT_FALSE( portal.has_value() );
+}
+
+TEST_F( StageTests, GetArenaPortal_PortalFound_ReturnsPortal )
+{
+   BuildStage();
+   _stage->AddArenaPortal( Direction::Left, { 1, 2, 0, 0 } ); // from 1 to 2
+
+   auto portal = _stage->GetArenaPortal( Direction::Left, 1 );
+   auto portalReference = portal->get();
+
+   EXPECT_EQ( portalReference.FromArenaId, 1 );
+   EXPECT_EQ( portalReference.ToArenaId, 2 );
+}
+
 TEST_F( StageTests, SetActiveArena_ActiveArenaDoesNotChange_DoesNotRaiseActiveArenaChangedEvent )
 {
    BuildStage();

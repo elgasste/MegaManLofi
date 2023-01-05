@@ -79,26 +79,42 @@ void ArenaPhysics::UpdateEntityTileIndicesCache( const shared_ptr<ReadOnlyEntity
 
 void ArenaPhysics::MoveEntities()
 {
+   bool crossedPortal = false;
+
    for ( int i = 0; i < _arena->GetEntityCount(); i++ )
    {
       auto entity = static_pointer_cast<Entity>( _arena->GetEntity( i ) );
-      MoveEntity( entity );
+      MoveEntity( entity, crossedPortal );
+
+      if ( crossedPortal )
+      {
+         break;
+      }
+
       UpdateEntityTileIndicesCache( entity );
       DetectEntityMovementType( entity );
    }
 }
 
-void ArenaPhysics::MoveEntity( const shared_ptr<Entity> entity )
+void ArenaPhysics::MoveEntity( const shared_ptr<Entity> entity, bool& crossedPortal )
 {
    auto newPositionLeft = entity->GetArenaPositionLeft() + ( entity->GetVelocityX() * _frameRateProvider->GetFrameSeconds() );
    auto newPositionTop = entity->GetArenaPositionTop() + ( entity->GetVelocityY() * _frameRateProvider->GetFrameSeconds() );
-   DetectEntityTileCollisionX( entity, newPositionLeft );
-   DetectEntityTileCollisionY( entity, newPositionTop );
 
-   entity->SetArenaPosition( { newPositionLeft, newPositionTop } );
+   DetectEntityTileCollisionX( entity, newPositionLeft, crossedPortal );
+
+   if ( !crossedPortal )
+   {
+      DetectEntityTileCollisionY( entity, newPositionTop, crossedPortal );
+   }
+
+   if ( !crossedPortal )
+   {
+      entity->SetArenaPosition( { newPositionLeft, newPositionTop } );
+   }
 }
 
-void ArenaPhysics::DetectEntityTileCollisionX( const shared_ptr<Entity> entity, float& newPositionLeft )
+void ArenaPhysics::DetectEntityTileCollisionX( const shared_ptr<Entity> entity, float& newPositionLeft, bool& crossedPortal )
 {
    const auto& hitBox = entity->GetHitBox();
    auto currentPositionLeft = entity->GetArenaPositionLeft();
@@ -115,9 +131,17 @@ void ArenaPhysics::DetectEntityTileCollisionX( const shared_ptr<Entity> entity, 
          {
             // we've collided with the left edge of the arena
             newPositionLeft = 0;
-            entity->StopX();
-            HandleEntityEnvironmentCollision( entity );
-            break;
+            if ( DetectPlayerCrossedPortal( Direction::Left, entity ) )
+            {
+               crossedPortal = true;
+               return;
+            }
+            else
+            {
+               entity->StopX();
+               HandleEntityEnvironmentCollision( entity );
+               break;
+            }
          }
          else if ( newPositionLeft < leftOccupyingTileLeftEdge )
          {
@@ -141,9 +165,17 @@ void ArenaPhysics::DetectEntityTileCollisionX( const shared_ptr<Entity> entity, 
          {
             // we've collided with the right edge of the arena
             newPositionLeft = arenaWidth - hitBox.Width;
-            entity->StopX();
-            HandleEntityEnvironmentCollision( entity );
-            break;
+            if ( DetectPlayerCrossedPortal( Direction::Right, entity ) )
+            {
+               crossedPortal = true;
+               return;
+            }
+            else
+            {
+               entity->StopX();
+               HandleEntityEnvironmentCollision( entity );
+               break;
+            }
          }
          else if ( newPositionRight > rightOccupyingTileRightEdge )
          {
@@ -160,7 +192,7 @@ void ArenaPhysics::DetectEntityTileCollisionX( const shared_ptr<Entity> entity, 
    }
 }
 
-void ArenaPhysics::DetectEntityTileCollisionY( const shared_ptr<Entity> entity, float& newPositionTop )
+void ArenaPhysics::DetectEntityTileCollisionY( const shared_ptr<Entity> entity, float& newPositionTop, bool& crossedPortal )
 {
    const auto& hitBox = entity->GetHitBox();
    auto currentPositionTop = entity->GetArenaPositionTop();
@@ -177,9 +209,17 @@ void ArenaPhysics::DetectEntityTileCollisionY( const shared_ptr<Entity> entity, 
          {
             // we've collided with the top edge of the arena
             newPositionTop = 0;
-            entity->StopY();
-            HandleEntityEnvironmentCollision( entity );
-            break;
+            if ( DetectPlayerCrossedPortal( Direction::Up, entity ) )
+            {
+               crossedPortal = true;
+               return;
+            }
+            else
+            {
+               entity->StopY();
+               HandleEntityEnvironmentCollision( entity );
+               break;
+            }
          }
          else if ( newPositionTop < topOccupyingTileTopEdge )
          {
@@ -203,12 +243,20 @@ void ArenaPhysics::DetectEntityTileCollisionY( const shared_ptr<Entity> entity, 
          {
             // we've collided with the bottom edge of the arena
             newPositionTop = arenaHeight - hitBox.Height;
-            if ( entity == _arena->GetPlayerEntity() )
+            if ( DetectPlayerCrossedPortal( Direction::Down, entity ) )
             {
-               _eventAggregator->RaiseEvent( GameEvent::Pitfall );
+               crossedPortal = true;
+               return;
             }
-            HandleEntityEnvironmentCollision( entity );
-            break;
+            else
+            {
+               if ( entity == _arena->GetPlayerEntity() )
+               {
+                  _eventAggregator->RaiseEvent( GameEvent::Pitfall );
+               }
+               HandleEntityEnvironmentCollision( entity );
+               break;
+            }
          }
          else if ( newPositionBottom > bottomOccupyingTileBottomEdge )
          {
@@ -223,6 +271,22 @@ void ArenaPhysics::DetectEntityTileCollisionY( const shared_ptr<Entity> entity, 
          }
       }
    }
+}
+
+bool ArenaPhysics::DetectPlayerCrossedPortal( Direction direction, const shared_ptr<Entity> entity ) const
+{
+   if ( entity != _arena->GetPlayerEntity() )
+   {
+      return false;
+   }
+
+   // TODO:
+   // - search the stage's portal map for portals that match the direction and "from" ID for this arena
+   // - if found, check if the player is in range
+   // - if they are, call arena->CrossPortal( portal ) or whatever
+   // - return true
+
+   return false;
 }
 
 void ArenaPhysics::HandleEntityEnvironmentCollision( const shared_ptr<Entity> entity )

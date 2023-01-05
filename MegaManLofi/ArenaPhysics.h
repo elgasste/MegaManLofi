@@ -5,6 +5,7 @@
 
 #include "Coordinate.h"
 #include "Quad.h"
+#include "Direction.h"
 
 namespace MegaManLofi
 {
@@ -31,9 +32,10 @@ namespace MegaManLofi
       void UpdateEntityTileIndicesCaches();
       void UpdateEntityTileIndicesCache( const std::shared_ptr<ReadOnlyEntity> entity );
       void MoveEntities();
-      void MoveEntity( const std::shared_ptr<Entity> entity );
-      void DetectEntityTileCollisionX( const std::shared_ptr<Entity> entity, float& newPositionLeft );
-      void DetectEntityTileCollisionY( const std::shared_ptr<Entity> entity, float& newPositionTop );
+      void MoveEntity( const std::shared_ptr<Entity> entity, bool& crossedPortal );
+      void DetectEntityTileCollisionX( const std::shared_ptr<Entity> entity, float& newPositionLeft, bool& crossedPortal );
+      void DetectEntityTileCollisionY( const std::shared_ptr<Entity> entity, float& newPositionTop, bool& crossedPortal );
+      bool DetectPlayerCrossedPortal( Direction direction, const std::shared_ptr<Entity> entity ) const;
       void HandleEntityEnvironmentCollision( const std::shared_ptr<Entity> entity );
       void DetectEntityMovementType( const std::shared_ptr<Entity> entity ) const;
 

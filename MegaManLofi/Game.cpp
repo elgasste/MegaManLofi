@@ -33,6 +33,7 @@ Game::Game( const shared_ptr<GameEventAggregator> eventAggregator,
 {
    _eventAggregator->RegisterEventHandler( GameEvent::Pitfall, std::bind( &Game::KillPlayer, this ) );
    _eventAggregator->RegisterEventHandler( GameEvent::TileDeath, std::bind( &Game::KillPlayer, this ) );
+   _eventAggregator->RegisterEventHandler( GameEvent::ActiveArenaChanged, std::bind( &Game::HandleActiveArenaChanged, this ) );
 }
 
 void Game::Tick()
@@ -210,4 +211,11 @@ void Game::KillPlayer()
    {
       _nextState = GameState::GameOver;
    }
+}
+
+void Game::HandleActiveArenaChanged()
+{
+   auto arena = _stage->GetMutableActiveArena();
+   arena->SetPlayerEntity( _player );
+   _arenaPhysics->AssignTo( arena );
 }

@@ -51,6 +51,7 @@ namespace MegaManLofi
       void OpenPlayingMenu();
       void ClosePlayingMenu();
       void KillPlayer();
+      void HandleActiveArenaChanged();
 
    private:
       const std::shared_ptr<GameEventAggregator> _eventAggregator;

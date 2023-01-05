@@ -91,29 +91,28 @@ TEST_F( StageTests, GetArenaPortal_PortalNotFoundForDirection_ReturnsNoValue )
 
    auto portal = _stage->GetArenaPortal( Direction::Left, 1 );
 
-   EXPECT_FALSE( portal.has_value() );
+   EXPECT_EQ( portal, nullptr );
 }
 
 TEST_F( StageTests, GetArenaPortal_PortalNotFoundForArenaId_ReturnsNoValue )
 {
-   _stageDefs->ArenaPortalMap[Direction::Left].push_back( { 2, 1, 0, 0, 0 } ); // from 2 to 1
+   _stageDefs->ArenaPortalMap[Direction::Left].push_back( shared_ptr<ArenaPortal>( new ArenaPortal( { 2, 1, 0, 0, 0 } ) ) ); // from 2 to 1
    BuildStage();
 
    auto portal = _stage->GetArenaPortal( Direction::Left, 1 );
 
-   EXPECT_FALSE( portal.has_value() );
+   EXPECT_EQ( portal, nullptr );
 }
 
 TEST_F( StageTests, GetArenaPortal_PortalFound_ReturnsPortal )
 {
-   _stageDefs->ArenaPortalMap[Direction::Left].push_back( { 1, 2, 0, 0, 0 } ); // from 1 to 2
+   _stageDefs->ArenaPortalMap[Direction::Left].push_back( shared_ptr<ArenaPortal>( new ArenaPortal( { 1, 2, 0, 0, 0 } ) ) ); // from 1 to 2
    BuildStage();
 
    auto portal = _stage->GetArenaPortal( Direction::Left, 1 );
-   auto portalReference = portal->get();
 
-   EXPECT_EQ( portalReference.FromArenaId, 1 );
-   EXPECT_EQ( portalReference.ToArenaId, 2 );
+   EXPECT_EQ( portal->FromArenaId, 1 );
+   EXPECT_EQ( portal->ToArenaId, 2 );
 }
 
 TEST_F( StageTests, SetActiveArena_ActiveArenaDoesNotChange_DoesNotRaiseActiveArenaChangedEvent )

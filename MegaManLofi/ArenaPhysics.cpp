@@ -288,7 +288,7 @@ bool ArenaPhysics::DetectPlayerCrossedPortal( Direction direction, const shared_
    }
 
    auto portal = _stage->GetArenaPortal( direction, arena->GetArenaId() );
-   if ( !portal.has_value() )
+   if ( !portal )
    {
       return false;
    }

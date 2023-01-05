@@ -18,6 +18,6 @@ namespace MegaManLofi
       int StartArenaId = 0;
 
       std::map<int, std::shared_ptr<ArenaDefs>> ArenaMap;
-      std::map<Direction, std::vector<ArenaPortal>> ArenaPortalMap;
+      std::map<Direction, std::vector<std::shared_ptr<ArenaPortal>>> ArenaPortalMap;
    };
 }

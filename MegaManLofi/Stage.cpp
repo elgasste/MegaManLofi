@@ -35,7 +35,7 @@ void Stage::SetActiveArena( int arenaId )
    }
 }
 
-optional<reference_wrapper<const ArenaPortal>> Stage::GetArenaPortal( Direction direction, int fromArenaId ) const
+const shared_ptr<ArenaPortal> Stage::GetArenaPortal( Direction direction, int fromArenaId ) const
 {
    if ( _stageDefs->ArenaPortalMap.count( direction ) )
    {
@@ -43,12 +43,12 @@ optional<reference_wrapper<const ArenaPortal>> Stage::GetArenaPortal( Direction 
 
       for ( auto portal : portals )
       {
-         if ( portal.FromArenaId == fromArenaId )
+         if ( portal->FromArenaId == fromArenaId )
          {
             return portal;
          }
       }
    }
 
-   return { };
+   return nullptr;
 }

@@ -215,5 +215,4 @@ void Game::KillPlayer()
 void Game::HandleActiveArenaChanged()
 {
    _stage->GetMutableActiveArena()->SetPlayerEntity( _player );
-   _arenaPhysics->AssignTo( _stage );
 }

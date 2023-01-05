@@ -584,6 +584,17 @@ TEST_F( GameTests, EventHandling_TileDeathEventRaised_ChangesNextGameStateToGame
    EXPECT_EQ( _game->GetGameState(), GameState::GameOver );
 }
 
+TEST_F( GameTests, EventHandling_ActiveArenaChangedEventRaised_AssignsPlayerAndPhysicsToArena )
+{
+   auto eventAggregator = make_shared<GameEventAggregator>();
+   _game.reset( new Game( eventAggregator, _playerMock, _stageMock, _playerPhysicsMock, _arenaPhysicsMock, _entityFactoryMock ) );
+
+   EXPECT_CALL( *_arenaMock, SetPlayerEntity( static_pointer_cast<Entity>( _playerMock ) ) );
+   EXPECT_CALL( *_arenaPhysicsMock, AssignTo( static_pointer_cast<Arena>( _arenaMock ) ) );
+
+   eventAggregator->RaiseEvent( GameEvent::ActiveArenaChanged );
+}
+
 TEST_F( GameTests, GetPlayer_Always_ReturnsPlayer )
 {
    BuildGame();

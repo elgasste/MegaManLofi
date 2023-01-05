@@ -14,6 +14,8 @@ namespace MegaManLofi
       ArenaEntityDeSpawned,
       ArenaEntitiesCleared,
 
+      ActiveArenaChanged,
+
       Pitfall,
       TileDeath
    };

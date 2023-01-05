@@ -120,7 +120,7 @@ void LoadAndRun( const shared_ptr<ConsoleBuffer> consoleBuffer )
 
    // game objects
    auto player = shared_ptr<Player>( new Player( gameDefs->PlayerDefs, frameActionRegistry, clock ) );
-   auto stage = shared_ptr<Stage>( new Stage( gameDefs->StageDefs ) );
+   auto stage = shared_ptr<Stage>( new Stage( gameDefs->StageDefs, eventAggregator ) );
    for ( auto [arenaId, arenaDefs] : gameDefs->StageDefs->ArenaMap )
    {
       auto arena = shared_ptr<Arena>( new Arena( arenaDefs, gameDefs->WorldDefs, eventAggregator ) );
@@ -159,7 +159,7 @@ void LoadAndRun( const shared_ptr<ConsoleBuffer> consoleBuffer )
 
    // rendering utilities
    auto spriteCopier = shared_ptr<EntityConsoleSpriteCopier>( new EntityConsoleSpriteCopier );
-   auto spriteRepository = shared_ptr<EntityConsoleSpriteRepository>( new EntityConsoleSpriteRepository( eventAggregator, stage, spriteCopier, consoleRenderDefs->SpriteDefs ) );
+   auto spriteRepository = shared_ptr<EntityConsoleSpriteRepository>( new EntityConsoleSpriteRepository( eventAggregator, game, spriteCopier, consoleRenderDefs->SpriteDefs ) );
 
    // renderers objects
    auto diagnosticsRenderer = shared_ptr<DiagnosticsConsoleRenderer>( new DiagnosticsConsoleRenderer( consoleBuffer, clock, consoleRenderDefs, game, spriteRepository ) );

@@ -22,14 +22,14 @@ map<int, shared_ptr<ArenaDefs>> ArenaDefsGenerator::GenerateArenaDefsMap( const 
    arenaDefsMap[1]->HorizontalTiles = 120;
    arenaDefsMap[1]->VerticalTiles = 30;
    arenaDefsMap[1]->Tiles = ArenaTileGenerator::GenerateArenaTiles( 1 );
-   arenaDefsMap[1]->PlayerStartPosition = { 0, 0 };
+   arenaDefsMap[1]->PlayerStartPosition = { worldDefs->TileWidth * 2, worldDefs->TileHeight * 19 };
 
    arenaDefsMap[2] = make_shared<ArenaDefs>();
    arenaDefsMap[2]->ArenaId = 2;
    arenaDefsMap[2]->HorizontalTiles = 120;
    arenaDefsMap[2]->VerticalTiles = 60;
    arenaDefsMap[2]->Tiles = ArenaTileGenerator::GenerateArenaTiles( 2 );
-   arenaDefsMap[2]->PlayerStartPosition = { 0, 0 };
+   arenaDefsMap[2]->PlayerStartPosition = { worldDefs->TileWidth * 28, worldDefs->TileHeight * 2 };
 
    return arenaDefsMap;
 }

@@ -83,19 +83,19 @@ namespace MegaManLofi
                   "s                                                                                                                       " \
                   "s                                                                                                                       " \
                   "s                                                                                                                       " \
-                  "s                      sssssssssss                                                                                      " \
+                  "s                    sssssssssssss                                                                                      " \
                   "s                                                                                                                       " \
                   "s                                                                                                                       " \
                   "s                                                                                                                       " \
-                  "s     sssss                                                                                                             " \
+                  "s     ssssss                                                                                                            " \
                   "s                                            sssssssssssssssssssssssss                                                  " \
                   "s                                                                                                                       " \
                   "s                                                                                                                       " \
                   "s                                                                                                                       " \
                   "s                                                                                ss                                     " \
+                  "s                                                                                                                       " \
+                  "s                                                                                                                       " \
                   "sssssssssssssssss                                                                                                       " \
-                  "s                                                                                                                       " \
-                  "s                                                                                                                       " \
                   "                                                                                                                        " \
                   "                                                                                                                        " \
                   "                                                                                              ss                        " \

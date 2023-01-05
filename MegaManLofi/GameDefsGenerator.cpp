@@ -20,12 +20,12 @@ shared_ptr<GameDefs> GameDefsGenerator::GenerateGameDefs( const shared_ptr<IFram
    // should prevent the player from clipping through any surfaces when the frame rate drops
    gameDefs->MinimumFrameRate = 52;
 
-   gameDefs->RenderDefs = ConsoleRenderDefsGenerator::GenerateConsoleRenderDefs( frameRateProvider );
    gameDefs->InputDefs = KeyboardInputDefsGenerator::GenerateKeyboardInputDefs();
    gameDefs->EntityDefs = EntityDefsGenerator::GenerateEntityDefs();
    gameDefs->PlayerDefs = PlayerDefsGenerator::GeneratePlayerDefs( uniqueNumberGenerator );
    gameDefs->WorldDefs = WorldDefsGenerator::GenerateWorldDefs();
    gameDefs->StageDefs = StageDefsGenerator::GenerateStageDefs( gameDefs->WorldDefs );
+   gameDefs->RenderDefs = ConsoleRenderDefsGenerator::GenerateConsoleRenderDefs( frameRateProvider, gameDefs->StageDefs );
    gameDefs->PlayerPhysicsDefs = PlayerPhysicsDefsGenerator::GeneratePlayerPhysicsDefs();
 
    return gameDefs;

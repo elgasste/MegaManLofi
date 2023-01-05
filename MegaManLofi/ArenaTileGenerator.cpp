@@ -4,10 +4,10 @@
 using namespace std;
 using namespace MegaManLofi;
 
-vector<ArenaTile> ArenaTileGenerator::GenerateArenaTiles()
+vector<ArenaTile> ArenaTileGenerator::GenerateArenaTiles( int arenaId )
 {
    vector<ArenaTile> tiles;
-   auto arenaTilesString = ArenaGenerationStrings::GetArenaTilesString();
+   auto arenaTilesString = ArenaGenerationStrings::GetArenaTilesString( arenaId );
 
    for ( int i = 0; i < (int)arenaTilesString.size(); i++ )
    {

@@ -15,7 +15,7 @@ map<int, shared_ptr<ArenaDefs>> ArenaDefsGenerator::GenerateArenaDefsMap( const 
    arenaDefsMap[arenaId]->ArenaId = arenaId;
    arenaDefsMap[arenaId]->HorizontalTiles = 360;
    arenaDefsMap[arenaId]->VerticalTiles = 60;
-   arenaDefsMap[arenaId]->Tiles = ArenaTileGenerator::GenerateArenaTiles();
+   arenaDefsMap[arenaId]->Tiles = ArenaTileGenerator::GenerateArenaTiles( arenaId );
    arenaDefsMap[arenaId]->PlayerStartPosition = { worldDefs->TileWidth * 8, worldDefs->TileHeight * 6 };
 
    // TODO: increment arena ID and add another arena

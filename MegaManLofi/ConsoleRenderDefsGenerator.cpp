@@ -9,7 +9,8 @@
 using namespace std;
 using namespace MegaManLofi;
 
-shared_ptr<IGameRenderDefs> ConsoleRenderDefsGenerator::GenerateConsoleRenderDefs( const shared_ptr<IFrameRateProvider> frameRateProvider )
+shared_ptr<IGameRenderDefs> ConsoleRenderDefsGenerator::GenerateConsoleRenderDefs( const shared_ptr<IFrameRateProvider> frameRateProvider,
+                                                                                   const shared_ptr<StageDefs> stageDefs )
 {
    auto renderDefs = make_shared<ConsoleRenderDefs>();
 
@@ -99,7 +100,7 @@ shared_ptr<IGameRenderDefs> ConsoleRenderDefsGenerator::GenerateConsoleRenderDef
    renderDefs->ArenaImageMap[2].Height = 1;
    renderDefs->ArenaImageMap[2].Pixels.push_back( { '+', true, ConsoleColor::Red, ConsoleColor::Black } );
 
-   renderDefs->ArenaTiles = ArenaImageGenerator::GenerateArenaTiles();
+   renderDefs->ArenaTileImageIdMap = ArenaImageGenerator::GenerateArenaTileImageIdMap( stageDefs );
 
    renderDefs->SpriteDefs = ConsoleSpriteDefsGenerator::GenerateConsoleSpriteDefs( frameRateProvider );
 

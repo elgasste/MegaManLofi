@@ -85,7 +85,7 @@ namespace MegaManLofi
       ConsoleImage GameOverImage;
 
       std::map<int, ConsoleImage> ArenaImageMap;
-      std::vector<int> ArenaTiles;
+      std::map<int, std::vector<int>> ArenaTileImageIdMap;
 
       std::shared_ptr<ConsoleSpriteDefs> SpriteDefs;
    };

@@ -8,13 +8,12 @@
 
 namespace MegaManLofi
 {
-   class ConsoleSprite;
-   class IFrameRateProvider;
+   class StageDefs;
 
    class ArenaImageGenerator
    {
    public:
-      static std::vector<int> GenerateArenaTiles();
+      static std::map<int, std::vector<int>> GenerateArenaTileImageIdMap( const std::shared_ptr<StageDefs> stageDefs );
       static ConsoleImage GeneratePauseOverlayImage();
       static ConsoleImage GenerateGameOverImage();
    };

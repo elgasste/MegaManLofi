@@ -130,17 +130,19 @@ void Game::StartGame()
 {
    _player->Reset();
    _playerPhysics->AssignTo( _player );
+
+   _stage->Reset();
+   _arenaPhysics->AssignTo( _stage );
+   _stage->GetMutableActiveArena()->SetPlayerEntity( _player );
+
    StartStage();
    _eventAggregator->RaiseEvent( GameEvent::GameStarted );
 }
 
 void Game::StartStage()
 {
-   _stage->Reset();
    _player->ResetPosition();
-
-   _stage->GetMutableActiveArena()->SetPlayerEntity( _player );
-   _arenaPhysics->AssignTo( _stage );
+   _stage->GetMutableActiveArena()->Reset();
 
    _playerPhysics->Reset();
    _arenaPhysics->Reset();

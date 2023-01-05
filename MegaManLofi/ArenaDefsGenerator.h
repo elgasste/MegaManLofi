@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <map>
 
 namespace MegaManLofi
 {
@@ -10,6 +11,6 @@ namespace MegaManLofi
    class ArenaDefsGenerator
    {
    public:
-      static std::shared_ptr<ArenaDefs> GenerateArenaDefs( const std::shared_ptr<WorldDefs> worldDefs );
+      static std::map<int, std::shared_ptr<ArenaDefs>> GenerateArenaDefsMap( const std::shared_ptr<WorldDefs> worldDefs );
    };
 }

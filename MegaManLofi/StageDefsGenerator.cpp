@@ -12,7 +12,7 @@ shared_ptr<StageDefs> StageDefsGenerator::GenerateStageDefs( shared_ptr<WorldDef
 
    stageDefs->StartArenaId = 0;
 
-   stageDefs->ArenaMap[0] = ArenaDefsGenerator::GenerateArenaDefs( worldDefs );
+   stageDefs->ArenaMap = ArenaDefsGenerator::GenerateArenaDefsMap( worldDefs );
 
    return stageDefs;
 }

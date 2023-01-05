@@ -282,16 +282,20 @@ void ArenaPhysics::DetectEntityTileCollisionY( const shared_ptr<Entity> entity, 
 bool ArenaPhysics::DetectPlayerCrossedPortal( Direction direction, const shared_ptr<Entity> entity ) const
 {
    auto arena = _stage->GetActiveArena();
-
    if ( entity != arena->GetPlayerEntity() )
    {
       return false;
    }
 
+   auto portal = _stage->GetArenaPortal( direction, arena->GetArenaId() );
+   if ( !portal.has_value() )
+   {
+      return false;
+   }
+
    // TODO:
-   // - search the stage's portal map for portals that match the direction and "from" ID for this arena
-   // - if found, check if the player is in range
-   // - if they are, call arena->CrossPortal( portal ) or whatever
+   // - if the player is not in the portal's range, return false
+   // - otherwise, call arena->CrossPortal( portal ) or whatever
    // - return true
 
    return false;

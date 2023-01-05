@@ -159,7 +159,7 @@ void LoadAndRun( const shared_ptr<ConsoleBuffer> consoleBuffer )
 
    // rendering utilities
    auto spriteCopier = shared_ptr<EntityConsoleSpriteCopier>( new EntityConsoleSpriteCopier );
-   auto spriteRepository = shared_ptr<EntityConsoleSpriteRepository>( new EntityConsoleSpriteRepository( eventAggregator, stage, spriteCopier, consoleRenderDefs->SpriteDefs ) );
+   auto spriteRepository = shared_ptr<EntityConsoleSpriteRepository>( new EntityConsoleSpriteRepository( eventAggregator, game, spriteCopier, consoleRenderDefs->SpriteDefs ) );
 
    // renderers objects
    auto diagnosticsRenderer = shared_ptr<DiagnosticsConsoleRenderer>( new DiagnosticsConsoleRenderer( consoleBuffer, clock, consoleRenderDefs, game, spriteRepository ) );

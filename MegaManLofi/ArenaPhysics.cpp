@@ -59,19 +59,19 @@ void ArenaPhysics::UpdateEntityTileIndicesCache( const shared_ptr<ReadOnlyEntity
 
    _entityTileIndicesCache[entity] =
    {
-      (int)( ( position.Left + hitBox.Left ) / _arena->GetTileWidth() ),
-      (int)( ( position.Top + hitBox.Top ) / _arena->GetTileHeight() ),
-      (int)( ( position.Left + hitBox.Left + hitBox.Width ) / _arena->GetTileWidth() ),
-      (int)( ( position.Top + hitBox.Top + hitBox.Height ) / _arena->GetTileHeight() )
+      (int)( ( position.Left + hitBox.Left ) / _worldDefs->TileWidth ),
+      (int)( ( position.Top + hitBox.Top ) / _worldDefs->TileHeight ),
+      (int)( ( position.Left + hitBox.Left + hitBox.Width ) / _worldDefs->TileWidth ),
+      (int)( ( position.Top + hitBox.Top + hitBox.Height ) / _worldDefs->TileHeight )
    };
 
    // when the entity is positioned exactly at the edge of the right or bottom tile,
    // these indices will be incorrect, and need to be decremented.
-   if ( fmod( position.Left + hitBox.Left + hitBox.Width, _arena->GetTileWidth() ) == 0 )
+   if ( fmod( position.Left + hitBox.Left + hitBox.Width, _worldDefs->TileWidth ) == 0 )
    {
       _entityTileIndicesCache[entity].Right--;
    }
-   if ( fmod( position.Top + hitBox.Top + hitBox.Height, _arena->GetTileHeight() ) == 0 )
+   if ( fmod( position.Top + hitBox.Top + hitBox.Height, _worldDefs->TileHeight ) == 0 )
    {
       _entityTileIndicesCache[entity].Bottom--;
    }
@@ -125,7 +125,7 @@ void ArenaPhysics::DetectEntityTileCollisionX( const shared_ptr<Entity> entity, 
    {
       if ( newPositionLeft < currentPositionLeft ) // moving left
       {
-         auto leftOccupyingTileLeftEdge = occupyingTileIndices.Left * _arena->GetTileWidth();
+         auto leftOccupyingTileLeftEdge = occupyingTileIndices.Left * _worldDefs->TileWidth;
 
          if ( newPositionLeft < 0 )
          {
@@ -157,7 +157,7 @@ void ArenaPhysics::DetectEntityTileCollisionX( const shared_ptr<Entity> entity, 
       }
       else // moving right
       {
-         auto rightOccupyingTileRightEdge = ( occupyingTileIndices.Right + 1 ) * _arena->GetTileWidth();
+         auto rightOccupyingTileRightEdge = ( occupyingTileIndices.Right + 1 ) * _worldDefs->TileWidth;
          auto newPositionRight = newPositionLeft + hitBox.Width;
          auto arenaWidth = _arena->GetWidth();
 
@@ -203,7 +203,7 @@ void ArenaPhysics::DetectEntityTileCollisionY( const shared_ptr<Entity> entity, 
    {
       if ( newPositionTop < currentPositionTop ) // moving up
       {
-         auto topOccupyingTileTopEdge = occupyingTileIndices.Top * _arena->GetTileHeight();
+         auto topOccupyingTileTopEdge = occupyingTileIndices.Top * _worldDefs->TileHeight;
 
          if ( newPositionTop < 0 )
          {
@@ -235,7 +235,7 @@ void ArenaPhysics::DetectEntityTileCollisionY( const shared_ptr<Entity> entity, 
       }
       else // moving down
       {
-         auto bottomOccupyingTileBottomEdge = ( occupyingTileIndices.Bottom + 1 ) * _arena->GetTileHeight();
+         auto bottomOccupyingTileBottomEdge = ( occupyingTileIndices.Bottom + 1 ) * _worldDefs->TileHeight;
          auto newPositionBottom = newPositionTop + hitBox.Height;
          auto arenaHeight = _arena->GetHeight();
 

@@ -32,8 +32,6 @@ public:
 
       ON_CALL( *_arenaMock, GetWidth() ).WillByDefault( Return( 20.0f ) );
       ON_CALL( *_arenaMock, GetHeight() ).WillByDefault( Return( 16.0f ) );
-      ON_CALL( *_arenaMock, GetTileWidth() ).WillByDefault( Return( 2.0f ) );
-      ON_CALL( *_arenaMock, GetTileHeight() ).WillByDefault( Return( 2.0f ) );
       ON_CALL( *_arenaMock, GetHorizontalTiles() ).WillByDefault( Return( 10 ) );
       ON_CALL( *_arenaMock, GetVerticalTiles() ).WillByDefault( Return( 8 ) );
       ON_CALL( *_arenaMock, GetTile( _ ) ).WillByDefault( ReturnRef( _defaultTile ) );

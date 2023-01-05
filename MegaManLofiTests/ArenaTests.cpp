@@ -62,8 +62,6 @@ TEST_F( ArenaTests, Constructor_Always_SetsDefaultInfoBasedOnDefs )
    EXPECT_EQ( _arena->GetArenaId(), 11 );
    EXPECT_EQ( _arena->GetWidth(), 20 );
    EXPECT_EQ( _arena->GetHeight(), 16 );
-   EXPECT_EQ( _arena->GetTileWidth(), 2 );
-   EXPECT_EQ( _arena->GetTileHeight(), 2 );
    EXPECT_EQ( _arena->GetHorizontalTiles(), 10 );
    EXPECT_EQ( _arena->GetVerticalTiles(), 8 );
 

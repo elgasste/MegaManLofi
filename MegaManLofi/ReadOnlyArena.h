@@ -22,8 +22,6 @@ namespace MegaManLofi
       virtual int GetEntityCount() const { return (int)_entities.size(); }
       virtual float GetWidth() const { return _width; }
       virtual float GetHeight() const { return _height; }
-      virtual float GetTileWidth() const { return _tileWidth; }
-      virtual float GetTileHeight() const { return _tileHeight; }
       virtual int GetHorizontalTiles() const { return _horizontalTiles; }
       virtual int GetVerticalTiles() const { return _verticalTiles; }
       virtual const Quad<float>& GetActiveRegion() const { return _activeRegion; }
@@ -37,8 +35,6 @@ namespace MegaManLofi
       std::vector<ArenaTile> _tiles;
       float _width;
       float _height;
-      float _tileWidth;
-      float _tileHeight;
       int _horizontalTiles;
       int _verticalTiles;
       Quad<float> _activeRegion;

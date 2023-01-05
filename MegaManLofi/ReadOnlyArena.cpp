@@ -9,8 +9,6 @@ ReadOnlyArena::ReadOnlyArena() :
    _playerEntity( nullptr ),
    _width( 0 ),
    _height( 0 ),
-   _tileWidth( 0 ),
-   _tileHeight( 0 ),
    _horizontalTiles( 0 ),
    _verticalTiles( 0 ),
    _activeRegion( { 0, 0, 0, 0 } )

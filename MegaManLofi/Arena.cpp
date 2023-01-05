@@ -19,8 +19,6 @@ Arena::Arena( const shared_ptr<ArenaDefs> arenaDefs,
    _tiles = arenaDefs->Tiles;
    _width = worldDefs->TileWidth * arenaDefs->HorizontalTiles;
    _height = worldDefs->TileHeight * arenaDefs->VerticalTiles;
-   _tileWidth = worldDefs->TileWidth;
-   _tileHeight = worldDefs->TileHeight;
    _horizontalTiles = arenaDefs->HorizontalTiles;
    _verticalTiles = arenaDefs->VerticalTiles;
 

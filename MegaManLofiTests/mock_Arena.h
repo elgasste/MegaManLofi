@@ -13,8 +13,6 @@ public:
    MOCK_METHOD( int, GetEntityCount, ( ), ( const, override ) );
    MOCK_METHOD( float, GetWidth, ( ), ( const, override ) );
    MOCK_METHOD( float, GetHeight, ( ), ( const, override ) );
-   MOCK_METHOD( float, GetTileWidth, ( ), ( const, override ) );
-   MOCK_METHOD( float, GetTileHeight, ( ), ( const, override ) );
    MOCK_METHOD( int, GetHorizontalTiles, ( ), ( const, override ) );
    MOCK_METHOD( int, GetVerticalTiles, ( ), ( const, override ) );
    MOCK_METHOD( const MegaManLofi::Quad<float>&, GetActiveRegion, ( ), ( const, override ) );
@@ -23,6 +21,7 @@ public:
 
    MOCK_METHOD( void, Reset, ( ), ( override ) );
    MOCK_METHOD( void, Clear, ( ), ( override ) );
+   MOCK_METHOD( const std::shared_ptr<MegaManLofi::Entity>, GetMutableEntity, ( int ), ( const, override ) );
    MOCK_METHOD( void, SetPlayerEntity, ( const std::shared_ptr<MegaManLofi::Entity> ), ( override ) );
    MOCK_METHOD( void, SetActiveRegion, ( MegaManLofi::Quad<float> ), ( override ) );
    MOCK_METHOD( void, AddEntity, ( const std::shared_ptr<MegaManLofi::Entity> ), ( override ) );

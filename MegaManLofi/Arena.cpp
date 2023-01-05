@@ -19,8 +19,6 @@ Arena::Arena( const shared_ptr<ArenaDefs> arenaDefs,
    _tiles = arenaDefs->Tiles;
    _width = worldDefs->TileWidth * arenaDefs->HorizontalTiles;
    _height = worldDefs->TileHeight * arenaDefs->VerticalTiles;
-   _tileWidth = worldDefs->TileWidth;
-   _tileHeight = worldDefs->TileHeight;
    _horizontalTiles = arenaDefs->HorizontalTiles;
    _verticalTiles = arenaDefs->VerticalTiles;
 
@@ -45,7 +43,6 @@ void Arena::Clear()
    _playerEntity = nullptr;
 }
 
-// MUFFINS: test this
 void Arena::SetPlayerEntity( const shared_ptr<Entity> playerEntity )
 {
    _playerEntity = playerEntity;

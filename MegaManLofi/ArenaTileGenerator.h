@@ -9,6 +9,6 @@ namespace MegaManLofi
    class ArenaTileGenerator
    {
    public:
-      static std::vector<ArenaTile> GenerateArenaTiles();
+      static std::vector<ArenaTile> GenerateArenaTiles( int arenaId );
    };
 }

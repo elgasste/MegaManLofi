@@ -19,6 +19,7 @@ namespace MegaManLofi
       virtual void Reset();
       virtual void Clear();
 
+      virtual const std::shared_ptr<Entity> GetMutableEntity( int index ) const { return _entities[index]; }
       virtual void SetArenaId( int id ) { _arenaId = id; }
       virtual void SetPlayerEntity( const std::shared_ptr<Entity> playerEntity );
       virtual void SetActiveRegion( Quad<float> region ) { _activeRegion = region; }

@@ -217,6 +217,7 @@
     <ClInclude Include="ArenaDefsGenerator.h" />
     <ClInclude Include="ArenaImageGenerator.h" />
     <ClInclude Include="ArenaGenerationStrings.h" />
+    <ClInclude Include="ArenaPortal.h" />
     <ClInclude Include="ArenaTileGenerator.h" />
     <ClInclude Include="ArenaPhysics.h" />
     <ClInclude Include="ArenaTile.h" />

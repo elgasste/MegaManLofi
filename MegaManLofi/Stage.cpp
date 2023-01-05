@@ -34,3 +34,21 @@ void Stage::SetActiveArena( int arenaId )
       _eventAggregator->RaiseEvent( GameEvent::ActiveArenaChanged );
    }
 }
+
+const shared_ptr<ArenaPortal> Stage::GetArenaPortal( Direction direction, int fromArenaId ) const
+{
+   if ( _stageDefs->ArenaPortalMap.count( direction ) )
+   {
+      auto portals = _stageDefs->ArenaPortalMap.at( direction );
+
+      for ( auto portal : portals )
+      {
+         if ( portal->FromArenaId == fromArenaId )
+         {
+            return portal;
+         }
+      }
+   }
+
+   return nullptr;
+}

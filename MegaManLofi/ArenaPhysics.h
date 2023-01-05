@@ -5,13 +5,14 @@
 
 #include "Coordinate.h"
 #include "Quad.h"
+#include "Direction.h"
 
 namespace MegaManLofi
 {
    class IFrameRateProvider;
    class GameEventAggregator;
    class WorldDefs;
-   class Arena;
+   class Stage;
    class Entity;
    class ReadOnlyEntity;
 
@@ -23,7 +24,7 @@ namespace MegaManLofi
                     const std::shared_ptr<GameEventAggregator> eventAggregator,
                     const std::shared_ptr<WorldDefs> worldDefs );
 
-      virtual void AssignTo( const std::shared_ptr<Arena> arena );
+      virtual void AssignTo( const std::shared_ptr<Stage> stage );
       virtual void Reset();
       virtual void Tick();
 
@@ -31,9 +32,10 @@ namespace MegaManLofi
       void UpdateEntityTileIndicesCaches();
       void UpdateEntityTileIndicesCache( const std::shared_ptr<ReadOnlyEntity> entity );
       void MoveEntities();
-      void MoveEntity( const std::shared_ptr<Entity> entity );
-      void DetectEntityTileCollisionX( const std::shared_ptr<Entity> entity, float& newPositionLeft );
-      void DetectEntityTileCollisionY( const std::shared_ptr<Entity> entity, float& newPositionTop );
+      void MoveEntity( const std::shared_ptr<Entity> entity, bool& crossedPortal );
+      void DetectEntityTileCollisionX( const std::shared_ptr<Entity> entity, float& newPositionLeft, bool& crossedPortal );
+      void DetectEntityTileCollisionY( const std::shared_ptr<Entity> entity, float& newPositionTop, bool& crossedPortal );
+      bool DetectPlayerCrossedPortal( Direction direction, const std::shared_ptr<Entity> entity );
       void HandleEntityEnvironmentCollision( const std::shared_ptr<Entity> entity );
       void DetectEntityMovementType( const std::shared_ptr<Entity> entity ) const;
 
@@ -45,7 +47,7 @@ namespace MegaManLofi
       const std::shared_ptr<GameEventAggregator> _eventAggregator;
       const std::shared_ptr<WorldDefs> _worldDefs;
 
-      std::shared_ptr<Arena> _arena;
+      std::shared_ptr<Stage> _stage;
 
       std::map<std::shared_ptr<ReadOnlyEntity>, Quad<int>> _entityTileIndicesCache;
    };

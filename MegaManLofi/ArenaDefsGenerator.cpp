@@ -6,18 +6,30 @@
 using namespace std;
 using namespace MegaManLofi;
 
-shared_ptr<ArenaDefs> ArenaDefsGenerator::GenerateArenaDefs( const shared_ptr<WorldDefs> worldDefs )
+map<int, shared_ptr<ArenaDefs>> ArenaDefsGenerator::GenerateArenaDefsMap( const shared_ptr<WorldDefs> worldDefs )
 {
-   auto arenaDefs = make_shared<ArenaDefs>();
+   map<int, shared_ptr<ArenaDefs>> arenaDefsMap;
 
-   arenaDefs->ArenaId = 0;
+   arenaDefsMap[0] = make_shared<ArenaDefs>();
+   arenaDefsMap[0]->ArenaId = 0;
+   arenaDefsMap[0]->HorizontalTiles = 360;
+   arenaDefsMap[0]->VerticalTiles = 60;
+   arenaDefsMap[0]->Tiles = ArenaTileGenerator::GenerateArenaTiles( 0 );
+   arenaDefsMap[0]->PlayerStartPosition = { worldDefs->TileWidth * 8, worldDefs->TileHeight * 6 };
 
-   arenaDefs->HorizontalTiles = 360;
-   arenaDefs->VerticalTiles = 60;
+   arenaDefsMap[1] = make_shared<ArenaDefs>();
+   arenaDefsMap[1]->ArenaId = 1;
+   arenaDefsMap[1]->HorizontalTiles = 120;
+   arenaDefsMap[1]->VerticalTiles = 30;
+   arenaDefsMap[1]->Tiles = ArenaTileGenerator::GenerateArenaTiles( 1 );
+   arenaDefsMap[1]->PlayerStartPosition = { worldDefs->TileWidth * 2, worldDefs->TileHeight * 19 };
 
-   arenaDefs->Tiles = ArenaTileGenerator::GenerateArenaTiles();
+   arenaDefsMap[2] = make_shared<ArenaDefs>();
+   arenaDefsMap[2]->ArenaId = 2;
+   arenaDefsMap[2]->HorizontalTiles = 120;
+   arenaDefsMap[2]->VerticalTiles = 60;
+   arenaDefsMap[2]->Tiles = ArenaTileGenerator::GenerateArenaTiles( 2 );
+   arenaDefsMap[2]->PlayerStartPosition = { worldDefs->TileWidth * 28, worldDefs->TileHeight * 2 };
 
-   arenaDefs->PlayerStartPosition = { worldDefs->TileWidth * 8, worldDefs->TileHeight * 6 };
-
-   return arenaDefs;
+   return arenaDefsMap;
 }

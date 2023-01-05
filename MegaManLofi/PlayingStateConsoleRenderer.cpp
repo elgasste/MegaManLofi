@@ -213,13 +213,14 @@ void PlayingStateConsoleRenderer::DrawPlayerExplosionAnimation()
 void PlayingStateConsoleRenderer::DrawArenaSprites()
 {
    auto arenaWidthChars = (short)( _arena->GetWidth() / _renderDefs->ArenaCharWidth );
+   auto arenaId = _arenaInfoProvider->GetActiveArena()->GetArenaId();
 
    for ( short y = 0; y < _viewportRectChars.Height; y++ )
    {
       for ( short x = 0; x < _viewportRectChars.Width; x++ )
       {
          auto tileIndex = ( ( _viewportRectChars.Top + y ) * arenaWidthChars ) + ( _viewportRectChars.Left + x );
-         auto imageId = _renderDefs->ArenaTiles[tileIndex];
+         auto imageId = _renderDefs->ArenaTileImageIdMap[arenaId][tileIndex];
 
          if ( imageId != -1 )
          {

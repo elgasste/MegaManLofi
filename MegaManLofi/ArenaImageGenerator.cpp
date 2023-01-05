@@ -1,35 +1,40 @@
 #include "ArenaImageGenerator.h"
 #include "ArenaGenerationStrings.h"
+#include "StageDefs.h"
 #include "ConsoleSprite.h"
 
 using namespace std;
 using namespace MegaManLofi;
 
-vector<int> ArenaImageGenerator::GenerateArenaTiles()
+map<int, vector<int>> ArenaImageGenerator::GenerateArenaTileImageIdMap( const std::shared_ptr<StageDefs> stageDefs )
 {
-   vector<int> imageIds;
-   auto arenaTilesString = ArenaGenerationStrings::GetArenaTilesString();
+   map<int, vector<int>> tileImageIdMap;
 
-   for ( int i = 0; i < (int)arenaTilesString.size(); i++ )
+   for ( auto [arenaId, arena] : stageDefs->ArenaMap )
    {
-      switch ( arenaTilesString[i] )
+      auto arenaTilesString = ArenaGenerationStrings::GetArenaTilesString( arenaId );
+
+      for ( int i = 0; i < (int)arenaTilesString.size(); i++ )
       {
-         case 's':
-            imageIds.push_back( 0 ); // passable in any direction
-            break;
-         case 'p':
-            imageIds.push_back( 1 ); // passable in any direction but down
-            break;
-         case 'x':
-            imageIds.push_back( 2 ); // passable in any direction but up
-            break;
-         default:
-            imageIds.push_back( -1 );
-            break;
+         switch ( arenaTilesString[i] )
+         {
+            case 's':
+               tileImageIdMap[arenaId].push_back( 0 ); // passable in any direction
+               break;
+            case 'p':
+               tileImageIdMap[arenaId].push_back( 1 ); // passable in any direction but down
+               break;
+            case 'x':
+               tileImageIdMap[arenaId].push_back( 2 ); // passable in any direction but up
+               break;
+            default:
+               tileImageIdMap[arenaId].push_back( -1 );
+               break;
+         }
       }
    }
-
-   return imageIds;
+   
+   return tileImageIdMap;
 }
 
 ConsoleImage ArenaImageGenerator::GeneratePauseOverlayImage()

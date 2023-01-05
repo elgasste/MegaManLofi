@@ -19,6 +19,8 @@ namespace MegaManLofi
       virtual void Reset();
       virtual void SetActiveArena( int arenaId );
 
+      virtual const std::shared_ptr<ArenaPortal> GetArenaPortal( Direction direction, int fromArenaId ) const override;
+
    private:
       const std::shared_ptr<StageDefs> _stageDefs;
       const std::shared_ptr<GameEventAggregator> _eventAggregator;

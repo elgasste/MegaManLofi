@@ -96,8 +96,8 @@ TEST_F( StageTests, GetArenaPortal_PortalNotFoundForDirection_ReturnsNoValue )
 
 TEST_F( StageTests, GetArenaPortal_PortalNotFoundForArenaId_ReturnsNoValue )
 {
+   _stageDefs->ArenaPortalMap[Direction::Left].push_back( { 2, 1, 0, 0, 0 } ); // from 2 to 1
    BuildStage();
-   _stage->AddArenaPortal( Direction::Left, { 2, 1, 0, 0 } ); // from 2 to 1
 
    auto portal = _stage->GetArenaPortal( Direction::Left, 1 );
 
@@ -106,8 +106,8 @@ TEST_F( StageTests, GetArenaPortal_PortalNotFoundForArenaId_ReturnsNoValue )
 
 TEST_F( StageTests, GetArenaPortal_PortalFound_ReturnsPortal )
 {
+   _stageDefs->ArenaPortalMap[Direction::Left].push_back( { 1, 2, 0, 0, 0 } ); // from 1 to 2
    BuildStage();
-   _stage->AddArenaPortal( Direction::Left, { 1, 2, 0, 0 } ); // from 1 to 2
 
    auto portal = _stage->GetArenaPortal( Direction::Left, 1 );
    auto portalReference = portal->get();

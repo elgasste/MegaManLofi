@@ -19,11 +19,6 @@ void Stage::AddArena( std::shared_ptr<Arena> arena )
    _arenaMap[arena->GetArenaId()] = arena;
 }
 
-void Stage::AddArenaPortal( Direction direction, ArenaPortal portal )
-{
-   _arenaPortalMap[direction].push_back( portal );
-}
-
 void Stage::Reset()
 {
    _arenaMap[_activeArenaId]->Clear();
@@ -38,4 +33,22 @@ void Stage::SetActiveArena( int arenaId )
       _activeArenaId = arenaId;
       _eventAggregator->RaiseEvent( GameEvent::ActiveArenaChanged );
    }
+}
+
+optional<reference_wrapper<const ArenaPortal>> Stage::GetArenaPortal( Direction direction, int fromArenaId ) const
+{
+   if ( _stageDefs->ArenaPortalMap.count( direction ) )
+   {
+      auto portals = _stageDefs->ArenaPortalMap.at( direction );
+
+      for ( auto portal : portals )
+      {
+         if ( portal.FromArenaId == fromArenaId )
+         {
+            return portal;
+         }
+      }
+   }
+
+   return { };
 }

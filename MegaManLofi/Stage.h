@@ -16,9 +16,10 @@ namespace MegaManLofi
 
       virtual const std::shared_ptr<Arena> GetMutableActiveArena() const { return _arenaMap.at( _activeArenaId ); }
       virtual void AddArena( std::shared_ptr<Arena> arena );
-      virtual void AddArenaPortal( Direction direction, ArenaPortal portal );
       virtual void Reset();
       virtual void SetActiveArena( int arenaId );
+
+      virtual std::optional<std::reference_wrapper<const ArenaPortal>> GetArenaPortal( Direction direction, int fromArenaId ) const override;
 
    private:
       const std::shared_ptr<StageDefs> _stageDefs;

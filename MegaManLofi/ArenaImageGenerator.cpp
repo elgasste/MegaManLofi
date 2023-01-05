@@ -19,16 +19,16 @@ map<int, vector<int>> ArenaImageGenerator::GenerateArenaTileImageIdMap( const st
          switch ( arenaTilesString[i] )
          {
             case 's':
-               tileImageIdMap[0].push_back( 0 ); // passable in any direction
+               tileImageIdMap[arenaId].push_back( 0 ); // passable in any direction
                break;
             case 'p':
-               tileImageIdMap[0].push_back( 1 ); // passable in any direction but down
+               tileImageIdMap[arenaId].push_back( 1 ); // passable in any direction but down
                break;
             case 'x':
-               tileImageIdMap[0].push_back( 2 ); // passable in any direction but up
+               tileImageIdMap[arenaId].push_back( 2 ); // passable in any direction but up
                break;
             default:
-               tileImageIdMap[0].push_back( -1 );
+               tileImageIdMap[arenaId].push_back( -1 );
                break;
          }
       }

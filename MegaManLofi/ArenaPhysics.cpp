@@ -279,7 +279,7 @@ void ArenaPhysics::DetectEntityTileCollisionY( const shared_ptr<Entity> entity, 
    }
 }
 
-bool ArenaPhysics::DetectPlayerCrossedPortal( Direction direction, const shared_ptr<Entity> entity ) const
+bool ArenaPhysics::DetectPlayerCrossedPortal( Direction direction, const shared_ptr<Entity> entity )
 {
    auto arena = _stage->GetActiveArena();
    if ( entity != arena->GetPlayerEntity() )
@@ -295,25 +295,33 @@ bool ArenaPhysics::DetectPlayerCrossedPortal( Direction direction, const shared_
 
    if ( direction == Direction::Left || direction == Direction::Right )
    {
-      auto newTopPosition = entity->GetArenaPositionTop() + entity->GetVelocityY();
-      auto newBottomPosition = newTopPosition + entity->GetHitBox().Height;
+      auto topPosition = entity->GetArenaPositionTop();
+      auto bottomPosition = topPosition + entity->GetHitBox().Height;
       auto portalTop = portal->FromTileOffset * _worldDefs->TileHeight;
       auto portalBottom = portalTop + ( portal->TileRange * _worldDefs->TileHeight );
-      if ( ( newTopPosition >= portalTop && newTopPosition <= portalBottom ) || ( newBottomPosition >= portalTop && newBottomPosition <= portalBottom ) )
+      if ( ( topPosition >= portalTop && topPosition <= portalBottom ) || ( bottomPosition >= portalTop && bottomPosition <= portalBottom ) )
       {
-         // TODO: we're in range, call stage->CrossPortal( portal ) or whatever
+         _stage->SetActiveArena( portal->ToArenaId );
+         auto newLeftPosition = direction == Direction::Right ? 0 : _stage->GetActiveArena()->GetWidth() - entity->GetHitBox().Width;
+         auto newTopPosition = ( portal->ToTileOffset * _worldDefs->TileHeight) + ( topPosition - portalTop );
+         entity->SetArenaPosition( { newLeftPosition, newTopPosition } );
+         UpdateEntityTileIndicesCaches();
          return true;
       }
    }
    else
    {
-      auto newLeftPosition = entity->GetArenaPositionLeft() + entity->GetVelocityX();
-      auto newRightPosition = newLeftPosition + entity->GetHitBox().Width;
+      auto leftPosition = entity->GetArenaPositionLeft();
+      auto rightPosition = leftPosition + entity->GetHitBox().Width;
       auto portalLeft = portal->FromTileOffset * _worldDefs->TileWidth;
       auto portalRight = portalLeft + ( portal->TileRange * _worldDefs->TileWidth );
-      if ( ( newLeftPosition >= portalLeft && newLeftPosition <= portalRight ) || ( newRightPosition >= portalLeft && newRightPosition <= portalRight ) )
+      if ( ( leftPosition >= portalLeft && leftPosition <= portalRight ) || ( rightPosition >= portalLeft && rightPosition <= portalRight ) )
       {
-         // TODO: we're in range, call stage->CrossPortal( portal ) or whatever
+         _stage->SetActiveArena( portal->ToArenaId );
+         auto newLeftPosition = ( portal->ToTileOffset * _worldDefs->TileWidth) + ( leftPosition - portalLeft );
+         auto newTopPosition = direction == Direction::Down ? 0 : _stage->GetActiveArena()->GetHeight() - entity->GetHitBox().Height;
+         entity->SetArenaPosition( { newLeftPosition, newTopPosition } );
+         UpdateEntityTileIndicesCaches();
          return true;
       }
    }

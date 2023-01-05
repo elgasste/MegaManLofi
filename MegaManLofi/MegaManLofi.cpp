@@ -127,6 +127,13 @@ void LoadAndRun( const shared_ptr<ConsoleBuffer> consoleBuffer )
       arena->SetArenaId( arenaId );
       stage->AddArena( arena );
    }
+   for ( auto [direction, portals] : gameDefs->StageDefs->ArenaPortalMap )
+   {
+      for ( auto portal : portals )
+      {
+         stage->AddArenaPortal( direction, portal );
+      }
+   }
    auto entityFactory = shared_ptr<EntityFactory>( new EntityFactory( gameDefs->EntityDefs, uniqueNumberGenerator ) );
    auto game = shared_ptr<Game>( new Game( eventAggregator, player, stage, playerPhysics, arenaPhysics, entityFactory ) );   
 

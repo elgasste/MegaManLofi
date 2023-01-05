@@ -535,6 +535,7 @@ TEST_F( GameTests, Tick_GameStateIsPlayingAndNotPaused_DoesPlayerAndArenaActions
 
    EXPECT_CALL( *_playerPhysicsMock, Tick() );
    EXPECT_CALL( *_arenaPhysicsMock, Tick() );
+   EXPECT_CALL( *_arenaMock, DeSpawnInactiveEntities() );
 
    _game->Tick();
 }

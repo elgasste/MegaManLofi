@@ -22,9 +22,10 @@ namespace MegaManLofi
       virtual const std::shared_ptr<Entity> GetMutableEntity( int index ) const { return _entities[index]; }
       virtual void SetArenaId( int id ) { _arenaId = id; }
       virtual void SetPlayerEntity( const std::shared_ptr<Entity> playerEntity );
-      virtual void SetActiveRegion( Quad<float> region ) { _activeRegion = region; }
+      virtual void SetActiveRegion( Rectangle<float> region ) { _activeRegion = region; }
       virtual void AddEntity( const std::shared_ptr<Entity> entity );
       virtual void RemoveEntity( const std::shared_ptr<Entity> entity );
+      virtual void DeSpawnInactiveEntities();
 
    private:
       const std::shared_ptr<ArenaDefs> _arenaDefs;

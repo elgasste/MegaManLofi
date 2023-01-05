@@ -3,7 +3,7 @@
 #include <memory>
 #include <vector>
 
-#include "Quad.h"
+#include "Rectangle.h"
 #include "ArenaTile.h"
 
 namespace MegaManLofi
@@ -24,7 +24,7 @@ namespace MegaManLofi
       virtual float GetHeight() const { return _height; }
       virtual int GetHorizontalTiles() const { return _horizontalTiles; }
       virtual int GetVerticalTiles() const { return _verticalTiles; }
-      virtual const Quad<float>& GetActiveRegion() const { return _activeRegion; }
+      virtual const Rectangle<float>& GetActiveRegion() const { return _activeRegion; }
       virtual const ArenaTile& GetTile( int index ) const { return _tiles[index]; }
       virtual bool HasEntity( int uniqueId ) const;
 
@@ -37,6 +37,6 @@ namespace MegaManLofi
       float _height;
       int _horizontalTiles;
       int _verticalTiles;
-      Quad<float> _activeRegion;
+      Rectangle<float> _activeRegion;
    };
 }

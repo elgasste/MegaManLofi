@@ -358,7 +358,7 @@ void ArenaPhysics::UpdateActiveRegion()
       regionBottom = arena->GetHeight();
    }
 
-   arena->SetActiveRegion( { regionLeft, regionTop, regionRight, regionBottom } );
+   arena->SetActiveRegion( { regionLeft, regionTop, regionRight - regionLeft, regionBottom - regionTop } );
 }
 
 bool ArenaPhysics::DetectTileDeath() const

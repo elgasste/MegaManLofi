@@ -7,9 +7,7 @@ namespace MegaManLofi
    class RectangleUtilities
    {
    public:
-      static bool RectanglesIntersect( const Rectangle<float>& rect1, const Rectangle<float>& rect2 );
-
-      static void UnclipHorizontal( Rectangle<float>& clippingRect, const Rectangle<float>& clippedRect );
-      static void UnclipVertical( Rectangle<float>& clippingRect, const Rectangle<float>& clippedRect );
+      static bool RectanglesIntersectF( const Rectangle<float>& r1, float r1LeftOffset, float r1TopOffset,
+                                        const Rectangle<float>& r2, float r2LeftOffset, float r2TopOffset );
    };
 }

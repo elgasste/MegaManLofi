@@ -252,3 +252,52 @@ TEST_F( ArenaTests, RemoveEntity_EntityIsInList_RaisesArenaEntityDeSpawnedEvent 
 
    _arena->RemoveEntity( entityMock2 );
 }
+
+TEST_F( ArenaTests, DeSpawnInactiveEntities_NoInactiveEntities_DoesNotDeSpawnEntities )
+{
+   Rectangle<float> playerHitBox = { 10, 10, 30, 30 };
+   ON_CALL( *_playerMock, GetHitBox() ).WillByDefault( ReturnRef( playerHitBox ) );
+   BuildArena();
+   auto entityMock1 = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
+   auto entityMock2 = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
+   _arena->AddEntity( entityMock1 );
+   _arena->AddEntity( entityMock2 );
+
+   Rectangle<float> hitBox1 = { 20, 20, 50, 50 };
+   Rectangle<float> hitBox2 = { 100, 100, 10, 10 };
+   ON_CALL( *entityMock1, GetHitBox() ).WillByDefault( ReturnRef( hitBox1 ) );
+   ON_CALL( *entityMock2, GetHitBox() ).WillByDefault( ReturnRef( hitBox2 ) );
+   
+   _arena->SetActiveRegion( { 0, 0, 200, 200 } );
+
+   EXPECT_CALL( *_eventAggregatorMock, RaiseEvent( GameEvent::ArenaEntityDeSpawned ) ).Times( 0 );
+
+   _arena->DeSpawnInactiveEntities();
+
+   EXPECT_EQ( _arena->GetEntityCount(), 3 );
+}
+
+TEST_F( ArenaTests, DeSpawnInactiveEntities_InactiveEntitiesFound_DeSpawnsEntities )
+{
+   Rectangle<float> playerHitBox = { 10, 10, 30, 30 };
+   ON_CALL( *_playerMock, GetHitBox() ).WillByDefault( ReturnRef( playerHitBox ) );
+   BuildArena();
+   auto entityMock1 = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
+   auto entityMock2 = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
+   _arena->AddEntity( entityMock1 );
+   _arena->AddEntity( entityMock2 );
+
+   Rectangle<float> hitBox1 = { 20, 20, 50, 50 };
+   Rectangle<float> hitBox2 = { 100, 100, 10, 10 };
+   ON_CALL( *entityMock1, GetHitBox() ).WillByDefault( ReturnRef( hitBox1 ) );
+   ON_CALL( *entityMock2, GetHitBox() ).WillByDefault( ReturnRef( hitBox2 ) );
+
+   _arena->SetActiveRegion( { 90, 105, 200, 200 } );
+
+   EXPECT_CALL( *_eventAggregatorMock, RaiseEvent( GameEvent::ArenaEntityDeSpawned ) ).Times( 2 );
+
+   _arena->DeSpawnInactiveEntities();
+
+   EXPECT_EQ( _arena->GetEntityCount(), 1 );
+   EXPECT_EQ( _arena->GetEntity( 0 ), entityMock2 );
+}

@@ -58,7 +58,8 @@ void PlayingStateConsoleRenderer::Render()
    _consoleBuffer->SetDefaultBackgroundColor( _renderDefs->ArenaBackgroundColor );
 
    UpdateCaches();
-   DrawArenaSprites();
+   DrawStatusBar();
+   DrawArenaTiles();
 
    if ( _animationProvider->GetAnimation( ConsoleAnimationType::StageStarted )->IsRunning() )
    {
@@ -87,7 +88,6 @@ void PlayingStateConsoleRenderer::Render()
       else
       {
          DrawPlayer();
-         DrawStatusBar();
       }
    }
 }
@@ -210,7 +210,7 @@ void PlayingStateConsoleRenderer::DrawPlayerExplosionAnimation()
    _animationProvider->GetAnimation( ConsoleAnimationType::PlayerExploded )->Tick();
 }
 
-void PlayingStateConsoleRenderer::DrawArenaSprites()
+void PlayingStateConsoleRenderer::DrawArenaTiles()
 {
    auto arenaWidthChars = (short)( _arena->GetWidth() / _renderDefs->ArenaCharWidth );
    auto arenaId = _arenaInfoProvider->GetActiveArena()->GetArenaId();

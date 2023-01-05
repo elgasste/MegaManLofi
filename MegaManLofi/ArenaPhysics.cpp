@@ -293,10 +293,30 @@ bool ArenaPhysics::DetectPlayerCrossedPortal( Direction direction, const shared_
       return false;
    }
 
-   // TODO:
-   // - if the player is not in the portal's range, return false
-   // - otherwise, call arena->CrossPortal( portal ) or whatever
-   // - return true
+   if ( direction == Direction::Left || direction == Direction::Right )
+   {
+      auto newTopPosition = entity->GetArenaPositionTop() + entity->GetVelocityY();
+      auto newBottomPosition = newTopPosition + entity->GetHitBox().Height;
+      auto portalTop = portal->FromTileOffset * _worldDefs->TileHeight;
+      auto portalBottom = portalTop + ( portal->TileRange * _worldDefs->TileHeight );
+      if ( ( newTopPosition >= portalTop && newTopPosition <= portalBottom ) || ( newBottomPosition >= portalTop && newBottomPosition <= portalBottom ) )
+      {
+         // TODO: we're in range, call stage->CrossPortal( portal ) or whatever
+         return true;
+      }
+   }
+   else
+   {
+      auto newLeftPosition = entity->GetArenaPositionLeft() + entity->GetVelocityX();
+      auto newRightPosition = newLeftPosition + entity->GetHitBox().Width;
+      auto portalLeft = portal->FromTileOffset * _worldDefs->TileWidth;
+      auto portalRight = portalLeft + ( portal->TileRange * _worldDefs->TileWidth );
+      if ( ( newLeftPosition >= portalLeft && newLeftPosition <= portalRight ) || ( newRightPosition >= portalLeft && newRightPosition <= portalRight ) )
+      {
+         // TODO: we're in range, call stage->CrossPortal( portal ) or whatever
+         return true;
+      }
+   }
 
    return false;
 }

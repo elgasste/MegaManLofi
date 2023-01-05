@@ -3,6 +3,9 @@
 #include <memory>
 #include <map>
 
+#include "ArenaPortal.h"
+#include "Direction.h"
+
 namespace MegaManLofi
 {
    class ArenaDefs;
@@ -14,5 +17,6 @@ namespace MegaManLofi
       int StartArenaId = 0;
 
       std::map<int, std::shared_ptr<ArenaDefs>> ArenaMap;
+      std::map<Direction, ArenaPortal> ArenaPortalMap;
    };
 }

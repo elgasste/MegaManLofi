@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ReadOnlyArena.h"
+#include "SpawnPoint.h"
 
 namespace MegaManLofi
 {
@@ -25,10 +26,13 @@ namespace MegaManLofi
       virtual void SetActiveRegion( Rectangle<float> region ) { _activeRegion = region; }
       virtual void AddEntity( const std::shared_ptr<Entity> entity );
       virtual void RemoveEntity( const std::shared_ptr<Entity> entity );
+      virtual void AddSpawnPoint( const std::shared_ptr<SpawnPoint> spawnPoint ) { _spawnPoints.push_back( spawnPoint ); }
       virtual void DeSpawnInactiveEntities();
 
    private:
       const std::shared_ptr<ArenaDefs> _arenaDefs;
       const std::shared_ptr<GameEventAggregator> _eventAggregator;
+
+      std::vector<std::shared_ptr<SpawnPoint>> _spawnPoints;
    };
 }

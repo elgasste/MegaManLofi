@@ -26,5 +26,6 @@ public:
    MOCK_METHOD( void, SetActiveRegion, ( MegaManLofi::Rectangle<float> ), ( override ) );
    MOCK_METHOD( void, AddEntity, ( const std::shared_ptr<MegaManLofi::Entity> ), ( override ) );
    MOCK_METHOD( void, RemoveEntity, ( const std::shared_ptr<MegaManLofi::Entity> ), ( override ) );
+   MOCK_METHOD( void, AddSpawnPoint, ( const std::shared_ptr<MegaManLofi::SpawnPoint> ), ( override ) );
    MOCK_METHOD( void, DeSpawnInactiveEntities, ( ), ( override ) );
 };

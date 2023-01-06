@@ -4,7 +4,9 @@ namespace MegaManLofi
 {
    enum class EntityType
    {
-      Body = 0,
+      Player = 0,
+      Enemy,
+      Item,
       Projectile
    };
 }

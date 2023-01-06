@@ -271,6 +271,7 @@
     <ClInclude Include="IPlayerInfoProvider.h" />
     <ClInclude Include="IRandom.h" />
     <ClInclude Include="IScreenBuffer.h" />
+    <ClInclude Include="ItemInfo.h" />
     <ClInclude Include="IThread.h" />
     <ClInclude Include="KeyboardInputDefsGenerator.h" />
     <ClInclude Include="KeyboardWrapper.h" />
@@ -301,6 +302,7 @@
     <ClInclude Include="PlayingMenuStateConsoleRenderer.h" />
     <ClInclude Include="PlayingMenuStateInputHandler.h" />
     <ClInclude Include="PointPlayerCommandArgs.h" />
+    <ClInclude Include="ProjectileInfo.h" />
     <ClInclude Include="PushPlayerCommandArgs.h" />
     <ClInclude Include="ConsolePixel.h" />
     <ClInclude Include="Player.h" />
@@ -314,6 +316,7 @@
     <ClInclude Include="ReadOnlyStage.h" />
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="RectangleUtilities.h" />
+    <ClInclude Include="SpawnPoint.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="StageDefs.h" />
     <ClInclude Include="StageDefsGenerator.h" />

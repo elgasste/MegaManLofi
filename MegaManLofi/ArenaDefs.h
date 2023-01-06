@@ -4,6 +4,7 @@
 
 #include "ArenaTile.h"
 #include "Coordinate.h"
+#include "SpawnPoint.h"
 
 namespace MegaManLofi
 {
@@ -18,5 +19,7 @@ namespace MegaManLofi
       std::vector<ArenaTile> Tiles;
 
       Coordinate<float> PlayerStartPosition = { 0, 0 };
+
+      std::vector<SpawnPoint> SpawnPoints;
    };
 }

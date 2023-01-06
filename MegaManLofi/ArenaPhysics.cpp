@@ -37,7 +37,7 @@ void ArenaPhysics::Tick()
 {
    UpdateEntityTileIndicesCaches();
    MoveEntities();
-   UpdateActiveRegion();
+   UpdateRegions();
    DetectTileDeath();
 }
 
@@ -306,7 +306,7 @@ bool ArenaPhysics::DetectPlayerCrossedPortal( Direction direction, const shared_
          auto newTopPosition = ( portal->ToTileOffset * _worldDefs->TileHeight) + ( topPosition - portalTop );
          entity->SetArenaPosition( { newLeftPosition, newTopPosition } );
          UpdateEntityTileIndicesCaches();
-         UpdateActiveRegion();
+         UpdateRegions();
          return true;
       }
    }
@@ -323,7 +323,7 @@ bool ArenaPhysics::DetectPlayerCrossedPortal( Direction direction, const shared_
          auto newTopPosition = direction == Direction::Down ? 0 : _stage->GetActiveArena()->GetHeight() - entity->GetHitBox().Height;
          entity->SetArenaPosition( { newLeftPosition, newTopPosition } );
          UpdateEntityTileIndicesCaches();
-         UpdateActiveRegion();
+         UpdateRegions();
          return true;
       }
    }
@@ -340,7 +340,7 @@ void ArenaPhysics::HandleEntityEnvironmentCollision( const shared_ptr<Entity> en
    }
 }
 
-void ArenaPhysics::UpdateActiveRegion()
+void ArenaPhysics::UpdateRegions()
 {
    auto arena = _stage->GetMutableActiveArena();
    const auto& playerPosition = arena->GetPlayerEntity()->GetArenaPosition();
@@ -361,6 +361,13 @@ void ArenaPhysics::UpdateActiveRegion()
    }
 
    arena->SetActiveRegion( { regionLeft, regionTop, regionRight - regionLeft, regionBottom - regionTop } );
+   arena->SetDeSpawnRegion(
+      {
+         regionLeft - _worldDefs->DeSpawnRegionOffsetX,
+         regionTop - _worldDefs->DeSpawnRegionOffsetY,
+         regionRight - regionLeft + ( _worldDefs->DeSpawnRegionOffsetX * 2 ),
+         regionBottom - regionTop + ( _worldDefs->DeSpawnRegionOffsetY * 2 )
+      } );
 }
 
 bool ArenaPhysics::DetectTileDeath() const

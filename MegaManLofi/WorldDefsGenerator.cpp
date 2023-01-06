@@ -16,5 +16,9 @@ shared_ptr<WorldDefs> WorldDefsGenerator::GenerateWorldDefs()
    worldDefs->ActiveRegionWidth = 120 * worldDefs->TileWidth;
    worldDefs->ActiveRegionHeight = 28 * worldDefs->TileHeight;
 
+   // allow one tile outside the active region before de-spawning
+   worldDefs->DeSpawnRegionOffsetX = worldDefs->TileWidth;
+   worldDefs->DeSpawnRegionOffsetY = worldDefs->TileHeight;
+
    return worldDefs;
 }

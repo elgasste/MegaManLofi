@@ -5,6 +5,7 @@
 
 #include "Rectangle.h"
 #include "ArenaTile.h"
+#include "SpawnPoint.h"
 
 namespace MegaManLofi
 {
@@ -24,7 +25,6 @@ namespace MegaManLofi
       virtual float GetHeight() const { return _height; }
       virtual int GetHorizontalTiles() const { return _horizontalTiles; }
       virtual int GetVerticalTiles() const { return _verticalTiles; }
-      virtual const Rectangle<float>& GetActiveRegion() const { return _activeRegion; }
       virtual const ArenaTile& GetTile( int index ) const { return _tiles[index]; }
       virtual bool HasEntity( int uniqueId ) const;
 
@@ -33,10 +33,12 @@ namespace MegaManLofi
       std::vector<std::shared_ptr<Entity>> _entities;
       std::shared_ptr<Entity> _playerEntity;
       std::vector<ArenaTile> _tiles;
+      std::vector<std::shared_ptr<SpawnPoint>> _spawnPoints;
       float _width;
       float _height;
       int _horizontalTiles;
       int _verticalTiles;
       Rectangle<float> _activeRegion;
+      Rectangle<float> _deSpawnRegion;
    };
 }

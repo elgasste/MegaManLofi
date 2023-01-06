@@ -79,7 +79,7 @@ TEST_F( PlayerTests, GetEntityType_Always_ReturnsBody )
 {
    BuildPlayer();
 
-   EXPECT_EQ( _player->GetEntityType(), EntityType::Body );
+   EXPECT_EQ( _player->GetEntityType(), EntityType::Player );
 }
 
 TEST_F( PlayerTests, Reset_Always_ResetsDefaultPropertiesFromDefs )

@@ -11,7 +11,7 @@ Stage::Stage( const shared_ptr<StageDefs> stageDefs,
    _stageDefs( stageDefs ),
    _eventAggregator( eventAggregator )
 {
-   _activeArenaId = _stageDefs->StartArenaId;
+   Reload();
 }
 
 void Stage::AddArena( std::shared_ptr<Arena> arena )
@@ -19,9 +19,23 @@ void Stage::AddArena( std::shared_ptr<Arena> arena )
    _arenaMap[arena->GetArenaId()] = arena;
 }
 
+void Stage::Reload()
+{
+   for ( auto [arenaId, arena] : _arenaMap )
+   {
+      arena->Reload();
+   }
+
+   _activeArenaId = _stageDefs->StartArenaId;
+}
+
 void Stage::Reset()
 {
-   _arenaMap[_activeArenaId]->Clear();
+   for ( auto [arenaId, arena] : _arenaMap )
+   {
+      arena->Reset();
+   }
+
    _activeArenaId = _stageDefs->StartArenaId;
 }
 
@@ -29,7 +43,7 @@ void Stage::SetActiveArena( int arenaId )
 {
    if ( arenaId != _activeArenaId )
    {
-      _arenaMap[_activeArenaId]->Clear();
+      _arenaMap[_activeArenaId]->Reset();
       _activeArenaId = arenaId;
       _eventAggregator->RaiseEvent( GameEvent::ActiveArenaChanged );
    }

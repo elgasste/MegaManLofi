@@ -6,6 +6,7 @@
 #include "PlayerPhysics.h"
 #include "ArenaPhysics.h"
 #include "EntityFactory.h"
+#include "EntityDefs.h"
 #include "GameState.h"
 #include "GameCommand.h"
 #include "PushPlayerCommandArgs.h"
@@ -19,13 +20,15 @@ Game::Game( const shared_ptr<GameEventAggregator> eventAggregator,
             const shared_ptr<Stage> stage,
             const shared_ptr<PlayerPhysics> playerPhysics,
             const shared_ptr<ArenaPhysics> arenaPhysics,
-            const shared_ptr<EntityFactory> entityFactory ) :
+            const shared_ptr<EntityFactory> entityFactory,
+            const shared_ptr<EntityDefs> entityDefs ) :
    _eventAggregator( eventAggregator ),
    _player( player ),
    _stage( stage ),
    _playerPhysics( playerPhysics ),
    _arenaPhysics( arenaPhysics ),
    _entityFactory( entityFactory ),
+   _entityDefs( entityDefs ),
    _state( GameState::Title ),
    _nextState( GameState::Title ),
    _isPaused( false ),
@@ -172,7 +175,8 @@ void Game::Shoot()
       ( direction == Direction::Left || direction == Direction::Right ) ? hitBox.Height / 2 :
       ( direction == Direction::DownLeft || direction == Direction::Down || direction == Direction::DownRight ) ? hitBox.Height : 0;
 
-   auto bullet = _entityFactory->CreateBullet( { left, top }, _player->GetDirection() );
+   auto bullet = _entityFactory->CreateEntity( _entityDefs->BulletEntityMetaId, _player->GetDirection() );
+   bullet->SetArenaPosition( { left, top } );
 
    _stage->GetMutableActiveArena()->AddEntity( bullet );
 }

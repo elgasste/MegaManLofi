@@ -12,5 +12,8 @@ namespace MegaManLofi
 
       float ActiveRegionWidth = 0;
       float ActiveRegionHeight = 0;
+
+      float DeSpawnRegionOffsetX = 0;
+      float DeSpawnRegionOffsetY = 0;
    };
 }

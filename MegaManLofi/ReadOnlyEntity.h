@@ -24,6 +24,8 @@ namespace MegaManLofi
       virtual Direction GetDirection() const { return _direction; }
       virtual const Rectangle<float>& GetHitBox() const { return _hitBox; }
       virtual MovementType GetMovementType() const { return _movementType; }
+      virtual float GetMaxGravityVelocity() const { return _maxGravityVelocity; }
+      virtual float GetGravityAccelerationPerSecond() const { return _gravityAccelerationPerSecond; }
 
    protected:
       int _uniqueId;
@@ -35,5 +37,7 @@ namespace MegaManLofi
       Direction _direction;
       Rectangle<float> _hitBox;
       MovementType _movementType;
+      float _maxGravityVelocity;
+      float _gravityAccelerationPerSecond;
    };
 }

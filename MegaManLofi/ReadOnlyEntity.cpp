@@ -11,6 +11,8 @@ ReadOnlyEntity::ReadOnlyEntity() :
    _velocityY( 0 ),
    _direction( (Direction)0 ),
    _hitBox( { 0, 0, 0, 0 } ),
-   _movementType( (MovementType)0 )
+   _movementType( (MovementType)0 ),
+   _maxGravityVelocity( 0 ),
+   _gravityAccelerationPerSecond( 0 )
 {
 }

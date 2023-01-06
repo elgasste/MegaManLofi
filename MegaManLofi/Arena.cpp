@@ -79,7 +79,6 @@ void Arena::RemoveEntity( const std::shared_ptr<Entity> entity )
    }
 }
 
-// TODO: test this
 void Arena::CheckSpawnPoints()
 {
    for ( auto spawnPoint : _spawnPoints )

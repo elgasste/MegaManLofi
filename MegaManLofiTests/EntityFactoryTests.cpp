@@ -24,6 +24,14 @@ public:
       _entityDefs->BulletVelocity = 10;
       _entityDefs->BulletHitBox = { 1, 2, 3, 4 };
 
+      _entityDefs->EntityTypeMap[1] = EntityType::Item;
+      _entityDefs->EntityTypeMap[2] = EntityType::Projectile;
+
+      _entityDefs->ItemInfoMap[1].HitBox = { 1, 1, 20, 20 };
+
+      _entityDefs->ProjectileInfoMap[2].HitBox = { 2, 2, 10, 10 };
+      _entityDefs->ProjectileInfoMap[2].Velocity = 100;
+
       ON_CALL( *_uniqueNumberGeneratorMock, GetNext() ).WillByDefault( Return( 3 ) );
    }
 
@@ -144,4 +152,136 @@ TEST_F( EntityFactoryTests, CreateBullet_MovingDownLeft_SetsCorrectVelocityValue
 
    EXPECT_EQ( bullet->GetVelocityX(), -10 );
    EXPECT_EQ( bullet->GetVelocityY(), 10 );
+}
+
+TEST_F( EntityFactoryTests, CreateEntity_Always_GetsUniqueIdFromNumberGenerator )
+{
+   BuildFactory();
+
+   EXPECT_CALL( *_uniqueNumberGeneratorMock, GetNext() ).WillOnce( Return( 33 ) );
+
+   auto entity = _factory->CreateEntity( 1, Direction::Left );
+
+   EXPECT_EQ( entity->GetUniqueId(), 33 );
+}
+
+TEST_F( EntityFactoryTests, CreateEntity_Always_SetsEntityTypeFromDefs )
+{
+   BuildFactory();
+
+   auto entity1 = _factory->CreateEntity( 1, Direction::Left );
+   auto entity2 = _factory->CreateEntity( 2, Direction::Left );
+
+   EXPECT_EQ( entity1->GetEntityType(), EntityType::Item );
+   EXPECT_EQ( entity2->GetEntityType(), EntityType::Projectile );
+}
+
+TEST_F( EntityFactoryTests, CreateEntity_Always_SetsEntityMetaId )
+{
+   BuildFactory();
+
+   auto entity = _factory->CreateEntity( 2, Direction::Left );
+
+   EXPECT_EQ( entity->GetEntityMetaId(), 2 );
+}
+
+TEST_F( EntityFactoryTests, CreateEntity_Always_SetsDirection )
+{
+   BuildFactory();
+
+   auto entity = _factory->CreateEntity( 2, Direction::UpRight );
+
+   EXPECT_EQ( entity->GetDirection(), Direction::UpRight );
+}
+
+TEST_F( EntityFactoryTests, CreateEntity_Item_SetsHitBox )
+{
+   BuildFactory();
+
+   auto entity = _factory->CreateEntity( 1, Direction::Left );
+
+   EXPECT_EQ( entity->GetHitBox().Left, 1 );
+   EXPECT_EQ( entity->GetHitBox().Top, 1 );
+   EXPECT_EQ( entity->GetHitBox().Width, 20 );
+   EXPECT_EQ( entity->GetHitBox().Height, 20 );
+}
+
+TEST_F( EntityFactoryTests, CreateEntity_ProjectileMovingLeft_SetsVelocityFromDefs )
+{
+   BuildFactory();
+
+   auto entity = _factory->CreateEntity( 2, Direction::Left );
+
+   EXPECT_EQ( entity->GetVelocityX(), -100 );
+   EXPECT_EQ( entity->GetVelocityY(), 0 );
+}
+
+TEST_F( EntityFactoryTests, CreateEntity_ProjectileMovingUpLeft_SetsVelocityFromDefs )
+{
+   BuildFactory();
+
+   auto entity = _factory->CreateEntity( 2, Direction::UpLeft );
+
+   EXPECT_EQ( entity->GetVelocityX(), -100 );
+   EXPECT_EQ( entity->GetVelocityY(), -100 );
+}
+
+TEST_F( EntityFactoryTests, CreateEntity_ProjectileMovingUp_SetsVelocityFromDefs )
+{
+   BuildFactory();
+
+   auto entity = _factory->CreateEntity( 2, Direction::Up );
+
+   EXPECT_EQ( entity->GetVelocityX(), 0 );
+   EXPECT_EQ( entity->GetVelocityY(), -100 );
+}
+
+TEST_F( EntityFactoryTests, CreateEntity_ProjectileMovingUpRight_SetsVelocityFromDefs )
+{
+   BuildFactory();
+
+   auto entity = _factory->CreateEntity( 2, Direction::UpRight );
+
+   EXPECT_EQ( entity->GetVelocityX(), 100 );
+   EXPECT_EQ( entity->GetVelocityY(), -100 );
+}
+
+TEST_F( EntityFactoryTests, CreateEntity_ProjectileMovingRight_SetsVelocityFromDefs )
+{
+   BuildFactory();
+
+   auto entity = _factory->CreateEntity( 2, Direction::Right );
+
+   EXPECT_EQ( entity->GetVelocityX(), 100 );
+   EXPECT_EQ( entity->GetVelocityY(), 0 );
+}
+
+TEST_F( EntityFactoryTests, CreateEntity_ProjectileMovingDownRight_SetsVelocityFromDefs )
+{
+   BuildFactory();
+
+   auto entity = _factory->CreateEntity( 2, Direction::DownRight );
+
+   EXPECT_EQ( entity->GetVelocityX(), 100 );
+   EXPECT_EQ( entity->GetVelocityY(), 100 );
+}
+
+TEST_F( EntityFactoryTests, CreateEntity_ProjectileMovingDown_SetsVelocityFromDefs )
+{
+   BuildFactory();
+
+   auto entity = _factory->CreateEntity( 2, Direction::Down );
+
+   EXPECT_EQ( entity->GetVelocityX(), 0 );
+   EXPECT_EQ( entity->GetVelocityY(), 100 );
+}
+
+TEST_F( EntityFactoryTests, CreateEntity_ProjectileMovingDownLeft_SetsVelocityFromDefs )
+{
+   BuildFactory();
+
+   auto entity = _factory->CreateEntity( 2, Direction::DownLeft );
+
+   EXPECT_EQ( entity->GetVelocityX(), -100 );
+   EXPECT_EQ( entity->GetVelocityY(), 100 );
 }

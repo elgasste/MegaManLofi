@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Coordinate.h"
+#include "Direction.h"
 
 namespace MegaManLofi
 {
@@ -8,6 +9,7 @@ namespace MegaManLofi
    {
       int EntityMetaId = 0;
       Coordinate<float> ArenaPosition;
+      Direction Direction;
       bool IsActive = false;
       bool HasSpawned = false;
       bool ReSpawns = false;

@@ -107,6 +107,18 @@ TEST_F( ArenaTests, Reset_Always_RaisesArenaEntitiesClearedEvent )
    _arena->Reset();
 }
 
+TEST_F( ArenaTests, Reset_Always_DeactivatesSpawnPoints )
+{
+   BuildArena();
+   auto spawnPoint = make_shared<SpawnPoint>();
+   spawnPoint->IsActive = true;
+   _arena->AddSpawnPoint( spawnPoint );
+   
+   _arena->Reset();
+
+   EXPECT_FALSE( spawnPoint->IsActive );
+}
+
 TEST_F( ArenaTests, Clear_Always_ClearsEntitiesAndPlayer )
 {
    BuildArena();
@@ -127,6 +139,18 @@ TEST_F( ArenaTests, Clear_Always_RaisesArenaEntitiesClearedEvent )
    EXPECT_CALL( *_eventAggregatorMock, RaiseEvent( GameEvent::ArenaEntitiesCleared ) );
 
    _arena->Clear();
+}
+
+TEST_F( ArenaTests, Clear_Always_DeactivatesSpawnPoints )
+{
+   BuildArena();
+   auto spawnPoint = make_shared<SpawnPoint>();
+   spawnPoint->IsActive = true;
+   _arena->AddSpawnPoint( spawnPoint );
+
+   _arena->Clear();
+
+   EXPECT_FALSE( spawnPoint->IsActive );
 }
 
 TEST_F( ArenaTests, SetPlayerEntity_Always_ResetsPlayerEntityPositionFromDefs )

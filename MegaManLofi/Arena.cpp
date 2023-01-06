@@ -41,6 +41,12 @@ void Arena::Reset()
    {
       SetPlayerEntity( _playerEntity );
    }
+
+   // TODO: should this completely re-load spawn points from ArenaDefs?
+   for ( auto spawnPoint : _spawnPoints )
+   {
+      spawnPoint->IsActive = false;
+   }
 }
 
 void Arena::Clear()
@@ -48,6 +54,11 @@ void Arena::Clear()
    _entities.clear();
    _eventAggregator->RaiseEvent( GameEvent::ArenaEntitiesCleared );
    _playerEntity = nullptr;
+
+   for ( auto spawnPoint : _spawnPoints )
+   {
+      spawnPoint->IsActive = false;
+   }
 }
 
 void Arena::SetPlayerEntity( const shared_ptr<Entity> playerEntity )

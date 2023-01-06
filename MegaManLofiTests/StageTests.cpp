@@ -51,12 +51,40 @@ TEST_F( StageTests, Constructor_Always_SetsActiveArenaFromDefs )
    EXPECT_EQ( _stage->GetActiveArena(), _arenaMock2 );
 }
 
-TEST_F( StageTests, Reset_Always_ClearsActiveArena )
+TEST_F( StageTests, Reload_Always_ReloadsAllArenas )
 {
    BuildStage();
    _stage->AddArena( _arenaMock1 );
+   _stage->AddArena( _arenaMock2 );
 
-   EXPECT_CALL( *_arenaMock1, Clear() );
+   EXPECT_CALL( *_arenaMock1, Reload() );
+   EXPECT_CALL( *_arenaMock2, Reload() );
+
+   _stage->Reload();
+}
+
+TEST_F( StageTests, Reload_Always_ResetsActiveArenaFromDefs )
+{
+   BuildStage();
+   _stage->AddArena( _arenaMock1 );
+   _stage->AddArena( _arenaMock2 );
+   _stage->SetActiveArena( 2 );
+
+   EXPECT_EQ( _stage->GetActiveArena(), _arenaMock2 );
+
+   _stage->Reload();
+
+   EXPECT_EQ( _stage->GetActiveArena(), _arenaMock1 );
+}
+
+TEST_F( StageTests, Reset_Always_ResetsAllArenas )
+{
+   BuildStage();
+   _stage->AddArena( _arenaMock1 );
+   _stage->AddArena( _arenaMock2 );
+
+   EXPECT_CALL( *_arenaMock1, Reset() );
+   EXPECT_CALL( *_arenaMock2, Reset() );
 
    _stage->Reset();
 }
@@ -125,14 +153,14 @@ TEST_F( StageTests, SetActiveArena_ActiveArenaDoesNotChange_DoesNotRaiseActiveAr
    _stage->SetActiveArena( 1 );
 }
 
-TEST_F( StageTests, SetActiveArena_ActiveArenaChanges_ClearsOldActiveArena )
+TEST_F( StageTests, SetActiveArena_ActiveArenaChanges_ResetsOldActiveArena )
 {
    BuildStage();
    _stage->AddArena( _arenaMock1 );
    _stage->AddArena( _arenaMock2 );
    EXPECT_EQ( _stage->GetActiveArena(), _arenaMock1 );
 
-   EXPECT_CALL( *_arenaMock1, Clear() );
+   EXPECT_CALL( *_arenaMock1, Reset() );
 
    _stage->SetActiveArena( 2 );
 }

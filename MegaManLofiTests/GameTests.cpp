@@ -85,11 +85,11 @@ TEST_F( GameTests, ExecuteCommand_StartGame_ResetsGameObjects )
 
    EXPECT_CALL( *_playerMock, Reset() );
    EXPECT_CALL( *_playerPhysicsMock, AssignTo( static_pointer_cast<Player>( _playerMock ) ) );
-   EXPECT_CALL( *_stageMock, Reset() );
+   EXPECT_CALL( *_stageMock, Reload() );
    EXPECT_CALL( *_arenaPhysicsMock, AssignTo( static_pointer_cast<Stage>( _stageMock ) ) );
-   EXPECT_CALL( *_arenaMock, SetPlayerEntity( static_pointer_cast<Entity>( _playerMock ) ) );
    EXPECT_CALL( *_playerMock, ResetPosition() );
    EXPECT_CALL( *_arenaMock, Reset() );
+   EXPECT_CALL( *_arenaMock, SetPlayerEntity( static_pointer_cast<Entity>( _playerMock ) ) );
    EXPECT_CALL( *_arenaPhysicsMock, Reset() );
    EXPECT_CALL( *_playerPhysicsMock, Reset() );
 
@@ -123,6 +123,7 @@ TEST_F( GameTests, ExecuteCommand_StartStage_ResetsGameObjects )
 
    EXPECT_CALL( *_playerMock, ResetPosition() );
    EXPECT_CALL( *_arenaMock, Reset() );
+   EXPECT_CALL( *_arenaMock, SetPlayerEntity( static_pointer_cast<Entity>( _playerMock ) ) );
    EXPECT_CALL( *_arenaPhysicsMock, Reset() );
    EXPECT_CALL( *_playerPhysicsMock, Reset() );
 
@@ -521,6 +522,7 @@ TEST_F( GameTests, Tick_RestartingStageNextFrame_ResetsGameObjects )
 
    EXPECT_CALL( *_playerMock, ResetPosition() );
    EXPECT_CALL( *_arenaMock, Reset() );
+   EXPECT_CALL( *_arenaMock, SetPlayerEntity( static_pointer_cast<Entity>( _playerMock ) ) );
    EXPECT_CALL( *_arenaPhysicsMock, Reset() );
    EXPECT_CALL( *_playerPhysicsMock, Reset() );
 

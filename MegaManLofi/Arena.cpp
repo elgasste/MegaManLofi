@@ -29,21 +29,15 @@ Arena::Arena( const shared_ptr<ArenaDefs> arenaDefs,
    _horizontalTiles = arenaDefs->HorizontalTiles;
    _verticalTiles = arenaDefs->VerticalTiles;
 
-   Reset();
+   Reload();
 }
 
-void Arena::Reset()
+void Arena::Reload()
 {
    _entities.clear();
    _eventAggregator->RaiseEvent( GameEvent::ArenaEntitiesCleared );
+   _playerEntity = nullptr;
 
-   if ( _playerEntity )
-   {
-      SetPlayerEntity( _playerEntity );
-   }
-
-   // TODO: this will happen after every death, it might not bode well if we want some
-   // items to only be picked up one time ever.
    _spawnPoints.clear();
    for ( auto spawnPoint : _arenaDefs->SpawnPoints )
    {
@@ -51,7 +45,7 @@ void Arena::Reset()
    }
 }
 
-void Arena::Clear()
+void Arena::Reset()
 {
    _entities.clear();
    _eventAggregator->RaiseEvent( GameEvent::ArenaEntitiesCleared );

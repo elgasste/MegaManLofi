@@ -83,6 +83,37 @@ TEST_F( ArenaTests, Constructor_Always_SetsDefaultInfoBasedOnDefs )
    EXPECT_TRUE( _arena->GetTile( 5 ).DownPassable );
 }
 
+TEST_F( ArenaTests, Reload_Always_ClearsEntities )
+{
+   BuildArena();
+
+   _arena->AddEntity( shared_ptr<mock_Entity>( new NiceMock<mock_Entity> ) );
+
+   EXPECT_EQ( _arena->GetEntityCount(), 2 );
+
+   _arena->Reload();
+
+   EXPECT_EQ( _arena->GetEntityCount(), 0 );
+}
+
+TEST_F( ArenaTests, Reload_Always_RaisesArenaEntitiesClearedEvent )
+{
+   BuildArena();
+
+   EXPECT_CALL( *_eventAggregatorMock, RaiseEvent( GameEvent::ArenaEntitiesCleared ) );
+
+   _arena->Reload();
+}
+
+TEST_F( ArenaTests, Reload_Always_SetsPlayerEntityToNull )
+{
+   BuildArena();
+
+   _arena->Reload();
+
+   EXPECT_EQ( _arena->GetPlayerEntity(), nullptr );
+}
+
 TEST_F( ArenaTests, Reset_Always_ClearsEntities )
 {
    BuildArena();
@@ -93,8 +124,7 @@ TEST_F( ArenaTests, Reset_Always_ClearsEntities )
 
    _arena->Reset();
 
-   EXPECT_EQ( _arena->GetEntityCount(), 1 );
-   EXPECT_EQ( _arena->GetEntity( 0 ), _playerMock );
+   EXPECT_EQ( _arena->GetEntityCount(), 0 );
 }
 
 TEST_F( ArenaTests, Reset_Always_RaisesArenaEntitiesClearedEvent )
@@ -102,31 +132,17 @@ TEST_F( ArenaTests, Reset_Always_RaisesArenaEntitiesClearedEvent )
    BuildArena();
 
    EXPECT_CALL( *_eventAggregatorMock, RaiseEvent( GameEvent::ArenaEntitiesCleared ) );
-   EXPECT_CALL( *_eventAggregatorMock, RaiseEvent( GameEvent::ArenaEntitySpawned ) );
 
    _arena->Reset();
 }
 
-TEST_F( ArenaTests, Clear_Always_ClearsEntitiesAndPlayer )
+TEST_F( ArenaTests, Reset_Always_SetsPlayerEntityToNull )
 {
    BuildArena();
 
-   EXPECT_EQ( _arena->GetEntityCount(), 1 );
-   EXPECT_EQ( _arena->GetPlayerEntity(), _playerMock );
+   _arena->Reset();
 
-   _arena->Clear();
-
-   EXPECT_EQ( _arena->GetEntityCount(), 0 );
    EXPECT_EQ( _arena->GetPlayerEntity(), nullptr );
-}
-
-TEST_F( ArenaTests, Clear_Always_RaisesArenaEntitiesClearedEvent )
-{
-   BuildArena();
-
-   EXPECT_CALL( *_eventAggregatorMock, RaiseEvent( GameEvent::ArenaEntitiesCleared ) );
-
-   _arena->Clear();
 }
 
 TEST_F( ArenaTests, SetPlayerEntity_Always_ResetsPlayerEntityPositionFromDefs )

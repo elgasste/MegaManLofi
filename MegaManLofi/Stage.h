@@ -16,6 +16,7 @@ namespace MegaManLofi
 
       virtual const std::shared_ptr<Arena> GetMutableActiveArena() const { return _arenaMap.at( _activeArenaId ); }
       virtual void AddArena( std::shared_ptr<Arena> arena );
+      virtual void Reload();
       virtual void Reset();
       virtual void SetActiveArena( int arenaId );
 

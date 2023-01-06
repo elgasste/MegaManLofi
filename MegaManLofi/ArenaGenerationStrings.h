@@ -169,7 +169,7 @@ namespace MegaManLofi
                   "s                                                                                                                      s" \
                   "s                                                                                                                      s" \
                   "s                                                                                                                      s" \
-                  "s                                                                                                                      s";
+                  "s        xxx           xx           xxxxxx                     xx      x               xxxx          x              xxxs";
             default:
                return "";
          }

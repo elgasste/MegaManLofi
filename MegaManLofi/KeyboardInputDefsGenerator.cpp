@@ -18,7 +18,7 @@ shared_ptr<IGameInputDefs> KeyboardInputDefsGenerator::GenerateKeyboardInputDefs
    keyboardInputDefs->KeyMap[KeyCode::RShiftKey] = GameButton::Select;
 
    keyboardInputDefs->KeyMap[KeyCode::A] = GameButton::A;
-   keyboardInputDefs->KeyMap[KeyCode::B] = GameButton::B;
+   keyboardInputDefs->KeyMap[KeyCode::S] = GameButton::B;
    keyboardInputDefs->KeyMap[KeyCode::X] = GameButton::X;
    keyboardInputDefs->KeyMap[KeyCode::Y] = GameButton::Y;
 
@@ -40,7 +40,7 @@ shared_ptr<IGameInputDefs> KeyboardInputDefsGenerator::GenerateKeyboardInputDefs
    keyboardInputDefs->KeyNames[KeyCode::Space] = "Space Bar";
    keyboardInputDefs->KeyNames[KeyCode::Tab] = "Tab";
    keyboardInputDefs->KeyNames[KeyCode::A] = "A";
-   keyboardInputDefs->KeyNames[KeyCode::B] = "B";
+   keyboardInputDefs->KeyNames[KeyCode::S] = "S";
    keyboardInputDefs->KeyNames[KeyCode::X] = "X";
    keyboardInputDefs->KeyNames[KeyCode::Y] = "Y";
    keyboardInputDefs->KeyNames[KeyCode::NumPad1] = "1";

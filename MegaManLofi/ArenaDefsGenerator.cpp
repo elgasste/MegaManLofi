@@ -17,6 +17,11 @@ map<int, shared_ptr<ArenaDefs>> ArenaDefsGenerator::GenerateArenaDefsMap( const 
    arenaDefsMap[0]->Tiles = ArenaTileGenerator::GenerateArenaTiles( 0 );
    arenaDefsMap[0]->PlayerStartPosition = { worldDefs->TileWidth * 8, worldDefs->TileHeight * 6 };
 
+   // large health drop at 150, 18
+   arenaDefsMap[0]->SpawnPoints.push_back( SpawnPoint() );
+   arenaDefsMap[0]->SpawnPoints[0].EntityMetaId = 3;
+   arenaDefsMap[0]->SpawnPoints[0].ArenaPosition = { worldDefs->TileWidth * 150, worldDefs->TileHeight * 18 };
+
    arenaDefsMap[1] = make_shared<ArenaDefs>();
    arenaDefsMap[1]->ArenaId = 1;
    arenaDefsMap[1]->HorizontalTiles = 120;

@@ -608,5 +608,8 @@
     <ClInclude Include="ArenaPortal.h">
       <Filter>Header Files\DataTypes</Filter>
     </ClInclude>
+    <ClInclude Include="SpawnPoint.h">
+      <Filter>Header Files\DataTypes</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

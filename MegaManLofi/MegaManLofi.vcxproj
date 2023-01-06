@@ -314,6 +314,7 @@
     <ClInclude Include="ReadOnlyStage.h" />
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="RectangleUtilities.h" />
+    <ClInclude Include="SpawnPoint.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="StageDefs.h" />
     <ClInclude Include="StageDefsGenerator.h" />

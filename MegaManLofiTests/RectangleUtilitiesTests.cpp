@@ -136,3 +136,83 @@ TEST_F( RectangleUtilitiesTests, RectanglesIntersectF_UpperLeftIntersectsWithOff
 
    EXPECT_TRUE( RectangleUtilities::RectanglesIntersectF( r1, 1000, 2000, r2, 1000, 2000 ) );
 }
+
+TEST_F( RectangleUtilitiesTests, CoordinateInRectangleF_OutsideLeftNoOffsets_ReturnsFalse )
+{
+   Coordinate<float> c { 10, 50 };
+   Rectangle<float> r { 20, 20, 80, 80 };
+
+   EXPECT_FALSE( RectangleUtilities::CoordinateInRectangleF( c, 0, 0, r, 0, 0 ) );
+}
+
+TEST_F( RectangleUtilitiesTests, CoordinateInRectangleF_OutsideTopNoOffsets_ReturnsFalse )
+{
+   Coordinate<float> c { 50, 10 };
+   Rectangle<float> r { 20, 20, 80, 80 };
+
+   EXPECT_FALSE( RectangleUtilities::CoordinateInRectangleF( c, 0, 0, r, 0, 0 ) );
+}
+
+TEST_F( RectangleUtilitiesTests, CoordinateInRectangleF_OutsideRightNoOffsets_ReturnsFalse )
+{
+   Coordinate<float> c { 110, 50 };
+   Rectangle<float> r { 20, 20, 80, 80 };
+
+   EXPECT_FALSE( RectangleUtilities::CoordinateInRectangleF( c, 0, 0, r, 0, 0 ) );
+}
+
+TEST_F( RectangleUtilitiesTests, CoordinateInRectangleF_OutsideBottomNoOffsets_ReturnsFalse )
+{
+   Coordinate<float> c { 50, 110 };
+   Rectangle<float> r { 20, 20, 80, 80 };
+
+   EXPECT_FALSE( RectangleUtilities::CoordinateInRectangleF( c, 0, 0, r, 0, 0 ) );
+}
+
+TEST_F( RectangleUtilitiesTests, CoordinateInRectangleF_InsideNoOffsets_ReturnsTrue )
+{
+   Coordinate<float> c { 50, 50 };
+   Rectangle<float> r { 20, 20, 80, 80 };
+
+   EXPECT_TRUE( RectangleUtilities::CoordinateInRectangleF( c, 0, 0, r, 0, 0 ) );
+}
+
+TEST_F( RectangleUtilitiesTests, CoordinateInRectangleF_OutsideLeftWithOffsets_ReturnsFalse )
+{
+   Coordinate<float> c { 10, 50 };
+   Rectangle<float> r { 20, 20, 80, 80 };
+
+   EXPECT_FALSE( RectangleUtilities::CoordinateInRectangleF( c, 1000, 2000, r, 1000, 2000 ) );
+}
+
+TEST_F( RectangleUtilitiesTests, CoordinateInRectangleF_OutsideTopWithOffsets_ReturnsFalse )
+{
+   Coordinate<float> c { 50, 10 };
+   Rectangle<float> r { 20, 20, 80, 80 };
+
+   EXPECT_FALSE( RectangleUtilities::CoordinateInRectangleF( c, 1000, 2000, r, 1000, 2000 ) );
+}
+
+TEST_F( RectangleUtilitiesTests, CoordinateInRectangleF_OutsideRightWithOffsets_ReturnsFalse )
+{
+   Coordinate<float> c { 110, 50 };
+   Rectangle<float> r { 20, 20, 80, 80 };
+
+   EXPECT_FALSE( RectangleUtilities::CoordinateInRectangleF( c, 1000, 2000, r, 1000, 2000 ) );
+}
+
+TEST_F( RectangleUtilitiesTests, CoordinateInRectangleF_OutsideBottomWithOffsets_ReturnsFalse )
+{
+   Coordinate<float> c { 50, 110 };
+   Rectangle<float> r { 20, 20, 80, 80 };
+
+   EXPECT_FALSE( RectangleUtilities::CoordinateInRectangleF( c, 1000, 2000, r, 1000, 2000 ) );
+}
+
+TEST_F( RectangleUtilitiesTests, CoordinateInRectangleF_InsideWithOffsets_ReturnsTrue )
+{
+   Coordinate<float> c { 50, 50 };
+   Rectangle<float> r { 20, 20, 80, 80 };
+
+   EXPECT_TRUE( RectangleUtilities::CoordinateInRectangleF( c, 1000, 2000, r, 1000, 2000 ) );
+}

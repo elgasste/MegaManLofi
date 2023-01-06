@@ -24,3 +24,17 @@ bool RectangleUtilities::RectanglesIntersectF( const Rectangle<float>& r1, float
    return ( leftInBounds && topInBounds ) || ( rightInBounds && topInBounds ) ||
           ( leftInBounds && bottomInBounds ) || ( rightInBounds && bottomInBounds );
 }
+
+bool RectangleUtilities::CoordinateInRectangleF( const Coordinate<float>& c, float cLeftOffset, float cTopOffset,
+                                                 const Rectangle<float>& r, float rLeftOffset, float rTopOffset )
+{
+   auto rLeft = r.Left + rLeftOffset;
+   auto rTop = r.Top + rTopOffset;
+   auto rRight = rLeft + r.Width;
+   auto rBottom = rTop + r.Height;
+
+   auto cLeft = c.Left + cLeftOffset;
+   auto cTop = c.Top + cTopOffset;
+
+   return cLeft > rLeft && cLeft < rRight && cTop > rTop && cTop < rBottom;
+}

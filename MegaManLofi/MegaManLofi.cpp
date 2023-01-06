@@ -22,6 +22,7 @@
 #include "KeyboardInputDefs.h"
 #include "KeyboardInputReader.h"
 #include "PlayerPhysics.h"
+#include "EntityPhysics.h"
 #include "ArenaPhysics.h"
 #include "EntityFactory.h"
 #include "Player.h"
@@ -117,6 +118,7 @@ void LoadAndRun( const shared_ptr<ConsoleBuffer> consoleBuffer )
 
    // physics objects
    auto playerPhysics = shared_ptr<PlayerPhysics>( new PlayerPhysics( clock, frameActionRegistry, gameDefs->PlayerPhysicsDefs ) );
+   auto entityPhysics = make_shared<EntityPhysics>();
    auto arenaPhysics = shared_ptr<ArenaPhysics>( new ArenaPhysics( clock, eventAggregator, gameDefs->WorldDefs ) );
 
    // game objects
@@ -129,7 +131,7 @@ void LoadAndRun( const shared_ptr<ConsoleBuffer> consoleBuffer )
       arena->SetArenaId( arenaId );
       stage->AddArena( arena );
    }
-   auto game = shared_ptr<Game>( new Game( eventAggregator, player, stage, playerPhysics, arenaPhysics, entityFactory, gameDefs->EntityDefs ) );
+   auto game = shared_ptr<Game>( new Game( eventAggregator, player, stage, playerPhysics, entityPhysics, arenaPhysics, entityFactory, gameDefs->EntityDefs ) );
 
    // menus
    auto playingMenu = shared_ptr<PlayingMenu>( new PlayingMenu( game ) );

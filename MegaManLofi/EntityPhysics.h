@@ -12,6 +12,9 @@ namespace MegaManLofi
       EntityPhysics();
 
       virtual void AssignTo( const std::shared_ptr<Stage> stage );
+      virtual void Tick();
+
+   private:
 
    private:
       std::shared_ptr<Stage> _stage;

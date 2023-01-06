@@ -17,6 +17,7 @@
 #include "mock_Stage.h"
 #include "mock_Arena.h"
 #include "mock_PlayerPhysics.h"
+#include "mock_EntityPhysics.h"
 #include "mock_ArenaPhysics.h"
 #include "mock_EntityFactory.h"
 #include "mock_Entity.h"
@@ -35,6 +36,7 @@ public:
       _stageMock.reset( new NiceMock<mock_Stage> );
       _arenaMock.reset( new NiceMock<mock_Arena> );
       _playerPhysicsMock.reset( new NiceMock<mock_PlayerPhysics> );
+      _entityPhysicsMock.reset( new NiceMock<mock_EntityPhysics> );
       _arenaPhysicsMock.reset( new NiceMock<mock_ArenaPhysics> );
       _entityFactoryMock.reset( new NiceMock<mock_EntityFactory> );
       _entityDefs.reset( new EntityDefs );
@@ -54,7 +56,7 @@ public:
 
    void BuildGame()
    {
-      _game.reset( new Game( _eventAggregatorMock, _playerMock, _stageMock, _playerPhysicsMock, _arenaPhysicsMock, _entityFactoryMock, _entityDefs ) );
+      _game.reset( new Game( _eventAggregatorMock, _playerMock, _stageMock, _playerPhysicsMock, _entityPhysicsMock, _arenaPhysicsMock, _entityFactoryMock, _entityDefs ) );
    }
 
 protected:
@@ -63,6 +65,7 @@ protected:
    shared_ptr<mock_Stage> _stageMock;
    shared_ptr<mock_Arena> _arenaMock;
    shared_ptr<mock_PlayerPhysics> _playerPhysicsMock;
+   shared_ptr<mock_EntityPhysics> _entityPhysicsMock;
    shared_ptr<mock_ArenaPhysics> _arenaPhysicsMock;
    shared_ptr<mock_EntityFactory> _entityFactoryMock;
    shared_ptr<EntityDefs> _entityDefs;
@@ -86,6 +89,7 @@ TEST_F( GameTests, ExecuteCommand_StartGame_ResetsGameObjects )
    EXPECT_CALL( *_playerMock, Reset() );
    EXPECT_CALL( *_playerPhysicsMock, AssignTo( static_pointer_cast<Player>( _playerMock ) ) );
    EXPECT_CALL( *_stageMock, Reload() );
+   EXPECT_CALL( *_entityPhysicsMock, AssignTo( static_pointer_cast<Stage>( _stageMock ) ) );
    EXPECT_CALL( *_arenaPhysicsMock, AssignTo( static_pointer_cast<Stage>( _stageMock ) ) );
    EXPECT_CALL( *_playerMock, ResetPosition() );
    EXPECT_CALL( *_arenaMock, Reset() );
@@ -517,7 +521,7 @@ TEST_F( GameTests, Tick_RestartingStageNextFrame_ResetsGameObjects )
    EXPECT_CALL( *_playerMock, SetLivesRemaining( 4 ) );
 
    auto eventAggregator = make_shared<GameEventAggregator>();
-   _game.reset( new Game( eventAggregator, _playerMock, _stageMock, _playerPhysicsMock, _arenaPhysicsMock, _entityFactoryMock, _entityDefs ) );
+   _game.reset( new Game( eventAggregator, _playerMock, _stageMock, _playerPhysicsMock, _entityPhysicsMock, _arenaPhysicsMock, _entityFactoryMock, _entityDefs ) );
    eventAggregator->RaiseEvent( GameEvent::TileDeath );
 
    EXPECT_CALL( *_playerMock, ResetPosition() );
@@ -557,6 +561,7 @@ TEST_F( GameTests, Tick_GameStateIsPlayingAndNotPaused_DoesPlayerAndArenaActions
    _game->ExecuteCommand( GameCommand::StartStage );
 
    EXPECT_CALL( *_playerPhysicsMock, Tick() );
+   EXPECT_CALL( *_entityPhysicsMock, Tick() );
    EXPECT_CALL( *_arenaPhysicsMock, Tick() );
    EXPECT_CALL( *_arenaMock, DeSpawnInactiveEntities() );
    EXPECT_CALL( *_arenaMock, CheckSpawnPoints() );
@@ -567,7 +572,7 @@ TEST_F( GameTests, Tick_GameStateIsPlayingAndNotPaused_DoesPlayerAndArenaActions
 TEST_F( GameTests, EventHandling_PitfallEventRaisedWithLivesLeft_DecrementsPlayerLivesRemaining )
 {
    auto eventAggregator = make_shared<GameEventAggregator>();
-   _game.reset( new Game( eventAggregator, _playerMock, _stageMock, _playerPhysicsMock, _arenaPhysicsMock, _entityFactoryMock, _entityDefs ) );
+   _game.reset( new Game( eventAggregator, _playerMock, _stageMock, _playerPhysicsMock, _entityPhysicsMock, _arenaPhysicsMock, _entityFactoryMock, _entityDefs ) );
 
    EXPECT_CALL( *_playerMock, SetLivesRemaining( 4 ) );
 
@@ -579,7 +584,7 @@ TEST_F( GameTests, EventHandling_PitfallEventRaisedWithNoLivesLeft_ChangesNextGa
 {
    ON_CALL( *_playerMock, GetLivesRemaining() ).WillByDefault( Return( 0 ) );
    auto eventAggregator = make_shared<GameEventAggregator>();
-   _game.reset( new Game( eventAggregator, _playerMock, _stageMock, _playerPhysicsMock, _arenaPhysicsMock, _entityFactoryMock, _entityDefs ) );
+   _game.reset( new Game( eventAggregator, _playerMock, _stageMock, _playerPhysicsMock, _entityPhysicsMock, _arenaPhysicsMock, _entityFactoryMock, _entityDefs ) );
 
    eventAggregator->RaiseEvent( GameEvent::Pitfall );
    _game->Tick();
@@ -590,7 +595,7 @@ TEST_F( GameTests, EventHandling_PitfallEventRaisedWithNoLivesLeft_ChangesNextGa
 TEST_F( GameTests, EventHandling_TileDeathEventRaisedWithLivesLeft_DecrementsPlayerLivesRemaining )
 {
    auto eventAggregator = make_shared<GameEventAggregator>();
-   _game.reset( new Game( eventAggregator, _playerMock, _stageMock, _playerPhysicsMock, _arenaPhysicsMock, _entityFactoryMock, _entityDefs ) );
+   _game.reset( new Game( eventAggregator, _playerMock, _stageMock, _playerPhysicsMock, _entityPhysicsMock, _arenaPhysicsMock, _entityFactoryMock, _entityDefs ) );
 
    EXPECT_CALL( *_playerMock, SetLivesRemaining( 4 ) );
 
@@ -602,7 +607,7 @@ TEST_F( GameTests, EventHandling_TileDeathEventRaised_ChangesNextGameStateToGame
 {
    ON_CALL( *_playerMock, GetLivesRemaining() ).WillByDefault( Return( 0 ) );
    auto eventAggregator = make_shared<GameEventAggregator>();
-   _game.reset( new Game( eventAggregator, _playerMock, _stageMock, _playerPhysicsMock, _arenaPhysicsMock, _entityFactoryMock, _entityDefs ) );
+   _game.reset( new Game( eventAggregator, _playerMock, _stageMock, _playerPhysicsMock, _entityPhysicsMock, _arenaPhysicsMock, _entityFactoryMock, _entityDefs ) );
 
    eventAggregator->RaiseEvent( GameEvent::TileDeath );
    _game->Tick();
@@ -613,7 +618,7 @@ TEST_F( GameTests, EventHandling_TileDeathEventRaised_ChangesNextGameStateToGame
 TEST_F( GameTests, EventHandling_ActiveArenaChangedEventRaised_AssignsPlayerToArena )
 {
    auto eventAggregator = make_shared<GameEventAggregator>();
-   _game.reset( new Game( eventAggregator, _playerMock, _stageMock, _playerPhysicsMock, _arenaPhysicsMock, _entityFactoryMock, _entityDefs ) );
+   _game.reset( new Game( eventAggregator, _playerMock, _stageMock, _playerPhysicsMock, _entityPhysicsMock, _arenaPhysicsMock, _entityFactoryMock, _entityDefs ) );
 
    EXPECT_CALL( *_arenaMock, SetPlayerEntity( static_pointer_cast<Entity>( _playerMock ) ) );
 

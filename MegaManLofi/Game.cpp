@@ -4,6 +4,7 @@
 #include "Stage.h"
 #include "Arena.h"
 #include "PlayerPhysics.h"
+#include "EntityPhysics.h"
 #include "ArenaPhysics.h"
 #include "EntityFactory.h"
 #include "EntityDefs.h"
@@ -19,6 +20,7 @@ Game::Game( const shared_ptr<GameEventAggregator> eventAggregator,
             const shared_ptr<Player> player,
             const shared_ptr<Stage> stage,
             const shared_ptr<PlayerPhysics> playerPhysics,
+            const shared_ptr<EntityPhysics> entityPhysics,
             const shared_ptr<ArenaPhysics> arenaPhysics,
             const shared_ptr<EntityFactory> entityFactory,
             const shared_ptr<EntityDefs> entityDefs ) :
@@ -26,6 +28,7 @@ Game::Game( const shared_ptr<GameEventAggregator> eventAggregator,
    _player( player ),
    _stage( stage ),
    _playerPhysics( playerPhysics ),
+   _entityPhysics( entityPhysics ),
    _arenaPhysics( arenaPhysics ),
    _entityFactory( entityFactory ),
    _entityDefs( entityDefs ),
@@ -51,6 +54,7 @@ void Game::Tick()
    else if ( _state == GameState::Playing && !_isPaused )
    {
       _playerPhysics->Tick();
+      _entityPhysics->Tick();
       _arenaPhysics->Tick();
 
       auto arena = _stage->GetMutableActiveArena();
@@ -139,6 +143,7 @@ void Game::StartGame()
    _playerPhysics->AssignTo( _player );
 
    _stage->Reload();
+   _entityPhysics->AssignTo( _stage );
    _arenaPhysics->AssignTo( _stage );
 
    StartStage();

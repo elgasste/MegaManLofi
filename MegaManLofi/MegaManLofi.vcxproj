@@ -165,6 +165,7 @@
     <ClCompile Include="EntityDefsGenerator.cpp" />
     <ClCompile Include="EntityFactory.cpp" />
     <ClCompile Include="EntityConsoleSpriteRepository.cpp" />
+    <ClCompile Include="EntityPhysics.cpp" />
     <ClCompile Include="FrameActionRegistry.cpp" />
     <ClCompile Include="GameDefsGenerator.cpp" />
     <ClCompile Include="GameOverStateConsoleRenderer.cpp" />
@@ -240,6 +241,7 @@
     <ClInclude Include="EntityDefsGenerator.h" />
     <ClInclude Include="EntityFactory.h" />
     <ClInclude Include="EntityConsoleSpriteRepository.h" />
+    <ClInclude Include="EntityPhysics.h" />
     <ClInclude Include="EntityType.h" />
     <ClInclude Include="FrameAction.h" />
     <ClInclude Include="FrameActionRegistry.h" />

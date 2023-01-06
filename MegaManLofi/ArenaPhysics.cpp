@@ -23,23 +23,19 @@ ArenaPhysics::ArenaPhysics( const shared_ptr<IFrameRateProvider> frameRateProvid
 
 void ArenaPhysics::AssignTo( const shared_ptr<Stage> stage )
 {
-   _entityTileIndicesCache.clear();
+   Reset();
    _stage = stage;
-   UpdateEntityTileIndicesCaches();
+   
 }
 
 void ArenaPhysics::Reset()
 {
    _entityTileIndicesCache.clear();
-
-   if ( _stage )
-   {
-      UpdateEntityTileIndicesCaches();
-   }
 }
 
 void ArenaPhysics::Tick()
 {
+   UpdateEntityTileIndicesCaches();
    MoveEntities();
    UpdateActiveRegion();
    DetectTileDeath();
@@ -51,6 +47,10 @@ void ArenaPhysics::UpdateEntityTileIndicesCaches()
 
    for ( int i = 0; i < arena->GetEntityCount(); i++ )
    {
+      if ( arena->GetEntityCount() > 1 )
+      {
+         bool testing = true;
+      }
       UpdateEntityTileIndicesCache( arena->GetEntity( i ) );
    }
 }
@@ -306,6 +306,7 @@ bool ArenaPhysics::DetectPlayerCrossedPortal( Direction direction, const shared_
          auto newTopPosition = ( portal->ToTileOffset * _worldDefs->TileHeight) + ( topPosition - portalTop );
          entity->SetArenaPosition( { newLeftPosition, newTopPosition } );
          UpdateEntityTileIndicesCaches();
+         UpdateActiveRegion();
          return true;
       }
    }
@@ -322,6 +323,7 @@ bool ArenaPhysics::DetectPlayerCrossedPortal( Direction direction, const shared_
          auto newTopPosition = direction == Direction::Down ? 0 : _stage->GetActiveArena()->GetHeight() - entity->GetHitBox().Height;
          entity->SetArenaPosition( { newLeftPosition, newTopPosition } );
          UpdateEntityTileIndicesCaches();
+         UpdateActiveRegion();
          return true;
       }
    }

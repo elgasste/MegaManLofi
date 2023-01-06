@@ -277,7 +277,7 @@ TEST_F( ArenaTests, DeSpawnInactiveEntities_NoInactiveEntities_DoesNotDeSpawnEnt
    EXPECT_EQ( _arena->GetEntityCount(), 3 );
 }
 
-TEST_F( ArenaTests, DeSpawnInactiveEntities_InactiveEntitiesFound_DeSpawnsEntities )
+TEST_F( ArenaTests, DeSpawnInactiveEntities_InactiveEntitiesFound_DeSpawnsNonPlayerEntities )
 {
    Rectangle<float> playerHitBox = { 10, 10, 30, 30 };
    ON_CALL( *_playerMock, GetHitBox() ).WillByDefault( ReturnRef( playerHitBox ) );
@@ -294,10 +294,11 @@ TEST_F( ArenaTests, DeSpawnInactiveEntities_InactiveEntitiesFound_DeSpawnsEntiti
 
    _arena->SetActiveRegion( { 90, 105, 200, 200 } );
 
-   EXPECT_CALL( *_eventAggregatorMock, RaiseEvent( GameEvent::ArenaEntityDeSpawned ) ).Times( 2 );
+   EXPECT_CALL( *_eventAggregatorMock, RaiseEvent( GameEvent::ArenaEntityDeSpawned ) );
 
    _arena->DeSpawnInactiveEntities();
 
-   EXPECT_EQ( _arena->GetEntityCount(), 1 );
-   EXPECT_EQ( _arena->GetEntity( 0 ), entityMock2 );
+   EXPECT_EQ( _arena->GetEntityCount(), 2 );
+   EXPECT_EQ( _arena->GetEntity( 0 ), _playerMock );
+   EXPECT_EQ( _arena->GetEntity( 1 ), entityMock2 );
 }

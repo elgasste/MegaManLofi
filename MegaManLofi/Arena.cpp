@@ -79,8 +79,8 @@ void Arena::DeSpawnInactiveEntities()
 
    for ( auto entity : _entities )
    {
-      if ( !RectangleUtilities::RectanglesIntersectF( entity->GetHitBox(), entity->GetArenaPositionLeft(), entity->GetArenaPositionTop(),
-                                                      _activeRegion, 0, 0 ) )
+      if ( !RectangleUtilities::RectanglesIntersectF( entity->GetHitBox(), entity->GetArenaPositionLeft(), entity->GetArenaPositionTop(), _activeRegion, 0, 0 ) &&
+           entity != _playerEntity )
       {
          entitiesToDeSpawn.push_back( entity );
       }

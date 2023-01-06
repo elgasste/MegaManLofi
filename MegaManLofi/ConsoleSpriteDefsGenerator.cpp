@@ -8,7 +8,7 @@
 using namespace std;
 using namespace MegaManLofi;
 
-shared_ptr<ConsoleSpriteDefs> ConsoleSpriteDefsGenerator::GenerateConsoleSpriteDefs( const std::shared_ptr<IFrameRateProvider> frameRateProvider )
+shared_ptr<ConsoleSpriteDefs> ConsoleSpriteDefsGenerator::GenerateConsoleSpriteDefs( const shared_ptr<IFrameRateProvider> frameRateProvider )
 {
    auto spriteDefs = make_shared<ConsoleSpriteDefs>();
 
@@ -159,7 +159,7 @@ shared_ptr<ConsoleSprite> ConsoleSpriteDefsGenerator::GeneratePlayerAirborneSpri
    return sprite;
 }
 
-std::shared_ptr<ConsoleSprite> ConsoleSpriteDefsGenerator::GenerateBulletSprite( const std::shared_ptr<IFrameRateProvider> frameRateProvider )
+shared_ptr<ConsoleSprite> ConsoleSpriteDefsGenerator::GenerateBulletSprite( const shared_ptr<IFrameRateProvider> frameRateProvider )
 {
    auto sprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( frameRateProvider, 0 ) );
    
@@ -170,6 +170,48 @@ std::shared_ptr<ConsoleSprite> ConsoleSpriteDefsGenerator::GenerateBulletSprite(
    bulletImage.Pixels.push_back( { 'o', true, ConsoleColor::White, ConsoleColor::Black } );
 
    sprite->AddImage( bulletImage );
+
+   return sprite;
+}
+
+shared_ptr<ConsoleSprite> ConsoleSpriteDefsGenerator::GenerateSmallHealthDropSprite( const shared_ptr<IFrameRateProvider> frameRateProvider )
+{
+   auto sprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( frameRateProvider, 0.25f ) );
+
+   ConsoleImage image0;
+   ConsoleImage image1;
+
+   image0.Width = 1;
+   image0.Height = 1;
+   image0.Pixels.push_back( { '.', true, ConsoleColor::White, ConsoleColor::Black } );
+
+   image1.Width = 1;
+   image1.Height = 1;
+   image1.Pixels.push_back( { '.', true, ConsoleColor::Grey, ConsoleColor::Black } );
+
+   sprite->AddImage( image0 );
+   sprite->AddImage( image1 );
+
+   return sprite;
+}
+
+shared_ptr<ConsoleSprite> ConsoleSpriteDefsGenerator::GenerateLargeHealthDropSprite( const shared_ptr<IFrameRateProvider> frameRateProvider )
+{
+   auto sprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( frameRateProvider, 0.25f ) );
+
+   ConsoleImage image0;
+   ConsoleImage image1;
+
+   image0.Width = 1;
+   image0.Height = 1;
+   image0.Pixels.push_back( { 'O', true, ConsoleColor::White, ConsoleColor::Black } );
+
+   image1.Width = 1;
+   image1.Height = 1;
+   image1.Pixels.push_back( { 'O', true, ConsoleColor::Grey, ConsoleColor::Black } );
+
+   sprite->AddImage( image0 );
+   sprite->AddImage( image1 );
 
    return sprite;
 }
@@ -319,37 +361,41 @@ map<int, shared_ptr<EntityConsoleSprite>> ConsoleSpriteDefsGenerator::GenerateEn
 
    entitySpriteMap[0] = playerEntitySprite;
 
+   // bullet
    auto bulletSprite = GenerateBulletSprite( frameRateProvider );
    auto bulletEntitySprite = make_shared<EntityConsoleSprite>();
-
-   bulletEntitySprite->AddSprite( MovementType::Standing, Direction::Left, bulletSprite );
-   bulletEntitySprite->AddSprite( MovementType::Standing, Direction::UpLeft, bulletSprite );
-   bulletEntitySprite->AddSprite( MovementType::Standing, Direction::Up, bulletSprite );
-   bulletEntitySprite->AddSprite( MovementType::Standing, Direction::UpRight, bulletSprite );
-   bulletEntitySprite->AddSprite( MovementType::Standing, Direction::Right, bulletSprite );
-   bulletEntitySprite->AddSprite( MovementType::Standing, Direction::DownRight, bulletSprite );
-   bulletEntitySprite->AddSprite( MovementType::Standing, Direction::Down, bulletSprite );
-   bulletEntitySprite->AddSprite( MovementType::Standing, Direction::DownLeft, bulletSprite );
-
-   bulletEntitySprite->AddSprite( MovementType::Walking, Direction::Left, bulletSprite );
-   bulletEntitySprite->AddSprite( MovementType::Walking, Direction::UpLeft, bulletSprite );
-   bulletEntitySprite->AddSprite( MovementType::Walking, Direction::Up, bulletSprite );
-   bulletEntitySprite->AddSprite( MovementType::Walking, Direction::UpRight, bulletSprite );
-   bulletEntitySprite->AddSprite( MovementType::Walking, Direction::Right, bulletSprite );
-   bulletEntitySprite->AddSprite( MovementType::Walking, Direction::DownRight, bulletSprite );
-   bulletEntitySprite->AddSprite( MovementType::Walking, Direction::Down, bulletSprite );
-   bulletEntitySprite->AddSprite( MovementType::Walking, Direction::DownLeft, bulletSprite );
-
-   bulletEntitySprite->AddSprite( MovementType::Airborne, Direction::Left, bulletSprite );
-   bulletEntitySprite->AddSprite( MovementType::Airborne, Direction::UpLeft, bulletSprite );
-   bulletEntitySprite->AddSprite( MovementType::Airborne, Direction::Up, bulletSprite );
-   bulletEntitySprite->AddSprite( MovementType::Airborne, Direction::UpRight, bulletSprite );
-   bulletEntitySprite->AddSprite( MovementType::Airborne, Direction::Right, bulletSprite );
-   bulletEntitySprite->AddSprite( MovementType::Airborne, Direction::DownRight, bulletSprite );
-   bulletEntitySprite->AddSprite( MovementType::Airborne, Direction::Down, bulletSprite );
-   bulletEntitySprite->AddSprite( MovementType::Airborne, Direction::DownLeft, bulletSprite );
-
+   for ( int i = 0; i < (int)MovementType::MovementTypeCount; i++ )
+   {
+      for ( int j = 0; j < (int)Direction::DirectionCount; j++ )
+      {
+         bulletEntitySprite->AddSprite( (MovementType)i, (Direction)j, bulletSprite );
+      }
+   }
    entitySpriteMap[1] = bulletEntitySprite;
+
+   // small health drop
+   auto smallHealthDropSprite = GenerateSmallHealthDropSprite( frameRateProvider );
+   auto smallHealthDropEntitySprite = make_shared<EntityConsoleSprite>();
+   for ( int i = 0; i < (int)MovementType::MovementTypeCount; i++ )
+   {
+      for ( int j = 0; j < (int)Direction::DirectionCount; j++ )
+      {
+         smallHealthDropEntitySprite->AddSprite( (MovementType)i, (Direction)j, smallHealthDropSprite );
+      }
+   }
+   entitySpriteMap[2] = smallHealthDropEntitySprite;
+
+   // large health drop
+   auto largeHealthDropSprite = GenerateLargeHealthDropSprite( frameRateProvider );
+   auto largeHealthDropEntitySprite = make_shared<EntityConsoleSprite>();
+   for ( int i = 0; i < (int)MovementType::MovementTypeCount; i++ )
+   {
+      for ( int j = 0; j < (int)Direction::DirectionCount; j++ )
+      {
+         largeHealthDropEntitySprite->AddSprite( (MovementType)i, (Direction)j, largeHealthDropSprite );
+      }
+   }
+   entitySpriteMap[2] = largeHealthDropEntitySprite;
 
    return entitySpriteMap;
 }

@@ -11,6 +11,8 @@ namespace MegaManLofi
       Right,
       DownRight,
       Down,
-      DownLeft
+      DownLeft,
+
+      DirectionCount
    };
 }

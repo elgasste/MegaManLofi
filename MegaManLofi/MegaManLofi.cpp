@@ -17,6 +17,7 @@
 #include "GameDefsGenerator.h"
 #include "GameDefs.h"
 #include "StageDefs.h"
+#include "ArenaDefs.h"
 #include "ConsoleRenderDefs.h"
 #include "KeyboardInputDefs.h"
 #include "KeyboardInputReader.h"
@@ -126,6 +127,10 @@ void LoadAndRun( const shared_ptr<ConsoleBuffer> consoleBuffer )
       auto arena = shared_ptr<Arena>( new Arena( arenaDefs, gameDefs->WorldDefs, eventAggregator ) );
       arena->SetArenaId( arenaId );
       stage->AddArena( arena );
+      for ( auto spawnPoint : arenaDefs->SpawnPoints )
+      {
+         arena->AddSpawnPoint( shared_ptr<SpawnPoint>( new SpawnPoint( spawnPoint ) ) );
+      }
    }
    auto entityFactory = shared_ptr<EntityFactory>( new EntityFactory( gameDefs->EntityDefs, uniqueNumberGenerator ) );
    auto game = shared_ptr<Game>( new Game( eventAggregator, player, stage, playerPhysics, arenaPhysics, entityFactory, gameDefs->EntityDefs ) );

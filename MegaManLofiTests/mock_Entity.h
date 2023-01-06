@@ -30,6 +30,8 @@ public:
    MOCK_METHOD( void, SetDirection, ( MegaManLofi::Direction ), ( override ) );
    MOCK_METHOD( void, SetHitBox, ( MegaManLofi::Rectangle<float> ), ( override ) );
    MOCK_METHOD( void, SetMovementType, ( MegaManLofi::MovementType ), ( override ) );
+   MOCK_METHOD( void, SetMaxGravityVelocity, ( float ), ( override ) );
+   MOCK_METHOD( void, SetGravityAccelerationPerSecond, ( float ), ( override ) );
    MOCK_METHOD( void, StopX, ( ), ( override ) );
    MOCK_METHOD( void, StopY, ( ), ( override ) );
 };

@@ -27,6 +27,8 @@ const shared_ptr<Entity> EntityFactory::CreateEntity( int entityMetaId, Directio
    {
       case EntityType::Item:
          entity->SetHitBox( _entityDefs->ItemInfoMap[entityMetaId].HitBox );
+         entity->SetMaxGravityVelocity( _entityDefs->ItemInfoMap[entityMetaId].MaxGravityVelocity );
+         entity->SetGravityAccelerationPerSecond( _entityDefs->ItemInfoMap[entityMetaId].GravityAccelerationPerSecond );
          break;
       case EntityType::Projectile:
          SetProjectileInfo( entity, direction );

@@ -118,7 +118,7 @@ void LoadAndRun( const shared_ptr<ConsoleBuffer> consoleBuffer )
 
    // physics objects
    auto playerPhysics = shared_ptr<PlayerPhysics>( new PlayerPhysics( clock, frameActionRegistry, gameDefs->PlayerPhysicsDefs ) );
-   auto entityPhysics = make_shared<EntityPhysics>();
+   auto entityPhysics = make_shared<EntityPhysics>( clock, frameActionRegistry );
    auto arenaPhysics = shared_ptr<ArenaPhysics>( new ArenaPhysics( clock, eventAggregator, gameDefs->WorldDefs ) );
 
    // game objects

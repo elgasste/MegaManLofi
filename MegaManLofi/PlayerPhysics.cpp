@@ -36,7 +36,6 @@ void PlayerPhysics::Reset()
 void PlayerPhysics::Tick()
 {
    ApplyFriction();
-   ApplyGravity();
 }
 
 void PlayerPhysics::PointTo( Direction direction ) const
@@ -96,28 +95,6 @@ void PlayerPhysics::ApplyFriction() const
    }
 
    _player->SetVelocityX( newVelocityX );
-}
-
-void PlayerPhysics::ApplyGravity() const
-{
-   auto currentVelocityY = _player->GetVelocityY();
-   auto gravityVelocityDelta = _physicsDefs->GravityAccelerationPerSecond * _frameRateProvider->GetFrameSeconds();
-
-   if ( currentVelocityY < 0 )
-   {
-      if ( _frameActionRegistry->ActionFlagged( FrameAction::PlayerJumping ) )
-      {
-         _player->SetVelocityY( currentVelocityY + gravityVelocityDelta );
-      }
-      else
-      {
-         _player->SetVelocityY( 0 );
-      }
-   }
-   else
-   {
-      _player->SetVelocityY( min( currentVelocityY + gravityVelocityDelta, _physicsDefs->MaxGravityVelocity ) );
-   }
 }
 
 void PlayerPhysics::Jump()

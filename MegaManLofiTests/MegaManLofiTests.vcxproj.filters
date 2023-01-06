@@ -96,6 +96,9 @@
     <ClCompile Include="StageTests.cpp">
       <Filter>Tests\GameObjects</Filter>
     </ClCompile>
+    <ClCompile Include="EntityPhysicsTests.cpp">
+      <Filter>Tests\Physics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="mock_GameEventAggregator.h">

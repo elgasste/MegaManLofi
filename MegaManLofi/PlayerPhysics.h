@@ -30,7 +30,6 @@ namespace MegaManLofi
 
    private:
       void ApplyFriction() const;
-      void ApplyGravity() const;
 
    private:
       const std::shared_ptr<IFrameRateProvider> _frameRateProvider;

@@ -26,6 +26,8 @@ public:
       _entityDefs->EntityTypeMap[2] = EntityType::Projectile;
 
       _entityDefs->ItemInfoMap[1].HitBox = { 1, 1, 20, 20 };
+      _entityDefs->ItemInfoMap[1].MaxGravityVelocity = 100;
+      _entityDefs->ItemInfoMap[1].GravityAccelerationPerSecond = 3'000;
 
       _entityDefs->ProjectileInfoMap[2].HitBox = { 2, 2, 10, 10 };
       _entityDefs->ProjectileInfoMap[2].Velocity = 100;
@@ -85,7 +87,7 @@ TEST_F( EntityFactoryTests, CreateEntity_Always_SetsDirection )
    EXPECT_EQ( entity->GetDirection(), Direction::UpRight );
 }
 
-TEST_F( EntityFactoryTests, CreateEntity_Item_SetsHitBox )
+TEST_F( EntityFactoryTests, CreateEntity_Item_SetsItemPropertiesFromInfo )
 {
    BuildFactory();
 
@@ -95,6 +97,8 @@ TEST_F( EntityFactoryTests, CreateEntity_Item_SetsHitBox )
    EXPECT_EQ( entity->GetHitBox().Top, 1 );
    EXPECT_EQ( entity->GetHitBox().Width, 20 );
    EXPECT_EQ( entity->GetHitBox().Height, 20 );
+   EXPECT_EQ( entity->GetMaxGravityVelocity(), 100.0f );
+   EXPECT_EQ( entity->GetGravityAccelerationPerSecond(), 3'000.0f );
 }
 
 TEST_F( EntityFactoryTests, CreateEntity_ProjectileMovingLeft_SetsVelocityFromDefs )

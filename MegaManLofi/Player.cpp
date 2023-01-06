@@ -19,6 +19,8 @@ Player::Player( const shared_ptr<PlayerDefs> playerDefs,
 {
    _uniqueId = playerDefs->DefaultUniqueId;
    _entityMetaId = playerDefs->DefaultEntityMetaId;
+   _maxGravityVelocity = _playerDefs->MaxGravityVelocity;
+   _gravityAccelerationPerSecond = _playerDefs->GravityAccelerationPerSecond;
 
    Reset();
 }

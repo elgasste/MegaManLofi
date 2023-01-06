@@ -12,8 +12,6 @@ namespace MegaManLofi
    {
    public:
       int BulletEntityMetaId = 0;
-      float BulletVelocity = 0;
-      Rectangle<float> BulletHitBox;
 
       std::map<int, EntityType> EntityTypeMap;
       std::map<int, ItemInfo> ItemInfoMap;

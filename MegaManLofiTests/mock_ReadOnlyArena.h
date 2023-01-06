@@ -15,7 +15,7 @@ public:
    MOCK_METHOD( float, GetHeight, ( ), ( const, override ) );
    MOCK_METHOD( int, GetHorizontalTiles, ( ), ( const, override ) );
    MOCK_METHOD( int, GetVerticalTiles, ( ), ( const, override ) );
-   MOCK_METHOD( const MegaManLofi::Quad<float>&, GetActiveRegion, ( ), ( const, override ) );
+   MOCK_METHOD( const MegaManLofi::Rectangle<float>&, GetActiveRegion, ( ), ( const, override ) );
    MOCK_METHOD( const MegaManLofi::ArenaTile&, GetTile, ( int ), ( const, override ) );
    MOCK_METHOD( bool, HasEntity, ( int ), ( const, override ) );
 };

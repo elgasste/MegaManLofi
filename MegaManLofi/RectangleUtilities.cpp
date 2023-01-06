@@ -3,48 +3,24 @@
 using namespace std;
 using namespace MegaManLofi;
 
-bool RectangleUtilities::RectanglesIntersect( const Rectangle<float>& rect1, const Rectangle<float>& rect2 )
+bool RectangleUtilities::RectanglesIntersectF( const Rectangle<float>& r1, float r1LeftOffset, float r1TopOffset,
+                                               const Rectangle<float>& r2, float r2LeftOffset, float r2TopOffset )
 {
-   auto rect1Right = rect1.Left + rect1.Width;
-   auto rect2Right = rect2.Left + rect2.Width;
-   auto rect1Bottom = rect1.Top + rect1.Height;
-   auto rect2Bottom = rect2.Top + rect2.Height;
+   auto r1Left = r1.Left + r1LeftOffset;
+   auto r1Top = r1.Top + r1TopOffset;
+   auto r1Right = r1Left + r1.Width;
+   auto r1Bottom = r1Top + r1.Height;
 
-   bool leftInBounds = rect1.Left > rect2.Left && rect1Right < rect2Right;
-   bool rightInBounds = rect1Right > rect2.Left && rect1Right < rect2Right;
-   bool topInBounds = rect1.Top > rect2.Top && rect1.Top < rect2Bottom;
-   bool bottomInBounds = rect1Bottom > rect1.Top && rect1Bottom < rect2Bottom;
+   auto r2Left = r2.Left + r2LeftOffset;
+   auto r2Top = r2.Top + r2TopOffset;
+   auto r2Right = r2Left + r2.Width;
+   auto r2Bottom = r2Top + r2.Height;
+
+   bool leftInBounds = r1Left > r2Left && r1Right < r2Right;
+   bool rightInBounds = r1Right > r2Left && r1Right < r2Right;
+   bool topInBounds = r1Top > r2Top && r1Top < r2Bottom;
+   bool bottomInBounds = r1Bottom > r2Top && r1Bottom < r2Bottom;
 
    return ( leftInBounds && topInBounds ) || ( rightInBounds && topInBounds ) ||
           ( leftInBounds && bottomInBounds ) || ( rightInBounds && bottomInBounds );
-}
-
-void RectangleUtilities::UnclipHorizontal( Rectangle<float>& clippingRect, const Rectangle<float>& clippedRect )
-{
-   auto clippingRectMiddle = clippingRect.Left + ( clippingRect.Width / 2 );
-   auto clippedRectMiddle = clippedRect.Left + ( clippedRect.Width / 2 );
-
-   if ( clippingRectMiddle < clippedRectMiddle )
-   {
-      clippingRect.Left = clippedRect.Left - clippingRect.Width;
-   }
-   else
-   {
-      clippingRect.Left = clippedRect.Left + clippedRect.Width;
-   }
-}
-
-void RectangleUtilities::UnclipVertical( Rectangle<float>& clippingRect, const Rectangle<float>& clippedRect )
-{
-   auto clippingRectMiddle = clippingRect.Top + ( clippingRect.Height / 2 );
-   auto clippedRectMiddle = clippedRect.Top + ( clippedRect.Height / 2 );
-
-   if ( clippingRectMiddle < clippedRectMiddle )
-   {
-      clippingRect.Top = clippedRect.Top - clippingRect.Height;
-   }
-   else
-   {
-      clippingRect.Top = clippedRect.Top + clippedRect.Height;
-   }
 }

@@ -5,6 +5,7 @@
 #include "WorldDefs.h"
 #include "GameEventAggregator.h"
 #include "Entity.h"
+#include "RectangleUtilities.h"
 
 using namespace std;
 using namespace MegaManLofi;
@@ -69,5 +70,24 @@ void Arena::RemoveEntity( const std::shared_ptr<Entity> entity )
          _eventAggregator->RaiseEvent( GameEvent::ArenaEntityDeSpawned );
          break;
       }
+   }
+}
+
+void Arena::DeSpawnInactiveEntities()
+{
+   vector<shared_ptr<Entity>> entitiesToDeSpawn;
+
+   for ( auto entity : _entities )
+   {
+      if ( !RectangleUtilities::RectanglesIntersectF( entity->GetHitBox(), entity->GetArenaPositionLeft(), entity->GetArenaPositionTop(), _activeRegion, 0, 0 ) &&
+           entity != _playerEntity )
+      {
+         entitiesToDeSpawn.push_back( entity );
+      }
+   }
+
+   for ( auto entity : entitiesToDeSpawn )
+   {
+      RemoveEntity( entity );
    }
 }

@@ -21,9 +21,13 @@ shared_ptr<EntityDefs> EntityDefsGenerator::GenerateEntityDefs()
 
    // small health drop
    entityDefs->ItemInfoMap[2].HitBox = { 0, 0, 10, 10 };
+   entityDefs->ItemInfoMap[2].MaxGravityVelocity = 4'000;
+   entityDefs->ItemInfoMap[2].GravityAccelerationPerSecond = 10'000;
 
    // large health drop
    entityDefs->ItemInfoMap[3].HitBox = { 0, 0, 38, 78 }; // one full tile
+   entityDefs->ItemInfoMap[3].MaxGravityVelocity = 4'000;
+   entityDefs->ItemInfoMap[3].GravityAccelerationPerSecond = 10'000;
 
    return entityDefs;
 }

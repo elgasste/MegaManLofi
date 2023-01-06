@@ -52,7 +52,10 @@ void Game::Tick()
    {
       _playerPhysics->Tick();
       _arenaPhysics->Tick();
-      _stage->GetMutableActiveArena()->DeSpawnInactiveEntities();
+
+      auto arena = _stage->GetMutableActiveArena();
+      arena->DeSpawnInactiveEntities();
+      arena->CheckSpawnPoints();
    }
 }
 

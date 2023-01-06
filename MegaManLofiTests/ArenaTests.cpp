@@ -6,9 +6,11 @@
 #include <MegaManLofi/FrameAction.h>
 
 #include "mock_GameEventAggregator.h"
+#include "mock_FrameRateProvider.h"
 #include "mock_Player.h"
 #include "mock_FrameActionRegistry.h"
 #include "mock_FrameRateProvider.h"
+#include "mock_EntityFactory.h"
 #include "mock_Entity.h"
 
 using namespace std;
@@ -23,6 +25,8 @@ public:
       _arenaDefs.reset( new ArenaDefs );
       _worldDefs.reset( new WorldDefs );
       _eventAggregatorMock.reset( new NiceMock<mock_GameEventAggregator> );
+      _frameRateProviderMock.reset( new NiceMock<mock_FrameRateProvider> );
+      _entityFactoryMock.reset( new NiceMock<mock_EntityFactory> );
       _playerMock.reset( new NiceMock<mock_Player> );
 
       _arenaDefs->ArenaId = 11;
@@ -37,11 +41,13 @@ public:
       {
          _arenaDefs->Tiles.push_back( { true, true, true, true } );
       }
+
+      ON_CALL( *_frameRateProviderMock, GetFrameSeconds() ).WillByDefault( Return( 1.0f ) );
    }
 
    void BuildArena()
    {
-      _arena.reset( new Arena( _arenaDefs, _worldDefs, _eventAggregatorMock ) );
+      _arena.reset( new Arena( _arenaDefs, _worldDefs, _eventAggregatorMock, _frameRateProviderMock, _entityFactoryMock ) );
       _arena->SetPlayerEntity( _playerMock );
    }
 
@@ -49,6 +55,8 @@ protected:
    shared_ptr<ArenaDefs> _arenaDefs;
    shared_ptr<WorldDefs> _worldDefs;
    shared_ptr<mock_GameEventAggregator> _eventAggregatorMock;
+   shared_ptr<mock_FrameRateProvider> _frameRateProviderMock;
+   shared_ptr<mock_EntityFactory> _entityFactoryMock;
    shared_ptr<mock_Player> _playerMock;
 
    shared_ptr<Arena> _arena;
@@ -268,7 +276,7 @@ TEST_F( ArenaTests, DeSpawnInactiveEntities_NoInactiveEntities_DoesNotDeSpawnEnt
    ON_CALL( *entityMock1, GetHitBox() ).WillByDefault( ReturnRef( hitBox1 ) );
    ON_CALL( *entityMock2, GetHitBox() ).WillByDefault( ReturnRef( hitBox2 ) );
    
-   _arena->SetActiveRegion( { 0, 0, 200, 200 } );
+   _arena->SetDeSpawnRegion( { 0, 0, 200, 200 } );
 
    EXPECT_CALL( *_eventAggregatorMock, RaiseEvent( GameEvent::ArenaEntityDeSpawned ) ).Times( 0 );
 
@@ -292,7 +300,7 @@ TEST_F( ArenaTests, DeSpawnInactiveEntities_InactiveEntitiesFound_DeSpawnsNonPla
    ON_CALL( *entityMock1, GetHitBox() ).WillByDefault( ReturnRef( hitBox1 ) );
    ON_CALL( *entityMock2, GetHitBox() ).WillByDefault( ReturnRef( hitBox2 ) );
 
-   _arena->SetActiveRegion( { 90, 105, 200, 200 } );
+   _arena->SetDeSpawnRegion( { 90, 105, 200, 200 } );
 
    EXPECT_CALL( *_eventAggregatorMock, RaiseEvent( GameEvent::ArenaEntityDeSpawned ) );
 

@@ -39,7 +39,7 @@ namespace MegaManLofi
       void HandleEntityEnvironmentCollision( const std::shared_ptr<Entity> entity );
       void DetectEntityMovementType( const std::shared_ptr<Entity> entity ) const;
 
-      void UpdateActiveRegion();
+      void UpdateRegions();
       bool DetectTileDeath() const;
 
    private:

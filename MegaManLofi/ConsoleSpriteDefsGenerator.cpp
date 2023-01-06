@@ -395,7 +395,7 @@ map<int, shared_ptr<EntityConsoleSprite>> ConsoleSpriteDefsGenerator::GenerateEn
          largeHealthDropEntitySprite->AddSprite( (MovementType)i, (Direction)j, largeHealthDropSprite );
       }
    }
-   entitySpriteMap[2] = largeHealthDropEntitySprite;
+   entitySpriteMap[3] = largeHealthDropEntitySprite;
 
    return entitySpriteMap;
 }

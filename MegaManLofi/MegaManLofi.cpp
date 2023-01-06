@@ -23,10 +23,10 @@
 #include "KeyboardInputReader.h"
 #include "PlayerPhysics.h"
 #include "ArenaPhysics.h"
+#include "EntityFactory.h"
 #include "Player.h"
 #include "Stage.h"
 #include "Arena.h"
-#include "EntityFactory.h"
 #include "Game.h"
 #include "PlayingMenu.h"
 #include "MenuRepository.h"
@@ -120,11 +120,12 @@ void LoadAndRun( const shared_ptr<ConsoleBuffer> consoleBuffer )
    auto arenaPhysics = shared_ptr<ArenaPhysics>( new ArenaPhysics( clock, eventAggregator, gameDefs->WorldDefs ) );
 
    // game objects
+   auto entityFactory = shared_ptr<EntityFactory>( new EntityFactory( gameDefs->EntityDefs, uniqueNumberGenerator ) );
    auto player = shared_ptr<Player>( new Player( gameDefs->PlayerDefs, frameActionRegistry, clock ) );
    auto stage = shared_ptr<Stage>( new Stage( gameDefs->StageDefs, eventAggregator ) );
    for ( auto [arenaId, arenaDefs] : gameDefs->StageDefs->ArenaMap )
    {
-      auto arena = shared_ptr<Arena>( new Arena( arenaDefs, gameDefs->WorldDefs, eventAggregator ) );
+      auto arena = shared_ptr<Arena>( new Arena( arenaDefs, gameDefs->WorldDefs, eventAggregator, clock, entityFactory ) );
       arena->SetArenaId( arenaId );
       stage->AddArena( arena );
       for ( auto spawnPoint : arenaDefs->SpawnPoints )
@@ -132,7 +133,6 @@ void LoadAndRun( const shared_ptr<ConsoleBuffer> consoleBuffer )
          arena->AddSpawnPoint( shared_ptr<SpawnPoint>( new SpawnPoint( spawnPoint ) ) );
       }
    }
-   auto entityFactory = shared_ptr<EntityFactory>( new EntityFactory( gameDefs->EntityDefs, uniqueNumberGenerator ) );
    auto game = shared_ptr<Game>( new Game( eventAggregator, player, stage, playerPhysics, arenaPhysics, entityFactory, gameDefs->EntityDefs ) );
 
    // menus

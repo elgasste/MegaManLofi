@@ -42,10 +42,12 @@ void Arena::Reset()
       SetPlayerEntity( _playerEntity );
    }
 
-   // TODO: should this completely re-load spawn points from ArenaDefs?
-   for ( auto spawnPoint : _spawnPoints )
+   // TODO: this will happen after every death, it might not bode well if we want some
+   // items to only be picked up one time ever.
+   _spawnPoints.clear();
+   for ( auto spawnPoint : _arenaDefs->SpawnPoints )
    {
-      spawnPoint->IsActive = false;
+      _spawnPoints.push_back( shared_ptr<SpawnPoint>( new SpawnPoint( spawnPoint ) ) );
    }
 }
 

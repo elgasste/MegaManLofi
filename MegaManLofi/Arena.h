@@ -30,7 +30,6 @@ namespace MegaManLofi
       virtual void SetDeSpawnRegion( Rectangle<float> region ) { _deSpawnRegion = region; }
       virtual void AddEntity( const std::shared_ptr<Entity> entity );
       virtual void RemoveEntity( const std::shared_ptr<Entity> entity );
-      virtual void AddSpawnPoint( const std::shared_ptr<SpawnPoint> spawnPoint ) { _spawnPoints.push_back( spawnPoint ); }
       virtual void CheckSpawnPoints();
       virtual void DeSpawnInactiveEntities();
 

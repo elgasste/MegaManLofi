@@ -128,10 +128,6 @@ void LoadAndRun( const shared_ptr<ConsoleBuffer> consoleBuffer )
       auto arena = shared_ptr<Arena>( new Arena( arenaDefs, gameDefs->WorldDefs, eventAggregator, clock, entityFactory ) );
       arena->SetArenaId( arenaId );
       stage->AddArena( arena );
-      for ( auto spawnPoint : arenaDefs->SpawnPoints )
-      {
-         arena->AddSpawnPoint( shared_ptr<SpawnPoint>( new SpawnPoint( spawnPoint ) ) );
-      }
    }
    auto game = shared_ptr<Game>( new Game( eventAggregator, player, stage, playerPhysics, arenaPhysics, entityFactory, gameDefs->EntityDefs ) );
 

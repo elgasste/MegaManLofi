@@ -57,3 +57,10 @@ TEST_F( EntityTests, Setters_Always_SetsPropertyValues )
    EXPECT_EQ( entity->GetHitBox().Height, 9 );
    EXPECT_EQ( entity->GetMovementType(), MovementType::Airborne );
 }
+
+TEST_F( EntityTests, TakeCollisionPayload_Always_ReturnsFalse )
+{
+   auto entity = make_shared<Entity>();
+
+   EXPECT_FALSE( entity->TakeCollisionPayload( EntityCollisionPayload() ) );
+}

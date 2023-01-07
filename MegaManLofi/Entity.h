@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ReadOnlyEntity.h"
+#include "EntityCollisionPayload.h"
 
 namespace MegaManLofi
 {
@@ -22,5 +23,6 @@ namespace MegaManLofi
 
       virtual void StopX() { _velocityX = 0; }
       virtual void StopY() { _velocityY = 0; }
+      virtual bool TakeCollisionPayload( const EntityCollisionPayload& payload ) { return false; }
    };
 }

@@ -32,6 +32,7 @@ public:
    MOCK_METHOD( void, SetMovementType, ( MegaManLofi::MovementType ), ( override ) );
    MOCK_METHOD( void, StopX, ( ), ( override ) );
    MOCK_METHOD( void, StopY, ( ), ( override ) );
+   MOCK_METHOD( bool, TakeCollisionPayload, ( const MegaManLofi::EntityCollisionPayload& ), ( override ) );
 
    MOCK_METHOD( unsigned int, GetLivesRemaining, ( ), ( const, override ) );
    MOCK_METHOD( bool, IsJumping, ( ), ( const, override ) );

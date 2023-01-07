@@ -114,9 +114,8 @@ void Arena::CheckSpawnPoints()
             spawnPoint->IsActive = true;
             spawnPoint->IntervalElapsedSeconds = 0;
 
-            if ( !spawnPoint->HasSpawned || spawnPoint->ReSpawns || spawnPoint->ReSpawnsAtInterval )
+            if ( !spawnPoint->IsDecommissioned )
             {
-               spawnPoint->HasSpawned = true;
                auto entity = _entityFactory->CreateEntity( spawnPoint->EntityMetaId, spawnPoint->Direction );
                entity->SetArenaPosition( spawnPoint->ArenaPosition );
                AddEntity( entity );

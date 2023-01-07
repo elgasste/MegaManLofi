@@ -281,12 +281,12 @@ TEST_F( ArenaTests, RemoveEntity_EntityIsInList_RaisesArenaEntityDeSpawnedEvent 
    _arena->RemoveEntity( entityMock2 );
 }
 
-TEST_F( ArenaTests, CheckSpawnPoints_InactivePointHasNotSpawned_SpawnsEntity )
+TEST_F( ArenaTests, CheckSpawnPoints_InactivePointIsNotDecommissioned_SpawnsEntity )
 {
    _arenaDefs->SpawnPoints.push_back( SpawnPoint() );
    _arenaDefs->SpawnPoints[0].ArenaPosition = { 1, 1 };
    _arenaDefs->SpawnPoints[0].IsActive = false;
-   _arenaDefs->SpawnPoints[0].HasSpawned = false;
+   _arenaDefs->SpawnPoints[0].IsDecommissioned = false;
    _arenaDefs->SpawnPoints[0].EntityMetaId = 5;
    _arenaDefs->SpawnPoints[0].Direction = Direction::Down;
    BuildArena();
@@ -305,71 +305,18 @@ TEST_F( ArenaTests, CheckSpawnPoints_InactivePointHasNotSpawned_SpawnsEntity )
    EXPECT_EQ( _arena->GetEntity( 1 ), entityMock );
 }
 
-TEST_F( ArenaTests, CheckSpawnPoints_InactivePointHasSpawnedAndDoesNotReSpawn_DoesNotSpawnEntity )
+TEST_F( ArenaTests, CheckSpawnPoints_InactivePointIsDecommissioned_DoesNotSpawnEntity )
 {
    _arenaDefs->SpawnPoints.push_back( SpawnPoint() );
    _arenaDefs->SpawnPoints[0].ArenaPosition = { 1, 1 };
    _arenaDefs->SpawnPoints[0].IsActive = false;
-   _arenaDefs->SpawnPoints[0].HasSpawned = true;
-   _arenaDefs->SpawnPoints[0].ReSpawns = false;
+   _arenaDefs->SpawnPoints[0].IsDecommissioned = true;
    _arenaDefs->SpawnPoints[0].ReSpawnsAtInterval = false;
    BuildArena();
 
    EXPECT_CALL( *_entityFactoryMock, CreateEntity( _, _ ) ).Times( 0 );
 
    _arena->CheckSpawnPoints();
-}
-
-TEST_F( ArenaTests, CheckSpawnPoints_InactivePointHasSpawnedAndReSpawns_SpawnsEntity )
-{
-   _arenaDefs->SpawnPoints.push_back( SpawnPoint() );
-   _arenaDefs->SpawnPoints[0].ArenaPosition = { 1, 1 };
-   _arenaDefs->SpawnPoints[0].IsActive = false;
-   _arenaDefs->SpawnPoints[0].HasSpawned = true;
-   _arenaDefs->SpawnPoints[0].ReSpawns = true;
-   _arenaDefs->SpawnPoints[0].ReSpawnsAtInterval = false;
-   _arenaDefs->SpawnPoints[0].EntityMetaId = 5;
-   _arenaDefs->SpawnPoints[0].Direction = Direction::Down;
-   BuildArena();
-
-   auto entityMock = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
-   EXPECT_CALL( *_entityFactoryMock, CreateEntity( 5, Direction::Down ) ).WillOnce( Return( entityMock ) );
-   Coordinate<float> entityPosition;
-   EXPECT_CALL( *entityMock, SetArenaPosition( _ ) ).WillOnce( SaveArg<0>( &entityPosition ) );
-   EXPECT_CALL( *_eventAggregatorMock, RaiseEvent( GameEvent::ArenaEntitySpawned ) );
-
-   _arena->CheckSpawnPoints();
-
-   EXPECT_EQ( entityPosition.Left, 1 );
-   EXPECT_EQ( entityPosition.Top, 1 );
-   EXPECT_EQ( _arena->GetEntityCount(), 2 );
-   EXPECT_EQ( _arena->GetEntity( 1 ), entityMock );
-}
-
-TEST_F( ArenaTests, CheckSpawnPoints_InactivePointHasSpawnedAndReSpawnsAtInterval_SpawnsEntity )
-{
-   _arenaDefs->SpawnPoints.push_back( SpawnPoint() );
-   _arenaDefs->SpawnPoints[0].ArenaPosition = { 1, 1 };
-   _arenaDefs->SpawnPoints[0].IsActive = false;
-   _arenaDefs->SpawnPoints[0].HasSpawned = true;
-   _arenaDefs->SpawnPoints[0].ReSpawns = false;
-   _arenaDefs->SpawnPoints[0].ReSpawnsAtInterval = true;
-   _arenaDefs->SpawnPoints[0].EntityMetaId = 5;
-   _arenaDefs->SpawnPoints[0].Direction = Direction::Down;
-   BuildArena();
-
-   auto entityMock = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
-   EXPECT_CALL( *_entityFactoryMock, CreateEntity( 5, Direction::Down ) ).WillOnce( Return( entityMock ) );
-   Coordinate<float> entityPosition;
-   EXPECT_CALL( *entityMock, SetArenaPosition( _ ) ).WillOnce( SaveArg<0>( &entityPosition ) );
-   EXPECT_CALL( *_eventAggregatorMock, RaiseEvent( GameEvent::ArenaEntitySpawned ) );
-
-   _arena->CheckSpawnPoints();
-
-   EXPECT_EQ( entityPosition.Left, 1 );
-   EXPECT_EQ( entityPosition.Top, 1 );
-   EXPECT_EQ( _arena->GetEntityCount(), 2 );
-   EXPECT_EQ( _arena->GetEntity( 1 ), entityMock );
 }
 
 TEST_F( ArenaTests, CheckSpawnPoints_ActivePointDoesNotReSpawnAtInterval_DoesNotSpawnEntity )

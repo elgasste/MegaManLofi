@@ -1,7 +1,6 @@
 #include "gtest/gtest.h"
 
 #include <MegaManLofi/PlayerPhysics.h>
-#include <MegaManLofi/PlayerPhysicsDefs.h>
 #include <MegaManLofi/FrameAction.h>
 #include <MegaManLofi/Direction.h>
 
@@ -21,12 +20,6 @@ public:
       _frameRateProviderMock.reset( new NiceMock<mock_FrameRateProvider> );
       _frameActionRegistryMock.reset( new NiceMock<mock_FrameActionRegistry> );
       _playerMock.reset( new NiceMock<mock_Player> );
-      _physicsDefs.reset( new PlayerPhysicsDefs );
-
-      _physicsDefs->MaxPushVelocity = 10;
-      _physicsDefs->PushAccelerationPerSecond = 2;
-      _physicsDefs->JumpAccelerationPerSecond = 1;
-      _physicsDefs->MaxJumpExtensionSeconds = 0.25;
 
       ON_CALL( *_frameRateProviderMock, GetFrameSeconds() ).WillByDefault( Return( 1.0f ) );
       ON_CALL( *_frameActionRegistryMock, ActionFlagged( FrameAction::PlayerPushed ) ).WillByDefault( Return( false ) );
@@ -36,7 +29,7 @@ public:
 
    void BuildPhysics()
    {
-      _physics.reset( new PlayerPhysics( _frameRateProviderMock, _frameActionRegistryMock, _physicsDefs ) );
+      _physics.reset( new PlayerPhysics( _frameRateProviderMock, _frameActionRegistryMock ) );
       _physics->AssignTo( _playerMock );
    }
 
@@ -44,7 +37,6 @@ protected:
    shared_ptr<mock_FrameRateProvider> _frameRateProviderMock;
    shared_ptr<mock_FrameActionRegistry> _frameActionRegistryMock;
    shared_ptr<mock_Player> _playerMock;
-   shared_ptr<PlayerPhysicsDefs> _physicsDefs;
 
    shared_ptr<PlayerPhysics> _physics;
 };

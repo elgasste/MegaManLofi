@@ -26,7 +26,6 @@ shared_ptr<GameDefs> GameDefsGenerator::GenerateGameDefs( const shared_ptr<IFram
    gameDefs->WorldDefs = WorldDefsGenerator::GenerateWorldDefs();
    gameDefs->StageDefs = StageDefsGenerator::GenerateStageDefs( gameDefs->WorldDefs );
    gameDefs->RenderDefs = ConsoleRenderDefsGenerator::GenerateConsoleRenderDefs( frameRateProvider, gameDefs->StageDefs );
-   gameDefs->PlayerPhysicsDefs = PlayerPhysicsDefsGenerator::GeneratePlayerPhysicsDefs();
 
    return gameDefs;
 }

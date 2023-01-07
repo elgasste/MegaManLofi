@@ -3,7 +3,6 @@
 #include "PlayerPhysics.h"
 #include "IFrameRateProvider.h"
 #include "FrameActionRegistry.h"
-#include "PlayerPhysicsDefs.h"
 #include "Player.h"
 #include "FrameAction.h"
 #include "Direction.h"
@@ -12,11 +11,9 @@ using namespace std;
 using namespace MegaManLofi;
 
 PlayerPhysics::PlayerPhysics( const shared_ptr<IFrameRateProvider> frameRateProvider,
-                              const shared_ptr<FrameActionRegistry> frameActionRegistry,
-                              const shared_ptr<PlayerPhysicsDefs> physicsDefs ) :
+                              const shared_ptr<FrameActionRegistry> frameActionRegistry ) :
    _frameRateProvider( frameRateProvider ),
    _frameActionRegistry( frameActionRegistry ),
-   _physicsDefs( physicsDefs ),
    _player( nullptr ),
    _lastExtendJumpFrame( 0 )
 {
@@ -52,23 +49,23 @@ void PlayerPhysics::PushTo( Direction direction ) const
       case Direction::UpLeft:
       case Direction::DownLeft:
          _frameActionRegistry->FlagAction( FrameAction::PlayerPushed );
-         if ( _player->GetVelocityX() <= -( _physicsDefs->MaxPushVelocity ) )
+         if ( _player->GetVelocityX() <= -( _player->GetMaxPushVelocity() ) )
          {
             return;
          }
-         velocityDelta = -( _physicsDefs->PushAccelerationPerSecond * _frameRateProvider->GetFrameSeconds() );
-         _player->SetVelocityX( max( -( _physicsDefs->MaxPushVelocity ), _player->GetVelocityX() + velocityDelta ) );
+         velocityDelta = -( _player->GetPushAccelerationPerSecond() * _frameRateProvider->GetFrameSeconds() );
+         _player->SetVelocityX( max( -( _player->GetMaxPushVelocity() ), _player->GetVelocityX() + velocityDelta ) );
          break;
       case Direction::Right:
       case Direction::UpRight:
       case Direction::DownRight:
          _frameActionRegistry->FlagAction( FrameAction::PlayerPushed );
-         if ( _player->GetVelocityX() >= _physicsDefs->MaxPushVelocity )
+         if ( _player->GetVelocityX() >= _player->GetMaxPushVelocity() )
          {
             return;
          }
-         velocityDelta = _physicsDefs->PushAccelerationPerSecond * _frameRateProvider->GetFrameSeconds();
-         _player->SetVelocityX( min( _physicsDefs->MaxPushVelocity, _player->GetVelocityX() + velocityDelta ) );
+         velocityDelta = _player->GetPushAccelerationPerSecond() * _frameRateProvider->GetFrameSeconds();
+         _player->SetVelocityX( min( _player->GetMaxPushVelocity(), _player->GetVelocityX() + velocityDelta ) );
          break;
    }
 }
@@ -80,7 +77,7 @@ void PlayerPhysics::Jump()
    if ( movementType == MovementType::Standing || movementType == MovementType::Walking )
    {
       _player->SetIsJumping( true );
-      _player->SetVelocityY( -( _physicsDefs->JumpAccelerationPerSecond ) );
+      _player->SetVelocityY( -( _player->GetJumpAccelerationPerSecond() ) );
       _lastExtendJumpFrame = _frameRateProvider->GetCurrentFrame();
       _frameActionRegistry->FlagAction( FrameAction::PlayerJumping );
    }

@@ -204,9 +204,6 @@
     <ClCompile Include="KeyboardInputDefsGenerator.cpp">
       <Filter>Source Files\GameDefGenerators</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerPhysicsDefsGenerator.cpp">
-      <Filter>Source Files\GameDefGenerators</Filter>
-    </ClCompile>
     <ClCompile Include="ConsoleRenderDefsGenerator.cpp">
       <Filter>Source Files\GameDefGenerators</Filter>
     </ClCompile>
@@ -439,9 +436,6 @@
     </ClInclude>
     <ClInclude Include="Quad.h">
       <Filter>Header Files\DataTypes</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerPhysicsDefs.h">
-      <Filter>Header Files\GameDefs</Filter>
     </ClInclude>
     <ClInclude Include="GameOverStateConsoleRenderer.h">
       <Filter>Header Files\Render</Filter>

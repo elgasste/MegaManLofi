@@ -188,7 +188,6 @@
     <ClCompile Include="PlayerExplodedConsoleAnimation.cpp" />
     <ClCompile Include="PlayerPhysics.cpp" />
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="PlayerPhysicsDefsGenerator.cpp" />
     <ClCompile Include="PlayerThwipInConsoleAnimation.cpp" />
     <ClCompile Include="PlayerThwipOutConsoleAnimation.cpp" />
     <ClCompile Include="PlayingMenu.cpp" />
@@ -296,7 +295,6 @@
     <ClInclude Include="PlayerDefsGenerator.h" />
     <ClInclude Include="PlayerExplodedConsoleAnimation.h" />
     <ClInclude Include="PlayerPhysics.h" />
-    <ClInclude Include="PlayerPhysicsDefs.h" />
     <ClInclude Include="PlayerPhysicsDefsGenerator.h" />
     <ClInclude Include="PlayerThwipInConsoleAnimation.h" />
     <ClInclude Include="PlayerThwipOutConsoleAnimation.h" />

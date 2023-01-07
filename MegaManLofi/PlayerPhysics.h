@@ -8,7 +8,6 @@ namespace MegaManLofi
 {
    class IFrameRateProvider;
    class FrameActionRegistry;
-   class PlayerPhysicsDefs;
    class Player;
 
    class PlayerPhysics
@@ -16,8 +15,7 @@ namespace MegaManLofi
    public:
       PlayerPhysics() : _lastExtendJumpFrame( 0 ) { }
       PlayerPhysics( const std::shared_ptr<IFrameRateProvider> frameRateProvider,
-                     const std::shared_ptr<FrameActionRegistry> frameActionRegistry,
-                     const std::shared_ptr<PlayerPhysicsDefs> physicsDefs );
+                     const std::shared_ptr<FrameActionRegistry> frameActionRegistry );
 
       virtual void AssignTo( const std::shared_ptr<Player> player );
       virtual void Reset();
@@ -31,7 +29,6 @@ namespace MegaManLofi
    private:
       const std::shared_ptr<IFrameRateProvider> _frameRateProvider;
       const std::shared_ptr<FrameActionRegistry> _frameActionRegistry;
-      const std::shared_ptr<PlayerPhysicsDefs> _physicsDefs;
       std::shared_ptr<Player> _player;
 
       long long _lastExtendJumpFrame;

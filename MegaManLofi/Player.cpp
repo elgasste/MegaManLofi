@@ -22,6 +22,10 @@ Player::Player( const shared_ptr<PlayerDefs> playerDefs,
    _maxGravityVelocity = _playerDefs->MaxGravityVelocity;
    _gravityAccelerationPerSecond = _playerDefs->GravityAccelerationPerSecond;
    _frictionDecelerationPerSecond = _playerDefs->FrictionDecelerationPerSecond;
+   _maxPushVelocity = _playerDefs->MaxPushVelocity;
+   _pushAccelerationPerSecond = _playerDefs->PushAccelerationPerSecond;
+   _jumpAccelerationPerSecond = _playerDefs->JumpAccelerationPerSecond;
+   _maxJumpExtensionSeconds = _playerDefs->MaxJumpExtensionSeconds;
 
    Reset();
 }

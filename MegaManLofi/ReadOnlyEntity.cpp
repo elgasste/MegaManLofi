@@ -13,6 +13,7 @@ ReadOnlyEntity::ReadOnlyEntity() :
    _hitBox( { 0, 0, 0, 0 } ),
    _movementType( (MovementType)0 ),
    _maxGravityVelocity( 0 ),
-   _gravityAccelerationPerSecond( 0 )
+   _gravityAccelerationPerSecond( 0 ),
+   _frictionDecelerationPerSecond( 0 )
 {
 }

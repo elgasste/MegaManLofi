@@ -26,6 +26,7 @@ namespace MegaManLofi
       virtual MovementType GetMovementType() const { return _movementType; }
       virtual float GetMaxGravityVelocity() const { return _maxGravityVelocity; }
       virtual float GetGravityAccelerationPerSecond() const { return _gravityAccelerationPerSecond; }
+      virtual float GetFrictionDecelerationPerSecond() const { return _frictionDecelerationPerSecond; }
 
    protected:
       int _uniqueId;
@@ -39,5 +40,6 @@ namespace MegaManLofi
       MovementType _movementType;
       float _maxGravityVelocity;
       float _gravityAccelerationPerSecond;
+      float _frictionDecelerationPerSecond;
    };
 }

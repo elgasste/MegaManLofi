@@ -11,7 +11,6 @@ shared_ptr<PlayerPhysicsDefs> PlayerPhysicsDefsGenerator::GeneratePlayerPhysicsD
    playerPhysicsDefs->MaxPushVelocity = 1'200;
 
    playerPhysicsDefs->PushAccelerationPerSecond = 8'500;
-   playerPhysicsDefs->FrictionDecelerationPerSecond = 10'000;
    playerPhysicsDefs->JumpAccelerationPerSecond = 4'000;
 
    playerPhysicsDefs->MaxJumpExtensionSeconds = .25f;

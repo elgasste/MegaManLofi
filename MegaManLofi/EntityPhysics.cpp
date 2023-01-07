@@ -29,6 +29,7 @@ void EntityPhysics::Tick()
    {
       auto entity = arena->GetMutableEntity( i );
       ApplyGravity( entity );
+      ApplyFriction( entity );
    }
 }
 
@@ -53,4 +54,34 @@ void EntityPhysics::ApplyGravity( const shared_ptr<Entity> entity )
    {
       entity->SetVelocityY( min( currentVelocityY + gravityVelocityDelta, entity->GetMaxGravityVelocity() ) );
    }
+}
+
+// MUFFINS: test this
+void EntityPhysics::ApplyFriction( const shared_ptr<Entity> entity )
+{
+   if ( entity->GetEntityType() == EntityType::Player && _frameActionRegistry->ActionFlagged( FrameAction::PlayerPushed ) )
+   {
+      return;
+   }
+
+   auto deceleration = entity->GetFrictionDecelerationPerSecond();
+   if ( deceleration == 0 )
+   {
+      return;
+   }
+
+   auto velocityDelta = deceleration * _frameRateProvider->GetFrameSeconds();
+   auto currentVelocityX = entity->GetVelocityX();
+   float newVelocityX = 0;
+
+   if ( currentVelocityX < 0 )
+   {
+      newVelocityX = min( currentVelocityX + velocityDelta, 0.0f );
+   }
+   else if ( currentVelocityX > 0 )
+   {
+      newVelocityX = max( currentVelocityX - velocityDelta, 0.0f );
+   }
+
+   entity->SetVelocityX( newVelocityX );
 }

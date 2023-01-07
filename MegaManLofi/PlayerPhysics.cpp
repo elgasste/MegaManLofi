@@ -35,7 +35,6 @@ void PlayerPhysics::Reset()
 
 void PlayerPhysics::Tick()
 {
-   ApplyFriction();
 }
 
 void PlayerPhysics::PointTo( Direction direction ) const
@@ -72,29 +71,6 @@ void PlayerPhysics::PushTo( Direction direction ) const
          _player->SetVelocityX( min( _physicsDefs->MaxPushVelocity, _player->GetVelocityX() + velocityDelta ) );
          break;
    }
-}
-
-void PlayerPhysics::ApplyFriction() const
-{
-   if ( _frameActionRegistry->ActionFlagged( FrameAction::PlayerPushed ) )
-   {
-      return;
-   }
-
-   auto velocityDelta = _physicsDefs->FrictionDecelerationPerSecond * _frameRateProvider->GetFrameSeconds();
-   auto currentVelocityX = _player->GetVelocityX();
-   float newVelocityX = 0;
-
-   if ( currentVelocityX < 0 )
-   {
-      newVelocityX = min( currentVelocityX + velocityDelta, 0.0f );
-   }
-   else if ( currentVelocityX > 0 )
-   {
-      newVelocityX = max( currentVelocityX - velocityDelta, 0.0f );
-   }
-
-   _player->SetVelocityX( newVelocityX );
 }
 
 void PlayerPhysics::Jump()

@@ -21,6 +21,7 @@ namespace MegaManLofi
 
    private:
       void ApplyGravity( const std::shared_ptr<Entity> entity );
+      void ApplyFriction( const std::shared_ptr<Entity> entity );
 
    private:
       const std::shared_ptr<IFrameRateProvider> _frameRateProvider;

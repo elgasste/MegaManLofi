@@ -17,6 +17,7 @@ namespace MegaManLofi
 
       float MaxGravityVelocity = 0;
       float GravityAccelerationPerSecond = 0;
+      float FrictionDecelerationPerSecond = 0;
 
       unsigned int DefaultLives = 0;
       Direction DefaultDirection = (Direction)0;

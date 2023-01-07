@@ -29,6 +29,7 @@ public:
       _playerDefs->DefaultVelocityY = 0;
       _playerDefs->MaxGravityVelocity = 10;
       _playerDefs->GravityAccelerationPerSecond = 100;
+      _playerDefs->FrictionDecelerationPerSecond = 200;
       _playerDefs->DefaultLives = 5;
       _playerDefs->DefaultDirection = Direction::Left;
       _playerDefs->DefaultHitBox = { 0, 0, 4, 4 };
@@ -69,6 +70,7 @@ TEST_F( PlayerTests, Constructor_Always_SetsDefaultPropertiesFromDefs )
    EXPECT_EQ( _player->GetVelocityY(), 200 );
    EXPECT_EQ( _player->GetMaxGravityVelocity(), 10 );
    EXPECT_EQ( _player->GetGravityAccelerationPerSecond(), 100 );
+   EXPECT_EQ( _player->GetFrictionDecelerationPerSecond(), 200 );
    EXPECT_EQ( _player->GetLivesRemaining(), 10 );
    EXPECT_EQ( _player->GetDirection(), Direction::Right );
    EXPECT_EQ( _player->GetHitBox().Left, 1 );

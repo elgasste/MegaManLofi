@@ -8,7 +8,6 @@ namespace MegaManLofi
       float MaxPushVelocity = 0;
 
       float PushAccelerationPerSecond = 0;
-      float FrictionDecelerationPerSecond = 0;
       float JumpAccelerationPerSecond = 0;
 
       float MaxJumpExtensionSeconds = 0.;

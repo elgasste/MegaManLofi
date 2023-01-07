@@ -29,9 +29,6 @@ namespace MegaManLofi
       virtual void ExtendJump();
 
    private:
-      void ApplyFriction() const;
-
-   private:
       const std::shared_ptr<IFrameRateProvider> _frameRateProvider;
       const std::shared_ptr<FrameActionRegistry> _frameActionRegistry;
       const std::shared_ptr<PlayerPhysicsDefs> _physicsDefs;

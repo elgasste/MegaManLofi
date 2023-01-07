@@ -25,8 +25,10 @@ public:
 
       ON_CALL( *_frameRateProviderMock, GetFrameSeconds() ).WillByDefault( Return( 1.0f ) );
 
+      ON_CALL( *_entityMock, GetEntityType() ).WillByDefault( Return( EntityType::Item ) );
       ON_CALL( *_entityMock, GetMaxGravityVelocity() ).WillByDefault( Return( 1'000.0f ) );
       ON_CALL( *_entityMock, GetGravityAccelerationPerSecond() ).WillByDefault( Return( 100.0f ) );
+      ON_CALL( *_entityMock, GetFrictionDecelerationPerSecond() ).WillByDefault( Return( 2.0f ) );
 
       ON_CALL( *_stageMock, GetMutableActiveArena() ).WillByDefault( Return( _arenaMock ) );
       ON_CALL( *_arenaMock, GetEntityCount() ).WillByDefault( Return( 1 ) );
@@ -51,9 +53,8 @@ protected:
 
 TEST_F( EntityPhysicsTests, Tick_ItemNotAtTerminalVelocity_AppliesGravity )
 {
-   BuildPhysics();
-   ON_CALL( *_entityMock, GetEntityType() ).WillByDefault( Return( EntityType::Item ) );
    ON_CALL( *_entityMock, GetVelocityY() ).WillByDefault( Return( 100.0f ) );
+   BuildPhysics();
 
    EXPECT_CALL( *_entityMock, SetVelocityY( 200.0f ) );
 
@@ -62,9 +63,8 @@ TEST_F( EntityPhysicsTests, Tick_ItemNotAtTerminalVelocity_AppliesGravity )
 
 TEST_F( EntityPhysicsTests, Tick_ItemAtTerminalVelocity_DoesNotApplyExtraGravity )
 {
-   BuildPhysics();
-   ON_CALL( *_entityMock, GetEntityType() ).WillByDefault( Return( EntityType::Item ) );
    ON_CALL( *_entityMock, GetVelocityY() ).WillByDefault( Return( 1000.0f ) );
+   BuildPhysics();
 
    EXPECT_CALL( *_entityMock, SetVelocityY( 1000.0f ) );
 
@@ -73,10 +73,10 @@ TEST_F( EntityPhysicsTests, Tick_ItemAtTerminalVelocity_DoesNotApplyExtraGravity
 
 TEST_F( EntityPhysicsTests, Tick_PlayerMovingUpwardAndNotJumping_StopsUpwardVelocity )
 {
-   BuildPhysics();
    ON_CALL( *_frameActionRegistryMock, ActionFlagged( FrameAction::PlayerJumping ) ).WillByDefault( Return( false ) );
    ON_CALL( *_entityMock, GetEntityType() ).WillByDefault( Return( EntityType::Player ) );
    ON_CALL( *_entityMock, GetVelocityY() ).WillByDefault( Return( -1000.0f ) );
+   BuildPhysics();
 
    EXPECT_CALL( *_entityMock, SetVelocityY( 0.0f ) );
 
@@ -85,34 +85,76 @@ TEST_F( EntityPhysicsTests, Tick_PlayerMovingUpwardAndNotJumping_StopsUpwardVelo
 
 TEST_F( EntityPhysicsTests, Tick_PlayerMovingUpwardAndJumping_AppliesGravity )
 {
-   BuildPhysics();
    ON_CALL( *_frameActionRegistryMock, ActionFlagged( FrameAction::PlayerJumping ) ).WillByDefault( Return( true ) );
    ON_CALL( *_entityMock, GetEntityType() ).WillByDefault( Return( EntityType::Player ) );
    ON_CALL( *_entityMock, GetVelocityY() ).WillByDefault( Return( -200.0f ) );
+   BuildPhysics();
 
    EXPECT_CALL( *_entityMock, SetVelocityY( -100.0f ) );
 
    _physics->Tick();
 }
 
-TEST_F( EntityPhysicsTests, Tick_PlayerNotMovingUpwardNotAtTerminalVelocity_AppliesGravity )
+TEST_F( EntityPhysicsTests, Tick_EntityNotMovingUpwardNotAtTerminalVelocity_AppliesGravity )
 {
-   BuildPhysics();
-   ON_CALL( *_entityMock, GetEntityType() ).WillByDefault( Return( EntityType::Player ) );
    ON_CALL( *_entityMock, GetVelocityY() ).WillByDefault( Return( 100.0f ) );
+   BuildPhysics();
 
    EXPECT_CALL( *_entityMock, SetVelocityY( 200.0f ) );
 
    _physics->Tick();
 }
 
-TEST_F( EntityPhysicsTests, Tick_PlayerNotMovingUpwardAtTerminalVelocity_DoesNotApplyExtraGravity )
+TEST_F( EntityPhysicsTests, Tick_EntityNotMovingUpwardAtTerminalVelocity_DoesNotApplyExtraGravity )
 {
-   BuildPhysics();
-   ON_CALL( *_entityMock, GetEntityType() ).WillByDefault( Return( EntityType::Player ) );
    ON_CALL( *_entityMock, GetVelocityY() ).WillByDefault( Return( 1000.0f ) );
+   BuildPhysics();
 
    EXPECT_CALL( *_entityMock, SetVelocityY( 1000.0f ) );
+
+   _physics->Tick();
+}
+
+TEST_F( EntityPhysicsTests, Tick_PlayerEntityWasPushed_DoesNotApplyFriction )
+{
+   ON_CALL( *_entityMock, GetEntityType() ).WillByDefault( Return( EntityType::Player ) );
+   BuildPhysics();
+
+   ON_CALL( *_frameActionRegistryMock, ActionFlagged( FrameAction::PlayerPushed ) ).WillByDefault( Return( true ) );
+
+   EXPECT_CALL( *_entityMock, SetVelocityX( _ ) ).Times( 0 );
+
+   _physics->Tick();
+}
+
+TEST_F( EntityPhysicsTests, Tick_EntityDoesNotDecelerate_DoesNotApplyFriction )
+{
+   ON_CALL( *_entityMock, GetFrictionDecelerationPerSecond() ).WillByDefault( Return( 0.0f ) );
+   BuildPhysics();
+
+   EXPECT_CALL( *_entityMock, SetVelocityX( _ ) ).Times( 0 );
+
+   _physics->Tick();
+}
+
+TEST_F( EntityPhysicsTests, Tick_EntityIsMovingLeft_SlowsDownCorrectly )
+{
+   BuildPhysics();
+
+   ON_CALL( *_entityMock, GetVelocityX() ).WillByDefault( Return( -4.0f ) );
+
+   EXPECT_CALL( *_entityMock, SetVelocityX( -2 ) );
+
+   _physics->Tick();
+}
+
+TEST_F( EntityPhysicsTests, Tick_EntityIsMovingRight_SlowsDownCorrectly )
+{
+   BuildPhysics();
+
+   ON_CALL( *_entityMock, GetVelocityX() ).WillByDefault( Return( 4.0f ) );
+
+   EXPECT_CALL( *_entityMock, SetVelocityX( 2 ) );
 
    _physics->Tick();
 }

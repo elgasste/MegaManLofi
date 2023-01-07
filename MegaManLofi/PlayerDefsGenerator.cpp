@@ -21,6 +21,7 @@ shared_ptr<PlayerDefs> PlayerDefsGenerator::GeneratePlayerDefs( const shared_ptr
 
    playerDefs->MaxGravityVelocity = 4'000;
    playerDefs->GravityAccelerationPerSecond = 10'000;
+   playerDefs->FrictionDecelerationPerSecond = 10'000;
 
    playerDefs->DefaultLives = 3;
    playerDefs->DefaultDirection = Direction::Right;

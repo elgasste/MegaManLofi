@@ -8,6 +8,7 @@ ReadOnlyPlayer::ReadOnlyPlayer() :
    _maxPushVelocity( 0 ),
    _pushAccelerationPerSecond( 0 ),
    _jumpAccelerationPerSecond( 0 ),
-   _maxJumpExtensionSeconds( 0 )
+   _maxJumpExtensionSeconds( 0 ),
+   _lastExtendJumpFrame( 0 )
 {
 }

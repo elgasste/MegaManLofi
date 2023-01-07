@@ -3,7 +3,6 @@
 #include "Player.h"
 #include "Stage.h"
 #include "Arena.h"
-#include "PlayerPhysics.h"
 #include "EntityPhysics.h"
 #include "ArenaPhysics.h"
 #include "EntityFactory.h"
@@ -19,7 +18,6 @@ using namespace MegaManLofi;
 Game::Game( const shared_ptr<GameEventAggregator> eventAggregator,
             const shared_ptr<Player> player,
             const shared_ptr<Stage> stage,
-            const shared_ptr<PlayerPhysics> playerPhysics,
             const shared_ptr<EntityPhysics> entityPhysics,
             const shared_ptr<ArenaPhysics> arenaPhysics,
             const shared_ptr<EntityFactory> entityFactory,
@@ -27,7 +25,6 @@ Game::Game( const shared_ptr<GameEventAggregator> eventAggregator,
    _eventAggregator( eventAggregator ),
    _player( player ),
    _stage( stage ),
-   _playerPhysics( playerPhysics ),
    _entityPhysics( entityPhysics ),
    _arenaPhysics( arenaPhysics ),
    _entityFactory( entityFactory ),
@@ -53,7 +50,6 @@ void Game::Tick()
    }
    else if ( _state == GameState::Playing && !_isPaused )
    {
-      _playerPhysics->Tick();
       _entityPhysics->Tick();
       _arenaPhysics->Tick();
 
@@ -114,16 +110,16 @@ void Game::ExecuteCommand( GameCommand command, const shared_ptr<GameCommandArgs
    switch ( command )
    {
       case GameCommand::PushPlayer:
-         _playerPhysics->PushTo( static_pointer_cast<PushPlayerCommandArgs>( args )->Direction );
+         _player->PushTo( static_pointer_cast<PushPlayerCommandArgs>( args )->Direction );
          break;
       case GameCommand::PointPlayer:
-         _playerPhysics->PointTo( static_pointer_cast<PointPlayerCommandArgs>( args )->Direction );
+         _player->PointTo( static_pointer_cast<PointPlayerCommandArgs>( args )->Direction );
          break;
       case GameCommand::Jump:
-         _playerPhysics->Jump();
+         _player->Jump();
          break;
       case GameCommand::ExtendJump:
-         _playerPhysics->ExtendJump();
+         _player->ExtendJump();
          break;
       case GameCommand::Shoot:
          Shoot();
@@ -140,7 +136,6 @@ void Game::ExecuteCommand( GameCommand command, const shared_ptr<GameCommandArgs
 void Game::StartGame()
 {
    _player->Reset();
-   _playerPhysics->AssignTo( _player );
 
    _stage->Reload();
    _entityPhysics->AssignTo( _stage );
@@ -158,7 +153,6 @@ void Game::StartStage()
    arena->Reset();
    arena->SetPlayerEntity( _player );
 
-   _playerPhysics->Reset();
    _arenaPhysics->Reset();
 
    _nextState = GameState::Playing;

@@ -44,6 +44,75 @@ void Player::ResetPosition()
    _direction = _playerDefs->DefaultDirection;
    _movementType = _playerDefs->DefaultMovementType;
    _isJumping = false;
+   _lastExtendJumpFrame = 0;
+}
+
+void Player::PushTo( Direction direction )
+{
+   float velocityDelta = 0;
+
+   switch ( direction )
+   {
+      case Direction::Left:
+      case Direction::UpLeft:
+      case Direction::DownLeft:
+         _frameActionRegistry->FlagAction( FrameAction::PlayerPushed );
+         if ( _velocityX <= -_maxPushVelocity )
+         {
+            return;
+         }
+         velocityDelta = -( _pushAccelerationPerSecond * _frameRateProvider->GetFrameSeconds() );
+         _velocityX = max( -_maxPushVelocity, _velocityX + velocityDelta );
+         break;
+      case Direction::Right:
+      case Direction::UpRight:
+      case Direction::DownRight:
+         _frameActionRegistry->FlagAction( FrameAction::PlayerPushed );
+         if ( _velocityX >= _maxPushVelocity )
+         {
+            return;
+         }
+         velocityDelta = _pushAccelerationPerSecond * _frameRateProvider->GetFrameSeconds();
+         _velocityX = min( _maxPushVelocity, _velocityX + velocityDelta );
+         break;
+   }
+}
+
+void Player::Jump()
+{
+   if ( _movementType == MovementType::Standing || _movementType == MovementType::Walking )
+   {
+      _isJumping = true;
+      _velocityY = -_jumpAccelerationPerSecond;
+      _lastExtendJumpFrame = _frameRateProvider->GetCurrentFrame();
+      _frameActionRegistry->FlagAction( FrameAction::PlayerJumping );
+   }
+}
+
+void Player::ExtendJump()
+{
+   if ( !_isJumping )
+   {
+      return;
+   }
+   else if ( _velocityY >= 0 )
+   {
+      _isJumping = false;
+      return;
+   }
+
+   auto currentFrame = _frameRateProvider->GetCurrentFrame();
+
+   if ( _lastExtendJumpFrame < ( currentFrame - 1 ) )
+   {
+      // don't allow re-extending a jump
+      return;
+   }
+   else
+   {
+      _lastExtendJumpFrame = currentFrame;
+      _frameActionRegistry->FlagAction( FrameAction::PlayerJumping );
+   }
 }
 
 void Player::StopY()

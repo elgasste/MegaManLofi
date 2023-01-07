@@ -246,9 +246,6 @@
     <ClCompile Include="ArenaPhysics.cpp">
       <Filter>Source Files\Physics</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerPhysics.cpp">
-      <Filter>Source Files\Physics</Filter>
-    </ClCompile>
     <ClCompile Include="WorldDefsGenerator.cpp">
       <Filter>Source Files\GameDefGenerators</Filter>
     </ClCompile>
@@ -524,9 +521,6 @@
     <ClInclude Include="KeyboardInputDefsGenerator.h">
       <Filter>Header Files\GameDefGenerators</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerPhysicsDefsGenerator.h">
-      <Filter>Header Files\GameDefGenerators</Filter>
-    </ClInclude>
     <ClInclude Include="ConsoleRenderDefsGenerator.h">
       <Filter>Header Files\GameDefGenerators</Filter>
     </ClInclude>
@@ -579,9 +573,6 @@
       <Filter>Header Files\GameObjects</Filter>
     </ClInclude>
     <ClInclude Include="ArenaPhysics.h">
-      <Filter>Header Files\Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerPhysics.h">
       <Filter>Header Files\Physics</Filter>
     </ClInclude>
     <ClInclude Include="WorldDefs.h">

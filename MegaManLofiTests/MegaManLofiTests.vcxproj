@@ -64,7 +64,6 @@
     <ClInclude Include="mock_Menu.h" />
     <ClInclude Include="mock_MenuProvider.h" />
     <ClInclude Include="mock_PlayerInfoProvider.h" />
-    <ClInclude Include="mock_PlayerPhysics.h" />
     <ClInclude Include="mock_Player.h" />
     <ClInclude Include="mock_EntityFactory.h" />
     <ClInclude Include="mock_ReadOnlyArena.h" />
@@ -97,7 +96,6 @@
     <ClCompile Include="KeyboardInputReaderTests.cpp" />
     <ClCompile Include="MenuRepositoryTests.cpp" />
     <ClCompile Include="PlayerExplodedConsoleAnimationTests.cpp" />
-    <ClCompile Include="PlayerPhysicsTests.cpp" />
     <ClCompile Include="PlayerTests.cpp" />
     <ClCompile Include="PlayerThwipInConsoleAnimationTests.cpp" />
     <ClCompile Include="PlayerThwipOutConsoleAnimationTests.cpp" />

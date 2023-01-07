@@ -21,5 +21,6 @@ namespace MegaManLofi
       float _pushAccelerationPerSecond;
       float _jumpAccelerationPerSecond;
       float _maxJumpExtensionSeconds;
+      long long _lastExtendJumpFrame;
    };
 }

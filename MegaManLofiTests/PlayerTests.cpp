@@ -39,7 +39,7 @@ public:
       _playerDefs->DefaultHitBox = { 0, 0, 4, 4 };
       _playerDefs->DefaultMovementType = MovementType::Airborne;
 
-      ON_CALL( *_frameRateProviderMock, GetFrameSeconds() ).WillByDefault( Return( 100.0f ) );
+      ON_CALL( *_frameRateProviderMock, GetFrameSeconds() ).WillByDefault( Return( 1.0f ) );
    }
 
    void BuildPlayer()
@@ -238,4 +238,188 @@ TEST_F( PlayerTests, StopY_Always_SetsIsJumpingToFalse )
    _player->StopY();
 
    EXPECT_FALSE( _player->IsJumping() );
+}
+
+TEST_F( PlayerTests, PointTo_Always_SetsPlayerDirection )
+{
+   BuildPlayer();
+
+   _player->PointTo( Direction::Down );
+
+   EXPECT_EQ( _player->GetDirection(), Direction::Down );
+}
+
+TEST_F( PlayerTests, PushTo_Left_FlagsAction )
+{
+   BuildPlayer();
+
+   EXPECT_CALL( *_frameActionRegistryMock, FlagAction( FrameAction::PlayerPushed ) );
+
+   _player->PushTo( Direction::Left );
+}
+
+TEST_F( PlayerTests, PushTo_Right_FlagsAction )
+{
+   BuildPlayer();
+
+   EXPECT_CALL( *_frameActionRegistryMock, FlagAction( FrameAction::PlayerPushed ) );
+
+   _player->PushTo( Direction::Right );
+}
+
+TEST_F( PlayerTests, PushTo_Left_ChangesXVelocity )
+{
+   BuildPlayer();
+   _player->SetVelocityX( -6 );
+
+   _player->PushTo( Direction::Left );
+
+   EXPECT_EQ( _player->GetVelocityX(), -8 );
+}
+
+TEST_F( PlayerTests, PushTo_LeftAndPushVelocityHasAlmostMaxedOut_ClampsToMaxPushVelocity )
+{
+   BuildPlayer();
+   _player->SetVelocityX( -9 );
+
+   _player->PushTo( Direction::Left );
+
+   EXPECT_EQ( _player->GetVelocityX(), -10 );
+}
+
+TEST_F( PlayerTests, PushTo_LeftAndPushVelocityHasMaxedOut_DoesNotChangeXVelocity )
+{
+   BuildPlayer();
+   _player->SetVelocityX( -10 );
+
+   _player->PushTo( Direction::Left );
+
+   EXPECT_EQ( _player->GetVelocityX(), -10 );
+}
+
+TEST_F( PlayerTests, PushTo_Right_ChangesXVelocity )
+{
+   BuildPlayer();
+   _player->SetVelocityX( 6 );
+
+   _player->PushTo( Direction::Right );
+
+   EXPECT_EQ( _player->GetVelocityX(), 8 );
+}
+
+TEST_F( PlayerTests, PushTo_RightAndPushVelocityHasAlmostMaxedOut_ClampsToMaxPushVelocity )
+{
+   BuildPlayer();
+   _player->SetVelocityX( 9 );
+
+   _player->PushTo( Direction::Right );
+
+   EXPECT_EQ( _player->GetVelocityX(), 10 );
+}
+
+TEST_F( PlayerTests, PushTo_RightAndPushVelocityHasMaxedOut_DoesNotChangeXVelocity )
+{
+   BuildPlayer();
+   _player->SetVelocityX( 10 );
+
+   _player->PushTo( Direction::Right );
+
+   EXPECT_EQ( _player->GetVelocityX(), 10 );
+}
+
+TEST_F( PlayerTests, Jump_PlayerIsAirborne_DoesNotChangeVelocityOrFlagAction )
+{
+   BuildPlayer();
+   _player->SetMovementType( MovementType::Airborne );
+   _player->SetVelocityY( -5 );
+
+   EXPECT_CALL( *_frameActionRegistryMock, FlagAction( _ ) ).Times( 0 );
+
+   _player->Jump();
+
+   EXPECT_EQ( _player->GetVelocityY(), -5 );
+}
+
+TEST_F( PlayerTests, Jump_PlayerIsStanding_SetsVelocityToUpwardJumpVelocity )
+{
+   BuildPlayer();
+   _player->SetMovementType( MovementType::Standing );
+   _player->SetVelocityY( 0 );
+
+   _player->Jump();
+
+   EXPECT_EQ( _player->GetVelocityY(), -1 );
+}
+
+TEST_F( PlayerTests, Jump_PlayerIsStanding_FlagsJumpingAction )
+{
+   BuildPlayer();
+   _player->SetMovementType( MovementType::Standing );
+
+   EXPECT_CALL( *_frameActionRegistryMock, FlagAction( FrameAction::PlayerJumping ) );
+
+   _player->Jump();
+}
+
+TEST_F( PlayerTests, Jump_PlayerIsStanding_SetsIsJumpingToTrue )
+{
+   BuildPlayer();
+   _player->SetMovementType( MovementType::Standing );
+
+   _player->Jump();
+
+   EXPECT_TRUE( _player->IsJumping() );
+}
+
+TEST_F( PlayerTests, Jump_PlayerIsWalking_SetsVelocityToUpwardJumpVelocity )
+{
+   BuildPlayer();
+   _player->SetMovementType( MovementType::Walking );
+
+   _player->Jump();
+
+   EXPECT_EQ( _player->GetVelocityY(), -1 );
+}
+
+TEST_F( PlayerTests, Jump_PlayerIsWalking_FlagsJumpingAction )
+{
+   BuildPlayer();
+   _player->SetMovementType( MovementType::Walking );
+
+   EXPECT_CALL( *_frameActionRegistryMock, FlagAction( FrameAction::PlayerJumping ) );
+
+   _player->Jump();
+}
+
+TEST_F( PlayerTests, Jump_PlayerIsWalking_SetsIsJumpingToTrue )
+{
+   BuildPlayer();
+   _player->SetMovementType( MovementType::Walking );
+
+   _player->Jump();
+
+   EXPECT_TRUE( _player->IsJumping() );
+}
+
+TEST_F( PlayerTests, ExtendJump_PlayerIsMovingDownward_SetsIsJumpingToFalse )
+{
+   BuildPlayer();
+   _player->SetMovementType( MovementType::Standing );
+   _player->Jump();
+   _player->SetVelocityY( 2 );
+
+   _player->ExtendJump();
+
+   EXPECT_FALSE( _player->IsJumping() );
+}
+
+TEST_F( PlayerTests, ExtendJump_StillExtendingJump_FlagsPlayerJumpingAction )
+{
+   BuildPlayer();
+   _player->SetMovementType( MovementType::Standing );
+   _player->Jump();
+
+   EXPECT_CALL( *_frameActionRegistryMock, FlagAction( FrameAction::PlayerJumping ) );
+
+   _player->ExtendJump();
 }

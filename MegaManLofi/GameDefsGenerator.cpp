@@ -6,7 +6,6 @@
 #include "PlayerDefsGenerator.h"
 #include "WorldDefsGenerator.h"
 #include "StageDefsGenerator.h"
-#include "PlayerPhysicsDefsGenerator.h"
 
 using namespace std;
 using namespace MegaManLofi;

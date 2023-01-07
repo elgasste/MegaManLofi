@@ -25,6 +25,10 @@ namespace MegaManLofi
 
       virtual void SetLivesRemaining( unsigned int lives ) { _livesRemaining = lives; };
       virtual void SetIsJumping( bool isJumping ) { _isJumping = isJumping; }
+      virtual void PointTo( Direction direction ) { _direction = direction; }
+      virtual void PushTo( Direction direction );
+      virtual void Jump();
+      virtual void ExtendJump();
 
       virtual void StopY() override;
 

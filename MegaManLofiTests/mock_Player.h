@@ -42,4 +42,8 @@ public:
    MOCK_METHOD( void, ResetPosition, ( ), ( override ) );
    MOCK_METHOD( void, SetLivesRemaining, ( unsigned int ), ( override ) );
    MOCK_METHOD( void, SetIsJumping, ( bool ), ( override ) );
+   MOCK_METHOD( void, PointTo, ( MegaManLofi::Direction ), ( override ) );
+   MOCK_METHOD( void, PushTo, ( MegaManLofi::Direction ), ( override ) );
+   MOCK_METHOD( void, Jump, ( ), ( override ) );
+   MOCK_METHOD( void, ExtendJump, ( ), ( override ) );
 };

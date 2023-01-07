@@ -13,7 +13,6 @@ namespace MegaManLofi
    class GameEventAggregator;
    class Player;
    class Stage;
-   class PlayerPhysics;
    class EntityPhysics;
    class ArenaPhysics;
    class EntityFactory;
@@ -29,7 +28,6 @@ namespace MegaManLofi
       Game( const std::shared_ptr<GameEventAggregator> eventAggregator,
             const std::shared_ptr<Player> player,
             const std::shared_ptr<Stage> stage,
-            const std::shared_ptr<PlayerPhysics> playerPhysics,
             const std::shared_ptr<EntityPhysics> entityPhysics,
             const std::shared_ptr<ArenaPhysics> arenaPhysics,
             const std::shared_ptr<EntityFactory> entityFactory,
@@ -61,7 +59,6 @@ namespace MegaManLofi
       const std::shared_ptr<GameEventAggregator> _eventAggregator;
       const std::shared_ptr<Player> _player;
       const std::shared_ptr<Stage> _stage;
-      const std::shared_ptr<PlayerPhysics> _playerPhysics;
       const std::shared_ptr<EntityPhysics> _entityPhysics;
       const std::shared_ptr<ArenaPhysics> _arenaPhysics;
       const std::shared_ptr<EntityFactory> _entityFactory;

@@ -33,15 +33,10 @@ public:
 
    MOCK_METHOD( unsigned int, GetLivesRemaining, ( ), ( const, override ) );
    MOCK_METHOD( bool, IsJumping, ( ), ( const, override ) );
-   MOCK_METHOD( float, GetMaxPushVelocity, ( ), ( const, override ) );
-   MOCK_METHOD( float, GetPushAccelerationPerSecond, ( ), ( const, override ) );
-   MOCK_METHOD( float, GetJumpAccelerationPerSecond, ( ), ( const, override ) );
-   MOCK_METHOD( float, GetMaxJumpExtensionSeconds, ( ), ( const, override ) );
 
    MOCK_METHOD( void, Reset, ( ), ( override ) );
    MOCK_METHOD( void, ResetPosition, ( ), ( override ) );
    MOCK_METHOD( void, SetLivesRemaining, ( unsigned int ), ( override ) );
-   MOCK_METHOD( void, SetIsJumping, ( bool ), ( override ) );
    MOCK_METHOD( void, PointTo, ( MegaManLofi::Direction ), ( override ) );
    MOCK_METHOD( void, PushTo, ( MegaManLofi::Direction ), ( override ) );
    MOCK_METHOD( void, Jump, ( ), ( override ) );

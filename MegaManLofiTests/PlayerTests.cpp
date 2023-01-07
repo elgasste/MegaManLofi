@@ -75,10 +75,6 @@ TEST_F( PlayerTests, Constructor_Always_SetsDefaultPropertiesFromDefs )
    EXPECT_EQ( _player->GetMaxGravityVelocity(), 10 );
    EXPECT_EQ( _player->GetGravityAccelerationPerSecond(), 100 );
    EXPECT_EQ( _player->GetFrictionDecelerationPerSecond(), 200 );
-   EXPECT_EQ( _player->GetMaxPushVelocity(), 10 );
-   EXPECT_EQ( _player->GetPushAccelerationPerSecond(), 2 );
-   EXPECT_EQ( _player->GetJumpAccelerationPerSecond(), 1 );
-   EXPECT_EQ( _player->GetMaxJumpExtensionSeconds(), 0.25f );
    EXPECT_EQ( _player->GetLivesRemaining(), 10 );
    EXPECT_EQ( _player->GetDirection(), Direction::Right );
    EXPECT_EQ( _player->GetHitBox().Left, 1 );
@@ -104,13 +100,11 @@ TEST_F( PlayerTests, Reset_Always_ResetsDefaultPropertiesFromDefs )
    _player->SetVelocityY( 200 );
    _player->SetDirection( Direction::Right );
    _player->SetMovementType( MovementType::Walking );
-   _player->SetIsJumping( true );
 
    EXPECT_EQ( _player->GetVelocityX(), 100 );
    EXPECT_EQ( _player->GetVelocityY(), 200 );
    EXPECT_EQ( _player->GetDirection(), Direction::Right );
    EXPECT_EQ( _player->GetMovementType(), MovementType::Walking );
-   EXPECT_TRUE( _player->IsJumping() );
 
    _player->Reset();
 
@@ -118,7 +112,6 @@ TEST_F( PlayerTests, Reset_Always_ResetsDefaultPropertiesFromDefs )
    EXPECT_EQ( _player->GetVelocityY(), 0 );
    EXPECT_EQ( _player->GetDirection(), Direction::Left );
    EXPECT_EQ( _player->GetMovementType(), MovementType::Airborne );
-   EXPECT_FALSE( _player->IsJumping() );
 }
 
 TEST_F( PlayerTests, ResetPosition_Always_ResetsPositionPropertiesFromDefs )
@@ -130,7 +123,6 @@ TEST_F( PlayerTests, ResetPosition_Always_ResetsPositionPropertiesFromDefs )
    _player->SetVelocityY( 200 );
    _player->SetDirection( Direction::Right );
    _player->SetMovementType( MovementType::Walking );
-   _player->SetIsJumping( true );
 
    _player->ResetPosition();
 
@@ -142,7 +134,6 @@ TEST_F( PlayerTests, ResetPosition_Always_ResetsPositionPropertiesFromDefs )
    EXPECT_EQ( _player->GetVelocityY(), 0 );
    EXPECT_EQ( _player->GetDirection(), Direction::Left );
    EXPECT_EQ( _player->GetMovementType(), MovementType::Airborne );
-   EXPECT_FALSE( _player->IsJumping() );
 }
 
 TEST_F( PlayerTests, GetLivesRemaining_Always_ReturnsLivesRemaining )
@@ -230,8 +221,8 @@ TEST_F( PlayerTests, StopY_Always_SetsYVelocityToZero )
 TEST_F( PlayerTests, StopY_Always_SetsIsJumpingToFalse )
 {
    BuildPlayer();
-
-   _player->SetIsJumping( true );
+   _player->SetMovementType( MovementType::Standing );
+   _player->Jump();
    
    EXPECT_TRUE( _player->IsJumping() );
 

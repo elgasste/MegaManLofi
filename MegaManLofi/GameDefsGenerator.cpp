@@ -6,7 +6,6 @@
 #include "PlayerDefsGenerator.h"
 #include "WorldDefsGenerator.h"
 #include "StageDefsGenerator.h"
-#include "PlayerPhysicsDefsGenerator.h"
 
 using namespace std;
 using namespace MegaManLofi;
@@ -26,7 +25,6 @@ shared_ptr<GameDefs> GameDefsGenerator::GenerateGameDefs( const shared_ptr<IFram
    gameDefs->WorldDefs = WorldDefsGenerator::GenerateWorldDefs();
    gameDefs->StageDefs = StageDefsGenerator::GenerateStageDefs( gameDefs->WorldDefs );
    gameDefs->RenderDefs = ConsoleRenderDefsGenerator::GenerateConsoleRenderDefs( frameRateProvider, gameDefs->StageDefs );
-   gameDefs->PlayerPhysicsDefs = PlayerPhysicsDefsGenerator::GeneratePlayerPhysicsDefs();
 
    return gameDefs;
 }

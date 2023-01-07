@@ -204,9 +204,6 @@
     <ClCompile Include="KeyboardInputDefsGenerator.cpp">
       <Filter>Source Files\GameDefGenerators</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerPhysicsDefsGenerator.cpp">
-      <Filter>Source Files\GameDefGenerators</Filter>
-    </ClCompile>
     <ClCompile Include="ConsoleRenderDefsGenerator.cpp">
       <Filter>Source Files\GameDefGenerators</Filter>
     </ClCompile>
@@ -249,9 +246,6 @@
     <ClCompile Include="ArenaPhysics.cpp">
       <Filter>Source Files\Physics</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerPhysics.cpp">
-      <Filter>Source Files\Physics</Filter>
-    </ClCompile>
     <ClCompile Include="WorldDefsGenerator.cpp">
       <Filter>Source Files\GameDefGenerators</Filter>
     </ClCompile>
@@ -263,6 +257,9 @@
     </ClCompile>
     <ClCompile Include="Stage.cpp">
       <Filter>Source Files\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityPhysics.cpp">
+      <Filter>Source Files\Physics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -437,9 +434,6 @@
     <ClInclude Include="Quad.h">
       <Filter>Header Files\DataTypes</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerPhysicsDefs.h">
-      <Filter>Header Files\GameDefs</Filter>
-    </ClInclude>
     <ClInclude Include="GameOverStateConsoleRenderer.h">
       <Filter>Header Files\Render</Filter>
     </ClInclude>
@@ -527,9 +521,6 @@
     <ClInclude Include="KeyboardInputDefsGenerator.h">
       <Filter>Header Files\GameDefGenerators</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerPhysicsDefsGenerator.h">
-      <Filter>Header Files\GameDefGenerators</Filter>
-    </ClInclude>
     <ClInclude Include="ConsoleRenderDefsGenerator.h">
       <Filter>Header Files\GameDefGenerators</Filter>
     </ClInclude>
@@ -584,9 +575,6 @@
     <ClInclude Include="ArenaPhysics.h">
       <Filter>Header Files\Physics</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerPhysics.h">
-      <Filter>Header Files\Physics</Filter>
-    </ClInclude>
     <ClInclude Include="WorldDefs.h">
       <Filter>Header Files\GameDefs</Filter>
     </ClInclude>
@@ -616,6 +604,9 @@
     </ClInclude>
     <ClInclude Include="ProjectileInfo.h">
       <Filter>Header Files\DataTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityPhysics.h">
+      <Filter>Header Files\Physics</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

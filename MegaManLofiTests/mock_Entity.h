@@ -18,6 +18,9 @@ public:
    MOCK_METHOD( MegaManLofi::Direction, GetDirection, ( ), ( const, override ) );
    MOCK_METHOD( const MegaManLofi::Rectangle<float>&, GetHitBox, ( ), ( const, override ) );
    MOCK_METHOD( MegaManLofi::MovementType, GetMovementType, ( ), ( const, override ) );
+   MOCK_METHOD( float, GetMaxGravityVelocity, ( ), ( const, override ) );
+   MOCK_METHOD( float, GetGravityAccelerationPerSecond, ( ), ( const, override ) );
+   MOCK_METHOD( float, GetFrictionDecelerationPerSecond, ( ), ( const, override ) );
 
    MOCK_METHOD( void, SetUniqueId, ( int ), ( override ) );
    MOCK_METHOD( void, SetEntityType, ( MegaManLofi::EntityType ), ( override ) );
@@ -28,6 +31,9 @@ public:
    MOCK_METHOD( void, SetDirection, ( MegaManLofi::Direction ), ( override ) );
    MOCK_METHOD( void, SetHitBox, ( MegaManLofi::Rectangle<float> ), ( override ) );
    MOCK_METHOD( void, SetMovementType, ( MegaManLofi::MovementType ), ( override ) );
+   MOCK_METHOD( void, SetMaxGravityVelocity, ( float ), ( override ) );
+   MOCK_METHOD( void, SetGravityAccelerationPerSecond, ( float ), ( override ) );
+   MOCK_METHOD( void, SetFrictionDecelerationPerSecond, ( float ), ( override ) );
    MOCK_METHOD( void, StopX, ( ), ( override ) );
    MOCK_METHOD( void, StopY, ( ), ( override ) );
 };

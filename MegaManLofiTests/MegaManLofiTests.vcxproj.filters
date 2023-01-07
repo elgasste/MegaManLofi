@@ -90,11 +90,11 @@
     <ClCompile Include="ArenaPhysicsTests.cpp">
       <Filter>Tests\Physics</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerPhysicsTests.cpp">
-      <Filter>Tests\Physics</Filter>
-    </ClCompile>
     <ClCompile Include="StageTests.cpp">
       <Filter>Tests\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityPhysicsTests.cpp">
+      <Filter>Tests\Physics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -147,9 +147,6 @@
       <Filter>Mocks</Filter>
     </ClInclude>
     <ClInclude Include="mock_FrameRateProvider.h">
-      <Filter>Mocks</Filter>
-    </ClInclude>
-    <ClInclude Include="mock_PlayerPhysics.h">
       <Filter>Mocks</Filter>
     </ClInclude>
     <ClInclude Include="mock_ArenaPhysics.h">
@@ -210,6 +207,9 @@
       <Filter>Mocks</Filter>
     </ClInclude>
     <ClInclude Include="mock_Stage.h">
+      <Filter>Mocks</Filter>
+    </ClInclude>
+    <ClInclude Include="mock_EntityPhysics.h">
       <Filter>Mocks</Filter>
     </ClInclude>
   </ItemGroup>

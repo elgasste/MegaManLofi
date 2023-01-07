@@ -46,6 +46,7 @@
     <ClInclude Include="mock_EntityConsoleSprite.h" />
     <ClInclude Include="mock_EntityConsoleSpriteCopier.h" />
     <ClInclude Include="mock_EntityConsoleSpriteRepository.h" />
+    <ClInclude Include="mock_EntityPhysics.h" />
     <ClInclude Include="mock_FrameActionRegistry.h" />
     <ClInclude Include="mock_FrameRateProvider.h" />
     <ClInclude Include="mock_Game.h" />
@@ -63,7 +64,6 @@
     <ClInclude Include="mock_Menu.h" />
     <ClInclude Include="mock_MenuProvider.h" />
     <ClInclude Include="mock_PlayerInfoProvider.h" />
-    <ClInclude Include="mock_PlayerPhysics.h" />
     <ClInclude Include="mock_Player.h" />
     <ClInclude Include="mock_EntityFactory.h" />
     <ClInclude Include="mock_ReadOnlyArena.h" />
@@ -78,6 +78,7 @@
   <ItemGroup>
     <ClCompile Include="ArenaPhysicsTests.cpp" />
     <ClCompile Include="ArenaTests.cpp" />
+    <ClCompile Include="EntityPhysicsTests.cpp" />
     <ClCompile Include="EntityTests.cpp" />
     <ClCompile Include="ConsoleAnimationRepositoryTests.cpp" />
     <ClCompile Include="ConsoleSpriteTests.cpp" />
@@ -95,7 +96,6 @@
     <ClCompile Include="KeyboardInputReaderTests.cpp" />
     <ClCompile Include="MenuRepositoryTests.cpp" />
     <ClCompile Include="PlayerExplodedConsoleAnimationTests.cpp" />
-    <ClCompile Include="PlayerPhysicsTests.cpp" />
     <ClCompile Include="PlayerTests.cpp" />
     <ClCompile Include="PlayerThwipInConsoleAnimationTests.cpp" />
     <ClCompile Include="PlayerThwipOutConsoleAnimationTests.cpp" />

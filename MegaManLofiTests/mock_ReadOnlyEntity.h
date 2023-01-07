@@ -18,4 +18,7 @@ public:
    MOCK_METHOD( MegaManLofi::Direction, GetDirection, ( ), ( const, override ) );
    MOCK_METHOD( const MegaManLofi::Rectangle<float>&, GetHitBox, ( ), ( const, override ) );
    MOCK_METHOD( MegaManLofi::MovementType, GetMovementType, ( ), ( const, override ) );
+   MOCK_METHOD( float, GetMaxGravityVelocity, ( ), ( const, override ) );
+   MOCK_METHOD( float, GetGravityAccelerationPerSecond, ( ), ( const, override ) );
+   MOCK_METHOD( float, GetFrictionDecelerationPerSecond, ( ), ( const, override ) );
 };

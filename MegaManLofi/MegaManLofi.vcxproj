@@ -165,6 +165,7 @@
     <ClCompile Include="EntityDefsGenerator.cpp" />
     <ClCompile Include="EntityFactory.cpp" />
     <ClCompile Include="EntityConsoleSpriteRepository.cpp" />
+    <ClCompile Include="EntityPhysics.cpp" />
     <ClCompile Include="FrameActionRegistry.cpp" />
     <ClCompile Include="GameDefsGenerator.cpp" />
     <ClCompile Include="GameOverStateConsoleRenderer.cpp" />
@@ -185,9 +186,7 @@
     <ClCompile Include="MenuImageGenerator.cpp" />
     <ClCompile Include="PlayerDefsGenerator.cpp" />
     <ClCompile Include="PlayerExplodedConsoleAnimation.cpp" />
-    <ClCompile Include="PlayerPhysics.cpp" />
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="PlayerPhysicsDefsGenerator.cpp" />
     <ClCompile Include="PlayerThwipInConsoleAnimation.cpp" />
     <ClCompile Include="PlayerThwipOutConsoleAnimation.cpp" />
     <ClCompile Include="PlayingMenu.cpp" />
@@ -240,6 +239,7 @@
     <ClInclude Include="EntityDefsGenerator.h" />
     <ClInclude Include="EntityFactory.h" />
     <ClInclude Include="EntityConsoleSpriteRepository.h" />
+    <ClInclude Include="EntityPhysics.h" />
     <ClInclude Include="EntityType.h" />
     <ClInclude Include="FrameAction.h" />
     <ClInclude Include="FrameActionRegistry.h" />
@@ -293,9 +293,6 @@
     <ClInclude Include="MovementType.h" />
     <ClInclude Include="PlayerDefsGenerator.h" />
     <ClInclude Include="PlayerExplodedConsoleAnimation.h" />
-    <ClInclude Include="PlayerPhysics.h" />
-    <ClInclude Include="PlayerPhysicsDefs.h" />
-    <ClInclude Include="PlayerPhysicsDefsGenerator.h" />
     <ClInclude Include="PlayerThwipInConsoleAnimation.h" />
     <ClInclude Include="PlayerThwipOutConsoleAnimation.h" />
     <ClInclude Include="PlayingMenu.h" />

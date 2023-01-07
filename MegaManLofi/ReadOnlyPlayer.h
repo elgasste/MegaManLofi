@@ -13,5 +13,10 @@ namespace MegaManLofi
    protected:
       unsigned int _livesRemaining;
       bool _isJumping;
+      float _maxPushVelocity;
+      float _pushAccelerationPerSecond;
+      float _jumpAccelerationPerSecond;
+      float _maxJumpExtensionSeconds;
+      long long _lastExtendJumpFrame;
    };
 }

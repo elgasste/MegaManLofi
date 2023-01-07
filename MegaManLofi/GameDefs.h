@@ -11,7 +11,6 @@ namespace MegaManLofi
    class WorldDefs;
    class StageDefs;
    class ArenaDefs;
-   class PlayerPhysicsDefs;
 
    class GameDefs
    {
@@ -24,6 +23,5 @@ namespace MegaManLofi
       std::shared_ptr<PlayerDefs> PlayerDefs;
       std::shared_ptr<WorldDefs> WorldDefs;
       std::shared_ptr<StageDefs> StageDefs;
-      std::shared_ptr<PlayerPhysicsDefs> PlayerPhysicsDefs;
    };
 }

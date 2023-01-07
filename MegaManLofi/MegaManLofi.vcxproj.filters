@@ -608,5 +608,8 @@
     <ClInclude Include="EntityPhysics.h">
       <Filter>Header Files\Physics</Filter>
     </ClInclude>
+    <ClInclude Include="EntityCollisionPayload.h">
+      <Filter>Header Files\DataTypes</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

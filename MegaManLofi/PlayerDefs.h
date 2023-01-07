@@ -25,6 +25,7 @@ namespace MegaManLofi
       float MaxJumpExtensionSeconds = 0;
 
       unsigned int DefaultLives = 0;
+      unsigned int MaxHealth = 0;
       Direction DefaultDirection = (Direction)0;
       Rectangle<float> DefaultHitBox = { 0, 0, 0, 0 };
       MovementType DefaultMovementType = (MovementType)0;

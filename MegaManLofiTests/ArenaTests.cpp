@@ -286,7 +286,6 @@ TEST_F( ArenaTests, CheckSpawnPoints_InactivePointIsNotDecommissioned_SpawnsEnti
    _arenaDefs->SpawnPoints.push_back( SpawnPoint() );
    _arenaDefs->SpawnPoints[0].ArenaPosition = { 1, 1 };
    _arenaDefs->SpawnPoints[0].IsActive = false;
-   _arenaDefs->SpawnPoints[0].IsDecommissioned = false;
    _arenaDefs->SpawnPoints[0].EntityMetaId = 5;
    _arenaDefs->SpawnPoints[0].Direction = Direction::Down;
    BuildArena();
@@ -301,6 +300,28 @@ TEST_F( ArenaTests, CheckSpawnPoints_InactivePointIsNotDecommissioned_SpawnsEnti
 
    EXPECT_EQ( entityPosition.Left, 1 );
    EXPECT_EQ( entityPosition.Top, 1 );
+   EXPECT_EQ( _arena->GetEntityCount(), 2 );
+   EXPECT_EQ( _arena->GetEntity( 1 ), entityMock );
+}
+
+TEST_F( ArenaTests, CheckSpawnPoints_InactivePointIsBoundToUniqueId_BindsToUniqueId )
+{
+   _arenaDefs->SpawnPoints.push_back( SpawnPoint() );
+   _arenaDefs->SpawnPoints[0].ArenaPosition = { 1, 1 };
+   _arenaDefs->SpawnPoints[0].IsActive = false;
+   _arenaDefs->SpawnPoints[0].IsBoundToUniqueId = true;
+   _arenaDefs->SpawnPoints[0].EntityMetaId = 5;
+   _arenaDefs->SpawnPoints[0].Direction = Direction::Down;
+   BuildArena();
+
+   auto entityMock = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
+   EXPECT_CALL( *_entityFactoryMock, CreateEntity( 5, Direction::Down ) ).WillOnce( Return( entityMock ) );
+   EXPECT_CALL( *entityMock, GetUniqueId() ).WillOnce( Return( 6 ) );
+   EXPECT_CALL( *_eventAggregatorMock, RaiseEvent( GameEvent::ArenaEntitySpawned ) );
+
+   _arena->CheckSpawnPoints();
+
+   EXPECT_EQ( _arena->GetSpawnPoint( 0 )->UniqueIdBinding, 6 );
    EXPECT_EQ( _arena->GetEntityCount(), 2 );
    EXPECT_EQ( _arena->GetEntity( 1 ), entityMock );
 }
@@ -368,6 +389,31 @@ TEST_F( ArenaTests, CheckSpawnPoints_ActivePointReSpawnIntervalElapased_SpawnsEn
    _arena->CheckSpawnPoints();
    EXPECT_EQ( entityPosition.Left, 1 );
    EXPECT_EQ( entityPosition.Top, 1 );
+   EXPECT_EQ( _arena->GetEntityCount(), 2 );
+   EXPECT_EQ( _arena->GetEntity( 1 ), entityMock );
+}
+
+TEST_F( ArenaTests, CheckSpawnPoints_ActivePointIsBoundToUniqueId_BindsToUniqueId )
+{
+   _arenaDefs->SpawnPoints.push_back( SpawnPoint() );
+   _arenaDefs->SpawnPoints[0].ArenaPosition = { 1, 1 };
+   _arenaDefs->SpawnPoints[0].IsActive = true;
+   _arenaDefs->SpawnPoints[0].IsBoundToUniqueId = true;
+   _arenaDefs->SpawnPoints[0].ReSpawnsAtInterval = true;
+   _arenaDefs->SpawnPoints[0].ReSpawnIntervalSeconds = 5;
+   _arenaDefs->SpawnPoints[0].IntervalElapsedSeconds = 4.1f;
+   _arenaDefs->SpawnPoints[0].EntityMetaId = 5;
+   _arenaDefs->SpawnPoints[0].Direction = Direction::Down;
+   BuildArena();
+
+   auto entityMock = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
+   EXPECT_CALL( *_entityFactoryMock, CreateEntity( 5, Direction::Down ) ).WillOnce( Return( entityMock ) );
+   EXPECT_CALL( *entityMock, GetUniqueId() ).WillOnce( Return( 7 ) );
+   EXPECT_CALL( *_eventAggregatorMock, RaiseEvent( GameEvent::ArenaEntitySpawned ) );
+
+   _arena->CheckSpawnPoints();
+
+   EXPECT_EQ( _arena->GetSpawnPoint( 0 )->UniqueIdBinding, 7 );
    EXPECT_EQ( _arena->GetEntityCount(), 2 );
    EXPECT_EQ( _arena->GetEntity( 1 ), entityMock );
 }

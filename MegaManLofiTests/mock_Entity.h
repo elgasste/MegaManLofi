@@ -21,6 +21,8 @@ public:
    MOCK_METHOD( float, GetMaxGravityVelocity, ( ), ( const, override ) );
    MOCK_METHOD( float, GetGravityAccelerationPerSecond, ( ), ( const, override ) );
    MOCK_METHOD( float, GetFrictionDecelerationPerSecond, ( ), ( const, override ) );
+   MOCK_METHOD( unsigned int, GetHealth, ( ), ( const, override ) );
+   MOCK_METHOD( unsigned int, GetMaxHealth, ( ), ( const, override ) );
 
    MOCK_METHOD( void, SetUniqueId, ( int ), ( override ) );
    MOCK_METHOD( void, SetEntityType, ( MegaManLofi::EntityType ), ( override ) );

@@ -15,5 +15,7 @@ ReadOnlyEntity::ReadOnlyEntity() :
    _maxGravityVelocity( 0 ),
    _gravityAccelerationPerSecond( 0 ),
    _frictionDecelerationPerSecond( 0 )
+   _health( 0 ),
+   _maxHealth( 0 )
 {
 }

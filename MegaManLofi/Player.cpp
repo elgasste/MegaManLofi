@@ -26,6 +26,7 @@ Player::Player( const shared_ptr<PlayerDefs> playerDefs,
    _pushAccelerationPerSecond = _playerDefs->PushAccelerationPerSecond;
    _jumpAccelerationPerSecond = _playerDefs->JumpAccelerationPerSecond;
    _maxJumpExtensionSeconds = _playerDefs->MaxJumpExtensionSeconds;
+   _maxHealth = _playerDefs->MaxHealth;
 
    Reset();
 }
@@ -33,6 +34,7 @@ Player::Player( const shared_ptr<PlayerDefs> playerDefs,
 void Player::Reset()
 {
    _livesRemaining = _playerDefs->DefaultLives;
+   _health = _maxHealth;
    ResetPosition();
 }
 

@@ -35,6 +35,7 @@ public:
       _playerDefs->JumpAccelerationPerSecond = 1;
       _playerDefs->MaxJumpExtensionSeconds = 0.25f;
       _playerDefs->DefaultLives = 5;
+      _playerDefs->MaxHealth = 100;
       _playerDefs->DefaultDirection = Direction::Left;
       _playerDefs->DefaultHitBox = { 0, 0, 4, 4 };
       _playerDefs->DefaultMovementType = MovementType::Airborne;
@@ -62,6 +63,7 @@ TEST_F( PlayerTests, Constructor_Always_SetsDefaultPropertiesFromDefs )
    _playerDefs->DefaultVelocityX = 100;
    _playerDefs->DefaultVelocityY = 200;
    _playerDefs->DefaultLives = 10;
+   _playerDefs->MaxHealth = 40;
    _playerDefs->DefaultDirection = Direction::Right;
    _playerDefs->DefaultHitBox = { 1, 2, 3, 4 };
    BuildPlayer();
@@ -76,6 +78,8 @@ TEST_F( PlayerTests, Constructor_Always_SetsDefaultPropertiesFromDefs )
    EXPECT_EQ( _player->GetGravityAccelerationPerSecond(), 100 );
    EXPECT_EQ( _player->GetFrictionDecelerationPerSecond(), 200 );
    EXPECT_EQ( _player->GetLivesRemaining(), 10 );
+   EXPECT_EQ( _player->GetHealth(), 40 );
+   EXPECT_EQ( _player->GetMaxHealth(), 40 );
    EXPECT_EQ( _player->GetDirection(), Direction::Right );
    EXPECT_EQ( _player->GetHitBox().Left, 1 );
    EXPECT_EQ( _player->GetHitBox().Top, 2 );

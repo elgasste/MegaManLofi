@@ -18,6 +18,8 @@ public:
    MOCK_METHOD( MegaManLofi::Direction, GetDirection, ( ), ( const, override ) );
    MOCK_METHOD( const MegaManLofi::Rectangle<float>&, GetHitBox, ( ), ( const, override ) );
    MOCK_METHOD( MegaManLofi::MovementType, GetMovementType, ( ), ( const, override ) );
+   MOCK_METHOD( unsigned int, GetHealth, ( ), ( const, override ) );
+   MOCK_METHOD( unsigned int, GetMaxHealth, ( ), ( const, override ) );
 
    MOCK_METHOD( void, SetUniqueId, ( int ), ( override ) );
    MOCK_METHOD( void, SetEntityType, ( MegaManLofi::EntityType ), ( override ) );

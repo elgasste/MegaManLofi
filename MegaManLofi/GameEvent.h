@@ -17,6 +17,7 @@ namespace MegaManLofi
       ActiveArenaChanged,
 
       Pitfall,
-      TileDeath
+      TileDeath,
+      CollisionDeath
    };
 }

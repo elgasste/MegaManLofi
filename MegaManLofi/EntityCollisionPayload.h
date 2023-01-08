@@ -4,7 +4,7 @@ namespace MegaManLofi
 {
    struct EntityCollisionPayload
    {
-      unsigned int Health = 0;
-      unsigned int Lives = 0;
+      int Health = 0;
+      int Lives = 0;
    };
 }

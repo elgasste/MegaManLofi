@@ -9,6 +9,7 @@
 
 #include "mock_FrameActionRegistry.h"
 #include "mock_FrameRateProvider.h"
+#include "mock_GameEventAggregator.h"
 
 using namespace std;
 using namespace testing;
@@ -22,6 +23,7 @@ public:
       _playerDefs.reset( new PlayerDefs );
       _frameActionRegistryMock.reset( new NiceMock<mock_FrameActionRegistry> );
       _frameRateProviderMock.reset( new NiceMock<mock_FrameRateProvider> );
+      _eventAggregatorMock.reset( new NiceMock<mock_GameEventAggregator> );
 
       _playerDefs->DefaultUniqueId = 10;
       _playerDefs->DefaultEntityMetaId = 2;
@@ -45,13 +47,14 @@ public:
 
    void BuildPlayer()
    {
-      _player.reset( new Player( _playerDefs, _frameActionRegistryMock, _frameRateProviderMock ) );
+      _player.reset( new Player( _playerDefs, _frameActionRegistryMock, _frameRateProviderMock, _eventAggregatorMock ) );
    }
 
 protected:
    shared_ptr<PlayerDefs> _playerDefs;
    shared_ptr<mock_FrameActionRegistry> _frameActionRegistryMock;
    shared_ptr<mock_FrameRateProvider> _frameRateProviderMock;
+   shared_ptr<mock_GameEventAggregator> _eventAggregatorMock;
 
    int _framesPerSecond;
 
@@ -417,4 +420,75 @@ TEST_F( PlayerTests, ExtendJump_StillExtendingJump_FlagsPlayerJumpingAction )
    EXPECT_CALL( *_frameActionRegistryMock, FlagAction( FrameAction::PlayerJumping ) );
 
    _player->ExtendJump();
+}
+
+TEST_F( PlayerTests, TakeCollisionPayload_NoChanges_DoesNotTakePayload )
+{
+   BuildPlayer();
+
+   EXPECT_FALSE( _player->TakeCollisionPayload( { 0, 0 } ) );
+}
+
+TEST_F( PlayerTests, TakeCollisionPayload_PlusHealthAndAtMaxHealth_DoesNotTakePayload )
+{
+   BuildPlayer();
+
+   EXPECT_FALSE( _player->TakeCollisionPayload( { 1, 0 } ) );
+}
+
+TEST_F( PlayerTests, TakeCollisionPayload_PlusHealthAndNotAtMaxHealth_TakesPayload )
+{
+   BuildPlayer();
+   _player->TakeCollisionPayload( { -5, 0 } );
+
+   EXPECT_TRUE( _player->TakeCollisionPayload( { 10, 0 } ) );
+   EXPECT_EQ( _player->GetHealth(), 100 );
+}
+
+TEST_F( PlayerTests, TakeCollisionPayload_MinusHealthAndHasHealthRemaining_TakesPayloadAndDoesNotRaiseDeathEvent )
+{
+   BuildPlayer();
+
+   EXPECT_CALL( *_eventAggregatorMock, RaiseEvent( GameEvent::CollisionDeath ) ).Times( 0 );
+
+   EXPECT_TRUE( _player->TakeCollisionPayload( { -99, 0 } ) );
+   EXPECT_EQ( _player->GetHealth(), 1 );
+}
+
+TEST_F( PlayerTests, TakeCollisionPayload_MinusHealthAndNoHealthRemaining_TakesPayloadAndRaisesDeathEvent )
+{
+   BuildPlayer();
+
+   EXPECT_CALL( *_eventAggregatorMock, RaiseEvent( GameEvent::CollisionDeath ) );
+
+   EXPECT_TRUE( _player->TakeCollisionPayload( { -101, 0 } ) );
+   EXPECT_EQ( _player->GetHealth(), 0 );
+}
+
+TEST_F( PlayerTests, TakeCollisionPayload_PlusLives_TakesPayload )
+{
+   BuildPlayer();
+
+   EXPECT_TRUE( _player->TakeCollisionPayload( { 0, 2 } ) );
+   EXPECT_EQ( _player->GetLivesRemaining(), 7 );
+}
+
+TEST_F( PlayerTests, TakeCollisionPayload_MinusLivesAndHasLivesRemaining_TakesPayloadAndDoesNotRaiseDeathEvent )
+{
+   BuildPlayer();
+
+   EXPECT_CALL( *_eventAggregatorMock, RaiseEvent( GameEvent::CollisionDeath ) ).Times( 0 );
+
+   EXPECT_TRUE( _player->TakeCollisionPayload( { 0, -4 } ) );
+   EXPECT_EQ( _player->GetLivesRemaining(), 1 );
+}
+
+TEST_F( PlayerTests, TakeCollisionPayload_MinusLivesAndNoLivesRemaining_TakesPayloadAndRaisesDeathEvent )
+{
+   BuildPlayer();
+
+   EXPECT_CALL( *_eventAggregatorMock, RaiseEvent( GameEvent::CollisionDeath ) );
+
+   EXPECT_TRUE( _player->TakeCollisionPayload( { 0, -5 } ) );
+   EXPECT_EQ( _player->GetLivesRemaining(), 0 );
 }

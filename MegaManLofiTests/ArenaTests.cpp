@@ -542,8 +542,22 @@ TEST_F( ArenaTests, DetectEntityCollisions_PlayerCollidesWithEnemy_PlayerTakesHe
    EXPECT_EQ( payload.Health, -5 );
 }
 
-TEST_F( ArenaTests, DetectEntityCollisions_PlayerCollidesWithProjectile_PlayerTakesHealthPayload )
+TEST_F( ArenaTests, DetectEntityCollisions_PlayerCollidesWithFriendlyProjectile_PlayerDoesNotTakeHealthPayload )
 {
+   _entityDefs->ProjectileInfoMap[4].IsFriendly = true;
+   _arena.reset( new Arena( _arenaDefs, _worldDefs, _entityDefs, _eventAggregatorMock, _frameRateProviderMock, _entityFactoryMock ) );
+   _arena->AddEntity( _playerMock );
+   _arena->AddEntity( _projectileEntityMock );
+
+   EXPECT_CALL( *_playerMock, TakeCollisionPayload( _ ) ).Times( 0 );
+
+   _arena->DetectEntityCollisions();
+   auto test = true;
+}
+
+TEST_F( ArenaTests, DetectEntityCollisions_PlayerCollidesWithUnfriendlyProjectile_PlayerTakesHealthPayload )
+{
+   _entityDefs->ProjectileInfoMap[4].IsFriendly = false;
    _arena.reset( new Arena( _arenaDefs, _worldDefs, _entityDefs, _eventAggregatorMock, _frameRateProviderMock, _entityFactoryMock ) );
    _arena->AddEntity( _playerMock );
    _arena->AddEntity( _projectileEntityMock );
@@ -586,8 +600,21 @@ TEST_F( ArenaTests, DetectEntityCollisions_ItemBoundToSpawnPointCollidesWithPlay
    EXPECT_TRUE( _arena->GetSpawnPoint( 0 )->IsDecommissioned );
 }
 
-TEST_F( ArenaTests, DetectEntityCollisions_ProjectileCollidesWithPlayer_PlayerTakesHealthPayload )
+TEST_F( ArenaTests, DetectEntityCollisions_FriendlyProjectileCollidesWithPlayer_PlayerDoesNotTakeHealthPayload )
 {
+   _entityDefs->ProjectileInfoMap[4].IsFriendly = true;
+   _arena.reset( new Arena( _arenaDefs, _worldDefs, _entityDefs, _eventAggregatorMock, _frameRateProviderMock, _entityFactoryMock ) );
+   _arena->AddEntity( _projectileEntityMock );
+   _arena->AddEntity( _playerMock );
+
+   EXPECT_CALL( *_playerMock, TakeCollisionPayload( _ ) ).Times( 0 );
+
+   _arena->DetectEntityCollisions();
+}
+
+TEST_F( ArenaTests, DetectEntityCollisions_UnfriendlyProjectileCollidesWithPlayer_PlayerTakesHealthPayload )
+{
+   _entityDefs->ProjectileInfoMap[4].IsFriendly = false;
    _arena.reset( new Arena( _arenaDefs, _worldDefs, _entityDefs, _eventAggregatorMock, _frameRateProviderMock, _entityFactoryMock ) );
    _arena->AddEntity( _projectileEntityMock );
    _arena->AddEntity( _playerMock );
@@ -600,8 +627,21 @@ TEST_F( ArenaTests, DetectEntityCollisions_ProjectileCollidesWithPlayer_PlayerTa
    EXPECT_EQ( payload.Health, -10 );
 }
 
-TEST_F( ArenaTests, DetectEntityCollisions_ProjectileCollidesWithEnemy_EnemyTakesHealthPayload )
+TEST_F( ArenaTests, DetectEntityCollisions_UnfriendlyProjectileCollidesWithEnemy_EnemyDoesNotTakeHealthPayload )
 {
+   _entityDefs->ProjectileInfoMap[4].IsFriendly = false;
+   _arena.reset( new Arena( _arenaDefs, _worldDefs, _entityDefs, _eventAggregatorMock, _frameRateProviderMock, _entityFactoryMock ) );
+   _arena->AddEntity( _projectileEntityMock );
+   _arena->AddEntity( _enemyEntityMock );
+
+   EXPECT_CALL( *_enemyEntityMock, TakeCollisionPayload( _ ) ).Times( 0 );
+
+   _arena->DetectEntityCollisions();
+}
+
+TEST_F( ArenaTests, DetectEntityCollisions_FriendlyProjectileCollidesWithEnemy_EnemyTakesHealthPayload )
+{
+   _entityDefs->ProjectileInfoMap[4].IsFriendly = true;
    _arena.reset( new Arena( _arenaDefs, _worldDefs, _entityDefs, _eventAggregatorMock, _frameRateProviderMock, _entityFactoryMock ) );
    _arena->AddEntity( _projectileEntityMock );
    _arena->AddEntity( _enemyEntityMock );
@@ -628,8 +668,21 @@ TEST_F( ArenaTests, DetectEntityCollisions_EnemyCollidesWithPlayer_PlayerTakesHe
    EXPECT_EQ( payload.Health, -5 );
 }
 
-TEST_F( ArenaTests, DetectEntityCollisions_EnemyCollidesWithProjectile_EnemyTakesHealthPayload )
+TEST_F( ArenaTests, DetectEntityCollisions_EnemyCollidesWithUnfriendlyProjectile_EnemyDoesNotTakeHealthPayload )
 {
+   _entityDefs->ProjectileInfoMap[4].IsFriendly = false;
+   _arena.reset( new Arena( _arenaDefs, _worldDefs, _entityDefs, _eventAggregatorMock, _frameRateProviderMock, _entityFactoryMock ) );
+   _arena->AddEntity( _enemyEntityMock );
+   _arena->AddEntity( _projectileEntityMock );
+
+   EXPECT_CALL( *_enemyEntityMock, TakeCollisionPayload( _ ) ).Times( 0 );
+
+   _arena->DetectEntityCollisions();
+}
+
+TEST_F( ArenaTests, DetectEntityCollisions_EnemyCollidesWithFriendlyProjectile_EnemyTakesHealthPayload )
+{
+   _entityDefs->ProjectileInfoMap[4].IsFriendly = true;
    _arena.reset( new Arena( _arenaDefs, _worldDefs, _entityDefs, _eventAggregatorMock, _frameRateProviderMock, _entityFactoryMock ) );
    _arena->AddEntity( _enemyEntityMock );
    _arena->AddEntity( _projectileEntityMock );

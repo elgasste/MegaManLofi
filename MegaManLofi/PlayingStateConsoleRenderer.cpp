@@ -262,12 +262,30 @@ void PlayingStateConsoleRenderer::DrawEntity( const shared_ptr<ReadOnlyEntity> e
 void PlayingStateConsoleRenderer::DrawStatusBar()
 {
    auto player = _playerInfoProvider->GetPlayer();
+   auto playerEntity = _playerInfoProvider->GetPlayerEntity();
    auto left = _renderDefs->ArenaStatusBarLeftChars + 2;
    auto top = _renderDefs->ArenaStatusBarTopChars;
 
    _consoleBuffer->Draw( left, top, format( "Lives:  {}", player->GetLivesRemaining() ) );
-   _consoleBuffer->Draw( left, top + 1, "Health: ||||||||||||||||||||||||||" );
-   _consoleBuffer->Draw( left + 34, top + 1, "|||||", ConsoleColor::DarkGrey );
+
+   top++;
+   _consoleBuffer->Draw( left, top, "Health: " );
+   left += 8;
+
+   int totalHealthBars = 30;
+   int healthyBars = totalHealthBars * ( playerEntity->GetHealth() / (float)playerEntity->GetMaxHealth() );
+   int unHealthyBars = totalHealthBars - healthyBars;
+   
+   for ( int i = 0; i < healthyBars; i++ )
+   {
+      _consoleBuffer->Draw( left, top, '|', ConsoleColor::White );
+      left++;
+   }
+   for ( int i = 0; i < unHealthyBars; i++ )
+   {
+      _consoleBuffer->Draw( left, top, '|', ConsoleColor::DarkGrey );
+      left++;
+   }
 }
 
 void PlayingStateConsoleRenderer::DrawPauseOverlay()

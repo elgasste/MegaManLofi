@@ -30,4 +30,5 @@ public:
    MOCK_METHOD( void, RemoveEntity, ( const std::shared_ptr<MegaManLofi::Entity> ), ( override ) );
    MOCK_METHOD( void, CheckSpawnPoints, ( ), ( override ) );
    MOCK_METHOD( void, DeSpawnInactiveEntities, ( ), ( override ) );
+   MOCK_METHOD( void, DetectEntityCollisions, ( ), ( override ) );
 };

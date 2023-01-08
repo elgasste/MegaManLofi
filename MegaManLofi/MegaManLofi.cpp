@@ -125,7 +125,7 @@ void LoadAndRun( const shared_ptr<ConsoleBuffer> consoleBuffer )
    auto stage = shared_ptr<Stage>( new Stage( gameDefs->StageDefs, eventAggregator ) );
    for ( auto [arenaId, arenaDefs] : gameDefs->StageDefs->ArenaMap )
    {
-      auto arena = shared_ptr<Arena>( new Arena( arenaDefs, gameDefs->WorldDefs, eventAggregator, clock, entityFactory ) );
+      auto arena = shared_ptr<Arena>( new Arena( arenaDefs, gameDefs->WorldDefs, gameDefs->EntityDefs, eventAggregator, clock, entityFactory ) );
       arena->SetArenaId( arenaId );
       stage->AddArena( arena );
    }

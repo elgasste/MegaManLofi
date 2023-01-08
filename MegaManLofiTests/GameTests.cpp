@@ -553,6 +553,7 @@ TEST_F( GameTests, Tick_GameStateIsPlayingAndNotPaused_DoesEntityAndArenaActions
 
    EXPECT_CALL( *_entityPhysicsMock, Tick() );
    EXPECT_CALL( *_arenaPhysicsMock, Tick() );
+   EXPECT_CALL( *_arenaMock, DetectEntityCollisions() );
    EXPECT_CALL( *_arenaMock, DeSpawnInactiveEntities() );
    EXPECT_CALL( *_arenaMock, CheckSpawnPoints() );
 

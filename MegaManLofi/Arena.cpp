@@ -3,6 +3,7 @@
 #include "Arena.h"
 #include "ArenaDefs.h"
 #include "WorldDefs.h"
+#include "EntityDefs.h"
 #include "GameEventAggregator.h"
 #include "IFrameRateProvider.h"
 #include "EntityFactory.h"
@@ -14,10 +15,12 @@ using namespace MegaManLofi;
 
 Arena::Arena( const shared_ptr<ArenaDefs> arenaDefs,
               const shared_ptr<WorldDefs> worldDefs,
+              const shared_ptr<EntityDefs> entityDefs,
               const shared_ptr<GameEventAggregator> eventAggregator,
               const shared_ptr<IFrameRateProvider> frameRateProvider,
               const shared_ptr<EntityFactory> entityFactory ) :
    _arenaDefs( arenaDefs ),
+   _entityDefs( entityDefs ),
    _eventAggregator( eventAggregator ),
    _frameRateProvider( frameRateProvider ),
    _entityFactory( entityFactory )
@@ -153,5 +156,89 @@ void Arena::DeSpawnInactiveEntities()
    for ( auto entity : entitiesToDeSpawn )
    {
       RemoveEntity( entity );
+   }
+}
+
+void Arena::DetectEntityCollisions()
+{
+   for ( int i = 0; i < (int)_entities.size(); i++ )
+   {
+      auto entity1 = _entities[i];
+
+      for ( int j = i + 1; j < (int)_entities.size(); j++ )
+      {
+         auto entity2 = _entities[j];
+
+         if ( RectangleUtilities::RectanglesIntersectF( entity1->GetHitBox(), entity1->GetArenaPositionLeft(), entity1->GetArenaPositionTop(),
+                                                        entity2->GetHitBox(), entity2->GetArenaPositionLeft(), entity2->GetArenaPositionTop() ) )
+         {
+            auto otherType = entity2->GetEntityType();
+
+            switch ( entity1->GetEntityType() )
+            {
+               case EntityType::Player:
+                  if ( otherType == EntityType::Item )
+                  {
+                     PlayerPickUpItem( entity1, entity2 );
+                  }
+                  else if ( otherType == EntityType::Enemy || otherType == EntityType::Projectile )
+                  {
+                     EntityTakeHealthPayload( entity1, entity2 );
+                  }
+                  break;
+               case EntityType::Item:
+                  if ( otherType == EntityType::Player )
+                  {
+                     PlayerPickUpItem( entity2, entity1 );
+                  }
+                  break;
+               case EntityType::Projectile:
+                  if ( otherType == EntityType::Player || otherType == EntityType::Enemy )
+                  {
+                     EntityTakeHealthPayload( entity2, entity1 );
+                  }
+                  break;
+               case EntityType::Enemy:
+                  if ( otherType == EntityType::Player )
+                  {
+                     EntityTakeHealthPayload( entity2, entity1 );
+                  }
+                  else if ( otherType == EntityType::Projectile )
+                  {
+                     EntityTakeHealthPayload( entity1, entity2 );
+                  }
+                  break;
+            }
+         }
+      }
+   }
+}
+
+void Arena::PlayerPickUpItem( const shared_ptr<Entity> player, const shared_ptr<Entity> item )
+{
+   const auto& payload = _entityDefs->CollisionPayloadMap[item->GetEntityMetaId()];
+
+   if ( player->TakeCollisionPayload( payload ) )
+   {
+      for ( auto spawnPoint : _spawnPoints )
+      {
+         if ( spawnPoint->IsBoundToUniqueId && spawnPoint->UniqueIdBinding == item->GetUniqueId() )
+         {
+            spawnPoint->IsDecommissioned = true;
+         }
+      }
+
+      RemoveEntity( item );
+   }
+}
+
+void Arena::EntityTakeHealthPayload( const shared_ptr<Entity> taker, const shared_ptr<Entity> giver )
+{
+   const auto& payload = _entityDefs->CollisionPayloadMap[giver->GetEntityMetaId()];
+   taker->TakeCollisionPayload( payload );
+
+   if ( giver->GetEntityType() == EntityType::Projectile )
+   {
+      RemoveEntity( giver );
    }
 }

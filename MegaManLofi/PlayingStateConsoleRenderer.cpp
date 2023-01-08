@@ -273,7 +273,7 @@ void PlayingStateConsoleRenderer::DrawStatusBar()
    left += 8;
 
    int totalHealthBars = 30;
-   int healthyBars = totalHealthBars * ( playerEntity->GetHealth() / (float)playerEntity->GetMaxHealth() );
+   auto healthyBars = (int)( totalHealthBars * ( playerEntity->GetHealth() / (float)playerEntity->GetMaxHealth() ) );
    int unHealthyBars = totalHealthBars - healthyBars;
    
    for ( int i = 0; i < healthyBars; i++ )

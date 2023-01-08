@@ -55,6 +55,7 @@ void Game::Tick()
       _arenaPhysics->Tick();
 
       auto arena = _stage->GetMutableActiveArena();
+      arena->DetectEntityCollisions();
       arena->DeSpawnInactiveEntities();
       arena->CheckSpawnPoints();
    }

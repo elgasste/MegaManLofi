@@ -6,6 +6,7 @@ namespace MegaManLofi
 {
    class ArenaDefs;
    class WorldDefs;
+   class EntityDefs;
    class GameEventAggregator;
    class IFrameRateProvider;
    class EntityFactory;
@@ -16,6 +17,7 @@ namespace MegaManLofi
       Arena() { }
       Arena( const std::shared_ptr<ArenaDefs> arenaDefs,
              const std::shared_ptr<WorldDefs> worldDefs,
+             const std::shared_ptr<EntityDefs> entityDefs,
              const std::shared_ptr<GameEventAggregator> eventAggregator,
              const std::shared_ptr<IFrameRateProvider> frameRateProvider,
              const std::shared_ptr<EntityFactory> entityFactory );
@@ -34,9 +36,15 @@ namespace MegaManLofi
       virtual void RemoveEntity( const std::shared_ptr<Entity> entity );
       virtual void CheckSpawnPoints();
       virtual void DeSpawnInactiveEntities();
+      virtual void DetectEntityCollisions();
+
+   private:
+      void PlayerPickUpItem( const std::shared_ptr<Entity> player, const std::shared_ptr<Entity> item );
+      void EntityTakeHealthPayload( const std::shared_ptr<Entity> taker, const std::shared_ptr<Entity> giver );
 
    private:
       const std::shared_ptr<ArenaDefs> _arenaDefs;
+      const std::shared_ptr<EntityDefs> _entityDefs;
       const std::shared_ptr<GameEventAggregator> _eventAggregator;
       const std::shared_ptr<IFrameRateProvider> _frameRateProvider;
       const std::shared_ptr<EntityFactory> _entityFactory;

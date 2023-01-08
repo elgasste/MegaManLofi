@@ -2,6 +2,7 @@
 
 #include <MegaManLofi/Arena.h>
 #include <MegaManLofi/ArenaDefs.h>
+#include <MegaManLofi/EntityDefs.h>
 #include <MegaManLofi/WorldDefs.h>
 #include <MegaManLofi/FrameAction.h>
 
@@ -24,10 +25,14 @@ public:
    {
       _arenaDefs.reset( new ArenaDefs );
       _worldDefs.reset( new WorldDefs );
+      _entityDefs.reset( new EntityDefs );
       _eventAggregatorMock.reset( new NiceMock<mock_GameEventAggregator> );
       _frameRateProviderMock.reset( new NiceMock<mock_FrameRateProvider> );
       _entityFactoryMock.reset( new NiceMock<mock_EntityFactory> );
       _playerMock.reset( new NiceMock<mock_Player> );
+      _itemEntityMock.reset( new NiceMock<mock_Entity> );
+      _projectileEntityMock.reset( new NiceMock<mock_Entity> );
+      _enemyEntityMock.reset( new NiceMock<mock_Entity> );
 
       _arenaDefs->ArenaId = 11;
       _arenaDefs->HorizontalTiles = 10;
@@ -36,6 +41,10 @@ public:
 
       _worldDefs->TileWidth = 2;
       _worldDefs->TileHeight = 2;
+
+      _entityDefs->CollisionPayloadMap[3] = { 10, 0 };  // item gives 10 health
+      _entityDefs->CollisionPayloadMap[4] = { -10, 0 }; // projectile takes 10 health
+      _entityDefs->CollisionPayloadMap[5] = { -5, 0 };  // enemy takes 5 health
 
       for ( int i = 0; i < _arenaDefs->HorizontalTiles * _arenaDefs->VerticalTiles; i++ )
       {
@@ -46,11 +55,25 @@ public:
 
       auto entityMock = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
       ON_CALL( *_entityFactoryMock, CreateEntity( _, _ ) ).WillByDefault( Return( entityMock ) );
+
+      ON_CALL( *_itemEntityMock, GetEntityType() ).WillByDefault( Return( EntityType::Item ) );
+      ON_CALL( *_itemEntityMock, GetUniqueId() ).WillByDefault( Return( 11 ) );
+      ON_CALL( *_itemEntityMock, GetEntityMetaId() ).WillByDefault( Return( 3 ) );
+      ON_CALL( *_projectileEntityMock, GetEntityType() ).WillByDefault( Return( EntityType::Projectile ) );
+      ON_CALL( *_projectileEntityMock, GetEntityMetaId() ).WillByDefault( Return( 4 ) );
+      ON_CALL( *_enemyEntityMock, GetEntityType() ).WillByDefault( Return( EntityType::Enemy ) );
+      ON_CALL( *_enemyEntityMock, GetEntityMetaId() ).WillByDefault( Return( 5 ) );
+
+      _entityHitBox = { 0, 0, 10, 10 };
+      ON_CALL( *_playerMock, GetHitBox() ).WillByDefault( ReturnRef( _entityHitBox ) );
+      ON_CALL( *_itemEntityMock, GetHitBox() ).WillByDefault( ReturnRef( _entityHitBox ) );
+      ON_CALL( *_projectileEntityMock, GetHitBox() ).WillByDefault( ReturnRef( _entityHitBox ) );
+      ON_CALL( *_enemyEntityMock, GetHitBox() ).WillByDefault( ReturnRef( _entityHitBox ) );
    }
 
    void BuildArena()
    {
-      _arena.reset( new Arena( _arenaDefs, _worldDefs, _eventAggregatorMock, _frameRateProviderMock, _entityFactoryMock ) );
+      _arena.reset( new Arena( _arenaDefs, _worldDefs, _entityDefs, _eventAggregatorMock, _frameRateProviderMock, _entityFactoryMock ) );
       _arena->SetPlayerEntity( _playerMock );
       _arena->SetActiveRegion( { 0, 0, 100, 100 } );
    }
@@ -58,10 +81,17 @@ public:
 protected:
    shared_ptr<ArenaDefs> _arenaDefs;
    shared_ptr<WorldDefs> _worldDefs;
+   shared_ptr<EntityDefs> _entityDefs;
    shared_ptr<mock_GameEventAggregator> _eventAggregatorMock;
    shared_ptr<mock_FrameRateProvider> _frameRateProviderMock;
    shared_ptr<mock_EntityFactory> _entityFactoryMock;
    shared_ptr<mock_Player> _playerMock;
+
+   shared_ptr<mock_Entity> _itemEntityMock;
+   shared_ptr<mock_Entity> _projectileEntityMock;
+   shared_ptr<mock_Entity> _enemyEntityMock;
+
+   Rectangle<float> _entityHitBox;
 
    shared_ptr<Arena> _arena;
 };
@@ -466,4 +496,148 @@ TEST_F( ArenaTests, DeSpawnInactiveEntities_InactiveEntitiesFound_DeSpawnsNonPla
    EXPECT_EQ( _arena->GetEntityCount(), 2 );
    EXPECT_EQ( _arena->GetEntity( 0 ), _playerMock );
    EXPECT_EQ( _arena->GetEntity( 1 ), entityMock2 );
+}
+
+TEST_F( ArenaTests, DetectEntityCollisions_PlayerCollidesWithItem_PlayerTakesPayload )
+{
+   _arena.reset( new Arena( _arenaDefs, _worldDefs, _entityDefs, _eventAggregatorMock, _frameRateProviderMock, _entityFactoryMock ) );
+   _arena->AddEntity( _playerMock );
+   _arena->AddEntity( _itemEntityMock );
+
+   EntityCollisionPayload payload;
+   EXPECT_CALL( *_playerMock, TakeCollisionPayload( _ ) ).WillOnce( DoAll( SaveArg<0>( &payload ), Return( true ) ) );
+
+   _arena->DetectEntityCollisions();
+
+   EXPECT_EQ( payload.Health, 10 );
+}
+
+TEST_F( ArenaTests, DetectEntityCollisions_PlayerCollidesWithItemBoundToSpawnPoint_DecommissionsSpawnPoint )
+{
+   _arenaDefs->SpawnPoints.push_back( SpawnPoint() );
+   _arenaDefs->SpawnPoints[0].IsBoundToUniqueId = true;
+   _arenaDefs->SpawnPoints[0].UniqueIdBinding = 11;
+   _arena.reset( new Arena( _arenaDefs, _worldDefs, _entityDefs, _eventAggregatorMock, _frameRateProviderMock, _entityFactoryMock ) );
+   _arena->AddEntity( _playerMock );
+   _arena->AddEntity( _itemEntityMock );
+
+   EXPECT_CALL( *_playerMock, TakeCollisionPayload( _ ) ).WillOnce( Return( true ) );
+
+   _arena->DetectEntityCollisions();
+
+   EXPECT_TRUE( _arena->GetSpawnPoint( 0 )->IsDecommissioned );
+}
+
+TEST_F( ArenaTests, DetectEntityCollisions_PlayerCollidesWithEnemy_PlayerTakesHealthPayload )
+{
+   _arena.reset( new Arena( _arenaDefs, _worldDefs, _entityDefs, _eventAggregatorMock, _frameRateProviderMock, _entityFactoryMock ) );
+   _arena->AddEntity( _playerMock );
+   _arena->AddEntity( _enemyEntityMock );
+
+   EntityCollisionPayload payload;
+   EXPECT_CALL( *_playerMock, TakeCollisionPayload( _ ) ).WillOnce( DoAll( SaveArg<0>( &payload ), Return( true ) ) );
+
+   _arena->DetectEntityCollisions();
+
+   EXPECT_EQ( payload.Health, -5 );
+}
+
+TEST_F( ArenaTests, DetectEntityCollisions_PlayerCollidesWithProjectile_PlayerTakesHealthPayload )
+{
+   _arena.reset( new Arena( _arenaDefs, _worldDefs, _entityDefs, _eventAggregatorMock, _frameRateProviderMock, _entityFactoryMock ) );
+   _arena->AddEntity( _playerMock );
+   _arena->AddEntity( _projectileEntityMock );
+
+   EntityCollisionPayload payload;
+   EXPECT_CALL( *_playerMock, TakeCollisionPayload( _ ) ).WillOnce( DoAll( SaveArg<0>( &payload ), Return( true ) ) );
+
+   _arena->DetectEntityCollisions();
+
+   EXPECT_EQ( payload.Health, -10 );
+}
+
+TEST_F( ArenaTests, DetectEntityCollisions_ItemCollidesWithPlayer_PlayerTakesPayload )
+{
+   _arena.reset( new Arena( _arenaDefs, _worldDefs, _entityDefs, _eventAggregatorMock, _frameRateProviderMock, _entityFactoryMock ) );
+   _arena->AddEntity( _itemEntityMock );
+   _arena->AddEntity( _playerMock );
+
+   EntityCollisionPayload payload;
+   EXPECT_CALL( *_playerMock, TakeCollisionPayload( _ ) ).WillOnce( DoAll( SaveArg<0>( &payload ), Return( true ) ) );
+
+   _arena->DetectEntityCollisions();
+
+   EXPECT_EQ( payload.Health, 10 );
+}
+
+TEST_F( ArenaTests, DetectEntityCollisions_ItemBoundToSpawnPointCollidesWithPlayer_DecommissionsSpawnPoint )
+{
+   _arenaDefs->SpawnPoints.push_back( SpawnPoint() );
+   _arenaDefs->SpawnPoints[0].IsBoundToUniqueId = true;
+   _arenaDefs->SpawnPoints[0].UniqueIdBinding = 11;
+   _arena.reset( new Arena( _arenaDefs, _worldDefs, _entityDefs, _eventAggregatorMock, _frameRateProviderMock, _entityFactoryMock ) );
+   _arena->AddEntity( _itemEntityMock );
+   _arena->AddEntity( _playerMock );
+
+   EXPECT_CALL( *_playerMock, TakeCollisionPayload( _ ) ).WillOnce( Return( true ) );
+
+   _arena->DetectEntityCollisions();
+
+   EXPECT_TRUE( _arena->GetSpawnPoint( 0 )->IsDecommissioned );
+}
+
+TEST_F( ArenaTests, DetectEntityCollisions_ProjectileCollidesWithPlayer_PlayerTakesHealthPayload )
+{
+   _arena.reset( new Arena( _arenaDefs, _worldDefs, _entityDefs, _eventAggregatorMock, _frameRateProviderMock, _entityFactoryMock ) );
+   _arena->AddEntity( _projectileEntityMock );
+   _arena->AddEntity( _playerMock );
+
+   EntityCollisionPayload payload;
+   EXPECT_CALL( *_playerMock, TakeCollisionPayload( _ ) ).WillOnce( DoAll( SaveArg<0>( &payload ), Return( true ) ) );
+
+   _arena->DetectEntityCollisions();
+
+   EXPECT_EQ( payload.Health, -10 );
+}
+
+TEST_F( ArenaTests, DetectEntityCollisions_ProjectileCollidesWithEnemy_EnemyTakesHealthPayload )
+{
+   _arena.reset( new Arena( _arenaDefs, _worldDefs, _entityDefs, _eventAggregatorMock, _frameRateProviderMock, _entityFactoryMock ) );
+   _arena->AddEntity( _projectileEntityMock );
+   _arena->AddEntity( _enemyEntityMock );
+
+   EntityCollisionPayload payload;
+   EXPECT_CALL( *_enemyEntityMock, TakeCollisionPayload( _ ) ).WillOnce( DoAll( SaveArg<0>( &payload ), Return( true ) ) );
+
+   _arena->DetectEntityCollisions();
+
+   EXPECT_EQ( payload.Health, -10 );
+}
+
+TEST_F( ArenaTests, DetectEntityCollisions_EnemyCollidesWithPlayer_PlayerTakesHealthPayload )
+{
+   _arena.reset( new Arena( _arenaDefs, _worldDefs, _entityDefs, _eventAggregatorMock, _frameRateProviderMock, _entityFactoryMock ) );
+   _arena->AddEntity( _enemyEntityMock );
+   _arena->AddEntity( _playerMock );
+
+   EntityCollisionPayload payload;
+   EXPECT_CALL( *_playerMock, TakeCollisionPayload( _ ) ).WillOnce( DoAll( SaveArg<0>( &payload ), Return( true ) ) );
+
+   _arena->DetectEntityCollisions();
+
+   EXPECT_EQ( payload.Health, -5 );
+}
+
+TEST_F( ArenaTests, DetectEntityCollisions_EnemyCollidesWithProjectile_EnemyTakesHealthPayload )
+{
+   _arena.reset( new Arena( _arenaDefs, _worldDefs, _entityDefs, _eventAggregatorMock, _frameRateProviderMock, _entityFactoryMock ) );
+   _arena->AddEntity( _enemyEntityMock );
+   _arena->AddEntity( _projectileEntityMock );
+
+   EntityCollisionPayload payload;
+   EXPECT_CALL( *_enemyEntityMock, TakeCollisionPayload( _ ) ).WillOnce( DoAll( SaveArg<0>( &payload ), Return( true ) ) );
+
+   _arena->DetectEntityCollisions();
+
+   EXPECT_EQ( payload.Health, -10 );
 }

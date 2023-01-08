@@ -49,7 +49,8 @@ PlayingStateConsoleRenderer::PlayingStateConsoleRenderer( const shared_ptr<Conso
 {
    eventAggregator->RegisterEventHandler( GameEvent::StageStarted, std::bind( &PlayingStateConsoleRenderer::HandleStageStartedEvent, this ) );
    eventAggregator->RegisterEventHandler( GameEvent::Pitfall, std::bind( &PlayingStateConsoleRenderer::HandlePitfallEvent, this ) );
-   eventAggregator->RegisterEventHandler( GameEvent::TileDeath, std::bind( &PlayingStateConsoleRenderer::HandleTileDeathEvent, this ) );
+   eventAggregator->RegisterEventHandler( GameEvent::TileDeath, std::bind( &PlayingStateConsoleRenderer::HandleCollisionDeathEvent, this ) );
+   eventAggregator->RegisterEventHandler( GameEvent::CollisionDeath, std::bind( &PlayingStateConsoleRenderer::HandleCollisionDeathEvent, this ) );
 }
 
 void PlayingStateConsoleRenderer::Render()
@@ -114,7 +115,7 @@ void PlayingStateConsoleRenderer::HandlePitfallEvent()
    _pitfallAnimationElapsedSeconds = 0;
 }
 
-void PlayingStateConsoleRenderer::HandleTileDeathEvent()
+void PlayingStateConsoleRenderer::HandleCollisionDeathEvent()
 {
    const auto& hitBox = _playerInfoProvider->GetPlayerEntity()->GetHitBox();
    auto particleStartLeftChars = _playerViewportChars.Left + (short)( hitBox.Width / 2 / _renderDefs->ArenaCharWidth ) + _viewportOffsetChars.Left;

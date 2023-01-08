@@ -41,7 +41,7 @@ namespace MegaManLofi
    private:
       void HandleStageStartedEvent();
       void HandlePitfallEvent();
-      void HandleTileDeathEvent();
+      void HandleCollisionDeathEvent();
 
       void UpdateCaches();
 

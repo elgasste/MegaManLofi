@@ -216,6 +216,27 @@ shared_ptr<ConsoleSprite> ConsoleSpriteDefsGenerator::GenerateLargeHealthDropSpr
    return sprite;
 }
 
+shared_ptr<ConsoleSprite> ConsoleSpriteDefsGenerator::GenerateExtraLifeSprite( const shared_ptr<IFrameRateProvider> frameRateProvider )
+{
+   auto sprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( frameRateProvider, 0.25f ) );
+
+   ConsoleImage image0;
+   ConsoleImage image1;
+
+   image0.Width = 1;
+   image0.Height = 1;
+   image0.Pixels.push_back( { '@', true, ConsoleColor::Blue, ConsoleColor::Black } );
+
+   image1.Width = 1;
+   image1.Height = 1;
+   image1.Pixels.push_back( { '@', true, ConsoleColor::DarkBlue, ConsoleColor::Black } );
+
+   sprite->AddImage( image0 );
+   sprite->AddImage( image1 );
+
+   return sprite;
+}
+
 shared_ptr<ConsoleSprite> ConsoleSpriteDefsGenerator::GeneratePlayerThwipSprite( const shared_ptr<IFrameRateProvider> frameRateProvider )
 {
    auto thwipSprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( frameRateProvider, .05f ) );
@@ -396,6 +417,18 @@ map<int, shared_ptr<EntityConsoleSprite>> ConsoleSpriteDefsGenerator::GenerateEn
       }
    }
    entitySpriteMap[3] = largeHealthDropEntitySprite;
+
+   // extra life
+   auto extraLifeSprite = GenerateExtraLifeSprite( frameRateProvider );
+   auto extraLifeEntitySprite = make_shared<EntityConsoleSprite>();
+   for ( int i = 0; i < (int)MovementType::MovementTypeCount; i++ )
+   {
+      for ( int j = 0; j < (int)Direction::DirectionCount; j++ )
+      {
+         extraLifeEntitySprite->AddSprite( (MovementType)i, (Direction)j, extraLifeSprite );
+      }
+   }
+   entitySpriteMap[4] = extraLifeEntitySprite;
 
    return entitySpriteMap;
 }

@@ -24,6 +24,7 @@ namespace MegaManLofi
 
       virtual void Reset();
       virtual void ResetPosition();
+      virtual void ResetHealth();
 
       virtual void SetLivesRemaining( unsigned int lives ) { _livesRemaining = lives; };
       virtual void PointTo( Direction direction ) { _direction = direction; }

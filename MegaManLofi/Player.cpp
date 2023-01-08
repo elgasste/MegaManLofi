@@ -52,6 +52,11 @@ void Player::ResetPosition()
    _lastExtendJumpFrame = 0;
 }
 
+void Player::ResetHealth()
+{
+   _health = _playerDefs->MaxHealth;
+}
+
 void Player::PushTo( Direction direction )
 {
    float velocityDelta = 0;

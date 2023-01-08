@@ -30,6 +30,10 @@ public:
    MOCK_METHOD( void, SetDirection, ( MegaManLofi::Direction ), ( override ) );
    MOCK_METHOD( void, SetHitBox, ( MegaManLofi::Rectangle<float> ), ( override ) );
    MOCK_METHOD( void, SetMovementType, ( MegaManLofi::MovementType ), ( override ) );
+   MOCK_METHOD( void, SetMaxGravityVelocity, ( float ), ( override ) );
+   MOCK_METHOD( void, SetGravityAccelerationPerSecond, ( float ), ( override ) );
+   MOCK_METHOD( void, SetFrictionDecelerationPerSecond, ( float ), ( override ) );
+   MOCK_METHOD( void, SetHealth, ( unsigned int ), ( override ) );
    MOCK_METHOD( void, StopX, ( ), ( override ) );
    MOCK_METHOD( void, StopY, ( ), ( override ) );
    MOCK_METHOD( bool, TakeCollisionPayload, ( const MegaManLofi::EntityCollisionPayload& ), ( override ) );
@@ -39,6 +43,7 @@ public:
 
    MOCK_METHOD( void, Reset, ( ), ( override ) );
    MOCK_METHOD( void, ResetPosition, ( ), ( override ) );
+   MOCK_METHOD( void, ResetHealth, ( ), ( override ) );
    MOCK_METHOD( void, SetLivesRemaining, ( unsigned int ), ( override ) );
    MOCK_METHOD( void, PointTo, ( MegaManLofi::Direction ), ( override ) );
    MOCK_METHOD( void, PushTo, ( MegaManLofi::Direction ), ( override ) );

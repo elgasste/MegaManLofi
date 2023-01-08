@@ -143,6 +143,16 @@ TEST_F( PlayerTests, ResetPosition_Always_ResetsPositionPropertiesFromDefs )
    EXPECT_EQ( _player->GetMovementType(), MovementType::Airborne );
 }
 
+TEST_F( PlayerTests, ResetHealth_Always_ResetsHealthToMaximum )
+{
+   BuildPlayer();
+   _player->SetHealth( 3 );
+
+   _player->ResetHealth();
+
+   EXPECT_EQ( _player->GetHealth(), 100 );
+}
+
 TEST_F( PlayerTests, GetLivesRemaining_Always_ReturnsLivesRemaining )
 {
    BuildPlayer();

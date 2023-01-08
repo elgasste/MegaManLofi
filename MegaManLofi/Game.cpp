@@ -150,6 +150,7 @@ void Game::StartGame()
 void Game::StartStage()
 {
    _player->ResetPosition();
+   _player->ResetHealth();
 
    auto arena = _stage->GetMutableActiveArena();
    arena->Reset();
@@ -213,6 +214,7 @@ void Game::ClosePlayingMenu()
 
 void Game::HandleEnvironmentDeath()
 {
+   _player->SetHealth( 0 );
    _player->SetLivesRemaining( _player->GetLivesRemaining() - 1 );
    HandleCollisionDeath();
 }

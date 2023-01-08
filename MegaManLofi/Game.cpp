@@ -34,8 +34,9 @@ Game::Game( const shared_ptr<GameEventAggregator> eventAggregator,
    _isPaused( false ),
    _restartStageNextFrame( false )
 {
-   _eventAggregator->RegisterEventHandler( GameEvent::Pitfall, std::bind( &Game::KillPlayer, this ) );
-   _eventAggregator->RegisterEventHandler( GameEvent::TileDeath, std::bind( &Game::KillPlayer, this ) );
+   _eventAggregator->RegisterEventHandler( GameEvent::Pitfall, std::bind( &Game::HandleEnvironmentDeath, this ) );
+   _eventAggregator->RegisterEventHandler( GameEvent::TileDeath, std::bind( &Game::HandleEnvironmentDeath, this ) );
+   _eventAggregator->RegisterEventHandler( GameEvent::CollisionDeath, std::bind( &Game::HandleCollisionDeath, this ) );
    _eventAggregator->RegisterEventHandler( GameEvent::ActiveArenaChanged, std::bind( &Game::HandleActiveArenaChanged, this ) );
 }
 
@@ -209,10 +210,14 @@ void Game::ClosePlayingMenu()
    }
 }
 
-void Game::KillPlayer()
+void Game::HandleEnvironmentDeath()
 {
    _player->SetLivesRemaining( _player->GetLivesRemaining() - 1 );
+   HandleCollisionDeath();
+}
 
+void Game::HandleCollisionDeath()
+{
    if ( _player->GetLivesRemaining() > 0 )
    {
       _restartStageNextFrame = true;

@@ -29,6 +29,7 @@ shared_ptr<PlayerDefs> PlayerDefsGenerator::GeneratePlayerDefs( const shared_ptr
    playerDefs->MaxJumpExtensionSeconds = .25f;
 
    playerDefs->DefaultLives = 3;
+   playerDefs->MaxHealth = 100;
    playerDefs->DefaultDirection = Direction::Right;
    playerDefs->DefaultMovementType = MovementType::Standing;
 

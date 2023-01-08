@@ -121,6 +121,7 @@ TEST_F( GameTests, ExecuteCommand_StartStage_ResetsGameObjects )
    _game->ExecuteCommand( GameCommand::StartGame );
 
    EXPECT_CALL( *_playerMock, ResetPosition() );
+   EXPECT_CALL( *_playerMock, ResetHealth() );
    EXPECT_CALL( *_arenaMock, Reset() );
    EXPECT_CALL( *_arenaMock, SetPlayerEntity( static_pointer_cast<Entity>( _playerMock ) ) );
    EXPECT_CALL( *_arenaPhysicsMock, Reset() );
@@ -519,6 +520,7 @@ TEST_F( GameTests, Tick_RestartingStageNextFrame_ResetsGameObjects )
    eventAggregator->RaiseEvent( GameEvent::TileDeath );
 
    EXPECT_CALL( *_playerMock, ResetPosition() );
+   EXPECT_CALL( *_playerMock, ResetHealth() );
    EXPECT_CALL( *_arenaMock, Reset() );
    EXPECT_CALL( *_arenaMock, SetPlayerEntity( static_pointer_cast<Entity>( _playerMock ) ) );
    EXPECT_CALL( *_arenaPhysicsMock, Reset() );
@@ -553,6 +555,7 @@ TEST_F( GameTests, Tick_GameStateIsPlayingAndNotPaused_DoesEntityAndArenaActions
 
    EXPECT_CALL( *_entityPhysicsMock, Tick() );
    EXPECT_CALL( *_arenaPhysicsMock, Tick() );
+   EXPECT_CALL( *_arenaMock, DetectEntityCollisions() );
    EXPECT_CALL( *_arenaMock, DeSpawnInactiveEntities() );
    EXPECT_CALL( *_arenaMock, CheckSpawnPoints() );
 
@@ -564,6 +567,7 @@ TEST_F( GameTests, EventHandling_PitfallEventRaisedWithLivesLeft_DecrementsPlaye
    auto eventAggregator = make_shared<GameEventAggregator>();
    _game.reset( new Game( eventAggregator, _playerMock, _stageMock, _entityPhysicsMock, _arenaPhysicsMock, _entityFactoryMock, _entityDefs ) );
 
+   EXPECT_CALL( *_playerMock, SetHealth( 0 ) );
    EXPECT_CALL( *_playerMock, SetLivesRemaining( 4 ) );
 
    eventAggregator->RaiseEvent( GameEvent::Pitfall );
@@ -576,6 +580,8 @@ TEST_F( GameTests, EventHandling_PitfallEventRaisedWithNoLivesLeft_ChangesNextGa
    auto eventAggregator = make_shared<GameEventAggregator>();
    _game.reset( new Game( eventAggregator, _playerMock, _stageMock, _entityPhysicsMock, _arenaPhysicsMock, _entityFactoryMock, _entityDefs ) );
 
+   EXPECT_CALL( *_playerMock, SetHealth( 0 ) );
+
    eventAggregator->RaiseEvent( GameEvent::Pitfall );
    _game->Tick();
 
@@ -587,19 +593,50 @@ TEST_F( GameTests, EventHandling_TileDeathEventRaisedWithLivesLeft_DecrementsPla
    auto eventAggregator = make_shared<GameEventAggregator>();
    _game.reset( new Game( eventAggregator, _playerMock, _stageMock, _entityPhysicsMock, _arenaPhysicsMock, _entityFactoryMock, _entityDefs ) );
 
+   EXPECT_CALL( *_playerMock, SetHealth( 0 ) );
    EXPECT_CALL( *_playerMock, SetLivesRemaining( 4 ) );
 
    eventAggregator->RaiseEvent( GameEvent::TileDeath );
    _game->Tick();
 }
 
-TEST_F( GameTests, EventHandling_TileDeathEventRaised_ChangesNextGameStateToGameOver )
+TEST_F( GameTests, EventHandling_TileDeathEventRaisedWithNoLivesLeft_ChangesNextGameStateToGameOver )
 {
    ON_CALL( *_playerMock, GetLivesRemaining() ).WillByDefault( Return( 0 ) );
    auto eventAggregator = make_shared<GameEventAggregator>();
    _game.reset( new Game( eventAggregator, _playerMock, _stageMock, _entityPhysicsMock, _arenaPhysicsMock, _entityFactoryMock, _entityDefs ) );
 
+   EXPECT_CALL( *_playerMock, SetHealth( 0 ) );
+
    eventAggregator->RaiseEvent( GameEvent::TileDeath );
+   _game->Tick();
+
+   EXPECT_EQ( _game->GetGameState(), GameState::GameOver );
+}
+
+TEST_F( GameTests, EventHandling_CollisionDeathEventRaisedWithLivesLeft_RestartsStageNextFrame )
+{
+   auto eventAggregator = make_shared<GameEventAggregator>();
+   _game.reset( new Game( eventAggregator, _playerMock, _stageMock, _entityPhysicsMock, _arenaPhysicsMock, _entityFactoryMock, _entityDefs ) );
+
+   eventAggregator->RaiseEvent( GameEvent::CollisionDeath );
+
+   EXPECT_CALL( *_playerMock, ResetPosition() );
+   EXPECT_CALL( *_playerMock, ResetHealth() );
+   EXPECT_CALL( *_arenaMock, Reset() );
+   EXPECT_CALL( *_arenaMock, SetPlayerEntity( static_pointer_cast<Entity>( _playerMock ) ) );
+   EXPECT_CALL( *_arenaPhysicsMock, Reset() );
+
+   _game->Tick();
+}
+
+TEST_F( GameTests, EventHandling_CollisionDeathEventRaisedWithNoLivesLeft_ChangesNextGameStateToGameOver )
+{
+   ON_CALL( *_playerMock, GetLivesRemaining() ).WillByDefault( Return( 0 ) );
+   auto eventAggregator = make_shared<GameEventAggregator>();
+   _game.reset( new Game( eventAggregator, _playerMock, _stageMock, _entityPhysicsMock, _arenaPhysicsMock, _entityFactoryMock, _entityDefs ) );
+
+   eventAggregator->RaiseEvent( GameEvent::CollisionDeath );
    _game->Tick();
 
    EXPECT_EQ( _game->GetGameState(), GameState::GameOver );

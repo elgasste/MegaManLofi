@@ -52,7 +52,8 @@ namespace MegaManLofi
       void TogglePause();
       void OpenPlayingMenu();
       void ClosePlayingMenu();
-      void KillPlayer();
+      void HandleEnvironmentDeath();
+      void HandleCollisionDeath();
       void HandleActiveArenaChanged();
 
    private:

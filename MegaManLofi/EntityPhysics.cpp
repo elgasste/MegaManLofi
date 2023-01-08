@@ -56,7 +56,6 @@ void EntityPhysics::ApplyGravity( const shared_ptr<Entity> entity )
    }
 }
 
-// MUFFINS: test this
 void EntityPhysics::ApplyFriction( const shared_ptr<Entity> entity )
 {
    if ( entity->GetEntityType() == EntityType::Player && _frameActionRegistry->ActionFlagged( FrameAction::PlayerPushed ) )

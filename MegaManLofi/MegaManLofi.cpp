@@ -121,11 +121,11 @@ void LoadAndRun( const shared_ptr<ConsoleBuffer> consoleBuffer )
 
    // game objects
    auto entityFactory = shared_ptr<EntityFactory>( new EntityFactory( gameDefs->EntityDefs, uniqueNumberGenerator ) );
-   auto player = shared_ptr<Player>( new Player( gameDefs->PlayerDefs, frameActionRegistry, clock ) );
+   auto player = shared_ptr<Player>( new Player( gameDefs->PlayerDefs, frameActionRegistry, clock, eventAggregator ) );
    auto stage = shared_ptr<Stage>( new Stage( gameDefs->StageDefs, eventAggregator ) );
    for ( auto [arenaId, arenaDefs] : gameDefs->StageDefs->ArenaMap )
    {
-      auto arena = shared_ptr<Arena>( new Arena( arenaDefs, gameDefs->WorldDefs, eventAggregator, clock, entityFactory ) );
+      auto arena = shared_ptr<Arena>( new Arena( arenaDefs, gameDefs->WorldDefs, gameDefs->EntityDefs, eventAggregator, clock, entityFactory ) );
       arena->SetArenaId( arenaId );
       stage->AddArena( arena );
    }

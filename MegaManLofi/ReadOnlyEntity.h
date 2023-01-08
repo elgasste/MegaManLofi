@@ -27,6 +27,8 @@ namespace MegaManLofi
       virtual float GetMaxGravityVelocity() const { return _maxGravityVelocity; }
       virtual float GetGravityAccelerationPerSecond() const { return _gravityAccelerationPerSecond; }
       virtual float GetFrictionDecelerationPerSecond() const { return _frictionDecelerationPerSecond; }
+      virtual unsigned int GetHealth() const { return _health; }
+      virtual unsigned int GetMaxHealth() const { return _maxHealth; }
 
    protected:
       int _uniqueId;
@@ -41,5 +43,7 @@ namespace MegaManLofi
       float _maxGravityVelocity;
       float _gravityAccelerationPerSecond;
       float _frictionDecelerationPerSecond;
+      unsigned int _health;
+      unsigned int _maxHealth;
    };
 }

@@ -4,6 +4,7 @@
 #include "PlayerDefs.h"
 #include "FrameActionRegistry.h"
 #include "IFrameRateProvider.h"
+#include "GameEventAggregator.h"
 #include "FrameAction.h"
 #include "Rectangle.h"
 
@@ -12,10 +13,12 @@ using namespace MegaManLofi;
 
 Player::Player( const shared_ptr<PlayerDefs> playerDefs,
                 const shared_ptr<FrameActionRegistry> frameActionRegistry,
-                const shared_ptr<IFrameRateProvider> frameRateProvider ) :
+                const shared_ptr<IFrameRateProvider> frameRateProvider,
+                const shared_ptr<GameEventAggregator> eventAggregator ) :
    _playerDefs( playerDefs ),
    _frameActionRegistry( frameActionRegistry ),
-   _frameRateProvider( frameRateProvider )
+   _frameRateProvider( frameRateProvider ),
+   _eventAggregator( eventAggregator )
 {
    _uniqueId = playerDefs->DefaultUniqueId;
    _entityMetaId = playerDefs->DefaultEntityMetaId;
@@ -26,6 +29,7 @@ Player::Player( const shared_ptr<PlayerDefs> playerDefs,
    _pushAccelerationPerSecond = _playerDefs->PushAccelerationPerSecond;
    _jumpAccelerationPerSecond = _playerDefs->JumpAccelerationPerSecond;
    _maxJumpExtensionSeconds = _playerDefs->MaxJumpExtensionSeconds;
+   _maxHealth = _playerDefs->MaxHealth;
 
    Reset();
 }
@@ -33,6 +37,7 @@ Player::Player( const shared_ptr<PlayerDefs> playerDefs,
 void Player::Reset()
 {
    _livesRemaining = _playerDefs->DefaultLives;
+   _health = _maxHealth;
    ResetPosition();
 }
 
@@ -45,6 +50,11 @@ void Player::ResetPosition()
    _movementType = _playerDefs->DefaultMovementType;
    _isJumping = false;
    _lastExtendJumpFrame = 0;
+}
+
+void Player::ResetHealth()
+{
+   _health = _playerDefs->MaxHealth;
 }
 
 void Player::PushTo( Direction direction )
@@ -119,4 +129,43 @@ void Player::StopY()
 {
    _velocityY = 0;
    _isJumping = false;
+}
+
+bool Player::TakeCollisionPayload( const EntityCollisionPayload& payload )
+{
+   bool tookPayload = false;
+
+   if ( payload.Health < 0 )
+   {
+      _health = ( (unsigned int)abs( payload.Health ) >= _health ) ? 0 : _health + payload.Health;
+      tookPayload = true;
+
+      if ( _health == 0 )
+      {
+         _eventAggregator->RaiseEvent( GameEvent::CollisionDeath );
+      }
+   }
+   else if ( payload.Health > 0 && _health < _maxHealth )
+   {
+      _health = min( _health + payload.Health, _maxHealth );
+      tookPayload = true;
+   }
+
+   if ( payload.Lives < 0 )
+   {
+      _livesRemaining = ( (unsigned int)abs( payload.Lives ) >= _livesRemaining ) ? 0 : _livesRemaining + payload.Lives;
+      tookPayload = true;
+
+      if ( _livesRemaining == 0 )
+      {
+         _eventAggregator->RaiseEvent( GameEvent::CollisionDeath );
+      }
+   }
+   else if ( payload.Lives > 0 )
+   {
+      _livesRemaining += payload.Lives;
+      tookPayload = true;
+   }
+
+   return tookPayload;
 }

@@ -21,6 +21,8 @@ public:
    MOCK_METHOD( void, Reload, ( ), ( override ) );
    MOCK_METHOD( void, Reset, ( ), ( override ) );
    MOCK_METHOD( const std::shared_ptr<MegaManLofi::Entity>, GetMutableEntity, ( int ), ( const, override ) );
+   MOCK_METHOD( int, GetSpawnPointCount, ( ), ( const, override ) );
+   MOCK_METHOD( const std::shared_ptr<MegaManLofi::SpawnPoint>, GetSpawnPoint, ( int ), ( const, override ) );
    MOCK_METHOD( void, SetPlayerEntity, ( const std::shared_ptr<MegaManLofi::Entity> ), ( override ) );
    MOCK_METHOD( void, SetActiveRegion, ( MegaManLofi::Rectangle<float> ), ( override ) );
    MOCK_METHOD( void, SetDeSpawnRegion, ( MegaManLofi::Rectangle<float> ), ( override ) );
@@ -28,4 +30,5 @@ public:
    MOCK_METHOD( void, RemoveEntity, ( const std::shared_ptr<MegaManLofi::Entity> ), ( override ) );
    MOCK_METHOD( void, CheckSpawnPoints, ( ), ( override ) );
    MOCK_METHOD( void, DeSpawnInactiveEntities, ( ), ( override ) );
+   MOCK_METHOD( void, DetectEntityCollisions, ( ), ( override ) );
 };

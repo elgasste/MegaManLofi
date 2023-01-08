@@ -233,6 +233,7 @@
     <ClInclude Include="Coordinate.h" />
     <ClInclude Include="DiagnosticsConsoleRenderer.h" />
     <ClInclude Include="Direction.h" />
+    <ClInclude Include="EntityCollisionPayload.h" />
     <ClInclude Include="EntityConsoleSprite.h" />
     <ClInclude Include="EntityConsoleSpriteCopier.h" />
     <ClInclude Include="EntityDefs.h" />

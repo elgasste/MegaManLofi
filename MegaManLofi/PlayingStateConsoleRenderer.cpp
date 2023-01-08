@@ -49,7 +49,8 @@ PlayingStateConsoleRenderer::PlayingStateConsoleRenderer( const shared_ptr<Conso
 {
    eventAggregator->RegisterEventHandler( GameEvent::StageStarted, std::bind( &PlayingStateConsoleRenderer::HandleStageStartedEvent, this ) );
    eventAggregator->RegisterEventHandler( GameEvent::Pitfall, std::bind( &PlayingStateConsoleRenderer::HandlePitfallEvent, this ) );
-   eventAggregator->RegisterEventHandler( GameEvent::TileDeath, std::bind( &PlayingStateConsoleRenderer::HandleTileDeathEvent, this ) );
+   eventAggregator->RegisterEventHandler( GameEvent::TileDeath, std::bind( &PlayingStateConsoleRenderer::HandleCollisionDeathEvent, this ) );
+   eventAggregator->RegisterEventHandler( GameEvent::CollisionDeath, std::bind( &PlayingStateConsoleRenderer::HandleCollisionDeathEvent, this ) );
 }
 
 void PlayingStateConsoleRenderer::Render()
@@ -114,7 +115,7 @@ void PlayingStateConsoleRenderer::HandlePitfallEvent()
    _pitfallAnimationElapsedSeconds = 0;
 }
 
-void PlayingStateConsoleRenderer::HandleTileDeathEvent()
+void PlayingStateConsoleRenderer::HandleCollisionDeathEvent()
 {
    const auto& hitBox = _playerInfoProvider->GetPlayerEntity()->GetHitBox();
    auto particleStartLeftChars = _playerViewportChars.Left + (short)( hitBox.Width / 2 / _renderDefs->ArenaCharWidth ) + _viewportOffsetChars.Left;
@@ -261,12 +262,30 @@ void PlayingStateConsoleRenderer::DrawEntity( const shared_ptr<ReadOnlyEntity> e
 void PlayingStateConsoleRenderer::DrawStatusBar()
 {
    auto player = _playerInfoProvider->GetPlayer();
+   auto playerEntity = _playerInfoProvider->GetPlayerEntity();
    auto left = _renderDefs->ArenaStatusBarLeftChars + 2;
    auto top = _renderDefs->ArenaStatusBarTopChars;
 
    _consoleBuffer->Draw( left, top, format( "Lives:  {}", player->GetLivesRemaining() ) );
-   _consoleBuffer->Draw( left, top + 1, "Health: ||||||||||||||||||||||||||" );
-   _consoleBuffer->Draw( left + 34, top + 1, "|||||", ConsoleColor::DarkGrey );
+
+   top++;
+   _consoleBuffer->Draw( left, top, "Health: " );
+   left += 8;
+
+   int totalHealthBars = 30;
+   auto healthyBars = (int)( totalHealthBars * ( playerEntity->GetHealth() / (float)playerEntity->GetMaxHealth() ) );
+   int unHealthyBars = totalHealthBars - healthyBars;
+   
+   for ( int i = 0; i < healthyBars; i++ )
+   {
+      _consoleBuffer->Draw( left, top, '|', ConsoleColor::White );
+      left++;
+   }
+   for ( int i = 0; i < unHealthyBars; i++ )
+   {
+      _consoleBuffer->Draw( left, top, '|', ConsoleColor::DarkGrey );
+      left++;
+   }
 }
 
 void PlayingStateConsoleRenderer::DrawPauseOverlay()

@@ -27,7 +27,7 @@ TEST_F( RectangleUtilitiesTests, RectanglesIntersectF_FarUpperRightNoOffsets_Ret
 
 TEST_F( RectangleUtilitiesTests, RectanglesIntersectF_FarLowerRightNoOffsets_ReturnsFalse )
 {
-   Rectangle<float> r1 { 10, 10, 10, 10 };
+   Rectangle<float> r1 { 10, 20, 10, 10 };
    Rectangle<float> r2 { 10, 10, 10, 10 };
 
    EXPECT_FALSE( RectangleUtilities::RectanglesIntersectF( r1, 0, 0, r2, 0, 0 ) );
@@ -35,7 +35,7 @@ TEST_F( RectangleUtilitiesTests, RectanglesIntersectF_FarLowerRightNoOffsets_Ret
 
 TEST_F( RectangleUtilitiesTests, RectanglesIntersectF_FarLowerLeftNoOffsets_ReturnsFalse )
 {
-   Rectangle<float> r1 { 0, 10, 10, 10 };
+   Rectangle<float> r1 { 0, 20, 10, 10 };
    Rectangle<float> r2 { 10, 10, 10, 10 };
 
    EXPECT_FALSE( RectangleUtilities::RectanglesIntersectF( r1, 0, 0, r2, 0, 0 ) );
@@ -91,7 +91,7 @@ TEST_F( RectangleUtilitiesTests, RectanglesIntersectF_FarUpperRightWithOffsets_R
 
 TEST_F( RectangleUtilitiesTests, RectanglesIntersectF_FarLowerRightWithOffsets_ReturnsFalse )
 {
-   Rectangle<float> r1 { 10, 10, 10, 10 };
+   Rectangle<float> r1 { 10, 20, 10, 10 };
    Rectangle<float> r2 { 10, 10, 10, 10 };
 
    EXPECT_FALSE( RectangleUtilities::RectanglesIntersectF( r1, 1000, 2000, r2, 1000, 2000 ) );
@@ -99,7 +99,7 @@ TEST_F( RectangleUtilitiesTests, RectanglesIntersectF_FarLowerRightWithOffsets_R
 
 TEST_F( RectangleUtilitiesTests, RectanglesIntersectF_FarLowerLeftWithOffsets_ReturnsFalse )
 {
-   Rectangle<float> r1 { 0, 10, 10, 10 };
+   Rectangle<float> r1 { 0, 20, 10, 10 };
    Rectangle<float> r2 { 10, 10, 10, 10 };
 
    EXPECT_FALSE( RectangleUtilities::RectanglesIntersectF( r1, 1000, 2000, r2, 1000, 2000 ) );

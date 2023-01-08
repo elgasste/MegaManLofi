@@ -16,13 +16,7 @@ bool RectangleUtilities::RectanglesIntersectF( const Rectangle<float>& r1, float
    auto r2Right = r2Left + r2.Width;
    auto r2Bottom = r2Top + r2.Height;
 
-   bool leftInBounds = r1Left > r2Left && r1Right < r2Right;
-   bool rightInBounds = r1Right > r2Left && r1Right < r2Right;
-   bool topInBounds = r1Top > r2Top && r1Top < r2Bottom;
-   bool bottomInBounds = r1Bottom > r2Top && r1Bottom < r2Bottom;
-
-   return ( leftInBounds && topInBounds ) || ( rightInBounds && topInBounds ) ||
-          ( leftInBounds && bottomInBounds ) || ( rightInBounds && bottomInBounds );
+   return r1Left < r2Right && r1Right > r2Left && r1Top < r2Bottom && r1Bottom > r2Top;
 }
 
 bool RectangleUtilities::CoordinateInRectangleF( const Coordinate<float>& c, float cLeftOffset, float cTopOffset,

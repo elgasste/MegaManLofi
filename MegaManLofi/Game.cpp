@@ -163,6 +163,7 @@ void Game::StartStage()
    _eventAggregator->RaiseEvent( GameEvent::StageStarted );
 }
 
+// TODO: move this into the Player class
 void Game::Shoot()
 {
    if ( _nextState != GameState::Playing )

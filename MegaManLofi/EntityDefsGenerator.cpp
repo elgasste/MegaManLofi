@@ -18,6 +18,7 @@ shared_ptr<EntityDefs> EntityDefsGenerator::GenerateEntityDefs()
    // bullet
    entityDefs->ProjectileInfoMap[1].HitBox = { 0, 0, 10, 10 }; // player is 152 x 234
    entityDefs->ProjectileInfoMap[1].Velocity = 2'500;
+   entityDefs->ProjectileInfoMap[1].IsFriendly = true;
    entityDefs->CollisionPayloadMap[1].Health = -10;
 
    // small health drop

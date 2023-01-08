@@ -40,7 +40,7 @@ namespace MegaManLofi
       void DetectEntityMovementType( const std::shared_ptr<Entity> entity ) const;
 
       void UpdateRegions();
-      bool DetectTileDeath() const;
+      void DetectTileDeath() const;
 
    private:
       const std::shared_ptr<IFrameRateProvider> _frameRateProvider;

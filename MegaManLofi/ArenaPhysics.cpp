@@ -370,7 +370,7 @@ void ArenaPhysics::UpdateRegions()
       } );
 }
 
-bool ArenaPhysics::DetectTileDeath() const
+void ArenaPhysics::DetectTileDeath() const
 {
    auto arena = _stage->GetActiveArena();
    auto player = arena->GetPlayerEntity();
@@ -385,12 +385,10 @@ bool ArenaPhysics::DetectTileDeath() const
          if ( tile.CausesDeath )
          {
             _eventAggregator->RaiseEvent( GameEvent::TileDeath );
-            return true;
+            return;
          }
       }
    }
-
-   return false;
 }
 
 void ArenaPhysics::DetectEntityMovementType( const shared_ptr<Entity> entity ) const

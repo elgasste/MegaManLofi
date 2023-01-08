@@ -40,9 +40,9 @@ map<int, shared_ptr<ArenaDefs>> ArenaDefsGenerator::GenerateArenaDefsMap( const 
    arenaDefsMap[1]->Tiles = ArenaTileGenerator::GenerateArenaTiles( 1 );
    arenaDefsMap[1]->PlayerStartPosition = { worldDefs->TileWidth * 2, worldDefs->TileHeight * 19 };
 
-   // large health drop at 112, 24
+   // extra life at 112, 24
    arenaDefsMap[1]->SpawnPoints.push_back( SpawnPoint() );
-   arenaDefsMap[1]->SpawnPoints[0].EntityMetaId = 3;
+   arenaDefsMap[1]->SpawnPoints[0].EntityMetaId = 4;
    arenaDefsMap[1]->SpawnPoints[0].ArenaPosition = { worldDefs->TileWidth * 112, worldDefs->TileHeight * 24 };
    arenaDefsMap[1]->SpawnPoints[0].IsBoundToUniqueId = true;
 

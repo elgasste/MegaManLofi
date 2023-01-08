@@ -234,6 +234,26 @@ void Arena::PlayerPickUpItem( const shared_ptr<Entity> player, const shared_ptr<
 
 void Arena::EntityTakeHealthPayload( const shared_ptr<Entity> taker, const shared_ptr<Entity> giver )
 {
+   if ( giver->GetEntityType() == EntityType::Projectile )
+   {
+      auto isFriendly = _entityDefs->ProjectileInfoMap[giver->GetEntityMetaId()].IsFriendly;
+
+      if ( taker->GetEntityType() == EntityType::Player ) // friendly projectiles only hurt enemies
+      {
+         if ( isFriendly )
+         {
+            return;
+         }
+      }
+      else // un-friendly projectiles only hurt the player
+      {
+         if ( !isFriendly )
+         {
+            return;
+         }
+      }
+   }
+
    const auto& payload = _entityDefs->CollisionPayloadMap[giver->GetEntityMetaId()];
    taker->TakeCollisionPayload( payload );
 

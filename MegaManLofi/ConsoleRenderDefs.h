@@ -57,11 +57,13 @@ namespace MegaManLofi
       ConsoleImage TitleBuildingImage;
       ConsoleImage TitleStartMessageImage;
       ConsoleImage TitleStarImage;
-
       ConsoleImage PlayingMenuPlayerImage;
 
       float PlayerThwipVelocity = 0;
       float PlayerPostThwipDelaySeconds = 0;
+
+      float MinStarVelocity = 0;
+      float MaxStarVelocity = 0;
 
       short TitleTextLeftChars = 0;
       short TitleTextTopChars = 0;
@@ -76,8 +78,6 @@ namespace MegaManLofi
       short TitleKeyBindingsMiddleXChars = 0;
       short TitleKeyBindingsTopChars = 0;
       int TitleStarCount = 0;
-      float MinTitleStarVelocity = 0;
-      float MaxTitleStarVelocity = 0;
 
       float GetReadyAnimationSeconds = 0;
 

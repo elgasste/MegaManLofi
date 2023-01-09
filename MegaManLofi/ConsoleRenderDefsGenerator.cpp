@@ -62,6 +62,9 @@ shared_ptr<IGameRenderDefs> ConsoleRenderDefsGenerator::GenerateConsoleRenderDef
    renderDefs->PlayerThwipVelocity = 5'000;
    renderDefs->PlayerPostThwipDelaySeconds = 1;
 
+   renderDefs->MinStarVelocity = 500;
+   renderDefs->MaxStarVelocity = 1'500;
+
    renderDefs->TitleTextLeftChars = 6;
    renderDefs->TitleTextTopChars = 1;
    renderDefs->TitleSubTextLeftChars = renderDefs->TitleTextLeftChars + renderDefs->TitleTextImage.Width;
@@ -75,8 +78,6 @@ shared_ptr<IGameRenderDefs> ConsoleRenderDefsGenerator::GenerateConsoleRenderDef
    renderDefs->TitleKeyBindingsMiddleXChars = 25;
    renderDefs->TitleKeyBindingsTopChars = renderDefs->TitleTextTopChars + renderDefs->TitleTextImage.Height + 3;
    renderDefs->TitleStarCount = 20;
-   renderDefs->MinTitleStarVelocity = 500;
-   renderDefs->MaxTitleStarVelocity = 1'500;
 
    renderDefs->GetReadyAnimationSeconds = 2;
 
@@ -85,20 +86,22 @@ shared_ptr<IGameRenderDefs> ConsoleRenderDefsGenerator::GenerateConsoleRenderDef
 
    renderDefs->PlayingMenuPlayerImage = MenuImageGenerator::GeneratePlayerImage();
 
+   // TODO: move these into a sub-generator
+
    // ground that is impassable in all directions
    renderDefs->ArenaImageMap[0].Width = 1;
    renderDefs->ArenaImageMap[0].Height = 1;
-   renderDefs->ArenaImageMap[0].Pixels.push_back( { 'X', true, ConsoleColor::Yellow, ConsoleColor::Black } );
+   renderDefs->ArenaImageMap[0].Pixels.push_back( { 'Z', true, ConsoleColor::DarkYellow, ConsoleColor::Black } );
 
    // ground that is only impassable downward
    renderDefs->ArenaImageMap[1].Width = 1;
    renderDefs->ArenaImageMap[1].Height = 1;
-   renderDefs->ArenaImageMap[1].Pixels.push_back( { '-', true, ConsoleColor::Yellow, ConsoleColor::Black } );
+   renderDefs->ArenaImageMap[1].Pixels.push_back( { '-', true, ConsoleColor::DarkYellow, ConsoleColor::Black } );
 
    // spike that is only impassable upward
    renderDefs->ArenaImageMap[2].Width = 1;
    renderDefs->ArenaImageMap[2].Height = 1;
-   renderDefs->ArenaImageMap[2].Pixels.push_back( { '+', true, ConsoleColor::Red, ConsoleColor::Black } );
+   renderDefs->ArenaImageMap[2].Pixels.push_back( { '*', true, ConsoleColor::Magenta, ConsoleColor::Black } );
 
    renderDefs->ArenaTileImageIdMap = ArenaImageGenerator::GenerateArenaTileImageIdMap( stageDefs );
 

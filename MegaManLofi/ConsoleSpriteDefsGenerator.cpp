@@ -59,7 +59,7 @@ shared_ptr<ConsoleSprite> ConsoleSpriteDefsGenerator::GeneratePlayerStandingSpri
 
    auto sprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( frameRateProvider, 0 ) );
    ConsoleImage image = { 4, 3 };
-   for ( int i = 0; i < (int)chars.size(); i++ ) { image.Pixels.push_back( { chars[i], true, ConsoleColor::Cyan, ConsoleColor::Black } ); }
+   for ( int i = 0; i < (int)chars.size(); i++ ) { image.Pixels.push_back( { chars[i], true, ConsoleColor::Blue, ConsoleColor::Black } ); }
    sprite->AddImage( image );
 
    return sprite;
@@ -112,8 +112,8 @@ shared_ptr<ConsoleSprite> ConsoleSpriteDefsGenerator::GeneratePlayerWalkingSprit
    auto sprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( frameRateProvider, .15f ) );
    ConsoleImage image1 = { 4, 3 };
    ConsoleImage image2 = { 4, 3 };
-   for ( int i = 0; i < (int)chars1.size(); i++ ) { image1.Pixels.push_back( { chars1[i], true, ConsoleColor::Cyan, ConsoleColor::Black } ); }
-   for ( int i = 0; i < (int)chars2.size(); i++ ) { image2.Pixels.push_back( { chars2[i], true, ConsoleColor::Cyan, ConsoleColor::Black } ); }
+   for ( int i = 0; i < (int)chars1.size(); i++ ) { image1.Pixels.push_back( { chars1[i], true, ConsoleColor::Blue, ConsoleColor::Black } ); }
+   for ( int i = 0; i < (int)chars2.size(); i++ ) { image2.Pixels.push_back( { chars2[i], true, ConsoleColor::Blue, ConsoleColor::Black } ); }
    sprite->AddImage( image1 );
    sprite->AddImage( image2 );
 
@@ -153,7 +153,7 @@ shared_ptr<ConsoleSprite> ConsoleSpriteDefsGenerator::GeneratePlayerAirborneSpri
 
    auto sprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( frameRateProvider, 0 ) );
    ConsoleImage image = { 4, 3 };
-   for ( int i = 0; i < (int)chars.size(); i++ ) { image.Pixels.push_back( { chars[i], true, ConsoleColor::Cyan, ConsoleColor::Black } ); }
+   for ( int i = 0; i < (int)chars.size(); i++ ) { image.Pixels.push_back( { chars[i], true, ConsoleColor::Blue, ConsoleColor::Black } ); }
    sprite->AddImage( image );
 
    return sprite;
@@ -167,7 +167,7 @@ shared_ptr<ConsoleSprite> ConsoleSpriteDefsGenerator::GenerateBulletSprite( cons
 
    bulletImage.Width = 1;
    bulletImage.Height = 1;
-   bulletImage.Pixels.push_back( { 'o', true, ConsoleColor::White, ConsoleColor::Black } );
+   bulletImage.Pixels.push_back( { 'o', true, ConsoleColor::Yellow, ConsoleColor::Black } );
 
    sprite->AddImage( bulletImage );
 

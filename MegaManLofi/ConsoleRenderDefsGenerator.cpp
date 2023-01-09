@@ -100,7 +100,7 @@ shared_ptr<IGameRenderDefs> ConsoleRenderDefsGenerator::GenerateConsoleRenderDef
    // spike that is only impassable upward
    renderDefs->ArenaImageMap[2].Width = 1;
    renderDefs->ArenaImageMap[2].Height = 1;
-   renderDefs->ArenaImageMap[2].Pixels.push_back( { '*', true, ConsoleColor::Red, ConsoleColor::Black } );
+   renderDefs->ArenaImageMap[2].Pixels.push_back( { '*', true, ConsoleColor::Magenta, ConsoleColor::Black } );
 
    renderDefs->ArenaTileImageIdMap = ArenaImageGenerator::GenerateArenaTileImageIdMap( stageDefs );
 

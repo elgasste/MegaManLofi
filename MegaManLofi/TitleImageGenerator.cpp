@@ -67,7 +67,7 @@ ConsoleImage TitleImageGenerator::GeneratePlayerImage()
 
    for ( int i = 0; i < (int)content.size(); i++ )
    {
-      image.Pixels.push_back( { content[i], true, ConsoleColor::Cyan, ConsoleColor::Black } );
+      image.Pixels.push_back( { content[i], true, ConsoleColor::Blue, ConsoleColor::Black } );
    }
 
    return image;

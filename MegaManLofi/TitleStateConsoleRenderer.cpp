@@ -36,8 +36,7 @@ TitleStateConsoleRenderer::TitleStateConsoleRenderer( const shared_ptr<ConsoleBu
    {
       _starCoordinates.push_back( { (float)random->GetUnsignedInt( 0, (unsigned int)( ( renderDefs->ConsoleWidthChars - 1 ) * renderDefs->ArenaCharWidth ) ),
                                     (float)random->GetUnsignedInt( 0, (unsigned int)( ( renderDefs->ConsoleHeightChars - 1 ) * renderDefs->ArenaCharHeight ) ) } );
-      _starVelocities.push_back( (float)random->GetUnsignedInt( (unsigned int)renderDefs->MinTitleStarVelocity,
-                                                                (unsigned int)renderDefs->MaxTitleStarVelocity ) );
+      _starVelocities.push_back( (float)random->GetUnsignedInt( (unsigned int)renderDefs->MinStarVelocity, (unsigned int)renderDefs->MaxStarVelocity ) );
    }
 
    _eventAggregator->RegisterEventHandler( GameEvent::GameStarted, std::bind( &TitleStateConsoleRenderer::HandleGameStartedEvent, this ) );
@@ -94,7 +93,7 @@ void TitleStateConsoleRenderer::DrawStars()
       if ( _starCoordinates[i].Left >= ( _renderDefs->ArenaCharWidth * _renderDefs->ConsoleWidthChars ) )
       {
          _starCoordinates[i] = { 0, (float)_random->GetUnsignedInt( 0, (unsigned int)( ( _renderDefs->ConsoleHeightChars - 1 ) * _renderDefs->ArenaCharHeight ) ) };
-         _starVelocities[i] = (float)_random->GetUnsignedInt( (unsigned int)_renderDefs->MinTitleStarVelocity, (unsigned int)_renderDefs->MaxTitleStarVelocity );
+         _starVelocities[i] = (float)_random->GetUnsignedInt( (unsigned int)_renderDefs->MinStarVelocity, (unsigned int)_renderDefs->MaxStarVelocity );
       }
    }
 }

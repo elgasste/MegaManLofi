@@ -62,6 +62,9 @@ shared_ptr<IGameRenderDefs> ConsoleRenderDefsGenerator::GenerateConsoleRenderDef
    renderDefs->PlayerThwipVelocity = 5'000;
    renderDefs->PlayerPostThwipDelaySeconds = 1;
 
+   renderDefs->MinStarVelocity = 500;
+   renderDefs->MaxStarVelocity = 1'500;
+
    renderDefs->TitleTextLeftChars = 6;
    renderDefs->TitleTextTopChars = 1;
    renderDefs->TitleSubTextLeftChars = renderDefs->TitleTextLeftChars + renderDefs->TitleTextImage.Width;
@@ -75,8 +78,6 @@ shared_ptr<IGameRenderDefs> ConsoleRenderDefsGenerator::GenerateConsoleRenderDef
    renderDefs->TitleKeyBindingsMiddleXChars = 25;
    renderDefs->TitleKeyBindingsTopChars = renderDefs->TitleTextTopChars + renderDefs->TitleTextImage.Height + 3;
    renderDefs->TitleStarCount = 20;
-   renderDefs->MinTitleStarVelocity = 500;
-   renderDefs->MaxTitleStarVelocity = 1'500;
 
    renderDefs->GetReadyAnimationSeconds = 2;
 

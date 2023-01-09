@@ -167,7 +167,7 @@ shared_ptr<ConsoleSprite> ConsoleSpriteDefsGenerator::GenerateBulletSprite( cons
 
    bulletImage.Width = 1;
    bulletImage.Height = 1;
-   bulletImage.Pixels.push_back( { 'o', true, ConsoleColor::White, ConsoleColor::Black } );
+   bulletImage.Pixels.push_back( { 'o', true, ConsoleColor::Yellow, ConsoleColor::Black } );
 
    sprite->AddImage( bulletImage );
 

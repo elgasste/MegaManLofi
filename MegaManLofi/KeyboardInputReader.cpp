@@ -36,7 +36,7 @@ void KeyboardInputReader::ReadInput()
    {
       bool buttonIsDown = false;
 
-      for ( auto keyCode : keyCodes )
+      for ( const auto& keyCode : keyCodes )
       {
          if ( _keyboard->IsKeyDown( keyCode ) )
          {

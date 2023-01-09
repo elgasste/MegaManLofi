@@ -42,7 +42,7 @@ void Arena::Reload()
    _playerEntity = nullptr;
 
    _spawnPoints.clear();
-   for ( auto spawnPoint : _arenaDefs->SpawnPoints )
+   for ( const auto& spawnPoint : _arenaDefs->SpawnPoints )
    {
       _spawnPoints.push_back( shared_ptr<SpawnPoint>( new SpawnPoint( spawnPoint ) ) );
    }
@@ -54,7 +54,7 @@ void Arena::Reset()
    _eventAggregator->RaiseEvent( GameEvent::ArenaEntitiesCleared );
    _playerEntity = nullptr;
 
-   for ( auto spawnPoint : _spawnPoints )
+   for ( auto& spawnPoint : _spawnPoints )
    {
       spawnPoint->IsActive = false;
    }
@@ -91,7 +91,7 @@ void Arena::RemoveEntity( const std::shared_ptr<Entity> entity )
 
 void Arena::CheckSpawnPoints()
 {
-   for ( auto spawnPoint : _spawnPoints )
+   for ( auto& spawnPoint : _spawnPoints )
    {
       auto spawnPosition = spawnPoint->ArenaPosition;
 
@@ -220,7 +220,7 @@ void Arena::PlayerPickUpItem( const shared_ptr<Entity> player, const shared_ptr<
 
    if ( player->TakeCollisionPayload( payload ) )
    {
-      for ( auto spawnPoint : _spawnPoints )
+      for ( auto& spawnPoint : _spawnPoints )
       {
          if ( spawnPoint->IsBoundToUniqueId && spawnPoint->UniqueIdBinding == item->GetUniqueId() )
          {

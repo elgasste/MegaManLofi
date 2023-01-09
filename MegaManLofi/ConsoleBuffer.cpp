@@ -194,7 +194,7 @@ void ConsoleBuffer::Draw( short left, short top, const ConsoleImage& image )
 {
    int i = 0, j = 0;
 
-   for ( auto pixel : image.Pixels )
+   for ( const auto& pixel : image.Pixels )
    {
       if ( pixel.HasTransparency )
       {

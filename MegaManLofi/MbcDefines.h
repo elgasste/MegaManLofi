@@ -3,7 +3,7 @@
 typedef unsigned int mbc_instruction;
 typedef unsigned char mbc_command;
 
-#define MBC_REGISTERS   8
+#define MBC_REGISTERS      8
 
 // command/arg masks
 #define MBC_CMD_MASK       0xFF000000  // 8 bits for the command

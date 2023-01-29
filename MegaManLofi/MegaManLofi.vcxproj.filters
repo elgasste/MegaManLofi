@@ -82,6 +82,9 @@
     <Filter Include="Header Files\AI">
       <UniqueIdentifier>{dc3b4d49-f6dd-43ac-b426-c23d2988f6ae}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\AI">
+      <UniqueIdentifier>{9d704ba9-d5c4-489a-b1c7-f6abb01380a6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MegaManLofi.cpp">
@@ -263,6 +266,9 @@
     </ClCompile>
     <ClCompile Include="EntityPhysics.cpp">
       <Filter>Source Files\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="MbcVirtualMachine.cpp">
+      <Filter>Source Files\AI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -616,6 +622,15 @@
     </ClInclude>
     <ClInclude Include="MbcDefines.h">
       <Filter>Header Files\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="MbcVirtualMachine.h">
+      <Filter>Header Files\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="MathOp.h">
+      <Filter>Header Files\DataTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="ConditionOp.h">
+      <Filter>Header Files\DataTypes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

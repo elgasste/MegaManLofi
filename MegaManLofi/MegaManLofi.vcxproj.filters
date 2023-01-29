@@ -79,6 +79,9 @@
     <Filter Include="Source Files\Physics">
       <UniqueIdentifier>{510ade20-7d9f-4f32-8fdc-e979fb3bd212}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\AI">
+      <UniqueIdentifier>{dc3b4d49-f6dd-43ac-b426-c23d2988f6ae}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MegaManLofi.cpp">
@@ -610,6 +613,9 @@
     </ClInclude>
     <ClInclude Include="EntityCollisionPayload.h">
       <Filter>Header Files\DataTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="MbcDefines.h">
+      <Filter>Header Files\AI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

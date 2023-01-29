@@ -288,6 +288,7 @@
     <ClInclude Include="IKeyboard.h" />
     <ClInclude Include="KeyboardInputReader.h" />
     <ClInclude Include="KeyCode.h" />
+    <ClInclude Include="MbcDefines.h" />
     <ClInclude Include="MenuRepository.h" />
     <ClInclude Include="MenuImageGenerator.h" />
     <ClInclude Include="MenuType.h" />

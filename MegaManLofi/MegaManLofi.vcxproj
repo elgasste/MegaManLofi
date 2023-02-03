@@ -171,6 +171,7 @@
     <ClCompile Include="GameOverStateConsoleRenderer.cpp" />
     <ClCompile Include="GameOverStateInputHandler.cpp" />
     <ClCompile Include="KeyboardInputDefsGenerator.cpp" />
+    <ClCompile Include="MbcAsmCompiler.cpp" />
     <ClCompile Include="MbcVirtualMachine.cpp" />
     <ClCompile Include="MegaManLofi.cpp" />
     <ClCompile Include="DiagnosticsConsoleRenderer.cpp" />
@@ -293,6 +294,8 @@
     <ClInclude Include="KeyboardInputReader.h" />
     <ClInclude Include="KeyCode.h" />
     <ClInclude Include="MathOp.h" />
+    <ClInclude Include="MbcAsmCollections.h" />
+    <ClInclude Include="MbcAsmCompiler.h" />
     <ClInclude Include="MbcAsmDefines.h" />
     <ClInclude Include="MbcDefines.h" />
     <ClInclude Include="MbcVirtualMachine.h" />

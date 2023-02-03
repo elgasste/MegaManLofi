@@ -88,6 +88,9 @@
     <Filter Include="Header Files\MbcAsm">
       <UniqueIdentifier>{48eba8b8-1aa8-4706-9151-9ff6be92054e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\MbcAsm">
+      <UniqueIdentifier>{22b2e139-43eb-48c3-8a4f-7ffe972a267b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MegaManLofi.cpp">
@@ -275,6 +278,9 @@
     </ClCompile>
     <ClCompile Include="StringUtilities.cpp">
       <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="MbcAsmCompiler.cpp">
+      <Filter>Source Files\MbcAsm</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -646,6 +652,12 @@
     </ClInclude>
     <ClInclude Include="StringUtilities.h">
       <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="MbcAsmCompiler.h">
+      <Filter>Header Files\MbcAsm</Filter>
+    </ClInclude>
+    <ClInclude Include="MbcAsmCollections.h">
+      <Filter>Header Files\MbcAsm</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

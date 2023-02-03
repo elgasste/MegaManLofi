@@ -94,6 +94,11 @@
     <ClCompile Include="EntityPhysicsTests.cpp">
       <Filter>Tests\Physics</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\gtest-all.cc" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\gmock-all.cc" />
+    <ClCompile Include="StringUtilitiesTests.cpp">
+      <Filter>Tests\Utilities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="mock_GameEventAggregator.h">

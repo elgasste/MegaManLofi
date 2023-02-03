@@ -204,6 +204,7 @@
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="StageDefsGenerator.cpp" />
     <ClCompile Include="StageStartedConsoleAnimation.cpp" />
+    <ClCompile Include="StringUtilities.cpp" />
     <ClCompile Include="TitleStateConsoleRenderer.cpp" />
     <ClCompile Include="TitleStateInputHandler.cpp" />
     <ClCompile Include="ThreadWrapper.cpp" />
@@ -326,6 +327,7 @@
     <ClInclude Include="StageDefs.h" />
     <ClInclude Include="StageDefsGenerator.h" />
     <ClInclude Include="StageStartedConsoleAnimation.h" />
+    <ClInclude Include="StringUtilities.h" />
     <ClInclude Include="TitleStateInputHandler.h" />
     <ClInclude Include="TitleStateConsoleRenderer.h" />
     <ClInclude Include="ThreadWrapper.h" />

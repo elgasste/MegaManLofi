@@ -273,6 +273,9 @@
     <ClCompile Include="MbcVirtualMachine.cpp">
       <Filter>Source Files\AI</Filter>
     </ClCompile>
+    <ClCompile Include="StringUtilities.cpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameRunner.h">
@@ -640,6 +643,9 @@
     </ClInclude>
     <ClInclude Include="MbcAsmDefines.h">
       <Filter>Header Files\MbcAsm</Filter>
+    </ClInclude>
+    <ClInclude Include="StringUtilities.h">
+      <Filter>Header Files\Utilities</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -221,6 +221,7 @@
     <ClInclude Include="ArenaTileGenerator.h" />
     <ClInclude Include="ArenaPhysics.h" />
     <ClInclude Include="ArenaTile.h" />
+    <ClInclude Include="ConditionalInfo.h" />
     <ClInclude Include="ConditionOp.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="ConsoleAnimationRepository.h" />

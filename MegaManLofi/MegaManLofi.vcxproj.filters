@@ -638,5 +638,8 @@
     <ClInclude Include="ConditionalInfo.h">
       <Filter>Header Files\MbcAsm</Filter>
     </ClInclude>
+    <ClInclude Include="MbcAsmDefines.h">
+      <Filter>Header Files\MbcAsm</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

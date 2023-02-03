@@ -292,6 +292,7 @@
     <ClInclude Include="KeyboardInputReader.h" />
     <ClInclude Include="KeyCode.h" />
     <ClInclude Include="MathOp.h" />
+    <ClInclude Include="MbcAsmDefines.h" />
     <ClInclude Include="MbcDefines.h" />
     <ClInclude Include="MbcVirtualMachine.h" />
     <ClInclude Include="MenuRepository.h" />

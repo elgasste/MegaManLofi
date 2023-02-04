@@ -171,6 +171,8 @@
     <ClCompile Include="GameOverStateConsoleRenderer.cpp" />
     <ClCompile Include="GameOverStateInputHandler.cpp" />
     <ClCompile Include="KeyboardInputDefsGenerator.cpp" />
+    <ClCompile Include="MbcAsmCompiler.cpp" />
+    <ClCompile Include="MbcVirtualMachine.cpp" />
     <ClCompile Include="MegaManLofi.cpp" />
     <ClCompile Include="DiagnosticsConsoleRenderer.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -203,6 +205,7 @@
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="StageDefsGenerator.cpp" />
     <ClCompile Include="StageStartedConsoleAnimation.cpp" />
+    <ClCompile Include="StringUtilities.cpp" />
     <ClCompile Include="TitleStateConsoleRenderer.cpp" />
     <ClCompile Include="TitleStateInputHandler.cpp" />
     <ClCompile Include="ThreadWrapper.cpp" />
@@ -220,6 +223,8 @@
     <ClInclude Include="ArenaTileGenerator.h" />
     <ClInclude Include="ArenaPhysics.h" />
     <ClInclude Include="ArenaTile.h" />
+    <ClInclude Include="ConditionalInfo.h" />
+    <ClInclude Include="ConditionOp.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="ConsoleAnimationRepository.h" />
     <ClInclude Include="ConsoleAnimationType.h" />
@@ -288,6 +293,12 @@
     <ClInclude Include="IKeyboard.h" />
     <ClInclude Include="KeyboardInputReader.h" />
     <ClInclude Include="KeyCode.h" />
+    <ClInclude Include="MathOp.h" />
+    <ClInclude Include="MbcAsmCollections.h" />
+    <ClInclude Include="MbcAsmCompiler.h" />
+    <ClInclude Include="MbcAsmDefines.h" />
+    <ClInclude Include="MbcDefines.h" />
+    <ClInclude Include="MbcVirtualMachine.h" />
     <ClInclude Include="MenuRepository.h" />
     <ClInclude Include="MenuImageGenerator.h" />
     <ClInclude Include="MenuType.h" />
@@ -319,6 +330,7 @@
     <ClInclude Include="StageDefs.h" />
     <ClInclude Include="StageDefsGenerator.h" />
     <ClInclude Include="StageStartedConsoleAnimation.h" />
+    <ClInclude Include="StringUtilities.h" />
     <ClInclude Include="TitleStateInputHandler.h" />
     <ClInclude Include="TitleStateConsoleRenderer.h" />
     <ClInclude Include="ThreadWrapper.h" />

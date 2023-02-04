@@ -79,6 +79,18 @@
     <Filter Include="Source Files\Physics">
       <UniqueIdentifier>{510ade20-7d9f-4f32-8fdc-e979fb3bd212}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\AI">
+      <UniqueIdentifier>{dc3b4d49-f6dd-43ac-b426-c23d2988f6ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\AI">
+      <UniqueIdentifier>{9d704ba9-d5c4-489a-b1c7-f6abb01380a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\MbcAsm">
+      <UniqueIdentifier>{48eba8b8-1aa8-4706-9151-9ff6be92054e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\MbcAsm">
+      <UniqueIdentifier>{22b2e139-43eb-48c3-8a4f-7ffe972a267b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MegaManLofi.cpp">
@@ -260,6 +272,15 @@
     </ClCompile>
     <ClCompile Include="EntityPhysics.cpp">
       <Filter>Source Files\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="MbcVirtualMachine.cpp">
+      <Filter>Source Files\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="StringUtilities.cpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="MbcAsmCompiler.cpp">
+      <Filter>Source Files\MbcAsm</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -610,6 +631,33 @@
     </ClInclude>
     <ClInclude Include="EntityCollisionPayload.h">
       <Filter>Header Files\DataTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="MbcDefines.h">
+      <Filter>Header Files\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="MbcVirtualMachine.h">
+      <Filter>Header Files\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="MathOp.h">
+      <Filter>Header Files\DataTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="ConditionOp.h">
+      <Filter>Header Files\DataTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="ConditionalInfo.h">
+      <Filter>Header Files\MbcAsm</Filter>
+    </ClInclude>
+    <ClInclude Include="MbcAsmDefines.h">
+      <Filter>Header Files\MbcAsm</Filter>
+    </ClInclude>
+    <ClInclude Include="StringUtilities.h">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="MbcAsmCompiler.h">
+      <Filter>Header Files\MbcAsm</Filter>
+    </ClInclude>
+    <ClInclude Include="MbcAsmCollections.h">
+      <Filter>Header Files\MbcAsm</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

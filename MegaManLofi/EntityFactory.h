@@ -22,6 +22,7 @@ namespace MegaManLofi
 
    private:
       void SetProjectileInfo( const std::shared_ptr<Entity> projectile, Direction direction ) const;
+      void SetEnemyInfo( const std::shared_ptr<Entity> enemy ) const;
 
    private:
       const std::shared_ptr<EntityDefs> _entityDefs;

@@ -10,7 +10,7 @@
 
 namespace MegaManLofi
 {
-   class IBehavior;
+   class EntityBehavior;
 
    class EntityDefs
    {
@@ -21,7 +21,7 @@ namespace MegaManLofi
       std::map<int, ItemInfo> ItemInfoMap;
       std::map<int, ProjectileInfo> ProjectileInfoMap;
 
-      std::map<int, std::shared_ptr<IBehavior>> EntityBehaviorMap;
+      std::map<int, std::shared_ptr<EntityBehavior>> EntityBehaviorMap;
       std::map<int, EntityCollisionPayload> CollisionPayloadMap;
    };
 }

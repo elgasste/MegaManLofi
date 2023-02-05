@@ -73,6 +73,26 @@ TEST_F( EnemyBehaviorTests, Tick_GetPlayerPositionTopCommand_GetsPlayerPositionT
    _behavior->Tick();
 }
 
+TEST_F( EnemyBehaviorTests, Tick_GetPlayerVelocityXCommand_GetsPlayerVelocityX )
+{
+   auto instruction = (mbc_instruction)( MBCGET_PLAYERVELX << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
+   _behavior->SetInstructions( vector<mbc_instruction> { instruction } );
+
+   EXPECT_CALL( *_playerEntityMock, GetVelocityX() );
+
+   _behavior->Tick();
+}
+
+TEST_F( EnemyBehaviorTests, Tick_GetPlayerVelocityYCommand_GetsPlayerVelocityY )
+{
+   auto instruction = (mbc_instruction)( MBCGET_PLAYERVELY << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
+   _behavior->SetInstructions( vector<mbc_instruction> { instruction } );
+
+   EXPECT_CALL( *_playerEntityMock, GetVelocityY() );
+
+   _behavior->Tick();
+}
+
 TEST_F( EnemyBehaviorTests, Tick_SetEnemyVelocityXCommand_SetsEnemyVelocityX )
 {
    vector<mbc_instruction> instructions

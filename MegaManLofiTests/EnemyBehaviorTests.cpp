@@ -55,7 +55,7 @@ TEST_F( EnemyBehaviorTests, Tick_GetFrameSecondsCommand_GetsFrameSeconds )
 
 TEST_F( EnemyBehaviorTests, Tick_GetPlayerPositionLeftCommand_GetsPlayerPositionLeft )
 {
-   auto instruction = (mbc_instruction)( MBCGET_PLAYERPOSL << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
+   auto instruction = (mbc_instruction)( MBCGET_PLRPOSL << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
    _behavior->SetInstructions( vector<mbc_instruction> { instruction } );
 
    EXPECT_CALL( *_playerEntityMock, GetArenaPositionLeft() );
@@ -65,7 +65,7 @@ TEST_F( EnemyBehaviorTests, Tick_GetPlayerPositionLeftCommand_GetsPlayerPosition
 
 TEST_F( EnemyBehaviorTests, Tick_GetPlayerPositionTopCommand_GetsPlayerPositionTop )
 {
-   auto instruction = (mbc_instruction)( MBCGET_PLAYERPOST << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
+   auto instruction = (mbc_instruction)( MBCGET_PLRPOST << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
    _behavior->SetInstructions( vector<mbc_instruction> { instruction } );
 
    EXPECT_CALL( *_playerEntityMock, GetArenaPositionTop() );
@@ -75,7 +75,7 @@ TEST_F( EnemyBehaviorTests, Tick_GetPlayerPositionTopCommand_GetsPlayerPositionT
 
 TEST_F( EnemyBehaviorTests, Tick_GetPlayerVelocityXCommand_GetsPlayerVelocityX )
 {
-   auto instruction = (mbc_instruction)( MBCGET_PLAYERVELX << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
+   auto instruction = (mbc_instruction)( MBCGET_PLRVELX << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
    _behavior->SetInstructions( vector<mbc_instruction> { instruction } );
 
    EXPECT_CALL( *_playerEntityMock, GetVelocityX() );
@@ -85,7 +85,7 @@ TEST_F( EnemyBehaviorTests, Tick_GetPlayerVelocityXCommand_GetsPlayerVelocityX )
 
 TEST_F( EnemyBehaviorTests, Tick_GetPlayerVelocityYCommand_GetsPlayerVelocityY )
 {
-   auto instruction = (mbc_instruction)( MBCGET_PLAYERVELY << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
+   auto instruction = (mbc_instruction)( MBCGET_PLRVELY << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
    _behavior->SetInstructions( vector<mbc_instruction> { instruction } );
 
    EXPECT_CALL( *_playerEntityMock, GetVelocityY() );
@@ -95,10 +95,30 @@ TEST_F( EnemyBehaviorTests, Tick_GetPlayerVelocityYCommand_GetsPlayerVelocityY )
 
 TEST_F( EnemyBehaviorTests, Tick_GetPlayerDirectionCommand_GetsPlayerDirection )
 {
-   auto instruction = (mbc_instruction)( MBCGET_PLAYERDIR << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
+   auto instruction = (mbc_instruction)( MBCGET_PLRDIR << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
    _behavior->SetInstructions( vector<mbc_instruction> { instruction } );
 
    EXPECT_CALL( *_playerEntityMock, GetDirection() );
+
+   _behavior->Tick();
+}
+
+TEST_F( EnemyBehaviorTests, Tick_GetPlayerHealthCommand_GetsPlayerHealth )
+{
+   auto instruction = (mbc_instruction)( MBCGET_PLRHTH << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
+   _behavior->SetInstructions( vector<mbc_instruction> { instruction } );
+
+   EXPECT_CALL( *_playerEntityMock, GetHealth() );
+
+   _behavior->Tick();
+}
+
+TEST_F( EnemyBehaviorTests, Tick_GetPlayerMaxHealthCommand_GetsPlayerMaxHealth )
+{
+   auto instruction = (mbc_instruction)( MBCGET_PLRMXHTH << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
+   _behavior->SetInstructions( vector<mbc_instruction> { instruction } );
+
+   EXPECT_CALL( *_playerEntityMock, GetMaxHealth() );
 
    _behavior->Tick();
 }
@@ -149,6 +169,26 @@ TEST_F( EnemyBehaviorTests, Tick_GetEnemyDirectionCommand_GetsEnemyDirection )
    _behavior->SetInstructions( vector<mbc_instruction> { instruction } );
 
    EXPECT_CALL( *_enemyMock, GetDirection() );
+
+   _behavior->Tick();
+}
+
+TEST_F( EnemyBehaviorTests, Tick_GetEnemyHealthCommand_GetsEnemyHealth )
+{
+   auto instruction = (mbc_instruction)( MBCGET_ENTHTH << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
+   _behavior->SetInstructions( vector<mbc_instruction> { instruction } );
+
+   EXPECT_CALL( *_enemyMock, GetHealth() );
+
+   _behavior->Tick();
+}
+
+TEST_F( EnemyBehaviorTests, Tick_GetEnemyMaxHealthCommand_GetsEnemyMaxHealth )
+{
+   auto instruction = (mbc_instruction)( MBCGET_ENTMXHTH << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
+   _behavior->SetInstructions( vector<mbc_instruction> { instruction } );
+
+   EXPECT_CALL( *_enemyMock, GetMaxHealth() );
 
    _behavior->Tick();
 }

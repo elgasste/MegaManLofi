@@ -31,20 +31,26 @@ bool EnemyBehavior::HandleCommand( mbc_command command )
       case MBCGET_FRAMESECS:
          RegisterFloatFromArg0( _frameRateProvider->GetFrameSeconds() );
          return true;
-      case MBCGET_PLAYERPOSL:
+      case MBCGET_PLRPOSL:
          RegisterFloatFromArg0( _playerInfoProvider->GetPlayerEntity()->GetArenaPositionLeft() );
          return true;
-      case MBCGET_PLAYERPOST:
+      case MBCGET_PLRPOST:
          RegisterFloatFromArg0( _playerInfoProvider->GetPlayerEntity()->GetArenaPositionTop() );
          return true;
-      case MBCGET_PLAYERVELX:
+      case MBCGET_PLRVELX:
          RegisterFloatFromArg0( _playerInfoProvider->GetPlayerEntity()->GetVelocityX() );
          return true;
-      case MBCGET_PLAYERVELY:
+      case MBCGET_PLRVELY:
          RegisterFloatFromArg0( _playerInfoProvider->GetPlayerEntity()->GetVelocityY() );
          return true;
-      case MBCGET_PLAYERDIR:
+      case MBCGET_PLRDIR:
          RegisterIntFromArg0( (int)_playerInfoProvider->GetPlayerEntity()->GetDirection() );
+         return true;
+      case MBCGET_PLRHTH:
+         RegisterIntFromArg0( (int)_playerInfoProvider->GetPlayerEntity()->GetHealth() );
+         return true;
+      case MBCGET_PLRMXHTH:
+         RegisterIntFromArg0( (int)_playerInfoProvider->GetPlayerEntity()->GetMaxHealth() );
          return true;
       case MBCGET_ENTPOSL:
          RegisterFloatFromArg0( _enemy->GetArenaPositionLeft() );
@@ -60,6 +66,12 @@ bool EnemyBehavior::HandleCommand( mbc_command command )
          return true;
       case MBCGET_ENTDIR:
          RegisterIntFromArg0( (int)_enemy->GetDirection() );
+         return true;
+      case MBCGET_ENTHTH:
+         RegisterIntFromArg0( (int)_enemy->GetHealth() );
+         return true;
+      case MBCGET_ENTMXHTH:
+         RegisterIntFromArg0( (int)_enemy->GetMaxHealth() );
          return true;
 
       case MBCSET_ENTVELX:

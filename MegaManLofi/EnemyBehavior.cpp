@@ -46,6 +46,21 @@ bool EnemyBehavior::HandleCommand( mbc_command command )
       case MBCGET_PLAYERDIR:
          RegisterIntFromArg0( (int)_playerInfoProvider->GetPlayerEntity()->GetDirection() );
          return true;
+      case MBCGET_ENTPOSL:
+         RegisterFloatFromArg0( _enemy->GetArenaPositionLeft() );
+         return true;
+      case MBCGET_ENTPOST:
+         RegisterFloatFromArg0( _enemy->GetArenaPositionTop() );
+         return true;
+      case MBCGET_ENTVELX:
+         RegisterFloatFromArg0( _enemy->GetVelocityX() );
+         return true;
+      case MBCGET_ENTVELY:
+         RegisterFloatFromArg0( _enemy->GetVelocityY() );
+         return true;
+      case MBCGET_ENTDIR:
+         RegisterIntFromArg0( (int)_enemy->GetDirection() );
+         return true;
 
       case MBCSET_ENTVELX:
          _enemy->SetVelocityX( _floatRegisters[MBC_PARSE_ARG0( _currentInstruction )] );

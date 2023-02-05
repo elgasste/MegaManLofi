@@ -66,6 +66,11 @@ typedef unsigned char mbc_command;
 #define MBCGET_PLAYERVELX  0x53     // get the player's X velocity
 #define MBCGET_PLAYERVELY  0x54     // get the player's Y velocity
 #define MBCGET_PLAYERDIR   0x55     // get the player's direction
+#define MBCGET_ENTPOSL     0x56     // get the entity's left position in the arena
+#define MBCGET_ENTPOST     0x57     // get the entity's top position in the arena
+#define MBCGET_ENTVELX     0x58     // get the entity's X velocity
+#define MBCGET_ENTVELY     0x59     // get the entity's Y velocity
+#define MBCGET_ENTDIR      0x5A     // get the entity's direction
 
 // setters
 #define MBCSET_ENTVELX     0x80     // set the entity's X velocity

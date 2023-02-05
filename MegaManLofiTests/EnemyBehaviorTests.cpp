@@ -103,6 +103,56 @@ TEST_F( EnemyBehaviorTests, Tick_GetPlayerDirectionCommand_GetsPlayerDirection )
    _behavior->Tick();
 }
 
+TEST_F( EnemyBehaviorTests, Tick_GetEnemyPositionLeftCommand_GetsEnemyPositionLeft )
+{
+   auto instruction = (mbc_instruction)( MBCGET_ENTPOSL << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
+   _behavior->SetInstructions( vector<mbc_instruction> { instruction } );
+
+   EXPECT_CALL( *_enemyMock, GetArenaPositionLeft() );
+
+   _behavior->Tick();
+}
+
+TEST_F( EnemyBehaviorTests, Tick_GetEnemyPositionTopCommand_GetsEnemyPositionTop )
+{
+   auto instruction = (mbc_instruction)( MBCGET_ENTPOST << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
+   _behavior->SetInstructions( vector<mbc_instruction> { instruction } );
+
+   EXPECT_CALL( *_enemyMock, GetArenaPositionTop() );
+
+   _behavior->Tick();
+}
+
+TEST_F( EnemyBehaviorTests, Tick_GetEnemyVelocityXCommand_GetsEnemyVelocityX )
+{
+   auto instruction = (mbc_instruction)( MBCGET_ENTVELX << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
+   _behavior->SetInstructions( vector<mbc_instruction> { instruction } );
+
+   EXPECT_CALL( *_enemyMock, GetVelocityX() );
+
+   _behavior->Tick();
+}
+
+TEST_F( EnemyBehaviorTests, Tick_GetEnemyVelocityYCommand_GetsEnemyVelocityY )
+{
+   auto instruction = (mbc_instruction)( MBCGET_ENTVELY << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
+   _behavior->SetInstructions( vector<mbc_instruction> { instruction } );
+
+   EXPECT_CALL( *_enemyMock, GetVelocityY() );
+
+   _behavior->Tick();
+}
+
+TEST_F( EnemyBehaviorTests, Tick_GetEnemyDirectionCommand_GetsEnemyDirection )
+{
+   auto instruction = (mbc_instruction)( MBCGET_ENTDIR << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
+   _behavior->SetInstructions( vector<mbc_instruction> { instruction } );
+
+   EXPECT_CALL( *_enemyMock, GetDirection() );
+
+   _behavior->Tick();
+}
+
 TEST_F( EnemyBehaviorTests, Tick_SetEnemyVelocityXCommand_SetsEnemyVelocityX )
 {
    vector<mbc_instruction> instructions

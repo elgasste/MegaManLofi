@@ -29,29 +29,29 @@ bool EnemyBehavior::HandleCommand( mbc_command command )
    switch ( command )
    {
       case MBCGET_FRAMESECS:
-         GetFrameSeconds();
+         RegisterFloatFromArg0( _frameRateProvider->GetFrameSeconds() );
          return true;
       case MBCGET_PLAYERPOSL:
-         GetPlayerPositionLeft();
+         RegisterFloatFromArg0( _playerInfoProvider->GetPlayerEntity()->GetArenaPositionLeft() );
          return true;
       case MBCGET_PLAYERPOST:
-         GetPlayerPositionTop();
+         RegisterFloatFromArg0( _playerInfoProvider->GetPlayerEntity()->GetArenaPositionTop() );
          return true;
       case MBCGET_PLAYERVELX:
-         GetPlayerVelocityX();
+         RegisterFloatFromArg0( _playerInfoProvider->GetPlayerEntity()->GetVelocityX() );
          return true;
       case MBCGET_PLAYERVELY:
-         GetPlayerVelocityY();
+         RegisterFloatFromArg0( _playerInfoProvider->GetPlayerEntity()->GetVelocityY() );
          return true;
       case MBCGET_PLAYERDIR:
-         GetPlayerDirection();
+         RegisterIntFromArg0( (int)_playerInfoProvider->GetPlayerEntity()->GetDirection() );
          return true;
 
       case MBCSET_ENTVELX:
-         SetEnemyVelocityX();
+         _enemy->SetVelocityX( _floatRegisters[MBC_PARSE_ARG0( _currentInstruction )] );
          return true;
       case MBCSET_ENTVELY:
-         SetEnemyVelocityY();
+         _enemy->SetVelocityY( _floatRegisters[MBC_PARSE_ARG0( _currentInstruction )] );
          return true;
 
       default:
@@ -59,50 +59,14 @@ bool EnemyBehavior::HandleCommand( mbc_command command )
    }
 }
 
-void EnemyBehavior::GetFrameSeconds()
+void EnemyBehavior::RegisterFloatFromArg0( float val )
 {
    auto regIndex = MBC_PARSE_ARG0( _currentInstruction );
-   _floatRegisters[regIndex] = _frameRateProvider->GetFrameSeconds();
+   _floatRegisters[regIndex] = val;
 }
 
-void EnemyBehavior::GetPlayerPositionLeft()
+void EnemyBehavior::RegisterIntFromArg0( int val )
 {
    auto regIndex = MBC_PARSE_ARG0( _currentInstruction );
-   _floatRegisters[regIndex] = _playerInfoProvider->GetPlayerEntity()->GetArenaPositionLeft();
-}
-
-void EnemyBehavior::GetPlayerPositionTop()
-{
-   auto regIndex = MBC_PARSE_ARG0( _currentInstruction );
-   _floatRegisters[regIndex] = _playerInfoProvider->GetPlayerEntity()->GetArenaPositionTop();
-}
-
-void EnemyBehavior::GetPlayerVelocityX()
-{
-   auto regIndex = MBC_PARSE_ARG0( _currentInstruction );
-   _floatRegisters[regIndex] = _playerInfoProvider->GetPlayerEntity()->GetVelocityX();
-}
-
-void EnemyBehavior::GetPlayerVelocityY()
-{
-   auto regIndex = MBC_PARSE_ARG0( _currentInstruction );
-   _floatRegisters[regIndex] = _playerInfoProvider->GetPlayerEntity()->GetVelocityY();
-}
-
-void EnemyBehavior::GetPlayerDirection()
-{
-   auto regIndex = MBC_PARSE_ARG0( _currentInstruction );
-   _intRegisters[regIndex] = (int)_playerInfoProvider->GetPlayerEntity()->GetDirection();
-}
-
-void EnemyBehavior::SetEnemyVelocityX()
-{
-   auto regIndex = MBC_PARSE_ARG0( _currentInstruction );
-   _enemy->SetVelocityX( _floatRegisters[regIndex] );
-}
-
-void EnemyBehavior::SetEnemyVelocityY()
-{
-   auto regIndex = MBC_PARSE_ARG0( _currentInstruction );
-   _enemy->SetVelocityY( _floatRegisters[regIndex] );
+   _intRegisters[regIndex] = val;
 }

@@ -21,15 +21,8 @@ namespace MegaManLofi
    private:
       bool HandleCommand( mbc_command command ) override;
 
-      void GetFrameSeconds();
-      void GetPlayerPositionLeft();
-      void GetPlayerPositionTop();
-      void GetPlayerVelocityX();
-      void GetPlayerVelocityY();
-      void GetPlayerDirection();
-
-      void SetEnemyVelocityX();
-      void SetEnemyVelocityY();
+      void RegisterFloatFromArg0( float val );
+      void RegisterIntFromArg0( int val );
 
    private:
       const std::shared_ptr<IFrameRateProvider> _frameRateProvider;

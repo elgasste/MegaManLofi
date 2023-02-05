@@ -10,13 +10,13 @@ namespace MegaManLofi
    class IPlayerInfoProvider;
    class Entity;
 
-   class EnemyBehavior : public MbcVirtualMachine
+   class EntityBehavior : public MbcVirtualMachine
    {
    public:
-      EnemyBehavior( const std::shared_ptr<IFrameRateProvider> frameRateProvider,
-                     const std::shared_ptr<IPlayerInfoProvider> playerInfoProvider );
+      EntityBehavior( const std::shared_ptr<IFrameRateProvider> frameRateProvider,
+                      const std::shared_ptr<IPlayerInfoProvider> playerInfoProvider );
 
-      void AssignTo( const std::shared_ptr<Entity> enemy );
+      void AssignTo( const std::shared_ptr<Entity> entity );
 
    private:
       bool HandleCommand( mbc_command command ) override;
@@ -28,6 +28,6 @@ namespace MegaManLofi
       const std::shared_ptr<IFrameRateProvider> _frameRateProvider;
       const std::shared_ptr<IPlayerInfoProvider> _playerInfoProvider;
 
-      std::shared_ptr<Entity> _enemy;
+      std::shared_ptr<Entity> _entity;
    };
 }

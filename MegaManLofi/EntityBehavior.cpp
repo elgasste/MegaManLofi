@@ -1,4 +1,4 @@
-#include "EnemyBehavior.h"
+#include "EntityBehavior.h"
 #include "IFrameRateProvider.h"
 #include "IPlayerInfoProvider.h"
 #include "Entity.h"
@@ -6,20 +6,20 @@
 using namespace std;
 using namespace MegaManLofi;
 
-EnemyBehavior::EnemyBehavior( const shared_ptr<IFrameRateProvider> frameRateProvider,
-                              const shared_ptr<IPlayerInfoProvider> playerInfoProvider ) :
+EntityBehavior::EntityBehavior( const shared_ptr<IFrameRateProvider> frameRateProvider,
+                                const shared_ptr<IPlayerInfoProvider> playerInfoProvider ) :
    _frameRateProvider( frameRateProvider ),
    _playerInfoProvider( playerInfoProvider ),
-   _enemy( nullptr )
+   _entity( nullptr )
 {
 }
 
-void EnemyBehavior::AssignTo( const std::shared_ptr<Entity> enemy )
+void EntityBehavior::AssignTo( const std::shared_ptr<Entity> entity )
 {
-   _enemy = enemy;
+   _entity = entity;
 }
 
-bool EnemyBehavior::HandleCommand( mbc_command command )
+bool EntityBehavior::HandleCommand( mbc_command command )
 {
    if ( MbcVirtualMachine::HandleCommand( command ) )
    {
@@ -56,38 +56,38 @@ bool EnemyBehavior::HandleCommand( mbc_command command )
          RegisterIntFromArg0( (int)_playerInfoProvider->GetPlayerEntity()->GetMovementType() );
          return true;
       case MBCGET_ENTPOSL:
-         RegisterFloatFromArg0( _enemy->GetArenaPositionLeft() );
+         RegisterFloatFromArg0( _entity->GetArenaPositionLeft() );
          return true;
       case MBCGET_ENTPOST:
-         RegisterFloatFromArg0( _enemy->GetArenaPositionTop() );
+         RegisterFloatFromArg0( _entity->GetArenaPositionTop() );
          return true;
       case MBCGET_ENTVELX:
-         RegisterFloatFromArg0( _enemy->GetVelocityX() );
+         RegisterFloatFromArg0( _entity->GetVelocityX() );
          return true;
       case MBCGET_ENTVELY:
-         RegisterFloatFromArg0( _enemy->GetVelocityY() );
+         RegisterFloatFromArg0( _entity->GetVelocityY() );
          return true;
       case MBCGET_ENTDIR:
-         RegisterIntFromArg0( (int)_enemy->GetDirection() );
+         RegisterIntFromArg0( (int)_entity->GetDirection() );
          return true;
       case MBCGET_ENTHTH:
-         RegisterIntFromArg0( (int)_enemy->GetHealth() );
+         RegisterIntFromArg0( (int)_entity->GetHealth() );
          return true;
       case MBCGET_ENTMXHTH:
-         RegisterIntFromArg0( (int)_enemy->GetMaxHealth() );
+         RegisterIntFromArg0( (int)_entity->GetMaxHealth() );
          return true;
       case MBCGET_ENTMVM:
-         RegisterIntFromArg0( (int)_enemy->GetMovementType() );
+         RegisterIntFromArg0( (int)_entity->GetMovementType() );
          return true;
 
       case MBCSET_ENTVELX:
-         _enemy->SetVelocityX( _floatRegisters[MBC_PARSE_ARG0( _currentInstruction )] );
+         _entity->SetVelocityX( _floatRegisters[MBC_PARSE_ARG0( _currentInstruction )] );
          return true;
       case MBCSET_ENTVELY:
-         _enemy->SetVelocityY( _floatRegisters[MBC_PARSE_ARG0( _currentInstruction )] );
+         _entity->SetVelocityY( _floatRegisters[MBC_PARSE_ARG0( _currentInstruction )] );
          return true;
       case MBCSET_ENTDIR:
-         _enemy->SetDirection( (Direction)_intRegisters[MBC_PARSE_ARG0( _currentInstruction )] );
+         _entity->SetDirection( (Direction)_intRegisters[MBC_PARSE_ARG0( _currentInstruction )] );
          return true;
 
       default:
@@ -95,13 +95,13 @@ bool EnemyBehavior::HandleCommand( mbc_command command )
    }
 }
 
-void EnemyBehavior::RegisterFloatFromArg0( float val )
+void EntityBehavior::RegisterFloatFromArg0( float val )
 {
    auto regIndex = MBC_PARSE_ARG0( _currentInstruction );
    _floatRegisters[regIndex] = val;
 }
 
-void EnemyBehavior::RegisterIntFromArg0( int val )
+void EntityBehavior::RegisterIntFromArg0( int val )
 {
    auto regIndex = MBC_PARSE_ARG0( _currentInstruction );
    _intRegisters[regIndex] = val;

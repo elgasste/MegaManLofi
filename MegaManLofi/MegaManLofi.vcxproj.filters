@@ -282,7 +282,7 @@
     <ClCompile Include="MbcAsmCompiler.cpp">
       <Filter>Source Files\MbcAsm</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyBehavior.cpp">
+    <ClCompile Include="EntityBehavior.cpp">
       <Filter>Source Files\AI</Filter>
     </ClCompile>
   </ItemGroup>
@@ -662,7 +662,7 @@
     <ClInclude Include="MbcAsmCollections.h">
       <Filter>Header Files\MbcAsm</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyBehavior.h">
+    <ClInclude Include="EntityBehavior.h">
       <Filter>Header Files\AI</Filter>
     </ClInclude>
   </ItemGroup>

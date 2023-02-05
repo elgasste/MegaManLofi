@@ -99,7 +99,7 @@
     <ClCompile Include="StringUtilitiesTests.cpp">
       <Filter>Tests\Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyBehaviorTests.cpp">
+    <ClCompile Include="EntityBehaviorTests.cpp">
       <Filter>Tests\AI</Filter>
     </ClCompile>
   </ItemGroup>

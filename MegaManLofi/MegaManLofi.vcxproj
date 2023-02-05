@@ -154,7 +154,7 @@
     <ClCompile Include="ArenaImageGenerator.cpp" />
     <ClCompile Include="ArenaTileGenerator.cpp" />
     <ClCompile Include="ArenaPhysics.cpp" />
-    <ClCompile Include="EnemyBehavior.cpp" />
+    <ClCompile Include="EntityBehavior.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="ConsoleAnimationRepository.cpp" />
     <ClCompile Include="ConsoleBuffer.cpp" />
@@ -226,7 +226,7 @@
     <ClInclude Include="ArenaTile.h" />
     <ClInclude Include="ConditionalInfo.h" />
     <ClInclude Include="ConditionOp.h" />
-    <ClInclude Include="EnemyBehavior.h" />
+    <ClInclude Include="EntityBehavior.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="ConsoleAnimationRepository.h" />
     <ClInclude Include="ConsoleAnimationType.h" />

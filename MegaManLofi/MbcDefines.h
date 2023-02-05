@@ -58,3 +58,6 @@ typedef unsigned char mbc_command;
 #define MBCBR_GTI          0x37     // check if left int is greater than right int
 #define MBCBR_LTEI         0x38     // check if left int is less than or equal to right int
 #define MBCBR_GTEI         0x39     // check if left int is greater than or equal to right int
+
+// getters
+#define MBCGET_FRAMESECS   0x50     // get the last frame's elapsed seconds

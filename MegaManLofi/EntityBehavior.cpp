@@ -28,65 +28,67 @@ bool EntityBehavior::HandleCommand( mbc_command command )
 
    switch ( command )
    {
-      case MBCGET_FRAMESECS:
+      case MBCGET_FRAMESECONDS:
          RegisterFloatFromArg0( _frameRateProvider->GetFrameSeconds() );
          return true;
-      case MBCGET_PLRPOSL:
+
+      case MBCGET_PLAYERPOSITIONLEFT:
          RegisterFloatFromArg0( _playerInfoProvider->GetPlayerEntity()->GetArenaPositionLeft() );
          return true;
-      case MBCGET_PLRPOST:
+      case MBCGET_PLAYERPOSITIONTOP:
          RegisterFloatFromArg0( _playerInfoProvider->GetPlayerEntity()->GetArenaPositionTop() );
          return true;
-      case MBCGET_PLRVELX:
+      case MBCGET_PLAYERVELOCITYX:
          RegisterFloatFromArg0( _playerInfoProvider->GetPlayerEntity()->GetVelocityX() );
          return true;
-      case MBCGET_PLRVELY:
+      case MBCGET_PLAYERVELOCITYY:
          RegisterFloatFromArg0( _playerInfoProvider->GetPlayerEntity()->GetVelocityY() );
          return true;
-      case MBCGET_PLRDIR:
+      case MBCGET_PLAYERDIRECTION:
          RegisterIntFromArg0( (int)_playerInfoProvider->GetPlayerEntity()->GetDirection() );
          return true;
-      case MBCGET_PLRHTH:
+      case MBCGET_PLAYERHEALTH:
          RegisterIntFromArg0( (int)_playerInfoProvider->GetPlayerEntity()->GetHealth() );
          return true;
-      case MBCGET_PLRMXHTH:
+      case MBCGET_PLAYERMAXHEALTH:
          RegisterIntFromArg0( (int)_playerInfoProvider->GetPlayerEntity()->GetMaxHealth() );
          return true;
-      case MBCGET_PLRMVM:
+      case MBCGET_PLAYERMOVEMENTTYPE:
          RegisterIntFromArg0( (int)_playerInfoProvider->GetPlayerEntity()->GetMovementType() );
          return true;
-      case MBCGET_ENTPOSL:
+
+      case MBCGET_POSITIONLEFT:
          RegisterFloatFromArg0( _entity->GetArenaPositionLeft() );
          return true;
-      case MBCGET_ENTPOST:
+      case MBCGET_POSITIONTOP:
          RegisterFloatFromArg0( _entity->GetArenaPositionTop() );
          return true;
-      case MBCGET_ENTVELX:
+      case MBCGET_VELOCITYX:
          RegisterFloatFromArg0( _entity->GetVelocityX() );
          return true;
-      case MBCGET_ENTVELY:
+      case MBCGET_VELOCITYY:
          RegisterFloatFromArg0( _entity->GetVelocityY() );
          return true;
-      case MBCGET_ENTDIR:
+      case MBCGET_DIRECTION:
          RegisterIntFromArg0( (int)_entity->GetDirection() );
          return true;
-      case MBCGET_ENTHTH:
+      case MBCGET_HEALTH:
          RegisterIntFromArg0( (int)_entity->GetHealth() );
          return true;
-      case MBCGET_ENTMXHTH:
+      case MBCGET_MAXHEALTH:
          RegisterIntFromArg0( (int)_entity->GetMaxHealth() );
          return true;
-      case MBCGET_ENTMVM:
+      case MBCGET_MOVEMENTTYPE:
          RegisterIntFromArg0( (int)_entity->GetMovementType() );
          return true;
 
-      case MBCSET_ENTVELX:
+      case MBCSET_VELOCITYX:
          _entity->SetVelocityX( _floatRegisters[MBC_PARSE_ARG0( _currentInstruction )] );
          return true;
-      case MBCSET_ENTVELY:
+      case MBCSET_VELOCITYY:
          _entity->SetVelocityY( _floatRegisters[MBC_PARSE_ARG0( _currentInstruction )] );
          return true;
-      case MBCSET_ENTDIR:
+      case MBCSET_DIRECTION:
          _entity->SetDirection( (Direction)_intRegisters[MBC_PARSE_ARG0( _currentInstruction )] );
          return true;
 

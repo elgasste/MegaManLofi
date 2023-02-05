@@ -45,7 +45,7 @@ protected:
 
 TEST_F( EntityBehaviorTests, Tick_GetFrameSecondsCommand_GetsFrameSeconds )
 {
-   auto instruction = (mbc_instruction)( MBCGET_FRAMESECS << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
+   auto instruction = (mbc_instruction)( MBCGET_FRAMESECONDS << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
    _behavior->SetInstructions( vector<mbc_instruction> { instruction } );
 
    EXPECT_CALL( *_frameRateProviderMock, GetFrameSeconds() );
@@ -55,7 +55,7 @@ TEST_F( EntityBehaviorTests, Tick_GetFrameSecondsCommand_GetsFrameSeconds )
 
 TEST_F( EntityBehaviorTests, Tick_GetPlayerPositionLeftCommand_GetsPlayerPositionLeft )
 {
-   auto instruction = (mbc_instruction)( MBCGET_PLRPOSL << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
+   auto instruction = (mbc_instruction)( MBCGET_PLAYERPOSITIONLEFT << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
    _behavior->SetInstructions( vector<mbc_instruction> { instruction } );
 
    EXPECT_CALL( *_playerEntityMock, GetArenaPositionLeft() );
@@ -65,7 +65,7 @@ TEST_F( EntityBehaviorTests, Tick_GetPlayerPositionLeftCommand_GetsPlayerPositio
 
 TEST_F( EntityBehaviorTests, Tick_GetPlayerPositionTopCommand_GetsPlayerPositionTop )
 {
-   auto instruction = (mbc_instruction)( MBCGET_PLRPOST << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
+   auto instruction = (mbc_instruction)( MBCGET_PLAYERPOSITIONTOP << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
    _behavior->SetInstructions( vector<mbc_instruction> { instruction } );
 
    EXPECT_CALL( *_playerEntityMock, GetArenaPositionTop() );
@@ -75,7 +75,7 @@ TEST_F( EntityBehaviorTests, Tick_GetPlayerPositionTopCommand_GetsPlayerPosition
 
 TEST_F( EntityBehaviorTests, Tick_GetPlayerVelocityXCommand_GetsPlayerVelocityX )
 {
-   auto instruction = (mbc_instruction)( MBCGET_PLRVELX << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
+   auto instruction = (mbc_instruction)( MBCGET_PLAYERVELOCITYX << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
    _behavior->SetInstructions( vector<mbc_instruction> { instruction } );
 
    EXPECT_CALL( *_playerEntityMock, GetVelocityX() );
@@ -85,7 +85,7 @@ TEST_F( EntityBehaviorTests, Tick_GetPlayerVelocityXCommand_GetsPlayerVelocityX 
 
 TEST_F( EntityBehaviorTests, Tick_GetPlayerVelocityYCommand_GetsPlayerVelocityY )
 {
-   auto instruction = (mbc_instruction)( MBCGET_PLRVELY << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
+   auto instruction = (mbc_instruction)( MBCGET_PLAYERVELOCITYY << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
    _behavior->SetInstructions( vector<mbc_instruction> { instruction } );
 
    EXPECT_CALL( *_playerEntityMock, GetVelocityY() );
@@ -95,7 +95,7 @@ TEST_F( EntityBehaviorTests, Tick_GetPlayerVelocityYCommand_GetsPlayerVelocityY 
 
 TEST_F( EntityBehaviorTests, Tick_GetPlayerDirectionCommand_GetsPlayerDirection )
 {
-   auto instruction = (mbc_instruction)( MBCGET_PLRDIR << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
+   auto instruction = (mbc_instruction)( MBCGET_PLAYERDIRECTION << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
    _behavior->SetInstructions( vector<mbc_instruction> { instruction } );
 
    EXPECT_CALL( *_playerEntityMock, GetDirection() );
@@ -105,7 +105,7 @@ TEST_F( EntityBehaviorTests, Tick_GetPlayerDirectionCommand_GetsPlayerDirection 
 
 TEST_F( EntityBehaviorTests, Tick_GetPlayerHealthCommand_GetsPlayerHealth )
 {
-   auto instruction = (mbc_instruction)( MBCGET_PLRHTH << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
+   auto instruction = (mbc_instruction)( MBCGET_PLAYERHEALTH << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
    _behavior->SetInstructions( vector<mbc_instruction> { instruction } );
 
    EXPECT_CALL( *_playerEntityMock, GetHealth() );
@@ -115,7 +115,7 @@ TEST_F( EntityBehaviorTests, Tick_GetPlayerHealthCommand_GetsPlayerHealth )
 
 TEST_F( EntityBehaviorTests, Tick_GetPlayerMaxHealthCommand_GetsPlayerMaxHealth )
 {
-   auto instruction = (mbc_instruction)( MBCGET_PLRMXHTH << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
+   auto instruction = (mbc_instruction)( MBCGET_PLAYERMAXHEALTH << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
    _behavior->SetInstructions( vector<mbc_instruction> { instruction } );
 
    EXPECT_CALL( *_playerEntityMock, GetMaxHealth() );
@@ -125,7 +125,7 @@ TEST_F( EntityBehaviorTests, Tick_GetPlayerMaxHealthCommand_GetsPlayerMaxHealth 
 
 TEST_F( EntityBehaviorTests, Tick_GetPlayerMovementTypeCommand_GetsPlayerMovementType )
 {
-   auto instruction = (mbc_instruction)( MBCGET_PLRMVM << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
+   auto instruction = (mbc_instruction)( MBCGET_PLAYERMOVEMENTTYPE << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
    _behavior->SetInstructions( vector<mbc_instruction> { instruction } );
 
    EXPECT_CALL( *_playerEntityMock, GetMovementType() );
@@ -135,7 +135,7 @@ TEST_F( EntityBehaviorTests, Tick_GetPlayerMovementTypeCommand_GetsPlayerMovemen
 
 TEST_F( EntityBehaviorTests, Tick_GetPositionLeftCommand_GetsPositionLeft )
 {
-   auto instruction = (mbc_instruction)( MBCGET_ENTPOSL << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
+   auto instruction = (mbc_instruction)( MBCGET_POSITIONLEFT << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
    _behavior->SetInstructions( vector<mbc_instruction> { instruction } );
 
    EXPECT_CALL( *_entityMock, GetArenaPositionLeft() );
@@ -145,7 +145,7 @@ TEST_F( EntityBehaviorTests, Tick_GetPositionLeftCommand_GetsPositionLeft )
 
 TEST_F( EntityBehaviorTests, Tick_GetPositionTopCommand_GetsPositionTop )
 {
-   auto instruction = (mbc_instruction)( MBCGET_ENTPOST << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
+   auto instruction = (mbc_instruction)( MBCGET_POSITIONTOP << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
    _behavior->SetInstructions( vector<mbc_instruction> { instruction } );
 
    EXPECT_CALL( *_entityMock, GetArenaPositionTop() );
@@ -155,7 +155,7 @@ TEST_F( EntityBehaviorTests, Tick_GetPositionTopCommand_GetsPositionTop )
 
 TEST_F( EntityBehaviorTests, Tick_GetVelocityXCommand_GetsVelocityX )
 {
-   auto instruction = (mbc_instruction)( MBCGET_ENTVELX << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
+   auto instruction = (mbc_instruction)( MBCGET_VELOCITYX << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
    _behavior->SetInstructions( vector<mbc_instruction> { instruction } );
 
    EXPECT_CALL( *_entityMock, GetVelocityX() );
@@ -165,7 +165,7 @@ TEST_F( EntityBehaviorTests, Tick_GetVelocityXCommand_GetsVelocityX )
 
 TEST_F( EntityBehaviorTests, Tick_GetVelocityYCommand_GetsVelocityY )
 {
-   auto instruction = (mbc_instruction)( MBCGET_ENTVELY << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
+   auto instruction = (mbc_instruction)( MBCGET_VELOCITYY << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
    _behavior->SetInstructions( vector<mbc_instruction> { instruction } );
 
    EXPECT_CALL( *_entityMock, GetVelocityY() );
@@ -175,7 +175,7 @@ TEST_F( EntityBehaviorTests, Tick_GetVelocityYCommand_GetsVelocityY )
 
 TEST_F( EntityBehaviorTests, Tick_GetDirectionCommand_GetsDirection )
 {
-   auto instruction = (mbc_instruction)( MBCGET_ENTDIR << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
+   auto instruction = (mbc_instruction)( MBCGET_DIRECTION << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
    _behavior->SetInstructions( vector<mbc_instruction> { instruction } );
 
    EXPECT_CALL( *_entityMock, GetDirection() );
@@ -185,7 +185,7 @@ TEST_F( EntityBehaviorTests, Tick_GetDirectionCommand_GetsDirection )
 
 TEST_F( EntityBehaviorTests, Tick_GetHealthCommand_GetsHealth )
 {
-   auto instruction = (mbc_instruction)( MBCGET_ENTHTH << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
+   auto instruction = (mbc_instruction)( MBCGET_HEALTH << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
    _behavior->SetInstructions( vector<mbc_instruction> { instruction } );
 
    EXPECT_CALL( *_entityMock, GetHealth() );
@@ -195,7 +195,7 @@ TEST_F( EntityBehaviorTests, Tick_GetHealthCommand_GetsHealth )
 
 TEST_F( EntityBehaviorTests, Tick_GetMaxHealthCommand_GetsMaxHealth )
 {
-   auto instruction = (mbc_instruction)( MBCGET_ENTMXHTH << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
+   auto instruction = (mbc_instruction)( MBCGET_MAXHEALTH << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
    _behavior->SetInstructions( vector<mbc_instruction> { instruction } );
 
    EXPECT_CALL( *_entityMock, GetMaxHealth() );
@@ -205,7 +205,7 @@ TEST_F( EntityBehaviorTests, Tick_GetMaxHealthCommand_GetsMaxHealth )
 
 TEST_F( EntityBehaviorTests, Tick_GetMovementTypeCommand_GetsMovementType )
 {
-   auto instruction = (mbc_instruction)( MBCGET_ENTMVM << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
+   auto instruction = (mbc_instruction)( MBCGET_MOVEMENTTYPE << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
    _behavior->SetInstructions( vector<mbc_instruction> { instruction } );
 
    EXPECT_CALL( *_entityMock, GetMovementType() );
@@ -219,7 +219,7 @@ TEST_F( EntityBehaviorTests, Tick_SetVelocityXCommand_SetsVelocityX )
    {
       (mbc_instruction)( MBCCMD_REGF << MBC_CMD_SHIFT | 3 << MBC_ARG0_SHIFT ),
       GetFloatAsInstruction( 6.0f ),
-      (mbc_instruction)( MBCSET_ENTVELX << MBC_CMD_SHIFT | 3 << MBC_ARG0_SHIFT )
+      (mbc_instruction)( MBCSET_VELOCITYX << MBC_CMD_SHIFT | 3 << MBC_ARG0_SHIFT )
    };
    _behavior->SetInstructions( instructions );
 
@@ -234,7 +234,7 @@ TEST_F( EntityBehaviorTests, Tick_SetVelocityYCommand_SetsVelocityY )
    {
       (mbc_instruction)( MBCCMD_REGF << MBC_CMD_SHIFT | 0 << MBC_ARG0_SHIFT ),
       GetFloatAsInstruction( 3.0f ),
-      (mbc_instruction)( MBCSET_ENTVELY << MBC_CMD_SHIFT | 0 << MBC_ARG0_SHIFT )
+      (mbc_instruction)( MBCSET_VELOCITYY << MBC_CMD_SHIFT | 0 << MBC_ARG0_SHIFT )
    };
    _behavior->SetInstructions( instructions );
 
@@ -249,7 +249,7 @@ TEST_F( EntityBehaviorTests, Tick_SetDirectionCommand_SetsDirection )
    {
       (mbc_instruction)( MBCCMD_REGI << MBC_CMD_SHIFT | 2 << MBC_ARG0_SHIFT ),
       (mbc_instruction)( Direction::Right ),
-      (mbc_instruction)( MBCSET_ENTDIR << MBC_CMD_SHIFT | 2 << MBC_ARG0_SHIFT )
+      (mbc_instruction)( MBCSET_DIRECTION << MBC_CMD_SHIFT | 2 << MBC_ARG0_SHIFT )
    };
    _behavior->SetInstructions( instructions );
 

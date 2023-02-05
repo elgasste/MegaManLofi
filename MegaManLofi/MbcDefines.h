@@ -60,25 +60,27 @@ typedef unsigned char mbc_command;
 #define MBCBR_GTEI         0x39     // check if left int is greater than or equal to right int
 
 // getters
-#define MBCGET_FRAMESECS   0x50     // get the last frame's elapsed seconds
-#define MBCGET_PLRPOSL     0x51     // get the player's left position in the arena
-#define MBCGET_PLRPOST     0x52     // get the player's top position in the arena
-#define MBCGET_PLRVELX     0x53     // get the player's X velocity
-#define MBCGET_PLRVELY     0x54     // get the player's Y velocity
-#define MBCGET_PLRDIR      0x55     // get the player's direction
-#define MBCGET_PLRHTH      0x56     // get the player's health
-#define MBCGET_PLRMXHTH    0x57     // get the player's max health
-#define MBCGET_PLRMVM      0x58     // get the player's movement type
-#define MBCGET_ENTPOSL     0x59     // get the entity's left position in the arena
-#define MBCGET_ENTPOST     0x5A     // get the entity's top position in the arena
-#define MBCGET_ENTVELX     0x5B     // get the entity's X velocity
-#define MBCGET_ENTVELY     0x5C     // get the entity's Y velocity
-#define MBCGET_ENTDIR      0x5D     // get the entity's direction
-#define MBCGET_ENTHTH      0x5E     // get the entity's health
-#define MBCGET_ENTMXHTH    0x5F     // get the entity's max health
-#define MBCGET_ENTMVM      0x60     // get the entity's movement type
+#define MBCGET_FRAMESECONDS         0x50     // get the last frame's elapsed seconds
+
+#define MBCGET_PLAYERPOSITIONLEFT   0x51     // get the player's left position in the arena
+#define MBCGET_PLAYERPOSITIONTOP    0x52     // get the player's top position in the arena
+#define MBCGET_PLAYERVELOCITYX      0x53     // get the player's X velocity
+#define MBCGET_PLAYERVELOCITYY      0x54     // get the player's Y velocity
+#define MBCGET_PLAYERDIRECTION      0x55     // get the player's direction
+#define MBCGET_PLAYERHEALTH         0x56     // get the player's health
+#define MBCGET_PLAYERMAXHEALTH      0x57     // get the player's max health
+#define MBCGET_PLAYERMOVEMENTTYPE   0x58     // get the player's movement type
+
+#define MBCGET_POSITIONLEFT         0x59     // get the entity's left position in the arena
+#define MBCGET_POSITIONTOP          0x5A     // get the entity's top position in the arena
+#define MBCGET_VELOCITYX            0x5B     // get the entity's X velocity
+#define MBCGET_VELOCITYY            0x5C     // get the entity's Y velocity
+#define MBCGET_DIRECTION            0x5D     // get the entity's direction
+#define MBCGET_HEALTH               0x5E     // get the entity's health
+#define MBCGET_MAXHEALTH            0x5F     // get the entity's max health
+#define MBCGET_MOVEMENTTYPE         0x60     // get the entity's movement type
 
 // setters
-#define MBCSET_ENTVELX     0x80     // set the entity's X velocity
-#define MBCSET_ENTVELY     0x81     // set the entity's Y velocity
-#define MBCSET_ENTDIR      0x82     // set the entity's direction
+#define MBCSET_VELOCITYX            0x80     // set the entity's X velocity
+#define MBCSET_VELOCITYY            0x81     // set the entity's Y velocity
+#define MBCSET_DIRECTION            0x82     // set the entity's direction

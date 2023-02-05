@@ -4,8 +4,10 @@
 using namespace std;
 using namespace MegaManLofi;
 
-EnemyBehavior::EnemyBehavior( const shared_ptr<IFrameRateProvider> frameRateProvider ) :
-   _frameRateProvider( frameRateProvider )
+EnemyBehavior::EnemyBehavior( const shared_ptr<IFrameRateProvider> frameRateProvider,
+                              const shared_ptr<IPlayerInfoProvider> playerInfoProvider ) :
+   _frameRateProvider( frameRateProvider ),
+   _playerInfoProvider( playerInfoProvider )
 {
 }
 

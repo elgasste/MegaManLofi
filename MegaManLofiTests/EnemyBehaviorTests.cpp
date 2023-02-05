@@ -3,6 +3,7 @@
 #include <MegaManLofi/EnemyBehavior.h>
 
 #include "mock_FrameRateProvider.h"
+#include "mock_PlayerInfoProvider.h"
 
 using namespace std;
 using namespace testing;
@@ -14,12 +15,14 @@ public:
    void SetUp() override
    {
       _frameRateProviderMock.reset( new NiceMock<mock_FrameRateProvider> );
+      _playerInfoProviderMock.reset( new NiceMock<mock_PlayerInfoProvider> );
 
-      _behavior.reset( new EnemyBehavior( _frameRateProviderMock ) );
+      _behavior.reset( new EnemyBehavior( _frameRateProviderMock, _playerInfoProviderMock ) );
    }
 
 protected:
    shared_ptr<mock_FrameRateProvider> _frameRateProviderMock;
+   shared_ptr<mock_PlayerInfoProvider> _playerInfoProviderMock;
 
    shared_ptr<EnemyBehavior> _behavior;
 };

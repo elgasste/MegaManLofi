@@ -665,5 +665,8 @@
     <ClInclude Include="EntityBehavior.h">
       <Filter>Header Files\AI</Filter>
     </ClInclude>
+    <ClInclude Include="IBehavior.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

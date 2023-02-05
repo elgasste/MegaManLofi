@@ -1,21 +1,20 @@
 #pragma once
 
-#include <vector>
 #include <stack>
 
-#include "MbcDefines.h"
+#include "IBehavior.h"
 #include "MathOp.h"
 #include "ConditionOp.h"
 
 namespace MegaManLofi
 {
-   class MbcVirtualMachine
+   class MbcVirtualMachine : public IBehavior
    {
    public:
       MbcVirtualMachine();
 
-      virtual void SetInstructions( std::vector<mbc_instruction> instructions );
-      void Tick();
+      virtual void SetInstructions( std::vector<mbc_instruction> instructions ) override;
+      void Tick() override;
 
    protected:
       virtual void Reset();

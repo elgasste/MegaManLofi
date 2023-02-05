@@ -61,3 +61,5 @@ typedef unsigned char mbc_command;
 
 // getters
 #define MBCGET_FRAMESECS   0x50     // get the last frame's elapsed seconds
+#define MBCGET_PLAYERPOSL  0x51     // get the player's left position in the arena
+#define MBCGET_PLAYERPOST  0x52     // get the player's top position in the arena

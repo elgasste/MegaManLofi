@@ -19,6 +19,8 @@ namespace MegaManLofi
       bool HandleCommand( mbc_command command ) override;
 
       void GetFrameSeconds();
+      void GetPlayerPositionLeft();
+      void GetPlayerPositionTop();
 
    private:
       const std::shared_ptr<IFrameRateProvider> _frameRateProvider;

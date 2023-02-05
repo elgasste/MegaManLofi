@@ -9,8 +9,14 @@ using namespace MegaManLofi;
 EnemyBehavior::EnemyBehavior( const shared_ptr<IFrameRateProvider> frameRateProvider,
                               const shared_ptr<IPlayerInfoProvider> playerInfoProvider ) :
    _frameRateProvider( frameRateProvider ),
-   _playerInfoProvider( playerInfoProvider )
+   _playerInfoProvider( playerInfoProvider ),
+   _enemy( nullptr )
 {
+}
+
+void EnemyBehavior::AssignTo( const std::shared_ptr<Entity> enemy )
+{
+   _enemy = enemy;
 }
 
 bool EnemyBehavior::HandleCommand( mbc_command command )

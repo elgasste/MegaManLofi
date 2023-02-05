@@ -8,12 +8,15 @@ namespace MegaManLofi
 {
    class IFrameRateProvider;
    class IPlayerInfoProvider;
+   class Entity;
 
    class EnemyBehavior : public MbcVirtualMachine
    {
    public:
       EnemyBehavior( const std::shared_ptr<IFrameRateProvider> frameRateProvider,
                      const std::shared_ptr<IPlayerInfoProvider> playerInfoProvider );
+
+      void AssignTo( const std::shared_ptr<Entity> enemy );
 
    private:
       bool HandleCommand( mbc_command command ) override;
@@ -25,5 +28,7 @@ namespace MegaManLofi
    private:
       const std::shared_ptr<IFrameRateProvider> _frameRateProvider;
       const std::shared_ptr<IPlayerInfoProvider> _playerInfoProvider;
+
+      std::shared_ptr<Entity> _enemy;
    };
 }

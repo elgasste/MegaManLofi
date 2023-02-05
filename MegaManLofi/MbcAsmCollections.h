@@ -52,7 +52,8 @@ namespace MbcAsm
       MBCCOMP_WHILE_LTEI,
       MBCCOMP_WHILE_GTEI,
       MBCCOMP_BREAK,
-      MBCCOMP_ENDWHILE
+      MBCCOMP_ENDWHILE,
+      MBCCOMP_GET_FRAMESECS
    };
 
    const std::vector<std::string> IfTokens =
@@ -154,7 +155,8 @@ namespace MbcAsm
       { MBCCOMP_RET, MBCCMD_RET },
       { MBCCOMP_STOP, MBCCMD_STOP },
       { MBCCOMP_ABSF, MBCCMD_ABSF },
-      { MBCCOMP_ABSI, MBCCMD_ABSI }
+      { MBCCOMP_ABSI, MBCCMD_ABSI },
+      { MBCCOMP_GET_FRAMESECS, MBCGET_FRAMESECS }
    };
 
    const std::map<std::string, int> TokenArgCountMap =
@@ -200,6 +202,7 @@ namespace MbcAsm
       { MBCCOMP_WHILE_LTEI, 2 },
       { MBCCOMP_WHILE_GTEI, 2 },
       { MBCCOMP_BREAK, 0 },
-      { MBCCOMP_ENDWHILE, 0 }
+      { MBCCOMP_ENDWHILE, 0 },
+      { MBCCOMP_GET_FRAMESECS, 1 }
    };
 }

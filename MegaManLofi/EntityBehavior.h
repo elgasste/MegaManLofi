@@ -15,6 +15,7 @@ namespace MegaManLofi
    public:
       EntityBehavior( const std::shared_ptr<IFrameRateProvider> frameRateProvider,
                       const std::shared_ptr<IPlayerInfoProvider> playerInfoProvider );
+      EntityBehavior( const EntityBehavior& b );
 
       void AssignTo( const std::shared_ptr<Entity> entity );
 
@@ -25,8 +26,8 @@ namespace MegaManLofi
       void RegisterIntFromArg0( int val );
 
    private:
-      const std::shared_ptr<IFrameRateProvider> _frameRateProvider;
-      const std::shared_ptr<IPlayerInfoProvider> _playerInfoProvider;
+      std::shared_ptr<IFrameRateProvider> _frameRateProvider;
+      std::shared_ptr<IPlayerInfoProvider> _playerInfoProvider;
 
       std::shared_ptr<Entity> _entity;
    };

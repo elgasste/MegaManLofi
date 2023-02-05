@@ -12,6 +12,17 @@ EntityBehavior::EntityBehavior( const shared_ptr<IFrameRateProvider> frameRatePr
    _playerInfoProvider( playerInfoProvider ),
    _entity( nullptr )
 {
+   Reset();
+}
+
+EntityBehavior::EntityBehavior( const EntityBehavior& b )
+{
+   _instructions = b._instructions;
+   _frameRateProvider = b._frameRateProvider;
+   _playerInfoProvider = b._playerInfoProvider;
+   _entity = nullptr;
+
+   Reset();
 }
 
 void EntityBehavior::AssignTo( const std::shared_ptr<Entity> entity )

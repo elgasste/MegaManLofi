@@ -50,6 +50,8 @@ public:
 
       ON_CALL( *_stageMock, GetActiveArena() ).WillByDefault( Return( _arenaMock ) );
       ON_CALL( *_stageMock, GetMutableActiveArena() ).WillByDefault( Return( _arenaMock ) );
+
+      ON_CALL( *_arenaMock, GetEntityCount() ).WillByDefault( Return( 0 ) );
    }
 
    void BuildGame()
@@ -558,6 +560,22 @@ TEST_F( GameTests, Tick_GameStateIsPlayingAndNotPaused_DoesEntityAndArenaActions
    EXPECT_CALL( *_arenaMock, DetectEntityCollisions() );
    EXPECT_CALL( *_arenaMock, DeSpawnInactiveEntities() );
    EXPECT_CALL( *_arenaMock, CheckSpawnPoints() );
+
+   _game->Tick();
+}
+
+TEST_F( GameTests, Tick_GameStateIsPlayingAndNotPaused_TellsArenaEntitiesToAct )
+{
+   auto entityMock1 = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
+   auto entityMock2 = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
+   EXPECT_CALL( *_arenaMock, GetEntityCount() ).WillRepeatedly( Return( 2 ) );
+   EXPECT_CALL( *_arenaMock, GetMutableEntity( 0 ) ).WillOnce( Return( entityMock1 ) );
+   EXPECT_CALL( *_arenaMock, GetMutableEntity( 1 ) ).WillOnce( Return( entityMock2 ) );
+   BuildGame();
+   _game->ExecuteCommand( GameCommand::StartStage );
+
+   EXPECT_CALL( *entityMock1, Act() );
+   EXPECT_CALL( *entityMock2, Act() );
 
    _game->Tick();
 }

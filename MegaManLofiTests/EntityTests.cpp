@@ -4,6 +4,8 @@
 
 #include <MegaManLofi/Entity.h>
 
+#include "mock_Behavior.h"
+
 using namespace std;
 using namespace testing;
 using namespace MegaManLofi;
@@ -56,6 +58,17 @@ TEST_F( EntityTests, Setters_Always_SetsPropertyValues )
    EXPECT_EQ( entity->GetHitBox().Width, 8 );
    EXPECT_EQ( entity->GetHitBox().Height, 9 );
    EXPECT_EQ( entity->GetMovementType(), MovementType::Airborne );
+}
+
+TEST_F( EntityTests, Act_BehaviorIsNotNull_TicksBehavior )
+{
+   auto entity = make_shared<Entity>();
+   auto behaviorMock = shared_ptr<mock_Behavior>( new NiceMock<mock_Behavior> );
+   entity->SetBehavior( behaviorMock );
+
+   EXPECT_CALL( *behaviorMock, Tick() );
+
+   entity->Act();
 }
 
 TEST_F( EntityTests, TakeCollisionPayload_Always_ReturnsFalse )

@@ -1,16 +1,23 @@
 #pragma once
 
+#include <memory>
+
 #include "ReadOnlyEntity.h"
 #include "EntityCollisionPayload.h"
 
 namespace MegaManLofi
 {
+   class IBehavior;
+
    class Entity : public ReadOnlyEntity
    {
    public:
+      Entity();
+
       virtual void SetUniqueId( int id ) { _uniqueId = id; }
       virtual void SetEntityType( EntityType type ) { _entityType = type; }
       virtual void SetEntityMetaId( int id ) { _entityMetaId = id; }
+      virtual void SetBehavior( const std::shared_ptr<IBehavior> behavior );
       virtual void SetArenaPosition( Coordinate<float> position ) { _arenaPosition = position; }
       virtual void SetVelocityX( float velocity ) { _velocityX = velocity; }
       virtual void SetVelocityY( float velocity ) { _velocityY = velocity; }
@@ -22,8 +29,12 @@ namespace MegaManLofi
       virtual void SetFrictionDecelerationPerSecond( float deceleration ) { _frictionDecelerationPerSecond = deceleration; }
       virtual void SetHealth( unsigned int health ) { _health = health; }
 
+      virtual void Act();
       virtual void StopX() { _velocityX = 0; }
       virtual void StopY() { _velocityY = 0; }
       virtual bool TakeCollisionPayload( const EntityCollisionPayload& payload ) { return false; }
+
+   private:
+      std::shared_ptr<IBehavior> _behavior;
    };
 }

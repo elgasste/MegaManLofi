@@ -93,6 +93,16 @@ TEST_F( EnemyBehaviorTests, Tick_GetPlayerVelocityYCommand_GetsPlayerVelocityY )
    _behavior->Tick();
 }
 
+TEST_F( EnemyBehaviorTests, Tick_GetPlayerDirectionCommand_GetsPlayerDirection )
+{
+   auto instruction = (mbc_instruction)( MBCGET_PLAYERDIR << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
+   _behavior->SetInstructions( vector<mbc_instruction> { instruction } );
+
+   EXPECT_CALL( *_playerEntityMock, GetDirection() );
+
+   _behavior->Tick();
+}
+
 TEST_F( EnemyBehaviorTests, Tick_SetEnemyVelocityXCommand_SetsEnemyVelocityX )
 {
    vector<mbc_instruction> instructions

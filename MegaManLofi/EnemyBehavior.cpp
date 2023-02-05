@@ -43,6 +43,9 @@ bool EnemyBehavior::HandleCommand( mbc_command command )
       case MBCGET_PLAYERVELY:
          GetPlayerVelocityY();
          return true;
+      case MBCGET_PLAYERDIR:
+         GetPlayerDirection();
+         return true;
 
       case MBCSET_ENTVELX:
          SetEnemyVelocityX();
@@ -84,6 +87,12 @@ void EnemyBehavior::GetPlayerVelocityY()
 {
    auto regIndex = MBC_PARSE_ARG0( _currentInstruction );
    _floatRegisters[regIndex] = _playerInfoProvider->GetPlayerEntity()->GetVelocityY();
+}
+
+void EnemyBehavior::GetPlayerDirection()
+{
+   auto regIndex = MBC_PARSE_ARG0( _currentInstruction );
+   _intRegisters[regIndex] = (int)_playerInfoProvider->GetPlayerEntity()->GetDirection();
 }
 
 void EnemyBehavior::SetEnemyVelocityX()

@@ -26,6 +26,7 @@ namespace MegaManLofi
       void GetPlayerPositionTop();
       void GetPlayerVelocityX();
       void GetPlayerVelocityY();
+      void GetPlayerDirection();
 
       void SetEnemyVelocityX();
       void SetEnemyVelocityY();

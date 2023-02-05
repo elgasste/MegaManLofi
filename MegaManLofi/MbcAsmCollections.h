@@ -53,7 +53,9 @@ namespace MbcAsm
       MBCCOMP_WHILE_GTEI,
       MBCCOMP_BREAK,
       MBCCOMP_ENDWHILE,
-      MBCCOMP_GET_FRAMESECS
+      MBCCOMP_GET_FRAMESECS,
+      MBCCOMP_GET_PLAYERPOSL,
+      MBCCOMP_GET_PLAYERPOST
    };
 
    const std::vector<std::string> IfTokens =
@@ -156,7 +158,9 @@ namespace MbcAsm
       { MBCCOMP_STOP, MBCCMD_STOP },
       { MBCCOMP_ABSF, MBCCMD_ABSF },
       { MBCCOMP_ABSI, MBCCMD_ABSI },
-      { MBCCOMP_GET_FRAMESECS, MBCGET_FRAMESECS }
+      { MBCCOMP_GET_FRAMESECS, MBCGET_FRAMESECS },
+      { MBCCOMP_GET_PLAYERPOSL, MBCGET_PLAYERPOSL },
+      { MBCCOMP_GET_PLAYERPOST, MBCGET_PLAYERPOST }
    };
 
    const std::map<std::string, int> TokenArgCountMap =
@@ -203,6 +207,8 @@ namespace MbcAsm
       { MBCCOMP_WHILE_GTEI, 2 },
       { MBCCOMP_BREAK, 0 },
       { MBCCOMP_ENDWHILE, 0 },
-      { MBCCOMP_GET_FRAMESECS, 1 }
+      { MBCCOMP_GET_FRAMESECS, 1 },
+      { MBCCOMP_GET_PLAYERPOSL, 1 },
+      { MBCCOMP_GET_PLAYERPOST, 1 }
    };
 }

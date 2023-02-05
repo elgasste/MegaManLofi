@@ -71,7 +71,8 @@ namespace MbcAsm
       MBCCOMP_GET_ENTMXHTH,
       MBCCOMP_GET_ENTMVM,
       MBCCOMP_SET_ENTVELX,
-      MBCCOMP_SET_ENTVELY
+      MBCCOMP_SET_ENTVELY,
+      MBCCOMP_SET_ENTDIR
    };
 
    const std::vector<std::string> IfTokens =
@@ -192,7 +193,8 @@ namespace MbcAsm
       { MBCCOMP_GET_ENTMXHTH, MBCGET_ENTMXHTH },
       { MBCCOMP_GET_ENTMVM, MBCGET_ENTMVM },
       { MBCCOMP_SET_ENTVELX, MBCSET_ENTVELX },
-      { MBCCOMP_SET_ENTVELY, MBCSET_ENTVELY }
+      { MBCCOMP_SET_ENTVELY, MBCSET_ENTVELY },
+      { MBCCOMP_SET_ENTDIR, MBCSET_ENTDIR }
    };
 
    const std::map<std::string, int> TokenArgCountMap =
@@ -257,6 +259,7 @@ namespace MbcAsm
       { MBCCOMP_GET_ENTMXHTH, 1 },
       { MBCCOMP_GET_ENTMVM, 1 },
       { MBCCOMP_SET_ENTVELX, 1 },
-      { MBCCOMP_SET_ENTVELY, 1 }
+      { MBCCOMP_SET_ENTVELY, 1 },
+      { MBCCOMP_SET_ENTDIR, 1 }
    };
 }

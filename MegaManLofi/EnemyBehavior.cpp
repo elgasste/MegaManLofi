@@ -86,6 +86,9 @@ bool EnemyBehavior::HandleCommand( mbc_command command )
       case MBCSET_ENTVELY:
          _enemy->SetVelocityY( _floatRegisters[MBC_PARSE_ARG0( _currentInstruction )] );
          return true;
+      case MBCSET_ENTDIR:
+         _enemy->SetDirection( (Direction)_intRegisters[MBC_PARSE_ARG0( _currentInstruction )] );
+         return true;
 
       default:
          return false;

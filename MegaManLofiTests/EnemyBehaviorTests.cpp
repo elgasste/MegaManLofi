@@ -242,3 +242,18 @@ TEST_F( EnemyBehaviorTests, Tick_SetEnemyVelocityYCommand_SetsEnemyVelocityY )
 
    _behavior->Tick();
 }
+
+TEST_F( EnemyBehaviorTests, Tick_SetEnemyDirectionCommand_SetsEnemyDirection )
+{
+   vector<mbc_instruction> instructions
+   {
+      (mbc_instruction)( MBCCMD_REGI << MBC_CMD_SHIFT | 2 << MBC_ARG0_SHIFT ),
+      (mbc_instruction)( Direction::Right ),
+      (mbc_instruction)( MBCSET_ENTDIR << MBC_CMD_SHIFT | 2 << MBC_ARG0_SHIFT )
+   };
+   _behavior->SetInstructions( instructions );
+
+   EXPECT_CALL( *_enemyMock, SetDirection( Direction::Right ) );
+
+   _behavior->Tick();
+}

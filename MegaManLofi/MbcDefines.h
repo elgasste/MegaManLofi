@@ -81,3 +81,4 @@ typedef unsigned char mbc_command;
 // setters
 #define MBCSET_ENTVELX     0x80     // set the entity's X velocity
 #define MBCSET_ENTVELY     0x81     // set the entity's Y velocity
+#define MBCSET_ENTDIR      0x82     // set the entity's direction

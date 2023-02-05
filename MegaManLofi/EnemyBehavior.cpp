@@ -52,6 +52,9 @@ bool EnemyBehavior::HandleCommand( mbc_command command )
       case MBCGET_PLRMXHTH:
          RegisterIntFromArg0( (int)_playerInfoProvider->GetPlayerEntity()->GetMaxHealth() );
          return true;
+      case MBCGET_PLRMVM:
+         RegisterIntFromArg0( (int)_playerInfoProvider->GetPlayerEntity()->GetMovementType() );
+         return true;
       case MBCGET_ENTPOSL:
          RegisterFloatFromArg0( _enemy->GetArenaPositionLeft() );
          return true;
@@ -72,6 +75,9 @@ bool EnemyBehavior::HandleCommand( mbc_command command )
          return true;
       case MBCGET_ENTMXHTH:
          RegisterIntFromArg0( (int)_enemy->GetMaxHealth() );
+         return true;
+      case MBCGET_ENTMVM:
+         RegisterIntFromArg0( (int)_enemy->GetMovementType() );
          return true;
 
       case MBCSET_ENTVELX:

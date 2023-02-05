@@ -68,13 +68,15 @@ typedef unsigned char mbc_command;
 #define MBCGET_PLRDIR      0x55     // get the player's direction
 #define MBCGET_PLRHTH      0x56     // get the player's health
 #define MBCGET_PLRMXHTH    0x57     // get the player's max health
-#define MBCGET_ENTPOSL     0x58     // get the entity's left position in the arena
-#define MBCGET_ENTPOST     0x59     // get the entity's top position in the arena
-#define MBCGET_ENTVELX     0x5A     // get the entity's X velocity
-#define MBCGET_ENTVELY     0x5B     // get the entity's Y velocity
-#define MBCGET_ENTDIR      0x5C     // get the entity's direction
-#define MBCGET_ENTHTH      0x5D     // get the entity's health
-#define MBCGET_ENTMXHTH    0x5E     // get the entity's max health
+#define MBCGET_PLRMVM      0x58     // get the player's movement type
+#define MBCGET_ENTPOSL     0x59     // get the entity's left position in the arena
+#define MBCGET_ENTPOST     0x5A     // get the entity's top position in the arena
+#define MBCGET_ENTVELX     0x5B     // get the entity's X velocity
+#define MBCGET_ENTVELY     0x5C     // get the entity's Y velocity
+#define MBCGET_ENTDIR      0x5D     // get the entity's direction
+#define MBCGET_ENTHTH      0x5E     // get the entity's health
+#define MBCGET_ENTMXHTH    0x5F     // get the entity's max health
+#define MBCGET_ENTMVM      0x60     // get the entity's movement type
 
 // setters
 #define MBCSET_ENTVELX     0x80     // set the entity's X velocity

@@ -25,6 +25,9 @@ namespace MegaManLofi
       void GetPlayerPositionLeft();
       void GetPlayerPositionTop();
 
+      void SetEnemyVelocityX();
+      void SetEnemyVelocityY();
+
    private:
       const std::shared_ptr<IFrameRateProvider> _frameRateProvider;
       const std::shared_ptr<IPlayerInfoProvider> _playerInfoProvider;

@@ -63,3 +63,7 @@ typedef unsigned char mbc_command;
 #define MBCGET_FRAMESECS   0x50     // get the last frame's elapsed seconds
 #define MBCGET_PLAYERPOSL  0x51     // get the player's left position in the arena
 #define MBCGET_PLAYERPOST  0x52     // get the player's top position in the arena
+
+// setters
+#define MBCSET_ENTVELX     0x80     // set the entity's X velocity
+#define MBCSET_ENTVELY     0x81     // set the entity's Y velocity

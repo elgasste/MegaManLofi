@@ -1,7 +1,7 @@
 #include "EnemyBehavior.h"
 #include "IFrameRateProvider.h"
 #include "IPlayerInfoProvider.h"
-#include "ReadOnlyEntity.h"
+#include "Entity.h"
 
 using namespace std;
 using namespace MegaManLofi;
@@ -37,6 +37,14 @@ bool EnemyBehavior::HandleCommand( mbc_command command )
       case MBCGET_PLAYERPOST:
          GetPlayerPositionTop();
          return true;
+
+      case MBCSET_ENTVELX:
+         SetEnemyVelocityX();
+         return true;
+      case MBCSET_ENTVELY:
+         SetEnemyVelocityY();
+         return true;
+
       default:
          return false;
    }
@@ -58,4 +66,16 @@ void EnemyBehavior::GetPlayerPositionTop()
 {
    auto regIndex = MBC_PARSE_ARG0( _currentInstruction );
    _floatRegisters[regIndex] = _playerInfoProvider->GetPlayerEntity()->GetArenaPositionTop();
+}
+
+void EnemyBehavior::SetEnemyVelocityX()
+{
+   auto regIndex = MBC_PARSE_ARG0( _currentInstruction );
+   _enemy->SetVelocityX( _floatRegisters[regIndex] );
+}
+
+void EnemyBehavior::SetEnemyVelocityY()
+{
+   auto regIndex = MBC_PARSE_ARG0( _currentInstruction );
+   _enemy->SetVelocityY( _floatRegisters[regIndex] );
 }

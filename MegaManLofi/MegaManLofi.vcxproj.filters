@@ -282,6 +282,9 @@
     <ClCompile Include="MbcAsmCompiler.cpp">
       <Filter>Source Files\MbcAsm</Filter>
     </ClCompile>
+    <ClCompile Include="EntityBehavior.cpp">
+      <Filter>Source Files\AI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameRunner.h">
@@ -658,6 +661,9 @@
     </ClInclude>
     <ClInclude Include="MbcAsmCollections.h">
       <Filter>Header Files\MbcAsm</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityBehavior.h">
+      <Filter>Header Files\AI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

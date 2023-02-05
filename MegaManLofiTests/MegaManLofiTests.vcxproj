@@ -78,6 +78,7 @@
   <ItemGroup>
     <ClCompile Include="ArenaPhysicsTests.cpp" />
     <ClCompile Include="ArenaTests.cpp" />
+    <ClCompile Include="EntityBehaviorTests.cpp" />
     <ClCompile Include="EntityPhysicsTests.cpp" />
     <ClCompile Include="EntityTests.cpp" />
     <ClCompile Include="ConsoleAnimationRepositoryTests.cpp" />

@@ -99,6 +99,9 @@
     <ClCompile Include="StringUtilitiesTests.cpp">
       <Filter>Tests\Utilities</Filter>
     </ClCompile>
+    <ClCompile Include="EntityBehaviorTests.cpp">
+      <Filter>Tests\AI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="mock_GameEventAggregator.h">
@@ -240,6 +243,9 @@
     </Filter>
     <Filter Include="Tests\Physics">
       <UniqueIdentifier>{2529fc09-d4e0-4ba7-9adc-c02a2b74bbbc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tests\AI">
+      <UniqueIdentifier>{cbb25b3b-cff7-4c2b-bbfb-4e7d12f592f6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

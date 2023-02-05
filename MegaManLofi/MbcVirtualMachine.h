@@ -36,7 +36,7 @@ namespace MegaManLofi
       void DoFloatCondition( ConditionOp op );
       void DoIntCondition( ConditionOp op );
 
-   private:
+   protected:
       std::vector<mbc_instruction> _instructions;
       bool _isTicking;
 

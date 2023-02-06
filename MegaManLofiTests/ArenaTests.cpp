@@ -454,7 +454,9 @@ TEST_F( ArenaTests, DeSpawnInactiveEntities_NoInactiveEntities_DoesNotDeSpawnEnt
    ON_CALL( *_playerMock, GetHitBox() ).WillByDefault( ReturnRef( playerHitBox ) );
    BuildArena();
    auto entityMock1 = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
+   ON_CALL( *entityMock1, GetHealth() ).WillByDefault( Return( 1 ) );
    auto entityMock2 = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
+   ON_CALL( *entityMock2, GetHealth() ).WillByDefault( Return( 1 ) );
    _arena->AddEntity( entityMock1 );
    _arena->AddEntity( entityMock2 );
 
@@ -472,13 +474,15 @@ TEST_F( ArenaTests, DeSpawnInactiveEntities_NoInactiveEntities_DoesNotDeSpawnEnt
    EXPECT_EQ( _arena->GetEntityCount(), 3 );
 }
 
-TEST_F( ArenaTests, DeSpawnInactiveEntities_InactiveEntitiesFound_DeSpawnsNonPlayerEntities )
+TEST_F( ArenaTests, DeSpawnInactiveEntities_LivingEntitiesFoundOutsideDespawnRegion_DeSpawnsNonPlayerEntities )
 {
    Rectangle<float> playerHitBox = { 10, 10, 30, 30 };
    ON_CALL( *_playerMock, GetHitBox() ).WillByDefault( ReturnRef( playerHitBox ) );
    BuildArena();
    auto entityMock1 = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
+   ON_CALL( *entityMock1, GetHealth() ).WillByDefault( Return( 1 ) );
    auto entityMock2 = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
+   ON_CALL( *entityMock2, GetHealth() ).WillByDefault( Return( 1 ) );
    _arena->AddEntity( entityMock1 );
    _arena->AddEntity( entityMock2 );
 
@@ -496,6 +500,34 @@ TEST_F( ArenaTests, DeSpawnInactiveEntities_InactiveEntitiesFound_DeSpawnsNonPla
    EXPECT_EQ( _arena->GetEntityCount(), 2 );
    EXPECT_EQ( _arena->GetEntity( 0 ), _playerMock );
    EXPECT_EQ( _arena->GetEntity( 1 ), entityMock2 );
+}
+
+TEST_F( ArenaTests, DeSpawnInactiveEntities_DeadEntitiesFoundInsideDespawnRegion_DeSpawnsNonPlayerEntities )
+{
+   Rectangle<float> playerHitBox = { 10, 10, 30, 30 };
+   ON_CALL( *_playerMock, GetHitBox() ).WillByDefault( ReturnRef( playerHitBox ) );
+   BuildArena();
+   auto entityMock1 = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
+   ON_CALL( *entityMock1, GetHealth() ).WillByDefault( Return( 1 ) );
+   auto entityMock2 = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
+   ON_CALL( *entityMock2, GetHealth() ).WillByDefault( Return( 0 ) );
+   _arena->AddEntity( entityMock1 );
+   _arena->AddEntity( entityMock2 );
+
+   Rectangle<float> hitBox1 = { 120, 120, 50, 50 };
+   Rectangle<float> hitBox2 = { 100, 100, 10, 10 };
+   ON_CALL( *entityMock1, GetHitBox() ).WillByDefault( ReturnRef( hitBox1 ) );
+   ON_CALL( *entityMock2, GetHitBox() ).WillByDefault( ReturnRef( hitBox2 ) );
+
+   _arena->SetDeSpawnRegion( { 90, 105, 200, 200 } );
+
+   EXPECT_CALL( *_eventAggregatorMock, RaiseEvent( GameEvent::ArenaEntityDeSpawned ) );
+
+   _arena->DeSpawnInactiveEntities();
+
+   EXPECT_EQ( _arena->GetEntityCount(), 2 );
+   EXPECT_EQ( _arena->GetEntity( 0 ), _playerMock );
+   EXPECT_EQ( _arena->GetEntity( 1 ), entityMock1 );
 }
 
 TEST_F( ArenaTests, DetectEntityCollisions_PlayerCollidesWithItem_PlayerTakesPayload )

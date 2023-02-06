@@ -146,8 +146,13 @@ void Arena::DeSpawnInactiveEntities()
 
    for ( auto entity : _entities )
    {
-      if ( !RectangleUtilities::RectanglesIntersectF( entity->GetHitBox(), entity->GetArenaPositionLeft(), entity->GetArenaPositionTop(), _deSpawnRegion, 0, 0 ) &&
-           entity != _playerEntity )
+      bool isOutsideDespawnRegion = !RectangleUtilities::RectanglesIntersectF( entity->GetHitBox(),
+                                                                               entity->GetArenaPositionLeft(),
+                                                                               entity->GetArenaPositionTop(),
+                                                                               _deSpawnRegion,
+                                                                               0,
+                                                                               0 );
+      if ( entity != _playerEntity && ( isOutsideDespawnRegion || entity->GetHealth() == 0 ) )
       {
          entitiesToDeSpawn.push_back( entity );
       }

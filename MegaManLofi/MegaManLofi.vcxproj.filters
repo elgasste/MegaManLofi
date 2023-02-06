@@ -668,5 +668,8 @@
     <ClInclude Include="IBehavior.h">
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
+    <ClInclude Include="GameDefGeneratorDefines.h">
+      <Filter>Header Files\GameDefGenerators</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

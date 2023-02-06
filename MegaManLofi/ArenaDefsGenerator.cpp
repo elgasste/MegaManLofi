@@ -2,6 +2,7 @@
 #include "ArenaTileGenerator.h"
 #include "ArenaDefs.h"
 #include "WorldDefs.h"
+#include "GameDefGeneratorDefines.h"
 
 using namespace std;
 using namespace MegaManLofi;
@@ -21,13 +22,13 @@ map<int, shared_ptr<ArenaDefs>> ArenaDefsGenerator::GenerateArenaDefsMap( const 
 
    // small health drop at 4, 52
    arenaDefsMap[0]->SpawnPoints.push_back( SpawnPoint() );
-   arenaDefsMap[0]->SpawnPoints[0].EntityMetaId = 2;
+   arenaDefsMap[0]->SpawnPoints[0].EntityMetaId = METAID_ITEM_SMALLHEALTHDROP;
    arenaDefsMap[0]->SpawnPoints[0].ArenaPosition = { worldDefs->TileWidth * 4, worldDefs->TileHeight * 52 };
    arenaDefsMap[0]->SpawnPoints[0].IsBoundToUniqueId = true;
 
    // large health drop at 306, 38
    arenaDefsMap[0]->SpawnPoints.push_back( SpawnPoint() );
-   arenaDefsMap[0]->SpawnPoints[1].EntityMetaId = 3;
+   arenaDefsMap[0]->SpawnPoints[1].EntityMetaId = METAID_ITEM_LARGEHEALTHDROP;
    arenaDefsMap[0]->SpawnPoints[1].ArenaPosition = { worldDefs->TileWidth * 306, worldDefs->TileHeight * 38 };
    arenaDefsMap[0]->SpawnPoints[1].IsBoundToUniqueId = true;
 
@@ -42,7 +43,7 @@ map<int, shared_ptr<ArenaDefs>> ArenaDefsGenerator::GenerateArenaDefsMap( const 
 
    // extra life at 112, 24
    arenaDefsMap[1]->SpawnPoints.push_back( SpawnPoint() );
-   arenaDefsMap[1]->SpawnPoints[0].EntityMetaId = 4;
+   arenaDefsMap[1]->SpawnPoints[0].EntityMetaId = METAID_ITEM_EXTRALIFE;
    arenaDefsMap[1]->SpawnPoints[0].ArenaPosition = { worldDefs->TileWidth * 112, worldDefs->TileHeight * 24 };
    arenaDefsMap[1]->SpawnPoints[0].IsBoundToUniqueId = true;
 
@@ -57,7 +58,7 @@ map<int, shared_ptr<ArenaDefs>> ArenaDefsGenerator::GenerateArenaDefsMap( const 
 
    // large health drop at 112, 6
    arenaDefsMap[2]->SpawnPoints.push_back( SpawnPoint() );
-   arenaDefsMap[2]->SpawnPoints[0].EntityMetaId = 3;
+   arenaDefsMap[2]->SpawnPoints[0].EntityMetaId = METAID_ITEM_LARGEHEALTHDROP;
    arenaDefsMap[2]->SpawnPoints[0].ArenaPosition = { worldDefs->TileWidth * 112, worldDefs->TileHeight * 6 };
    arenaDefsMap[2]->SpawnPoints[0].IsBoundToUniqueId = true;
 

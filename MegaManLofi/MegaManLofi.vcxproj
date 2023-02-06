@@ -256,6 +256,7 @@
     <ClInclude Include="GameClock.h" />
     <ClInclude Include="GameCommand.h" />
     <ClInclude Include="GameCommandArgs.h" />
+    <ClInclude Include="GameDefGeneratorDefines.h" />
     <ClInclude Include="GameDefs.h" />
     <ClInclude Include="GameDefsGenerator.h" />
     <ClInclude Include="GameOverStateConsoleRenderer.h" />

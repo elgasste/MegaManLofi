@@ -4,6 +4,7 @@
 #include "ConsoleSpriteDefs.h"
 #include "ConsoleSprite.h"
 #include "EntityConsoleSprite.h"
+#include "GameDefGeneratorDefines.h"
 
 using namespace std;
 using namespace MegaManLofi;
@@ -237,6 +238,33 @@ shared_ptr<ConsoleSprite> ConsoleSpriteDefsGenerator::GenerateExtraLifeSprite( c
    return sprite;
 }
 
+shared_ptr<ConsoleSprite> ConsoleSpriteDefsGenerator::GenerateStationaryTurretSprite( const shared_ptr<IFrameRateProvider> frameRateProvider )
+{
+   auto sprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( frameRateProvider, 0.50f ) );
+
+   ConsoleImage image0;
+   ConsoleImage image1;
+
+   image0.Width = 1;
+   image0.Height = 4;
+   image0.Pixels.push_back( { '%', true, ConsoleColor::DarkMagenta, ConsoleColor::Black } );
+   image0.Pixels.push_back( { '|', true, ConsoleColor::DarkGrey, ConsoleColor::Black } );
+   image0.Pixels.push_back( { '|', true, ConsoleColor::DarkGrey, ConsoleColor::Black } );
+   image0.Pixels.push_back( { 'X', true, ConsoleColor::DarkGrey, ConsoleColor::Black } );
+
+   image1.Width = 1;
+   image1.Height = 4;
+   image1.Pixels.push_back( { '%', true, ConsoleColor::Red, ConsoleColor::Black } );
+   image1.Pixels.push_back( { '|', true, ConsoleColor::DarkGrey, ConsoleColor::Black } );
+   image1.Pixels.push_back( { '|', true, ConsoleColor::DarkGrey, ConsoleColor::Black } );
+   image1.Pixels.push_back( { 'X', true, ConsoleColor::DarkGrey, ConsoleColor::Black } );
+
+   sprite->AddImage( image0 );
+   sprite->AddImage( image1 );
+
+   return sprite;
+}
+
 shared_ptr<ConsoleSprite> ConsoleSpriteDefsGenerator::GeneratePlayerThwipSprite( const shared_ptr<IFrameRateProvider> frameRateProvider )
 {
    auto thwipSprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( frameRateProvider, .05f ) );
@@ -392,7 +420,7 @@ map<int, shared_ptr<EntityConsoleSprite>> ConsoleSpriteDefsGenerator::GenerateEn
          bulletEntitySprite->AddSprite( (MovementType)i, (Direction)j, bulletSprite );
       }
    }
-   entitySpriteMap[1] = bulletEntitySprite;
+   entitySpriteMap[METAID_PROJECTILE_BULLET] = bulletEntitySprite;
 
    // small health drop
    auto smallHealthDropSprite = GenerateSmallHealthDropSprite( frameRateProvider );
@@ -404,7 +432,7 @@ map<int, shared_ptr<EntityConsoleSprite>> ConsoleSpriteDefsGenerator::GenerateEn
          smallHealthDropEntitySprite->AddSprite( (MovementType)i, (Direction)j, smallHealthDropSprite );
       }
    }
-   entitySpriteMap[2] = smallHealthDropEntitySprite;
+   entitySpriteMap[METAID_ITEM_SMALLHEALTHDROP] = smallHealthDropEntitySprite;
 
    // large health drop
    auto largeHealthDropSprite = GenerateLargeHealthDropSprite( frameRateProvider );
@@ -416,7 +444,7 @@ map<int, shared_ptr<EntityConsoleSprite>> ConsoleSpriteDefsGenerator::GenerateEn
          largeHealthDropEntitySprite->AddSprite( (MovementType)i, (Direction)j, largeHealthDropSprite );
       }
    }
-   entitySpriteMap[3] = largeHealthDropEntitySprite;
+   entitySpriteMap[METAID_ITEM_LARGEHEALTHDROP] = largeHealthDropEntitySprite;
 
    // extra life
    auto extraLifeSprite = GenerateExtraLifeSprite( frameRateProvider );
@@ -428,7 +456,19 @@ map<int, shared_ptr<EntityConsoleSprite>> ConsoleSpriteDefsGenerator::GenerateEn
          extraLifeEntitySprite->AddSprite( (MovementType)i, (Direction)j, extraLifeSprite );
       }
    }
-   entitySpriteMap[4] = extraLifeEntitySprite;
+   entitySpriteMap[METAID_ITEM_EXTRALIFE] = extraLifeEntitySprite;
+
+   // stationary turret
+   auto stationaryTurretSprite = GenerateStationaryTurretSprite( frameRateProvider );
+   auto stationaryTurretEntitySprite = make_shared<EntityConsoleSprite>();
+   for ( int i = 0; i < (int)MovementType::MovementTypeCount; i++ )
+   {
+      for ( int j = 0; j < (int)Direction::DirectionCount; j++ )
+      {
+         stationaryTurretEntitySprite->AddSprite( (MovementType)i, (Direction)j, stationaryTurretSprite );
+      }
+   }
+   entitySpriteMap[METAID_ENEMY_STATIONARYTURRET] = stationaryTurretEntitySprite;
 
    return entitySpriteMap;
 }

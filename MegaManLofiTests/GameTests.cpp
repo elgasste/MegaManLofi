@@ -564,7 +564,7 @@ TEST_F( GameTests, Tick_GameStateIsPlayingAndNotPaused_DoesEntityAndArenaActions
    _game->Tick();
 }
 
-TEST_F( GameTests, Tick_GameStateIsPlayingAndNotPaused_TellsArenaEntitiesToAct )
+TEST_F( GameTests, Tick_GameStateIsPlayingAndNotPaused_TellsArenaEntitiesToTick )
 {
    auto entityMock1 = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
    auto entityMock2 = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
@@ -574,8 +574,8 @@ TEST_F( GameTests, Tick_GameStateIsPlayingAndNotPaused_TellsArenaEntitiesToAct )
    BuildGame();
    _game->ExecuteCommand( GameCommand::StartStage );
 
-   EXPECT_CALL( *entityMock1, Act() );
-   EXPECT_CALL( *entityMock2, Act() );
+   EXPECT_CALL( *entityMock1, Tick() );
+   EXPECT_CALL( *entityMock2, Tick() );
 
    _game->Tick();
 }

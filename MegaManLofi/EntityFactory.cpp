@@ -8,16 +8,18 @@ using namespace std;
 using namespace MegaManLofi;
 
 EntityFactory::EntityFactory( const shared_ptr<EntityDefs> entityDefs,
-                              const shared_ptr<UniqueNumberGenerator> uniqueNumberGenerator ) :
+                              const shared_ptr<UniqueNumberGenerator> uniqueNumberGenerator,
+                              const shared_ptr<IFrameRateProvider> frameRateProvider ) :
    _entityDefs( entityDefs ),
-   _uniqueNumberGenerator( uniqueNumberGenerator )
+   _uniqueNumberGenerator( uniqueNumberGenerator ),
+   _frameRateProvider( frameRateProvider )
 {
 }
 
 const shared_ptr<Entity> EntityFactory::CreateEntity( int entityMetaId, Direction direction ) const
 {
    auto type = _entityDefs->EntityTypeMap[entityMetaId];
-   auto entity = make_shared<Entity>();
+   auto entity = shared_ptr<Entity>( new Entity( _frameRateProvider ) );
 
    entity->SetUniqueId( _uniqueNumberGenerator->GetNext() );
    entity->SetEntityType( type );

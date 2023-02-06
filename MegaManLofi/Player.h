@@ -17,9 +17,9 @@ namespace MegaManLofi
    {
    public:
       Player() { }
-      Player( const std::shared_ptr<PlayerDefs> playerDefs,
+      Player( const std::shared_ptr<IFrameRateProvider> frameRateProvider,
+              const std::shared_ptr<PlayerDefs> playerDefs,
               const std::shared_ptr<FrameActionRegistry> frameActionRegistry,
-              const std::shared_ptr<IFrameRateProvider> frameRateProvider,
               const std::shared_ptr<GameEventAggregator> eventAggregator );
 
       virtual void Reset();
@@ -38,7 +38,6 @@ namespace MegaManLofi
    private:
       const std::shared_ptr<PlayerDefs> _playerDefs;
       const std::shared_ptr<FrameActionRegistry> _frameActionRegistry;
-      const std::shared_ptr<IFrameRateProvider> _frameRateProvider;
       const std::shared_ptr<GameEventAggregator> _eventAggregator;
    };
 }

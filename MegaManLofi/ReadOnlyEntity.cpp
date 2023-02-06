@@ -18,6 +18,7 @@ ReadOnlyEntity::ReadOnlyEntity() :
    _health( 0 ),
    _maxHealth( 0 ),
    _damageInvulnerabilitySeconds( 0 ),
+   _damageInvulnerabilityCounter( 0 ),
    _isInvulnerable( false )
 {
 }

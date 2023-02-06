@@ -7,6 +7,7 @@
 #include <MegaManLofi/Entity.h>
 
 #include "mock_UniqueNumberGenerator.h"
+#include "mock_FrameRateProvider.h"
 
 using namespace std;
 using namespace testing;
@@ -19,6 +20,7 @@ public:
    {
       _entityDefs.reset( new EntityDefs );
       _uniqueNumberGeneratorMock.reset( new NiceMock<mock_UniqueNumberGenerator> );
+      _frameRateProviderMock.reset( new NiceMock<mock_FrameRateProvider> );
 
       _entityDefs->BulletEntityMetaId = 4;
 
@@ -37,12 +39,13 @@ public:
 
    void BuildFactory()
    {
-      _factory.reset( new EntityFactory( _entityDefs, _uniqueNumberGeneratorMock ) );
+      _factory.reset( new EntityFactory( _entityDefs, _uniqueNumberGeneratorMock, _frameRateProviderMock ) );
    }
 
 protected:
    shared_ptr<EntityDefs> _entityDefs;
    shared_ptr<mock_UniqueNumberGenerator> _uniqueNumberGeneratorMock;
+   shared_ptr<mock_FrameRateProvider> _frameRateProviderMock;
 
    shared_ptr<EntityFactory> _factory;
 };

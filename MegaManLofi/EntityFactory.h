@@ -9,6 +9,7 @@ namespace MegaManLofi
 {
    class EntityDefs;
    class UniqueNumberGenerator;
+   class IFrameRateProvider;
    class Entity;
 
    class EntityFactory
@@ -16,7 +17,8 @@ namespace MegaManLofi
    public:
       EntityFactory() { }
       EntityFactory( const std::shared_ptr<EntityDefs> entityDefs,
-                     const std::shared_ptr<UniqueNumberGenerator> uniqueNumberGenerator );
+                     const std::shared_ptr<UniqueNumberGenerator> uniqueNumberGenerator,
+                     const std::shared_ptr<IFrameRateProvider> frameRateProvider );
 
       virtual const std::shared_ptr<Entity> CreateEntity( int entityMetaId, Direction direction ) const;
 
@@ -28,5 +30,6 @@ namespace MegaManLofi
    private:
       const std::shared_ptr<EntityDefs> _entityDefs;
       const std::shared_ptr<UniqueNumberGenerator> _uniqueNumberGenerator;
+      const std::shared_ptr<IFrameRateProvider> _frameRateProvider;
    };
 }

@@ -40,8 +40,9 @@ public:
    MOCK_METHOD( void, SetGravityAccelerationPerSecond, ( float ), ( override ) );
    MOCK_METHOD( void, SetFrictionDecelerationPerSecond, ( float ), ( override ) );
    MOCK_METHOD( void, SetHealth, ( unsigned int ), ( override ) );
+   MOCK_METHOD( void, SetMaxHealth, ( unsigned int ), ( override ) );
    MOCK_METHOD( void, SetDamageInvulnerabilitySeconds, ( float ), ( override ) );
-   MOCK_METHOD( void, Act, ( ), ( override ) );
+   MOCK_METHOD( void, Tick, ( ), ( override ) );
    MOCK_METHOD( void, StopX, ( ), ( override ) );
    MOCK_METHOD( void, StopY, ( ), ( override ) );
    MOCK_METHOD( bool, TakeCollisionPayload, ( const MegaManLofi::EntityCollisionPayload& ), ( override ) );

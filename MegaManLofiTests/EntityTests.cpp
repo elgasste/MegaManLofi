@@ -5,6 +5,7 @@
 #include <MegaManLofi/Entity.h>
 
 #include "mock_Behavior.h"
+#include "mock_FrameRateProvider.h"
 
 using namespace std;
 using namespace testing;
@@ -60,7 +61,37 @@ TEST_F( EntityTests, Setters_Always_SetsPropertyValues )
    EXPECT_EQ( entity->GetMovementType(), MovementType::Airborne );
 }
 
-TEST_F( EntityTests, Act_BehaviorIsNotNull_TicksBehavior )
+TEST_F( EntityTests, Tick_IsInvulnerableWithTimeRemaining_RemainsInvulnerable )
+{
+   auto frameRateProviderMock = shared_ptr<mock_FrameRateProvider>( new NiceMock<mock_FrameRateProvider> );
+   ON_CALL( *frameRateProviderMock, GetFrameSeconds() ).WillByDefault( Return( 1.0f ) );
+   auto entity = shared_ptr<Entity>( new Entity( frameRateProviderMock ) );
+   entity->SetMaxHealth( 100 );
+   entity->SetHealth( 100 );
+   entity->SetDamageInvulnerabilitySeconds( 1.5f );
+
+   EXPECT_TRUE( entity->TakeCollisionPayload( { -10, 0 } ) );
+   entity->Tick();
+
+   EXPECT_TRUE( entity->IsInvulnerable() );
+}
+
+TEST_F( EntityTests, Tick_IsInvulnerableWithNoTimeRemaining_BecomesVulnerable )
+{
+   auto frameRateProviderMock = shared_ptr<mock_FrameRateProvider>( new NiceMock<mock_FrameRateProvider> );
+   ON_CALL( *frameRateProviderMock, GetFrameSeconds() ).WillByDefault( Return( 1.0f ) );
+   auto entity = shared_ptr<Entity>( new Entity( frameRateProviderMock ) );
+   entity->SetMaxHealth( 100 );
+   entity->SetHealth( 100 );
+   entity->SetDamageInvulnerabilitySeconds( 0.9f );
+
+   EXPECT_TRUE( entity->TakeCollisionPayload( { -10, 0 } ) );
+   entity->Tick();
+
+   EXPECT_FALSE( entity->IsInvulnerable() );
+}
+
+TEST_F( EntityTests, Tick_BehaviorIsNotNull_TicksBehavior )
 {
    auto entity = make_shared<Entity>();
    auto behaviorMock = shared_ptr<mock_Behavior>( new NiceMock<mock_Behavior> );
@@ -68,12 +99,95 @@ TEST_F( EntityTests, Act_BehaviorIsNotNull_TicksBehavior )
 
    EXPECT_CALL( *behaviorMock, Tick() );
 
-   entity->Act();
+   entity->Tick();
 }
 
-TEST_F( EntityTests, TakeCollisionPayload_Always_ReturnsFalse )
+TEST_F( EntityTests, TakeCollisionPayload_HealthPayloadIsZero_ReturnsFalse )
 {
    auto entity = make_shared<Entity>();
 
    EXPECT_FALSE( entity->TakeCollisionPayload( EntityCollisionPayload() ) );
+}
+
+TEST_F( EntityTests, TakeCollisionPayload_HealthPayloadIsNegativeAndIsInvulnerable_ReturnsFalse )
+{
+   auto entity = make_shared<Entity>();
+   entity->SetMaxHealth( 100 );
+   entity->SetHealth( 100 );
+   entity->SetDamageInvulnerabilitySeconds( 1.0f );
+
+   EXPECT_TRUE( entity->TakeCollisionPayload( { -10, 0 } ) );
+
+   EXPECT_EQ( entity->GetHealth(), 90 );
+   EXPECT_TRUE( entity->IsInvulnerable() );
+
+   EXPECT_FALSE( entity->TakeCollisionPayload( { -10, 0 } ) );
+   EXPECT_EQ( entity->GetHealth(), 90 );
+}
+
+TEST_F( EntityTests, TakeCollisionPayload_NewHealthIsTooLow_ClampsHealthToZero )
+{
+   auto entity = make_shared<Entity>();
+   entity->SetMaxHealth( 100 );
+   entity->SetHealth( 100 );
+
+   EXPECT_TRUE( entity->TakeCollisionPayload( { -150, 0 } ) );
+   EXPECT_EQ( entity->GetHealth(), 0 );
+}
+
+TEST_F( EntityTests, TakeCollisionPayload_NewHealthMatchesOldHealth_ReturnsFalse )
+{
+   auto entity = make_shared<Entity>();
+   entity->SetMaxHealth( 100 );
+   entity->SetHealth( 100 );
+
+   EXPECT_FALSE( entity->TakeCollisionPayload( { 10, 0 } ) );
+}
+
+TEST_F( EntityTests, TakeCollisionPayload_NewHealthIsTooHigh_ClampsHealthToMax )
+{
+   auto entity = make_shared<Entity>();
+   entity->SetMaxHealth( 100 );
+   entity->SetHealth( 80 );
+
+   EXPECT_TRUE( entity->TakeCollisionPayload( { 30, 0 } ) );
+   EXPECT_EQ( entity->GetHealth(), 100 );
+}
+
+TEST_F( EntityTests, TakeCollisionPayload_HealthDecreasedToZero_DoesNotSetInvulnerability )
+{
+   auto entity = make_shared<Entity>();
+   entity->SetMaxHealth( 100 );
+   entity->SetHealth( 100 );
+   entity->SetDamageInvulnerabilitySeconds( 1.0f );
+
+   EXPECT_TRUE( entity->TakeCollisionPayload( { -100, 0 } ) );
+
+   EXPECT_EQ( entity->GetHealth(), 0 );
+   EXPECT_FALSE( entity->IsInvulnerable() );
+}
+
+TEST_F( EntityTests, TakeCollisionPayload_HealthDecreasedAndNoInvulnerability_DoesNotSetInvulnerability )
+{
+   auto entity = make_shared<Entity>();
+   entity->SetMaxHealth( 100 );
+   entity->SetHealth( 100 );
+
+   EXPECT_TRUE( entity->TakeCollisionPayload( { -10, 0 } ) );
+
+   EXPECT_EQ( entity->GetHealth(), 90 );
+   EXPECT_FALSE( entity->IsInvulnerable() );
+}
+
+TEST_F( EntityTests, TakeCollisionPayload_HealthDecreasedAndHasInvulnerability_SetsInvulnerability )
+{
+   auto entity = make_shared<Entity>();
+   entity->SetMaxHealth( 100 );
+   entity->SetHealth( 100 );
+   entity->SetDamageInvulnerabilitySeconds( 1.0f );
+
+   EXPECT_TRUE( entity->TakeCollisionPayload( { -10, 0 } ) );
+
+   EXPECT_EQ( entity->GetHealth(), 90 );
+   EXPECT_TRUE( entity->IsInvulnerable() );
 }

@@ -48,6 +48,7 @@ namespace MegaManLofi
       unsigned int _health;
       unsigned int _maxHealth;
       float _damageInvulnerabilitySeconds;
+      float _damageInvulnerabilityCounter;
       bool _isInvulnerable;
    };
 }

@@ -7,12 +7,14 @@
 
 namespace MegaManLofi
 {
+   class IFrameRateProvider;
    class IBehavior;
 
    class Entity : public ReadOnlyEntity
    {
    public:
-      Entity();
+      Entity() { }
+      Entity( const std::shared_ptr<IFrameRateProvider> frameRateProvider );
 
       virtual void SetUniqueId( int id ) { _uniqueId = id; }
       virtual void SetEntityType( EntityType type ) { _entityType = type; }
@@ -28,12 +30,16 @@ namespace MegaManLofi
       virtual void SetGravityAccelerationPerSecond( float acceleration ) { _gravityAccelerationPerSecond = acceleration; }
       virtual void SetFrictionDecelerationPerSecond( float deceleration ) { _frictionDecelerationPerSecond = deceleration; }
       virtual void SetHealth( unsigned int health ) { _health = health; }
+      virtual void SetMaxHealth( unsigned int health ) { _maxHealth = health; }
       virtual void SetDamageInvulnerabilitySeconds( float seconds ) { _damageInvulnerabilitySeconds = seconds; }
 
-      virtual void Act();
+      virtual void Tick();
       virtual void StopX() { _velocityX = 0; }
       virtual void StopY() { _velocityY = 0; }
-      virtual bool TakeCollisionPayload( const EntityCollisionPayload& payload ) { return false; }
+      virtual bool TakeCollisionPayload( const EntityCollisionPayload& payload );
+
+   protected:
+      const std::shared_ptr<IFrameRateProvider> _frameRateProvider;
 
    private:
       std::shared_ptr<IBehavior> _behavior;

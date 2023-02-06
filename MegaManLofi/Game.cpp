@@ -54,7 +54,7 @@ void Game::Tick()
       auto arena = _stage->GetMutableActiveArena();
       for ( int i = 0; i < arena->GetEntityCount(); i++ )
       {
-         arena->GetMutableEntity( i )->Act();
+         arena->GetMutableEntity( i )->Tick();
       }
 
       _entityPhysics->Tick();

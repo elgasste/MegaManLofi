@@ -17,6 +17,7 @@ ReadOnlyEntity::ReadOnlyEntity() :
    _frictionDecelerationPerSecond( 0 ),
    _health( 0 ),
    _maxHealth( 0 ),
+   _damageInvulnerabilitySeconds( 0 ),
    _isInvulnerable( false )
 {
 }

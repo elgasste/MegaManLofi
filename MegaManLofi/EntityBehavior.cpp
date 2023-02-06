@@ -67,6 +67,9 @@ bool EntityBehavior::HandleCommand( mbc_command command )
       case MBCGET_PLAYERMOVEMENTTYPE:
          RegisterIntFromArg0( (int)_playerInfoProvider->GetPlayerEntity()->GetMovementType() );
          return true;
+      case MBCGET_PLAYERDAMAGESECONDS:
+         RegisterFloatFromArg0( _playerInfoProvider->GetPlayerEntity()->GetDamageInvulnerabilitySeconds() );
+         return true;
       case MBCGET_PLAYERISINVULNERABLE:
          RegisterBoolFromArg0( _playerInfoProvider->GetPlayerEntity()->IsInvulnerable() );
          return true;
@@ -94,6 +97,9 @@ bool EntityBehavior::HandleCommand( mbc_command command )
          return true;
       case MBCGET_MOVEMENTTYPE:
          RegisterIntFromArg0( (int)_entity->GetMovementType() );
+         return true;
+      case MBCGET_DAMAGESECONDS:
+         RegisterFloatFromArg0( _entity->GetDamageInvulnerabilitySeconds() );
          return true;
       case MBCGET_ISINVULNERABLE:
          RegisterBoolFromArg0( _entity->IsInvulnerable() );

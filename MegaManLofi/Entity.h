@@ -28,6 +28,7 @@ namespace MegaManLofi
       virtual void SetGravityAccelerationPerSecond( float acceleration ) { _gravityAccelerationPerSecond = acceleration; }
       virtual void SetFrictionDecelerationPerSecond( float deceleration ) { _frictionDecelerationPerSecond = deceleration; }
       virtual void SetHealth( unsigned int health ) { _health = health; }
+      virtual void SetDamageInvulnerabilitySeconds( float seconds ) { _damageInvulnerabilitySeconds = seconds; }
 
       virtual void Act();
       virtual void StopX() { _velocityX = 0; }

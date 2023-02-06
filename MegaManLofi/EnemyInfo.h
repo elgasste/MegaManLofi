@@ -10,5 +10,7 @@ namespace MegaManLofi
 
       float MaxGravityVelocity = 0;
       float GravityAccelerationPerSecond = 0;
+
+      float DamageInvulnerabilitySeconds = 0;
    };
 }

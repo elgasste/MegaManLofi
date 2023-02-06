@@ -78,6 +78,7 @@ void EntityFactory::SetEnemyInfo( const std::shared_ptr<Entity> enemy, int metaI
    enemy->SetHitBox( _entityDefs->EnemyInfoMap[metaId].HitBox );
    enemy->SetMaxGravityVelocity( _entityDefs->EnemyInfoMap[metaId].MaxGravityVelocity );
    enemy->SetGravityAccelerationPerSecond( _entityDefs->EnemyInfoMap[metaId].GravityAccelerationPerSecond );
+   enemy->SetDamageInvulnerabilitySeconds( _entityDefs->EnemyInfoMap[metaId].DamageInvulnerabilitySeconds );
 
    auto behaviorIt = _entityDefs->EntityBehaviorMap.find( metaId );
 

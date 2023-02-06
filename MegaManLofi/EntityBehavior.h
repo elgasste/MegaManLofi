@@ -24,6 +24,7 @@ namespace MegaManLofi
 
       void RegisterFloatFromArg0( float val );
       void RegisterIntFromArg0( int val );
+      void RegisterBoolFromArg0( bool val );
 
    private:
       std::shared_ptr<IFrameRateProvider> _frameRateProvider;

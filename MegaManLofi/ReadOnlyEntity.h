@@ -29,6 +29,7 @@ namespace MegaManLofi
       virtual float GetFrictionDecelerationPerSecond() const { return _frictionDecelerationPerSecond; }
       virtual unsigned int GetHealth() const { return _health; }
       virtual unsigned int GetMaxHealth() const { return _maxHealth; }
+      virtual bool IsInvulnerable() const { return _isInvulnerable; }
 
    protected:
       int _uniqueId;
@@ -45,5 +46,6 @@ namespace MegaManLofi
       float _frictionDecelerationPerSecond;
       unsigned int _health;
       unsigned int _maxHealth;
+      bool _isInvulnerable;
    };
 }

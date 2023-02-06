@@ -90,7 +90,7 @@ TEST_F( EntityFactoryTests, CreateEntity_Always_SetsDirection )
    EXPECT_EQ( entity->GetDirection(), Direction::UpRight );
 }
 
-TEST_F( EntityFactoryTests, CreateEntity_Item_SetsItemPropertiesFromInfo )
+TEST_F( EntityFactoryTests, CreateEntity_Item_SetsItemPropertiesFromDefs )
 {
    BuildFactory();
 
@@ -102,6 +102,18 @@ TEST_F( EntityFactoryTests, CreateEntity_Item_SetsItemPropertiesFromInfo )
    EXPECT_EQ( entity->GetHitBox().Height, 20 );
    EXPECT_EQ( entity->GetMaxGravityVelocity(), 100.0f );
    EXPECT_EQ( entity->GetGravityAccelerationPerSecond(), 3'000.0f );
+   EXPECT_EQ( entity->GetMaxHealth(), 1 );
+   EXPECT_EQ( entity->GetHealth(), 1 );
+}
+
+TEST_F( EntityFactoryTests, CreateEntity_Projectile_SetsHealthPropertiesFromDefs )
+{
+   BuildFactory();
+
+   auto entity = _factory->CreateEntity( 2, Direction::Left );
+
+   EXPECT_EQ( entity->GetMaxHealth(), 1 );
+   EXPECT_EQ( entity->GetHealth(), 1 );
 }
 
 TEST_F( EntityFactoryTests, CreateEntity_ProjectileMovingLeft_SetsVelocityFromDefs )

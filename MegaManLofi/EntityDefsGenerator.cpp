@@ -53,6 +53,7 @@ shared_ptr<EntityDefs> EntityDefsGenerator::GenerateEntityDefs()
    entityDefs->EnemyInfoMap[METAID_ENEMY_STATIONARYTURRET].HitBox = { 0, 0, 38, 78 * 4 }; // 1 x 4 tiles
    entityDefs->EnemyInfoMap[METAID_ENEMY_STATIONARYTURRET].MaxGravityVelocity = 4'000;
    entityDefs->EnemyInfoMap[METAID_ENEMY_STATIONARYTURRET].GravityAccelerationPerSecond = 10'000;
+   entityDefs->EnemyInfoMap[METAID_ENEMY_STATIONARYTURRET].MaxHealth = 50;
    entityDefs->EnemyInfoMap[METAID_ENEMY_STATIONARYTURRET].DamageInvulnerabilitySeconds = 0.1f;
    entityDefs->CollisionPayloadMap[METAID_ENEMY_STATIONARYTURRET].Health = -10;
 

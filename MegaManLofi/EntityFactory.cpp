@@ -47,14 +47,17 @@ void EntityFactory::SetItemInfo( const std::shared_ptr<Entity> item, int metaId 
    item->SetHitBox( _entityDefs->ItemInfoMap[metaId].HitBox );
    item->SetMaxGravityVelocity( _entityDefs->ItemInfoMap[metaId].MaxGravityVelocity );
    item->SetGravityAccelerationPerSecond( _entityDefs->ItemInfoMap[metaId].GravityAccelerationPerSecond );
+   item->SetMaxHealth( 1 );
+   item->SetHealth( 1 );
 }
 
 void EntityFactory::SetProjectileInfo( const std::shared_ptr<Entity> projectile, Direction direction ) const
 {
    auto metaId = projectile->GetEntityMetaId();
    auto velocity = _entityDefs->ProjectileInfoMap[metaId].Velocity;
-
    projectile->SetHitBox( _entityDefs->ProjectileInfoMap[metaId].HitBox );
+   projectile->SetMaxHealth( 1 );
+   projectile->SetHealth( 1 );
 
    if ( direction == Direction::UpLeft || direction == Direction::Left || direction == Direction::DownLeft )
    {
@@ -80,6 +83,8 @@ void EntityFactory::SetEnemyInfo( const std::shared_ptr<Entity> enemy, int metaI
    enemy->SetHitBox( _entityDefs->EnemyInfoMap[metaId].HitBox );
    enemy->SetMaxGravityVelocity( _entityDefs->EnemyInfoMap[metaId].MaxGravityVelocity );
    enemy->SetGravityAccelerationPerSecond( _entityDefs->EnemyInfoMap[metaId].GravityAccelerationPerSecond );
+   enemy->SetMaxHealth( _entityDefs->EnemyInfoMap[metaId].MaxHealth );
+   enemy->SetHealth( enemy->GetMaxHealth() );
    enemy->SetDamageInvulnerabilitySeconds( _entityDefs->EnemyInfoMap[metaId].DamageInvulnerabilitySeconds );
 
    auto behaviorIt = _entityDefs->EntityBehaviorMap.find( metaId );

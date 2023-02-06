@@ -21,8 +21,9 @@ namespace MegaManLofi
       virtual const std::shared_ptr<Entity> CreateEntity( int entityMetaId, Direction direction ) const;
 
    private:
+      void SetItemInfo( const std::shared_ptr<Entity> item, int metaId ) const;
       void SetProjectileInfo( const std::shared_ptr<Entity> projectile, Direction direction ) const;
-      void SetEnemyInfo( const std::shared_ptr<Entity> enemy ) const;
+      void SetEnemyInfo( const std::shared_ptr<Entity> enemy, int metaId ) const;
 
    private:
       const std::shared_ptr<EntityDefs> _entityDefs;

@@ -27,19 +27,24 @@ const shared_ptr<Entity> EntityFactory::CreateEntity( int entityMetaId, Directio
    switch ( type )
    {
       case EntityType::Item:
-         entity->SetHitBox( _entityDefs->ItemInfoMap[entityMetaId].HitBox );
-         entity->SetMaxGravityVelocity( _entityDefs->ItemInfoMap[entityMetaId].MaxGravityVelocity );
-         entity->SetGravityAccelerationPerSecond( _entityDefs->ItemInfoMap[entityMetaId].GravityAccelerationPerSecond );
+         SetItemInfo( entity, entityMetaId );
          break;
       case EntityType::Projectile:
          SetProjectileInfo( entity, direction );
          break;
       case EntityType::Enemy:
-         SetEnemyInfo( entity );
+         SetEnemyInfo( entity, entityMetaId );
          break;
    }
 
    return entity;
+}
+
+void EntityFactory::SetItemInfo( const std::shared_ptr<Entity> item, int metaId ) const
+{
+   item->SetHitBox( _entityDefs->ItemInfoMap[metaId].HitBox );
+   item->SetMaxGravityVelocity( _entityDefs->ItemInfoMap[metaId].MaxGravityVelocity );
+   item->SetGravityAccelerationPerSecond( _entityDefs->ItemInfoMap[metaId].GravityAccelerationPerSecond );
 }
 
 void EntityFactory::SetProjectileInfo( const std::shared_ptr<Entity> projectile, Direction direction ) const
@@ -68,14 +73,17 @@ void EntityFactory::SetProjectileInfo( const std::shared_ptr<Entity> projectile,
    }
 }
 
-void EntityFactory::SetEnemyInfo( const std::shared_ptr<Entity> enemy ) const
+void EntityFactory::SetEnemyInfo( const std::shared_ptr<Entity> enemy, int metaId ) const
 {
-   auto metaId = enemy->GetEntityMetaId();
-   auto it = _entityDefs->EntityBehaviorMap.find( metaId );
+   enemy->SetHitBox( _entityDefs->EnemyInfoMap[metaId].HitBox );
+   enemy->SetMaxGravityVelocity( _entityDefs->EnemyInfoMap[metaId].MaxGravityVelocity );
+   enemy->SetGravityAccelerationPerSecond( _entityDefs->EnemyInfoMap[metaId].GravityAccelerationPerSecond );
 
-   if ( it != _entityDefs->EntityBehaviorMap.end() )
+   auto behaviorIt = _entityDefs->EntityBehaviorMap.find( metaId );
+
+   if ( behaviorIt != _entityDefs->EntityBehaviorMap.end() )
    {
-      auto behavior = shared_ptr<EntityBehavior>( new EntityBehavior( *it->second ) );
+      auto behavior = shared_ptr<EntityBehavior>( new EntityBehavior( *behaviorIt->second ) );
       enemy->SetBehavior( shared_ptr<EntityBehavior>( behavior ) );
       behavior->AssignTo( enemy );
    }

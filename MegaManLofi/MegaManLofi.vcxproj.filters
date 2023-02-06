@@ -671,5 +671,8 @@
     <ClInclude Include="GameDefGeneratorDefines.h">
       <Filter>Header Files\GameDefGenerators</Filter>
     </ClInclude>
+    <ClInclude Include="EnemyInfo.h">
+      <Filter>Header Files\DataTypes</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

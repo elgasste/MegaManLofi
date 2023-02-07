@@ -133,6 +133,26 @@ TEST_F( EntityBehaviorTests, Tick_GetPlayerMovementTypeCommand_GetsPlayerMovemen
    _behavior->Tick();
 }
 
+TEST_F( EntityBehaviorTests, Tick_GetPlayerDamageSecondsCommand_GetsPlayerDamageSeconds )
+{
+   auto instruction = (mbc_instruction)( MBCGET_PLAYERDAMAGESECONDS << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
+   _behavior->SetInstructions( vector<mbc_instruction> { instruction } );
+
+   EXPECT_CALL( *_playerEntityMock, GetDamageInvulnerabilitySeconds() );
+
+   _behavior->Tick();
+}
+
+TEST_F( EntityBehaviorTests, Tick_GetPlayerIsInvulnerable_GetsPlayerIsInvulnerable )
+{
+   auto instruction = (mbc_instruction)( MBCGET_PLAYERISINVULNERABLE << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
+   _behavior->SetInstructions( vector<mbc_instruction> { instruction } );
+
+   EXPECT_CALL( *_playerEntityMock, IsInvulnerable() );
+
+   _behavior->Tick();
+}
+
 TEST_F( EntityBehaviorTests, Tick_GetPositionLeftCommand_GetsPositionLeft )
 {
    auto instruction = (mbc_instruction)( MBCGET_POSITIONLEFT << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
@@ -209,6 +229,26 @@ TEST_F( EntityBehaviorTests, Tick_GetMovementTypeCommand_GetsMovementType )
    _behavior->SetInstructions( vector<mbc_instruction> { instruction } );
 
    EXPECT_CALL( *_entityMock, GetMovementType() );
+
+   _behavior->Tick();
+}
+
+TEST_F( EntityBehaviorTests, Tick_GetDamageSecondsCommand_GetsDamageSeconds )
+{
+   auto instruction = (mbc_instruction)( MBCGET_DAMAGESECONDS << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
+   _behavior->SetInstructions( vector<mbc_instruction> { instruction } );
+
+   EXPECT_CALL( *_entityMock, GetDamageInvulnerabilitySeconds() );
+
+   _behavior->Tick();
+}
+
+TEST_F( EntityBehaviorTests, Tick_GetIsInvulnerable_GetsIsInvulnerable )
+{
+   auto instruction = (mbc_instruction)( MBCGET_ISINVULNERABLE << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
+   _behavior->SetInstructions( vector<mbc_instruction> { instruction } );
+
+   EXPECT_CALL( *_entityMock, IsInvulnerable() );
 
    _behavior->Tick();
 }

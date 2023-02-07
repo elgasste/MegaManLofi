@@ -23,10 +23,13 @@ public:
    MOCK_METHOD( float, GetFrictionDecelerationPerSecond, ( ), ( const, override ) );
    MOCK_METHOD( unsigned int, GetHealth, ( ), ( const, override ) );
    MOCK_METHOD( unsigned int, GetMaxHealth, ( ), ( const, override ) );
+   MOCK_METHOD( float, GetDamageInvulnerabilitySeconds, ( ), ( const, override ) );
+   MOCK_METHOD( bool, IsInvulnerable, ( ), ( const, override ) );
 
    MOCK_METHOD( void, SetUniqueId, ( int ), ( override ) );
    MOCK_METHOD( void, SetEntityType, ( MegaManLofi::EntityType ), ( override ) );
    MOCK_METHOD( void, SetEntityMetaId, ( int ), ( override ) );
+   MOCK_METHOD( void, SetBehavior, ( const std::shared_ptr<MegaManLofi::IBehavior> ), ( override ) );
    MOCK_METHOD( void, SetArenaPosition, ( MegaManLofi::Coordinate<float> ), ( override ) );
    MOCK_METHOD( void, SetVelocityX, ( float ), ( override ) );
    MOCK_METHOD( void, SetVelocityY, ( float ), ( override ) );
@@ -37,6 +40,9 @@ public:
    MOCK_METHOD( void, SetGravityAccelerationPerSecond, ( float ), ( override ) );
    MOCK_METHOD( void, SetFrictionDecelerationPerSecond, ( float ), ( override ) );
    MOCK_METHOD( void, SetHealth, ( unsigned int ), ( override ) );
+   MOCK_METHOD( void, SetMaxHealth, ( unsigned int ), ( override ) );
+   MOCK_METHOD( void, SetDamageInvulnerabilitySeconds, ( float ), ( override ) );
+   MOCK_METHOD( void, Tick, ( ), ( override ) );
    MOCK_METHOD( void, StopX, ( ), ( override ) );
    MOCK_METHOD( void, StopY, ( ), ( override ) );
    MOCK_METHOD( bool, TakeCollisionPayload, ( const MegaManLofi::EntityCollisionPayload& ), ( override ) );

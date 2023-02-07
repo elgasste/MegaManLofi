@@ -7,6 +7,7 @@
 #include <MegaManLofi/Entity.h>
 
 #include "mock_UniqueNumberGenerator.h"
+#include "mock_FrameRateProvider.h"
 
 using namespace std;
 using namespace testing;
@@ -19,6 +20,7 @@ public:
    {
       _entityDefs.reset( new EntityDefs );
       _uniqueNumberGeneratorMock.reset( new NiceMock<mock_UniqueNumberGenerator> );
+      _frameRateProviderMock.reset( new NiceMock<mock_FrameRateProvider> );
 
       _entityDefs->BulletEntityMetaId = 4;
 
@@ -37,12 +39,13 @@ public:
 
    void BuildFactory()
    {
-      _factory.reset( new EntityFactory( _entityDefs, _uniqueNumberGeneratorMock ) );
+      _factory.reset( new EntityFactory( _entityDefs, _uniqueNumberGeneratorMock, _frameRateProviderMock ) );
    }
 
 protected:
    shared_ptr<EntityDefs> _entityDefs;
    shared_ptr<mock_UniqueNumberGenerator> _uniqueNumberGeneratorMock;
+   shared_ptr<mock_FrameRateProvider> _frameRateProviderMock;
 
    shared_ptr<EntityFactory> _factory;
 };
@@ -87,7 +90,7 @@ TEST_F( EntityFactoryTests, CreateEntity_Always_SetsDirection )
    EXPECT_EQ( entity->GetDirection(), Direction::UpRight );
 }
 
-TEST_F( EntityFactoryTests, CreateEntity_Item_SetsItemPropertiesFromInfo )
+TEST_F( EntityFactoryTests, CreateEntity_Item_SetsItemPropertiesFromDefs )
 {
    BuildFactory();
 
@@ -99,6 +102,18 @@ TEST_F( EntityFactoryTests, CreateEntity_Item_SetsItemPropertiesFromInfo )
    EXPECT_EQ( entity->GetHitBox().Height, 20 );
    EXPECT_EQ( entity->GetMaxGravityVelocity(), 100.0f );
    EXPECT_EQ( entity->GetGravityAccelerationPerSecond(), 3'000.0f );
+   EXPECT_EQ( entity->GetMaxHealth(), 1 );
+   EXPECT_EQ( entity->GetHealth(), 1 );
+}
+
+TEST_F( EntityFactoryTests, CreateEntity_Projectile_SetsHealthPropertiesFromDefs )
+{
+   BuildFactory();
+
+   auto entity = _factory->CreateEntity( 2, Direction::Left );
+
+   EXPECT_EQ( entity->GetMaxHealth(), 1 );
+   EXPECT_EQ( entity->GetHealth(), 1 );
 }
 
 TEST_F( EntityFactoryTests, CreateEntity_ProjectileMovingLeft_SetsVelocityFromDefs )

@@ -70,15 +70,19 @@ typedef unsigned char mbc_command;
 #define MBCGET_PLAYERHEALTH         0x56     // get the player's health
 #define MBCGET_PLAYERMAXHEALTH      0x57     // get the player's max health
 #define MBCGET_PLAYERMOVEMENTTYPE   0x58     // get the player's movement type
+#define MBCGET_PLAYERDAMAGESECONDS  0x59     // get the number of seconds the player is invulnerable after taking damage
+#define MBCGET_PLAYERISINVULNERABLE 0x5A     // get the player's invulnerability status
 
-#define MBCGET_POSITIONLEFT         0x59     // get the entity's left position in the arena
-#define MBCGET_POSITIONTOP          0x5A     // get the entity's top position in the arena
-#define MBCGET_VELOCITYX            0x5B     // get the entity's X velocity
-#define MBCGET_VELOCITYY            0x5C     // get the entity's Y velocity
-#define MBCGET_DIRECTION            0x5D     // get the entity's direction
-#define MBCGET_HEALTH               0x5E     // get the entity's health
-#define MBCGET_MAXHEALTH            0x5F     // get the entity's max health
-#define MBCGET_MOVEMENTTYPE         0x60     // get the entity's movement type
+#define MBCGET_POSITIONLEFT         0x5B     // get the entity's left position in the arena
+#define MBCGET_POSITIONTOP          0x5C     // get the entity's top position in the arena
+#define MBCGET_VELOCITYX            0x5D     // get the entity's X velocity
+#define MBCGET_VELOCITYY            0x5E     // get the entity's Y velocity
+#define MBCGET_DIRECTION            0x5F     // get the entity's direction
+#define MBCGET_HEALTH               0x60     // get the entity's health
+#define MBCGET_MAXHEALTH            0x61     // get the entity's max health
+#define MBCGET_MOVEMENTTYPE         0x62     // get the entity's movement type
+#define MBCGET_DAMAGESECONDS        0x63     // get the number of seconds the entity is invulnerable after taking damage
+#define MBCGET_ISINVULNERABLE       0x64     // get the entity's invulnerability status
 
 // setters
 #define MBCSET_VELOCITYX            0x80     // set the entity's X velocity

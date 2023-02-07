@@ -370,6 +370,25 @@ TEST_F( ArenaTests, CheckSpawnPoints_InactivePointIsDecommissioned_DoesNotSpawnE
    _arena->CheckSpawnPoints();
 }
 
+TEST_F( ArenaTests, CheckSpawnPoints_InactivePointBoundToExistingEntityWithUniqueId_DoesNotSpawnEntity )
+{
+   _arenaDefs->SpawnPoints.push_back( SpawnPoint() );
+   _arenaDefs->SpawnPoints[0].ArenaPosition = { 1, 1 };
+   _arenaDefs->SpawnPoints[0].IsActive = false;
+   _arenaDefs->SpawnPoints[0].IsBoundToUniqueId = true;
+   _arenaDefs->SpawnPoints[0].UniqueIdBinding = 89;
+   BuildArena();
+
+   auto entityMock = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
+   EXPECT_CALL( *entityMock, GetUniqueId() ).WillOnce( Return( 89 ) );
+   _arena->AddEntity( entityMock );
+
+   EXPECT_CALL( *_eventAggregatorMock, RaiseEvent( GameEvent::ArenaEntitySpawned ) ).Times( 0 );
+   EXPECT_CALL( *_entityFactoryMock, CreateEntity( _, _ ) ).Times( 0 );
+
+   _arena->CheckSpawnPoints();
+}
+
 TEST_F( ArenaTests, CheckSpawnPoints_ActivePointDoesNotReSpawnAtInterval_DoesNotSpawnEntity )
 {
    _arenaDefs->SpawnPoints.push_back( SpawnPoint() );
@@ -454,7 +473,9 @@ TEST_F( ArenaTests, DeSpawnInactiveEntities_NoInactiveEntities_DoesNotDeSpawnEnt
    ON_CALL( *_playerMock, GetHitBox() ).WillByDefault( ReturnRef( playerHitBox ) );
    BuildArena();
    auto entityMock1 = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
+   ON_CALL( *entityMock1, GetHealth() ).WillByDefault( Return( 1 ) );
    auto entityMock2 = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
+   ON_CALL( *entityMock2, GetHealth() ).WillByDefault( Return( 1 ) );
    _arena->AddEntity( entityMock1 );
    _arena->AddEntity( entityMock2 );
 
@@ -472,13 +493,15 @@ TEST_F( ArenaTests, DeSpawnInactiveEntities_NoInactiveEntities_DoesNotDeSpawnEnt
    EXPECT_EQ( _arena->GetEntityCount(), 3 );
 }
 
-TEST_F( ArenaTests, DeSpawnInactiveEntities_InactiveEntitiesFound_DeSpawnsNonPlayerEntities )
+TEST_F( ArenaTests, DeSpawnInactiveEntities_LivingEntitiesFoundOutsideDespawnRegion_DeSpawnsNonPlayerEntities )
 {
    Rectangle<float> playerHitBox = { 10, 10, 30, 30 };
    ON_CALL( *_playerMock, GetHitBox() ).WillByDefault( ReturnRef( playerHitBox ) );
    BuildArena();
    auto entityMock1 = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
+   ON_CALL( *entityMock1, GetHealth() ).WillByDefault( Return( 1 ) );
    auto entityMock2 = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
+   ON_CALL( *entityMock2, GetHealth() ).WillByDefault( Return( 1 ) );
    _arena->AddEntity( entityMock1 );
    _arena->AddEntity( entityMock2 );
 
@@ -498,6 +521,76 @@ TEST_F( ArenaTests, DeSpawnInactiveEntities_InactiveEntitiesFound_DeSpawnsNonPla
    EXPECT_EQ( _arena->GetEntity( 1 ), entityMock2 );
 }
 
+TEST_F( ArenaTests, DeSpawnInactiveEntities_DeadEntitiesFoundInsideDespawnRegion_DeSpawnsNonPlayerEntities )
+{
+   Rectangle<float> playerHitBox = { 10, 10, 30, 30 };
+   ON_CALL( *_playerMock, GetHitBox() ).WillByDefault( ReturnRef( playerHitBox ) );
+   BuildArena();
+   auto entityMock1 = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
+   ON_CALL( *entityMock1, GetHealth() ).WillByDefault( Return( 1 ) );
+   auto entityMock2 = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
+   ON_CALL( *entityMock2, GetHealth() ).WillByDefault( Return( 0 ) );
+   _arena->AddEntity( entityMock1 );
+   _arena->AddEntity( entityMock2 );
+
+   Rectangle<float> hitBox1 = { 120, 120, 50, 50 };
+   Rectangle<float> hitBox2 = { 100, 100, 10, 10 };
+   ON_CALL( *entityMock1, GetHitBox() ).WillByDefault( ReturnRef( hitBox1 ) );
+   ON_CALL( *entityMock2, GetHitBox() ).WillByDefault( ReturnRef( hitBox2 ) );
+
+   _arena->SetDeSpawnRegion( { 90, 105, 200, 200 } );
+
+   EXPECT_CALL( *_eventAggregatorMock, RaiseEvent( GameEvent::ArenaEntityDeSpawned ) );
+
+   _arena->DeSpawnInactiveEntities();
+
+   EXPECT_EQ( _arena->GetEntityCount(), 2 );
+   EXPECT_EQ( _arena->GetEntity( 0 ), _playerMock );
+   EXPECT_EQ( _arena->GetEntity( 1 ), entityMock1 );
+}
+
+TEST_F( ArenaTests, DeSpawnInactiveEntities_DeadEntityBoundToNonRespawningActiveRegion_DecommissionsSpawnPoint )
+{
+   _arenaDefs->SpawnPoints.push_back( SpawnPoint() );
+   _arenaDefs->SpawnPoints[0].IsBoundToUniqueId = true;
+   _arenaDefs->SpawnPoints[0].AllowUniqueReSpawn = false;
+   _arenaDefs->SpawnPoints[0].UniqueIdBinding = 57;
+   _arenaDefs->SpawnPoints[0].Direction = Direction::Down;
+   BuildArena();
+
+   auto entityMock = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
+   Rectangle<float> entityHitBox = { 120, 120, 50, 50 };
+   ON_CALL( *entityMock, GetHitBox() ).WillByDefault( ReturnRef( entityHitBox ) );
+   ON_CALL( *entityMock, GetHealth() ).WillByDefault( Return( 0 ) );
+   ON_CALL( *entityMock, GetUniqueId() ).WillByDefault( Return( 57 ) );
+   _arena->AddEntity( entityMock );
+
+   _arena->DeSpawnInactiveEntities();
+
+   EXPECT_TRUE( _arena->GetSpawnPoint( 0 )->IsDecommissioned );
+}
+
+TEST_F( ArenaTests, DeSpawnActiveEntities_DeadEntityBoundToRespawningActiveRegion_DoesNotDecommissionSpawnPoint )
+{
+   _arenaDefs->SpawnPoints.push_back( SpawnPoint() );
+   _arenaDefs->SpawnPoints[0].IsBoundToUniqueId = true;
+   _arenaDefs->SpawnPoints[0].AllowUniqueReSpawn = true;
+   _arenaDefs->SpawnPoints[0].UniqueIdBinding = 57;
+   _arenaDefs->SpawnPoints[0].Direction = Direction::Down;
+   BuildArena();
+
+   auto entityMock = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
+   Rectangle<float> entityHitBox = { 120, 120, 50, 50 };
+   ON_CALL( *entityMock, GetHitBox() ).WillByDefault( ReturnRef( entityHitBox ) );
+   ON_CALL( *entityMock, GetHealth() ).WillByDefault( Return( 0 ) );
+   ON_CALL( *entityMock, GetUniqueId() ).WillByDefault( Return( 57 ) );
+   _arena->AddEntity( entityMock );
+
+   _arena->DeSpawnInactiveEntities();
+
+   EXPECT_FALSE( _arena->GetSpawnPoint( 0 )->IsDecommissioned );
+}
+
 TEST_F( ArenaTests, DetectEntityCollisions_PlayerCollidesWithItem_PlayerTakesPayload )
 {
    _arena.reset( new Arena( _arenaDefs, _worldDefs, _entityDefs, _eventAggregatorMock, _frameRateProviderMock, _entityFactoryMock ) );
@@ -512,7 +605,7 @@ TEST_F( ArenaTests, DetectEntityCollisions_PlayerCollidesWithItem_PlayerTakesPay
    EXPECT_EQ( payload.Health, 10 );
 }
 
-TEST_F( ArenaTests, DetectEntityCollisions_PlayerCollidesWithItemBoundToSpawnPoint_DecommissionsSpawnPoint )
+TEST_F( ArenaTests, DetectEntityCollisions_PlayerCollidesWithItemBoundToNonRespawningSpawnPoint_DecommissionsSpawnPoint )
 {
    _arenaDefs->SpawnPoints.push_back( SpawnPoint() );
    _arenaDefs->SpawnPoints[0].IsBoundToUniqueId = true;
@@ -526,6 +619,23 @@ TEST_F( ArenaTests, DetectEntityCollisions_PlayerCollidesWithItemBoundToSpawnPoi
    _arena->DetectEntityCollisions();
 
    EXPECT_TRUE( _arena->GetSpawnPoint( 0 )->IsDecommissioned );
+}
+
+TEST_F( ArenaTests, DetectEntityCollisions_PlayerCollidesWithItemBoundToRespawningSpawnPoint_DoesNotDecommissionSpawnPoint )
+{
+   _arenaDefs->SpawnPoints.push_back( SpawnPoint() );
+   _arenaDefs->SpawnPoints[0].IsBoundToUniqueId = true;
+   _arenaDefs->SpawnPoints[0].AllowUniqueReSpawn = true;
+   _arenaDefs->SpawnPoints[0].UniqueIdBinding = 11;
+   _arena.reset( new Arena( _arenaDefs, _worldDefs, _entityDefs, _eventAggregatorMock, _frameRateProviderMock, _entityFactoryMock ) );
+   _arena->AddEntity( _playerMock );
+   _arena->AddEntity( _itemEntityMock );
+
+   EXPECT_CALL( *_playerMock, TakeCollisionPayload( _ ) ).WillOnce( Return( true ) );
+
+   _arena->DetectEntityCollisions();
+
+   EXPECT_FALSE( _arena->GetSpawnPoint( 0 )->IsDecommissioned );
 }
 
 TEST_F( ArenaTests, DetectEntityCollisions_PlayerCollidesWithEnemy_PlayerTakesHealthPayload )

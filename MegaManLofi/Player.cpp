@@ -11,13 +11,13 @@
 using namespace std;
 using namespace MegaManLofi;
 
-Player::Player( const shared_ptr<PlayerDefs> playerDefs,
+Player::Player( const shared_ptr<IFrameRateProvider> frameRateProvider,
+                const shared_ptr<PlayerDefs> playerDefs,
                 const shared_ptr<FrameActionRegistry> frameActionRegistry,
-                const shared_ptr<IFrameRateProvider> frameRateProvider,
                 const shared_ptr<GameEventAggregator> eventAggregator ) :
+   Entity( frameRateProvider ),
    _playerDefs( playerDefs ),
    _frameActionRegistry( frameActionRegistry ),
-   _frameRateProvider( frameRateProvider ),
    _eventAggregator( eventAggregator )
 {
    _uniqueId = playerDefs->DefaultUniqueId;
@@ -30,6 +30,7 @@ Player::Player( const shared_ptr<PlayerDefs> playerDefs,
    _jumpAccelerationPerSecond = _playerDefs->JumpAccelerationPerSecond;
    _maxJumpExtensionSeconds = _playerDefs->MaxJumpExtensionSeconds;
    _maxHealth = _playerDefs->MaxHealth;
+   _damageInvulnerabilitySeconds = _playerDefs->DamageInvulnerabilitySeconds;
 
    Reset();
 }
@@ -133,27 +134,21 @@ void Player::StopY()
 
 bool Player::TakeCollisionPayload( const EntityCollisionPayload& payload )
 {
-   bool tookPayload = false;
+   bool tookPayload = Entity::TakeCollisionPayload( payload );
 
-   if ( payload.Health < 0 )
+   if ( tookPayload )
    {
-      _health = ( (unsigned int)abs( payload.Health ) >= _health ) ? 0 : _health + payload.Health;
-      tookPayload = true;
-
       if ( _health == 0 )
       {
          _eventAggregator->RaiseEvent( GameEvent::CollisionDeath );
       }
-   }
-   else if ( payload.Health > 0 && _health < _maxHealth )
-   {
-      _health = min( _health + payload.Health, _maxHealth );
-      tookPayload = true;
+
+      return true;
    }
 
    if ( payload.Lives < 0 )
    {
-      _livesRemaining = ( (unsigned int)abs( payload.Lives ) >= _livesRemaining ) ? 0 : _livesRemaining + payload.Lives;
+      _livesRemaining = (unsigned int)max( (int)_livesRemaining + payload.Lives, 0 );
       tookPayload = true;
 
       if ( _livesRemaining == 0 )

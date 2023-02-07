@@ -218,6 +218,9 @@
     <ClInclude Include="mock_EntityPhysics.h">
       <Filter>Mocks</Filter>
     </ClInclude>
+    <ClInclude Include="mock_Behavior.h">
+      <Filter>Mocks</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Mocks">

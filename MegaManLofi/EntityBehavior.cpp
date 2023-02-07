@@ -12,6 +12,17 @@ EntityBehavior::EntityBehavior( const shared_ptr<IFrameRateProvider> frameRatePr
    _playerInfoProvider( playerInfoProvider ),
    _entity( nullptr )
 {
+   Reset();
+}
+
+EntityBehavior::EntityBehavior( const EntityBehavior& b )
+{
+   _instructions = b._instructions;
+   _frameRateProvider = b._frameRateProvider;
+   _playerInfoProvider = b._playerInfoProvider;
+   _entity = nullptr;
+
+   Reset();
 }
 
 void EntityBehavior::AssignTo( const std::shared_ptr<Entity> entity )
@@ -56,6 +67,12 @@ bool EntityBehavior::HandleCommand( mbc_command command )
       case MBCGET_PLAYERMOVEMENTTYPE:
          RegisterIntFromArg0( (int)_playerInfoProvider->GetPlayerEntity()->GetMovementType() );
          return true;
+      case MBCGET_PLAYERDAMAGESECONDS:
+         RegisterFloatFromArg0( _playerInfoProvider->GetPlayerEntity()->GetDamageInvulnerabilitySeconds() );
+         return true;
+      case MBCGET_PLAYERISINVULNERABLE:
+         RegisterBoolFromArg0( _playerInfoProvider->GetPlayerEntity()->IsInvulnerable() );
+         return true;
 
       case MBCGET_POSITIONLEFT:
          RegisterFloatFromArg0( _entity->GetArenaPositionLeft() );
@@ -80,6 +97,12 @@ bool EntityBehavior::HandleCommand( mbc_command command )
          return true;
       case MBCGET_MOVEMENTTYPE:
          RegisterIntFromArg0( (int)_entity->GetMovementType() );
+         return true;
+      case MBCGET_DAMAGESECONDS:
+         RegisterFloatFromArg0( _entity->GetDamageInvulnerabilitySeconds() );
+         return true;
+      case MBCGET_ISINVULNERABLE:
+         RegisterBoolFromArg0( _entity->IsInvulnerable() );
          return true;
 
       case MBCSET_VELOCITYX:
@@ -107,4 +130,10 @@ void EntityBehavior::RegisterIntFromArg0( int val )
 {
    auto regIndex = MBC_PARSE_ARG0( _currentInstruction );
    _intRegisters[regIndex] = val;
+}
+
+void EntityBehavior::RegisterBoolFromArg0( bool val )
+{
+   auto regIndex = MBC_PARSE_ARG0( _currentInstruction );
+   _intRegisters[regIndex] = val ? 1 : 0;
 }

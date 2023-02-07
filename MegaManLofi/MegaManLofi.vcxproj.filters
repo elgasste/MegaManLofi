@@ -665,5 +665,14 @@
     <ClInclude Include="EntityBehavior.h">
       <Filter>Header Files\AI</Filter>
     </ClInclude>
+    <ClInclude Include="IBehavior.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="GameDefGeneratorDefines.h">
+      <Filter>Header Files\GameDefGenerators</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyInfo.h">
+      <Filter>Header Files\DataTypes</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

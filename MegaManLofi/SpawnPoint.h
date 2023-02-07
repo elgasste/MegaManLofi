@@ -16,6 +16,7 @@ namespace MegaManLofi
       float ReSpawnIntervalSeconds = 0;
       float IntervalElapsedSeconds = 0;
       bool IsBoundToUniqueId = false;
+      bool AllowUniqueReSpawn = false;
       int UniqueIdBinding = -1;
    };
 }

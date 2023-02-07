@@ -23,6 +23,8 @@ shared_ptr<PlayerDefs> PlayerDefsGenerator::GeneratePlayerDefs( const shared_ptr
    playerDefs->GravityAccelerationPerSecond = 10'000;
    playerDefs->FrictionDecelerationPerSecond = 10'000;
 
+   playerDefs->DamageInvulnerabilitySeconds = 1.5f;
+
    playerDefs->MaxPushVelocity = 1'200;
    playerDefs->PushAccelerationPerSecond = 8'500;
    playerDefs->JumpAccelerationPerSecond = 4'000;

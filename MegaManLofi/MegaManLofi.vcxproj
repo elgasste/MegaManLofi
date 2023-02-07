@@ -226,6 +226,7 @@
     <ClInclude Include="ArenaTile.h" />
     <ClInclude Include="ConditionalInfo.h" />
     <ClInclude Include="ConditionOp.h" />
+    <ClInclude Include="EnemyInfo.h" />
     <ClInclude Include="EntityBehavior.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="ConsoleAnimationRepository.h" />
@@ -256,6 +257,7 @@
     <ClInclude Include="GameClock.h" />
     <ClInclude Include="GameCommand.h" />
     <ClInclude Include="GameCommandArgs.h" />
+    <ClInclude Include="GameDefGeneratorDefines.h" />
     <ClInclude Include="GameDefs.h" />
     <ClInclude Include="GameDefsGenerator.h" />
     <ClInclude Include="GameOverStateConsoleRenderer.h" />
@@ -267,6 +269,7 @@
     <ClInclude Include="GameRunner.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="IArenaInfoProvider.h" />
+    <ClInclude Include="IBehavior.h" />
     <ClInclude Include="IConsoleAnimation.h" />
     <ClInclude Include="IConsoleAnimationProvider.h" />
     <ClInclude Include="IFrameRateProvider.h" />

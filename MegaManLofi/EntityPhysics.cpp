@@ -37,22 +37,22 @@ void EntityPhysics::ApplyGravity( const shared_ptr<Entity> entity )
 {
    auto currentVelocityY = entity->GetVelocityY();
    auto gravityVelocityDelta = entity->GetGravityAccelerationPerSecond() * _frameRateProvider->GetFrameSeconds();
+   auto entityType = entity->GetEntityType();
 
-   if ( entity->GetEntityType() == EntityType::Player )
+   if ( entityType == EntityType::Player || entityType == EntityType::Enemy || entityType == EntityType::Item )
    {
-      if ( currentVelocityY < 0 )
+      float newVelocityY;
+
+      if ( currentVelocityY < 0 && entityType == EntityType::Player && !_frameActionRegistry->ActionFlagged( FrameAction::PlayerJumping ) )
       {
-         auto newVelocityY = _frameActionRegistry->ActionFlagged( FrameAction::PlayerJumping ) ? currentVelocityY + gravityVelocityDelta : 0;
-         entity->SetVelocityY( newVelocityY );
+         newVelocityY = 0;
       }
       else
       {
-         entity->SetVelocityY( min( currentVelocityY + gravityVelocityDelta, entity->GetMaxGravityVelocity() ) );
+         newVelocityY = currentVelocityY + gravityVelocityDelta;
       }
-   }
-   else if ( entity->GetEntityType() == EntityType::Item )
-   {
-      entity->SetVelocityY( min( currentVelocityY + gravityVelocityDelta, entity->GetMaxGravityVelocity() ) );
+
+      entity->SetVelocityY( min( newVelocityY, entity->GetMaxGravityVelocity() ) );
    }
 }
 

@@ -51,10 +51,15 @@ void Game::Tick()
    }
    else if ( _state == GameState::Playing && !_isPaused )
    {
+      auto arena = _stage->GetMutableActiveArena();
+      for ( int i = 0; i < arena->GetEntityCount(); i++ )
+      {
+         arena->GetMutableEntity( i )->Tick();
+      }
+
       _entityPhysics->Tick();
       _arenaPhysics->Tick();
 
-      auto arena = _stage->GetMutableActiveArena();
       arena->DetectEntityCollisions();
       arena->DeSpawnInactiveEntities();
       arena->CheckSpawnPoints();

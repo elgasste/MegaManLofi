@@ -19,6 +19,8 @@ namespace MegaManLofi
       float GravityAccelerationPerSecond = 0;
       float FrictionDecelerationPerSecond = 0;
 
+      float DamageInvulnerabilitySeconds = 0;
+
       float MaxPushVelocity = 0;
       float PushAccelerationPerSecond = 0;
       float JumpAccelerationPerSecond = 0;

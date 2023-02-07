@@ -36,7 +36,8 @@ map<int, shared_ptr<ArenaDefs>> ArenaDefsGenerator::GenerateArenaDefsMap( const 
    arenaDefsMap[0]->SpawnPoints.push_back( SpawnPoint() );
    arenaDefsMap[0]->SpawnPoints[2].EntityMetaId = METAID_ENEMY_STATIONARYTURRET;
    arenaDefsMap[0]->SpawnPoints[2].ArenaPosition = { worldDefs->TileWidth * 48, worldDefs->TileHeight * 12 };
-   arenaDefsMap[0]->SpawnPoints[2].IsBoundToUniqueId = false;
+   arenaDefsMap[0]->SpawnPoints[2].IsBoundToUniqueId = true;
+   arenaDefsMap[0]->SpawnPoints[2].AllowUniqueReSpawn = true;
 
    /********************* ARENA 2 *********************/
 

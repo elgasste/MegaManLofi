@@ -121,7 +121,25 @@ void Arena::CheckSpawnPoints()
             spawnPoint->IsActive = true;
             spawnPoint->IntervalElapsedSeconds = 0;
 
-            if ( !spawnPoint->IsDecommissioned )
+            if ( spawnPoint->IsDecommissioned )
+            {
+               continue;
+            }
+
+            bool shouldSpawn = true;
+            if ( spawnPoint->IsBoundToUniqueId )
+            {
+               for ( auto entity : _entities )
+               {
+                  if ( entity->GetUniqueId() == spawnPoint->UniqueIdBinding )
+                  {
+                     shouldSpawn = false;
+                     break;
+                  }
+               }
+            }
+
+            if ( shouldSpawn )
             {
                auto entity = _entityFactory->CreateEntity( spawnPoint->EntityMetaId, spawnPoint->Direction );
                entity->SetArenaPosition( spawnPoint->ArenaPosition );
@@ -152,6 +170,7 @@ void Arena::DeSpawnInactiveEntities()
                                                                                _deSpawnRegion,
                                                                                0,
                                                                                0 );
+
       if ( entity != _playerEntity && ( isOutsideDespawnRegion || entity->GetHealth() == 0 ) )
       {
          entitiesToDeSpawn.push_back( entity );
@@ -161,6 +180,17 @@ void Arena::DeSpawnInactiveEntities()
    for ( auto entity : entitiesToDeSpawn )
    {
       RemoveEntity( entity );
+
+      if ( entity->GetHealth() == 0 )
+      {
+         for ( auto spawnPoint : _spawnPoints )
+         {
+            if ( spawnPoint->UniqueIdBinding == entity->GetUniqueId() && !spawnPoint->AllowUniqueReSpawn )
+            {
+               spawnPoint->IsDecommissioned = true;
+            }
+         }
+      }
    }
 }
 
@@ -227,7 +257,7 @@ void Arena::PlayerPickUpItem( const shared_ptr<Entity> player, const shared_ptr<
    {
       for ( auto& spawnPoint : _spawnPoints )
       {
-         if ( spawnPoint->IsBoundToUniqueId && spawnPoint->UniqueIdBinding == item->GetUniqueId() )
+         if ( spawnPoint->IsBoundToUniqueId && spawnPoint->UniqueIdBinding == item->GetUniqueId() && !spawnPoint->AllowUniqueReSpawn )
          {
             spawnPoint->IsDecommissioned = true;
          }

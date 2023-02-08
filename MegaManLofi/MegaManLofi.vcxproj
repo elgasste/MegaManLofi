@@ -330,6 +330,7 @@
     <ClInclude Include="ReadOnlyStage.h" />
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="RectangleUtilities.h" />
+    <ClInclude Include="ShootCommandArgs.h" />
     <ClInclude Include="SpawnPoint.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="StageDefs.h" />

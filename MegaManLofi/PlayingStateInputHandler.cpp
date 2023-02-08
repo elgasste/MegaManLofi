@@ -1,19 +1,23 @@
 #include "PlayingStateInputHandler.h"
 #include "IGameInputReader.h"
 #include "IGameCommandExecutor.h"
+#include "IPlayerInfoProvider.h"
 #include "GameButton.h"
 #include "GameCommand.h"
 #include "PushPlayerCommandArgs.h"
 #include "PointPlayerCommandArgs.h"
+#include "ShootCommandArgs.h"
 #include "Direction.h"
 
 using namespace std;
 using namespace MegaManLofi;
 
 PlayingStateInputHandler::PlayingStateInputHandler( const shared_ptr<IGameInputReader> inputReader,
-                                                    const shared_ptr<IGameCommandExecutor> commandExecutor ) :
+                                                    const shared_ptr<IGameCommandExecutor> commandExecutor,
+                                                    const shared_ptr<IPlayerInfoProvider> playerInfoProvider ) :
    _inputReader( inputReader ),
-   _commandExecutor( commandExecutor )
+   _commandExecutor( commandExecutor ),
+   _playerInfoProvider( playerInfoProvider )
 {
 }
 
@@ -40,7 +44,8 @@ void PlayingStateInputHandler::HandleInput()
 
    if ( _inputReader->WasButtonPressed( GameButton::B ) )
    {
-      _commandExecutor->ExecuteCommand( GameCommand::Shoot );
+      _commandExecutor->ExecuteCommand( GameCommand::Shoot,
+                                        shared_ptr<ShootCommandArgs>( new ShootCommandArgs( _playerInfoProvider->GetPlayerEntity() ) ) );
    }
 
    HandleDirections();

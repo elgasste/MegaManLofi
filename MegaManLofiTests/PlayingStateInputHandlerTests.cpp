@@ -7,10 +7,13 @@
 #include <MegaManLofi/GameCommand.h>
 #include <MegaManLofi/PushPlayerCommandArgs.h>
 #include <MegaManLofi/PointPlayerCommandArgs.h>
+#include <MegaManLofi/ShootCommandArgs.h>
 #include <MegaManLofi/Direction.h>
 
 #include "mock_GameInputReader.h"
 #include "mock_GameCommandExecutor.h"
+#include "mock_PlayerInfoProvider.h"
+#include "mock_ReadOnlyEntity.h"
 
 using namespace std;
 using namespace testing;
@@ -23,9 +26,14 @@ public:
    {
       _inputReaderMock.reset( new NiceMock<mock_GameInputReader> );
       _commandExecutorMock.reset( new NiceMock<mock_GameCommandExecutor> );
+      _playerInfoProviderMock.reset( new NiceMock<mock_PlayerInfoProvider> );
+      _playerEntityMock.reset( new NiceMock<mock_ReadOnlyEntity> );
+
+      ON_CALL( *_playerInfoProviderMock, GetPlayerEntity() ).WillByDefault( Return( _playerEntityMock ) );
 
       _inputHandler.reset( new PlayingStateInputHandler( _inputReaderMock,
-                                                         _commandExecutorMock ) );
+                                                         _commandExecutorMock,
+                                                         _playerInfoProviderMock ) );
 
       ON_CALL( *_inputReaderMock, WasButtonPressed( _ ) ).WillByDefault( Return( false ) );
       ON_CALL( *_inputReaderMock, IsButtonDown( _ ) ).WillByDefault( Return( false ) );
@@ -34,6 +42,8 @@ public:
 protected:
    shared_ptr<mock_GameInputReader> _inputReaderMock;
    shared_ptr<mock_GameCommandExecutor> _commandExecutorMock;
+   shared_ptr<mock_PlayerInfoProvider> _playerInfoProviderMock;
+   shared_ptr<mock_ReadOnlyEntity> _playerEntityMock;
 
    shared_ptr<PlayingStateInputHandler> _inputHandler;
 };
@@ -70,12 +80,16 @@ TEST_F( PlayingStateInputHandlerTests, HandleInput_AButtonWasNotPressedAndIsDown
    _inputHandler->HandleInput();
 }
 
-TEST_F( PlayingStateInputHandlerTests, HandleInput_BButtonWasPressed_ExecutesShootCommand )
+TEST_F( PlayingStateInputHandlerTests, HandleInput_BButtonWasPressed_ExecutesShootCommandWithPlayerEntity )
 {
+   shared_ptr<GameCommandArgs> shootArgs;
    ON_CALL( *_inputReaderMock, WasButtonPressed( GameButton::B ) ).WillByDefault( Return( true ) );
-   EXPECT_CALL( *_commandExecutorMock, ExecuteCommand( GameCommand::Shoot ) );
+
+   EXPECT_CALL( *_commandExecutorMock, ExecuteCommand( GameCommand::Shoot, _ ) ).WillOnce( SaveArg<1>( &shootArgs ) );
 
    _inputHandler->HandleInput();
+
+   EXPECT_EQ( static_pointer_cast<ShootCommandArgs>( shootArgs )->SourceEntity, _playerEntityMock );
 }
 
 TEST_F( PlayingStateInputHandlerTests, HandleInput_LeftButtonIsDown_ExecutesPushAndPointPlayerCommands )

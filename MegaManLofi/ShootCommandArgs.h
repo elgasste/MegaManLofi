@@ -12,10 +12,10 @@ namespace MegaManLofi
    {
    public:
       ShootCommandArgs( const std::shared_ptr<ReadOnlyEntity> sourceEntity ) :
-         _sourceEntity( sourceEntity )
+         SourceEntity( sourceEntity )
       {
       }
 
-      const std::shared_ptr<ReadOnlyEntity> _sourceEntity;
+      const std::shared_ptr<ReadOnlyEntity> SourceEntity;
    };
 }

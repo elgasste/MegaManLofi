@@ -48,7 +48,7 @@ namespace MegaManLofi
    private:
       void StartGame();
       void StartStage();
-      void Shoot();
+      void Shoot( const std::shared_ptr<ReadOnlyEntity> sourceEntity ) const;
       void TogglePause();
       void OpenPlayingMenu();
       void ClosePlayingMenu();

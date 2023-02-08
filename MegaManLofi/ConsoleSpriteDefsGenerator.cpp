@@ -408,7 +408,7 @@ map<int, shared_ptr<EntityConsoleSprite>> ConsoleSpriteDefsGenerator::GenerateEn
    playerEntitySprite->AddSprite( MovementType::Airborne, Direction::Down, GeneratePlayerAirborneSprite( Direction::Down, frameRateProvider ) );
    playerEntitySprite->AddSprite( MovementType::Airborne, Direction::DownLeft, GeneratePlayerAirborneSprite( Direction::DownLeft, frameRateProvider ) );
 
-   entitySpriteMap[0] = playerEntitySprite;
+   entitySpriteMap[METAID_PLAYER] = playerEntitySprite;
 
    // bullet
    auto bulletSprite = GenerateBulletSprite( frameRateProvider );
@@ -420,7 +420,8 @@ map<int, shared_ptr<EntityConsoleSprite>> ConsoleSpriteDefsGenerator::GenerateEn
          bulletEntitySprite->AddSprite( (MovementType)i, (Direction)j, bulletSprite );
       }
    }
-   entitySpriteMap[METAID_PROJECTILE_BULLET] = bulletEntitySprite;
+   entitySpriteMap[METAID_PROJECTILE_GOODBULLET] = bulletEntitySprite;
+   entitySpriteMap[METAID_PROJECTILE_BADBULLET] = bulletEntitySprite;
 
    // small health drop
    auto smallHealthDropSprite = GenerateSmallHealthDropSprite( frameRateProvider );

@@ -11,6 +11,7 @@
 #include "GameCommand.h"
 #include "PushPlayerCommandArgs.h"
 #include "PointPlayerCommandArgs.h"
+#include "ShootCommandArgs.h"
 
 using namespace std;
 using namespace MegaManLofi;
@@ -129,7 +130,7 @@ void Game::ExecuteCommand( GameCommand command, const shared_ptr<GameCommandArgs
          _player->ExtendJump();
          break;
       case GameCommand::Shoot:
-         Shoot();
+         Shoot( static_pointer_cast<ShootCommandArgs>( args )->SourceEntity );
          break;
       case GameCommand::OpenPlayingMenu:
          OpenPlayingMenu();
@@ -168,18 +169,17 @@ void Game::StartStage()
    _eventAggregator->RaiseEvent( GameEvent::StageStarted );
 }
 
-// TODO: move this into the Player class
-void Game::Shoot()
+void Game::Shoot( const shared_ptr<ReadOnlyEntity> sourceEntity ) const
 {
    if ( _nextState != GameState::Playing )
    {
       return;
    }
 
-   auto left = _player->GetArenaPositionLeft();
-   auto top = _player->GetArenaPositionTop();
-   const auto& hitBox = _player->GetHitBox();
-   auto direction = _player->GetDirection();
+   auto left = sourceEntity->GetArenaPositionLeft();
+   auto top = sourceEntity->GetArenaPositionTop();
+   const auto& hitBox = sourceEntity->GetHitBox();
+   auto direction = sourceEntity->GetDirection();
 
    left +=
       ( direction == Direction::Up || direction == Direction::Down ) ? hitBox.Width / 2 :
@@ -188,7 +188,7 @@ void Game::Shoot()
       ( direction == Direction::Left || direction == Direction::Right ) ? hitBox.Height / 2 :
       ( direction == Direction::DownLeft || direction == Direction::Down || direction == Direction::DownRight ) ? hitBox.Height : 0;
 
-   auto bullet = _entityFactory->CreateEntity( _entityDefs->BulletEntityMetaId, _player->GetDirection() );
+   auto bullet = _entityFactory->CreateEntity( _entityDefs->EntityProjectileMap.at( sourceEntity->GetEntityMetaId() ), direction );
    bullet->SetArenaPosition( { left, top } );
 
    _stage->GetMutableActiveArena()->AddEntity( bullet );

@@ -1,7 +1,11 @@
 #pragma once
 
+// player
+#define METAID_PLAYER                  0
+
 // projectiles
-#define METAID_PROJECTILE_BULLET       1
+#define METAID_PROJECTILE_GOODBULLET   1
+#define METAID_PROJECTILE_BADBULLET    2
 
 // items
 #define METAID_ITEM_SMALLHEALTHDROP    101

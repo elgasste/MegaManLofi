@@ -2,7 +2,7 @@
 #
 # 201: Stationary Turret
 #
-# Every 3 seconds, this enemy should fire bullets on all four diagonals
+# Every 2.5 seconds, this enemy should fire bullets in five directions
 #
 ##########################################################################
 #
@@ -16,10 +16,11 @@
 #
 # [0] - is first run (0 is yes, 1 is no)
 #
-# [10] - Direction::UpLeft (1)
-# [11] - Direction::UpRight (3)
-# [12] - Direction::DownRight (5)
-# [13] - Direction::DownLeft (7)
+# [10] - Direction::Left (0)
+# [11] - Direction::UpLeft (1)
+# [12] - Direction::Up (2)
+# [13] - Direction::UpRight (3)
+# [14] - Direction::Right (4)
 #
 ##########################################################################
 
@@ -37,7 +38,7 @@ FUNC main
 
 	if_gtf 0 1
 
-		# shoot in all four diagonal directions
+		# shoot left, up-left, up, up-right, and right
 		set_direction 10
 		shoot
 		set_direction 11
@@ -45,6 +46,8 @@ FUNC main
 		set_direction 12
 		shoot
 		set_direction 13
+		shoot
+		set_direction 14
 		shoot
 
 		# reset timer
@@ -57,12 +60,13 @@ RET
 FUNC init
 
 	# seconds to wait before shooting
-	regf 1 3
+	regf 1 2.5
 
 	# direction registers
-	regi 10 1  # UpLeft
-	regi 11 3  # UpRight
-	regi 12 5  # DownRight
-	regi 13 7  # DownLeft
+	regi 10 0  # Left
+	regi 11 1  # UpLeft
+	regi 12 2  # Up
+	regi 13 3  # UpRight
+	regi 14 4  # Right
 
 RET

@@ -81,6 +81,7 @@ shared_ptr<EntityDefs> EntityDefsGenerator::GenerateEntityDefs()
 
    entityDefs->EntityProjectileMap[METAID_PLAYER] = METAID_PROJECTILE_GOODBULLET;
    entityDefs->EntityProjectileMap[METAID_ENEMY_STATIONARYTURRET] = METAID_PROJECTILE_BADBULLET;
+   entityDefs->EntityProjectileMap[METAID_ENEMY_SPINNINGTURRET] = METAID_PROJECTILE_BADBULLET;
 
    GenerateEntityBehaviors( entityDefs );
 

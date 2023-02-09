@@ -1,0 +1,68 @@
+##########################################################################
+#
+# 201: Stationary Turret
+#
+# Every 3 seconds, this enemy should fire bullets on all four diagonals
+#
+##########################################################################
+#
+# Float Registers:
+#
+# [0] - elapsed seconds since last shoot call
+# [1] - seconds to wait before shooting
+# [2] - frame seconds
+#
+# Int Registers:
+#
+# [0] - is first run (0 is yes, 1 is no)
+#
+# [10] - Direction::UpLeft (1)
+# [11] - Direction::UpRight (3)
+# [12] - Direction::DownRight (5)
+# [13] - Direction::DownLeft (7)
+#
+##########################################################################
+
+FUNC main
+
+	# init directions on first run
+	if_eqi 0 0
+		call init
+		regi 0 1
+	endif
+
+	# increment elapsed seconds
+	get_frameseconds 2
+	addf 0 2 0
+
+	if_gtf 0 1
+
+		# shoot in all four diagonal directions
+		set_direction 10
+		shoot
+		set_direction 11
+		shoot
+		set_direction 12
+		shoot
+		set_direction 13
+		shoot
+
+		# reset timer
+		regf 0 0
+
+	endif
+
+RET
+
+FUNC init
+
+	# seconds to wait before shooting
+	regf 1 3
+
+	# direction registers
+	regi 10 1  # UpLeft
+	regi 11 3  # UpRight
+	regi 12 5  # DownRight
+	regi 13 7  # DownLeft
+
+RET

@@ -91,6 +91,9 @@
     <Filter Include="Source Files\MbcAsm">
       <UniqueIdentifier>{22b2e139-43eb-48c3-8a4f-7ffe972a267b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\GameDefGenerators\BehaviorASM">
+      <UniqueIdentifier>{c7129816-b5a3-4291-8c03-6dccee864fb0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MegaManLofi.cpp">
@@ -677,5 +680,10 @@
     <ClInclude Include="ShootCommandArgs.h">
       <Filter>Header Files\CommandArgs</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="BehaviorASM\201.mbcasm">
+      <Filter>Header Files\GameDefGenerators\BehaviorASM</Filter>
+    </None>
   </ItemGroup>
 </Project>

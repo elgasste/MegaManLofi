@@ -181,6 +181,7 @@ void Game::Shoot( const shared_ptr<ReadOnlyEntity> sourceEntity ) const
    const auto& hitBox = sourceEntity->GetHitBox();
    auto direction = sourceEntity->GetDirection();
 
+   // TODO: this should come from some kind of mapping in entity defs
    left +=
       ( direction == Direction::Up || direction == Direction::Down ) ? hitBox.Width / 2 :
       ( direction == Direction::UpRight || direction == Direction::Right || direction == Direction::DownRight ) ? hitBox.Width : 0;

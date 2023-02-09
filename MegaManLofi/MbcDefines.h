@@ -88,3 +88,6 @@ typedef unsigned char mbc_command;
 #define MBCSET_VELOCITYX            0x80     // set the entity's X velocity
 #define MBCSET_VELOCITYY            0x81     // set the entity's Y velocity
 #define MBCSET_DIRECTION            0x82     // set the entity's direction
+
+// do-ers
+#define MBCDO_SHOOT                 0xA0     // shoot!

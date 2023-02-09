@@ -138,7 +138,7 @@ void LoadAndRun( const shared_ptr<ConsoleBuffer> consoleBuffer )
 
    // input objects
    auto startupStateInputHandler = shared_ptr<TitleStateInputHandler>( new TitleStateInputHandler( keyboardInputReader, game ) );
-   auto playingStateInputHandler = shared_ptr<PlayingStateInputHandler>( new PlayingStateInputHandler( keyboardInputReader, game ) );
+   auto playingStateInputHandler = shared_ptr<PlayingStateInputHandler>( new PlayingStateInputHandler( keyboardInputReader, game, game ) );
    auto playingMenuStateInputHandler = shared_ptr<PlayingMenuStateInputHandler>( new PlayingMenuStateInputHandler( keyboardInputReader, game, menuRepository ) );
    auto gameOverStateInputHandler = shared_ptr<GameOverStateInputHandler>( new GameOverStateInputHandler( keyboardInputReader, game ) );
    auto inputHandler = shared_ptr<GameInputHandler>( new GameInputHandler( keyboardInputReader, game, eventAggregator ) );

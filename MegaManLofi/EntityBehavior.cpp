@@ -1,15 +1,20 @@
 #include "EntityBehavior.h"
 #include "IFrameRateProvider.h"
 #include "IPlayerInfoProvider.h"
+#include "IGameCommandExecutor.h"
 #include "Entity.h"
+#include "GameCommand.h"
+#include "ShootCommandArgs.h"
 
 using namespace std;
 using namespace MegaManLofi;
 
 EntityBehavior::EntityBehavior( const shared_ptr<IFrameRateProvider> frameRateProvider,
-                                const shared_ptr<IPlayerInfoProvider> playerInfoProvider ) :
+                                const shared_ptr<IPlayerInfoProvider> playerInfoProvider,
+                                const shared_ptr<IGameCommandExecutor> commandExecutor ) :
    _frameRateProvider( frameRateProvider ),
    _playerInfoProvider( playerInfoProvider ),
+   _commandExecutor( commandExecutor ),
    _entity( nullptr )
 {
    Reset();
@@ -113,6 +118,10 @@ bool EntityBehavior::HandleCommand( mbc_command command )
          return true;
       case MBCSET_DIRECTION:
          _entity->SetDirection( (Direction)_intRegisters[MBC_PARSE_ARG0( _currentInstruction )] );
+         return true;
+
+      case MBCDO_SHOOT:
+         _commandExecutor->ExecuteCommand( GameCommand::Shoot, shared_ptr<ShootCommandArgs>( new ShootCommandArgs( _entity ) ) );
          return true;
 
       default:

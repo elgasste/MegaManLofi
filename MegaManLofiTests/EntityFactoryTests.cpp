@@ -22,8 +22,6 @@ public:
       _uniqueNumberGeneratorMock.reset( new NiceMock<mock_UniqueNumberGenerator> );
       _frameRateProviderMock.reset( new NiceMock<mock_FrameRateProvider> );
 
-      _entityDefs->BulletEntityMetaId = 4;
-
       _entityDefs->EntityTypeMap[1] = EntityType::Item;
       _entityDefs->EntityTypeMap[2] = EntityType::Projectile;
 

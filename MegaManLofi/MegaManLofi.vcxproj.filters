@@ -674,5 +674,8 @@
     <ClInclude Include="EnemyInfo.h">
       <Filter>Header Files\DataTypes</Filter>
     </ClInclude>
+    <ClInclude Include="ShootCommandArgs.h">
+      <Filter>Header Files\CommandArgs</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

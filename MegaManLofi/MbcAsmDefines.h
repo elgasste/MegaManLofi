@@ -72,3 +72,5 @@
 #define MBCCOMP_SET_VELOCITYX             "SET_VELOCITYX"
 #define MBCCOMP_SET_VELOCITYY             "SET_VELOCITYY"
 #define MBCCOMP_SET_DIRECTION             "SET_DIRECTION"
+
+#define MBCCOMP_DO_SHOOT                  "SHOOT"

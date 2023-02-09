@@ -9,6 +9,7 @@
 #include <MegaManLofi/GameEvent.h>
 #include <MegaManLofi/PushPlayerCommandArgs.h>
 #include <MegaManLofi/PointPlayerCommandArgs.h>
+#include <MegaManLofi/ShootCommandArgs.h>
 #include <MegaManLofi/GameEventAggregator.h>
 #include <MegaManLofi/EntityDefs.h>
 
@@ -39,9 +40,11 @@ public:
       _entityFactoryMock.reset( new NiceMock<mock_EntityFactory> );
       _entityDefs.reset( new EntityDefs );
 
-      _entityDefs->BulletEntityMetaId = 12;
+      _entityDefs->ProjectileInfoMap[0].IsFriendly = false;
+      _entityDefs->EntityProjectileMap[0] = 0;
 
       _playerHitBox = { 0, 0, 6, 10 };
+      ON_CALL( *_playerMock, GetEntityMetaId() ).WillByDefault( Return( 0 ) );
       ON_CALL( *_playerMock, GetArenaPositionLeft() ).WillByDefault( Return( 20.0f ) );
       ON_CALL( *_playerMock, GetArenaPositionTop() ).WillByDefault( Return( 10.0f ) );
       ON_CALL( *_playerMock, GetHitBox() ).WillByDefault( ReturnRef( _playerHitBox ) );
@@ -355,7 +358,8 @@ TEST_F( GameTests, ExecuteCommand_ShootAndNextStateIsNotPlaying_DoesNotAddBullet
 
    EXPECT_CALL( *_arenaMock, AddEntity( _ ) ).Times( 0 );
 
-   _game->ExecuteCommand( GameCommand::Shoot );
+   _game->ExecuteCommand( GameCommand::Shoot,
+                          shared_ptr<ShootCommandArgs>( new ShootCommandArgs( _playerMock ) ) );
 }
 
 TEST_F( GameTests, ExecuteCommand_ShootAndGameIsPaused_DoesNotAddBulletToArena )
@@ -366,151 +370,27 @@ TEST_F( GameTests, ExecuteCommand_ShootAndGameIsPaused_DoesNotAddBulletToArena )
 
    EXPECT_CALL( *_arenaMock, AddEntity( _ ) ).Times( 0 );
 
-   _game->ExecuteCommand( GameCommand::Shoot );
+   _game->ExecuteCommand( GameCommand::Shoot,
+                          shared_ptr<ShootCommandArgs>( new ShootCommandArgs( _playerMock ) ) );
 }
 
-TEST_F( GameTests, ExecuteCommand_ShootLeft_AddsBulletToArenaInCorrectPosition )
+TEST_F( GameTests, ExecuteCommand_Shoot_AddsBulletToArenaInCorrectPositionAndDirection )
 {
    ON_CALL( *_playerMock, GetDirection() ).WillByDefault( Return( Direction::Left ) );
    BuildGame();
    _game->ExecuteCommand( GameCommand::StartStage );
 
    auto bulletMock = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
-   EXPECT_CALL( *_entityFactoryMock, CreateEntity( 12, Direction::Left ) ).WillOnce( Return( bulletMock ) );
+   EXPECT_CALL( *_entityFactoryMock, CreateEntity( 0, Direction::Left ) ).WillOnce( Return( bulletMock ) );
 
    Coordinate<float> bulletPosition;
    EXPECT_CALL( *bulletMock, SetArenaPosition( _ ) ).WillOnce( SaveArg<0>( &bulletPosition ) );
 
-   _game->ExecuteCommand( GameCommand::Shoot );
+   _game->ExecuteCommand( GameCommand::Shoot,
+                          shared_ptr<ShootCommandArgs>( new ShootCommandArgs( _playerMock ) ) );
 
    EXPECT_EQ( bulletPosition.Left, 20 );
    EXPECT_EQ( bulletPosition.Top, 15 );
-}
-
-TEST_F( GameTests, ExecuteCommand_ShootUpLeft_AddsBulletToArenaInCorrectPosition )
-{
-   ON_CALL( *_playerMock, GetDirection() ).WillByDefault( Return( Direction::UpLeft ) );
-   BuildGame();
-   _game->ExecuteCommand( GameCommand::StartStage );
-
-   auto bulletMock = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
-   EXPECT_CALL( *_entityFactoryMock, CreateEntity( 12, Direction::UpLeft ) ).WillOnce( Return( bulletMock ) );
-
-   Coordinate<float> bulletPosition;
-   EXPECT_CALL( *bulletMock, SetArenaPosition( _ ) ).WillOnce( SaveArg<0>( &bulletPosition ) );
-
-   _game->ExecuteCommand( GameCommand::Shoot );
-
-   EXPECT_EQ( bulletPosition.Left, 20 );
-   EXPECT_EQ( bulletPosition.Top, 10 );
-}
-
-TEST_F( GameTests, ExecuteCommand_ShootUp_AddsBulletToArenaInCorrectPosition )
-{
-   ON_CALL( *_playerMock, GetDirection() ).WillByDefault( Return( Direction::Up ) );
-   BuildGame();
-   _game->ExecuteCommand( GameCommand::StartStage );
-
-   auto bulletMock = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
-   EXPECT_CALL( *_entityFactoryMock, CreateEntity( 12, Direction::Up ) ).WillOnce( Return( bulletMock ) );
-
-   Coordinate<float> bulletPosition;
-   EXPECT_CALL( *bulletMock, SetArenaPosition( _ ) ).WillOnce( SaveArg<0>( &bulletPosition ) );
-
-   _game->ExecuteCommand( GameCommand::Shoot );
-
-   EXPECT_EQ( bulletPosition.Left, 23 );
-   EXPECT_EQ( bulletPosition.Top, 10 );
-}
-
-TEST_F( GameTests, ExecuteCommand_ShootUpRight_AddsBulletToArenaInCorrectPosition )
-{
-   ON_CALL( *_playerMock, GetDirection() ).WillByDefault( Return( Direction::UpRight ) );
-   BuildGame();
-   _game->ExecuteCommand( GameCommand::StartStage );
-
-   auto bulletMock = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
-   EXPECT_CALL( *_entityFactoryMock, CreateEntity( 12, Direction::UpRight ) ).WillOnce( Return( bulletMock ) );
-
-   Coordinate<float> bulletPosition;
-   EXPECT_CALL( *bulletMock, SetArenaPosition( _ ) ).WillOnce( SaveArg<0>( &bulletPosition ) );
-
-   _game->ExecuteCommand( GameCommand::Shoot );
-
-   EXPECT_EQ( bulletPosition.Left, 26 );
-   EXPECT_EQ( bulletPosition.Top, 10 );
-}
-
-TEST_F( GameTests, ExecuteCommand_ShootRight_AddsBulletToArenaInCorrectPosition )
-{
-   ON_CALL( *_playerMock, GetDirection() ).WillByDefault( Return( Direction::Right ) );
-   BuildGame();
-   _game->ExecuteCommand( GameCommand::StartStage );
-
-   auto bulletMock = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
-   EXPECT_CALL( *_entityFactoryMock, CreateEntity( 12, Direction::Right ) ).WillOnce( Return( bulletMock ) );
-
-   Coordinate<float> bulletPosition;
-   EXPECT_CALL( *bulletMock, SetArenaPosition( _ ) ).WillOnce( SaveArg<0>( &bulletPosition ) );
-
-   _game->ExecuteCommand( GameCommand::Shoot );
-
-   EXPECT_EQ( bulletPosition.Left, 26 );
-   EXPECT_EQ( bulletPosition.Top, 15 );
-}
-
-TEST_F( GameTests, ExecuteCommand_ShootDownRight_AddsBulletToArenaInCorrectPosition )
-{
-   ON_CALL( *_playerMock, GetDirection() ).WillByDefault( Return( Direction::DownRight ) );
-   BuildGame();
-   _game->ExecuteCommand( GameCommand::StartStage );
-
-   auto bulletMock = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
-   EXPECT_CALL( *_entityFactoryMock, CreateEntity( 12, Direction::DownRight ) ).WillOnce( Return( bulletMock ) );
-
-   Coordinate<float> bulletPosition;
-   EXPECT_CALL( *bulletMock, SetArenaPosition( _ ) ).WillOnce( SaveArg<0>( &bulletPosition ) );
-
-   _game->ExecuteCommand( GameCommand::Shoot );
-
-   EXPECT_EQ( bulletPosition.Left, 26 );
-   EXPECT_EQ( bulletPosition.Top, 20 );
-}
-
-TEST_F( GameTests, ExecuteCommand_ShootDown_AddsBulletToArenaInCorrectPosition )
-{
-   ON_CALL( *_playerMock, GetDirection() ).WillByDefault( Return( Direction::Down ) );
-   BuildGame();
-   _game->ExecuteCommand( GameCommand::StartStage );
-
-   auto bulletMock = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
-   EXPECT_CALL( *_entityFactoryMock, CreateEntity( 12, Direction::Down ) ).WillOnce( Return( bulletMock ) );
-
-   Coordinate<float> bulletPosition;
-   EXPECT_CALL( *bulletMock, SetArenaPosition( _ ) ).WillOnce( SaveArg<0>( &bulletPosition ) );
-
-   _game->ExecuteCommand( GameCommand::Shoot );
-
-   EXPECT_EQ( bulletPosition.Left, 23 );
-   EXPECT_EQ( bulletPosition.Top, 20 );
-}
-
-TEST_F( GameTests, ExecuteCommand_ShootDownLeft_AddsBulletToArenaInCorrectPosition )
-{
-   ON_CALL( *_playerMock, GetDirection() ).WillByDefault( Return( Direction::DownLeft ) );
-   BuildGame();
-   _game->ExecuteCommand( GameCommand::StartStage );
-
-   auto bulletMock = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
-   EXPECT_CALL( *_entityFactoryMock, CreateEntity( 12, Direction::DownLeft ) ).WillOnce( Return( bulletMock ) );
-
-   Coordinate<float> bulletPosition;
-   EXPECT_CALL( *bulletMock, SetArenaPosition( _ ) ).WillOnce( SaveArg<0>( &bulletPosition ) );
-
-   _game->ExecuteCommand( GameCommand::Shoot );
-
-   EXPECT_EQ( bulletPosition.Left, 20 );
-   EXPECT_EQ( bulletPosition.Top, 20 );
 }
 
 TEST_F( GameTests, Tick_RestartingStageNextFrame_ResetsGameObjects )

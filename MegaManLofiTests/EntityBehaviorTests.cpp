@@ -1,9 +1,12 @@
 #include "gtest/gtest.h"
 
 #include <MegaManLofi/EntityBehavior.h>
+#include <MegaManLofi/GameCommand.h>
+#include <MegaManLofi/ShootCommandArgs.h>
 
 #include "mock_FrameRateProvider.h"
 #include "mock_PlayerInfoProvider.h"
+#include "mock_GameCommandExecutor.h"
 #include "mock_ReadOnlyEntity.h"
 #include "mock_Entity.h"
 
@@ -18,12 +21,13 @@ public:
    {
       _frameRateProviderMock.reset( new NiceMock<mock_FrameRateProvider> );
       _playerInfoProviderMock.reset( new NiceMock<mock_PlayerInfoProvider> );
+      _commandExecutorMock.reset( new NiceMock<mock_GameCommandExecutor> );
       _entityMock.reset( new NiceMock<mock_Entity> );
       _playerEntityMock.reset( new NiceMock<mock_ReadOnlyEntity> );
 
       ON_CALL( *_playerInfoProviderMock, GetPlayerEntity() ).WillByDefault( Return( _playerEntityMock ) );
 
-      _behavior.reset( new EntityBehavior( _frameRateProviderMock, _playerInfoProviderMock ) );
+      _behavior.reset( new EntityBehavior( _frameRateProviderMock, _playerInfoProviderMock, _commandExecutorMock ) );
       _behavior->AssignTo( _entityMock );
    }
 
@@ -37,6 +41,7 @@ public:
 protected:
    shared_ptr<mock_FrameRateProvider> _frameRateProviderMock;
    shared_ptr<mock_PlayerInfoProvider> _playerInfoProviderMock;
+   shared_ptr<mock_GameCommandExecutor> _commandExecutorMock;
    shared_ptr<mock_Entity> _entityMock;
    shared_ptr<mock_ReadOnlyEntity> _playerEntityMock;
 
@@ -296,4 +301,17 @@ TEST_F( EntityBehaviorTests, Tick_SetDirectionCommand_SetsDirection )
    EXPECT_CALL( *_entityMock, SetDirection( Direction::Right ) );
 
    _behavior->Tick();
+}
+
+TEST_F( EntityBehaviorTests, Tick_ShootCommand_ExecutesShootCommand )
+{
+   auto instruction = (mbc_instruction)( MBCDO_SHOOT << MBC_CMD_SHIFT );
+   _behavior->SetInstructions( vector<mbc_instruction> { instruction } );
+
+   shared_ptr<GameCommandArgs> args;
+   EXPECT_CALL( *_commandExecutorMock, ExecuteCommand( GameCommand::Shoot, _ ) ).WillOnce( SaveArg<1>( &args ) );
+
+   _behavior->Tick();
+
+   EXPECT_EQ( _entityMock, static_pointer_cast<ShootCommandArgs>( args )->SourceEntity );
 }

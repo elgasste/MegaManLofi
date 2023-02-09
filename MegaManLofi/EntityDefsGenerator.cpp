@@ -9,19 +9,24 @@ shared_ptr<EntityDefs> EntityDefsGenerator::GenerateEntityDefs()
 {
    auto entityDefs = make_shared<EntityDefs>();
 
-   entityDefs->BulletEntityMetaId = METAID_PROJECTILE_BULLET;
-
-   // meta ID 0 is reserved for the player
-   entityDefs->EntityTypeMap[0] = EntityType::Player;
+   /***************************** PLAYER ******************************/
+   
+   entityDefs->EntityTypeMap[METAID_PLAYER] = EntityType::Player;
 
    /*************************** PROJECTILES ***************************/
 
    // bullet
-   entityDefs->EntityTypeMap[METAID_PROJECTILE_BULLET] = EntityType::Projectile;
-   entityDefs->ProjectileInfoMap[METAID_PROJECTILE_BULLET].HitBox = { 0, 0, 10, 10 }; // player is 152 x 234
-   entityDefs->ProjectileInfoMap[METAID_PROJECTILE_BULLET].Velocity = 2'500;
-   entityDefs->ProjectileInfoMap[METAID_PROJECTILE_BULLET].IsFriendly = true;
-   entityDefs->CollisionPayloadMap[METAID_PROJECTILE_BULLET].Health = -10;
+   entityDefs->EntityTypeMap[METAID_PROJECTILE_GOODBULLET] = EntityType::Projectile;
+   entityDefs->ProjectileInfoMap[METAID_PROJECTILE_GOODBULLET].HitBox = { 0, 0, 10, 10 }; // player is 152 x 234
+   entityDefs->ProjectileInfoMap[METAID_PROJECTILE_GOODBULLET].Velocity = 2'500;
+   entityDefs->ProjectileInfoMap[METAID_PROJECTILE_GOODBULLET].IsFriendly = true;
+   entityDefs->CollisionPayloadMap[METAID_PROJECTILE_GOODBULLET].Health = -10;
+
+   entityDefs->EntityTypeMap[METAID_PROJECTILE_BADBULLET] = EntityType::Projectile;
+   entityDefs->ProjectileInfoMap[METAID_PROJECTILE_BADBULLET].HitBox = { 0, 0, 10, 10 }; // player is 152 x 234
+   entityDefs->ProjectileInfoMap[METAID_PROJECTILE_BADBULLET].Velocity = 2'500;
+   entityDefs->ProjectileInfoMap[METAID_PROJECTILE_BADBULLET].IsFriendly = false;
+   entityDefs->CollisionPayloadMap[METAID_PROJECTILE_BADBULLET].Health = -10;
 
    /****************************** ITEMS ******************************/
 
@@ -56,6 +61,11 @@ shared_ptr<EntityDefs> EntityDefsGenerator::GenerateEntityDefs()
    entityDefs->EnemyInfoMap[METAID_ENEMY_STATIONARYTURRET].MaxHealth = 50;
    entityDefs->EnemyInfoMap[METAID_ENEMY_STATIONARYTURRET].DamageInvulnerabilitySeconds = 0.1f;
    entityDefs->CollisionPayloadMap[METAID_ENEMY_STATIONARYTURRET].Health = -10;
+
+   /*********************** ENTITY PROJECTILES ************************/
+
+   entityDefs->EntityProjectileMap[METAID_PLAYER] = METAID_PROJECTILE_GOODBULLET;
+   entityDefs->EntityProjectileMap[METAID_ENEMY_STATIONARYTURRET] = METAID_PROJECTILE_BADBULLET;
 
    return entityDefs;
 }

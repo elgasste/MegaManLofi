@@ -74,7 +74,8 @@ namespace MbcAsm
       MBCCOMP_GET_ISINVULNERABLE,
       MBCCOMP_SET_VELOCITYX,
       MBCCOMP_SET_VELOCITYY,
-      MBCCOMP_SET_DIRECTION
+      MBCCOMP_SET_DIRECTION,
+      MBCCOMP_DO_SHOOT
    };
 
    const std::vector<std::string> IfTokens =
@@ -198,7 +199,8 @@ namespace MbcAsm
       { MBCCOMP_GET_ISINVULNERABLE, MBCGET_ISINVULNERABLE },
       { MBCCOMP_SET_VELOCITYX, MBCSET_VELOCITYX },
       { MBCCOMP_SET_VELOCITYY, MBCSET_VELOCITYY },
-      { MBCCOMP_SET_DIRECTION, MBCSET_DIRECTION }
+      { MBCCOMP_SET_DIRECTION, MBCSET_DIRECTION },
+      { MBCCOMP_DO_SHOOT, MBCDO_SHOOT }
    };
 
    const std::map<std::string, int> TokenArgCountMap =
@@ -266,6 +268,7 @@ namespace MbcAsm
       { MBCCOMP_GET_ISINVULNERABLE, 1 },
       { MBCCOMP_SET_VELOCITYX, 1 },
       { MBCCOMP_SET_VELOCITYY, 1 },
-      { MBCCOMP_SET_DIRECTION, 1 }
+      { MBCCOMP_SET_DIRECTION, 1 },
+      { MBCCOMP_DO_SHOOT, 0 }
    };
 }

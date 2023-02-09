@@ -265,6 +265,27 @@ shared_ptr<ConsoleSprite> ConsoleSpriteDefsGenerator::GenerateStationaryTurretSp
    return sprite;
 }
 
+shared_ptr<ConsoleSprite> ConsoleSpriteDefsGenerator::GenerateSpinningTurretSprite( const shared_ptr<IFrameRateProvider> frameRateProvider )
+{
+   auto sprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( frameRateProvider, 0.50f ) );
+
+   ConsoleImage image0;
+   ConsoleImage image1;
+
+   image0.Width = 1;
+   image0.Height = 1;
+   image0.Pixels.push_back( { '@', true, ConsoleColor::DarkMagenta, ConsoleColor::Black } );
+
+   image1.Width = 1;
+   image1.Height = 1;
+   image1.Pixels.push_back( { '@', true, ConsoleColor::Red, ConsoleColor::Black } );
+
+   sprite->AddImage( image0 );
+   sprite->AddImage( image1 );
+
+   return sprite;
+}
+
 shared_ptr<ConsoleSprite> ConsoleSpriteDefsGenerator::GeneratePlayerThwipSprite( const shared_ptr<IFrameRateProvider> frameRateProvider )
 {
    auto thwipSprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( frameRateProvider, .05f ) );
@@ -472,7 +493,16 @@ map<int, shared_ptr<EntityConsoleSprite>> ConsoleSpriteDefsGenerator::GenerateEn
    entitySpriteMap[METAID_ENEMY_STATIONARYTURRET] = stationaryTurretEntitySprite;
 
    // spinning turret
-   entitySpriteMap[METAID_ENEMY_SPINNINGTURRET] = stationaryTurretEntitySprite;
+   auto spinningTurretSprite = GenerateSpinningTurretSprite( frameRateProvider );
+   auto spinningTurretEntitySprite = make_shared<EntityConsoleSprite>();
+   for ( int i = 0; i < (int)MovementType::MovementTypeCount; i++ )
+   {
+      for ( int j = 0; j < (int)Direction::DirectionCount; j++ )
+      {
+         spinningTurretEntitySprite->AddSprite( (MovementType)i, (Direction)j, spinningTurretSprite );
+      }
+   }
+   entitySpriteMap[METAID_ENEMY_SPINNINGTURRET] = spinningTurretEntitySprite;
 
    return entitySpriteMap;
 }

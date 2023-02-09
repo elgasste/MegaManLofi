@@ -39,10 +39,10 @@ map<int, shared_ptr<ArenaDefs>> ArenaDefsGenerator::GenerateArenaDefsMap( const 
    arenaDefsMap[0]->SpawnPoints[2].IsBoundToUniqueId = true;
    arenaDefsMap[0]->SpawnPoints[2].AllowUniqueReSpawn = true;
 
-   // spinning turret at 160, 15
+   // spinning turret at 210, 10
    arenaDefsMap[0]->SpawnPoints.push_back( SpawnPoint() );
    arenaDefsMap[0]->SpawnPoints[3].EntityMetaId = METAID_ENEMY_SPINNINGTURRET;
-   arenaDefsMap[0]->SpawnPoints[3].ArenaPosition = { worldDefs->TileWidth * 160, worldDefs->TileHeight * 15 };
+   arenaDefsMap[0]->SpawnPoints[3].ArenaPosition = { worldDefs->TileWidth * 210, worldDefs->TileHeight * 10 };
    arenaDefsMap[0]->SpawnPoints[3].IsBoundToUniqueId = true;
    arenaDefsMap[0]->SpawnPoints[3].AllowUniqueReSpawn = true;
 

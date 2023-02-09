@@ -70,9 +70,7 @@ shared_ptr<EntityDefs> EntityDefsGenerator::GenerateEntityDefs()
 
    // spinning turret
    entityDefs->EntityTypeMap[METAID_ENEMY_SPINNINGTURRET] = EntityType::Enemy;
-   entityDefs->EnemyInfoMap[METAID_ENEMY_SPINNINGTURRET].HitBox = { 0, 0, 38, 78 * 4 }; // 1 x 4 tiles
-   entityDefs->EnemyInfoMap[METAID_ENEMY_SPINNINGTURRET].MaxGravityVelocity = 4'000;
-   entityDefs->EnemyInfoMap[METAID_ENEMY_SPINNINGTURRET].GravityAccelerationPerSecond = 10'000;
+   entityDefs->EnemyInfoMap[METAID_ENEMY_SPINNINGTURRET].HitBox = { 0, 0, 38, 78 }; // one full tile
    entityDefs->EnemyInfoMap[METAID_ENEMY_SPINNINGTURRET].MaxHealth = 80;
    entityDefs->EnemyInfoMap[METAID_ENEMY_SPINNINGTURRET].DamageInvulnerabilitySeconds = 0.1f;
    entityDefs->CollisionPayloadMap[METAID_ENEMY_SPINNINGTURRET].Health = -10;

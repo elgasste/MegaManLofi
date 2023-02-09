@@ -1,18 +1,17 @@
 #pragma once
 
-#include <memory>
 #include <map>
+#include <vector>
 
 #include "EntityType.h"
 #include "ItemInfo.h"
 #include "ProjectileInfo.h"
 #include "EnemyInfo.h"
 #include "EntityCollisionPayload.h"
+#include "MbcDefines.h"
 
 namespace MegaManLofi
 {
-   class EntityBehavior;
-
    class EntityDefs
    {
    public:
@@ -22,7 +21,7 @@ namespace MegaManLofi
       std::map<int, EnemyInfo> EnemyInfoMap;
 
       std::map<int, int> EntityProjectileMap;
-      std::map<int, std::shared_ptr<EntityBehavior>> EntityBehaviorMap;
+      std::map<int, std::vector<mbc_instruction>> EntityBehaviorMap;
       std::map<int, EntityCollisionPayload> CollisionPayloadMap;
    };
 }

@@ -17,7 +17,6 @@ namespace MegaManLofi
       EntityBehavior( const std::shared_ptr<IFrameRateProvider> frameRateProvider,
                       const std::shared_ptr<IPlayerInfoProvider> playerInfoProvider,
                       const std::shared_ptr<IGameCommandExecutor> commandExecutor );
-      EntityBehavior( const EntityBehavior& b );
 
       void AssignTo( const std::shared_ptr<Entity> entity );
 

@@ -16,6 +16,13 @@ EntityFactory::EntityFactory( const shared_ptr<EntityDefs> entityDefs,
 {
 }
 
+void EntityFactory::Initialize( const shared_ptr<IPlayerInfoProvider> playerInfoProvider,
+                                const shared_ptr<IGameCommandExecutor> commandExecutor )
+{
+   _playerInfoProvider = playerInfoProvider;
+   _commandExecutor = commandExecutor;
+}
+
 const shared_ptr<Entity> EntityFactory::CreateEntity( int entityMetaId, Direction direction ) const
 {
    auto type = _entityDefs->EntityTypeMap[entityMetaId];
@@ -78,6 +85,7 @@ void EntityFactory::SetProjectileInfo( const std::shared_ptr<Entity> projectile,
    }
 }
 
+// TODO: figure out how to test this function
 void EntityFactory::SetEnemyInfo( const std::shared_ptr<Entity> enemy, int metaId ) const
 {
    enemy->SetHitBox( _entityDefs->EnemyInfoMap[metaId].HitBox );
@@ -91,8 +99,9 @@ void EntityFactory::SetEnemyInfo( const std::shared_ptr<Entity> enemy, int metaI
 
    if ( behaviorIt != _entityDefs->EntityBehaviorMap.end() )
    {
-      auto behavior = shared_ptr<EntityBehavior>( new EntityBehavior( *behaviorIt->second ) );
+      auto behavior = shared_ptr<EntityBehavior>( new EntityBehavior( _frameRateProvider, _playerInfoProvider, _commandExecutor ) );
       enemy->SetBehavior( shared_ptr<EntityBehavior>( behavior ) );
       behavior->AssignTo( enemy );
+      behavior->SetInstructions( _entityDefs->EntityBehaviorMap.at( metaId ) );
    }
 }

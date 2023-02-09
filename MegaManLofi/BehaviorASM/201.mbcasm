@@ -1,0 +1,72 @@
+##########################################################################
+#
+# 201: Stationary Turret
+#
+# Every 2.5 seconds, this enemy should fire bullets in five directions
+#
+##########################################################################
+#
+# Float Registers:
+#
+# [0] - elapsed seconds since last shoot call
+# [1] - seconds to wait before shooting
+# [2] - frame seconds
+#
+# Int Registers:
+#
+# [0] - is first run (0 is yes, 1 is no)
+#
+# [10] - Direction::Left (0)
+# [11] - Direction::UpLeft (1)
+# [12] - Direction::Up (2)
+# [13] - Direction::UpRight (3)
+# [14] - Direction::Right (4)
+#
+##########################################################################
+
+FUNC main
+
+	# init directions on first run
+	if_eqi 0 0
+		call init
+		regi 0 1
+	endif
+
+	# increment elapsed seconds
+	get_frameseconds 2
+	addf 0 2 0
+
+	if_gtf 0 1
+
+		# shoot left, up-left, up, up-right, and right
+		set_direction 10
+		shoot
+		set_direction 11
+		shoot
+		set_direction 12
+		shoot
+		set_direction 13
+		shoot
+		set_direction 14
+		shoot
+
+		# reset timer
+		regf 0 0
+
+	endif
+
+RET
+
+FUNC init
+
+	# seconds to wait before shooting
+	regf 1 2.5
+
+	# direction registers
+	regi 10 0  # Left
+	regi 11 1  # UpLeft
+	regi 12 2  # Up
+	regi 13 3  # UpRight
+	regi 14 4  # Right
+
+RET

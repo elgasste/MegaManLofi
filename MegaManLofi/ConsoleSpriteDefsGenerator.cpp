@@ -471,5 +471,8 @@ map<int, shared_ptr<EntityConsoleSprite>> ConsoleSpriteDefsGenerator::GenerateEn
    }
    entitySpriteMap[METAID_ENEMY_STATIONARYTURRET] = stationaryTurretEntitySprite;
 
+   // spinning turret
+   entitySpriteMap[METAID_ENEMY_SPINNINGTURRET] = stationaryTurretEntitySprite;
+
    return entitySpriteMap;
 }

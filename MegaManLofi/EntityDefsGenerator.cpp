@@ -1,9 +1,15 @@
+#include <filesystem>
+#include <fstream>
+#include <sstream>
+
 #include "EntityDefsGenerator.h"
 #include "EntityDefs.h"
 #include "GameDefGeneratorDefines.h"
+#include "MbcAsmCompiler.h"
 
 using namespace std;
 using namespace MegaManLofi;
+using namespace MbcAsm;
 
 shared_ptr<EntityDefs> EntityDefsGenerator::GenerateEntityDefs()
 {
@@ -58,14 +64,52 @@ shared_ptr<EntityDefs> EntityDefsGenerator::GenerateEntityDefs()
    entityDefs->EnemyInfoMap[METAID_ENEMY_STATIONARYTURRET].HitBox = { 0, 0, 38, 78 * 4 }; // 1 x 4 tiles
    entityDefs->EnemyInfoMap[METAID_ENEMY_STATIONARYTURRET].MaxGravityVelocity = 4'000;
    entityDefs->EnemyInfoMap[METAID_ENEMY_STATIONARYTURRET].GravityAccelerationPerSecond = 10'000;
-   entityDefs->EnemyInfoMap[METAID_ENEMY_STATIONARYTURRET].MaxHealth = 50;
+   entityDefs->EnemyInfoMap[METAID_ENEMY_STATIONARYTURRET].MaxHealth = 80;
    entityDefs->EnemyInfoMap[METAID_ENEMY_STATIONARYTURRET].DamageInvulnerabilitySeconds = 0.1f;
    entityDefs->CollisionPayloadMap[METAID_ENEMY_STATIONARYTURRET].Health = -10;
+
+   // spinning turret
+   entityDefs->EntityTypeMap[METAID_ENEMY_SPINNINGTURRET] = EntityType::Enemy;
+   entityDefs->EnemyInfoMap[METAID_ENEMY_SPINNINGTURRET].HitBox = { 0, 0, 38, 78 * 4 }; // 1 x 4 tiles
+   entityDefs->EnemyInfoMap[METAID_ENEMY_SPINNINGTURRET].MaxGravityVelocity = 4'000;
+   entityDefs->EnemyInfoMap[METAID_ENEMY_SPINNINGTURRET].GravityAccelerationPerSecond = 10'000;
+   entityDefs->EnemyInfoMap[METAID_ENEMY_SPINNINGTURRET].MaxHealth = 80;
+   entityDefs->EnemyInfoMap[METAID_ENEMY_SPINNINGTURRET].DamageInvulnerabilitySeconds = 0.1f;
+   entityDefs->CollisionPayloadMap[METAID_ENEMY_SPINNINGTURRET].Health = -10;
 
    /*********************** ENTITY PROJECTILES ************************/
 
    entityDefs->EntityProjectileMap[METAID_PLAYER] = METAID_PROJECTILE_GOODBULLET;
    entityDefs->EntityProjectileMap[METAID_ENEMY_STATIONARYTURRET] = METAID_PROJECTILE_BADBULLET;
+   entityDefs->EntityProjectileMap[METAID_ENEMY_SPINNINGTURRET] = METAID_PROJECTILE_BADBULLET;
+
+   GenerateEntityBehaviors( entityDefs );
 
    return entityDefs;
+}
+
+void EntityDefsGenerator::GenerateEntityBehaviors( shared_ptr<EntityDefs> entityDefs )
+{
+   MbcAsmCompiler compiler;
+
+   filesystem::path thisFilePath( __FILE__ );
+   auto asmPath = thisFilePath.parent_path() / "BehaviorASM";
+
+   for ( auto& filePath : filesystem::directory_iterator( asmPath ) )
+   {
+      if ( filePath.path().extension() != ".mbcasm" )
+      {
+         continue;
+      }
+
+      auto fileName = filePath.path().stem();
+      auto metaId = stoi( fileName ); // this will throw if it's not an int, I think that's fine?
+
+      ifstream asmStream( filePath.path() );
+      stringstream asmBuffer;
+      asmBuffer << asmStream.rdbuf();
+
+      auto mbc = compiler.Compile( asmBuffer.str() );
+      entityDefs->EntityBehaviorMap[metaId] = mbc;
+   }
 }

@@ -64,9 +64,18 @@ shared_ptr<EntityDefs> EntityDefsGenerator::GenerateEntityDefs()
    entityDefs->EnemyInfoMap[METAID_ENEMY_STATIONARYTURRET].HitBox = { 0, 0, 38, 78 * 4 }; // 1 x 4 tiles
    entityDefs->EnemyInfoMap[METAID_ENEMY_STATIONARYTURRET].MaxGravityVelocity = 4'000;
    entityDefs->EnemyInfoMap[METAID_ENEMY_STATIONARYTURRET].GravityAccelerationPerSecond = 10'000;
-   entityDefs->EnemyInfoMap[METAID_ENEMY_STATIONARYTURRET].MaxHealth = 50;
+   entityDefs->EnemyInfoMap[METAID_ENEMY_STATIONARYTURRET].MaxHealth = 80;
    entityDefs->EnemyInfoMap[METAID_ENEMY_STATIONARYTURRET].DamageInvulnerabilitySeconds = 0.1f;
    entityDefs->CollisionPayloadMap[METAID_ENEMY_STATIONARYTURRET].Health = -10;
+
+   // spinning turret
+   entityDefs->EntityTypeMap[METAID_ENEMY_SPINNINGTURRET] = EntityType::Enemy;
+   entityDefs->EnemyInfoMap[METAID_ENEMY_SPINNINGTURRET].HitBox = { 0, 0, 38, 78 * 4 }; // 1 x 4 tiles
+   entityDefs->EnemyInfoMap[METAID_ENEMY_SPINNINGTURRET].MaxGravityVelocity = 4'000;
+   entityDefs->EnemyInfoMap[METAID_ENEMY_SPINNINGTURRET].GravityAccelerationPerSecond = 10'000;
+   entityDefs->EnemyInfoMap[METAID_ENEMY_SPINNINGTURRET].MaxHealth = 80;
+   entityDefs->EnemyInfoMap[METAID_ENEMY_SPINNINGTURRET].DamageInvulnerabilitySeconds = 0.1f;
+   entityDefs->CollisionPayloadMap[METAID_ENEMY_SPINNINGTURRET].Health = -10;
 
    /*********************** ENTITY PROJECTILES ************************/
 

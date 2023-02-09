@@ -8,6 +8,8 @@
 
 #include "mock_UniqueNumberGenerator.h"
 #include "mock_FrameRateProvider.h"
+#include "mock_PlayerInfoProvider.h"
+#include "mock_GameCommandExecutor.h"
 
 using namespace std;
 using namespace testing;
@@ -21,6 +23,8 @@ public:
       _entityDefs.reset( new EntityDefs );
       _uniqueNumberGeneratorMock.reset( new NiceMock<mock_UniqueNumberGenerator> );
       _frameRateProviderMock.reset( new NiceMock<mock_FrameRateProvider> );
+      _playerInfoProviderMock.reset( new NiceMock<mock_PlayerInfoProvider> );
+      _commandExecutorMock.reset( new NiceMock<mock_GameCommandExecutor> );
 
       _entityDefs->EntityTypeMap[1] = EntityType::Item;
       _entityDefs->EntityTypeMap[2] = EntityType::Projectile;
@@ -38,12 +42,15 @@ public:
    void BuildFactory()
    {
       _factory.reset( new EntityFactory( _entityDefs, _uniqueNumberGeneratorMock, _frameRateProviderMock ) );
+      _factory->Initialize( _playerInfoProviderMock, _commandExecutorMock );
    }
 
 protected:
    shared_ptr<EntityDefs> _entityDefs;
    shared_ptr<mock_UniqueNumberGenerator> _uniqueNumberGeneratorMock;
    shared_ptr<mock_FrameRateProvider> _frameRateProviderMock;
+   shared_ptr<mock_PlayerInfoProvider> _playerInfoProviderMock;
+   shared_ptr<mock_GameCommandExecutor> _commandExecutorMock;
 
    shared_ptr<EntityFactory> _factory;
 };

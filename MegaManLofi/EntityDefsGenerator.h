@@ -10,5 +10,8 @@ namespace MegaManLofi
    {
    public:
       static std::shared_ptr<EntityDefs> GenerateEntityDefs();
+
+   private:
+      static void GenerateEntityBehaviors( std::shared_ptr<EntityDefs> entityDefs );
    };
 }

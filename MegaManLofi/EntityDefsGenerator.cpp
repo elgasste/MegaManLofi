@@ -1,9 +1,15 @@
+#include <filesystem>
+#include <fstream>
+#include <sstream>
+
 #include "EntityDefsGenerator.h"
 #include "EntityDefs.h"
 #include "GameDefGeneratorDefines.h"
+#include "MbcAsmCompiler.h"
 
 using namespace std;
 using namespace MegaManLofi;
+using namespace MbcAsm;
 
 shared_ptr<EntityDefs> EntityDefsGenerator::GenerateEntityDefs()
 {
@@ -67,5 +73,33 @@ shared_ptr<EntityDefs> EntityDefsGenerator::GenerateEntityDefs()
    entityDefs->EntityProjectileMap[METAID_PLAYER] = METAID_PROJECTILE_GOODBULLET;
    entityDefs->EntityProjectileMap[METAID_ENEMY_STATIONARYTURRET] = METAID_PROJECTILE_BADBULLET;
 
+   GenerateEntityBehaviors( entityDefs );
+
    return entityDefs;
+}
+
+void EntityDefsGenerator::GenerateEntityBehaviors( shared_ptr<EntityDefs> entityDefs )
+{
+   MbcAsmCompiler compiler;
+
+   filesystem::path thisFilePath( __FILE__ );
+   auto asmPath = thisFilePath.parent_path() / "BehaviorASM";
+
+   for ( auto& filePath : filesystem::directory_iterator( asmPath ) )
+   {
+      if ( filePath.path().extension() != ".mbcasm" )
+      {
+         continue;
+      }
+
+      auto fileName = filePath.path().stem();
+      auto metaId = stoi( fileName ); // this will throw if it's not an int, I think that's fine?
+
+      ifstream asmStream( filePath.path() );
+      stringstream asmBuffer;
+      asmBuffer << asmStream.rdbuf();
+
+      auto mbc = compiler.Compile( asmBuffer.str() );
+      entityDefs->EntityBehaviorMap[metaId] = mbc;
+   }
 }

@@ -189,8 +189,7 @@ void Game::Shoot( const shared_ptr<ReadOnlyEntity> sourceEntity ) const
       ( direction == Direction::Left || direction == Direction::Right ) ? hitBox.Height / 2 :
       ( direction == Direction::DownLeft || direction == Direction::Down || direction == Direction::DownRight ) ? hitBox.Height : 0;
 
-   auto bullet = _entityFactory->CreateEntity( _entityDefs->EntityProjectileMap.at( sourceEntity->GetEntityMetaId() ), direction );
-   bullet->SetArenaPosition( { left, top } );
+   auto bullet = _entityFactory->CreateEntity( _entityDefs->EntityProjectileMap.at( sourceEntity->GetEntityMetaId() ), { left, top }, direction );
 
    _stage->GetMutableActiveArena()->AddEntity( bullet );
 }

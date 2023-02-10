@@ -23,7 +23,9 @@ void EntityFactory::Initialize( const shared_ptr<IPlayerInfoProvider> playerInfo
    _commandExecutor = commandExecutor;
 }
 
-const shared_ptr<Entity> EntityFactory::CreateEntity( int entityMetaId, Direction direction ) const
+const shared_ptr<Entity> EntityFactory::CreateEntity( int entityMetaId,
+                                                      const Coordinate<float>& position,
+                                                      Direction direction ) const
 {
    auto type = _entityDefs->EntityTypeMap[entityMetaId];
    auto entity = shared_ptr<Entity>( new Entity( _frameRateProvider ) );
@@ -31,6 +33,7 @@ const shared_ptr<Entity> EntityFactory::CreateEntity( int entityMetaId, Directio
    entity->SetUniqueId( _uniqueNumberGenerator->GetNext() );
    entity->SetEntityType( type );
    entity->SetEntityMetaId( entityMetaId );
+   entity->SetArenaPosition( position );
    entity->SetDirection( direction );
 
    switch ( type )

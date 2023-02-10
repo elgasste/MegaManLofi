@@ -25,7 +25,9 @@ namespace MegaManLofi
       void Initialize( const std::shared_ptr<IPlayerInfoProvider> playerInfoProvider,
                        const std::shared_ptr<IGameCommandExecutor> commandExecutor );
 
-      virtual const std::shared_ptr<Entity> CreateEntity( int entityMetaId, Direction direction ) const;
+      virtual const std::shared_ptr<Entity> CreateEntity( int entityMetaId,
+                                                          const Coordinate<float>& position,
+                                                          Direction direction ) const;
 
    private:
       void SetItemInfo( const std::shared_ptr<Entity> item, int metaId ) const;

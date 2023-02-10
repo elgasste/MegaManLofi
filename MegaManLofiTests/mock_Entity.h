@@ -30,11 +30,11 @@ public:
    MOCK_METHOD( void, SetEntityType, ( MegaManLofi::EntityType ), ( override ) );
    MOCK_METHOD( void, SetEntityMetaId, ( int ), ( override ) );
    MOCK_METHOD( void, SetBehavior, ( const std::shared_ptr<MegaManLofi::IBehavior> ), ( override ) );
-   MOCK_METHOD( void, SetArenaPosition, ( MegaManLofi::Coordinate<float> ), ( override ) );
+   MOCK_METHOD( void, SetArenaPosition, ( const MegaManLofi::Coordinate<float>& ), ( override ) );
    MOCK_METHOD( void, SetVelocityX, ( float ), ( override ) );
    MOCK_METHOD( void, SetVelocityY, ( float ), ( override ) );
    MOCK_METHOD( void, SetDirection, ( MegaManLofi::Direction ), ( override ) );
-   MOCK_METHOD( void, SetHitBox, ( MegaManLofi::Rectangle<float> ), ( override ) );
+   MOCK_METHOD( void, SetHitBox, ( const MegaManLofi::Rectangle<float>& ), ( override ) );
    MOCK_METHOD( void, SetMovementType, ( MegaManLofi::MovementType ), ( override ) );
    MOCK_METHOD( void, SetMaxGravityVelocity, ( float ), ( override ) );
    MOCK_METHOD( void, SetGravityAccelerationPerSecond, ( float ), ( override ) );

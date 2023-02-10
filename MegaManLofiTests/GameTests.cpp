@@ -381,10 +381,9 @@ TEST_F( GameTests, ExecuteCommand_Shoot_AddsBulletToArenaInCorrectPositionAndDir
    _game->ExecuteCommand( GameCommand::StartStage );
 
    auto bulletMock = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
-   EXPECT_CALL( *_entityFactoryMock, CreateEntity( 0, Direction::Left ) ).WillOnce( Return( bulletMock ) );
-
    Coordinate<float> bulletPosition;
-   EXPECT_CALL( *bulletMock, SetArenaPosition( _ ) ).WillOnce( SaveArg<0>( &bulletPosition ) );
+   EXPECT_CALL( *_entityFactoryMock, CreateEntity( 0, _, Direction::Left ) ).WillOnce(
+      DoAll( SaveArg<1>( &bulletPosition ), Return( bulletMock ) ) );
 
    _game->ExecuteCommand( GameCommand::Shoot,
                           shared_ptr<ShootCommandArgs>( new ShootCommandArgs( _playerMock ) ) );

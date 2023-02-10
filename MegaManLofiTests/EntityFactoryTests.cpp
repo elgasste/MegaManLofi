@@ -147,8 +147,8 @@ TEST_F( EntityFactoryTests, CreateEntity_ProjectileMovingUpLeft_SetsVelocityFrom
 
    auto entity = _factory->CreateEntity( 2, { 0, 0 }, Direction::UpLeft );
 
-   EXPECT_EQ( entity->GetVelocityX(), -100 );
-   EXPECT_EQ( entity->GetVelocityY(), -100 );
+   EXPECT_EQ( entity->GetVelocityX(), -50 );
+   EXPECT_EQ( entity->GetVelocityY(), -50 );
 }
 
 TEST_F( EntityFactoryTests, CreateEntity_ProjectileMovingUp_SetsVelocityFromDefs )
@@ -167,8 +167,8 @@ TEST_F( EntityFactoryTests, CreateEntity_ProjectileMovingUpRight_SetsVelocityFro
 
    auto entity = _factory->CreateEntity( 2, { 0, 0 }, Direction::UpRight );
 
-   EXPECT_EQ( entity->GetVelocityX(), 100 );
-   EXPECT_EQ( entity->GetVelocityY(), -100 );
+   EXPECT_EQ( entity->GetVelocityX(), 50 );
+   EXPECT_EQ( entity->GetVelocityY(), -50 );
 }
 
 TEST_F( EntityFactoryTests, CreateEntity_ProjectileMovingRight_SetsVelocityFromDefs )
@@ -187,8 +187,8 @@ TEST_F( EntityFactoryTests, CreateEntity_ProjectileMovingDownRight_SetsVelocityF
 
    auto entity = _factory->CreateEntity( 2, { 0, 0 }, Direction::DownRight );
 
-   EXPECT_EQ( entity->GetVelocityX(), 100 );
-   EXPECT_EQ( entity->GetVelocityY(), 100 );
+   EXPECT_EQ( entity->GetVelocityX(), 50 );
+   EXPECT_EQ( entity->GetVelocityY(), 50 );
 }
 
 TEST_F( EntityFactoryTests, CreateEntity_ProjectileMovingDown_SetsVelocityFromDefs )
@@ -207,6 +207,6 @@ TEST_F( EntityFactoryTests, CreateEntity_ProjectileMovingDownLeft_SetsVelocityFr
 
    auto entity = _factory->CreateEntity( 2, { 0, 0 }, Direction::DownLeft );
 
-   EXPECT_EQ( entity->GetVelocityX(), -100 );
-   EXPECT_EQ( entity->GetVelocityY(), 100 );
+   EXPECT_EQ( entity->GetVelocityX(), -50 );
+   EXPECT_EQ( entity->GetVelocityY(), 50 );
 }

@@ -2,6 +2,7 @@
 
 #include <memory>
 
+#include "EntityType.h"
 #include "Coordinate.h"
 #include "Direction.h"
 
@@ -28,11 +29,28 @@ namespace MegaManLofi
       virtual const std::shared_ptr<Entity> CreateEntity( int entityMetaId,
                                                           const Coordinate<float>& position,
                                                           Direction direction ) const;
+      // MUFFINS: set up mock methods for these new functions and test them...
+      // or maybe just test the new CreateProjectile( target ) method? everything else has coverage...
+      virtual const std::shared_ptr<Entity> CreateItem( int itemMetaId,
+                                                        const Coordinate<float>& position,
+                                                        Direction direction ) const;
+      virtual const std::shared_ptr<Entity> CreateProjectile( int projectileMetaId,
+                                                              const Coordinate<float>& position,
+                                                              Direction direction ) const;
+      virtual const std::shared_ptr<Entity> CreateProjectile( int projectileMetaId,
+                                                              const Coordinate<float>& position,
+                                                              const Coordinate<float>& target ) const;
+      virtual const std::shared_ptr<Entity> CreateEnemy( int enemyMetaId,
+                                                         const Coordinate<float>& position,
+                                                         Direction direction ) const;
 
    private:
-      void SetItemInfo( const std::shared_ptr<Entity> item, int metaId ) const;
-      void SetProjectileInfo( const std::shared_ptr<Entity> projectile, Direction direction ) const;
-      void SetEnemyInfo( const std::shared_ptr<Entity> enemy, int metaId ) const;
+      void SetEntityBaseInfo( std::shared_ptr<Entity> entity,
+                              EntityType type,
+                              int entityMetaId,
+                              const Coordinate<float>& position,
+                              Direction direction ) const;
+      void SetProjectileBaseInfo( std::shared_ptr<Entity> projectile, int projectileMetaId ) const;
 
    private:
       const std::shared_ptr<EntityDefs> _entityDefs;

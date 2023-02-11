@@ -96,11 +96,11 @@ TEST_F( EntityFactoryTests, CreateEntity_Always_SetsArenaPosition )
    EXPECT_EQ( entity->GetArenaPositionTop(), 3 );
 }
 
-TEST_F( EntityFactoryTests, CreateEntity_Always_SetsDirection )
+TEST_F( EntityFactoryTests, CreateEntity_NonProjectileAlways_SetsDirection )
 {
    BuildFactory();
 
-   auto entity = _factory->CreateEntity( 2, { 0, 0 }, Direction::UpRight );
+   auto entity = _factory->CreateEntity( 1, { 0, 0 }, Direction::UpRight );
 
    EXPECT_EQ( entity->GetDirection(), Direction::UpRight );
 }
@@ -147,8 +147,11 @@ TEST_F( EntityFactoryTests, CreateEntity_ProjectileMovingUpLeft_SetsVelocityFrom
 
    auto entity = _factory->CreateEntity( 2, { 0, 0 }, Direction::UpLeft );
 
-   EXPECT_EQ( entity->GetVelocityX(), -50 );
-   EXPECT_EQ( entity->GetVelocityY(), -50 );
+   auto angle = (float)atan2( -1.0f, -1.0f );
+   auto velocityX = (float)cos( angle ) * 100.0f;
+   auto velocityY = (float)sin( angle ) * 100.0f;
+   EXPECT_EQ( entity->GetVelocityX(), velocityX );
+   EXPECT_EQ( entity->GetVelocityY(), velocityY );
 }
 
 TEST_F( EntityFactoryTests, CreateEntity_ProjectileMovingUp_SetsVelocityFromDefs )
@@ -167,8 +170,11 @@ TEST_F( EntityFactoryTests, CreateEntity_ProjectileMovingUpRight_SetsVelocityFro
 
    auto entity = _factory->CreateEntity( 2, { 0, 0 }, Direction::UpRight );
 
-   EXPECT_EQ( entity->GetVelocityX(), 50 );
-   EXPECT_EQ( entity->GetVelocityY(), -50 );
+   auto angle = (float)atan2( -1.0f, 1.0f );
+   auto velocityX = (float)cos( angle ) * 100.0f;
+   auto velocityY = (float)sin( angle ) * 100.0f;
+   EXPECT_EQ( entity->GetVelocityX(), velocityX );
+   EXPECT_EQ( entity->GetVelocityY(), velocityY );
 }
 
 TEST_F( EntityFactoryTests, CreateEntity_ProjectileMovingRight_SetsVelocityFromDefs )
@@ -187,8 +193,11 @@ TEST_F( EntityFactoryTests, CreateEntity_ProjectileMovingDownRight_SetsVelocityF
 
    auto entity = _factory->CreateEntity( 2, { 0, 0 }, Direction::DownRight );
 
-   EXPECT_EQ( entity->GetVelocityX(), 50 );
-   EXPECT_EQ( entity->GetVelocityY(), 50 );
+   auto angle = (float)atan2( 1.0f, 1.0f );
+   auto velocityX = (float)cos( angle ) * 100.0f;
+   auto velocityY = (float)sin( angle ) * 100.0f;
+   EXPECT_EQ( entity->GetVelocityX(), velocityX );
+   EXPECT_EQ( entity->GetVelocityY(), velocityY );
 }
 
 TEST_F( EntityFactoryTests, CreateEntity_ProjectileMovingDown_SetsVelocityFromDefs )
@@ -207,6 +216,61 @@ TEST_F( EntityFactoryTests, CreateEntity_ProjectileMovingDownLeft_SetsVelocityFr
 
    auto entity = _factory->CreateEntity( 2, { 0, 0 }, Direction::DownLeft );
 
-   EXPECT_EQ( entity->GetVelocityX(), -50 );
-   EXPECT_EQ( entity->GetVelocityY(), 50 );
+   auto angle = (float)atan2( 1.0f, -1.0f );
+   auto velocityX = (float)cos( angle ) * 100.0f;
+   auto velocityY = (float)sin( angle ) * 100.0f;
+   EXPECT_EQ( entity->GetVelocityX(), velocityX );
+   EXPECT_EQ( entity->GetVelocityY(), velocityY );
+}
+
+TEST_F( EntityFactoryTests, CreateProjectile_WithTargetInUpperLeft_SetsCorrectVelocity )
+{
+   BuildFactory();
+
+   auto projectile = _factory->CreateProjectile( 2, { 0, 0 }, { -6.0f, -5.0f } );
+
+   auto angle = (float)atan2( -5.0f, -6.0f );
+   auto velocityX = (float)cos( angle ) * 100.0f;
+   auto velocityY = (float)sin( angle ) * 100.0f;
+   EXPECT_EQ( projectile->GetVelocityX(), velocityX );
+   EXPECT_EQ( projectile->GetVelocityY(), velocityY );
+}
+
+TEST_F( EntityFactoryTests, CreateProjectile_WithTargetInUpperRight_SetsCorrectVelocity )
+{
+   BuildFactory();
+
+   auto projectile = _factory->CreateProjectile( 2, { 0, 0 }, { 6.0f, -5.0f } );
+
+   auto angle = (float)atan2( -5.0f, 6.0f );
+   auto velocityX = (float)cos( angle ) * 100.0f;
+   auto velocityY = (float)sin( angle ) * 100.0f;
+   EXPECT_EQ( projectile->GetVelocityX(), velocityX );
+   EXPECT_EQ( projectile->GetVelocityY(), velocityY );
+}
+
+TEST_F( EntityFactoryTests, CreateProjectile_WithTargetInLowerRight_SetsCorrectVelocity )
+{
+   BuildFactory();
+
+   auto projectile = _factory->CreateProjectile( 2, { 0, 0 }, { 6.0f, 5.0f } );
+
+   auto angle = (float)atan2( 5.0f, 6.0f );
+   auto velocityX = (float)cos( angle ) * 100.0f;
+   auto velocityY = (float)sin( angle ) * 100.0f;
+   EXPECT_EQ( projectile->GetVelocityX(), velocityX );
+   EXPECT_EQ( projectile->GetVelocityY(), velocityY );
+}
+
+TEST_F( EntityFactoryTests, CreateProjectile_WithTargetInLowerLeft_SetsCorrectVelocity )
+{
+   BuildFactory();
+
+   auto projectile = _factory->CreateProjectile( 2, { 0, 0 }, { -6.0f, 5.0f } );
+
+   auto angle = (float)atan2( 5.0f, -6.0f );
+   auto velocityX = (float)cos( angle ) * 100.0f;
+   auto velocityY = (float)sin( angle ) * 100.0f;
+   EXPECT_EQ( projectile->GetVelocityX(), velocityX );
+   EXPECT_EQ( projectile->GetVelocityY(), velocityY );
 }

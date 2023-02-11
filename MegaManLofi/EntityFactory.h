@@ -29,8 +29,6 @@ namespace MegaManLofi
       virtual const std::shared_ptr<Entity> CreateEntity( int entityMetaId,
                                                           const Coordinate<float>& position,
                                                           Direction direction ) const;
-      // MUFFINS: set up mock methods for these new functions and test them...
-      // or maybe just test the new CreateProjectile( target ) method? everything else has coverage...
       virtual const std::shared_ptr<Entity> CreateItem( int itemMetaId,
                                                         const Coordinate<float>& position,
                                                         Direction direction ) const;

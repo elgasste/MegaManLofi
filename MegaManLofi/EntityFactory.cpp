@@ -1,3 +1,5 @@
+#include <math.h>
+
 #include "EntityFactory.h"
 #include "EntityDefs.h"
 #include "UniqueNumberGenerator.h"
@@ -38,6 +40,7 @@ const shared_ptr<Entity> EntityFactory::CreateEntity( int entityMetaId,
       case EntityType::Enemy:
          return CreateEnemy( entityMetaId, position, direction );
       default:
+         // TODO: test this somehow
          return nullptr;
    }
 }
@@ -63,46 +66,28 @@ const shared_ptr<Entity> EntityFactory::CreateProjectile( int projectileMetaId,
                                                           const Coordinate<float>& position,
                                                           Direction direction ) const
 {
-   auto projectile = shared_ptr<Entity>( new Entity( _frameRateProvider ) );
-   SetEntityBaseInfo( projectile, EntityType::Projectile, projectileMetaId, position, direction );
-   SetProjectileBaseInfo( projectile, projectileMetaId );
-   auto velocity = _entityDefs->ProjectileInfoMap.at( projectileMetaId ).Velocity;
-
-   if ( direction == Direction::Left )
+   switch ( direction )
    {
-      projectile->SetVelocityX( -velocity );
+      case Direction::Left:
+         return CreateProjectile( projectileMetaId, position, { position.Left - 1, position.Top } );
+      case Direction::UpLeft:
+         return CreateProjectile( projectileMetaId, position, { position.Left - 1, position.Top - 1 } );
+      case Direction::Up:
+         return CreateProjectile( projectileMetaId, position, { position.Left, position.Top - 1 } );
+      case Direction::UpRight:
+         return CreateProjectile( projectileMetaId, position, { position.Left + 1, position.Top - 1 } );
+      case Direction::Right:
+         return CreateProjectile( projectileMetaId, position, { position.Left + 1, position.Top } );
+      case Direction::DownRight:
+         return CreateProjectile( projectileMetaId, position, { position.Left + 1, position.Top + 1 } );
+      case Direction::Down:
+         return CreateProjectile( projectileMetaId, position, { position.Left, position.Top + 1 } );
+      case Direction::DownLeft:
+         return CreateProjectile( projectileMetaId, position, { position.Left - 1, position.Top + 1 } );
+      default:
+         // TODO: test this somehow
+         return nullptr;
    }
-   if ( direction == Direction::UpLeft || direction == Direction::DownLeft )
-   {
-      projectile->SetVelocityX( -( velocity / 2.0f ) );
-   }
-   else if ( direction == Direction::Right )
-   {
-      projectile->SetVelocityX( velocity );
-   }
-   else if ( direction == Direction::UpRight || direction == Direction::DownRight )
-   {
-      projectile->SetVelocityX( velocity / 2.0f );
-   }
-
-   if ( direction == Direction::Up )
-   {
-      projectile->SetVelocityY( -velocity );
-   }
-   else if ( direction == Direction::UpLeft || direction == Direction::UpRight )
-   {
-      projectile->SetVelocityY( -( velocity / 2.0f ) );
-   }
-   else if ( direction == Direction::Down )
-   {
-      projectile->SetVelocityY( velocity );
-   }
-   else if ( direction == Direction::DownLeft || direction == Direction::DownRight )
-   {
-      projectile->SetVelocityY( velocity / 2.0f );
-   }
-
-   return projectile;
 }
 
 const shared_ptr<Entity> EntityFactory::CreateProjectile( int projectileMetaId,
@@ -114,7 +99,15 @@ const shared_ptr<Entity> EntityFactory::CreateProjectile( int projectileMetaId,
    SetProjectileBaseInfo( projectile, projectileMetaId );
    auto velocity = _entityDefs->ProjectileInfoMap.at( projectileMetaId ).Velocity;
    
-   // TODO: the math
+   // TODO: maybe move this into a MathUtil class or something?
+   auto deltaX = target.Left - position.Left;
+   auto deltaY = target.Top - position.Top;
+   auto angle = (float)atan2( deltaY, deltaX );
+   auto velocityX = ( deltaX == 0 ) ? 0.0f : (float)cos( angle ) * velocity;
+   auto velocityY = ( deltaY == 0 ) ? 0.0f : (float)sin( angle ) * velocity;
+
+   projectile->SetVelocityX( velocityX );
+   projectile->SetVelocityY( velocityY );
 
    return projectile;
 }

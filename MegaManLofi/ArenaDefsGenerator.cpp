@@ -61,6 +61,13 @@ map<int, shared_ptr<ArenaDefs>> ArenaDefsGenerator::GenerateArenaDefsMap( const 
    arenaDefsMap[1]->SpawnPoints[0].ArenaPosition = { worldDefs->TileWidth * 112, worldDefs->TileHeight * 24 };
    arenaDefsMap[1]->SpawnPoints[0].IsBoundToUniqueId = true;
 
+   // targeting turret at 55, 19
+   arenaDefsMap[1]->SpawnPoints.push_back( SpawnPoint() );
+   arenaDefsMap[1]->SpawnPoints[1].EntityMetaId = METAID_ENEMY_TARGETINGTURRET;
+   arenaDefsMap[1]->SpawnPoints[1].ArenaPosition = { worldDefs->TileWidth * 55, worldDefs->TileHeight * 19 };
+   arenaDefsMap[1]->SpawnPoints[1].IsBoundToUniqueId = true;
+   arenaDefsMap[1]->SpawnPoints[1].AllowUniqueReSpawn = true;
+
    /********************* ARENA 3 *********************/
 
    arenaDefsMap[2] = make_shared<ArenaDefs>();

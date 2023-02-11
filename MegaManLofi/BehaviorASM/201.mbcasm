@@ -14,7 +14,8 @@
 #
 # Int Registers:
 #
-# [0] - is first run (0 is yes, 1 is no)
+# [0] - first run value (if equal to the comparator, then it'e the first run)
+# [1] - first run comparator (starts at 0, becomes 1 on first run)
 #
 # [10] - Direction::Left (0)
 # [11] - Direction::UpLeft (1)
@@ -27,9 +28,9 @@
 FUNC main
 
 	# init directions on first run
-	if_eqi 0 0
+	if_eqi 0 1
 		call init
-		regi 0 1
+		regi 1 1
 	endif
 
 	# increment elapsed seconds

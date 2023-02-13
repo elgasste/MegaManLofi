@@ -331,6 +331,7 @@
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="RectangleUtilities.h" />
     <ClInclude Include="ShootCommandArgs.h" />
+    <ClInclude Include="ShootTargetCommandArgs.h" />
     <ClInclude Include="SpawnPoint.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="StageDefs.h" />
@@ -354,6 +355,7 @@
       </ExcludedFromBuild>
     </None>
     <None Include="BehaviorASM\202.mbcasm" />
+    <None Include="BehaviorASM\203.mbcasm" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

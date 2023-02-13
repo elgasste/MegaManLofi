@@ -12,6 +12,7 @@
 #include "PushPlayerCommandArgs.h"
 #include "PointPlayerCommandArgs.h"
 #include "ShootCommandArgs.h"
+#include "ShootTargetCommandArgs.h"
 
 using namespace std;
 using namespace MegaManLofi;
@@ -130,7 +131,10 @@ void Game::ExecuteCommand( GameCommand command, const shared_ptr<GameCommandArgs
          _player->ExtendJump();
          break;
       case GameCommand::Shoot:
-         Shoot( static_pointer_cast<ShootCommandArgs>( args )->SourceEntity );
+         Shoot( static_pointer_cast<ShootCommandArgs>( args ) );
+         break;
+      case GameCommand::ShootTarget:
+         Shoot( static_pointer_cast<ShootTargetCommandArgs>( args ) );
          break;
       case GameCommand::OpenPlayingMenu:
          OpenPlayingMenu();
@@ -169,7 +173,31 @@ void Game::StartStage()
    _eventAggregator->RaiseEvent( GameEvent::StageStarted );
 }
 
-void Game::Shoot( const shared_ptr<ReadOnlyEntity> sourceEntity ) const
+void Game::Shoot( const shared_ptr<ShootCommandArgs>& args ) const
+{
+   auto sourceEntity = args->SourceEntity;
+   auto left = sourceEntity->GetArenaPositionLeft();
+   auto top = sourceEntity->GetArenaPositionTop();
+
+   switch ( sourceEntity->GetDirection() )
+   {
+      case Direction::Left: Shoot( sourceEntity, { left - TARGET_VECTOR_LENGTH, top } ); break;
+      case Direction::UpLeft: Shoot( sourceEntity, { left - TARGET_VECTOR_LENGTH, top - TARGET_VECTOR_LENGTH } ); break;
+      case Direction::Up: Shoot( sourceEntity, { left, top - TARGET_VECTOR_LENGTH } ); break;
+      case Direction::UpRight: Shoot( sourceEntity, { left + TARGET_VECTOR_LENGTH, top - TARGET_VECTOR_LENGTH } ); break;
+      case Direction::Right: Shoot( sourceEntity, { left + TARGET_VECTOR_LENGTH, top } ); break;
+      case Direction::DownRight: Shoot( sourceEntity, { left + TARGET_VECTOR_LENGTH, top + TARGET_VECTOR_LENGTH } ); break;
+      case Direction::Down: Shoot( sourceEntity, { left, top + TARGET_VECTOR_LENGTH } ); break;
+      case Direction::DownLeft: Shoot( sourceEntity, { left - TARGET_VECTOR_LENGTH, top + TARGET_VECTOR_LENGTH } ); break;
+   }
+}
+
+void Game::Shoot( const shared_ptr<ShootTargetCommandArgs>& args ) const
+{
+   Shoot( args->SourceEntity, args->TargetPosition );
+}
+
+void Game::Shoot( const shared_ptr<ReadOnlyEntity> sourceEntity, const Coordinate<float>& targetPosition ) const
 {
    if ( _nextState != GameState::Playing )
    {
@@ -189,8 +217,9 @@ void Game::Shoot( const shared_ptr<ReadOnlyEntity> sourceEntity ) const
       ( direction == Direction::Left || direction == Direction::Right ) ? hitBox.Height / 2 :
       ( direction == Direction::DownLeft || direction == Direction::Down || direction == Direction::DownRight ) ? hitBox.Height : 0;
 
-   auto bullet = _entityFactory->CreateEntity( _entityDefs->EntityProjectileMap.at( sourceEntity->GetEntityMetaId() ), direction );
-   bullet->SetArenaPosition( { left, top } );
+   auto bullet = _entityFactory->CreateTargetedProjectile( _entityDefs->EntityProjectileMap.at( sourceEntity->GetEntityMetaId() ),
+                                                           { left, top },
+                                                           targetPosition );
 
    _stage->GetMutableActiveArena()->AddEntity( bullet );
 }

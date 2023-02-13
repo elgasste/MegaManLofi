@@ -75,11 +75,19 @@ shared_ptr<EntityDefs> EntityDefsGenerator::GenerateEntityDefs()
    entityDefs->EnemyInfoMap[METAID_ENEMY_SPINNINGTURRET].DamageInvulnerabilitySeconds = 0.1f;
    entityDefs->CollisionPayloadMap[METAID_ENEMY_SPINNINGTURRET].Health = -10;
 
+   // targeting turret
+   entityDefs->EntityTypeMap[METAID_ENEMY_TARGETINGTURRET] = EntityType::Enemy;
+   entityDefs->EnemyInfoMap[METAID_ENEMY_TARGETINGTURRET].HitBox = { 0, 0, 38, 78 }; // one full tile
+   entityDefs->EnemyInfoMap[METAID_ENEMY_TARGETINGTURRET].MaxHealth = 80;
+   entityDefs->EnemyInfoMap[METAID_ENEMY_TARGETINGTURRET].DamageInvulnerabilitySeconds = 0.1f;
+   entityDefs->CollisionPayloadMap[METAID_ENEMY_TARGETINGTURRET].Health = -10;
+
    /*********************** ENTITY PROJECTILES ************************/
 
    entityDefs->EntityProjectileMap[METAID_PLAYER] = METAID_PROJECTILE_GOODBULLET;
    entityDefs->EntityProjectileMap[METAID_ENEMY_STATIONARYTURRET] = METAID_PROJECTILE_BADBULLET;
    entityDefs->EntityProjectileMap[METAID_ENEMY_SPINNINGTURRET] = METAID_PROJECTILE_BADBULLET;
+   entityDefs->EntityProjectileMap[METAID_ENEMY_TARGETINGTURRET] = METAID_PROJECTILE_BADBULLET;
 
    GenerateEntityBehaviors( entityDefs );
 

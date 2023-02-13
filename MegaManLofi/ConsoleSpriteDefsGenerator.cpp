@@ -504,5 +504,7 @@ map<int, shared_ptr<EntityConsoleSprite>> ConsoleSpriteDefsGenerator::GenerateEn
    }
    entitySpriteMap[METAID_ENEMY_SPINNINGTURRET] = spinningTurretEntitySprite;
 
+   entitySpriteMap[METAID_ENEMY_TARGETINGTURRET] = spinningTurretEntitySprite;
+
    return entitySpriteMap;
 }

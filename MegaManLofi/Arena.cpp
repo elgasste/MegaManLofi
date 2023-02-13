@@ -106,8 +106,7 @@ void Arena::CheckSpawnPoints()
                if ( spawnPoint->IntervalElapsedSeconds > spawnPoint->ReSpawnIntervalSeconds )
                {
                   spawnPoint->IntervalElapsedSeconds = 0;
-                  auto entity = _entityFactory->CreateEntity( spawnPoint->EntityMetaId, spawnPoint->Direction );
-                  entity->SetArenaPosition( spawnPoint->ArenaPosition );
+                  auto entity = _entityFactory->CreateEntity( spawnPoint->EntityMetaId, spawnPoint->ArenaPosition, spawnPoint->Direction );
                   if ( spawnPoint->IsBoundToUniqueId )
                   {
                      spawnPoint->UniqueIdBinding = entity->GetUniqueId();
@@ -141,8 +140,7 @@ void Arena::CheckSpawnPoints()
 
             if ( shouldSpawn )
             {
-               auto entity = _entityFactory->CreateEntity( spawnPoint->EntityMetaId, spawnPoint->Direction );
-               entity->SetArenaPosition( spawnPoint->ArenaPosition );
+               auto entity = _entityFactory->CreateEntity( spawnPoint->EntityMetaId, spawnPoint->ArenaPosition, spawnPoint->Direction );
                if ( spawnPoint->IsBoundToUniqueId )
                {
                   spawnPoint->UniqueIdBinding = entity->GetUniqueId();

@@ -1,3 +1,5 @@
+#include <math.h>
+
 #include "EntityFactory.h"
 #include "EntityDefs.h"
 #include "UniqueNumberGenerator.h"
@@ -23,85 +25,139 @@ void EntityFactory::Initialize( const shared_ptr<IPlayerInfoProvider> playerInfo
    _commandExecutor = commandExecutor;
 }
 
-const shared_ptr<Entity> EntityFactory::CreateEntity( int entityMetaId, Direction direction ) const
+const shared_ptr<Entity> EntityFactory::CreateEntity( int entityMetaId,
+                                                      const Coordinate<float>& position,
+                                                      Direction direction ) const
 {
    auto type = _entityDefs->EntityTypeMap[entityMetaId];
-   auto entity = shared_ptr<Entity>( new Entity( _frameRateProvider ) );
-
-   entity->SetUniqueId( _uniqueNumberGenerator->GetNext() );
-   entity->SetEntityType( type );
-   entity->SetEntityMetaId( entityMetaId );
-   entity->SetDirection( direction );
 
    switch ( type )
    {
       case EntityType::Item:
-         SetItemInfo( entity, entityMetaId );
-         break;
+         return CreateItem( entityMetaId, position, direction );
       case EntityType::Projectile:
-         SetProjectileInfo( entity, direction );
-         break;
+         return CreateProjectile( entityMetaId, position, direction );
       case EntityType::Enemy:
-         SetEnemyInfo( entity, entityMetaId );
-         break;
+         return CreateEnemy( entityMetaId, position, direction );
+      default:
+         // TODO: test this somehow
+         return nullptr;
    }
-
-   return entity;
 }
 
-void EntityFactory::SetItemInfo( const std::shared_ptr<Entity> item, int metaId ) const
+const shared_ptr<Entity> EntityFactory::CreateItem( int itemMetaId,
+                                                    const Coordinate<float>& position,
+                                                    Direction direction ) const
 {
-   item->SetHitBox( _entityDefs->ItemInfoMap[metaId].HitBox );
-   item->SetMaxGravityVelocity( _entityDefs->ItemInfoMap[metaId].MaxGravityVelocity );
-   item->SetGravityAccelerationPerSecond( _entityDefs->ItemInfoMap[metaId].GravityAccelerationPerSecond );
+   auto item = shared_ptr<Entity>( new Entity( _frameRateProvider ) );
+   SetEntityBaseInfo( item, EntityType::Item, itemMetaId, position, direction );
+   const auto& itemInfo = _entityDefs->ItemInfoMap.at( itemMetaId );
+
+   item->SetHitBox( itemInfo.HitBox );
+   item->SetMaxGravityVelocity( itemInfo.MaxGravityVelocity );
+   item->SetGravityAccelerationPerSecond( itemInfo.GravityAccelerationPerSecond );
    item->SetMaxHealth( 1 );
    item->SetHealth( 1 );
+
+   return item;
 }
 
-void EntityFactory::SetProjectileInfo( const std::shared_ptr<Entity> projectile, Direction direction ) const
+const shared_ptr<Entity> EntityFactory::CreateProjectile( int projectileMetaId,
+                                                          const Coordinate<float>& position,
+                                                          Direction direction ) const
 {
-   auto metaId = projectile->GetEntityMetaId();
-   auto velocity = _entityDefs->ProjectileInfoMap[metaId].Velocity;
-   projectile->SetHitBox( _entityDefs->ProjectileInfoMap[metaId].HitBox );
-   projectile->SetMaxHealth( 1 );
-   projectile->SetHealth( 1 );
+   switch ( direction )
+   {
+      case Direction::Left:
+         return CreateTargetedProjectile( projectileMetaId, position, { position.Left - 1, position.Top } );
+      case Direction::UpLeft:
+         return CreateTargetedProjectile( projectileMetaId, position, { position.Left - 1, position.Top - 1 } );
+      case Direction::Up:
+         return CreateTargetedProjectile( projectileMetaId, position, { position.Left, position.Top - 1 } );
+      case Direction::UpRight:
+         return CreateTargetedProjectile( projectileMetaId, position, { position.Left + 1, position.Top - 1 } );
+      case Direction::Right:
+         return CreateTargetedProjectile( projectileMetaId, position, { position.Left + 1, position.Top } );
+      case Direction::DownRight:
+         return CreateTargetedProjectile( projectileMetaId, position, { position.Left + 1, position.Top + 1 } );
+      case Direction::Down:
+         return CreateTargetedProjectile( projectileMetaId, position, { position.Left, position.Top + 1 } );
+      case Direction::DownLeft:
+         return CreateTargetedProjectile( projectileMetaId, position, { position.Left - 1, position.Top + 1 } );
+      default:
+         // TODO: test this somehow
+         return nullptr;
+   }
+}
 
-   if ( direction == Direction::UpLeft || direction == Direction::Left || direction == Direction::DownLeft )
-   {
-      projectile->SetVelocityX( -velocity );
-   }
-   else if ( direction == Direction::UpRight || direction == Direction::Right || direction == Direction::DownRight )
-   {
-      projectile->SetVelocityX( velocity );
-   }
+const shared_ptr<Entity> EntityFactory::CreateTargetedProjectile( int projectileMetaId,
+                                                                  const Coordinate<float>& position,
+                                                                  const Coordinate<float>& target ) const
+{
+   auto projectile = shared_ptr<Entity>( new Entity( _frameRateProvider ) );
+   SetEntityBaseInfo( projectile, EntityType::Projectile, projectileMetaId, position, (Direction)0 );
+   SetProjectileBaseInfo( projectile, projectileMetaId );
+   auto velocity = _entityDefs->ProjectileInfoMap.at( projectileMetaId ).Velocity;
+   
+   // TODO: maybe move this into a MathUtil class or something?
+   auto deltaX = target.Left - position.Left;
+   auto deltaY = target.Top - position.Top;
+   auto angle = (float)atan2( deltaY, deltaX );
+   auto velocityX = ( deltaX == 0 ) ? 0.0f : (float)cos( angle ) * velocity;
+   auto velocityY = ( deltaY == 0 ) ? 0.0f : (float)sin( angle ) * velocity;
 
-   if ( direction == Direction::UpLeft || direction == Direction::Up || direction == Direction::UpRight )
-   {
-      projectile->SetVelocityY( -velocity );
-   }
-   else if ( direction == Direction::DownLeft || direction == Direction::Down || direction == Direction::DownRight )
-   {
-      projectile->SetVelocityY( velocity );
-   }
+   projectile->SetVelocityX( velocityX );
+   projectile->SetVelocityY( velocityY );
+
+   return projectile;
 }
 
 // TODO: figure out how to test this function
-void EntityFactory::SetEnemyInfo( const std::shared_ptr<Entity> enemy, int metaId ) const
+const shared_ptr<Entity> EntityFactory::CreateEnemy( int enemyMetaId,
+                                                     const Coordinate<float>& position,
+                                                     Direction direction ) const
 {
-   enemy->SetHitBox( _entityDefs->EnemyInfoMap[metaId].HitBox );
-   enemy->SetMaxGravityVelocity( _entityDefs->EnemyInfoMap[metaId].MaxGravityVelocity );
-   enemy->SetGravityAccelerationPerSecond( _entityDefs->EnemyInfoMap[metaId].GravityAccelerationPerSecond );
-   enemy->SetMaxHealth( _entityDefs->EnemyInfoMap[metaId].MaxHealth );
-   enemy->SetHealth( enemy->GetMaxHealth() );
-   enemy->SetDamageInvulnerabilitySeconds( _entityDefs->EnemyInfoMap[metaId].DamageInvulnerabilitySeconds );
+   auto enemy = shared_ptr<Entity>( new Entity( _frameRateProvider ) );
+   SetEntityBaseInfo( enemy, EntityType::Enemy, enemyMetaId, position, direction );
 
-   auto behaviorIt = _entityDefs->EntityBehaviorMap.find( metaId );
+   const auto& enemyInfo = _entityDefs->EnemyInfoMap.at( enemyMetaId );
+
+   enemy->SetHitBox( enemyInfo.HitBox );
+   enemy->SetMaxGravityVelocity( enemyInfo.MaxGravityVelocity );
+   enemy->SetGravityAccelerationPerSecond( enemyInfo.GravityAccelerationPerSecond );
+   enemy->SetMaxHealth( enemyInfo.MaxHealth );
+   enemy->SetHealth( enemy->GetMaxHealth() );
+   enemy->SetDamageInvulnerabilitySeconds( enemyInfo.DamageInvulnerabilitySeconds );
+
+   auto behaviorIt = _entityDefs->EntityBehaviorMap.find( enemyMetaId );
 
    if ( behaviorIt != _entityDefs->EntityBehaviorMap.end() )
    {
       auto behavior = shared_ptr<EntityBehavior>( new EntityBehavior( _frameRateProvider, _playerInfoProvider, _commandExecutor ) );
       enemy->SetBehavior( shared_ptr<EntityBehavior>( behavior ) );
       behavior->AssignTo( enemy );
-      behavior->SetInstructions( _entityDefs->EntityBehaviorMap.at( metaId ) );
+      behavior->SetInstructions( _entityDefs->EntityBehaviorMap.at( enemyMetaId ) );
    }
+
+   return enemy;
+}
+
+void EntityFactory::SetEntityBaseInfo( shared_ptr<Entity> entity,
+                                       EntityType type,
+                                       int entityMetaId,
+                                       const Coordinate<float>& position,
+                                       Direction direction ) const
+{
+   entity->SetUniqueId( _uniqueNumberGenerator->GetNext() );
+   entity->SetEntityType( type );
+   entity->SetEntityMetaId( entityMetaId );
+   entity->SetArenaPosition( position );
+   entity->SetDirection( direction );
+}
+
+void EntityFactory::SetProjectileBaseInfo( shared_ptr<Entity> projectile, int projectileMetaId ) const
+{
+   projectile->SetHitBox( _entityDefs->ProjectileInfoMap.at( projectileMetaId ).HitBox );
+   projectile->SetMaxHealth( 1 );
+   projectile->SetHealth( 1 );
 }

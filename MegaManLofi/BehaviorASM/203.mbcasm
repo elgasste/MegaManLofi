@@ -1,27 +1,24 @@
 ##########################################################################
 #
-# 201: Stationary Turret
+# 203: Targeting Turret
 #
-# Every 2.5 seconds, this enemy should fire bullets in five directions
+# Every 2 seconds, this enemy should fire directly at the player
 #
 ##########################################################################
 #
 # Float Registers:
 #
 # [0] - elapsed seconds since last shoot call
-# [1] - seconds to wait before shooting
+# [1] - seconds to wait before shooting (1.5)
 # [2] - frame seconds
+#
+# [10] - target left position
+# [11] - target top position
 #
 # Int Registers:
 #
 # [0] - first run value (if equal to the comparator, then it'e the first run)
 # [1] - first run comparator (starts at 0, becomes 1 on first run)
-#
-# [10] - Direction::Left (0)
-# [11] - Direction::UpLeft (1)
-# [12] - Direction::Up (2)
-# [13] - Direction::UpRight (3)
-# [14] - Direction::Right (4)
 #
 ##########################################################################
 
@@ -29,7 +26,7 @@ FUNC main
 
 	# init directions on first run
 	if_eqi 0 1
-		call init
+		regf 1 1.5  # seconds to wait before shooting
 		regi 1 1
 	endif
 
@@ -39,35 +36,14 @@ FUNC main
 
 	if_gtf 0 1
 
-		# shoot left, up-left, up, up-right, and right
-		set_direction 10
-		shoot
-		set_direction 11
-		shoot
-		set_direction 12
-		shoot
-		set_direction 13
-		shoot
-		set_direction 14
-		shoot
+		# shoot at the player
+		get_playerPositionLeft 10
+		get_playerPositionTop 11
+		shoottarget 10 11
 
 		# reset timer
 		regf 0 0
 
 	endif
-
-RET
-
-FUNC init
-
-	# seconds to wait before shooting
-	regf 1 2.5
-
-	# direction registers
-	regi 10 0  # Left
-	regi 11 1  # UpLeft
-	regi 12 2  # Up
-	regi 13 3  # UpRight
-	regi 14 4  # Right
 
 RET

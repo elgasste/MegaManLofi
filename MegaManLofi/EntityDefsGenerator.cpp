@@ -85,6 +85,8 @@ shared_ptr<EntityDefs> EntityDefsGenerator::GenerateEntityDefs()
    // bad dude
    entityDefs->EntityTypeMap[METAID_ENEMY_BADDUDE] = EntityType::Enemy;
    entityDefs->EnemyInfoMap[METAID_ENEMY_BADDUDE].HitBox = { 0, 0, 38 * 4, 78 * 3 }; // 4 x 3 tiles
+   entityDefs->EnemyInfoMap[METAID_ENEMY_BADDUDE].MaxGravityVelocity = 4'000;
+   entityDefs->EnemyInfoMap[METAID_ENEMY_BADDUDE].GravityAccelerationPerSecond = 10'000;
    entityDefs->EnemyInfoMap[METAID_ENEMY_BADDUDE].MaxHealth = 100;
    entityDefs->EnemyInfoMap[METAID_ENEMY_BADDUDE].DamageInvulnerabilitySeconds = 1.0f;
    entityDefs->CollisionPayloadMap[METAID_ENEMY_BADDUDE].Health = -8;

@@ -1,0 +1,46 @@
+##########################################################################
+#
+# 204: Bad Dude
+#
+##########################################################################
+#
+# Float Registers:
+#
+# [0] - initial left position
+# [1] - X velocity
+#
+# Int Registers:
+#
+# [0] - first run value (if equal to the comparator, then it'e the first run)
+# [1] - first run comparator (starts at 0, becomes 1 on first run)
+#
+# [2] - Direction::Left (0)
+# [3] - Direction::Right (4)
+#
+##########################################################################
+
+FUNC main
+
+	# init on first run
+	if_eqi 0 1
+		call init
+		regi 1 1
+	endif
+
+	set_velocityX 1
+
+RET
+
+FUNC init
+
+	get_positionLeft 0
+
+	# directions
+	regi 2 0   # left
+	regi 3 4   # right
+
+	regf 1 -400   # X velocity
+
+	set_direction 2   # face left first
+
+RET

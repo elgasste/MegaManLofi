@@ -694,5 +694,8 @@
     <None Include="BehaviorASM\203.mbcasm">
       <Filter>Header Files\GameDefGenerators\BehaviorASM</Filter>
     </None>
+    <None Include="BehaviorASM\204.mbcasm">
+      <Filter>Header Files\GameDefGenerators\BehaviorASM</Filter>
+    </None>
   </ItemGroup>
 </Project>

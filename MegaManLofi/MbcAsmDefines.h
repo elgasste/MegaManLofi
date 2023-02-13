@@ -21,6 +21,7 @@
 #define MBCCOMP_CALL                      "CALL"
 #define MBCCOMP_RET                       "RET"
 #define MBCCOMP_STOP                      "STOP"
+#define MBCCOMP_GOTO                      "GOTO"
 #define MBCCOMP_NOOP                      "NOOP"
 
 #define MBCCOMP_IF_EQF                    "IF_EQF"

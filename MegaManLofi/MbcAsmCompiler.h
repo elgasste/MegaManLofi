@@ -47,6 +47,7 @@ namespace MbcAsm
 
       void AdjustFuncIndicesForRemoval( int removalIndex );
       void AdjustSourceLinesMapForRemoval( int removalIndex );
+      void AdjustGotoIndicesForRemoval( int removalIndex );
       void AdjustSourceLinesMapForInsertion( int insertionIndex );
 
       void Error( const std::string& message, int index ) const;

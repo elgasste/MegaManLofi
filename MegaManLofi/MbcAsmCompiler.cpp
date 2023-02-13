@@ -201,6 +201,8 @@ void MbcAsmCompiler::BuildFuncIndicesMap()
    }
 }
 
+// MUFFINS: there's an issue here where if you have a nested IF, when it ends it goes straight into the
+// outer IF block's ELSE, instead of the ENDIF.
 void MbcAsmCompiler::BuildIfBlocksMap()
 {
    _ifBlocksMap = map<int, ConditionalInfo>();
@@ -223,6 +225,7 @@ void MbcAsmCompiler::BuildIfBlocksMap()
 void MbcAsmCompiler::AddIfBlockRecursive( int& index )
 {
    int startIndex = index;
+   int elseGotoIndex = -1;
    int loopCounter = 0;
    index++;
 
@@ -265,9 +268,16 @@ void MbcAsmCompiler::AddIfBlockRecursive( int& index )
             _ifBlocksMap[startIndex].ElseLine = index;
          }
 
+         // MUFFINS: if an ELSE was found earlier, point its GOTO at this index
+         if ( elseGotoIndex >= 0 )
+         {
+            _tokenLines[elseGotoIndex][1] = format( "{0}", index );
+         }
+
          _tokenLines.erase( _tokenLines.begin() + index );
          AdjustFuncIndicesForRemoval( index );
          AdjustSourceLinesMapForRemoval( index );
+         AdjustGotoIndicesForRemoval( index );
          index--;
 
          return;
@@ -284,11 +294,11 @@ void MbcAsmCompiler::AddIfBlockRecursive( int& index )
             Error( "multiple ELSE statements are not allowed", startIndex );
          }
 
-         _ifBlocksMap[startIndex].ElseLine = index;
-         _tokenLines.erase( _tokenLines.begin() + index );
-         AdjustFuncIndicesForRemoval( index );
-         AdjustSourceLinesMapForRemoval( index );
-         index--;
+         // MUFFINS: turn the ELSE into a GOTO, and point it at the ENDIF line when we get there
+         elseGotoIndex = index;
+         _ifBlocksMap[startIndex].ElseLine = index + 1;
+         _tokenLines[index][0] = MBCCOMP_GOTO;
+         _tokenLines[index].insert( _tokenLines[index].begin() + 1, "-1" );
       }
       else if ( find( IfTokens.begin(), IfTokens.end(), commandToken ) != IfTokens.end() )
       {
@@ -367,6 +377,11 @@ void MbcAsmCompiler::CompileTokenLine( int index )
    else if ( commandToken == MBCCOMP_CALL )
    {
       _instructions.push_back( CreateSubrInstruction( _funcIndicesMap.at( StringUtilities::ToUpper( tokenLine[1] ) ) ) );
+   }
+   else if ( commandToken == MBCCOMP_GOTO )
+   {
+      // MUFFINS: test this out
+      _instructions.push_back( CreateGotoInstruction( stoi( _tokenLines[index][1] ) ) );
    }
    else if ( commandToken == MBCCOMP_BREAK )
    {
@@ -685,6 +700,23 @@ void MbcAsmCompiler::AdjustSourceLinesMapForRemoval( int removalIndex )
       {
          _sourceLinesMap[i] = _sourceLinesMap[i + 1];
          _sourceLinesMap.erase( i + 1 );
+      }
+   }
+}
+
+// MUFFINS
+void MbcAsmCompiler::AdjustGotoIndicesForRemoval( int removalIndex )
+{
+   for ( int i = 0; i < (int)_tokenLines.size(); i++ )
+   {
+      if ( _tokenLines[i][0] == MBCCOMP_GOTO )
+      {
+         auto gotoIndex = stoi( _tokenLines[i][1] );
+
+         if ( gotoIndex > removalIndex )
+         {
+            _tokenLines[i][1] = format( "{0}", gotoIndex - 1 );
+         }
       }
    }
 }

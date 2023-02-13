@@ -12,6 +12,11 @@
 # [4] - right position threshold (starting left position plus 760)
 # [5] - current left position
 #
+# [10] - frame seconds
+# [11] - frame second counter
+# [12] - jump time threshold (2)
+# [13] - jump Y velocity (-3000)
+#
 # [30] - temporary use
 # [31] - temporary use
 #
@@ -28,7 +33,8 @@
 
 FUNC main
 
-	get_positionleft 5
+	get_positionLeft 5
+	get_frameSeconds 10
 
 	# init on first run
 	if_eqi 0 1
@@ -37,6 +43,7 @@ FUNC main
 	endif
 
 	call adjustMovement
+	call checkJump
 
 RET
 
@@ -56,9 +63,14 @@ FUNC init
 	set_direction 2   # face left first
 	regi 4 0
 
+	# jump time threshold and Y velocity
+	regf 12 2
+	regf 13 -3000
+
 RET
 
 FUNC adjustMovement
+
 	if_eqi 4 2   # moving left
 		if_ltef 5 3   # if we've reached the left threshold, turn right
 			set_direction 3
@@ -76,4 +88,16 @@ FUNC adjustMovement
 			set_velocityX 2
 		endif
 	endif
+
+RET
+
+FUNC checkJump
+
+	addf 11 10 11  # increment jump timer
+
+	if_gtf 11 12  # time to jump, then reset the timer
+		set_velocityY 13
+		regf 11 0
+	endif
+
 RET

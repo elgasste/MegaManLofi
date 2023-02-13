@@ -6,8 +6,14 @@
 #
 # Float Registers:
 #
-# [0] - initial left position
-# [1] - X velocity
+# [1] - X velocity moving left (-400)
+# [2] - X velocity moving right (400)
+# [3] - left position threshold (starting left position minus 760)
+# [4] - right position threshold (starting left position plus 760)
+# [5] - current left position
+#
+# [30] - temporary use
+# [31] - temporary use
 #
 # Int Registers:
 #
@@ -16,10 +22,13 @@
 #
 # [2] - Direction::Left (0)
 # [3] - Direction::Right (4)
+# [4] - current direction
 #
 ##########################################################################
 
 FUNC main
+
+	get_positionleft 5
 
 	# init on first run
 	if_eqi 0 1
@@ -27,20 +36,44 @@ FUNC main
 		regi 1 1
 	endif
 
-	set_velocityX 1
+	call adjustMovement
 
 RET
 
 FUNC init
 
-	get_positionLeft 0
-
 	# directions
 	regi 2 0   # left
 	regi 3 4   # right
 
-	regf 1 -400   # X velocity
+	regf 1 -400   # left X velocity
+	regf 2 400    # right X velocity
+
+	regf 30 760   # 20 tiles
+	subf 5 30 3   # left position threshold
+	addf 5 30 4   # right position threshold
 
 	set_direction 2   # face left first
+	regi 4 0
 
+RET
+
+FUNC adjustMovement
+	if_eqi 4 2   # moving left
+		if_ltef 5 3   # if we've reached the left threshold, turn right
+			set_direction 3
+			regi 4 4
+			set_velocityX 2
+		else
+			set_velocityX 1
+		endif
+	else   # moving right
+		if_gtef 5 4   # if we've reached the right threshold, turn left
+			set_direction 2
+			regi 4 0
+			set_velocityX 1
+		else
+			set_velocityX 2
+		endif
+	endif
 RET

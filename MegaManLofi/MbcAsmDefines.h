@@ -74,3 +74,4 @@
 #define MBCCOMP_SET_DIRECTION             "SET_DIRECTION"
 
 #define MBCCOMP_DO_SHOOT                  "SHOOT"
+#define MBCCOMP_DO_SHOOTTARGET            "SHOOTTARGET"

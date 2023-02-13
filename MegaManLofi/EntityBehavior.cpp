@@ -5,6 +5,7 @@
 #include "Entity.h"
 #include "GameCommand.h"
 #include "ShootCommandArgs.h"
+#include "ShootTargetCommandArgs.h"
 
 using namespace std;
 using namespace MegaManLofi;
@@ -113,6 +114,9 @@ bool EntityBehavior::HandleCommand( mbc_command command )
       case MBCDO_SHOOT:
          _commandExecutor->ExecuteCommand( GameCommand::Shoot, shared_ptr<ShootCommandArgs>( new ShootCommandArgs( _entity ) ) );
          return true;
+      case MBCDO_SHOOTTARGET:
+         ShootTarget();
+         return true;
 
       default:
          return false;
@@ -135,4 +139,12 @@ void EntityBehavior::RegisterBoolFromArg0( bool val )
 {
    auto regIndex = MBC_PARSE_ARG0( _currentInstruction );
    _intRegisters[regIndex] = val ? 1 : 0;
+}
+
+void EntityBehavior::ShootTarget() const
+{
+   auto targetLeft = _floatRegisters[ MBC_PARSE_ARG0( _currentInstruction ) ];
+   auto targetTop = _floatRegisters[ MBC_PARSE_ARG1( _currentInstruction ) ];
+   _commandExecutor->ExecuteCommand( GameCommand::ShootTarget,
+                                     shared_ptr<ShootTargetCommandArgs>( new ShootTargetCommandArgs( _entity, { targetLeft, targetTop } ) ) );
 }

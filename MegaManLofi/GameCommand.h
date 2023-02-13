@@ -11,6 +11,7 @@ namespace MegaManLofi
       Jump,
       ExtendJump,
       Shoot,
+      ShootTarget,
       TogglePause,
       OpenPlayingMenu,
       ClosePlayingMenu,

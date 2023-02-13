@@ -69,30 +69,30 @@ const shared_ptr<Entity> EntityFactory::CreateProjectile( int projectileMetaId,
    switch ( direction )
    {
       case Direction::Left:
-         return CreateProjectile( projectileMetaId, position, { position.Left - 1, position.Top } );
+         return CreateTargetedProjectile( projectileMetaId, position, { position.Left - 1, position.Top } );
       case Direction::UpLeft:
-         return CreateProjectile( projectileMetaId, position, { position.Left - 1, position.Top - 1 } );
+         return CreateTargetedProjectile( projectileMetaId, position, { position.Left - 1, position.Top - 1 } );
       case Direction::Up:
-         return CreateProjectile( projectileMetaId, position, { position.Left, position.Top - 1 } );
+         return CreateTargetedProjectile( projectileMetaId, position, { position.Left, position.Top - 1 } );
       case Direction::UpRight:
-         return CreateProjectile( projectileMetaId, position, { position.Left + 1, position.Top - 1 } );
+         return CreateTargetedProjectile( projectileMetaId, position, { position.Left + 1, position.Top - 1 } );
       case Direction::Right:
-         return CreateProjectile( projectileMetaId, position, { position.Left + 1, position.Top } );
+         return CreateTargetedProjectile( projectileMetaId, position, { position.Left + 1, position.Top } );
       case Direction::DownRight:
-         return CreateProjectile( projectileMetaId, position, { position.Left + 1, position.Top + 1 } );
+         return CreateTargetedProjectile( projectileMetaId, position, { position.Left + 1, position.Top + 1 } );
       case Direction::Down:
-         return CreateProjectile( projectileMetaId, position, { position.Left, position.Top + 1 } );
+         return CreateTargetedProjectile( projectileMetaId, position, { position.Left, position.Top + 1 } );
       case Direction::DownLeft:
-         return CreateProjectile( projectileMetaId, position, { position.Left - 1, position.Top + 1 } );
+         return CreateTargetedProjectile( projectileMetaId, position, { position.Left - 1, position.Top + 1 } );
       default:
          // TODO: test this somehow
          return nullptr;
    }
 }
 
-const shared_ptr<Entity> EntityFactory::CreateProjectile( int projectileMetaId,
-                                                          const Coordinate<float>& position,
-                                                          const Coordinate<float>& target ) const
+const shared_ptr<Entity> EntityFactory::CreateTargetedProjectile( int projectileMetaId,
+                                                                  const Coordinate<float>& position,
+                                                                  const Coordinate<float>& target ) const
 {
    auto projectile = shared_ptr<Entity>( new Entity( _frameRateProvider ) );
    SetEntityBaseInfo( projectile, EntityType::Projectile, projectileMetaId, position, (Direction)0 );

@@ -16,9 +16,9 @@ public:
    MOCK_METHOD( const std::shared_ptr<MegaManLofi::Entity>, CreateProjectile, ( int,
                                                                                 const MegaManLofi::Coordinate<float>&,
                                                                                 MegaManLofi::Direction ), ( const, override ) );
-   MOCK_METHOD( const std::shared_ptr<MegaManLofi::Entity>, CreateProjectile, ( int,
-                                                                                const MegaManLofi::Coordinate<float>&,
-                                                                                const MegaManLofi::Coordinate<float>& ), ( const, override ) );
+   MOCK_METHOD( const std::shared_ptr<MegaManLofi::Entity>, CreateTargetedProjectile, ( int,
+                                                                                        const MegaManLofi::Coordinate<float>&,
+                                                                                        const MegaManLofi::Coordinate<float>& ), ( const, override ) );
    MOCK_METHOD( const std::shared_ptr<MegaManLofi::Entity>, CreateEnemy, ( int,
                                                                            const MegaManLofi::Coordinate<float>&,
                                                                            MegaManLofi::Direction ), ( const, override ) );

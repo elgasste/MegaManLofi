@@ -227,7 +227,7 @@ TEST_F( EntityFactoryTests, CreateProjectile_WithTargetInUpperLeft_SetsCorrectVe
 {
    BuildFactory();
 
-   auto projectile = _factory->CreateProjectile( 2, { 0, 0 }, { -6.0f, -5.0f } );
+   auto projectile = _factory->CreateTargetedProjectile( 2, { 0, 0 }, { -6.0f, -5.0f } );
 
    auto angle = (float)atan2( -5.0f, -6.0f );
    auto velocityX = (float)cos( angle ) * 100.0f;
@@ -240,7 +240,7 @@ TEST_F( EntityFactoryTests, CreateProjectile_WithTargetInUpperRight_SetsCorrectV
 {
    BuildFactory();
 
-   auto projectile = _factory->CreateProjectile( 2, { 0, 0 }, { 6.0f, -5.0f } );
+   auto projectile = _factory->CreateTargetedProjectile( 2, { 0, 0 }, { 6.0f, -5.0f } );
 
    auto angle = (float)atan2( -5.0f, 6.0f );
    auto velocityX = (float)cos( angle ) * 100.0f;
@@ -253,7 +253,7 @@ TEST_F( EntityFactoryTests, CreateProjectile_WithTargetInLowerRight_SetsCorrectV
 {
    BuildFactory();
 
-   auto projectile = _factory->CreateProjectile( 2, { 0, 0 }, { 6.0f, 5.0f } );
+   auto projectile = _factory->CreateTargetedProjectile( 2, { 0, 0 }, { 6.0f, 5.0f } );
 
    auto angle = (float)atan2( 5.0f, 6.0f );
    auto velocityX = (float)cos( angle ) * 100.0f;
@@ -266,7 +266,7 @@ TEST_F( EntityFactoryTests, CreateProjectile_WithTargetInLowerLeft_SetsCorrectVe
 {
    BuildFactory();
 
-   auto projectile = _factory->CreateProjectile( 2, { 0, 0 }, { -6.0f, 5.0f } );
+   auto projectile = _factory->CreateTargetedProjectile( 2, { 0, 0 }, { -6.0f, 5.0f } );
 
    auto angle = (float)atan2( 5.0f, -6.0f );
    auto velocityX = (float)cos( angle ) * 100.0f;

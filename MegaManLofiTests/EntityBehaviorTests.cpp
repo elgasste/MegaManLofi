@@ -3,6 +3,7 @@
 #include <MegaManLofi/EntityBehavior.h>
 #include <MegaManLofi/GameCommand.h>
 #include <MegaManLofi/ShootCommandArgs.h>
+#include <MegaManLofi/ShootTargetCommandArgs.h>
 
 #include "mock_FrameRateProvider.h"
 #include "mock_PlayerInfoProvider.h"
@@ -314,4 +315,26 @@ TEST_F( EntityBehaviorTests, Tick_ShootCommand_ExecutesShootCommand )
    _behavior->Tick();
 
    EXPECT_EQ( _entityMock, static_pointer_cast<ShootCommandArgs>( args )->SourceEntity );
+}
+
+TEST_F( EntityBehaviorTests, Tick_ShootTargetCommand_ExecutesShootTargetCommand )
+{
+   vector<mbc_instruction> instructions
+   {
+      (mbc_instruction)( MBCCMD_REGF << MBC_CMD_SHIFT | 1 << MBC_ARG0_SHIFT ),
+      GetFloatAsInstruction( 6.0f ),
+      (mbc_instruction)( MBCCMD_REGF << MBC_CMD_SHIFT | 2 << MBC_ARG0_SHIFT ),
+      GetFloatAsInstruction( 8.0f ),
+      (mbc_instruction)( MBCDO_SHOOTTARGET << MBC_CMD_SHIFT | 1 << MBC_ARG0_SHIFT | 2 << MBC_ARG1_SHIFT )
+   };
+   _behavior->SetInstructions( vector<mbc_instruction> { instructions } );
+
+   shared_ptr<GameCommandArgs> args;
+   EXPECT_CALL( *_commandExecutorMock, ExecuteCommand( GameCommand::ShootTarget, _ ) ).WillOnce( SaveArg<1>( &args ) );
+
+   _behavior->Tick();
+
+   EXPECT_EQ( _entityMock, static_pointer_cast<ShootTargetCommandArgs>( args )->SourceEntity );
+   EXPECT_EQ( 6.0f, static_pointer_cast<ShootTargetCommandArgs>( args )->TargetPosition.Left );
+   EXPECT_EQ( 8.0f, static_pointer_cast<ShootTargetCommandArgs>( args )->TargetPosition.Top );
 }

@@ -1,0 +1,49 @@
+##########################################################################
+#
+# 203: Targeting Turret
+#
+# Every 2 seconds, this enemy should fire directly at the player
+#
+##########################################################################
+#
+# Float Registers:
+#
+# [0] - elapsed seconds since last shoot call
+# [1] - seconds to wait before shooting (1.5)
+# [2] - frame seconds
+#
+# [10] - target left position
+# [11] - target top position
+#
+# Int Registers:
+#
+# [0] - first run value (if equal to the comparator, then it'e the first run)
+# [1] - first run comparator (starts at 0, becomes 1 on first run)
+#
+##########################################################################
+
+FUNC main
+
+	# init directions on first run
+	if_eqi 0 1
+		regf 1 1.5  # seconds to wait before shooting
+		regi 1 1
+	endif
+
+	# increment elapsed seconds
+	get_frameseconds 2
+	addf 0 2 0
+
+	if_gtf 0 1
+
+		# shoot at the player
+		get_playerPositionLeft 10
+		get_playerPositionTop 11
+		shoottarget 10 11
+
+		# reset timer
+		regf 0 0
+
+	endif
+
+RET

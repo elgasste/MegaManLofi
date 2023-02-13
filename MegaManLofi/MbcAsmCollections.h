@@ -75,7 +75,8 @@ namespace MbcAsm
       MBCCOMP_SET_VELOCITYX,
       MBCCOMP_SET_VELOCITYY,
       MBCCOMP_SET_DIRECTION,
-      MBCCOMP_DO_SHOOT
+      MBCCOMP_DO_SHOOT,
+      MBCCOMP_DO_SHOOTTARGET
    };
 
    const std::vector<std::string> IfTokens =
@@ -200,7 +201,8 @@ namespace MbcAsm
       { MBCCOMP_SET_VELOCITYX, MBCSET_VELOCITYX },
       { MBCCOMP_SET_VELOCITYY, MBCSET_VELOCITYY },
       { MBCCOMP_SET_DIRECTION, MBCSET_DIRECTION },
-      { MBCCOMP_DO_SHOOT, MBCDO_SHOOT }
+      { MBCCOMP_DO_SHOOT, MBCDO_SHOOT },
+      { MBCCOMP_DO_SHOOTTARGET, MBCDO_SHOOTTARGET }
    };
 
    const std::map<std::string, int> TokenArgCountMap =
@@ -269,6 +271,7 @@ namespace MbcAsm
       { MBCCOMP_SET_VELOCITYX, 1 },
       { MBCCOMP_SET_VELOCITYY, 1 },
       { MBCCOMP_SET_DIRECTION, 1 },
-      { MBCCOMP_DO_SHOOT, 0 }
+      { MBCCOMP_DO_SHOOT, 0 },
+      { MBCCOMP_DO_SHOOTTARGET, 2 }
    };
 }

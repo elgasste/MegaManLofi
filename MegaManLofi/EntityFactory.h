@@ -35,9 +35,9 @@ namespace MegaManLofi
       virtual const std::shared_ptr<Entity> CreateProjectile( int projectileMetaId,
                                                               const Coordinate<float>& position,
                                                               Direction direction ) const;
-      virtual const std::shared_ptr<Entity> CreateProjectile( int projectileMetaId,
-                                                              const Coordinate<float>& position,
-                                                              const Coordinate<float>& target ) const;
+      virtual const std::shared_ptr<Entity> CreateTargetedProjectile( int projectileMetaId,
+                                                                      const Coordinate<float>& position,
+                                                                      const Coordinate<float>& target ) const;
       virtual const std::shared_ptr<Entity> CreateEnemy( int enemyMetaId,
                                                          const Coordinate<float>& position,
                                                          Direction direction ) const;

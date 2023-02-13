@@ -27,6 +27,8 @@ namespace MegaManLofi
       void RegisterIntFromArg0( int val );
       void RegisterBoolFromArg0( bool val );
 
+      void ShootTarget() const;
+
    private:
       std::shared_ptr<IFrameRateProvider> _frameRateProvider;
       std::shared_ptr<IPlayerInfoProvider> _playerInfoProvider;

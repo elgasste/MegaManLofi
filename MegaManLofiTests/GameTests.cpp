@@ -10,6 +10,7 @@
 #include <MegaManLofi/PushPlayerCommandArgs.h>
 #include <MegaManLofi/PointPlayerCommandArgs.h>
 #include <MegaManLofi/ShootCommandArgs.h>
+#include <MegaManLofi/ShootTargetCommandArgs.h>
 #include <MegaManLofi/GameEventAggregator.h>
 #include <MegaManLofi/EntityDefs.h>
 
@@ -374,7 +375,7 @@ TEST_F( GameTests, ExecuteCommand_ShootAndGameIsPaused_DoesNotAddBulletToArena )
                           shared_ptr<ShootCommandArgs>( new ShootCommandArgs( _playerMock ) ) );
 }
 
-TEST_F( GameTests, ExecuteCommand_Shoot_AddsBulletToArenaInCorrectPositionAndDirection )
+TEST_F( GameTests, ExecuteCommand_ShootLeft_AddsBulletToArenaCorrectly )
 {
    ON_CALL( *_playerMock, GetDirection() ).WillByDefault( Return( Direction::Left ) );
    BuildGame();
@@ -382,14 +383,175 @@ TEST_F( GameTests, ExecuteCommand_Shoot_AddsBulletToArenaInCorrectPositionAndDir
 
    auto bulletMock = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
    Coordinate<float> bulletPosition;
-   EXPECT_CALL( *_entityFactoryMock, CreateEntity( 0, _, Direction::Left ) ).WillOnce(
-      DoAll( SaveArg<1>( &bulletPosition ), Return( bulletMock ) ) );
+   Coordinate<float> targetPosition;
+   EXPECT_CALL( *_entityFactoryMock, CreateTargetedProjectile( 0, _, _ ) ).WillOnce(
+      DoAll( SaveArg<1>( &bulletPosition ), SaveArg<2>( &targetPosition), Return( bulletMock ) ) );
 
-   _game->ExecuteCommand( GameCommand::Shoot,
-                          shared_ptr<ShootCommandArgs>( new ShootCommandArgs( _playerMock ) ) );
+   _game->ExecuteCommand( GameCommand::Shoot, shared_ptr<ShootCommandArgs>( new ShootCommandArgs( _playerMock ) ) );
 
    EXPECT_EQ( bulletPosition.Left, 20 );
    EXPECT_EQ( bulletPosition.Top, 15 );
+   EXPECT_EQ( targetPosition.Left, 20 - TARGET_VECTOR_LENGTH );
+   EXPECT_EQ( targetPosition.Top, 10 );
+}
+
+TEST_F( GameTests, ExecuteCommand_ShootUpLeft_AddsBulletToArenaCorrectly )
+{
+   ON_CALL( *_playerMock, GetDirection() ).WillByDefault( Return( Direction::UpLeft ) );
+   BuildGame();
+   _game->ExecuteCommand( GameCommand::StartStage );
+
+   auto bulletMock = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
+   Coordinate<float> bulletPosition;
+   Coordinate<float> targetPosition;
+   EXPECT_CALL( *_entityFactoryMock, CreateTargetedProjectile( 0, _, _ ) ).WillOnce(
+      DoAll( SaveArg<1>( &bulletPosition ), SaveArg<2>( &targetPosition), Return( bulletMock ) ) );
+
+   _game->ExecuteCommand( GameCommand::Shoot, shared_ptr<ShootCommandArgs>( new ShootCommandArgs( _playerMock ) ) );
+
+   EXPECT_EQ( bulletPosition.Left, 20 );
+   EXPECT_EQ( bulletPosition.Top, 10 );
+   EXPECT_EQ( targetPosition.Left, 20 - TARGET_VECTOR_LENGTH );
+   EXPECT_EQ( targetPosition.Top, 10 - TARGET_VECTOR_LENGTH );
+}
+
+TEST_F( GameTests, ExecuteCommand_ShootUp_AddsBulletToArenaCorrectly )
+{
+   ON_CALL( *_playerMock, GetDirection() ).WillByDefault( Return( Direction::Up ) );
+   BuildGame();
+   _game->ExecuteCommand( GameCommand::StartStage );
+
+   auto bulletMock = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
+   Coordinate<float> bulletPosition;
+   Coordinate<float> targetPosition;
+   EXPECT_CALL( *_entityFactoryMock, CreateTargetedProjectile( 0, _, _ ) ).WillOnce(
+      DoAll( SaveArg<1>( &bulletPosition ), SaveArg<2>( &targetPosition), Return( bulletMock ) ) );
+
+   _game->ExecuteCommand( GameCommand::Shoot, shared_ptr<ShootCommandArgs>( new ShootCommandArgs( _playerMock ) ) );
+
+   EXPECT_EQ( bulletPosition.Left, 23 );
+   EXPECT_EQ( bulletPosition.Top, 10 );
+   EXPECT_EQ( targetPosition.Left, 20 );
+   EXPECT_EQ( targetPosition.Top, 10 - TARGET_VECTOR_LENGTH );
+}
+
+TEST_F( GameTests, ExecuteCommand_ShootUpRight_AddsBulletToArenaCorrectly )
+{
+   ON_CALL( *_playerMock, GetDirection() ).WillByDefault( Return( Direction::UpRight ) );
+   BuildGame();
+   _game->ExecuteCommand( GameCommand::StartStage );
+
+   auto bulletMock = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
+   Coordinate<float> bulletPosition;
+   Coordinate<float> targetPosition;
+   EXPECT_CALL( *_entityFactoryMock, CreateTargetedProjectile( 0, _, _ ) ).WillOnce(
+      DoAll( SaveArg<1>( &bulletPosition ), SaveArg<2>( &targetPosition), Return( bulletMock ) ) );
+
+   _game->ExecuteCommand( GameCommand::Shoot, shared_ptr<ShootCommandArgs>( new ShootCommandArgs( _playerMock ) ) );
+
+   EXPECT_EQ( bulletPosition.Left, 26 );
+   EXPECT_EQ( bulletPosition.Top, 10 );
+   EXPECT_EQ( targetPosition.Left, 20 + TARGET_VECTOR_LENGTH );
+   EXPECT_EQ( targetPosition.Top, 10 - TARGET_VECTOR_LENGTH );
+}
+
+TEST_F( GameTests, ExecuteCommand_ShootRight_AddsBulletToArenaCorrectly )
+{
+   ON_CALL( *_playerMock, GetDirection() ).WillByDefault( Return( Direction::Right ) );
+   BuildGame();
+   _game->ExecuteCommand( GameCommand::StartStage );
+
+   auto bulletMock = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
+   Coordinate<float> bulletPosition;
+   Coordinate<float> targetPosition;
+   EXPECT_CALL( *_entityFactoryMock, CreateTargetedProjectile( 0, _, _ ) ).WillOnce(
+      DoAll( SaveArg<1>( &bulletPosition ), SaveArg<2>( &targetPosition), Return( bulletMock ) ) );
+
+   _game->ExecuteCommand( GameCommand::Shoot, shared_ptr<ShootCommandArgs>( new ShootCommandArgs( _playerMock ) ) );
+
+   EXPECT_EQ( bulletPosition.Left, 26 );
+   EXPECT_EQ( bulletPosition.Top, 15 );
+   EXPECT_EQ( targetPosition.Left, 20 + TARGET_VECTOR_LENGTH );
+   EXPECT_EQ( targetPosition.Top, 10 );
+}
+
+TEST_F( GameTests, ExecuteCommand_ShootDownRight_AddsBulletToArenaCorrectly )
+{
+   ON_CALL( *_playerMock, GetDirection() ).WillByDefault( Return( Direction::DownRight ) );
+   BuildGame();
+   _game->ExecuteCommand( GameCommand::StartStage );
+
+   auto bulletMock = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
+   Coordinate<float> bulletPosition;
+   Coordinate<float> targetPosition;
+   EXPECT_CALL( *_entityFactoryMock, CreateTargetedProjectile( 0, _, _ ) ).WillOnce(
+      DoAll( SaveArg<1>( &bulletPosition ), SaveArg<2>( &targetPosition), Return( bulletMock ) ) );
+
+   _game->ExecuteCommand( GameCommand::Shoot, shared_ptr<ShootCommandArgs>( new ShootCommandArgs( _playerMock ) ) );
+
+   EXPECT_EQ( bulletPosition.Left, 26 );
+   EXPECT_EQ( bulletPosition.Top, 20 );
+   EXPECT_EQ( targetPosition.Left, 20 + TARGET_VECTOR_LENGTH );
+   EXPECT_EQ( targetPosition.Top, 10 + TARGET_VECTOR_LENGTH );
+}
+
+TEST_F( GameTests, ExecuteCommand_ShootDown_AddsBulletToArenaCorrectly )
+{
+   ON_CALL( *_playerMock, GetDirection() ).WillByDefault( Return( Direction::Down ) );
+   BuildGame();
+   _game->ExecuteCommand( GameCommand::StartStage );
+
+   auto bulletMock = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
+   Coordinate<float> bulletPosition;
+   Coordinate<float> targetPosition;
+   EXPECT_CALL( *_entityFactoryMock, CreateTargetedProjectile( 0, _, _ ) ).WillOnce(
+      DoAll( SaveArg<1>( &bulletPosition ), SaveArg<2>( &targetPosition), Return( bulletMock ) ) );
+
+   _game->ExecuteCommand( GameCommand::Shoot, shared_ptr<ShootCommandArgs>( new ShootCommandArgs( _playerMock ) ) );
+
+   EXPECT_EQ( bulletPosition.Left, 23 );
+   EXPECT_EQ( bulletPosition.Top, 20 );
+   EXPECT_EQ( targetPosition.Left, 20 );
+   EXPECT_EQ( targetPosition.Top, 10 + TARGET_VECTOR_LENGTH );
+}
+
+TEST_F( GameTests, ExecuteCommand_ShootDownLeft_AddsBulletToArenaCorrectly )
+{
+   ON_CALL( *_playerMock, GetDirection() ).WillByDefault( Return( Direction::DownLeft ) );
+   BuildGame();
+   _game->ExecuteCommand( GameCommand::StartStage );
+
+   auto bulletMock = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
+   Coordinate<float> bulletPosition;
+   Coordinate<float> targetPosition;
+   EXPECT_CALL( *_entityFactoryMock, CreateTargetedProjectile( 0, _, _ ) ).WillOnce(
+      DoAll( SaveArg<1>( &bulletPosition ), SaveArg<2>( &targetPosition), Return( bulletMock ) ) );
+
+   _game->ExecuteCommand( GameCommand::Shoot, shared_ptr<ShootCommandArgs>( new ShootCommandArgs( _playerMock ) ) );
+
+   EXPECT_EQ( bulletPosition.Left, 20 );
+   EXPECT_EQ( bulletPosition.Top, 20 );
+   EXPECT_EQ( targetPosition.Left, 20 - TARGET_VECTOR_LENGTH );
+   EXPECT_EQ( targetPosition.Top, 10 + TARGET_VECTOR_LENGTH );
+}
+
+TEST_F( GameTests, ExecuteCommand_ShootTarget_AddsBulletToArenaCorrectly )
+{
+   BuildGame();
+   _game->ExecuteCommand( GameCommand::StartStage );
+
+   auto bulletMock = shared_ptr<mock_Entity>( new NiceMock<mock_Entity> );
+   Coordinate<float> bulletPosition;
+   Coordinate<float> targetPosition;
+   EXPECT_CALL( *_entityFactoryMock, CreateTargetedProjectile( 0, _, _ ) ).WillOnce(
+      DoAll( SaveArg<1>( &bulletPosition ), SaveArg<2>( &targetPosition), Return( bulletMock ) ) );
+
+   _game->ExecuteCommand( GameCommand::ShootTarget, shared_ptr<ShootTargetCommandArgs>( new ShootTargetCommandArgs( _playerMock, { 55, -93 } ) ) );
+
+   EXPECT_EQ( bulletPosition.Left, 26 );
+   EXPECT_EQ( bulletPosition.Top, 15 );
+   EXPECT_EQ( targetPosition.Left, 55 );
+   EXPECT_EQ( targetPosition.Top, -93 );
 }
 
 TEST_F( GameTests, Tick_RestartingStageNextFrame_ResetsGameObjects )

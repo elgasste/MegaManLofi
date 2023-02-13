@@ -90,4 +90,5 @@ typedef unsigned char mbc_command;
 #define MBCSET_DIRECTION            0x82     // set the entity's direction
 
 // do-ers
-#define MBCDO_SHOOT                 0xA0     // shoot!
+#define MBCDO_SHOOT                 0xA0     // shoot in the entity's direction
+#define MBCDO_SHOOTTARGET           0xA1     // shoot at a specific target's position; arg0 and arg1 are the target's Left/Top position, respectively

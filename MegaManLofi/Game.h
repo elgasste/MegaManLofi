@@ -1,5 +1,7 @@
 #pragma once
 
+#define TARGET_VECTOR_LENGTH     5000.0f
+
 #include <memory>
 
 #include "IGame.h"
@@ -7,6 +9,7 @@
 #include "IGameInfoProvider.h"
 #include "IPlayerInfoProvider.h"
 #include "IArenaInfoProvider.h"
+#include "Coordinate.h"
 
 namespace MegaManLofi
 {
@@ -17,6 +20,8 @@ namespace MegaManLofi
    class ArenaPhysics;
    class EntityFactory;
    class EntityDefs;
+   class ShootCommandArgs;
+   class ShootTargetCommandArgs;
 
    class Game : public IGame,
                 public IGameCommandExecutor,
@@ -48,7 +53,10 @@ namespace MegaManLofi
    private:
       void StartGame();
       void StartStage();
-      void Shoot( const std::shared_ptr<ReadOnlyEntity> sourceEntity ) const;
+      void Shoot( const std::shared_ptr<ShootCommandArgs>& args ) const;
+      void Shoot( const std::shared_ptr<ShootTargetCommandArgs>& args ) const;
+      void Shoot( const std::shared_ptr<ReadOnlyEntity> sourceEntity,
+                  const Coordinate<float>& targetPosition ) const;
       void TogglePause();
       void OpenPlayingMenu();
       void ClosePlayingMenu();

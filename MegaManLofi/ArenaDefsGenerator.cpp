@@ -46,6 +46,13 @@ map<int, shared_ptr<ArenaDefs>> ArenaDefsGenerator::GenerateArenaDefsMap( const 
    arenaDefsMap[0]->SpawnPoints[3].IsBoundToUniqueId = true;
    arenaDefsMap[0]->SpawnPoints[3].AllowUniqueReSpawn = true;
 
+   // bad dude at 145, 56
+   arenaDefsMap[0]->SpawnPoints.push_back( SpawnPoint() );
+   arenaDefsMap[0]->SpawnPoints[4].EntityMetaId = METAID_ENEMY_BADDUDE;
+   arenaDefsMap[0]->SpawnPoints[4].ArenaPosition = { worldDefs->TileWidth * 145, worldDefs->TileHeight * 56 };
+   arenaDefsMap[0]->SpawnPoints[4].IsBoundToUniqueId = true;
+   arenaDefsMap[0]->SpawnPoints[4].AllowUniqueReSpawn = true;
+
    /********************* ARENA 2 *********************/
 
    arenaDefsMap[1] = make_shared<ArenaDefs>();

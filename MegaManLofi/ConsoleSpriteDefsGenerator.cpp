@@ -160,6 +160,139 @@ shared_ptr<ConsoleSprite> ConsoleSpriteDefsGenerator::GeneratePlayerAirborneSpri
    return sprite;
 }
 
+shared_ptr<ConsoleSprite> ConsoleSpriteDefsGenerator::GenerateBadDudeStandingSprite( Direction direction, const shared_ptr<IFrameRateProvider> frameRateProvider )
+{
+   string chars = "";
+
+   switch ( direction )
+   {
+      case Direction::DownLeft:
+      case Direction::Left:
+      case Direction::UpLeft:
+         chars =
+            "  O " \
+            "o-|\\" \
+            " / \\";
+         break;
+      case Direction::UpRight:
+      case Direction::Right:
+      case Direction::DownRight:
+         chars =
+            " O  " \
+            "/|-o" \
+            "/ \\ ";
+         break;
+      case Direction::Up:
+      case Direction::Down:
+         chars =
+            " O  " \
+            "/|\\ " \
+            "/ \\ ";
+         break;
+   }
+
+   auto sprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( frameRateProvider, 0 ) );
+   ConsoleImage image = { 4, 3 };
+   for ( int i = 0; i < (int)chars.size(); i++ ) { image.Pixels.push_back( { chars[i], true, ConsoleColor::Magenta, ConsoleColor::Black } ); }
+   sprite->AddImage( image );
+
+   return sprite;
+}
+
+shared_ptr<ConsoleSprite> ConsoleSpriteDefsGenerator::GenerateBadDudeWalkingSprite( Direction direction, const shared_ptr<IFrameRateProvider> frameRateProvider )
+{
+   string chars1 = "";
+   string chars2 = "";
+
+   switch ( direction )
+   {
+      case Direction::DownLeft:
+      case Direction::Left:
+      case Direction::UpLeft:
+         chars1 =
+            "  O " \
+            "o-|\\" \
+            " / <";
+         chars2 =
+            "  O " \
+            "o-|\\" \
+            "  |\\";
+         break;
+      case Direction::UpRight:
+      case Direction::Right:
+      case Direction::DownRight:
+         chars1 =
+            " O  " \
+            "/|-o" \
+            "> \\ ";
+         chars2 =
+            " O  " \
+            "/|-o" \
+            "/|  ";
+         break;
+      case Direction::Up:
+      case Direction::Down:
+         chars1 =
+            " O  " \
+            "/|\\ " \
+            "/ \\ ";
+         chars2 =
+            " O  " \
+            "/|\\ " \
+            "/ \\ ";
+         break;
+   }
+
+   auto sprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( frameRateProvider, .15f ) );
+   ConsoleImage image1 = { 4, 3 };
+   ConsoleImage image2 = { 4, 3 };
+   for ( int i = 0; i < (int)chars1.size(); i++ ) { image1.Pixels.push_back( { chars1[i], true, ConsoleColor::Magenta, ConsoleColor::Black } ); }
+   for ( int i = 0; i < (int)chars2.size(); i++ ) { image2.Pixels.push_back( { chars2[i], true, ConsoleColor::Magenta, ConsoleColor::Black } ); }
+   sprite->AddImage( image1 );
+   sprite->AddImage( image2 );
+
+   return sprite;
+}
+
+shared_ptr<ConsoleSprite> ConsoleSpriteDefsGenerator::GenerateBadDudeAirborneSprite( Direction direction, const shared_ptr<IFrameRateProvider> frameRateProvider )
+{
+   string chars = "";
+
+   switch ( direction )
+   {
+      case Direction::DownLeft:
+      case Direction::Left:
+      case Direction::UpLeft:
+         chars =
+            "  O/" \
+            "o-| " \
+            " / \\";
+         break;
+      case Direction::UpRight:
+      case Direction::Right:
+      case Direction::DownRight:
+         chars =
+            "\\O  " \
+            " |-o" \
+            "/ \\ ";
+         break;
+      case Direction::Up:
+      case Direction::Down:
+         chars =
+            "\\O/ " \
+            " |  " \
+            "/ \\ ";
+         break;
+   }
+
+   auto sprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( frameRateProvider, 0 ) );
+   ConsoleImage image = { 4, 3 };
+   for ( int i = 0; i < (int)chars.size(); i++ ) { image.Pixels.push_back( { chars[i], true, ConsoleColor::Magenta, ConsoleColor::Black } ); }
+   sprite->AddImage( image );
+
+   return sprite;
+}
+
 shared_ptr<ConsoleSprite> ConsoleSpriteDefsGenerator::GenerateBulletSprite( const shared_ptr<IFrameRateProvider> frameRateProvider )
 {
    auto sprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( frameRateProvider, 0 ) );
@@ -504,7 +637,40 @@ map<int, shared_ptr<EntityConsoleSprite>> ConsoleSpriteDefsGenerator::GenerateEn
    }
    entitySpriteMap[METAID_ENEMY_SPINNINGTURRET] = spinningTurretEntitySprite;
 
+   // targeting turret
    entitySpriteMap[METAID_ENEMY_TARGETINGTURRET] = spinningTurretEntitySprite;
+
+   // bad dude
+   auto badDudeEntitySprite = make_shared<EntityConsoleSprite>();
+
+   badDudeEntitySprite->AddSprite( MovementType::Standing, Direction::Left, GenerateBadDudeStandingSprite( Direction::Left, frameRateProvider ) );
+   badDudeEntitySprite->AddSprite( MovementType::Standing, Direction::UpLeft, GenerateBadDudeStandingSprite( Direction::UpLeft, frameRateProvider ) );
+   badDudeEntitySprite->AddSprite( MovementType::Standing, Direction::Up, GenerateBadDudeStandingSprite( Direction::Up, frameRateProvider ) );
+   badDudeEntitySprite->AddSprite( MovementType::Standing, Direction::UpRight, GenerateBadDudeStandingSprite( Direction::UpRight, frameRateProvider ) );
+   badDudeEntitySprite->AddSprite( MovementType::Standing, Direction::Right, GenerateBadDudeStandingSprite( Direction::Right, frameRateProvider ) );
+   badDudeEntitySprite->AddSprite( MovementType::Standing, Direction::DownRight, GenerateBadDudeStandingSprite( Direction::DownRight, frameRateProvider ) );
+   badDudeEntitySprite->AddSprite( MovementType::Standing, Direction::Down, GenerateBadDudeStandingSprite( Direction::Down, frameRateProvider ) );
+   badDudeEntitySprite->AddSprite( MovementType::Standing, Direction::DownLeft, GenerateBadDudeStandingSprite( Direction::DownLeft, frameRateProvider ) );
+
+   badDudeEntitySprite->AddSprite( MovementType::Walking, Direction::Left, GenerateBadDudeWalkingSprite( Direction::Left, frameRateProvider ) );
+   badDudeEntitySprite->AddSprite( MovementType::Walking, Direction::UpLeft, GenerateBadDudeWalkingSprite( Direction::UpLeft, frameRateProvider ) );
+   badDudeEntitySprite->AddSprite( MovementType::Walking, Direction::Up, GenerateBadDudeWalkingSprite( Direction::Up, frameRateProvider ) );
+   badDudeEntitySprite->AddSprite( MovementType::Walking, Direction::UpRight, GenerateBadDudeWalkingSprite( Direction::UpRight, frameRateProvider ) );
+   badDudeEntitySprite->AddSprite( MovementType::Walking, Direction::Right, GenerateBadDudeWalkingSprite( Direction::Right, frameRateProvider ) );
+   badDudeEntitySprite->AddSprite( MovementType::Walking, Direction::DownRight, GenerateBadDudeWalkingSprite( Direction::DownRight, frameRateProvider ) );
+   badDudeEntitySprite->AddSprite( MovementType::Walking, Direction::Down, GenerateBadDudeWalkingSprite( Direction::Down, frameRateProvider ) );
+   badDudeEntitySprite->AddSprite( MovementType::Walking, Direction::DownLeft, GenerateBadDudeWalkingSprite( Direction::DownLeft, frameRateProvider ) );
+
+   badDudeEntitySprite->AddSprite( MovementType::Airborne, Direction::Left, GenerateBadDudeAirborneSprite( Direction::Left, frameRateProvider ) );
+   badDudeEntitySprite->AddSprite( MovementType::Airborne, Direction::UpLeft, GenerateBadDudeAirborneSprite( Direction::UpLeft, frameRateProvider ) );
+   badDudeEntitySprite->AddSprite( MovementType::Airborne, Direction::Up, GenerateBadDudeAirborneSprite( Direction::Up, frameRateProvider ) );
+   badDudeEntitySprite->AddSprite( MovementType::Airborne, Direction::UpRight, GenerateBadDudeAirborneSprite( Direction::UpRight, frameRateProvider ) );
+   badDudeEntitySprite->AddSprite( MovementType::Airborne, Direction::Right, GenerateBadDudeAirborneSprite( Direction::Right, frameRateProvider ) );
+   badDudeEntitySprite->AddSprite( MovementType::Airborne, Direction::DownRight, GenerateBadDudeAirborneSprite( Direction::DownRight, frameRateProvider ) );
+   badDudeEntitySprite->AddSprite( MovementType::Airborne, Direction::Down, GenerateBadDudeAirborneSprite( Direction::Down, frameRateProvider ) );
+   badDudeEntitySprite->AddSprite( MovementType::Airborne, Direction::DownLeft, GenerateBadDudeAirborneSprite( Direction::DownLeft, frameRateProvider ) );
+
+   entitySpriteMap[METAID_ENEMY_BADDUDE] = badDudeEntitySprite;
 
    return entitySpriteMap;
 }

@@ -52,7 +52,7 @@ shared_ptr<EntityDefs> EntityDefsGenerator::GenerateEntityDefs()
 
    // extra life
    entityDefs->EntityTypeMap[METAID_ITEM_EXTRALIFE] = EntityType::Item;
-   entityDefs->ItemInfoMap[METAID_ITEM_EXTRALIFE].HitBox = { 0, 0, 38, 78 }; // one full tile
+   entityDefs->ItemInfoMap[METAID_ITEM_EXTRALIFE].HitBox = { 0, 0, 38, 78 };
    entityDefs->ItemInfoMap[METAID_ITEM_EXTRALIFE].MaxGravityVelocity = 4'000;
    entityDefs->ItemInfoMap[METAID_ITEM_EXTRALIFE].GravityAccelerationPerSecond = 10'000;
    entityDefs->CollisionPayloadMap[METAID_ITEM_EXTRALIFE].Lives = 1;
@@ -82,12 +82,20 @@ shared_ptr<EntityDefs> EntityDefsGenerator::GenerateEntityDefs()
    entityDefs->EnemyInfoMap[METAID_ENEMY_TARGETINGTURRET].DamageInvulnerabilitySeconds = 0.1f;
    entityDefs->CollisionPayloadMap[METAID_ENEMY_TARGETINGTURRET].Health = -10;
 
+   // bad dude
+   entityDefs->EntityTypeMap[METAID_ENEMY_BADDUDE] = EntityType::Enemy;
+   entityDefs->EnemyInfoMap[METAID_ENEMY_BADDUDE].HitBox = { 0, 0, 38 * 4, 78 * 3 }; // 4 x 3 tiles
+   entityDefs->EnemyInfoMap[METAID_ENEMY_BADDUDE].MaxHealth = 100;
+   entityDefs->EnemyInfoMap[METAID_ENEMY_BADDUDE].DamageInvulnerabilitySeconds = 1.0f;
+   entityDefs->CollisionPayloadMap[METAID_ENEMY_BADDUDE].Health = -8;
+
    /*********************** ENTITY PROJECTILES ************************/
 
    entityDefs->EntityProjectileMap[METAID_PLAYER] = METAID_PROJECTILE_GOODBULLET;
    entityDefs->EntityProjectileMap[METAID_ENEMY_STATIONARYTURRET] = METAID_PROJECTILE_BADBULLET;
    entityDefs->EntityProjectileMap[METAID_ENEMY_SPINNINGTURRET] = METAID_PROJECTILE_BADBULLET;
    entityDefs->EntityProjectileMap[METAID_ENEMY_TARGETINGTURRET] = METAID_PROJECTILE_BADBULLET;
+   entityDefs->EntityProjectileMap[METAID_ENEMY_BADDUDE] = METAID_PROJECTILE_BADBULLET;
 
    GenerateEntityBehaviors( entityDefs );
 

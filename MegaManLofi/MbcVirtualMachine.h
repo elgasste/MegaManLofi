@@ -18,6 +18,7 @@ namespace MegaManLofi
 
    protected:
       virtual void Reset();
+      virtual void ClearReturnStack();
       virtual void ClearFloatRegisters();
       virtual void ClearIntRegisters();
       virtual bool HandleCommand( mbc_command command );

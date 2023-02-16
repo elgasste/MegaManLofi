@@ -1,6 +1,6 @@
 #pragma once
 
-typedef unsigned int mbc_instruction;
+typedef int mbc_instruction;
 typedef unsigned char mbc_command;
 
 #define MBC_REGISTERS      32

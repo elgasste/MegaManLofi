@@ -650,9 +650,6 @@
     <ClInclude Include="ConditionOp.h">
       <Filter>Header Files\DataTypes</Filter>
     </ClInclude>
-    <ClInclude Include="ConditionalInfo.h">
-      <Filter>Header Files\MbcAsm</Filter>
-    </ClInclude>
     <ClInclude Include="MbcAsmDefines.h">
       <Filter>Header Files\MbcAsm</Filter>
     </ClInclude>

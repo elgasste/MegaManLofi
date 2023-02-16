@@ -11,11 +11,15 @@
 # [3] - left position threshold (starting left position minus 760)
 # [4] - right position threshold (starting left position plus 760)
 # [5] - current left position
+# [6] - player's current left position
+# [7] - player's current top position
 #
 # [10] - frame seconds
 # [11] - frame second counter
 # [12] - jump time threshold (2)
 # [13] - jump Y velocity (-3000)
+# [14] - shoot time counter
+# [15] - shoot time threshold (1.5)
 #
 # [30] - temporary use
 # [31] - temporary use
@@ -29,12 +33,18 @@
 # [3] - Direction::Right (4)
 # [4] - current direction
 #
+# [5] - do we want to shoot?
+# [6] - we don't want to shoot (0)
+# [7] - we want to shoot (1)
+#
 ##########################################################################
 
 FUNC main
 
 	get_positionLeft 5
 	get_frameSeconds 10
+	get_playerPositionLeft 6
+	get_playerPositionTop 7
 
 	# init on first run
 	if_eqi 0 1
@@ -44,6 +54,7 @@ FUNC main
 
 	call adjustMovement
 	call checkJump
+	call checkShoot
 
 RET
 
@@ -66,6 +77,10 @@ FUNC init
 	# jump time threshold and Y velocity
 	regf 12 2
 	regf 13 -3000
+
+	# shoot time threshold and want-to-shoot flags
+	regf 15 1.5
+	regi 7 1
 
 RET
 
@@ -98,6 +113,35 @@ FUNC checkJump
 	if_gtf 11 12  # time to jump, then reset the timer
 		set_velocityY 13
 		regf 11 0
+	endif
+
+RET
+
+FUNC checkShoot
+
+	if_eqi 5 6  # we don't want to shoot
+		addf 14 10 14  # increment shoot timer
+	
+		if_gtf 14 15
+			regi 5 1  # now we want to shoot
+			regf 14 0  # reset shoot timer
+		endif
+	endif
+
+	if_eqi 5 6  # we still don't want to shoot
+		RET
+	endif
+
+	if_ltf 6 5  # player is to the left
+		if_eqi 4 2  # we're facing left, shoot!
+			shootTarget 6 7
+			regi 5 0
+		endif
+	else  # player is to the right
+		if_eqi 4 3  # we're facing right, shoot!
+			shootTarget 6 7
+			regi 5 0
+		endif
 	endif
 
 RET

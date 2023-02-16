@@ -28,14 +28,18 @@ void MbcVirtualMachine::ClearIntRegisters()
 
 void MbcVirtualMachine::Reset()
 {
+   ClearReturnStack();
+   _currentInstruction = 0;
+   _currentLine = 0;
+   _isTicking = false;
+}
+
+void MbcVirtualMachine::ClearReturnStack()
+{
    if ( _returnStack.size() > 0 )
    {
       _returnStack = stack<mbc_instruction>();
    }
-
-   _currentInstruction = 0;
-   _currentLine = 0;
-   _isTicking = false;
 }
 
 void MbcVirtualMachine::SetInstructions( vector<mbc_instruction> instructions )
@@ -48,6 +52,7 @@ void MbcVirtualMachine::SetInstructions( vector<mbc_instruction> instructions )
 
 void MbcVirtualMachine::Tick()
 {
+   ClearReturnStack();
    _isTicking = true;
 
    for ( _currentLine = 0; _currentLine < (int)_instructions.size(); _currentLine++ )
@@ -168,7 +173,7 @@ void MbcVirtualMachine::RegisterFloat()
 
 void MbcVirtualMachine::RegisterInt()
 {
-   auto regIndex = (int)MBC_PARSE_ARG0( _currentInstruction );
+   auto regIndex = MBC_PARSE_ARG0( _currentInstruction );
    _intRegisters[regIndex] = (int)_instructions[++_currentLine];
 }
 
@@ -236,13 +241,13 @@ void MbcVirtualMachine::DoIntAbs()
 
 void MbcVirtualMachine::Goto()
 {
-   _currentLine = MBC_PARSE_ARG0( _currentInstruction ) - 1;
+   _currentLine = _instructions[_currentLine + 1] - 1;
 }
 
 void MbcVirtualMachine::Subroutine()
 {
-   auto subroutineLine = MBC_PARSE_ARG0( _currentInstruction );
-   _returnStack.push( _currentLine );
+   auto subroutineLine = _instructions[_currentLine + 1];
+   _returnStack.push( _currentLine + 1 );
    _currentLine = subroutineLine - 1;
 }
 
@@ -256,9 +261,7 @@ void MbcVirtualMachine::DoFloatCondition( ConditionOp op )
 {
    auto leftRegIndex = MBC_PARSE_ARG0( _currentInstruction );
    auto rightRegIndex = MBC_PARSE_ARG1( _currentInstruction );
-   auto falseBlockLine = MBC_PARSE_ARG2( _currentInstruction );
-
-   _returnStack.push( MBC_PARSE_ARG3( _currentInstruction ) - 1 );
+   auto falseBlockLine = (int)_instructions[++_currentLine];
 
    switch ( op )
    {
@@ -274,9 +277,7 @@ void MbcVirtualMachine::DoIntCondition( ConditionOp op )
 {
    auto leftRegIndex = MBC_PARSE_ARG0( _currentInstruction );
    auto rightRegIndex = MBC_PARSE_ARG1( _currentInstruction );
-   auto falseBlockLine = MBC_PARSE_ARG2( _currentInstruction );
-
-   _returnStack.push( MBC_PARSE_ARG3( _currentInstruction ) - 1 );
+   auto falseBlockLine = (int)_instructions[++_currentLine];
 
    switch ( op )
    {

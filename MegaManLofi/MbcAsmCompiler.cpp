@@ -5,6 +5,11 @@
 #include "MbcAsmCollections.h"
 #include "StringUtilities.h"
 
+#if MBCCOMP_ENABLELOGGER == 1
+#include <fstream>
+#include <sstream>
+#endif
+
 using namespace std;
 using namespace MbcAsm;
 using namespace MegaManLofi;
@@ -23,19 +28,27 @@ vector<mbc_instruction> MbcAsmCompiler::Compile( const string& code )
    BuildIfBlocksMap();
    BuildLoopMaps();
 
+#if MBCCOMP_ENABLELOGGER == 1
+   LogAsm();
+#endif
+
    _instructions = vector<mbc_instruction>();
 
    for ( int i = 0; i < (int)_tokenLines.size(); i++ )
    {
       if ( i == 0 && _mainStartIndex != 0 )
       {
-         _instructions.push_back( CreateGotoInstruction( _mainStartIndex ) );
+         AddGotoInstruction( _mainStartIndex );
       }
       else
       {
          CompileTokenLine( i );
       }
    }
+
+#if MBCCOMP_ENABLELOGGER == 1
+   LogMbc();
+#endif
 
    return _instructions;
 }
@@ -106,11 +119,14 @@ void MbcAsmCompiler::VerifyTokenLines() const
 
 void MbcAsmCompiler::InsertNoopTokenLines()
 {
-   // REGF/REGI instructions are always followed by a "data" instruction, so to keep our MBC
-   // assembly code one-to-one with bytecode output, just add a NOOP after each REGF/REGI
+   // REGF/REGI/SUBR/GOTO/BR_X instructions are always followed by a "data" instruction, so to keep
+   // our MBC assembly code one-to-one with bytecode output, add NOOPs after each respective ASM command.
    for ( int i = 0; i < (int)_tokenLines.size(); i++ )
    {
-      if ( _tokenLines[i][0] == MBCCOMP_REGI || _tokenLines[i][0] == MBCCOMP_REGF )
+      if ( _tokenLines[i][0] == MBCCOMP_REGI || _tokenLines[i][0] == MBCCOMP_REGF || _tokenLines[i][0] == MBCCOMP_CALL ||
+           _tokenLines[i][0] == MBCCOMP_ELSE || _tokenLines[i][0] == MBCCOMP_BREAK || _tokenLines[i][0] == MBCCOMP_ENDWHILE ||
+           find( LoopTokens.begin(), LoopTokens.end(), _tokenLines[i][0] ) != LoopTokens.end() ||
+            find( IfTokens.begin(), IfTokens.end(), _tokenLines[i][0] ) != IfTokens.end() )
       {
          i++;
          _tokenLines.insert( _tokenLines.begin() + i, vector<string> { MBCCOMP_NOOP } );
@@ -142,11 +158,13 @@ void MbcAsmCompiler::BuildFuncIndicesMap()
          {
             auto name = StringUtilities::ToUpper( _tokenLines[i][1] );
 
-            // if the first function is not the main function, insert a NOOP, which
+            // if the first function is not the main function, insert two NOOPs, which
             // will be replaced with a GOTO during compilation
             if ( i == 0 && name != MBCCOMP_MAINFUNC )
             {
                _tokenLines.insert( _tokenLines.begin(), vector<string> { MBCCOMP_NOOP } );
+               _tokenLines.insert( _tokenLines.begin(), vector<string> { MBCCOMP_NOOP } );
+               i++;
                AdjustSourceLinesMapForInsertion( i );
                continue;
             }
@@ -203,7 +221,7 @@ void MbcAsmCompiler::BuildFuncIndicesMap()
 
 void MbcAsmCompiler::BuildIfBlocksMap()
 {
-   _ifBlocksMap = map<int, ConditionalInfo>();
+   _ifBlocksMap = map<int, int>();
 
    for ( int i = 0; i < (int)_tokenLines.size(); i++ )
    {
@@ -223,6 +241,7 @@ void MbcAsmCompiler::BuildIfBlocksMap()
 void MbcAsmCompiler::AddIfBlockRecursive( int& index )
 {
    int startIndex = index;
+   int elseGotoIndex = -1;
    int loopCounter = 0;
    index++;
 
@@ -258,16 +277,20 @@ void MbcAsmCompiler::AddIfBlockRecursive( int& index )
             Error( "loop must end before ENDIF", index );
          }
 
-         _ifBlocksMap[startIndex].EndLine = index;
-
-         if ( _ifBlocksMap[startIndex].ElseLine < 0 )
+         // if an ELSE was found earlier, point its GOTO at this index
+         if ( elseGotoIndex >= 0 )
          {
-            _ifBlocksMap[startIndex].ElseLine = index;
+            _tokenLines[elseGotoIndex][1] = format( "{0}", index );
+         }
+         else
+         {
+            _ifBlocksMap[startIndex] = index;
          }
 
          _tokenLines.erase( _tokenLines.begin() + index );
          AdjustFuncIndicesForRemoval( index );
          AdjustSourceLinesMapForRemoval( index );
+         AdjustGotoIndicesForRemoval( index );
          index--;
 
          return;
@@ -279,16 +302,17 @@ void MbcAsmCompiler::AddIfBlockRecursive( int& index )
             Error( "loop must end before ELSE", index );
          }
 
-         if ( _ifBlocksMap[startIndex].ElseLine >= 0 )
+         if ( elseGotoIndex >= 0 )
          {
             Error( "multiple ELSE statements are not allowed", startIndex );
          }
 
-         _ifBlocksMap[startIndex].ElseLine = index;
-         _tokenLines.erase( _tokenLines.begin() + index );
-         AdjustFuncIndicesForRemoval( index );
-         AdjustSourceLinesMapForRemoval( index );
-         index--;
+         // turn the ELSE into a GOTO, and point it at the ENDIF line when we get there
+         elseGotoIndex = index;
+         _ifBlocksMap[startIndex] = index + 2;
+         _tokenLines[index][0] = MBCCOMP_GOTO;
+         _tokenLines[index].insert( _tokenLines[index].begin() + 1, "-1" );
+         index++;
       }
       else if ( find( IfTokens.begin(), IfTokens.end(), commandToken ) != IfTokens.end() )
       {
@@ -366,11 +390,15 @@ void MbcAsmCompiler::CompileTokenLine( int index )
    }
    else if ( commandToken == MBCCOMP_CALL )
    {
-      _instructions.push_back( CreateSubrInstruction( _funcIndicesMap.at( StringUtilities::ToUpper( tokenLine[1] ) ) ) );
+      AddSubrInstruction( tokenLine );
+   }
+   else if ( commandToken == MBCCOMP_GOTO )
+   {
+      AddGotoInstruction( stoi( _tokenLines[index][1] ) );
    }
    else if ( commandToken == MBCCOMP_BREAK )
    {
-      _instructions.push_back( CreateGotoInstruction( _loopBlocksMap.at( _loopBreaksMap.at( index ) ) + 1 ) );
+      AddGotoInstruction( _loopBlocksMap.at( _loopBreaksMap.at( index ) ) + 2 );
    }
    else if ( commandToken == MBCCOMP_ENDWHILE )
    {
@@ -380,7 +408,7 @@ void MbcAsmCompiler::CompileTokenLine( int index )
          if ( loopEndLine == index )
          {
             blockFound = true;
-            _instructions.push_back( CreateGotoInstruction( loopStartLine ) );
+            AddGotoInstruction( loopStartLine );
             break;
          }
       }
@@ -393,11 +421,11 @@ void MbcAsmCompiler::CompileTokenLine( int index )
    }
    else if ( find( IfTokens.begin(), IfTokens.end(), commandToken ) != IfTokens.end() )
    {
-      AddIfInstruction( tokenLine, index );
+      AddBranchInstruction( tokenLine, IfTokenMap.at( tokenLine[0] ), _ifBlocksMap.at( index ) );
    }
    else if ( find( LoopTokens.begin(), LoopTokens.end(), commandToken ) != LoopTokens.end() )
    {
-      AddLoopInstruction( tokenLine, index );
+      AddBranchInstruction( tokenLine, BranchTokenMap.at( tokenLine[0] ), _loopBlocksMap.at( index ) + 1 );
    }
    else if ( find( RegTokens.begin(), RegTokens.end(), commandToken ) != RegTokens.end() )
    {
@@ -413,54 +441,39 @@ void MbcAsmCompiler::CompileTokenLine( int index )
    }
 }
 
-void MbcAsmCompiler::AddIfInstruction( const vector<string>& tokenLine, int index )
+void MbcAsmCompiler::AddBranchInstruction( const vector<string>& tokenLine, mbc_command command, int falseIndex )
 {
-   auto arg2 = _ifBlocksMap.at( index ).ElseLine;
-   auto arg3 = _ifBlocksMap.at( index ).EndLine;
-   AddBranchInstruction( tokenLine, IfTokenMap.at( tokenLine[0] ), arg2, arg3 );
-}
-
-void MbcAsmCompiler::AddLoopInstruction( const vector<string>& tokenLine, int index )
-{
-   auto arg2 = _loopBlocksMap.at( index ) + 1;
-   AddBranchInstruction( tokenLine, BranchTokenMap.at( tokenLine[0] ), arg2, arg2 );
-}
-
-void MbcAsmCompiler::AddBranchInstruction( const vector<string>& tokenLine, mbc_command command, int arg2, int arg3 )
-{
-   auto instruction = (mbc_instruction)( command << MBC_CMD_SHIFT );
-
    switch ( command )
    {
       case MBCBR_EQF:
-         _instructions.push_back( instruction | CreateFloatConditionInstruction( tokenLine, ConditionOp::Equals, arg2, arg3 ) );
+         AddFloatConditionInstruction( tokenLine, ConditionOp::Equals, falseIndex );
          break;
       case MBCBR_LTF:
-         _instructions.push_back( instruction | CreateFloatConditionInstruction( tokenLine, ConditionOp::LessThan, arg2, arg3 ) );
+         AddFloatConditionInstruction( tokenLine, ConditionOp::LessThan, falseIndex );
          break;
       case MBCBR_GTF:
-         _instructions.push_back( instruction | CreateFloatConditionInstruction( tokenLine, ConditionOp::GreaterThan, arg2, arg3 ) );
+         AddFloatConditionInstruction( tokenLine, ConditionOp::GreaterThan, falseIndex );
          break;
       case MBCBR_LTEF:
-         _instructions.push_back( instruction | CreateFloatConditionInstruction( tokenLine, ConditionOp::LessThanOrEqual, arg2, arg3 ) );
+         AddFloatConditionInstruction( tokenLine, ConditionOp::LessThanOrEqual, falseIndex );
          break;
       case MBCBR_GTEF:
-         _instructions.push_back( instruction | CreateFloatConditionInstruction( tokenLine, ConditionOp::GreaterThanOrEqual, arg2, arg3 ) );
+         AddFloatConditionInstruction( tokenLine, ConditionOp::GreaterThanOrEqual, falseIndex );
          break;
       case MBCBR_EQI:
-         _instructions.push_back( instruction | CreateIntConditionInstruction( tokenLine, ConditionOp::Equals, arg2, arg3 ) );
+         AddIntConditionInstruction( tokenLine, ConditionOp::Equals, falseIndex );
          break;
       case MBCBR_LTI:
-         _instructions.push_back( instruction | CreateIntConditionInstruction( tokenLine, ConditionOp::LessThan, arg2, arg3 ) );
+         AddIntConditionInstruction( tokenLine, ConditionOp::LessThan, falseIndex );
          break;
       case MBCBR_GTI:
-         _instructions.push_back( instruction | CreateIntConditionInstruction( tokenLine, ConditionOp::GreaterThan, arg2, arg3 ) );
+         AddIntConditionInstruction( tokenLine, ConditionOp::GreaterThan, falseIndex );
          break;
       case MBCBR_LTEI:
-         _instructions.push_back( instruction | CreateIntConditionInstruction( tokenLine, ConditionOp::LessThanOrEqual, arg2, arg3 ) );
+         AddIntConditionInstruction( tokenLine, ConditionOp::LessThanOrEqual, falseIndex );
          break;
       case MBCBR_GTEI:
-         _instructions.push_back( instruction | CreateIntConditionInstruction( tokenLine, ConditionOp::GreaterThanOrEqual, arg2, arg3 ) );
+         AddIntConditionInstruction( tokenLine, ConditionOp::GreaterThanOrEqual, falseIndex );
          break;
    }
 }
@@ -532,14 +545,74 @@ void MbcAsmCompiler::AddGeneralInstruction( const vector<string>& tokenLine )
    _instructions.push_back( instruction );
 }
 
-mbc_instruction MbcAsmCompiler::CreateGotoInstruction( int gotoIndex ) const
+void MbcAsmCompiler::AddGotoInstruction( int gotoIndex )
 {
-   return (mbc_instruction)( ( MBCCMD_GOTO << MBC_CMD_SHIFT ) | ( gotoIndex << MBC_ARG0_SHIFT ) );
+   _instructions.push_back( (mbc_instruction)( MBCCMD_GOTO << MBC_CMD_SHIFT ) );
+   _instructions.push_back( (mbc_instruction)gotoIndex );
 }
 
-mbc_instruction MbcAsmCompiler::CreateSubrInstruction( int subrIndex ) const
+void MbcAsmCompiler::AddSubrInstruction( const vector<string>& tokenLine )
 {
-   return (mbc_instruction)( ( MBCCMD_SUBR << MBC_CMD_SHIFT ) | ( subrIndex << MBC_ARG0_SHIFT ) );
+   _instructions.push_back( (mbc_instruction)( MBCCMD_SUBR << MBC_CMD_SHIFT ) );
+   _instructions.push_back( (mbc_instruction)_funcIndicesMap.at( StringUtilities::ToUpper( tokenLine[1] ) ) );
+}
+
+void MbcAsmCompiler::AddFloatConditionInstruction( const vector<string>& tokenLine, ConditionOp op, int falseIndex )
+{
+   auto instruction =
+      ( (mbc_instruction)stoi( tokenLine[1] ) << MBC_ARG0_SHIFT ) |
+      ( (mbc_instruction)stoi( tokenLine[2] ) << MBC_ARG1_SHIFT );
+
+   switch ( op )
+   {
+      case ConditionOp::Equals:
+         instruction |= (mbc_instruction)( MBCBR_EQF << MBC_CMD_SHIFT );
+         break;
+      case ConditionOp::LessThan:
+         instruction |= (mbc_instruction)( MBCBR_LTF << MBC_CMD_SHIFT );
+         break;
+      case ConditionOp::LessThanOrEqual:
+         instruction |= (mbc_instruction)( MBCBR_LTEF << MBC_CMD_SHIFT );
+         break;
+      case ConditionOp::GreaterThan:
+         instruction |= (mbc_instruction)( MBCBR_GTF << MBC_CMD_SHIFT );
+         break;
+      case ConditionOp::GreaterThanOrEqual:
+         instruction |= (mbc_instruction)( MBCBR_GTEF << MBC_CMD_SHIFT );
+         break;
+   }
+
+   _instructions.push_back( instruction );
+   _instructions.push_back( (mbc_instruction)falseIndex );
+}
+
+void MbcAsmCompiler::AddIntConditionInstruction( const vector<string>& tokenLine, ConditionOp op, int falseIndex )
+{
+   auto instruction =
+      ( (mbc_instruction)stoi( tokenLine[1] ) << MBC_ARG0_SHIFT ) |
+      ( (mbc_instruction)stoi( tokenLine[2] ) << MBC_ARG1_SHIFT );
+
+   switch ( op )
+   {
+      case ConditionOp::Equals:
+         instruction |= (mbc_instruction)( MBCBR_EQI << MBC_CMD_SHIFT );
+         break;
+      case ConditionOp::LessThan:
+         instruction |= (mbc_instruction)( MBCBR_LTI << MBC_CMD_SHIFT );
+         break;
+      case ConditionOp::LessThanOrEqual:
+         instruction |= (mbc_instruction)( MBCBR_LTEI << MBC_CMD_SHIFT );
+         break;
+      case ConditionOp::GreaterThan:
+         instruction |= (mbc_instruction)( MBCBR_GTI << MBC_CMD_SHIFT );
+         break;
+      case ConditionOp::GreaterThanOrEqual:
+         instruction |= (mbc_instruction)( MBCBR_GTEI << MBC_CMD_SHIFT );
+         break;
+   }
+
+   _instructions.push_back( instruction );
+   _instructions.push_back( (mbc_instruction)falseIndex );
 }
 
 mbc_instruction MbcAsmCompiler::CreateFloatMathInstruction( const vector<string>& tokenLine, MathOp op ) const
@@ -594,66 +667,6 @@ mbc_instruction MbcAsmCompiler::CreateIntMathInstruction( const vector<string>& 
    return instruction;
 }
 
-mbc_instruction MbcAsmCompiler::CreateFloatConditionInstruction( const vector<string>& tokenLine, ConditionOp op, int arg2, int arg3 ) const
-{
-   auto instruction =
-      ( (mbc_instruction)stoi( tokenLine[1] ) << MBC_ARG0_SHIFT ) |
-      ( (mbc_instruction)stoi( tokenLine[2] ) << MBC_ARG1_SHIFT ) |
-      ( (mbc_instruction)arg2 << MBC_ARG2_SHIFT ) |
-      ( (mbc_instruction)arg3 );
-
-   switch ( op )
-   {
-      case ConditionOp::Equals:
-         instruction |= (mbc_instruction)( MBCBR_EQF << MBC_CMD_SHIFT );
-         break;
-      case ConditionOp::LessThan:
-         instruction |= (mbc_instruction)( MBCBR_LTF << MBC_CMD_SHIFT );
-         break;
-      case ConditionOp::LessThanOrEqual:
-         instruction |= (mbc_instruction)( MBCBR_LTEF << MBC_CMD_SHIFT );
-         break;
-      case ConditionOp::GreaterThan:
-         instruction |= (mbc_instruction)( MBCBR_GTF << MBC_CMD_SHIFT );
-         break;
-      case ConditionOp::GreaterThanOrEqual:
-         instruction |= (mbc_instruction)( MBCBR_GTEF << MBC_CMD_SHIFT );
-         break;
-   }
-
-   return instruction;
-}
-
-mbc_instruction MbcAsmCompiler::CreateIntConditionInstruction( const vector<string>& tokenLine, ConditionOp op, int arg2, int arg3 ) const
-{
-   auto instruction =
-      ( (mbc_instruction)stoi( tokenLine[1] ) << MBC_ARG0_SHIFT ) |
-      ( (mbc_instruction)stoi( tokenLine[2] ) << MBC_ARG1_SHIFT ) |
-      ( (mbc_instruction)arg2 << MBC_ARG2_SHIFT ) |
-      ( (mbc_instruction)arg3 );
-
-   switch ( op )
-   {
-      case ConditionOp::Equals:
-         instruction |= (mbc_instruction)( MBCBR_EQI << MBC_CMD_SHIFT );
-         break;
-      case ConditionOp::LessThan:
-         instruction |= (mbc_instruction)( MBCBR_LTI << MBC_CMD_SHIFT );
-         break;
-      case ConditionOp::LessThanOrEqual:
-         instruction |= (mbc_instruction)( MBCBR_LTEI << MBC_CMD_SHIFT );
-         break;
-      case ConditionOp::GreaterThan:
-         instruction |= (mbc_instruction)( MBCBR_GTI << MBC_CMD_SHIFT );
-         break;
-      case ConditionOp::GreaterThanOrEqual:
-         instruction |= (mbc_instruction)( MBCBR_GTEI << MBC_CMD_SHIFT );
-         break;
-   }
-
-   return instruction;
-}
-
 mbc_instruction MbcAsmCompiler::FloatAsInstruction( float val ) const
 {
    mbc_instruction instruction;
@@ -689,6 +702,22 @@ void MbcAsmCompiler::AdjustSourceLinesMapForRemoval( int removalIndex )
    }
 }
 
+void MbcAsmCompiler::AdjustGotoIndicesForRemoval( int removalIndex )
+{
+   for ( int i = 0; i < (int)_tokenLines.size(); i++ )
+   {
+      if ( _tokenLines[i][0] == MBCCOMP_GOTO )
+      {
+         auto gotoIndex = stoi( _tokenLines[i][1] );
+
+         if ( gotoIndex > removalIndex )
+         {
+            _tokenLines[i][1] = format( "{0}", gotoIndex - 1 );
+         }
+      }
+   }
+}
+
 void MbcAsmCompiler::AdjustSourceLinesMapForInsertion( int insertionIndex )
 {
    for ( int i = (int)_tokenLines.size() - 2; i >= insertionIndex; i-- )
@@ -705,3 +734,51 @@ void MbcAsmCompiler::Error( const std::string& message, int index ) const
 {
    throw exception( format( "line {0}: {1}", _sourceLinesMap.at( index ), message ).c_str() );
 }
+
+#if MBCCOMP_ENABLELOGGER == 1
+
+void MbcAsmCompiler::LogAsm() const
+{
+   // TODO: differentiate logs somehow
+   string asmOutput = "";
+
+   for ( int i = 0; i < (int)_tokenLines.size(); i++ )
+   {
+      asmOutput += format( "{0}: {1}\n", i, _tokenLines[i][0] );
+   }
+
+   ofstream log;
+   log.open( "asmlog.txt" );
+   log << asmOutput;
+   log.close();
+}
+void MbcAsmCompiler::LogMbc() const
+{
+   // TODO: differentiate logs somehow
+   string mbcOutput = "";
+
+   for ( int i = 0; i < (int)_tokenLines.size(); i++ )
+   {
+      auto instruction = _instructions[i];
+      auto command = instruction >> MBC_CMD_SHIFT;
+
+      stringstream commandStream;
+      commandStream << std::hex << command;
+      string hexCommand( commandStream.str() );
+
+      mbcOutput += format( "{0}: {1} {2} {3} {4} {5}\n",
+                           i,
+                           hexCommand,
+                           MBC_PARSE_ARG0( instruction ),
+                           MBC_PARSE_ARG1( instruction ),
+                           MBC_PARSE_ARG2( instruction ),
+                           MBC_PARSE_ARG3( instruction ) );
+   }
+
+   ofstream log;
+   log.open( "mbclog.txt" );
+   log << mbcOutput;
+   log.close();
+}
+
+#endif

@@ -224,7 +224,6 @@
     <ClInclude Include="ArenaTileGenerator.h" />
     <ClInclude Include="ArenaPhysics.h" />
     <ClInclude Include="ArenaTile.h" />
-    <ClInclude Include="ConditionalInfo.h" />
     <ClInclude Include="ConditionOp.h" />
     <ClInclude Include="EnemyInfo.h" />
     <ClInclude Include="EntityBehavior.h" />
@@ -356,6 +355,7 @@
     </None>
     <None Include="BehaviorASM\202.mbcasm" />
     <None Include="BehaviorASM\203.mbcasm" />
+    <None Include="BehaviorASM\204.mbcasm" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

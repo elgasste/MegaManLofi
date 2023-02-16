@@ -1,5 +1,8 @@
 #pragma once
 
+// setting this to 1 will create ASM and MBC log files, which are super useful for debugging
+#define MBCCOMP_ENABLELOGGER              0
+
 #define MBCCOMP_MAINFUNC                  "MAIN"
 
 #define MBCCOMP_REGF                      "REGF"
@@ -21,6 +24,7 @@
 #define MBCCOMP_CALL                      "CALL"
 #define MBCCOMP_RET                       "RET"
 #define MBCCOMP_STOP                      "STOP"
+#define MBCCOMP_GOTO                      "GOTO"
 #define MBCCOMP_NOOP                      "NOOP"
 
 #define MBCCOMP_IF_EQF                    "IF_EQF"

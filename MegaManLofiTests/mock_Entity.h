@@ -44,6 +44,7 @@ public:
    MOCK_METHOD( void, SetHealth, ( unsigned int ), ( override ) );
    MOCK_METHOD( void, SetMaxHealth, ( unsigned int ), ( override ) );
    MOCK_METHOD( void, SetDamageInvulnerabilitySeconds, ( float ), ( override ) );
+   MOCK_METHOD( void, SetKnockBackSeconds, ( float ), ( override ) );
    MOCK_METHOD( void, Tick, ( ), ( override ) );
    MOCK_METHOD( void, StopX, ( ), ( override ) );
    MOCK_METHOD( void, StopY, ( ), ( override ) );

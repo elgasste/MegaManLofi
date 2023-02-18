@@ -80,6 +80,9 @@ bool EntityBehavior::HandleCommand( mbc_command command )
       case MBCGET_PLAYERKNOCKBACKSECONDS:
          RegisterFloatFromArg( 0, _playerInfoProvider->GetPlayerEntity()->GetKnockBackSeconds() );
          return true;
+      case MBCGET_PLAYERKNOCKBACKVELOCITY:
+         RegisterFloatFromArg( 0, _playerInfoProvider->GetPlayerEntity()->GetKnockBackVelocity() );
+         return true;
 
       case MBCGET_POSITIONLEFT:
          RegisterFloatFromArg( 0, _entity->GetArenaPositionLeft() );
@@ -116,6 +119,9 @@ bool EntityBehavior::HandleCommand( mbc_command command )
          return true;
       case MBCGET_KNOCKBACKSECONDS:
          RegisterFloatFromArg( 0, _entity->GetKnockBackSeconds() );
+         return true;
+      case MBCGET_KNOCKBACKVELOCITY:
+         RegisterFloatFromArg( 0, _entity->GetKnockBackVelocity() );
          return true;
 
       case MBCGET_ARENAENTITYCOUNT:
@@ -159,6 +165,9 @@ bool EntityBehavior::HandleCommand( mbc_command command )
          return true;
       case MBCGET_ARENAENTITYKNOCKBACKSECONDS:
          RegisterFloatFromArg( 1, _arenaInfoProvider->GetActiveArena()->GetEntity( MBC_PARSE_ARG0( _currentInstruction ) )->GetKnockBackSeconds() );
+         return true;
+      case MBCGET_ARENAENTITYKNOCKBACKVELOCITY:
+         RegisterFloatFromArg( 1, _arenaInfoProvider->GetActiveArena()->GetEntity( MBC_PARSE_ARG0( _currentInstruction ) )->GetKnockBackVelocity() );
          return true;
 
       case MBCSET_VELOCITYX:

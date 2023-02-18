@@ -84,6 +84,10 @@ typedef unsigned char mbc_command;
 #define MBCGET_DAMAGESECONDS        0x63     // get the number of seconds the entity is invulnerable after taking damage
 #define MBCGET_ISINVULNERABLE       0x64     // get the entity's invulnerability status
 
+#define MBCGET_ARENAENTITYCOUNT           0x65     // get the number of entities in the current arena
+#define MBCGET_ARENAENTITYPOSITIONLEFT    0x66  // get the left position of an arena entity; arg0 is the entity's index, arg1 is a register index
+#define MBCGET_ARENAENTITYPOSITIONTOP     0x67  // get the top position of an arena entity; arg0 is the entity's index, arg1 is a register index
+
 // setters
 #define MBCSET_VELOCITYX            0x80     // set the entity's X velocity
 #define MBCSET_VELOCITYY            0x81     // set the entity's Y velocity

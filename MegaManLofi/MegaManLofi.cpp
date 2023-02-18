@@ -130,7 +130,7 @@ void LoadAndRun( const shared_ptr<ConsoleBuffer> consoleBuffer )
       stage->AddArena( arena );
    }
    auto game = shared_ptr<Game>( new Game( eventAggregator, player, stage, entityPhysics, arenaPhysics, entityFactory, gameDefs->EntityDefs ) );
-   entityFactory->Initialize( game, game );
+   entityFactory->Initialize( game, game, game );
 
    // menus
    auto playingMenu = shared_ptr<PlayingMenu>( new PlayingMenu( game ) );

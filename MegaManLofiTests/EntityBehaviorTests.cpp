@@ -7,9 +7,11 @@
 
 #include "mock_FrameRateProvider.h"
 #include "mock_PlayerInfoProvider.h"
+#include "mock_ArenaInfoProvider.h"
 #include "mock_GameCommandExecutor.h"
 #include "mock_ReadOnlyEntity.h"
 #include "mock_Entity.h"
+#include "mock_ReadOnlyArena.h"
 
 using namespace std;
 using namespace testing;
@@ -22,13 +24,19 @@ public:
    {
       _frameRateProviderMock.reset( new NiceMock<mock_FrameRateProvider> );
       _playerInfoProviderMock.reset( new NiceMock<mock_PlayerInfoProvider> );
+      _arenaInfoProviderMock.reset( new NiceMock<mock_ArenaInfoProvider> );
       _commandExecutorMock.reset( new NiceMock<mock_GameCommandExecutor> );
       _entityMock.reset( new NiceMock<mock_Entity> );
       _playerEntityMock.reset( new NiceMock<mock_ReadOnlyEntity> );
+      _arenaMock.reset( new NiceMock<mock_ReadOnlyArena> );
+      _arenaEntityMock.reset( new NiceMock<mock_ReadOnlyEntity> );
 
       ON_CALL( *_playerInfoProviderMock, GetPlayerEntity() ).WillByDefault( Return( _playerEntityMock ) );
 
-      _behavior.reset( new EntityBehavior( _frameRateProviderMock, _playerInfoProviderMock, _commandExecutorMock ) );
+      ON_CALL( *_arenaInfoProviderMock, GetActiveArena() ).WillByDefault( Return( _arenaMock ) );
+      ON_CALL( *_arenaMock, GetEntity( 0 ) ).WillByDefault( Return( _arenaEntityMock ) );
+
+      _behavior.reset( new EntityBehavior( _frameRateProviderMock, _playerInfoProviderMock, _arenaInfoProviderMock, _commandExecutorMock ) );
       _behavior->AssignTo( _entityMock );
    }
 
@@ -42,9 +50,12 @@ public:
 protected:
    shared_ptr<mock_FrameRateProvider> _frameRateProviderMock;
    shared_ptr<mock_PlayerInfoProvider> _playerInfoProviderMock;
+   shared_ptr<mock_ArenaInfoProvider> _arenaInfoProviderMock;
    shared_ptr<mock_GameCommandExecutor> _commandExecutorMock;
    shared_ptr<mock_Entity> _entityMock;
    shared_ptr<mock_ReadOnlyEntity> _playerEntityMock;
+   shared_ptr<mock_ReadOnlyArena> _arenaMock;
+   shared_ptr<mock_ReadOnlyEntity> _arenaEntityMock;
 
    shared_ptr<EntityBehavior> _behavior;
 };
@@ -155,6 +166,38 @@ TEST_F( EntityBehaviorTests, Tick_GetPlayerIsInvulnerable_GetsPlayerIsInvulnerab
    _behavior->SetInstructions( vector<mbc_instruction> { instruction } );
 
    EXPECT_CALL( *_playerEntityMock, IsInvulnerable() );
+
+   _behavior->Tick();
+}
+
+TEST_F( EntityBehaviorTests, Tick_GetArenaEntityCount_GetsArenaEntityCount )
+{
+   auto instruction = (mbc_instruction)( MBCGET_ARENAENTITYCOUNT << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
+   _behavior->SetInstructions( vector<mbc_instruction> { instruction } );
+
+   EXPECT_CALL( *_arenaMock, GetEntityCount() );
+
+   _behavior->Tick();
+}
+
+TEST_F( EntityBehaviorTests, Tick_GetArenaEntityPositionLeftCount_GetsArenaEntityPositionLeft )
+{
+   auto instruction = (mbc_instruction)( MBCGET_ARENAENTITYPOSITIONLEFT << MBC_CMD_SHIFT | 0 << MBC_ARG0_SHIFT | 2 << MBC_ARG1_SHIFT );
+   _behavior->SetInstructions( vector<mbc_instruction> { instruction } );
+
+   EXPECT_CALL( *_arenaMock, GetEntity( 0 ) );
+   EXPECT_CALL( *_arenaEntityMock, GetArenaPositionLeft() );
+
+   _behavior->Tick();
+}
+
+TEST_F( EntityBehaviorTests, Tick_GetArenaEntityPositionTop_GetsArenaEntityPositionTop )
+{
+   auto instruction = (mbc_instruction)( MBCGET_ARENAENTITYPOSITIONTOP << MBC_CMD_SHIFT | 0 << MBC_ARG0_SHIFT | 2 << MBC_ARG1_SHIFT );
+   _behavior->SetInstructions( vector<mbc_instruction> { instruction } );
+
+   EXPECT_CALL( *_arenaMock, GetEntity( 0 ) );
+   EXPECT_CALL( *_arenaEntityMock, GetArenaPositionTop() );
 
    _behavior->Tick();
 }

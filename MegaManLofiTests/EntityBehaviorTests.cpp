@@ -170,6 +170,16 @@ TEST_F( EntityBehaviorTests, Tick_GetPlayerIsInvulnerable_GetsPlayerIsInvulnerab
    _behavior->Tick();
 }
 
+TEST_F( EntityBehaviorTests, Tick_GetPlayerIsKnockedBack_GetsPlayerIsKnockedBack )
+{
+   auto instruction = (mbc_instruction)( MBCGET_PLAYERISKNOCKEDBACK << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
+   _behavior->SetInstructions( vector<mbc_instruction> { instruction } );
+
+   EXPECT_CALL( *_playerEntityMock, IsKnockedBack() );
+
+   _behavior->Tick();
+}
+
 TEST_F( EntityBehaviorTests, Tick_GetArenaEntityCount_GetsArenaEntityCount )
 {
    auto instruction = (mbc_instruction)( MBCGET_ARENAENTITYCOUNT << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
@@ -301,6 +311,17 @@ TEST_F( EntityBehaviorTests, Tick_GetArenaEntityType_GetsArenaEntityType )
    _behavior->Tick();
 }
 
+TEST_F( EntityBehaviorTests, Tick_GetArenaEntityIsKnockedBack_GetsArenaEntityIsKnockedBack )
+{
+   auto instruction = (mbc_instruction)( MBCGET_ARENAENTITYISKNOCKEDBACK << MBC_CMD_SHIFT | 0 << MBC_ARG0_SHIFT | 2 << MBC_ARG1_SHIFT );
+   _behavior->SetInstructions( vector<mbc_instruction> { instruction } );
+
+   EXPECT_CALL( *_arenaMock, GetEntity( 0 ) );
+   EXPECT_CALL( *_arenaEntityMock, IsKnockedBack() );
+
+   _behavior->Tick();
+}
+
 TEST_F( EntityBehaviorTests, Tick_GetPositionLeftCommand_GetsPositionLeft )
 {
    auto instruction = (mbc_instruction)( MBCGET_POSITIONLEFT << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
@@ -397,6 +418,16 @@ TEST_F( EntityBehaviorTests, Tick_GetIsInvulnerable_GetsIsInvulnerable )
    _behavior->SetInstructions( vector<mbc_instruction> { instruction } );
 
    EXPECT_CALL( *_entityMock, IsInvulnerable() );
+
+   _behavior->Tick();
+}
+
+TEST_F( EntityBehaviorTests, Tick_GetIsKnockedBack_GetsIsKnockedBack )
+{
+   auto instruction = (mbc_instruction)( MBCGET_ISKNOCKEDBACK << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
+   _behavior->SetInstructions( vector<mbc_instruction> { instruction } );
+
+   EXPECT_CALL( *_entityMock, IsKnockedBack() );
 
    _behavior->Tick();
 }

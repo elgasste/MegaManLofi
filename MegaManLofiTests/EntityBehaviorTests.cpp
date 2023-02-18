@@ -290,6 +290,17 @@ TEST_F( EntityBehaviorTests, Tick_GetArenaEntityIsInvulnerable_GetsArenaEntityIs
    _behavior->Tick();
 }
 
+TEST_F( EntityBehaviorTests, Tick_GetArenaEntityType_GetsArenaEntityType )
+{
+   auto instruction = (mbc_instruction)( MBCGET_ARENAENTITYTYPE << MBC_CMD_SHIFT | 0 << MBC_ARG0_SHIFT | 2 << MBC_ARG1_SHIFT );
+   _behavior->SetInstructions( vector<mbc_instruction> { instruction } );
+
+   EXPECT_CALL( *_arenaMock, GetEntity( 0 ) );
+   EXPECT_CALL( *_arenaEntityMock, GetEntityType() );
+
+   _behavior->Tick();
+}
+
 TEST_F( EntityBehaviorTests, Tick_GetPositionLeftCommand_GetsPositionLeft )
 {
    auto instruction = (mbc_instruction)( MBCGET_POSITIONLEFT << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );

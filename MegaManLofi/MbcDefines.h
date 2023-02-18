@@ -95,6 +95,7 @@ typedef unsigned char mbc_command;
 #define MBCGET_ARENAENTITYMOVEMENTTYPE    0x6D  // get the movement type of an arena entity; arg0 is the entity's index, arg1 is a register index
 #define MBCGET_ARENAENTITYDAMAGESECONDS   0x6E  // get the damage seconds of an arena entity; arg0 is the entity's index, arg1 is a register index
 #define MBCGET_ARENAENTITYISINVULNERABLE  0x6F  // get the invulnerability status of an arena entity; arg0 is the entity's index, arg1 is a register index
+#define MBCGET_ARENAENTITYTYPE            0x70  // get the arena entity's type
 
 // setters
 #define MBCSET_VELOCITYX            0x80     // set the entity's X velocity

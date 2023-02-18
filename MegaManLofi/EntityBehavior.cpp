@@ -139,6 +139,9 @@ bool EntityBehavior::HandleCommand( mbc_command command )
       case MBCGET_ARENAENTITYISINVULNERABLE:
          RegisterBoolFromArg( 1, _arenaInfoProvider->GetActiveArena()->GetEntity( MBC_PARSE_ARG0( _currentInstruction ) )->IsInvulnerable() );
          return true;
+      case MBCGET_ARENAENTITYTYPE:
+         RegisterIntFromArg( 1, (int)_arenaInfoProvider->GetActiveArena()->GetEntity( MBC_PARSE_ARG0( _currentInstruction ) )->GetEntityType() );
+         return true;
 
       case MBCSET_VELOCITYX:
          _entity->SetVelocityX( _floatRegisters[MBC_PARSE_ARG0( _currentInstruction )] );

@@ -31,6 +31,7 @@ namespace MegaManLofi
       virtual unsigned int GetMaxHealth() const { return _maxHealth; }
       virtual float GetDamageInvulnerabilitySeconds() const { return _damageInvulnerabilitySeconds; }
       virtual bool IsInvulnerable() const { return _isInvulnerable; }
+      virtual bool IsKnockedBack() const { return _isKnockedBack; }
 
    protected:
       int _uniqueId;
@@ -50,5 +51,6 @@ namespace MegaManLofi
       float _damageInvulnerabilitySeconds;
       float _damageInvulnerabilityCounter;
       bool _isInvulnerable;
+      bool _isKnockedBack;
    };
 }

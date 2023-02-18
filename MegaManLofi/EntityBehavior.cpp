@@ -115,6 +115,30 @@ bool EntityBehavior::HandleCommand( mbc_command command )
       case MBCGET_ARENAENTITYPOSITIONTOP:
          RegisterFloatFromArg( 1, _arenaInfoProvider->GetActiveArena()->GetEntity( MBC_PARSE_ARG0( _currentInstruction ) )->GetArenaPositionTop() );
          return true;
+      case MBCGET_ARENAENTITYVELOCITYX:
+         RegisterFloatFromArg( 1, _arenaInfoProvider->GetActiveArena()->GetEntity( MBC_PARSE_ARG0( _currentInstruction ) )->GetVelocityX() );
+         return true;
+      case MBCGET_ARENAENTITYVELOCITYY:
+         RegisterFloatFromArg( 1, _arenaInfoProvider->GetActiveArena()->GetEntity( MBC_PARSE_ARG0( _currentInstruction ) )->GetVelocityY() );
+         return true;
+      case MBCGET_ARENAENTITYDIRECTION:
+         RegisterIntFromArg( 1, (int)_arenaInfoProvider->GetActiveArena()->GetEntity( MBC_PARSE_ARG0( _currentInstruction ) )->GetDirection() );
+         return true;
+      case MBCGET_ARENAENTITYHEALTH:
+         RegisterIntFromArg( 1, _arenaInfoProvider->GetActiveArena()->GetEntity( MBC_PARSE_ARG0( _currentInstruction ) )->GetHealth() );
+         return true;
+      case MBCGET_ARENAENTITYMAXHEALTH:
+         RegisterIntFromArg( 1, _arenaInfoProvider->GetActiveArena()->GetEntity( MBC_PARSE_ARG0( _currentInstruction ) )->GetMaxHealth() );
+         return true;
+      case MBCGET_ARENAENTITYMOVEMENTTYPE:
+         RegisterIntFromArg( 1, (int)_arenaInfoProvider->GetActiveArena()->GetEntity( MBC_PARSE_ARG0( _currentInstruction ) )->GetMovementType() );
+         return true;
+      case MBCGET_ARENAENTITYDAMAGESECONDS:
+         RegisterFloatFromArg( 1, _arenaInfoProvider->GetActiveArena()->GetEntity( MBC_PARSE_ARG0( _currentInstruction ) )->GetDamageInvulnerabilitySeconds() );
+         return true;
+      case MBCGET_ARENAENTITYISINVULNERABLE:
+         RegisterBoolFromArg( 1, _arenaInfoProvider->GetActiveArena()->GetEntity( MBC_PARSE_ARG0( _currentInstruction ) )->IsInvulnerable() );
+         return true;
 
       case MBCSET_VELOCITYX:
          _entity->SetVelocityX( _floatRegisters[MBC_PARSE_ARG0( _currentInstruction )] );

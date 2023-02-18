@@ -84,9 +84,17 @@ typedef unsigned char mbc_command;
 #define MBCGET_DAMAGESECONDS        0x63     // get the number of seconds the entity is invulnerable after taking damage
 #define MBCGET_ISINVULNERABLE       0x64     // get the entity's invulnerability status
 
-#define MBCGET_ARENAENTITYCOUNT           0x65     // get the number of entities in the current arena
+#define MBCGET_ARENAENTITYCOUNT           0x65  // get the number of entities in the current arena
 #define MBCGET_ARENAENTITYPOSITIONLEFT    0x66  // get the left position of an arena entity; arg0 is the entity's index, arg1 is a register index
 #define MBCGET_ARENAENTITYPOSITIONTOP     0x67  // get the top position of an arena entity; arg0 is the entity's index, arg1 is a register index
+#define MBCGET_ARENAENTITYVELOCITYX       0x68  // get the X velocity of an arena entity; arg0 is the entity's index, arg1 is a register index
+#define MBCGET_ARENAENTITYVELOCITYY       0x69  // get the Y velocity of an arena entity; arg0 is the entity's index, arg1 is a register index
+#define MBCGET_ARENAENTITYDIRECTION       0x6A  // get the direction of an arena entity; arg0 is the entity's index, arg1 is a register index
+#define MBCGET_ARENAENTITYHEALTH          0x6B  // get the health of an arena entity; arg0 is the entity's index, arg1 is a register index
+#define MBCGET_ARENAENTITYMAXHEALTH       0x6C  // get the max health of an arena entity; arg0 is the entity's index, arg1 is a register index
+#define MBCGET_ARENAENTITYMOVEMENTTYPE    0x6D  // get the movement type of an arena entity; arg0 is the entity's index, arg1 is a register index
+#define MBCGET_ARENAENTITYDAMAGESECONDS   0x6E  // get the damage seconds of an arena entity; arg0 is the entity's index, arg1 is a register index
+#define MBCGET_ARENAENTITYISINVULNERABLE  0x6F  // get the invulnerability status of an arena entity; arg0 is the entity's index, arg1 is a register index
 
 // setters
 #define MBCSET_VELOCITYX            0x80     // set the entity's X velocity

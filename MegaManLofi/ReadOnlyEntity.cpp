@@ -20,6 +20,8 @@ ReadOnlyEntity::ReadOnlyEntity() :
    _damageInvulnerabilitySeconds( 0 ),
    _damageInvulnerabilityCounter( 0 ),
    _isInvulnerable( false ),
-   _isKnockedBack( false )
+   _isKnockedBack( false ),
+   _knockBackSeconds( 0 ),
+   _knockBackCounter( 0 )
 {
 }

@@ -26,4 +26,5 @@ public:
    MOCK_METHOD( float, GetDamageInvulnerabilitySeconds, ( ), ( const, override ) );
    MOCK_METHOD( bool, IsInvulnerable, ( ), ( const, override ) );
    MOCK_METHOD( bool, IsKnockedBack, ( ), ( const, override ) );
+   MOCK_METHOD( float, GetKnockBackSeconds, ( ), ( const, override ) );
 };

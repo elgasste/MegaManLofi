@@ -32,6 +32,7 @@ namespace MegaManLofi
       virtual float GetDamageInvulnerabilitySeconds() const { return _damageInvulnerabilitySeconds; }
       virtual bool IsInvulnerable() const { return _isInvulnerable; }
       virtual bool IsKnockedBack() const { return _isKnockedBack; }
+      virtual float GetKnockBackSeconds() const { return _knockBackSeconds; }
 
    protected:
       int _uniqueId;
@@ -52,5 +53,7 @@ namespace MegaManLofi
       float _damageInvulnerabilityCounter;
       bool _isInvulnerable;
       bool _isKnockedBack;
+      float _knockBackSeconds;
+      float _knockBackCounter;
    };
 }

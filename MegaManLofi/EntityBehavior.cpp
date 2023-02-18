@@ -1,20 +1,25 @@
 #include "EntityBehavior.h"
 #include "IFrameRateProvider.h"
 #include "IPlayerInfoProvider.h"
+#include "IArenaInfoProvider.h"
 #include "IGameCommandExecutor.h"
 #include "Entity.h"
 #include "GameCommand.h"
 #include "ShootCommandArgs.h"
 #include "ShootTargetCommandArgs.h"
+#include "ReadOnlyArena.h"
+#include "ReadOnlyEntity.h"
 
 using namespace std;
 using namespace MegaManLofi;
 
 EntityBehavior::EntityBehavior( const shared_ptr<IFrameRateProvider> frameRateProvider,
                                 const shared_ptr<IPlayerInfoProvider> playerInfoProvider,
+                                const shared_ptr<IArenaInfoProvider> arenaInfoProvider,
                                 const shared_ptr<IGameCommandExecutor> commandExecutor ) :
    _frameRateProvider( frameRateProvider ),
    _playerInfoProvider( playerInfoProvider ),
+   _arenaInfoProvider( arenaInfoProvider ),
    _commandExecutor( commandExecutor ),
    _entity( nullptr )
 {
@@ -36,69 +41,106 @@ bool EntityBehavior::HandleCommand( mbc_command command )
    switch ( command )
    {
       case MBCGET_FRAMESECONDS:
-         RegisterFloatFromArg0( _frameRateProvider->GetFrameSeconds() );
+         RegisterFloatFromArg( 0, _frameRateProvider->GetFrameSeconds() );
          return true;
 
       case MBCGET_PLAYERPOSITIONLEFT:
-         RegisterFloatFromArg0( _playerInfoProvider->GetPlayerEntity()->GetArenaPositionLeft() );
+         RegisterFloatFromArg( 0, _playerInfoProvider->GetPlayerEntity()->GetArenaPositionLeft() );
          return true;
       case MBCGET_PLAYERPOSITIONTOP:
-         RegisterFloatFromArg0( _playerInfoProvider->GetPlayerEntity()->GetArenaPositionTop() );
+         RegisterFloatFromArg( 0, _playerInfoProvider->GetPlayerEntity()->GetArenaPositionTop() );
          return true;
       case MBCGET_PLAYERVELOCITYX:
-         RegisterFloatFromArg0( _playerInfoProvider->GetPlayerEntity()->GetVelocityX() );
+         RegisterFloatFromArg( 0, _playerInfoProvider->GetPlayerEntity()->GetVelocityX() );
          return true;
       case MBCGET_PLAYERVELOCITYY:
-         RegisterFloatFromArg0( _playerInfoProvider->GetPlayerEntity()->GetVelocityY() );
+         RegisterFloatFromArg( 0, _playerInfoProvider->GetPlayerEntity()->GetVelocityY() );
          return true;
       case MBCGET_PLAYERDIRECTION:
-         RegisterIntFromArg0( (int)_playerInfoProvider->GetPlayerEntity()->GetDirection() );
+         RegisterIntFromArg( 0, (int)_playerInfoProvider->GetPlayerEntity()->GetDirection() );
          return true;
       case MBCGET_PLAYERHEALTH:
-         RegisterIntFromArg0( (int)_playerInfoProvider->GetPlayerEntity()->GetHealth() );
+         RegisterIntFromArg( 0, (int)_playerInfoProvider->GetPlayerEntity()->GetHealth() );
          return true;
       case MBCGET_PLAYERMAXHEALTH:
-         RegisterIntFromArg0( (int)_playerInfoProvider->GetPlayerEntity()->GetMaxHealth() );
+         RegisterIntFromArg( 0, (int)_playerInfoProvider->GetPlayerEntity()->GetMaxHealth() );
          return true;
       case MBCGET_PLAYERMOVEMENTTYPE:
-         RegisterIntFromArg0( (int)_playerInfoProvider->GetPlayerEntity()->GetMovementType() );
+         RegisterIntFromArg( 0, (int)_playerInfoProvider->GetPlayerEntity()->GetMovementType() );
          return true;
       case MBCGET_PLAYERDAMAGESECONDS:
-         RegisterFloatFromArg0( _playerInfoProvider->GetPlayerEntity()->GetDamageInvulnerabilitySeconds() );
+         RegisterFloatFromArg( 0, _playerInfoProvider->GetPlayerEntity()->GetDamageInvulnerabilitySeconds() );
          return true;
       case MBCGET_PLAYERISINVULNERABLE:
-         RegisterBoolFromArg0( _playerInfoProvider->GetPlayerEntity()->IsInvulnerable() );
+         RegisterBoolFromArg( 0, _playerInfoProvider->GetPlayerEntity()->IsInvulnerable() );
          return true;
 
       case MBCGET_POSITIONLEFT:
-         RegisterFloatFromArg0( _entity->GetArenaPositionLeft() );
+         RegisterFloatFromArg( 0, _entity->GetArenaPositionLeft() );
          return true;
       case MBCGET_POSITIONTOP:
-         RegisterFloatFromArg0( _entity->GetArenaPositionTop() );
+         RegisterFloatFromArg( 0, _entity->GetArenaPositionTop() );
          return true;
       case MBCGET_VELOCITYX:
-         RegisterFloatFromArg0( _entity->GetVelocityX() );
+         RegisterFloatFromArg( 0, _entity->GetVelocityX() );
          return true;
       case MBCGET_VELOCITYY:
-         RegisterFloatFromArg0( _entity->GetVelocityY() );
+         RegisterFloatFromArg( 0, _entity->GetVelocityY() );
          return true;
       case MBCGET_DIRECTION:
-         RegisterIntFromArg0( (int)_entity->GetDirection() );
+         RegisterIntFromArg( 0, (int)_entity->GetDirection() );
          return true;
       case MBCGET_HEALTH:
-         RegisterIntFromArg0( (int)_entity->GetHealth() );
+         RegisterIntFromArg( 0, (int)_entity->GetHealth() );
          return true;
       case MBCGET_MAXHEALTH:
-         RegisterIntFromArg0( (int)_entity->GetMaxHealth() );
+         RegisterIntFromArg( 0, (int)_entity->GetMaxHealth() );
          return true;
       case MBCGET_MOVEMENTTYPE:
-         RegisterIntFromArg0( (int)_entity->GetMovementType() );
+         RegisterIntFromArg( 0, (int)_entity->GetMovementType() );
          return true;
       case MBCGET_DAMAGESECONDS:
-         RegisterFloatFromArg0( _entity->GetDamageInvulnerabilitySeconds() );
+         RegisterFloatFromArg( 0, _entity->GetDamageInvulnerabilitySeconds() );
          return true;
       case MBCGET_ISINVULNERABLE:
-         RegisterBoolFromArg0( _entity->IsInvulnerable() );
+         RegisterBoolFromArg( 0, _entity->IsInvulnerable() );
+         return true;
+
+      case MBCGET_ARENAENTITYCOUNT:
+         RegisterIntFromArg( 0, _arenaInfoProvider->GetActiveArena()->GetEntityCount() );
+         return true;
+      case MBCGET_ARENAENTITYPOSITIONLEFT:
+         RegisterFloatFromArg( 1, _arenaInfoProvider->GetActiveArena()->GetEntity( MBC_PARSE_ARG0( _currentInstruction ) )->GetArenaPositionLeft() );
+         return true;
+      case MBCGET_ARENAENTITYPOSITIONTOP:
+         RegisterFloatFromArg( 1, _arenaInfoProvider->GetActiveArena()->GetEntity( MBC_PARSE_ARG0( _currentInstruction ) )->GetArenaPositionTop() );
+         return true;
+      case MBCGET_ARENAENTITYVELOCITYX:
+         RegisterFloatFromArg( 1, _arenaInfoProvider->GetActiveArena()->GetEntity( MBC_PARSE_ARG0( _currentInstruction ) )->GetVelocityX() );
+         return true;
+      case MBCGET_ARENAENTITYVELOCITYY:
+         RegisterFloatFromArg( 1, _arenaInfoProvider->GetActiveArena()->GetEntity( MBC_PARSE_ARG0( _currentInstruction ) )->GetVelocityY() );
+         return true;
+      case MBCGET_ARENAENTITYDIRECTION:
+         RegisterIntFromArg( 1, (int)_arenaInfoProvider->GetActiveArena()->GetEntity( MBC_PARSE_ARG0( _currentInstruction ) )->GetDirection() );
+         return true;
+      case MBCGET_ARENAENTITYHEALTH:
+         RegisterIntFromArg( 1, _arenaInfoProvider->GetActiveArena()->GetEntity( MBC_PARSE_ARG0( _currentInstruction ) )->GetHealth() );
+         return true;
+      case MBCGET_ARENAENTITYMAXHEALTH:
+         RegisterIntFromArg( 1, _arenaInfoProvider->GetActiveArena()->GetEntity( MBC_PARSE_ARG0( _currentInstruction ) )->GetMaxHealth() );
+         return true;
+      case MBCGET_ARENAENTITYMOVEMENTTYPE:
+         RegisterIntFromArg( 1, (int)_arenaInfoProvider->GetActiveArena()->GetEntity( MBC_PARSE_ARG0( _currentInstruction ) )->GetMovementType() );
+         return true;
+      case MBCGET_ARENAENTITYDAMAGESECONDS:
+         RegisterFloatFromArg( 1, _arenaInfoProvider->GetActiveArena()->GetEntity( MBC_PARSE_ARG0( _currentInstruction ) )->GetDamageInvulnerabilitySeconds() );
+         return true;
+      case MBCGET_ARENAENTITYISINVULNERABLE:
+         RegisterBoolFromArg( 1, _arenaInfoProvider->GetActiveArena()->GetEntity( MBC_PARSE_ARG0( _currentInstruction ) )->IsInvulnerable() );
+         return true;
+      case MBCGET_ARENAENTITYTYPE:
+         RegisterIntFromArg( 1, (int)_arenaInfoProvider->GetActiveArena()->GetEntity( MBC_PARSE_ARG0( _currentInstruction ) )->GetEntityType() );
          return true;
 
       case MBCSET_VELOCITYX:
@@ -123,22 +165,40 @@ bool EntityBehavior::HandleCommand( mbc_command command )
    }
 }
 
-void EntityBehavior::RegisterFloatFromArg0( float val )
+void EntityBehavior::RegisterFloatFromArg( int argNum, float val )
 {
-   auto regIndex = MBC_PARSE_ARG0( _currentInstruction );
-   _floatRegisters[regIndex] = val;
+   switch ( argNum )
+   {
+      case 0: _floatRegisters[MBC_PARSE_ARG0( _currentInstruction )] = val; break;
+      case 1: _floatRegisters[MBC_PARSE_ARG1( _currentInstruction )] = val; break;
+      case 2: _floatRegisters[MBC_PARSE_ARG2( _currentInstruction )] = val; break;
+      case 3: _floatRegisters[MBC_PARSE_ARG3( _currentInstruction )] = val; break;
+      default: break;
+   }
 }
 
-void EntityBehavior::RegisterIntFromArg0( int val )
+void EntityBehavior::RegisterIntFromArg( int argNum, int val )
 {
-   auto regIndex = MBC_PARSE_ARG0( _currentInstruction );
-   _intRegisters[regIndex] = val;
+   switch ( argNum )
+   {
+      case 0: _intRegisters[MBC_PARSE_ARG0( _currentInstruction )] = val; break;
+      case 1: _intRegisters[MBC_PARSE_ARG1( _currentInstruction )] = val; break;
+      case 2: _intRegisters[MBC_PARSE_ARG2( _currentInstruction )] = val; break;
+      case 3: _intRegisters[MBC_PARSE_ARG3( _currentInstruction )] = val; break;
+      default: break;
+   }
 }
 
-void EntityBehavior::RegisterBoolFromArg0( bool val )
+void EntityBehavior::RegisterBoolFromArg( int argNum, bool val )
 {
-   auto regIndex = MBC_PARSE_ARG0( _currentInstruction );
-   _intRegisters[regIndex] = val ? 1 : 0;
+   switch ( argNum )
+   {
+      case 0: _intRegisters[MBC_PARSE_ARG0( _currentInstruction )] = val ? 1 : 0; break;
+      case 1: _intRegisters[MBC_PARSE_ARG1( _currentInstruction )] = val ? 1 : 0; break;
+      case 2: _intRegisters[MBC_PARSE_ARG2( _currentInstruction )] = val ? 1 : 0; break;
+      case 3: _intRegisters[MBC_PARSE_ARG3( _currentInstruction )] = val ? 1 : 0; break;
+      default: break;
+   }
 }
 
 void EntityBehavior::ShootTarget() const

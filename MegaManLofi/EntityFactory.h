@@ -12,6 +12,7 @@ namespace MegaManLofi
    class UniqueNumberGenerator;
    class IFrameRateProvider;
    class IPlayerInfoProvider;
+   class IArenaInfoProvider;
    class IGameCommandExecutor;
    class Entity;
 
@@ -24,6 +25,7 @@ namespace MegaManLofi
                      const std::shared_ptr<IFrameRateProvider> frameRateProvider );
 
       void Initialize( const std::shared_ptr<IPlayerInfoProvider> playerInfoProvider,
+                       const std::shared_ptr<IArenaInfoProvider> arenaInfoProvider,
                        const std::shared_ptr<IGameCommandExecutor> commandExecutor );
 
       virtual const std::shared_ptr<Entity> CreateEntity( int entityMetaId,
@@ -56,6 +58,7 @@ namespace MegaManLofi
       const std::shared_ptr<IFrameRateProvider> _frameRateProvider;
 
       std::shared_ptr<IPlayerInfoProvider> _playerInfoProvider;
+      std::shared_ptr<IArenaInfoProvider> _arenaInfoProvider;
       std::shared_ptr<IGameCommandExecutor> _commandExecutor;
    };
 }

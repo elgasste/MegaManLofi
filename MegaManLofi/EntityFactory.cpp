@@ -19,9 +19,11 @@ EntityFactory::EntityFactory( const shared_ptr<EntityDefs> entityDefs,
 }
 
 void EntityFactory::Initialize( const shared_ptr<IPlayerInfoProvider> playerInfoProvider,
+                                const shared_ptr<IArenaInfoProvider> arenaInfoProvider,
                                 const shared_ptr<IGameCommandExecutor> commandExecutor )
 {
    _playerInfoProvider = playerInfoProvider;
+   _arenaInfoProvider = arenaInfoProvider;
    _commandExecutor = commandExecutor;
 }
 
@@ -133,7 +135,7 @@ const shared_ptr<Entity> EntityFactory::CreateEnemy( int enemyMetaId,
 
    if ( behaviorIt != _entityDefs->EntityBehaviorMap.end() )
    {
-      auto behavior = shared_ptr<EntityBehavior>( new EntityBehavior( _frameRateProvider, _playerInfoProvider, _commandExecutor ) );
+      auto behavior = shared_ptr<EntityBehavior>( new EntityBehavior( _frameRateProvider, _playerInfoProvider, _arenaInfoProvider, _commandExecutor ) );
       enemy->SetBehavior( shared_ptr<EntityBehavior>( behavior ) );
       behavior->AssignTo( enemy );
       behavior->SetInstructions( _entityDefs->EntityBehaviorMap.at( enemyMetaId ) );

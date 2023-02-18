@@ -7,9 +7,11 @@
 
 #include "mock_FrameRateProvider.h"
 #include "mock_PlayerInfoProvider.h"
+#include "mock_ArenaInfoProvider.h"
 #include "mock_GameCommandExecutor.h"
 #include "mock_ReadOnlyEntity.h"
 #include "mock_Entity.h"
+#include "mock_ReadOnlyArena.h"
 
 using namespace std;
 using namespace testing;
@@ -22,13 +24,19 @@ public:
    {
       _frameRateProviderMock.reset( new NiceMock<mock_FrameRateProvider> );
       _playerInfoProviderMock.reset( new NiceMock<mock_PlayerInfoProvider> );
+      _arenaInfoProviderMock.reset( new NiceMock<mock_ArenaInfoProvider> );
       _commandExecutorMock.reset( new NiceMock<mock_GameCommandExecutor> );
       _entityMock.reset( new NiceMock<mock_Entity> );
       _playerEntityMock.reset( new NiceMock<mock_ReadOnlyEntity> );
+      _arenaMock.reset( new NiceMock<mock_ReadOnlyArena> );
+      _arenaEntityMock.reset( new NiceMock<mock_ReadOnlyEntity> );
 
       ON_CALL( *_playerInfoProviderMock, GetPlayerEntity() ).WillByDefault( Return( _playerEntityMock ) );
 
-      _behavior.reset( new EntityBehavior( _frameRateProviderMock, _playerInfoProviderMock, _commandExecutorMock ) );
+      ON_CALL( *_arenaInfoProviderMock, GetActiveArena() ).WillByDefault( Return( _arenaMock ) );
+      ON_CALL( *_arenaMock, GetEntity( 0 ) ).WillByDefault( Return( _arenaEntityMock ) );
+
+      _behavior.reset( new EntityBehavior( _frameRateProviderMock, _playerInfoProviderMock, _arenaInfoProviderMock, _commandExecutorMock ) );
       _behavior->AssignTo( _entityMock );
    }
 
@@ -42,9 +50,12 @@ public:
 protected:
    shared_ptr<mock_FrameRateProvider> _frameRateProviderMock;
    shared_ptr<mock_PlayerInfoProvider> _playerInfoProviderMock;
+   shared_ptr<mock_ArenaInfoProvider> _arenaInfoProviderMock;
    shared_ptr<mock_GameCommandExecutor> _commandExecutorMock;
    shared_ptr<mock_Entity> _entityMock;
    shared_ptr<mock_ReadOnlyEntity> _playerEntityMock;
+   shared_ptr<mock_ReadOnlyArena> _arenaMock;
+   shared_ptr<mock_ReadOnlyEntity> _arenaEntityMock;
 
    shared_ptr<EntityBehavior> _behavior;
 };
@@ -155,6 +166,137 @@ TEST_F( EntityBehaviorTests, Tick_GetPlayerIsInvulnerable_GetsPlayerIsInvulnerab
    _behavior->SetInstructions( vector<mbc_instruction> { instruction } );
 
    EXPECT_CALL( *_playerEntityMock, IsInvulnerable() );
+
+   _behavior->Tick();
+}
+
+TEST_F( EntityBehaviorTests, Tick_GetArenaEntityCount_GetsArenaEntityCount )
+{
+   auto instruction = (mbc_instruction)( MBCGET_ARENAENTITYCOUNT << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
+   _behavior->SetInstructions( vector<mbc_instruction> { instruction } );
+
+   EXPECT_CALL( *_arenaMock, GetEntityCount() );
+
+   _behavior->Tick();
+}
+
+TEST_F( EntityBehaviorTests, Tick_GetArenaEntityPositionLeftCount_GetsArenaEntityPositionLeft )
+{
+   auto instruction = (mbc_instruction)( MBCGET_ARENAENTITYPOSITIONLEFT << MBC_CMD_SHIFT | 0 << MBC_ARG0_SHIFT | 2 << MBC_ARG1_SHIFT );
+   _behavior->SetInstructions( vector<mbc_instruction> { instruction } );
+
+   EXPECT_CALL( *_arenaMock, GetEntity( 0 ) );
+   EXPECT_CALL( *_arenaEntityMock, GetArenaPositionLeft() );
+
+   _behavior->Tick();
+}
+
+TEST_F( EntityBehaviorTests, Tick_GetArenaEntityPositionTop_GetsArenaEntityPositionTop )
+{
+   auto instruction = (mbc_instruction)( MBCGET_ARENAENTITYPOSITIONTOP << MBC_CMD_SHIFT | 0 << MBC_ARG0_SHIFT | 2 << MBC_ARG1_SHIFT );
+   _behavior->SetInstructions( vector<mbc_instruction> { instruction } );
+
+   EXPECT_CALL( *_arenaMock, GetEntity( 0 ) );
+   EXPECT_CALL( *_arenaEntityMock, GetArenaPositionTop() );
+
+   _behavior->Tick();
+}
+
+TEST_F( EntityBehaviorTests, Tick_GetArenaEntityVelocityX_GetsArenaEntityVelocityX )
+{
+   auto instruction = (mbc_instruction)( MBCGET_ARENAENTITYVELOCITYX << MBC_CMD_SHIFT | 0 << MBC_ARG0_SHIFT | 2 << MBC_ARG1_SHIFT );
+   _behavior->SetInstructions( vector<mbc_instruction> { instruction } );
+
+   EXPECT_CALL( *_arenaMock, GetEntity( 0 ) );
+   EXPECT_CALL( *_arenaEntityMock, GetVelocityX() );
+
+   _behavior->Tick();
+}
+
+TEST_F( EntityBehaviorTests, Tick_GetArenaEntityVelocityY_GetsArenaEntityVelocityY )
+{
+   auto instruction = (mbc_instruction)( MBCGET_ARENAENTITYVELOCITYY << MBC_CMD_SHIFT | 0 << MBC_ARG0_SHIFT | 2 << MBC_ARG1_SHIFT );
+   _behavior->SetInstructions( vector<mbc_instruction> { instruction } );
+
+   EXPECT_CALL( *_arenaMock, GetEntity( 0 ) );
+   EXPECT_CALL( *_arenaEntityMock, GetVelocityY() );
+
+   _behavior->Tick();
+}
+
+TEST_F( EntityBehaviorTests, Tick_GetArenaEntityDirection_GetsArenaEntityDirection )
+{
+   auto instruction = (mbc_instruction)( MBCGET_ARENAENTITYDIRECTION << MBC_CMD_SHIFT | 0 << MBC_ARG0_SHIFT | 2 << MBC_ARG1_SHIFT );
+   _behavior->SetInstructions( vector<mbc_instruction> { instruction } );
+
+   EXPECT_CALL( *_arenaMock, GetEntity( 0 ) );
+   EXPECT_CALL( *_arenaEntityMock, GetDirection() );
+
+   _behavior->Tick();
+}
+
+TEST_F( EntityBehaviorTests, Tick_GetArenaEntityHealth_GetsArenaEntityHealth )
+{
+   auto instruction = (mbc_instruction)( MBCGET_ARENAENTITYHEALTH << MBC_CMD_SHIFT | 0 << MBC_ARG0_SHIFT | 2 << MBC_ARG1_SHIFT );
+   _behavior->SetInstructions( vector<mbc_instruction> { instruction } );
+
+   EXPECT_CALL( *_arenaMock, GetEntity( 0 ) );
+   EXPECT_CALL( *_arenaEntityMock, GetHealth() );
+
+   _behavior->Tick();
+}
+
+TEST_F( EntityBehaviorTests, Tick_GetArenaEntityMaxHealth_GetsArenaEntityMaxHealth )
+{
+   auto instruction = (mbc_instruction)( MBCGET_ARENAENTITYMAXHEALTH << MBC_CMD_SHIFT | 0 << MBC_ARG0_SHIFT | 2 << MBC_ARG1_SHIFT );
+   _behavior->SetInstructions( vector<mbc_instruction> { instruction } );
+
+   EXPECT_CALL( *_arenaMock, GetEntity( 0 ) );
+   EXPECT_CALL( *_arenaEntityMock, GetMaxHealth() );
+
+   _behavior->Tick();
+}
+
+TEST_F( EntityBehaviorTests, Tick_GetArenaEntityMovementType_GetsArenaEntityMovementType )
+{
+   auto instruction = (mbc_instruction)( MBCGET_ARENAENTITYMOVEMENTTYPE << MBC_CMD_SHIFT | 0 << MBC_ARG0_SHIFT | 2 << MBC_ARG1_SHIFT );
+   _behavior->SetInstructions( vector<mbc_instruction> { instruction } );
+
+   EXPECT_CALL( *_arenaMock, GetEntity( 0 ) );
+   EXPECT_CALL( *_arenaEntityMock, GetMovementType() );
+
+   _behavior->Tick();
+}
+
+TEST_F( EntityBehaviorTests, Tick_GetArenaEntityDamageSeconds_GetsArenaEntityDamageSeconds )
+{
+   auto instruction = (mbc_instruction)( MBCGET_ARENAENTITYDAMAGESECONDS << MBC_CMD_SHIFT | 0 << MBC_ARG0_SHIFT | 2 << MBC_ARG1_SHIFT );
+   _behavior->SetInstructions( vector<mbc_instruction> { instruction } );
+
+   EXPECT_CALL( *_arenaMock, GetEntity( 0 ) );
+   EXPECT_CALL( *_arenaEntityMock, GetDamageInvulnerabilitySeconds() );
+
+   _behavior->Tick();
+}
+
+TEST_F( EntityBehaviorTests, Tick_GetArenaEntityIsInvulnerable_GetsArenaEntityIsInvulnerable )
+{
+   auto instruction = (mbc_instruction)( MBCGET_ARENAENTITYISINVULNERABLE << MBC_CMD_SHIFT | 0 << MBC_ARG0_SHIFT | 2 << MBC_ARG1_SHIFT );
+   _behavior->SetInstructions( vector<mbc_instruction> { instruction } );
+
+   EXPECT_CALL( *_arenaMock, GetEntity( 0 ) );
+   EXPECT_CALL( *_arenaEntityMock, IsInvulnerable() );
+
+   _behavior->Tick();
+}
+
+TEST_F( EntityBehaviorTests, Tick_GetArenaEntityType_GetsArenaEntityType )
+{
+   auto instruction = (mbc_instruction)( MBCGET_ARENAENTITYTYPE << MBC_CMD_SHIFT | 0 << MBC_ARG0_SHIFT | 2 << MBC_ARG1_SHIFT );
+   _behavior->SetInstructions( vector<mbc_instruction> { instruction } );
+
+   EXPECT_CALL( *_arenaMock, GetEntity( 0 ) );
+   EXPECT_CALL( *_arenaEntityMock, GetEntityType() );
 
    _behavior->Tick();
 }

@@ -130,6 +130,7 @@ const shared_ptr<Entity> EntityFactory::CreateEnemy( int enemyMetaId,
    enemy->SetMaxHealth( enemyInfo.MaxHealth );
    enemy->SetHealth( enemy->GetMaxHealth() );
    enemy->SetDamageInvulnerabilitySeconds( enemyInfo.DamageInvulnerabilitySeconds );
+   enemy->SetKnockBackSeconds( enemyInfo.KnockBackSeconds );
 
    auto behaviorIt = _entityDefs->EntityBehaviorMap.find( enemyMetaId );
 

@@ -13,5 +13,6 @@ namespace MegaManLofi
 
       int MaxHealth = 0;
       float DamageInvulnerabilitySeconds = 0;
+      float KnockBackSeconds = 0;
    };
 }

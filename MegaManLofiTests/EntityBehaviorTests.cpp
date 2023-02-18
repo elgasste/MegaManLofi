@@ -180,6 +180,16 @@ TEST_F( EntityBehaviorTests, Tick_GetPlayerIsKnockedBack_GetsPlayerIsKnockedBack
    _behavior->Tick();
 }
 
+TEST_F( EntityBehaviorTests, Tick_GetPlayerKnockBackSecondsCommand_GetsPlayerKnockBackSeconds )
+{
+   auto instruction = (mbc_instruction)( MBCGET_PLAYERKNOCKBACKSECONDS << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
+   _behavior->SetInstructions( vector<mbc_instruction> { instruction } );
+
+   EXPECT_CALL( *_playerEntityMock, GetKnockBackSeconds() );
+
+   _behavior->Tick();
+}
+
 TEST_F( EntityBehaviorTests, Tick_GetArenaEntityCount_GetsArenaEntityCount )
 {
    auto instruction = (mbc_instruction)( MBCGET_ARENAENTITYCOUNT << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
@@ -322,6 +332,17 @@ TEST_F( EntityBehaviorTests, Tick_GetArenaEntityIsKnockedBack_GetsArenaEntityIsK
    _behavior->Tick();
 }
 
+TEST_F( EntityBehaviorTests, Tick_GetArenaEntityKnockBackSeconds_GetsArenaEntityKnockBackSeconds )
+{
+   auto instruction = (mbc_instruction)( MBCGET_ARENAENTITYKNOCKBACKSECONDS << MBC_CMD_SHIFT | 0 << MBC_ARG0_SHIFT | 2 << MBC_ARG1_SHIFT );
+   _behavior->SetInstructions( vector<mbc_instruction> { instruction } );
+
+   EXPECT_CALL( *_arenaMock, GetEntity( 0 ) );
+   EXPECT_CALL( *_arenaEntityMock, GetKnockBackSeconds() );
+
+   _behavior->Tick();
+}
+
 TEST_F( EntityBehaviorTests, Tick_GetPositionLeftCommand_GetsPositionLeft )
 {
    auto instruction = (mbc_instruction)( MBCGET_POSITIONLEFT << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
@@ -428,6 +449,16 @@ TEST_F( EntityBehaviorTests, Tick_GetIsKnockedBack_GetsIsKnockedBack )
    _behavior->SetInstructions( vector<mbc_instruction> { instruction } );
 
    EXPECT_CALL( *_entityMock, IsKnockedBack() );
+
+   _behavior->Tick();
+}
+
+TEST_F( EntityBehaviorTests, Tick_GetKnockBackSecondsCommand_GetsKnockBackSeconds )
+{
+   auto instruction = (mbc_instruction)( MBCGET_KNOCKBACKSECONDS << MBC_CMD_SHIFT | 5 << MBC_ARG0_SHIFT );
+   _behavior->SetInstructions( vector<mbc_instruction> { instruction } );
+
+   EXPECT_CALL( *_entityMock, GetKnockBackSeconds() );
 
    _behavior->Tick();
 }

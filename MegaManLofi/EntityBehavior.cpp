@@ -115,6 +115,9 @@ bool EntityBehavior::HandleCommand( mbc_command command )
       case MBCGET_ARENAENTITYCOUNT:
          RegisterIntFromArg( 0, _arenaInfoProvider->GetActiveArena()->GetEntityCount() );
          return true;
+      case MBCGET_ARENAENTITYTYPE:
+         RegisterIntFromArg( 1, (int)_arenaInfoProvider->GetActiveArena()->GetEntity( MBC_PARSE_ARG0( _currentInstruction ) )->GetEntityType() );
+         return true;
       case MBCGET_ARENAENTITYPOSITIONLEFT:
          RegisterFloatFromArg( 1, _arenaInfoProvider->GetActiveArena()->GetEntity( MBC_PARSE_ARG0( _currentInstruction ) )->GetArenaPositionLeft() );
          return true;
@@ -144,9 +147,6 @@ bool EntityBehavior::HandleCommand( mbc_command command )
          return true;
       case MBCGET_ARENAENTITYISINVULNERABLE:
          RegisterBoolFromArg( 1, _arenaInfoProvider->GetActiveArena()->GetEntity( MBC_PARSE_ARG0( _currentInstruction ) )->IsInvulnerable() );
-         return true;
-      case MBCGET_ARENAENTITYTYPE:
-         RegisterIntFromArg( 1, (int)_arenaInfoProvider->GetActiveArena()->GetEntity( MBC_PARSE_ARG0( _currentInstruction ) )->GetEntityType() );
          return true;
       case MBCGET_ARENAENTITYISKNOCKEDBACK:
          RegisterBoolFromArg( 1, _arenaInfoProvider->GetActiveArena()->GetEntity( MBC_PARSE_ARG0( _currentInstruction ) )->IsKnockedBack() );

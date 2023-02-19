@@ -443,7 +443,7 @@ TEST_F( PlayerTests, TakeCollisionPayload_TookHealthPayloadAndHealthIsZero_Raise
    BuildPlayer();
 
    EXPECT_CALL( *_eventAggregatorMock, RaiseEvent( GameEvent::CollisionDeath ) );
-   EXPECT_TRUE( _player->TakeCollisionPayload( { -300, 0 } ) );
+   EXPECT_TRUE( _player->TakeCollisionPayload( { -300, 0 }, 0 ) );
 }
 
 TEST_F( PlayerTests, TakeCollisionPayload_TookHealthPayloadAndHealthIsNonZero_DoesNotRaiseCollisionDeathEvent )
@@ -451,14 +451,14 @@ TEST_F( PlayerTests, TakeCollisionPayload_TookHealthPayloadAndHealthIsNonZero_Do
    BuildPlayer();
 
    EXPECT_CALL( *_eventAggregatorMock, RaiseEvent( GameEvent::CollisionDeath ) ).Times( 0 );
-   EXPECT_TRUE( _player->TakeCollisionPayload( { -99, 0 } ) );
+   EXPECT_TRUE( _player->TakeCollisionPayload( { -99, 0 }, 0 ) );
 }
 
 TEST_F( PlayerTests, TakeCollisionPayload_PlusLives_TakesPayload )
 {
    BuildPlayer();
 
-   EXPECT_TRUE( _player->TakeCollisionPayload( { 0, 2 } ) );
+   EXPECT_TRUE( _player->TakeCollisionPayload( { 0, 2 }, 0 ) );
    EXPECT_EQ( _player->GetLivesRemaining(), 7 );
 }
 
@@ -468,7 +468,7 @@ TEST_F( PlayerTests, TakeCollisionPayload_MinusLivesAndHasLivesRemaining_TakesPa
 
    EXPECT_CALL( *_eventAggregatorMock, RaiseEvent( GameEvent::CollisionDeath ) ).Times( 0 );
 
-   EXPECT_TRUE( _player->TakeCollisionPayload( { 0, -4 } ) );
+   EXPECT_TRUE( _player->TakeCollisionPayload( { 0, -4 }, 0 ) );
    EXPECT_EQ( _player->GetLivesRemaining(), 1 );
 }
 
@@ -478,6 +478,6 @@ TEST_F( PlayerTests, TakeCollisionPayload_MinusLivesAndNoLivesRemaining_TakesPay
 
    EXPECT_CALL( *_eventAggregatorMock, RaiseEvent( GameEvent::CollisionDeath ) );
 
-   EXPECT_TRUE( _player->TakeCollisionPayload( { 0, -5 } ) );
+   EXPECT_TRUE( _player->TakeCollisionPayload( { 0, -5 }, 0 ) );
    EXPECT_EQ( _player->GetLivesRemaining(), 0 );
 }

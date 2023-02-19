@@ -59,10 +59,13 @@ public:
       ON_CALL( *_itemEntityMock, GetEntityType() ).WillByDefault( Return( EntityType::Item ) );
       ON_CALL( *_itemEntityMock, GetUniqueId() ).WillByDefault( Return( 11 ) );
       ON_CALL( *_itemEntityMock, GetEntityMetaId() ).WillByDefault( Return( 3 ) );
+      ON_CALL( *_itemEntityMock, GetVelocityX() ).WillByDefault( Return( 0.0f ) );
       ON_CALL( *_projectileEntityMock, GetEntityType() ).WillByDefault( Return( EntityType::Projectile ) );
       ON_CALL( *_projectileEntityMock, GetEntityMetaId() ).WillByDefault( Return( 4 ) );
+      ON_CALL( *_projectileEntityMock, GetVelocityX() ).WillByDefault( Return( -800.0f ) );
       ON_CALL( *_enemyEntityMock, GetEntityType() ).WillByDefault( Return( EntityType::Enemy ) );
       ON_CALL( *_enemyEntityMock, GetEntityMetaId() ).WillByDefault( Return( 5 ) );
+      ON_CALL( *_enemyEntityMock, GetVelocityX() ).WillByDefault( Return( 200.0f ) );
 
       _entityHitBox = { 0, 0, 10, 10 };
       ON_CALL( *_playerMock, GetHitBox() ).WillByDefault( ReturnRef( _entityHitBox ) );
@@ -598,7 +601,7 @@ TEST_F( ArenaTests, DetectEntityCollisions_PlayerCollidesWithItem_PlayerTakesPay
    _arena->AddEntity( _itemEntityMock );
 
    EntityCollisionPayload payload;
-   EXPECT_CALL( *_playerMock, TakeCollisionPayload( _ ) ).WillOnce( DoAll( SaveArg<0>( &payload ), Return( true ) ) );
+   EXPECT_CALL( *_playerMock, TakeCollisionPayload( _, 0 ) ).WillOnce( DoAll( SaveArg<0>( &payload ), Return( true ) ) );
 
    _arena->DetectEntityCollisions();
 
@@ -614,7 +617,7 @@ TEST_F( ArenaTests, DetectEntityCollisions_PlayerCollidesWithItemBoundToNonRespa
    _arena->AddEntity( _playerMock );
    _arena->AddEntity( _itemEntityMock );
 
-   EXPECT_CALL( *_playerMock, TakeCollisionPayload( _ ) ).WillOnce( Return( true ) );
+   EXPECT_CALL( *_playerMock, TakeCollisionPayload( _, 0 ) ).WillOnce( Return( true ) );
 
    _arena->DetectEntityCollisions();
 
@@ -631,7 +634,7 @@ TEST_F( ArenaTests, DetectEntityCollisions_PlayerCollidesWithItemBoundToRespawni
    _arena->AddEntity( _playerMock );
    _arena->AddEntity( _itemEntityMock );
 
-   EXPECT_CALL( *_playerMock, TakeCollisionPayload( _ ) ).WillOnce( Return( true ) );
+   EXPECT_CALL( *_playerMock, TakeCollisionPayload( _, 0 ) ).WillOnce( Return( true ) );
 
    _arena->DetectEntityCollisions();
 
@@ -645,7 +648,7 @@ TEST_F( ArenaTests, DetectEntityCollisions_PlayerCollidesWithEnemy_PlayerTakesHe
    _arena->AddEntity( _enemyEntityMock );
 
    EntityCollisionPayload payload;
-   EXPECT_CALL( *_playerMock, TakeCollisionPayload( _ ) ).WillOnce( DoAll( SaveArg<0>( &payload ), Return( true ) ) );
+   EXPECT_CALL( *_playerMock, TakeCollisionPayload( _, 200 ) ).WillOnce( DoAll( SaveArg<0>( &payload ), Return( true ) ) );
 
    _arena->DetectEntityCollisions();
 
@@ -659,7 +662,7 @@ TEST_F( ArenaTests, DetectEntityCollisions_PlayerCollidesWithFriendlyProjectile_
    _arena->AddEntity( _playerMock );
    _arena->AddEntity( _projectileEntityMock );
 
-   EXPECT_CALL( *_playerMock, TakeCollisionPayload( _ ) ).Times( 0 );
+   EXPECT_CALL( *_playerMock, TakeCollisionPayload( _, _ ) ).Times( 0 );
 
    _arena->DetectEntityCollisions();
    auto test = true;
@@ -673,7 +676,7 @@ TEST_F( ArenaTests, DetectEntityCollisions_PlayerCollidesWithUnfriendlyProjectil
    _arena->AddEntity( _projectileEntityMock );
 
    EntityCollisionPayload payload;
-   EXPECT_CALL( *_playerMock, TakeCollisionPayload( _ ) ).WillOnce( DoAll( SaveArg<0>( &payload ), Return( true ) ) );
+   EXPECT_CALL( *_playerMock, TakeCollisionPayload( _, -800 ) ).WillOnce( DoAll( SaveArg<0>( &payload ), Return( true ) ) );
 
    _arena->DetectEntityCollisions();
 
@@ -687,7 +690,7 @@ TEST_F( ArenaTests, DetectEntityCollisions_ItemCollidesWithPlayer_PlayerTakesPay
    _arena->AddEntity( _playerMock );
 
    EntityCollisionPayload payload;
-   EXPECT_CALL( *_playerMock, TakeCollisionPayload( _ ) ).WillOnce( DoAll( SaveArg<0>( &payload ), Return( true ) ) );
+   EXPECT_CALL( *_playerMock, TakeCollisionPayload( _, 0 ) ).WillOnce( DoAll( SaveArg<0>( &payload ), Return( true ) ) );
 
    _arena->DetectEntityCollisions();
 
@@ -703,7 +706,7 @@ TEST_F( ArenaTests, DetectEntityCollisions_ItemBoundToSpawnPointCollidesWithPlay
    _arena->AddEntity( _itemEntityMock );
    _arena->AddEntity( _playerMock );
 
-   EXPECT_CALL( *_playerMock, TakeCollisionPayload( _ ) ).WillOnce( Return( true ) );
+   EXPECT_CALL( *_playerMock, TakeCollisionPayload( _, 0 ) ).WillOnce( Return( true ) );
 
    _arena->DetectEntityCollisions();
 
@@ -717,7 +720,7 @@ TEST_F( ArenaTests, DetectEntityCollisions_FriendlyProjectileCollidesWithPlayer_
    _arena->AddEntity( _projectileEntityMock );
    _arena->AddEntity( _playerMock );
 
-   EXPECT_CALL( *_playerMock, TakeCollisionPayload( _ ) ).Times( 0 );
+   EXPECT_CALL( *_playerMock, TakeCollisionPayload( _, _ ) ).Times( 0 );
 
    _arena->DetectEntityCollisions();
 }
@@ -730,7 +733,7 @@ TEST_F( ArenaTests, DetectEntityCollisions_UnfriendlyProjectileCollidesWithPlaye
    _arena->AddEntity( _playerMock );
 
    EntityCollisionPayload payload;
-   EXPECT_CALL( *_playerMock, TakeCollisionPayload( _ ) ).WillOnce( DoAll( SaveArg<0>( &payload ), Return( true ) ) );
+   EXPECT_CALL( *_playerMock, TakeCollisionPayload( _, -800 ) ).WillOnce( DoAll( SaveArg<0>( &payload ), Return( true ) ) );
 
    _arena->DetectEntityCollisions();
 
@@ -744,7 +747,7 @@ TEST_F( ArenaTests, DetectEntityCollisions_UnfriendlyProjectileCollidesWithEnemy
    _arena->AddEntity( _projectileEntityMock );
    _arena->AddEntity( _enemyEntityMock );
 
-   EXPECT_CALL( *_enemyEntityMock, TakeCollisionPayload( _ ) ).Times( 0 );
+   EXPECT_CALL( *_enemyEntityMock, TakeCollisionPayload( _, _ ) ).Times( 0 );
 
    _arena->DetectEntityCollisions();
 }
@@ -757,7 +760,7 @@ TEST_F( ArenaTests, DetectEntityCollisions_FriendlyProjectileCollidesWithEnemy_E
    _arena->AddEntity( _enemyEntityMock );
 
    EntityCollisionPayload payload;
-   EXPECT_CALL( *_enemyEntityMock, TakeCollisionPayload( _ ) ).WillOnce( DoAll( SaveArg<0>( &payload ), Return( true ) ) );
+   EXPECT_CALL( *_enemyEntityMock, TakeCollisionPayload( _, -800 ) ).WillOnce( DoAll( SaveArg<0>( &payload ), Return( true ) ) );
 
    _arena->DetectEntityCollisions();
 
@@ -771,7 +774,7 @@ TEST_F( ArenaTests, DetectEntityCollisions_EnemyCollidesWithPlayer_PlayerTakesHe
    _arena->AddEntity( _playerMock );
 
    EntityCollisionPayload payload;
-   EXPECT_CALL( *_playerMock, TakeCollisionPayload( _ ) ).WillOnce( DoAll( SaveArg<0>( &payload ), Return( true ) ) );
+   EXPECT_CALL( *_playerMock, TakeCollisionPayload( _, 200 ) ).WillOnce( DoAll( SaveArg<0>( &payload ), Return( true ) ) );
 
    _arena->DetectEntityCollisions();
 
@@ -785,7 +788,7 @@ TEST_F( ArenaTests, DetectEntityCollisions_EnemyCollidesWithUnfriendlyProjectile
    _arena->AddEntity( _enemyEntityMock );
    _arena->AddEntity( _projectileEntityMock );
 
-   EXPECT_CALL( *_enemyEntityMock, TakeCollisionPayload( _ ) ).Times( 0 );
+   EXPECT_CALL( *_enemyEntityMock, TakeCollisionPayload( _, _ ) ).Times( 0 );
 
    _arena->DetectEntityCollisions();
 }
@@ -798,7 +801,7 @@ TEST_F( ArenaTests, DetectEntityCollisions_EnemyCollidesWithFriendlyProjectile_E
    _arena->AddEntity( _projectileEntityMock );
 
    EntityCollisionPayload payload;
-   EXPECT_CALL( *_enemyEntityMock, TakeCollisionPayload( _ ) ).WillOnce( DoAll( SaveArg<0>( &payload ), Return( true ) ) );
+   EXPECT_CALL( *_enemyEntityMock, TakeCollisionPayload( _, -800 ) ).WillOnce( DoAll( SaveArg<0>( &payload ), Return( true ) ) );
 
    _arena->DetectEntityCollisions();
 

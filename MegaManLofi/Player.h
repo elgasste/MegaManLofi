@@ -33,7 +33,7 @@ namespace MegaManLofi
       virtual void ExtendJump();
 
       virtual void StopY() override;
-      virtual bool TakeCollisionPayload( const EntityCollisionPayload& payload ) override;
+      virtual bool TakeCollisionPayload( const EntityCollisionPayload& payload, float giverVelocityX ) override;
 
    private:
       const std::shared_ptr<PlayerDefs> _playerDefs;

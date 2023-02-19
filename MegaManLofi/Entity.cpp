@@ -35,7 +35,7 @@ void Entity::Tick()
    }
 }
 
-bool Entity::TakeCollisionPayload( const EntityCollisionPayload& payload )
+bool Entity::TakeCollisionPayload( const EntityCollisionPayload& payload, float giverVelocityX )
 {
    // only deal with health changes in here
    if ( payload.Health == 0 || ( payload.Health < 0 && _isInvulnerable ) )
@@ -52,11 +52,50 @@ bool Entity::TakeCollisionPayload( const EntityCollisionPayload& payload )
 
    SetHealth( newHealth );
 
-   if ( payload.Health < 0 && _health > 0 && _damageInvulnerabilitySeconds > 0 )
+   if ( payload.Health < 0 && _health > 0 )
    {
-      _isInvulnerable = true;
-      _damageInvulnerabilityCounter = 0;
+      if ( _damageInvulnerabilitySeconds > 0 )
+      {
+         _isInvulnerable = true;
+         _damageInvulnerabilityCounter = 0;
+      }
+
+      CheckKnockBack( giverVelocityX );
    }
 
    return true;
+}
+
+void Entity::CheckKnockBack( float giverVelocityX )
+{
+   if ( _isKnockedBack || _knockBackSeconds <= 0 )
+   {
+      return;
+   }
+
+   _isKnockedBack = true;
+   _knockBackCounter = 0;
+
+   if ( giverVelocityX > 0 )
+   {
+      _velocityX = _knockBackVelocity;
+   }
+   else if ( giverVelocityX < 0 )
+   {
+      _velocityX = -_knockBackVelocity;
+   }
+   else
+   {
+      switch ( _direction )
+      {
+         case Direction::UpLeft:
+         case Direction::Left:
+         case Direction::DownLeft:
+            _velocityX = _knockBackVelocity;
+            break;
+         default:
+            _velocityX = -_knockBackVelocity;
+            break;
+      }
+   }
 }

@@ -21,6 +21,7 @@ namespace MegaManLofi
 
       float DamageInvulnerabilitySeconds = 0;
       float KnockBackSeconds = 0;
+      float KnockBackVelocity = 0;
 
       float MaxPushVelocity = 0;
       float PushAccelerationPerSecond = 0;

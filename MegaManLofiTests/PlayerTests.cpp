@@ -34,6 +34,7 @@ public:
       _playerDefs->FrictionDecelerationPerSecond = 200;
       _playerDefs->DamageInvulnerabilitySeconds = 1;
       _playerDefs->KnockBackSeconds = 0.5f;
+      _playerDefs->KnockBackVelocity = 500;
       _playerDefs->MaxPushVelocity = 10;
       _playerDefs->PushAccelerationPerSecond = 2;
       _playerDefs->JumpAccelerationPerSecond = 1;
@@ -84,6 +85,7 @@ TEST_F( PlayerTests, Constructor_Always_SetsDefaultPropertiesFromDefs )
    EXPECT_EQ( _player->GetFrictionDecelerationPerSecond(), 200 );
    EXPECT_EQ( _player->GetDamageInvulnerabilitySeconds(), 1 );
    EXPECT_EQ( _player->GetKnockBackSeconds(), 0.5f );
+   EXPECT_EQ( _player->GetKnockBackVelocity(), 500 );
    EXPECT_EQ( _player->GetLivesRemaining(), 10 );
    EXPECT_EQ( _player->GetHealth(), 40 );
    EXPECT_EQ( _player->GetMaxHealth(), 40 );

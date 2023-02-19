@@ -24,6 +24,8 @@ shared_ptr<PlayerDefs> PlayerDefsGenerator::GeneratePlayerDefs( const shared_ptr
    playerDefs->FrictionDecelerationPerSecond = 10'000;
 
    playerDefs->DamageInvulnerabilitySeconds = 1.5f;
+   playerDefs->KnockBackSeconds = 0.5f;
+   playerDefs->KnockBackVelocity = 600;
 
    playerDefs->MaxPushVelocity = 1'200;
    playerDefs->PushAccelerationPerSecond = 8'500;

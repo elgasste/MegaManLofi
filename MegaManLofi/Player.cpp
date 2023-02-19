@@ -32,6 +32,7 @@ Player::Player( const shared_ptr<IFrameRateProvider> frameRateProvider,
    _maxHealth = _playerDefs->MaxHealth;
    _damageInvulnerabilitySeconds = _playerDefs->DamageInvulnerabilitySeconds;
    _knockBackSeconds = _playerDefs->KnockBackSeconds;
+   _knockBackVelocity = _playerDefs->KnockBackVelocity;
 
    Reset();
 }

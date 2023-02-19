@@ -102,6 +102,7 @@ void Entity::CheckKnockBack( float giverVelocityX )
 
    _isKnockedBack = true;
    _knockBackCounter = 0;
+   _velocityY = 0;
 
    if ( giverVelocityX > 0 )
    {

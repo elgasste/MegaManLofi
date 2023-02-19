@@ -63,8 +63,7 @@ TEST_F( EntityTests, Setters_Always_SetsPropertyValues )
 
 TEST_F( EntityTests, SetVelocityX_EntityIsKnockedBack_DoesNotChangeVelocityX )
 {
-   auto frameRateProviderMock = shared_ptr<mock_FrameRateProvider>( new NiceMock<mock_FrameRateProvider> );
-   auto entity = shared_ptr<Entity>( new Entity( frameRateProviderMock ) );
+   auto entity = make_shared<Entity>();
    entity->SetMaxHealth( 100 );
    entity->SetHealth( 100 );
    entity->SetKnockBackSeconds( 1 );
@@ -79,8 +78,7 @@ TEST_F( EntityTests, SetVelocityX_EntityIsKnockedBack_DoesNotChangeVelocityX )
 
 TEST_F( EntityTests, SetVelocityX_EntityIsKnockedBack_DoesNotChangeVelocityY )
 {
-   auto frameRateProviderMock = shared_ptr<mock_FrameRateProvider>( new NiceMock<mock_FrameRateProvider> );
-   auto entity = shared_ptr<Entity>( new Entity( frameRateProviderMock ) );
+   auto entity = make_shared<Entity>();
    entity->SetMaxHealth( 100 );
    entity->SetHealth( 100 );
    entity->SetKnockBackSeconds( 1 );
@@ -264,6 +262,21 @@ TEST_F( EntityTests, TakeCollisionPayload_HealthDecreasedAndNoKnockBack_DoesNotS
    EXPECT_TRUE( entity->TakeCollisionPayload( { -10, 0 }, 0 ) );
 
    EXPECT_FALSE( entity->IsKnockedBack() );
+}
+
+TEST_F( EntityTests, TakeCollisionPayload_HealthDecreasedAndHasKnockBack_StopsYVelocity )
+{
+   auto entity = make_shared<Entity>();
+   entity->SetMaxHealth( 100 );
+   entity->SetHealth( 100 );
+   entity->SetKnockBackSeconds( 1 );
+
+   entity->SetVelocityY( -50 );
+   EXPECT_EQ( entity->GetVelocityY(), -50 );
+
+   EXPECT_TRUE( entity->TakeCollisionPayload( { -10, 0 }, -1 ) );
+
+   EXPECT_EQ( entity->GetVelocityY(), 0 );
 }
 
 TEST_F( EntityTests, TakeCollisionPayload_HealthDecreasedAndGiverIsMovingLeft_KnocksBackToTheLeft )

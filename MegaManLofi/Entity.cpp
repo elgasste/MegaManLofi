@@ -29,6 +29,17 @@ void Entity::Tick()
       }
    }
 
+   if ( _isKnockedBack )
+   {
+      _knockBackCounter += _frameRateProvider->GetFrameSeconds();
+
+      if ( _knockBackCounter > _knockBackSeconds )
+      {
+         _isKnockedBack = false;
+         _damageInvulnerabilityCounter = 0;
+      }
+   }
+
    if ( _behavior )
    {
       _behavior->Tick();

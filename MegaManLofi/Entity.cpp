@@ -16,6 +16,22 @@ void Entity::SetBehavior( const shared_ptr<IBehavior> behavior )
    _behavior = behavior;
 }
 
+void Entity::SetVelocityX( float velocity )
+{
+   if ( !_isKnockedBack )
+   {
+      _velocityX = velocity;
+   }
+}
+
+void Entity::SetVelocityY( float velocity )
+{
+   if ( !_isKnockedBack )
+   {
+      _velocityY = velocity;
+   }
+}
+
 void Entity::Tick()
 {
    if ( _isInvulnerable )

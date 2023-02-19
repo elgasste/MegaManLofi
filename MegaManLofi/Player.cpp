@@ -103,6 +103,12 @@ void Player::PushTo( Direction direction )
 
 void Player::Jump()
 {
+   if ( _isKnockedBack )
+   {
+      _isJumping = false;
+      return;
+   }
+
    if ( _movementType == MovementType::Standing || _movementType == MovementType::Walking )
    {
       _isJumping = true;
@@ -118,7 +124,7 @@ void Player::ExtendJump()
    {
       return;
    }
-   else if ( _velocityY >= 0 )
+   else if ( _velocityY >= 0 || _isKnockedBack )
    {
       _isJumping = false;
       return;

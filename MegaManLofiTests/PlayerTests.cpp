@@ -356,6 +356,41 @@ TEST_F( PlayerTests, PushTo_RightAndPushVelocityHasMaxedOut_DoesNotChangeXVeloci
    EXPECT_EQ( _player->GetVelocityX(), 10 );
 }
 
+TEST_F( PlayerTests, Jump_PlayerIsKnockedBack_DoesNotChangeVelocityOrFlagAction )
+{
+   BuildPlayer();
+   _player->SetMovementType( MovementType::Standing );
+   _player->SetVelocityY( 0 );
+   _player->SetKnockBackSeconds( 1 );
+   _player->SetKnockBackVelocity( 200 );
+
+   EXPECT_TRUE( _player->TakeCollisionPayload( { -10, 0 }, 1 ) );
+
+   EXPECT_CALL( *_frameActionRegistryMock, FlagAction( _ ) ).Times( 0 );
+
+   _player->Jump();
+
+   EXPECT_EQ( _player->GetVelocityY(), 0 );
+}
+
+TEST_F( PlayerTests, Jump_PlayerIsKnockedBack_ResetsIsJumping )
+{
+   BuildPlayer();
+   _player->SetMovementType( MovementType::Standing );
+   _player->SetVelocityY( 0 );
+   _player->SetKnockBackSeconds( 1 );
+   _player->SetKnockBackVelocity( 200 );
+
+   _player->Jump();
+   EXPECT_TRUE( _player->IsJumping() );
+
+   EXPECT_TRUE( _player->TakeCollisionPayload( { -10, 0 }, 1 ) );
+
+   _player->Jump();
+
+   EXPECT_FALSE( _player->IsJumping() );
+}
+
 TEST_F( PlayerTests, Jump_PlayerIsAirborne_DoesNotChangeVelocityOrFlagAction )
 {
    BuildPlayer();
@@ -436,6 +471,23 @@ TEST_F( PlayerTests, ExtendJump_PlayerIsMovingDownward_SetsIsJumpingToFalse )
    _player->SetMovementType( MovementType::Standing );
    _player->Jump();
    _player->SetVelocityY( 2 );
+
+   _player->ExtendJump();
+
+   EXPECT_FALSE( _player->IsJumping() );
+}
+
+TEST_F( PlayerTests, ExtendJump_PlayerIsKnockedBack_SetsIsJumpingToFalse )
+{
+   BuildPlayer();
+   _player->SetMovementType( MovementType::Standing );
+   _player->SetKnockBackSeconds( 1 );
+   _player->SetKnockBackVelocity( 200 );
+
+   _player->Jump();
+   EXPECT_TRUE( _player->IsJumping() );
+
+   EXPECT_TRUE( _player->TakeCollisionPayload( { -10, 0 }, 1 ) );
 
    _player->ExtendJump();
 

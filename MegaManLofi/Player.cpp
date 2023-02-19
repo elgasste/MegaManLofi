@@ -67,6 +67,11 @@ void Player::ResetHealth()
 
 void Player::PushTo( Direction direction )
 {
+   if ( _isKnockedBack )
+   {
+      return;
+   }
+
    float velocityDelta = 0;
 
    switch ( direction )

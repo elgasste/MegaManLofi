@@ -263,6 +263,21 @@ TEST_F( PlayerTests, PointTo_Always_SetsPlayerDirection )
    EXPECT_EQ( _player->GetDirection(), Direction::Down );
 }
 
+TEST_F( PlayerTests, PushTo_PlayerIsKnockedBack_DoesNotChangeXVelocity )
+{
+   BuildPlayer();
+   _player->SetKnockBackSeconds( 1 );
+   _player->SetKnockBackVelocity( 200 );
+
+   EXPECT_EQ( _player->GetVelocityX(), 0 );
+   EXPECT_TRUE( _player->TakeCollisionPayload( { -10, 0 }, 1 ) );
+   EXPECT_EQ( _player->GetVelocityX(), 200 );
+
+   _player->PushTo( Direction::Left );
+
+   EXPECT_EQ( _player->GetVelocityX(), 200 );
+}
+
 TEST_F( PlayerTests, PushTo_Left_FlagsAction )
 {
    BuildPlayer();

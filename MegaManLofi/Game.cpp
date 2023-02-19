@@ -176,6 +176,7 @@ void Game::StartStage()
 void Game::Shoot( const shared_ptr<ShootCommandArgs>& args ) const
 {
    auto sourceEntity = args->SourceEntity;
+
    auto left = sourceEntity->GetArenaPositionLeft();
    auto top = sourceEntity->GetArenaPositionTop();
 
@@ -199,7 +200,7 @@ void Game::Shoot( const shared_ptr<ShootTargetCommandArgs>& args ) const
 
 void Game::Shoot( const shared_ptr<ReadOnlyEntity> sourceEntity, const Coordinate<float>& targetPosition ) const
 {
-   if ( _nextState != GameState::Playing )
+   if ( _nextState != GameState::Playing || sourceEntity->IsKnockedBack() )
    {
       return;
    }

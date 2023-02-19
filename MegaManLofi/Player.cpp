@@ -41,6 +41,11 @@ void Player::Reset()
 {
    _livesRemaining = _playerDefs->DefaultLives;
    _health = _maxHealth;
+   _isInvulnerable = false;
+   _damageInvulnerabilityCounter = 0;
+   _isKnockedBack = false;
+   _knockBackCounter = 0;
+
    ResetPosition();
 }
 

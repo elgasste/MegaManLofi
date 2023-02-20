@@ -26,6 +26,8 @@ void Entity::SetVelocityX( float velocity )
 
 void Entity::SetVelocityY( float velocity )
 {
+   // TODO: this doesn't quite work, ArenaPhysics needs to be able to set these values,
+   // maybe Entity needs something similar to PushTo? Or just move PushTo into Entity?
    if ( !_isKnockedBack )
    {
       _velocityY = velocity;
@@ -104,6 +106,9 @@ void Entity::CheckKnockBack( float giverVelocityX )
    _knockBackCounter = 0;
    _velocityY = 0;
 
+   // TODO: this doesn't really work either, if you're moving right and run into
+   // something also moving right, you'll get knocked to the right. some other
+   // calculation should be done here.
    if ( giverVelocityX > 0 )
    {
       _velocityX = _knockBackVelocity;

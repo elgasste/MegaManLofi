@@ -393,6 +393,12 @@ void ArenaPhysics::DetectTileDeath() const
 
 void ArenaPhysics::DetectEntityMovementType( const shared_ptr<Entity> entity ) const
 {
+   if ( entity->IsKnockedBack() )
+   {
+      entity->SetMovementType( MovementType::KnockBack );
+      return;
+   }
+
    const auto& hitBox = entity->GetHitBox();
    auto positionTop = entity->GetArenaPositionTop();
    auto hitBoxBottom = positionTop + hitBox.Top + hitBox.Height;

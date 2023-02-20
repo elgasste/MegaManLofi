@@ -7,6 +7,7 @@ namespace MegaManLofi
       Standing = 0,
       Walking,
       Airborne,
+      KnockBack,
 
       MovementTypeCount
    };

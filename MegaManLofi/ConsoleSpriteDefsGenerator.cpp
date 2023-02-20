@@ -160,6 +160,59 @@ shared_ptr<ConsoleSprite> ConsoleSpriteDefsGenerator::GeneratePlayerAirborneSpri
    return sprite;
 }
 
+shared_ptr<ConsoleSprite> ConsoleSpriteDefsGenerator::GeneratePlayerKnockBackSprite( Direction direction, const shared_ptr<IFrameRateProvider> frameRateProvider )
+{
+   string chars1 = "";
+   string chars2 = "";
+   ConsoleImage image1 = { 4, 3 };
+   ConsoleImage image2 = { 4, 3 };
+
+   auto sprite = shared_ptr<ConsoleSprite>( new ConsoleSprite( frameRateProvider, 0.1f ) );
+
+   switch ( direction )
+   {
+      case Direction::UpRight:
+      case Direction::Right:
+      case Direction::DownRight:
+         chars1 =
+            "0*o " \
+            "|\\`*" \
+            "*/*\\";
+         chars2 =
+            "0 o " \
+            "|\\` " \
+            " / \\";
+         for ( int i = 0; i < (int)chars1.size(); i++ ) { image1.Pixels.push_back( { chars1[i], true, ConsoleColor::DarkBlue, ConsoleColor::Black } ); }
+         image1.Pixels[1].ForegroundColor = ConsoleColor::Red;
+         image1.Pixels[7].ForegroundColor = ConsoleColor::Red;
+         image1.Pixels[8].ForegroundColor = ConsoleColor::Red;
+         image1.Pixels[10].ForegroundColor = ConsoleColor::Red;
+         for ( int i = 0; i < (int)chars2.size(); i++ ) { image2.Pixels.push_back( { chars2[i], true, ConsoleColor::Cyan, ConsoleColor::Black } ); }
+         break;
+      default:
+         chars1 =
+            " o*0" \
+            "*`/|" \
+            "/*\\*";
+         chars2 =
+            " o 0" \
+            " `/|" \
+            "/ \\ ";
+         for ( int i = 0; i < (int)chars1.size(); i++ ) { image1.Pixels.push_back( { chars1[i], true, ConsoleColor::DarkBlue, ConsoleColor::Black } ); }
+         image1.Pixels[2].ForegroundColor = ConsoleColor::Red;
+         image1.Pixels[4].ForegroundColor = ConsoleColor::Red;
+         image1.Pixels[9].ForegroundColor = ConsoleColor::Red;
+         image1.Pixels[11].ForegroundColor = ConsoleColor::Red;
+         for ( int i = 0; i < (int)chars2.size(); i++ ) { image2.Pixels.push_back( { chars2[i], true, ConsoleColor::Cyan, ConsoleColor::Black } ); }
+         break;
+   }
+
+   sprite->AddImage( image1 );
+   sprite->AddImage( image2 );
+
+   return sprite;
+}
+
 shared_ptr<ConsoleSprite> ConsoleSpriteDefsGenerator::GenerateBadDudeStandingSprite( Direction direction, const shared_ptr<IFrameRateProvider> frameRateProvider )
 {
    string chars = "";
@@ -561,6 +614,15 @@ map<int, shared_ptr<EntityConsoleSprite>> ConsoleSpriteDefsGenerator::GenerateEn
    playerEntitySprite->AddSprite( MovementType::Airborne, Direction::DownRight, GeneratePlayerAirborneSprite( Direction::DownRight, frameRateProvider ) );
    playerEntitySprite->AddSprite( MovementType::Airborne, Direction::Down, GeneratePlayerAirborneSprite( Direction::Down, frameRateProvider ) );
    playerEntitySprite->AddSprite( MovementType::Airborne, Direction::DownLeft, GeneratePlayerAirborneSprite( Direction::DownLeft, frameRateProvider ) );
+
+   playerEntitySprite->AddSprite( MovementType::KnockBack, Direction::Left, GeneratePlayerKnockBackSprite( Direction::Left, frameRateProvider ) );
+   playerEntitySprite->AddSprite( MovementType::KnockBack, Direction::UpLeft, GeneratePlayerKnockBackSprite( Direction::UpLeft, frameRateProvider ) );
+   playerEntitySprite->AddSprite( MovementType::KnockBack, Direction::Up, GeneratePlayerKnockBackSprite( Direction::Up, frameRateProvider ) );
+   playerEntitySprite->AddSprite( MovementType::KnockBack, Direction::UpRight, GeneratePlayerKnockBackSprite( Direction::UpRight, frameRateProvider ) );
+   playerEntitySprite->AddSprite( MovementType::KnockBack, Direction::Right, GeneratePlayerKnockBackSprite( Direction::Right, frameRateProvider ) );
+   playerEntitySprite->AddSprite( MovementType::KnockBack, Direction::DownRight, GeneratePlayerKnockBackSprite( Direction::DownRight, frameRateProvider ) );
+   playerEntitySprite->AddSprite( MovementType::KnockBack, Direction::Down, GeneratePlayerKnockBackSprite( Direction::Down, frameRateProvider ) );
+   playerEntitySprite->AddSprite( MovementType::KnockBack, Direction::DownLeft, GeneratePlayerKnockBackSprite( Direction::DownLeft, frameRateProvider ) );
 
    entitySpriteMap[METAID_PLAYER] = playerEntitySprite;
 

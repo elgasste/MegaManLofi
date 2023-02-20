@@ -21,6 +21,7 @@ namespace MegaManLofi
       static std::shared_ptr<ConsoleSprite> GeneratePlayerStandingSprite( Direction direction, const std::shared_ptr<IFrameRateProvider> frameRateProvider );
       static std::shared_ptr<ConsoleSprite> GeneratePlayerWalkingSprite( Direction direction, const std::shared_ptr<IFrameRateProvider> frameRateProvider );
       static std::shared_ptr<ConsoleSprite> GeneratePlayerAirborneSprite( Direction direction, const std::shared_ptr<IFrameRateProvider> frameRateProvider );
+      static std::shared_ptr<ConsoleSprite> GeneratePlayerKnockBackSprite( Direction direction, const std::shared_ptr<IFrameRateProvider> frameRateProvider );
 
       static std::shared_ptr<ConsoleSprite> GenerateBadDudeStandingSprite( Direction direction, const std::shared_ptr<IFrameRateProvider> frameRateProvider );
       static std::shared_ptr<ConsoleSprite> GenerateBadDudeWalkingSprite( Direction direction, const std::shared_ptr<IFrameRateProvider> frameRateProvider );

@@ -182,12 +182,12 @@ shared_ptr<ConsoleSprite> ConsoleSpriteDefsGenerator::GeneratePlayerKnockBackSpr
             "0 o " \
             "|\\` " \
             " / \\";
-         for ( int i = 0; i < (int)chars1.size(); i++ ) { image1.Pixels.push_back( { chars1[i], true, ConsoleColor::DarkBlue, ConsoleColor::Black } ); }
+         for ( int i = 0; i < (int)chars1.size(); i++ ) { image1.Pixels.push_back( { chars1[i], true, ConsoleColor::Blue, ConsoleColor::Black } ); }
          image1.Pixels[1].ForegroundColor = ConsoleColor::Red;
          image1.Pixels[7].ForegroundColor = ConsoleColor::Red;
          image1.Pixels[8].ForegroundColor = ConsoleColor::Red;
          image1.Pixels[10].ForegroundColor = ConsoleColor::Red;
-         for ( int i = 0; i < (int)chars2.size(); i++ ) { image2.Pixels.push_back( { chars2[i], true, ConsoleColor::Cyan, ConsoleColor::Black } ); }
+         for ( int i = 0; i < (int)chars2.size(); i++ ) { image2.Pixels.push_back( { chars2[i], true, ConsoleColor::Blue, ConsoleColor::Black } ); }
          break;
       default:
          chars1 =
@@ -198,12 +198,12 @@ shared_ptr<ConsoleSprite> ConsoleSpriteDefsGenerator::GeneratePlayerKnockBackSpr
             " o 0" \
             " `/|" \
             "/ \\ ";
-         for ( int i = 0; i < (int)chars1.size(); i++ ) { image1.Pixels.push_back( { chars1[i], true, ConsoleColor::DarkBlue, ConsoleColor::Black } ); }
+         for ( int i = 0; i < (int)chars1.size(); i++ ) { image1.Pixels.push_back( { chars1[i], true, ConsoleColor::Blue, ConsoleColor::Black } ); }
          image1.Pixels[2].ForegroundColor = ConsoleColor::Red;
          image1.Pixels[4].ForegroundColor = ConsoleColor::Red;
          image1.Pixels[9].ForegroundColor = ConsoleColor::Red;
          image1.Pixels[11].ForegroundColor = ConsoleColor::Red;
-         for ( int i = 0; i < (int)chars2.size(); i++ ) { image2.Pixels.push_back( { chars2[i], true, ConsoleColor::Cyan, ConsoleColor::Black } ); }
+         for ( int i = 0; i < (int)chars2.size(); i++ ) { image2.Pixels.push_back( { chars2[i], true, ConsoleColor::Blue, ConsoleColor::Black } ); }
          break;
    }
 

@@ -8,6 +8,7 @@
 
 #include "mock_UniqueNumberGenerator.h"
 #include "mock_FrameRateProvider.h"
+#include "mock_Random.h"
 #include "mock_PlayerInfoProvider.h"
 #include "mock_ArenaInfoProvider.h"
 #include "mock_GameCommandExecutor.h"
@@ -24,6 +25,7 @@ public:
       _entityDefs.reset( new EntityDefs );
       _uniqueNumberGeneratorMock.reset( new NiceMock<mock_UniqueNumberGenerator> );
       _frameRateProviderMock.reset( new NiceMock<mock_FrameRateProvider> );
+      _randomMock.reset( new NiceMock<mock_Random> );
       _playerInfoProviderMock.reset( new NiceMock<mock_PlayerInfoProvider> );
       _arenaInfoProviderMock.reset( new NiceMock<mock_ArenaInfoProvider> );
       _commandExecutorMock.reset( new NiceMock<mock_GameCommandExecutor> );
@@ -43,7 +45,7 @@ public:
 
    void BuildFactory()
    {
-      _factory.reset( new EntityFactory( _entityDefs, _uniqueNumberGeneratorMock, _frameRateProviderMock ) );
+      _factory.reset( new EntityFactory( _entityDefs, _uniqueNumberGeneratorMock, _frameRateProviderMock, _randomMock ) );
       _factory->Initialize( _playerInfoProviderMock, _arenaInfoProviderMock, _commandExecutorMock );
    }
 
@@ -51,6 +53,7 @@ protected:
    shared_ptr<EntityDefs> _entityDefs;
    shared_ptr<mock_UniqueNumberGenerator> _uniqueNumberGeneratorMock;
    shared_ptr<mock_FrameRateProvider> _frameRateProviderMock;
+   shared_ptr<mock_Random> _randomMock;
    shared_ptr<mock_PlayerInfoProvider> _playerInfoProviderMock;
    shared_ptr<mock_ArenaInfoProvider> _arenaInfoProviderMock;
    shared_ptr<mock_GameCommandExecutor> _commandExecutorMock;

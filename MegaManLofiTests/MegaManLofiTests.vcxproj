@@ -67,6 +67,7 @@
     <ClInclude Include="mock_PlayerInfoProvider.h" />
     <ClInclude Include="mock_Player.h" />
     <ClInclude Include="mock_EntityFactory.h" />
+    <ClInclude Include="mock_Random.h" />
     <ClInclude Include="mock_ReadOnlyArena.h" />
     <ClInclude Include="mock_ReadOnlyEntity.h" />
     <ClInclude Include="mock_ReadOnlyPlayer.h" />

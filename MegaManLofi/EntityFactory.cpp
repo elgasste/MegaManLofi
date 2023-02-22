@@ -11,10 +11,12 @@ using namespace MegaManLofi;
 
 EntityFactory::EntityFactory( const shared_ptr<EntityDefs> entityDefs,
                               const shared_ptr<UniqueNumberGenerator> uniqueNumberGenerator,
-                              const shared_ptr<IFrameRateProvider> frameRateProvider ) :
+                              const shared_ptr<IFrameRateProvider> frameRateProvider,
+                              const shared_ptr<IRandom> random ) :
    _entityDefs( entityDefs ),
    _uniqueNumberGenerator( uniqueNumberGenerator ),
-   _frameRateProvider( frameRateProvider )
+   _frameRateProvider( frameRateProvider ),
+   _random( random )
 {
 }
 
@@ -137,7 +139,11 @@ const shared_ptr<Entity> EntityFactory::CreateEnemy( int enemyMetaId,
 
    if ( behaviorIt != _entityDefs->EntityBehaviorMap.end() )
    {
-      auto behavior = shared_ptr<EntityBehavior>( new EntityBehavior( _frameRateProvider, _playerInfoProvider, _arenaInfoProvider, _commandExecutor ) );
+      auto behavior = shared_ptr<EntityBehavior>( new EntityBehavior( _frameRateProvider,
+                                                                      _playerInfoProvider,
+                                                                      _arenaInfoProvider,
+                                                                      _random,
+                                                                      _commandExecutor ) );
       enemy->SetBehavior( shared_ptr<EntityBehavior>( behavior ) );
       behavior->AssignTo( enemy );
       behavior->SetInstructions( _entityDefs->EntityBehaviorMap.at( enemyMetaId ) );

@@ -8,6 +8,7 @@
 #include "mock_FrameRateProvider.h"
 #include "mock_PlayerInfoProvider.h"
 #include "mock_ArenaInfoProvider.h"
+#include "mock_Random.h"
 #include "mock_GameCommandExecutor.h"
 #include "mock_ReadOnlyEntity.h"
 #include "mock_Entity.h"
@@ -25,6 +26,7 @@ public:
       _frameRateProviderMock.reset( new NiceMock<mock_FrameRateProvider> );
       _playerInfoProviderMock.reset( new NiceMock<mock_PlayerInfoProvider> );
       _arenaInfoProviderMock.reset( new NiceMock<mock_ArenaInfoProvider> );
+      _randomMock.reset( new NiceMock<mock_Random> );
       _commandExecutorMock.reset( new NiceMock<mock_GameCommandExecutor> );
       _entityMock.reset( new NiceMock<mock_Entity> );
       _playerEntityMock.reset( new NiceMock<mock_ReadOnlyEntity> );
@@ -36,7 +38,7 @@ public:
       ON_CALL( *_arenaInfoProviderMock, GetActiveArena() ).WillByDefault( Return( _arenaMock ) );
       ON_CALL( *_arenaMock, GetEntity( 0 ) ).WillByDefault( Return( _arenaEntityMock ) );
 
-      _behavior.reset( new EntityBehavior( _frameRateProviderMock, _playerInfoProviderMock, _arenaInfoProviderMock, _commandExecutorMock ) );
+      _behavior.reset( new EntityBehavior( _frameRateProviderMock, _playerInfoProviderMock, _arenaInfoProviderMock, _randomMock, _commandExecutorMock ) );
       _behavior->AssignTo( _entityMock );
    }
 
@@ -51,6 +53,7 @@ protected:
    shared_ptr<mock_FrameRateProvider> _frameRateProviderMock;
    shared_ptr<mock_PlayerInfoProvider> _playerInfoProviderMock;
    shared_ptr<mock_ArenaInfoProvider> _arenaInfoProviderMock;
+   shared_ptr<mock_Random> _randomMock;
    shared_ptr<mock_GameCommandExecutor> _commandExecutorMock;
    shared_ptr<mock_Entity> _entityMock;
    shared_ptr<mock_ReadOnlyEntity> _playerEntityMock;
@@ -490,6 +493,23 @@ TEST_F( EntityBehaviorTests, Tick_GetKnockBackVelocityCommand_GetsKnockBackVeloc
    _behavior->SetInstructions( vector<mbc_instruction> { instruction } );
 
    EXPECT_CALL( *_entityMock, GetKnockBackVelocity() );
+
+   _behavior->Tick();
+}
+
+TEST_F( EntityBehaviorTests, Tick_GetRandom_GetsRandomUnsignedInt )
+{
+   vector<mbc_instruction> instructions
+   {
+      (mbc_instruction)( MBCCMD_REGI << MBC_CMD_SHIFT | 0 << MBC_ARG0_SHIFT ),
+      (mbc_instruction)( (unsigned int)3 ),
+      (mbc_instruction)( MBCCMD_REGI << MBC_CMD_SHIFT | 1 << MBC_ARG0_SHIFT ),
+      (mbc_instruction)( (unsigned int)42 ),
+      (mbc_instruction)( MBCGET_RANDOM << MBC_CMD_SHIFT | 0 << MBC_ARG0_SHIFT | 1 << MBC_ARG1_SHIFT | 2 << MBC_ARG2_SHIFT )
+   };
+   _behavior->SetInstructions( instructions );
+
+   EXPECT_CALL( *_randomMock, GetUnsignedInt( 3, 42 ) );
 
    _behavior->Tick();
 }

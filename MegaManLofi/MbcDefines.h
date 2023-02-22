@@ -106,11 +106,13 @@ typedef unsigned char mbc_command;
 #define MBCGET_ARENAENTITYKNOCKBACKSECONDS   0x68  // get the knock-back seconds of an arena entity; arg0 is the entity's index, arg1 is a register index
 #define MBCGET_ARENAENTITYKNOCKBACKVELOCITY  0x69  // get the knock-back velocity of an arena entity; arg0 is the entity's index, arg1 is a register index
 
+#define MBCGET_RANDOM         0x79     // get a random unsigned int; arg0/arg1 are the min/max number indices, arg1 is the index of the result
+
 // setters
-#define MBCSET_VELOCITYX            0x80     // set the entity's X velocity
-#define MBCSET_VELOCITYY            0x81     // set the entity's Y velocity
-#define MBCSET_DIRECTION            0x82     // set the entity's direction
+#define MBCSET_VELOCITYX      0x80     // set the entity's X velocity
+#define MBCSET_VELOCITYY      0x81     // set the entity's Y velocity
+#define MBCSET_DIRECTION      0x82     // set the entity's direction
 
 // do-ers
-#define MBCDO_SHOOT                 0xA0     // shoot in the entity's direction
-#define MBCDO_SHOOTTARGET           0xA1     // shoot at a specific target's position; arg0 and arg1 are the target's Left/Top position, respectively
+#define MBCDO_SHOOT           0xA0     // shoot in the entity's direction
+#define MBCDO_SHOOTTARGET     0xA1     // shoot at a specific target's position; arg0 and arg1 are the target's Left/Top position, respectively

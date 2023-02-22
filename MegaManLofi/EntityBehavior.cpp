@@ -2,6 +2,7 @@
 #include "IFrameRateProvider.h"
 #include "IPlayerInfoProvider.h"
 #include "IArenaInfoProvider.h"
+#include "IRandom.h"
 #include "IGameCommandExecutor.h"
 #include "Entity.h"
 #include "GameCommand.h"
@@ -16,10 +17,12 @@ using namespace MegaManLofi;
 EntityBehavior::EntityBehavior( const shared_ptr<IFrameRateProvider> frameRateProvider,
                                 const shared_ptr<IPlayerInfoProvider> playerInfoProvider,
                                 const shared_ptr<IArenaInfoProvider> arenaInfoProvider,
+                                const shared_ptr<IRandom> random,
                                 const shared_ptr<IGameCommandExecutor> commandExecutor ) :
    _frameRateProvider( frameRateProvider ),
    _playerInfoProvider( playerInfoProvider ),
    _arenaInfoProvider( arenaInfoProvider ),
+   _random( random ),
    _commandExecutor( commandExecutor ),
    _entity( nullptr )
 {
@@ -170,6 +173,10 @@ bool EntityBehavior::HandleCommand( mbc_command command )
          RegisterFloatFromArg( 1, _arenaInfoProvider->GetActiveArena()->GetEntity( MBC_PARSE_ARG0( _currentInstruction ) )->GetKnockBackVelocity() );
          return true;
 
+      case MBCGET_RANDOM:
+         GetRandom();
+         return true;
+
       case MBCSET_VELOCITYX:
          _entity->SetVelocityX( _floatRegisters[MBC_PARSE_ARG0( _currentInstruction )] );
          return true;
@@ -226,6 +233,13 @@ void EntityBehavior::RegisterBoolFromArg( int argNum, bool val )
       case 3: _intRegisters[MBC_PARSE_ARG3( _currentInstruction )] = val ? 1 : 0; break;
       default: break;
    }
+}
+
+void EntityBehavior::GetRandom()
+{
+   auto min = (unsigned int)_intRegisters[MBC_PARSE_ARG0( _currentInstruction )];
+   auto max = (unsigned int)_intRegisters[MBC_PARSE_ARG1( _currentInstruction )];
+   _intRegisters[MBC_PARSE_ARG2( _currentInstruction )] = _random->GetUnsignedInt( min, max );
 }
 
 void EntityBehavior::ShootTarget() const

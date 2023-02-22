@@ -9,6 +9,7 @@ namespace MegaManLofi
    class IFrameRateProvider;
    class IPlayerInfoProvider;
    class IArenaInfoProvider;
+   class IRandom;
    class IGameCommandExecutor;
    class Entity;
 
@@ -18,6 +19,7 @@ namespace MegaManLofi
       EntityBehavior( const std::shared_ptr<IFrameRateProvider> frameRateProvider,
                       const std::shared_ptr<IPlayerInfoProvider> playerInfoProvider,
                       const std::shared_ptr<IArenaInfoProvider> arenaInfoProvider,
+                      const std::shared_ptr<IRandom> random,
                       const std::shared_ptr<IGameCommandExecutor> commandExecutor );
 
       void AssignTo( const std::shared_ptr<Entity> entity );
@@ -29,12 +31,15 @@ namespace MegaManLofi
       void RegisterIntFromArg( int argNum, int val );
       void RegisterBoolFromArg( int argNum, bool val );
 
+      void GetRandom();
+
       void ShootTarget() const;
 
    private:
       std::shared_ptr<IFrameRateProvider> _frameRateProvider;
       std::shared_ptr<IPlayerInfoProvider> _playerInfoProvider;
       std::shared_ptr<IArenaInfoProvider> _arenaInfoProvider;
+      std::shared_ptr<IRandom> _random;
       std::shared_ptr<IGameCommandExecutor> _commandExecutor;
 
       std::shared_ptr<Entity> _entity;

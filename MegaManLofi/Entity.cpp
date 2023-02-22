@@ -29,6 +29,17 @@ void Entity::Tick()
       }
    }
 
+   if ( _isKnockedBack )
+   {
+      _knockBackCounter += _frameRateProvider->GetFrameSeconds();
+
+      if ( _knockBackCounter > _knockBackSeconds )
+      {
+         _isKnockedBack = false;
+         _damageInvulnerabilityCounter = 0;
+      }
+   }
+
    if ( _behavior )
    {
       _behavior->Tick();
@@ -52,11 +63,44 @@ bool Entity::TakeCollisionPayload( const EntityCollisionPayload& payload )
 
    SetHealth( newHealth );
 
-   if ( payload.Health < 0 && _health > 0 && _damageInvulnerabilitySeconds > 0 )
+   if ( payload.Health < 0 && _health > 0 )
    {
-      _isInvulnerable = true;
-      _damageInvulnerabilityCounter = 0;
+      if ( _damageInvulnerabilitySeconds > 0 )
+      {
+         _isInvulnerable = true;
+         _damageInvulnerabilityCounter = 0;
+      }
+
+      CheckKnockBack();
    }
 
    return true;
+}
+
+void Entity::CheckKnockBack()
+{
+   if ( _isKnockedBack || _knockBackSeconds <= 0 )
+   {
+      return;
+   }
+
+   _isKnockedBack = true;
+   _knockBackCounter = 0;
+   _velocityY = 0;
+
+   // TODO: we can get fancier with this, like checking which direction the
+   // attack came from, and knock back in that direction. For now let's keep
+   // it simple and just knock back from the direction we're facing.
+   // (if we're facing straight up or down, pretend we're facing right)
+   switch ( _direction )
+   {
+      case Direction::UpLeft:
+      case Direction::Left:
+      case Direction::DownLeft:
+         _velocityX = _knockBackVelocity;
+         break;
+      default:
+         _velocityX = -_knockBackVelocity;
+         break;
+   }
 }

@@ -88,7 +88,7 @@ void PlayingStateConsoleRenderer::Render()
       }
       else
       {
-         DrawPlayer();
+         DrawEntity( _playerInfoProvider->GetPlayerEntity() );
       }
    }
 }
@@ -229,12 +229,6 @@ void PlayingStateConsoleRenderer::DrawArenaTiles()
          }
       }
    }
-}
-
-void PlayingStateConsoleRenderer::DrawPlayer()
-{
-   auto player = _playerInfoProvider->GetPlayerEntity();
-   DrawEntity( player );
 }
 
 void PlayingStateConsoleRenderer::DrawNonPlayerEntities()

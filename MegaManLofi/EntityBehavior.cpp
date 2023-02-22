@@ -74,6 +74,15 @@ bool EntityBehavior::HandleCommand( mbc_command command )
       case MBCGET_PLAYERISINVULNERABLE:
          RegisterBoolFromArg( 0, _playerInfoProvider->GetPlayerEntity()->IsInvulnerable() );
          return true;
+      case MBCGET_PLAYERISKNOCKEDBACK:
+         RegisterBoolFromArg( 0, _playerInfoProvider->GetPlayerEntity()->IsKnockedBack() );
+         return true;
+      case MBCGET_PLAYERKNOCKBACKSECONDS:
+         RegisterFloatFromArg( 0, _playerInfoProvider->GetPlayerEntity()->GetKnockBackSeconds() );
+         return true;
+      case MBCGET_PLAYERKNOCKBACKVELOCITY:
+         RegisterFloatFromArg( 0, _playerInfoProvider->GetPlayerEntity()->GetKnockBackVelocity() );
+         return true;
 
       case MBCGET_POSITIONLEFT:
          RegisterFloatFromArg( 0, _entity->GetArenaPositionLeft() );
@@ -105,9 +114,21 @@ bool EntityBehavior::HandleCommand( mbc_command command )
       case MBCGET_ISINVULNERABLE:
          RegisterBoolFromArg( 0, _entity->IsInvulnerable() );
          return true;
+      case MBCGET_ISKNOCKEDBACK:
+         RegisterBoolFromArg( 0, _entity->IsKnockedBack() );
+         return true;
+      case MBCGET_KNOCKBACKSECONDS:
+         RegisterFloatFromArg( 0, _entity->GetKnockBackSeconds() );
+         return true;
+      case MBCGET_KNOCKBACKVELOCITY:
+         RegisterFloatFromArg( 0, _entity->GetKnockBackVelocity() );
+         return true;
 
       case MBCGET_ARENAENTITYCOUNT:
          RegisterIntFromArg( 0, _arenaInfoProvider->GetActiveArena()->GetEntityCount() );
+         return true;
+      case MBCGET_ARENAENTITYTYPE:
+         RegisterIntFromArg( 1, (int)_arenaInfoProvider->GetActiveArena()->GetEntity( MBC_PARSE_ARG0( _currentInstruction ) )->GetEntityType() );
          return true;
       case MBCGET_ARENAENTITYPOSITIONLEFT:
          RegisterFloatFromArg( 1, _arenaInfoProvider->GetActiveArena()->GetEntity( MBC_PARSE_ARG0( _currentInstruction ) )->GetArenaPositionLeft() );
@@ -139,8 +160,14 @@ bool EntityBehavior::HandleCommand( mbc_command command )
       case MBCGET_ARENAENTITYISINVULNERABLE:
          RegisterBoolFromArg( 1, _arenaInfoProvider->GetActiveArena()->GetEntity( MBC_PARSE_ARG0( _currentInstruction ) )->IsInvulnerable() );
          return true;
-      case MBCGET_ARENAENTITYTYPE:
-         RegisterIntFromArg( 1, (int)_arenaInfoProvider->GetActiveArena()->GetEntity( MBC_PARSE_ARG0( _currentInstruction ) )->GetEntityType() );
+      case MBCGET_ARENAENTITYISKNOCKEDBACK:
+         RegisterBoolFromArg( 1, _arenaInfoProvider->GetActiveArena()->GetEntity( MBC_PARSE_ARG0( _currentInstruction ) )->IsKnockedBack() );
+         return true;
+      case MBCGET_ARENAENTITYKNOCKBACKSECONDS:
+         RegisterFloatFromArg( 1, _arenaInfoProvider->GetActiveArena()->GetEntity( MBC_PARSE_ARG0( _currentInstruction ) )->GetKnockBackSeconds() );
+         return true;
+      case MBCGET_ARENAENTITYKNOCKBACKVELOCITY:
+         RegisterFloatFromArg( 1, _arenaInfoProvider->GetActiveArena()->GetEntity( MBC_PARSE_ARG0( _currentInstruction ) )->GetKnockBackVelocity() );
          return true;
 
       case MBCSET_VELOCITYX:

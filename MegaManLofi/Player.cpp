@@ -31,6 +31,8 @@ Player::Player( const shared_ptr<IFrameRateProvider> frameRateProvider,
    _maxJumpExtensionSeconds = _playerDefs->MaxJumpExtensionSeconds;
    _maxHealth = _playerDefs->MaxHealth;
    _damageInvulnerabilitySeconds = _playerDefs->DamageInvulnerabilitySeconds;
+   _knockBackSeconds = _playerDefs->KnockBackSeconds;
+   _knockBackVelocity = _playerDefs->KnockBackVelocity;
 
    Reset();
 }
@@ -39,6 +41,11 @@ void Player::Reset()
 {
    _livesRemaining = _playerDefs->DefaultLives;
    _health = _maxHealth;
+   _isInvulnerable = false;
+   _damageInvulnerabilityCounter = 0;
+   _isKnockedBack = false;
+   _knockBackCounter = 0;
+
    ResetPosition();
 }
 
@@ -60,6 +67,11 @@ void Player::ResetHealth()
 
 void Player::PushTo( Direction direction )
 {
+   if ( _isKnockedBack )
+   {
+      return;
+   }
+
    float velocityDelta = 0;
 
    switch ( direction )
@@ -91,6 +103,12 @@ void Player::PushTo( Direction direction )
 
 void Player::Jump()
 {
+   if ( _isKnockedBack )
+   {
+      _isJumping = false;
+      return;
+   }
+
    if ( _movementType == MovementType::Standing || _movementType == MovementType::Walking )
    {
       _isJumping = true;
@@ -106,7 +124,7 @@ void Player::ExtendJump()
    {
       return;
    }
-   else if ( _velocityY >= 0 )
+   else if ( _velocityY >= 0 || _isKnockedBack )
    {
       _isJumping = false;
       return;

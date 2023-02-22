@@ -174,6 +174,17 @@ TEST_F( EntityPhysicsTests, Tick_PlayerEntityWasPushed_DoesNotApplyFriction )
    _physics->Tick();
 }
 
+TEST_F( EntityPhysicsTests, Tick_EntityIsKnockedBack_DoesNotApplyFriction )
+{
+   BuildPhysics( _playerMock );
+
+   EXPECT_CALL( *_playerMock, IsKnockedBack() ).WillOnce( Return( true ) );
+
+   EXPECT_CALL( *_playerMock, SetVelocityX( _ ) ).Times( 0 );
+
+   _physics->Tick();
+}
+
 TEST_F( EntityPhysicsTests, Tick_Projectile_DoesNotApplyFriction )
 {
    BuildPhysics( _projectileMock );

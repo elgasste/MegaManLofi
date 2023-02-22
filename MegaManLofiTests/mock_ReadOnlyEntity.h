@@ -25,4 +25,7 @@ public:
    MOCK_METHOD( unsigned int, GetMaxHealth, ( ), ( const, override ) );
    MOCK_METHOD( float, GetDamageInvulnerabilitySeconds, ( ), ( const, override ) );
    MOCK_METHOD( bool, IsInvulnerable, ( ), ( const, override ) );
+   MOCK_METHOD( bool, IsKnockedBack, ( ), ( const, override ) );
+   MOCK_METHOD( float, GetKnockBackSeconds, ( ), ( const, override ) );
+   MOCK_METHOD( float, GetKnockBackVelocity, ( ), ( const, override ) );
 };

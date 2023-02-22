@@ -22,6 +22,9 @@ public:
    MOCK_METHOD( unsigned int, GetMaxHealth, ( ), ( const, override ) );
    MOCK_METHOD( float, GetDamageInvulnerabilitySeconds, ( ), ( const, override ) );
    MOCK_METHOD( bool, IsInvulnerable, ( ), ( const, override ) );
+   MOCK_METHOD( bool, IsKnockedBack, ( ), ( const, override ) );
+   MOCK_METHOD( float, GetKnockBackSeconds, ( ), ( const, override ) );
+   MOCK_METHOD( float, GetKnockBackVelocity, ( ), ( const, override ) );
 
    MOCK_METHOD( void, SetUniqueId, ( int ), ( override ) );
    MOCK_METHOD( void, SetEntityType, ( MegaManLofi::EntityType ), ( override ) );
@@ -39,6 +42,8 @@ public:
    MOCK_METHOD( void, SetHealth, ( unsigned int ), ( override ) );
    MOCK_METHOD( void, SetMaxHealth, ( unsigned int ), ( override ) );
    MOCK_METHOD( void, SetDamageInvulnerabilitySeconds, ( float ), ( override ) );
+   MOCK_METHOD( void, SetKnockBackSeconds, ( float ), ( override ) );
+   MOCK_METHOD( void, SetKnockBackVelocity, ( float ), ( override ) );
    MOCK_METHOD( void, Tick, ( ), ( override ) );
    MOCK_METHOD( void, StopX, ( ), ( override ) );
    MOCK_METHOD( void, StopY, ( ), ( override ) );

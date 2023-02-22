@@ -59,10 +59,13 @@ public:
       ON_CALL( *_itemEntityMock, GetEntityType() ).WillByDefault( Return( EntityType::Item ) );
       ON_CALL( *_itemEntityMock, GetUniqueId() ).WillByDefault( Return( 11 ) );
       ON_CALL( *_itemEntityMock, GetEntityMetaId() ).WillByDefault( Return( 3 ) );
+      ON_CALL( *_itemEntityMock, GetVelocityX() ).WillByDefault( Return( 0.0f ) );
       ON_CALL( *_projectileEntityMock, GetEntityType() ).WillByDefault( Return( EntityType::Projectile ) );
       ON_CALL( *_projectileEntityMock, GetEntityMetaId() ).WillByDefault( Return( 4 ) );
+      ON_CALL( *_projectileEntityMock, GetVelocityX() ).WillByDefault( Return( -800.0f ) );
       ON_CALL( *_enemyEntityMock, GetEntityType() ).WillByDefault( Return( EntityType::Enemy ) );
       ON_CALL( *_enemyEntityMock, GetEntityMetaId() ).WillByDefault( Return( 5 ) );
+      ON_CALL( *_enemyEntityMock, GetVelocityX() ).WillByDefault( Return( 200.0f ) );
 
       _entityHitBox = { 0, 0, 10, 10 };
       ON_CALL( *_playerMock, GetHitBox() ).WillByDefault( ReturnRef( _entityHitBox ) );

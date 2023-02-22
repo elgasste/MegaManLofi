@@ -91,6 +91,36 @@ TEST_F( EntityTests, Tick_IsInvulnerableWithNoTimeRemaining_BecomesVulnerable )
    EXPECT_FALSE( entity->IsInvulnerable() );
 }
 
+TEST_F( EntityTests, Tick_IsKnockedBackWithTimeRemaining_RemainsKnockedBack )
+{
+   auto frameRateProviderMock = shared_ptr<mock_FrameRateProvider>( new NiceMock<mock_FrameRateProvider> );
+   ON_CALL( *frameRateProviderMock, GetFrameSeconds() ).WillByDefault( Return( 1.0f ) );
+   auto entity = shared_ptr<Entity>( new Entity( frameRateProviderMock ) );
+   entity->SetMaxHealth( 100 );
+   entity->SetHealth( 100 );
+   entity->SetKnockBackSeconds( 1.5f );
+
+   EXPECT_TRUE( entity->TakeCollisionPayload( { -10, 0 } ) );
+   entity->Tick();
+
+   EXPECT_TRUE( entity->IsKnockedBack() );
+}
+
+TEST_F( EntityTests, Tick_IsKnockedBackWithNoTimeRemaining_BecomesNotKnockedBack )
+{
+   auto frameRateProviderMock = shared_ptr<mock_FrameRateProvider>( new NiceMock<mock_FrameRateProvider> );
+   ON_CALL( *frameRateProviderMock, GetFrameSeconds() ).WillByDefault( Return( 1.0f ) );
+   auto entity = shared_ptr<Entity>( new Entity( frameRateProviderMock ) );
+   entity->SetMaxHealth( 100 );
+   entity->SetHealth( 100 );
+   entity->SetKnockBackSeconds( 0.9f );
+
+   EXPECT_TRUE( entity->TakeCollisionPayload( { -10, 0 } ) );
+   entity->Tick();
+
+   EXPECT_FALSE( entity->IsKnockedBack() );
+}
+
 TEST_F( EntityTests, Tick_BehaviorIsNotNull_TicksBehavior )
 {
    auto entity = make_shared<Entity>();
@@ -190,4 +220,61 @@ TEST_F( EntityTests, TakeCollisionPayload_HealthDecreasedAndHasInvulnerability_S
 
    EXPECT_EQ( entity->GetHealth(), 90 );
    EXPECT_TRUE( entity->IsInvulnerable() );
+}
+
+TEST_F( EntityTests, TakeCollisionPayload_HealthDecreasedAndNoKnockBack_DoesNotSetKnockBack )
+{
+   auto entity = make_shared<Entity>();
+   entity->SetMaxHealth( 100 );
+   entity->SetHealth( 100 );
+   entity->SetKnockBackSeconds( 0 );
+
+   EXPECT_TRUE( entity->TakeCollisionPayload( { -10, 0 } ) );
+
+   EXPECT_FALSE( entity->IsKnockedBack() );
+}
+
+TEST_F( EntityTests, TakeCollisionPayload_HealthDecreasedAndKnocksBack_StopsYVelocity )
+{
+   auto entity = make_shared<Entity>();
+   entity->SetMaxHealth( 100 );
+   entity->SetHealth( 100 );
+   entity->SetKnockBackSeconds( 1 );
+
+   entity->SetVelocityY( -50 );
+   EXPECT_EQ( entity->GetVelocityY(), -50 );
+
+   EXPECT_TRUE( entity->TakeCollisionPayload( { -10, 0 } ) );
+
+   EXPECT_EQ( entity->GetVelocityY(), 0 );
+}
+
+TEST_F( EntityTests, TakeCollisionPayload_HealthDecreasedAndFacingRight_KnocksBackToTheLeft )
+{
+   auto entity = make_shared<Entity>();
+   entity->SetMaxHealth( 100 );
+   entity->SetHealth( 100 );
+   entity->SetKnockBackSeconds( 0.5f );
+   entity->SetKnockBackVelocity( 400 );
+   entity->SetDirection( Direction::DownRight );
+
+   EXPECT_TRUE( entity->TakeCollisionPayload( { -10, 0 } ) );
+
+   EXPECT_TRUE( entity->IsKnockedBack() );
+   EXPECT_EQ( entity->GetVelocityX(), -400 );
+}
+
+TEST_F( EntityTests, TakeCollisionPayload_HealthDecreasedAndFacingLeft_KnocksBackToTheRight )
+{
+   auto entity = make_shared<Entity>();
+   entity->SetMaxHealth( 100 );
+   entity->SetHealth( 100 );
+   entity->SetKnockBackSeconds( 0.5f );
+   entity->SetKnockBackVelocity( 400 );
+   entity->SetDirection( Direction::Left );
+
+   EXPECT_TRUE( entity->TakeCollisionPayload( { -10, 0 } ) );
+
+   EXPECT_TRUE( entity->IsKnockedBack() );
+   EXPECT_EQ( entity->GetVelocityX(), 400 );
 }

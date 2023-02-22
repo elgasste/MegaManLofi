@@ -32,6 +32,8 @@ namespace MegaManLofi
       virtual void SetHealth( unsigned int health ) { _health = health; }
       virtual void SetMaxHealth( unsigned int health ) { _maxHealth = health; }
       virtual void SetDamageInvulnerabilitySeconds( float seconds ) { _damageInvulnerabilitySeconds = seconds; }
+      virtual void SetKnockBackSeconds( float seconds ) { _knockBackSeconds = seconds; }
+      virtual void SetKnockBackVelocity( float velocity ) { _knockBackVelocity = velocity; }
 
       virtual void Tick();
       virtual void StopX() { _velocityX = 0; }
@@ -40,6 +42,9 @@ namespace MegaManLofi
 
    protected:
       const std::shared_ptr<IFrameRateProvider> _frameRateProvider;
+
+   private:
+      void CheckKnockBack();
 
    private:
       std::shared_ptr<IBehavior> _behavior;

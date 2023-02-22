@@ -375,6 +375,19 @@ TEST_F( GameTests, ExecuteCommand_ShootAndGameIsPaused_DoesNotAddBulletToArena )
                           shared_ptr<ShootCommandArgs>( new ShootCommandArgs( _playerMock ) ) );
 }
 
+TEST_F( GameTests, ExecuteCommand_ShootAndSourceEntityIsKnockedBack_DoesNotAddBulletToArena )
+{
+   BuildGame();
+   _game->ExecuteCommand( GameCommand::StartStage );
+
+   EXPECT_CALL( *_playerMock, IsKnockedBack() ).WillOnce( Return( true ) );
+
+   EXPECT_CALL( *_arenaMock, AddEntity( _ ) ).Times( 0 );
+
+   _game->ExecuteCommand( GameCommand::Shoot,
+                          shared_ptr<ShootCommandArgs>( new ShootCommandArgs( _playerMock ) ) );
+}
+
 TEST_F( GameTests, ExecuteCommand_ShootLeft_AddsBulletToArenaCorrectly )
 {
    ON_CALL( *_playerMock, GetDirection() ).WillByDefault( Return( Direction::Left ) );

@@ -150,9 +150,9 @@ void Player::StopY()
    _isJumping = false;
 }
 
-bool Player::TakeCollisionPayload( const EntityCollisionPayload& payload, float giverVelocityX )
+bool Player::TakeCollisionPayload( const EntityCollisionPayload& payload )
 {
-   bool tookPayload = Entity::TakeCollisionPayload( payload, giverVelocityX );
+   bool tookPayload = Entity::TakeCollisionPayload( payload );
 
    if ( tookPayload )
    {

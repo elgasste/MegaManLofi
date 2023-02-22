@@ -70,7 +70,7 @@ TEST_F( EntityTests, Tick_IsInvulnerableWithTimeRemaining_RemainsInvulnerable )
    entity->SetHealth( 100 );
    entity->SetDamageInvulnerabilitySeconds( 1.5f );
 
-   EXPECT_TRUE( entity->TakeCollisionPayload( { -10, 0 }, 0 ) );
+   EXPECT_TRUE( entity->TakeCollisionPayload( { -10, 0 } ) );
    entity->Tick();
 
    EXPECT_TRUE( entity->IsInvulnerable() );
@@ -85,7 +85,7 @@ TEST_F( EntityTests, Tick_IsInvulnerableWithNoTimeRemaining_BecomesVulnerable )
    entity->SetHealth( 100 );
    entity->SetDamageInvulnerabilitySeconds( 0.9f );
 
-   EXPECT_TRUE( entity->TakeCollisionPayload( { -10, 0 }, 0 ) );
+   EXPECT_TRUE( entity->TakeCollisionPayload( { -10, 0 } ) );
    entity->Tick();
 
    EXPECT_FALSE( entity->IsInvulnerable() );
@@ -100,7 +100,7 @@ TEST_F( EntityTests, Tick_IsKnockedBackWithTimeRemaining_RemainsKnockedBack )
    entity->SetHealth( 100 );
    entity->SetKnockBackSeconds( 1.5f );
 
-   EXPECT_TRUE( entity->TakeCollisionPayload( { -10, 0 }, 0 ) );
+   EXPECT_TRUE( entity->TakeCollisionPayload( { -10, 0 } ) );
    entity->Tick();
 
    EXPECT_TRUE( entity->IsKnockedBack() );
@@ -115,7 +115,7 @@ TEST_F( EntityTests, Tick_IsKnockedBackWithNoTimeRemaining_BecomesNotKnockedBack
    entity->SetHealth( 100 );
    entity->SetKnockBackSeconds( 0.9f );
 
-   EXPECT_TRUE( entity->TakeCollisionPayload( { -10, 0 }, 0 ) );
+   EXPECT_TRUE( entity->TakeCollisionPayload( { -10, 0 } ) );
    entity->Tick();
 
    EXPECT_FALSE( entity->IsKnockedBack() );
@@ -136,7 +136,7 @@ TEST_F( EntityTests, TakeCollisionPayload_HealthPayloadIsZero_ReturnsFalse )
 {
    auto entity = make_shared<Entity>();
 
-   EXPECT_FALSE( entity->TakeCollisionPayload( EntityCollisionPayload(), 0 ) );
+   EXPECT_FALSE( entity->TakeCollisionPayload( EntityCollisionPayload() ) );
 }
 
 TEST_F( EntityTests, TakeCollisionPayload_HealthPayloadIsNegativeAndIsInvulnerable_ReturnsFalse )
@@ -146,12 +146,12 @@ TEST_F( EntityTests, TakeCollisionPayload_HealthPayloadIsNegativeAndIsInvulnerab
    entity->SetHealth( 100 );
    entity->SetDamageInvulnerabilitySeconds( 1.0f );
 
-   EXPECT_TRUE( entity->TakeCollisionPayload( { -10, 0 }, 0 ) );
+   EXPECT_TRUE( entity->TakeCollisionPayload( { -10, 0 } ) );
 
    EXPECT_EQ( entity->GetHealth(), 90 );
    EXPECT_TRUE( entity->IsInvulnerable() );
 
-   EXPECT_FALSE( entity->TakeCollisionPayload( { -10, 0 }, 0 ) );
+   EXPECT_FALSE( entity->TakeCollisionPayload( { -10, 0 } ) );
    EXPECT_EQ( entity->GetHealth(), 90 );
 }
 
@@ -161,7 +161,7 @@ TEST_F( EntityTests, TakeCollisionPayload_NewHealthIsTooLow_ClampsHealthToZero )
    entity->SetMaxHealth( 100 );
    entity->SetHealth( 100 );
 
-   EXPECT_TRUE( entity->TakeCollisionPayload( { -150, 0 }, 0 ) );
+   EXPECT_TRUE( entity->TakeCollisionPayload( { -150, 0 } ) );
    EXPECT_EQ( entity->GetHealth(), 0 );
 }
 
@@ -171,7 +171,7 @@ TEST_F( EntityTests, TakeCollisionPayload_NewHealthMatchesOldHealth_ReturnsFalse
    entity->SetMaxHealth( 100 );
    entity->SetHealth( 100 );
 
-   EXPECT_FALSE( entity->TakeCollisionPayload( { 10, 0 }, 0 ) );
+   EXPECT_FALSE( entity->TakeCollisionPayload( { 10, 0 } ) );
 }
 
 TEST_F( EntityTests, TakeCollisionPayload_NewHealthIsTooHigh_ClampsHealthToMax )
@@ -180,7 +180,7 @@ TEST_F( EntityTests, TakeCollisionPayload_NewHealthIsTooHigh_ClampsHealthToMax )
    entity->SetMaxHealth( 100 );
    entity->SetHealth( 80 );
 
-   EXPECT_TRUE( entity->TakeCollisionPayload( { 30, 0 }, 0 ) );
+   EXPECT_TRUE( entity->TakeCollisionPayload( { 30, 0 } ) );
    EXPECT_EQ( entity->GetHealth(), 100 );
 }
 
@@ -191,7 +191,7 @@ TEST_F( EntityTests, TakeCollisionPayload_HealthDecreasedToZero_DoesNotSetInvuln
    entity->SetHealth( 100 );
    entity->SetDamageInvulnerabilitySeconds( 1.0f );
 
-   EXPECT_TRUE( entity->TakeCollisionPayload( { -100, 0 }, 0 ) );
+   EXPECT_TRUE( entity->TakeCollisionPayload( { -100, 0 } ) );
 
    EXPECT_EQ( entity->GetHealth(), 0 );
    EXPECT_FALSE( entity->IsInvulnerable() );
@@ -203,7 +203,7 @@ TEST_F( EntityTests, TakeCollisionPayload_HealthDecreasedAndNoInvulnerability_Do
    entity->SetMaxHealth( 100 );
    entity->SetHealth( 100 );
 
-   EXPECT_TRUE( entity->TakeCollisionPayload( { -10, 0 }, 0 ) );
+   EXPECT_TRUE( entity->TakeCollisionPayload( { -10, 0 } ) );
 
    EXPECT_EQ( entity->GetHealth(), 90 );
    EXPECT_FALSE( entity->IsInvulnerable() );
@@ -216,7 +216,7 @@ TEST_F( EntityTests, TakeCollisionPayload_HealthDecreasedAndHasInvulnerability_S
    entity->SetHealth( 100 );
    entity->SetDamageInvulnerabilitySeconds( 1.0f );
 
-   EXPECT_TRUE( entity->TakeCollisionPayload( { -10, 0 }, 0 ) );
+   EXPECT_TRUE( entity->TakeCollisionPayload( { -10, 0 } ) );
 
    EXPECT_EQ( entity->GetHealth(), 90 );
    EXPECT_TRUE( entity->IsInvulnerable() );
@@ -229,12 +229,12 @@ TEST_F( EntityTests, TakeCollisionPayload_HealthDecreasedAndNoKnockBack_DoesNotS
    entity->SetHealth( 100 );
    entity->SetKnockBackSeconds( 0 );
 
-   EXPECT_TRUE( entity->TakeCollisionPayload( { -10, 0 }, 0 ) );
+   EXPECT_TRUE( entity->TakeCollisionPayload( { -10, 0 } ) );
 
    EXPECT_FALSE( entity->IsKnockedBack() );
 }
 
-TEST_F( EntityTests, TakeCollisionPayload_HealthDecreasedAndHasKnockBack_StopsYVelocity )
+TEST_F( EntityTests, TakeCollisionPayload_HealthDecreasedAndKnocksBack_StopsYVelocity )
 {
    auto entity = make_shared<Entity>();
    entity->SetMaxHealth( 100 );
@@ -244,65 +244,37 @@ TEST_F( EntityTests, TakeCollisionPayload_HealthDecreasedAndHasKnockBack_StopsYV
    entity->SetVelocityY( -50 );
    EXPECT_EQ( entity->GetVelocityY(), -50 );
 
-   EXPECT_TRUE( entity->TakeCollisionPayload( { -10, 0 }, -1 ) );
+   EXPECT_TRUE( entity->TakeCollisionPayload( { -10, 0 } ) );
 
    EXPECT_EQ( entity->GetVelocityY(), 0 );
 }
 
-TEST_F( EntityTests, TakeCollisionPayload_HealthDecreasedAndGiverIsMovingLeft_KnocksBackToTheLeft )
+TEST_F( EntityTests, TakeCollisionPayload_HealthDecreasedAndFacingRight_KnocksBackToTheLeft )
 {
    auto entity = make_shared<Entity>();
    entity->SetMaxHealth( 100 );
    entity->SetHealth( 100 );
    entity->SetKnockBackSeconds( 0.5f );
    entity->SetKnockBackVelocity( 400 );
+   entity->SetDirection( Direction::DownRight );
 
-   EXPECT_TRUE( entity->TakeCollisionPayload( { -10, 0 }, -1 ) );
+   EXPECT_TRUE( entity->TakeCollisionPayload( { -10, 0 } ) );
 
    EXPECT_TRUE( entity->IsKnockedBack() );
    EXPECT_EQ( entity->GetVelocityX(), -400 );
 }
 
-TEST_F( EntityTests, TakeCollisionPayload_HealthDecreasedAndGiverIsMovingRight_KnocksBackToTheRight )
+TEST_F( EntityTests, TakeCollisionPayload_HealthDecreasedAndFacingLeft_KnocksBackToTheRight )
 {
    auto entity = make_shared<Entity>();
    entity->SetMaxHealth( 100 );
    entity->SetHealth( 100 );
    entity->SetKnockBackSeconds( 0.5f );
    entity->SetKnockBackVelocity( 400 );
+   entity->SetDirection( Direction::Left );
 
-   EXPECT_TRUE( entity->TakeCollisionPayload( { -10, 0 }, 1 ) );
+   EXPECT_TRUE( entity->TakeCollisionPayload( { -10, 0 } ) );
 
    EXPECT_TRUE( entity->IsKnockedBack() );
    EXPECT_EQ( entity->GetVelocityX(), 400 );
-}
-
-TEST_F( EntityTests, TakeCollisionPayload_HealthDecreasedAndGiverIsNotMovingAndEntityIsFacingLeftward_KnocksBackToTheRight )
-{
-   auto entity = make_shared<Entity>();
-   entity->SetMaxHealth( 100 );
-   entity->SetHealth( 100 );
-   entity->SetKnockBackSeconds( 0.5f );
-   entity->SetKnockBackVelocity( 400 );
-   entity->SetDirection( Direction::DownLeft );
-
-   EXPECT_TRUE( entity->TakeCollisionPayload( { -10, 0 }, 0 ) );
-
-   EXPECT_TRUE( entity->IsKnockedBack() );
-   EXPECT_EQ( entity->GetVelocityX(), 400 );
-}
-
-TEST_F( EntityTests, TakeCollisionPayload_HealthDecreasedAndGiverIsNotMovingAndEntityIsNotFacingLeftward_KnocksBackToTheLeft )
-{
-   auto entity = make_shared<Entity>();
-   entity->SetMaxHealth( 100 );
-   entity->SetHealth( 100 );
-   entity->SetKnockBackSeconds( 0.5f );
-   entity->SetKnockBackVelocity( 400 );
-   entity->SetDirection( Direction::Right );
-
-   EXPECT_TRUE( entity->TakeCollisionPayload( { -10, 0 }, 0 ) );
-
-   EXPECT_TRUE( entity->IsKnockedBack() );
-   EXPECT_EQ( entity->GetVelocityX(), -400 );
 }

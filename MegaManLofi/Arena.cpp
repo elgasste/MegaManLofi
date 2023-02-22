@@ -251,7 +251,7 @@ void Arena::PlayerPickUpItem( const shared_ptr<Entity> player, const shared_ptr<
 {
    const auto& payload = _entityDefs->CollisionPayloadMap[item->GetEntityMetaId()];
 
-   if ( player->TakeCollisionPayload( payload, item->GetVelocityX() ) )
+   if ( player->TakeCollisionPayload( payload ) )
    {
       for ( auto& spawnPoint : _spawnPoints )
       {
@@ -288,7 +288,7 @@ void Arena::EntityTakeHealthPayload( const shared_ptr<Entity> taker, const share
    }
 
    const auto& payload = _entityDefs->CollisionPayloadMap[giver->GetEntityMetaId()];
-   taker->TakeCollisionPayload( payload, giver->GetVelocityX() );
+   taker->TakeCollisionPayload( payload );
 
    if ( giver->GetEntityType() == EntityType::Projectile )
    {

@@ -38,13 +38,13 @@ namespace MegaManLofi
       virtual void Tick();
       virtual void StopX() { _velocityX = 0; }
       virtual void StopY() { _velocityY = 0; }
-      virtual bool TakeCollisionPayload( const EntityCollisionPayload& payload, float giverVelocityX );
+      virtual bool TakeCollisionPayload( const EntityCollisionPayload& payload );
 
    protected:
       const std::shared_ptr<IFrameRateProvider> _frameRateProvider;
 
    private:
-      void CheckKnockBack( float giverVelocityX );
+      void CheckKnockBack();
 
    private:
       std::shared_ptr<IBehavior> _behavior;

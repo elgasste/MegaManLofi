@@ -50,5 +50,5 @@ public:
    MOCK_METHOD( void, Tick, ( ), ( override ) );
    MOCK_METHOD( void, StopX, ( ), ( override ) );
    MOCK_METHOD( void, StopY, ( ), ( override ) );
-   MOCK_METHOD( bool, TakeCollisionPayload, ( const MegaManLofi::EntityCollisionPayload&, float ), ( override ) );
+   MOCK_METHOD( bool, TakeCollisionPayload, ( const MegaManLofi::EntityCollisionPayload& ), ( override ) );
 };

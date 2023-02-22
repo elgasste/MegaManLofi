@@ -46,7 +46,7 @@ void Entity::Tick()
    }
 }
 
-bool Entity::TakeCollisionPayload( const EntityCollisionPayload& payload, float giverVelocityX )
+bool Entity::TakeCollisionPayload( const EntityCollisionPayload& payload )
 {
    // only deal with health changes in here
    if ( payload.Health == 0 || ( payload.Health < 0 && _isInvulnerable ) )
@@ -71,13 +71,13 @@ bool Entity::TakeCollisionPayload( const EntityCollisionPayload& payload, float 
          _damageInvulnerabilityCounter = 0;
       }
 
-      CheckKnockBack( giverVelocityX );
+      CheckKnockBack();
    }
 
    return true;
 }
 
-void Entity::CheckKnockBack( float giverVelocityX )
+void Entity::CheckKnockBack()
 {
    if ( _isKnockedBack || _knockBackSeconds <= 0 )
    {
@@ -88,29 +88,19 @@ void Entity::CheckKnockBack( float giverVelocityX )
    _knockBackCounter = 0;
    _velocityY = 0;
 
-   // TODO: this doesn't really work either, if you're moving right and run into
-   // something also moving right, you'll get knocked to the right. some other
-   // calculation should be done here.
-   if ( giverVelocityX > 0 )
+   // TODO: we can get fancier with this, like checking which direction the
+   // attack came from, and knock back in that direction. For now let's keep
+   // it simple and just knock back from the direction we're facing.
+   // (if we're facing straight up or down, pretend we're facing right)
+   switch ( _direction )
    {
-      _velocityX = _knockBackVelocity;
-   }
-   else if ( giverVelocityX < 0 )
-   {
-      _velocityX = -_knockBackVelocity;
-   }
-   else
-   {
-      switch ( _direction )
-      {
-         case Direction::UpLeft:
-         case Direction::Left:
-         case Direction::DownLeft:
-            _velocityX = _knockBackVelocity;
-            break;
-         default:
-            _velocityX = -_knockBackVelocity;
-            break;
-      }
+      case Direction::UpLeft:
+      case Direction::Left:
+      case Direction::DownLeft:
+         _velocityX = _knockBackVelocity;
+         break;
+      default:
+         _velocityX = -_knockBackVelocity;
+         break;
    }
 }

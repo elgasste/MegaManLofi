@@ -61,36 +61,6 @@ TEST_F( EntityTests, Setters_Always_SetsPropertyValues )
    EXPECT_EQ( entity->GetMovementType(), MovementType::Airborne );
 }
 
-TEST_F( EntityTests, SetVelocityX_EntityIsKnockedBack_DoesNotChangeVelocityX )
-{
-   auto entity = make_shared<Entity>();
-   entity->SetMaxHealth( 100 );
-   entity->SetHealth( 100 );
-   entity->SetKnockBackSeconds( 1 );
-
-   EXPECT_TRUE( entity->TakeCollisionPayload( { -10, 0 }, 0 ) );
-   EXPECT_EQ( entity->GetVelocityX(), 0 );
-
-   entity->SetVelocityX( 100 );
-
-   EXPECT_EQ( entity->GetVelocityX(), 0 );
-}
-
-TEST_F( EntityTests, SetVelocityX_EntityIsKnockedBack_DoesNotChangeVelocityY )
-{
-   auto entity = make_shared<Entity>();
-   entity->SetMaxHealth( 100 );
-   entity->SetHealth( 100 );
-   entity->SetKnockBackSeconds( 1 );
-
-   EXPECT_TRUE( entity->TakeCollisionPayload( { -10, 0 }, 0 ) );
-   EXPECT_EQ( entity->GetVelocityY(), 0 );
-
-   entity->SetVelocityY( 100 );
-
-   EXPECT_EQ( entity->GetVelocityY(), 0 );
-}
-
 TEST_F( EntityTests, Tick_IsInvulnerableWithTimeRemaining_RemainsInvulnerable )
 {
    auto frameRateProviderMock = shared_ptr<mock_FrameRateProvider>( new NiceMock<mock_FrameRateProvider> );

@@ -21,8 +21,8 @@ namespace MegaManLofi
       virtual void SetEntityMetaId( int id ) { _entityMetaId = id; }
       virtual void SetBehavior( const std::shared_ptr<IBehavior> behavior );
       virtual void SetArenaPosition( const Coordinate<float>& position ) { _arenaPosition = position; }
-      virtual void SetVelocityX( float velocity );
-      virtual void SetVelocityY( float velocity );
+      virtual void SetVelocityX( float velocity ) { _velocityX = velocity; }
+      virtual void SetVelocityY( float velocity ) { _velocityY = velocity; }
       virtual void SetDirection( Direction direction ) { _direction = direction; }
       virtual void SetHitBox( const Rectangle<float>& hitBox ) { _hitBox = hitBox; }
       virtual void SetMovementType( MovementType type ) { _movementType = type; }

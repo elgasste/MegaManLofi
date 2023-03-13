@@ -425,7 +425,7 @@ void MbcAsmCompiler::CompileTokenLine( int index )
    }
    else if ( find( LoopTokens.begin(), LoopTokens.end(), commandToken ) != LoopTokens.end() )
    {
-      AddBranchInstruction( tokenLine, BranchTokenMap.at( tokenLine[0] ), _loopBlocksMap.at( index ) + 1 );
+      AddBranchInstruction( tokenLine, LoopTokenMap.at( tokenLine[0] ), _loopBlocksMap.at( index ) + 1 );
    }
    else if ( find( RegTokens.begin(), RegTokens.end(), commandToken ) != RegTokens.end() )
    {
@@ -448,6 +448,9 @@ void MbcAsmCompiler::AddBranchInstruction( const vector<string>& tokenLine, mbc_
       case MBCBR_EQF:
          AddFloatConditionInstruction( tokenLine, ConditionOp::Equals, falseIndex );
          break;
+      case MBCBR_NEQF:
+         AddFloatConditionInstruction( tokenLine, ConditionOp::DoesNotEqual, falseIndex );
+         break;
       case MBCBR_LTF:
          AddFloatConditionInstruction( tokenLine, ConditionOp::LessThan, falseIndex );
          break;
@@ -463,6 +466,9 @@ void MbcAsmCompiler::AddBranchInstruction( const vector<string>& tokenLine, mbc_
       case MBCBR_EQI:
          AddIntConditionInstruction( tokenLine, ConditionOp::Equals, falseIndex );
          break;
+      case MBCBR_NEQI:
+         AddIntConditionInstruction( tokenLine, ConditionOp::DoesNotEqual, falseIndex );
+         break;
       case MBCBR_LTI:
          AddIntConditionInstruction( tokenLine, ConditionOp::LessThan, falseIndex );
          break;
@@ -474,6 +480,18 @@ void MbcAsmCompiler::AddBranchInstruction( const vector<string>& tokenLine, mbc_
          break;
       case MBCBR_GTEI:
          AddIntConditionInstruction( tokenLine, ConditionOp::GreaterThanOrEqual, falseIndex );
+         break;
+      case MBCBR_TRUEF:
+         AddFloatBoolInstruction( tokenLine, true, falseIndex );
+         break;
+      case MBCBR_FALSEF:
+         AddFloatBoolInstruction( tokenLine, false, falseIndex );
+         break;
+      case MBCBR_TRUEI:
+         AddIntBoolInstruction( tokenLine, true, falseIndex );
+         break;
+      case MBCBR_FALSEI:
+         AddIntBoolInstruction( tokenLine, false, falseIndex );
          break;
    }
 }
@@ -568,6 +586,9 @@ void MbcAsmCompiler::AddFloatConditionInstruction( const vector<string>& tokenLi
       case ConditionOp::Equals:
          instruction |= (mbc_instruction)( MBCBR_EQF << MBC_CMD_SHIFT );
          break;
+      case ConditionOp::DoesNotEqual:
+         instruction |= (mbc_instruction)( MBCBR_NEQF << MBC_CMD_SHIFT );
+         break;
       case ConditionOp::LessThan:
          instruction |= (mbc_instruction)( MBCBR_LTF << MBC_CMD_SHIFT );
          break;
@@ -597,6 +618,9 @@ void MbcAsmCompiler::AddIntConditionInstruction( const vector<string>& tokenLine
       case ConditionOp::Equals:
          instruction |= (mbc_instruction)( MBCBR_EQI << MBC_CMD_SHIFT );
          break;
+      case ConditionOp::DoesNotEqual:
+         instruction |= (mbc_instruction)( MBCBR_NEQI << MBC_CMD_SHIFT );
+         break;
       case ConditionOp::LessThan:
          instruction |= (mbc_instruction)( MBCBR_LTI << MBC_CMD_SHIFT );
          break;
@@ -610,6 +634,24 @@ void MbcAsmCompiler::AddIntConditionInstruction( const vector<string>& tokenLine
          instruction |= (mbc_instruction)( MBCBR_GTEI << MBC_CMD_SHIFT );
          break;
    }
+
+   _instructions.push_back( instruction );
+   _instructions.push_back( (mbc_instruction)falseIndex );
+}
+
+void MbcAsmCompiler::AddFloatBoolInstruction( const vector<string>& tokenLine, bool op, int falseIndex )
+{
+   auto instruction = (mbc_instruction)stoi( tokenLine[1] ) << MBC_ARG0_SHIFT;
+   instruction |= op ? (mbc_instruction)( MBCBR_TRUEF << MBC_CMD_SHIFT ) : (mbc_instruction)( MBCBR_FALSEF << MBC_CMD_SHIFT );
+
+   _instructions.push_back( instruction );
+   _instructions.push_back( (mbc_instruction)falseIndex );
+}
+
+void MbcAsmCompiler::AddIntBoolInstruction( const vector<string>& tokenLine, bool op, int falseIndex )
+{
+   auto instruction = (mbc_instruction)stoi( tokenLine[1] ) << MBC_ARG0_SHIFT;
+   instruction |= op ? (mbc_instruction)( MBCBR_TRUEI << MBC_CMD_SHIFT ) : (mbc_instruction)( MBCBR_FALSEI << MBC_CMD_SHIFT );
 
    _instructions.push_back( instruction );
    _instructions.push_back( (mbc_instruction)falseIndex );

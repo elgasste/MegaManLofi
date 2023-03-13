@@ -17,20 +17,19 @@
 #
 # Int Registers:
 #
-# [0] - first run value (if equal to the comparator, then it'e the first run)
-# [1] - first run comparator (starts at 0, becomes 1 on first run)
+# [0] - first run checker (false if this is the first run)
 #
 ##########################################################################
 
 FUNC main
 
 	# init directions on first run
-	if_eqi 0 1
+	if_falsei 0
 		regf 1 1.5  # seconds to wait before shooting
-		regi 1 1
+		regi 0 1
 	endif
 
-	# increment elapsed seconds
+	# add elapsed seconds
 	get_frameseconds 2
 	addf 0 2 0
 

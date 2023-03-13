@@ -14,11 +14,9 @@
 #
 # Int Registers:
 #
-# [0] - first run value (if equal to the comparator, then it'e the first run)
-# [1] - first run comparator (starts at 0, becomes 1 on first run)
+# [0] - first run checker (false if this is the first run)
 # [2] - direction counter
-# [3] - direction increment value (1)
-# [4] - total directions (8, use this to reset direction counter)
+# [3] - total directions (8, use this to reset direction counter)
 #
 # [10] - Direction::Left (0)
 # [11] - Direction::UpLeft (1)
@@ -34,12 +32,12 @@
 FUNC main
 
 	# init directions on first run
-	if_eqi 0 1
+	if_falsei 0
 		call init
-		regi 1 1
+		regi 0 1
 	endif
 
-	# increment elapsed seconds
+	# add elapsed seconds
 	get_frameseconds 2
 	addf 0 2 0
 
@@ -47,8 +45,8 @@ FUNC main
 
 		# shoot, then move to the next direction
 		shoot
-		addi 2 3 2
-		if_gtei 2 4
+		inci 2
+		if_gtei 2 3
 			regi 2 0
 		endif
 		set_direction 2
@@ -75,7 +73,6 @@ FUNC init
 	regi 16 6  # Down
 	regi 17 7  # DownLeft
 
-	regi 3 1  # direction increment value
-	regi 4 8  # total directions
+	regi 3 8  # total directions
 
 RET

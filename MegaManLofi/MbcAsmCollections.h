@@ -15,6 +15,8 @@ namespace MbcAsm
       MBCCOMP_REGI,
       MBCCOMP_CLEARFREG,
       MBCCOMP_CLEARIREG,
+      MBCCOMP_INCF,
+      MBCCOMP_INCI,
       MBCCOMP_ADDF,
       MBCCOMP_SUBF,
       MBCCOMP_MULF,
@@ -30,15 +32,21 @@ namespace MbcAsm
       MBCCOMP_RET,
       MBCCOMP_STOP,
       MBCCOMP_IF_EQF,
+      MBCCOMP_IF_NEQF,
       MBCCOMP_IF_LTF,
       MBCCOMP_IF_GTF,
       MBCCOMP_IF_LTEF,
       MBCCOMP_IF_GTEF,
       MBCCOMP_IF_EQI,
+      MBCCOMP_IF_NEQI,
       MBCCOMP_IF_LTI,
       MBCCOMP_IF_GTI,
       MBCCOMP_IF_LTEI,
       MBCCOMP_IF_GTEI,
+      MBCCOMP_IF_TRUEF,
+      MBCCOMP_IF_FALSEF,
+      MBCCOMP_IF_TRUEI,
+      MBCCOMP_IF_FALSEI,
       MBCCOMP_ELSE,
       MBCCOMP_ENDIF,
       MBCCOMP_WHILE_EQF,
@@ -105,16 +113,22 @@ namespace MbcAsm
 
    const std::vector<std::string> IfTokens =
    {
+      MBCCOMP_IF_EQF,
+      MBCCOMP_IF_NEQF,
+      MBCCOMP_IF_LTF,
+      MBCCOMP_IF_GTF,
+      MBCCOMP_IF_LTEF,
+      MBCCOMP_IF_GTEF,
       MBCCOMP_IF_EQI,
+      MBCCOMP_IF_NEQI,
       MBCCOMP_IF_LTI,
       MBCCOMP_IF_GTI,
       MBCCOMP_IF_LTEI,
       MBCCOMP_IF_GTEI,
-      MBCCOMP_IF_EQF,
-      MBCCOMP_IF_LTF,
-      MBCCOMP_IF_GTF,
-      MBCCOMP_IF_LTEF,
-      MBCCOMP_IF_GTEF
+      MBCCOMP_IF_TRUEF,
+      MBCCOMP_IF_FALSEF,
+      MBCCOMP_IF_TRUEI,
+      MBCCOMP_IF_FALSEI
    };
 
    const std::vector<std::string> LoopTokens =
@@ -152,18 +166,24 @@ namespace MbcAsm
    const std::map<std::string, mbc_command> IfTokenMap =
    {
       { MBCCOMP_IF_EQF, MBCBR_EQF },
+      { MBCCOMP_IF_NEQF, MBCBR_NEQF },
       { MBCCOMP_IF_LTF, MBCBR_LTF },
       { MBCCOMP_IF_GTF, MBCBR_GTF },
       { MBCCOMP_IF_LTEF, MBCBR_LTEF },
       { MBCCOMP_IF_GTEF, MBCBR_GTEF },
       { MBCCOMP_IF_EQI, MBCBR_EQI },
+      { MBCCOMP_IF_NEQI, MBCBR_NEQI },
       { MBCCOMP_IF_LTI, MBCBR_LTI },
       { MBCCOMP_IF_GTI, MBCBR_GTI },
       { MBCCOMP_IF_LTEI, MBCBR_LTEI },
-      { MBCCOMP_IF_GTEI, MBCBR_GTEI }
+      { MBCCOMP_IF_GTEI, MBCBR_GTEI },
+      { MBCCOMP_IF_TRUEF, MBCBR_TRUEF },
+      { MBCCOMP_IF_FALSEF, MBCBR_FALSEF },
+      { MBCCOMP_IF_TRUEI, MBCBR_TRUEI },
+      { MBCCOMP_IF_FALSEI, MBCBR_FALSEI }
    };
 
-   const std::map<std::string, mbc_command> BranchTokenMap =
+   const std::map<std::string, mbc_command> LoopTokenMap =
    {
       { MBCCOMP_WHILE_EQF, MBCBR_EQF },
       { MBCCOMP_WHILE_LTF, MBCBR_LTF },
@@ -199,6 +219,8 @@ namespace MbcAsm
    {
       { MBCCOMP_CLEARFREG, MBCCMD_CLEARFREG },
       { MBCCOMP_CLEARIREG, MBCCMD_CLEARIREG },
+      { MBCCOMP_INCF, MBCCMD_INCF },
+      { MBCCOMP_INCI, MBCCMD_INCI },
       { MBCCOMP_RET, MBCCMD_RET },
       { MBCCOMP_STOP, MBCCMD_STOP },
       { MBCCOMP_ABSF, MBCCMD_ABSF },
@@ -259,6 +281,8 @@ namespace MbcAsm
       { MBCCOMP_REGI, 2 },
       { MBCCOMP_CLEARFREG, 0 },
       { MBCCOMP_CLEARIREG, 0 },
+      { MBCCOMP_INCF, 1 },
+      { MBCCOMP_INCI, 1 },
       { MBCCOMP_ADDF, 3 },
       { MBCCOMP_SUBF, 3 },
       { MBCCOMP_MULF, 3 },
@@ -274,15 +298,21 @@ namespace MbcAsm
       { MBCCOMP_RET, 0 },
       { MBCCOMP_STOP, 0 },
       { MBCCOMP_IF_EQF, 2 },
+      { MBCCOMP_IF_NEQF, 2 },
       { MBCCOMP_IF_LTF, 2 },
       { MBCCOMP_IF_GTF, 2 },
       { MBCCOMP_IF_LTEF, 2 },
       { MBCCOMP_IF_GTEF, 2 },
       { MBCCOMP_IF_EQI, 2 },
+      { MBCCOMP_IF_NEQI, 2 },
       { MBCCOMP_IF_LTI, 2 },
       { MBCCOMP_IF_GTI, 2 },
       { MBCCOMP_IF_LTEI, 2 },
       { MBCCOMP_IF_GTEI, 2 },
+      { MBCCOMP_IF_TRUEF, 1 },
+      { MBCCOMP_IF_FALSEF, 1 },
+      { MBCCOMP_IF_TRUEI, 1 },
+      { MBCCOMP_IF_FALSEI, 1 },
       { MBCCOMP_ELSE, 0 },
       { MBCCOMP_ENDIF, 0 },
       { MBCCOMP_WHILE_EQF, 2 },

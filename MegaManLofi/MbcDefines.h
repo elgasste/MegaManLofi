@@ -60,6 +60,10 @@ typedef unsigned char mbc_command;
 #define MBCBR_GTI          0x37     // check if left int is greater than right int
 #define MBCBR_LTEI         0x38     // check if left int is less than or equal to right int
 #define MBCBR_GTEI         0x39     // check if left int is greater than or equal to right int
+#define MBCBR_TRUEF        0x3A     // check if float is greater than zero ("true"); arg0 is a register index, arg1 is where the "else" block starts, arg2 is the line after the whole branch
+#define MBCBR_FALSEF       0x3B     // check if float is less than or equal to zero ("false")
+#define MBCBR_TRUEI        0x3C     // check if int is greater than zero ("true")
+#define MBCBR_FALSEI       0x3D     // check if int is less than or equal to zero ("false")
 
 // getters
 #define MBCGET_FRAMESECONDS                  0x40  // get the last frame's elapsed seconds

@@ -164,6 +164,18 @@ bool MbcVirtualMachine::HandleCommand( mbc_command command )
       case MBCBR_GTEI:
          DoIntCondition( ConditionOp::GreaterThanOrEqual );
          return true;
+      case MBCBR_TRUEF:
+         DoBoolFloatCondition( true );
+         return true;
+      case MBCBR_FALSEF:
+         DoBoolFloatCondition( false );
+         return true;
+      case MBCBR_TRUEI:
+         DoBoolIntCondition( true );
+         return true;
+      case MBCBR_FALSEI:
+         DoBoolIntCondition( false );
+         return true;
       default:
          return false;
    }
@@ -292,5 +304,27 @@ void MbcVirtualMachine::DoIntCondition( ConditionOp op )
       case ConditionOp::LessThanOrEqual:     if ( _intRegisters[leftRegIndex] >  _intRegisters[rightRegIndex] ) _currentLine = falseBlockLine - 1; break;
       case ConditionOp::GreaterThan:         if ( _intRegisters[leftRegIndex] <= _intRegisters[rightRegIndex] ) _currentLine = falseBlockLine - 1; break;
       case ConditionOp::GreaterThanOrEqual:  if ( _intRegisters[leftRegIndex] <  _intRegisters[rightRegIndex] ) _currentLine = falseBlockLine - 1; break;
+   }
+}
+
+void MbcVirtualMachine::DoBoolFloatCondition( bool op )
+{
+   auto regIndex = MBC_PARSE_ARG0( _currentInstruction );
+   auto falseBlockLine = (int)_instructions[++_currentLine];
+
+   if ( ( op && _floatRegisters[regIndex] <= 0.0f ) || ( !op && _floatRegisters[regIndex] > 0.0f ) )
+   {
+      _currentLine = falseBlockLine - 1;
+   }
+}
+
+void MbcVirtualMachine::DoBoolIntCondition( bool op )
+{
+   auto regIndex = MBC_PARSE_ARG0( _currentInstruction );
+   auto falseBlockLine = (int)_instructions[++_currentLine];
+
+   if ( ( op && _intRegisters[regIndex] <= 0 ) || ( !op && _intRegisters[regIndex] > 0 ) )
+   {
+      _currentLine = falseBlockLine - 1;
    }
 }

@@ -39,6 +39,10 @@
 #define MBCCOMP_IF_GTI                    "IF_GTI"
 #define MBCCOMP_IF_LTEI                   "IF_LTEI"
 #define MBCCOMP_IF_GTEI                   "IF_GTEI"
+#define MBCCOMP_IF_TRUEF                  "IF_TRUEF"
+#define MBCCOMP_IF_FALSEF                 "IF_FALSEF"
+#define MBCCOMP_IF_TRUEI                  "IF_TRUEI"
+#define MBCCOMP_IF_FALSEI                 "IF_FALSEI"
 #define MBCCOMP_ELSE                      "ELSE"
 #define MBCCOMP_ENDIF                     "ENDIF"
 

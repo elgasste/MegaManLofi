@@ -37,6 +37,8 @@ namespace MbcAsm
       void AddSubrInstruction( const std::vector<std::string>& tokenLine );
       void AddFloatConditionInstruction( const std::vector<std::string>& tokenLine, MegaManLofi::ConditionOp op, int falseIndex );
       void AddIntConditionInstruction( const std::vector<std::string>& tokenLine, MegaManLofi::ConditionOp op, int falseIndex );
+      void AddFloatBoolInstruction( const std::vector<std::string>& tokenLine, bool op, int falseIndex );
+      void AddIntBoolInstruction( const std::vector<std::string>& tokenLine, bool op, int falseIndex );
 
       mbc_instruction CreateFloatMathInstruction( const std::vector<std::string>& tokenLine, MegaManLofi::MathOp op ) const;
       mbc_instruction CreateIntMathInstruction( const std::vector<std::string>& tokenLine, MegaManLofi::MathOp op ) const;

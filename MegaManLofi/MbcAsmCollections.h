@@ -41,6 +41,10 @@ namespace MbcAsm
       MBCCOMP_IF_GTI,
       MBCCOMP_IF_LTEI,
       MBCCOMP_IF_GTEI,
+      MBCCOMP_IF_TRUEF,
+      MBCCOMP_IF_FALSEF,
+      MBCCOMP_IF_TRUEI,
+      MBCCOMP_IF_FALSEI,
       MBCCOMP_ELSE,
       MBCCOMP_ENDIF,
       MBCCOMP_WHILE_EQF,
@@ -116,7 +120,11 @@ namespace MbcAsm
       MBCCOMP_IF_LTF,
       MBCCOMP_IF_GTF,
       MBCCOMP_IF_LTEF,
-      MBCCOMP_IF_GTEF
+      MBCCOMP_IF_GTEF,
+      MBCCOMP_IF_TRUEF,
+      MBCCOMP_IF_FALSEF,
+      MBCCOMP_IF_TRUEI,
+      MBCCOMP_IF_FALSEI
    };
 
    const std::vector<std::string> LoopTokens =
@@ -162,7 +170,11 @@ namespace MbcAsm
       { MBCCOMP_IF_LTI, MBCBR_LTI },
       { MBCCOMP_IF_GTI, MBCBR_GTI },
       { MBCCOMP_IF_LTEI, MBCBR_LTEI },
-      { MBCCOMP_IF_GTEI, MBCBR_GTEI }
+      { MBCCOMP_IF_GTEI, MBCBR_GTEI },
+      { MBCCOMP_IF_TRUEF, MBCBR_TRUEF },
+      { MBCCOMP_IF_FALSEF, MBCBR_FALSEF },
+      { MBCCOMP_IF_TRUEI, MBCBR_TRUEI },
+      { MBCCOMP_IF_FALSEI, MBCBR_FALSEI }
    };
 
    const std::map<std::string, mbc_command> BranchTokenMap =
@@ -289,6 +301,10 @@ namespace MbcAsm
       { MBCCOMP_IF_GTI, 2 },
       { MBCCOMP_IF_LTEI, 2 },
       { MBCCOMP_IF_GTEI, 2 },
+      { MBCCOMP_IF_TRUEF, 1 },
+      { MBCCOMP_IF_FALSEF, 1 },
+      { MBCCOMP_IF_TRUEI, 1 },
+      { MBCCOMP_IF_FALSEI, 1 },
       { MBCCOMP_ELSE, 0 },
       { MBCCOMP_ENDIF, 0 },
       { MBCCOMP_WHILE_EQF, 2 },

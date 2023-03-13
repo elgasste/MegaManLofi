@@ -35,6 +35,8 @@ namespace MegaManLofi
       void Return();
       void DoFloatCondition( ConditionOp op );
       void DoIntCondition( ConditionOp op );
+      void DoBoolFloatCondition( bool op );
+      void DoBoolIntCondition( bool op );
 
    protected:
       std::vector<mbc_instruction> _instructions;

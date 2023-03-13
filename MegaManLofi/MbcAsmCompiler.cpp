@@ -475,6 +475,18 @@ void MbcAsmCompiler::AddBranchInstruction( const vector<string>& tokenLine, mbc_
       case MBCBR_GTEI:
          AddIntConditionInstruction( tokenLine, ConditionOp::GreaterThanOrEqual, falseIndex );
          break;
+      case MBCBR_TRUEF:
+         AddFloatBoolInstruction( tokenLine, true, falseIndex );
+         break;
+      case MBCBR_FALSEF:
+         AddFloatBoolInstruction( tokenLine, false, falseIndex );
+         break;
+      case MBCBR_TRUEI:
+         AddIntBoolInstruction( tokenLine, true, falseIndex );
+         break;
+      case MBCBR_FALSEI:
+         AddIntBoolInstruction( tokenLine, false, falseIndex );
+         break;
    }
 }
 
@@ -610,6 +622,24 @@ void MbcAsmCompiler::AddIntConditionInstruction( const vector<string>& tokenLine
          instruction |= (mbc_instruction)( MBCBR_GTEI << MBC_CMD_SHIFT );
          break;
    }
+
+   _instructions.push_back( instruction );
+   _instructions.push_back( (mbc_instruction)falseIndex );
+}
+
+void MbcAsmCompiler::AddFloatBoolInstruction( const vector<string>& tokenLine, bool op, int falseIndex )
+{
+   auto instruction = (mbc_instruction)stoi( tokenLine[1] ) << MBC_ARG0_SHIFT;
+   instruction |= op ? (mbc_instruction)( MBCBR_TRUEF << MBC_CMD_SHIFT ) : (mbc_instruction)( MBCBR_FALSEF << MBC_CMD_SHIFT );
+
+   _instructions.push_back( instruction );
+   _instructions.push_back( (mbc_instruction)falseIndex );
+}
+
+void MbcAsmCompiler::AddIntBoolInstruction( const vector<string>& tokenLine, bool op, int falseIndex )
+{
+   auto instruction = (mbc_instruction)stoi( tokenLine[1] ) << MBC_ARG0_SHIFT;
+   instruction |= op ? (mbc_instruction)( MBCBR_TRUEI << MBC_CMD_SHIFT ) : (mbc_instruction)( MBCBR_FALSEI << MBC_CMD_SHIFT );
 
    _instructions.push_back( instruction );
    _instructions.push_back( (mbc_instruction)falseIndex );

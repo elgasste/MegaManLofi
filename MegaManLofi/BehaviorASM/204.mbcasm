@@ -33,8 +33,6 @@
 # [4] - current direction
 #
 # [5] - do we want to shoot?
-# [6] - we don't want to shoot (0)
-# [7] - we want to shoot (1)
 #
 ##########################################################################
 
@@ -81,6 +79,9 @@ FUNC init
 	regf 15 1.5
 	regi 7 1
 
+	# we don't want to shoot right away
+	regi 5 0
+
 RET
 
 FUNC adjustMovement
@@ -118,7 +119,7 @@ RET
 
 FUNC checkShoot
 
-	if_eqi 5 6  # we don't want to shoot
+	if_falsei 5  # we don't want to shoot
 		addf 14 10 14  # increase shoot timer
 	
 		if_gtf 14 15
@@ -127,7 +128,7 @@ FUNC checkShoot
 		endif
 	endif
 
-	if_eqi 5 6  # we still don't want to shoot
+	if_falsei 5  # we still don't want to shoot
 		RET
 	endif
 

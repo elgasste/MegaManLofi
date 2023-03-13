@@ -49,11 +49,13 @@
 #define MBCCOMP_ENDIF                     "ENDIF"
 
 #define MBCCOMP_WHILE_EQF                 "WHILE_EQF"
+#define MBCCOMP_WHILE_NEQF                "WHILE_NEQF"
 #define MBCCOMP_WHILE_LTF                 "WHILE_LTF"
 #define MBCCOMP_WHILE_GTF                 "WHILE_GTF"
 #define MBCCOMP_WHILE_LTEF                "WHILE_LTEF"
 #define MBCCOMP_WHILE_GTEF                "WHILE_GTEF"
 #define MBCCOMP_WHILE_EQI                 "WHILE_EQI"
+#define MBCCOMP_WHILE_NEQI                "WHILE_NEQI"
 #define MBCCOMP_WHILE_LTI                 "WHILE_LTI"
 #define MBCCOMP_WHILE_GTI                 "WHILE_GTI"
 #define MBCCOMP_WHILE_LTEI                "WHILE_LTEI"

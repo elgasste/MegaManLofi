@@ -425,7 +425,7 @@ void MbcAsmCompiler::CompileTokenLine( int index )
    }
    else if ( find( LoopTokens.begin(), LoopTokens.end(), commandToken ) != LoopTokens.end() )
    {
-      AddBranchInstruction( tokenLine, BranchTokenMap.at( tokenLine[0] ), _loopBlocksMap.at( index ) + 1 );
+      AddBranchInstruction( tokenLine, LoopTokenMap.at( tokenLine[0] ), _loopBlocksMap.at( index ) + 1 );
    }
    else if ( find( RegTokens.begin(), RegTokens.end(), commandToken ) != RegTokens.end() )
    {
@@ -448,6 +448,9 @@ void MbcAsmCompiler::AddBranchInstruction( const vector<string>& tokenLine, mbc_
       case MBCBR_EQF:
          AddFloatConditionInstruction( tokenLine, ConditionOp::Equals, falseIndex );
          break;
+      case MBCBR_NEQF:
+         AddFloatConditionInstruction( tokenLine, ConditionOp::DoesNotEqual, falseIndex );
+         break;
       case MBCBR_LTF:
          AddFloatConditionInstruction( tokenLine, ConditionOp::LessThan, falseIndex );
          break;
@@ -462,6 +465,9 @@ void MbcAsmCompiler::AddBranchInstruction( const vector<string>& tokenLine, mbc_
          break;
       case MBCBR_EQI:
          AddIntConditionInstruction( tokenLine, ConditionOp::Equals, falseIndex );
+         break;
+      case MBCBR_NEQI:
+         AddIntConditionInstruction( tokenLine, ConditionOp::DoesNotEqual, falseIndex );
          break;
       case MBCBR_LTI:
          AddIntConditionInstruction( tokenLine, ConditionOp::LessThan, falseIndex );
@@ -580,6 +586,9 @@ void MbcAsmCompiler::AddFloatConditionInstruction( const vector<string>& tokenLi
       case ConditionOp::Equals:
          instruction |= (mbc_instruction)( MBCBR_EQF << MBC_CMD_SHIFT );
          break;
+      case ConditionOp::DoesNotEqual:
+         instruction |= (mbc_instruction)( MBCBR_NEQF << MBC_CMD_SHIFT );
+         break;
       case ConditionOp::LessThan:
          instruction |= (mbc_instruction)( MBCBR_LTF << MBC_CMD_SHIFT );
          break;
@@ -608,6 +617,9 @@ void MbcAsmCompiler::AddIntConditionInstruction( const vector<string>& tokenLine
    {
       case ConditionOp::Equals:
          instruction |= (mbc_instruction)( MBCBR_EQI << MBC_CMD_SHIFT );
+         break;
+      case ConditionOp::DoesNotEqual:
+         instruction |= (mbc_instruction)( MBCBR_NEQI << MBC_CMD_SHIFT );
          break;
       case ConditionOp::LessThan:
          instruction |= (mbc_instruction)( MBCBR_LTI << MBC_CMD_SHIFT );

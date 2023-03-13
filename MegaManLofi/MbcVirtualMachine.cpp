@@ -137,6 +137,9 @@ bool MbcVirtualMachine::HandleCommand( mbc_command command )
       case MBCBR_EQF:
          DoFloatCondition( ConditionOp::Equals );
          return true;
+      case MBCBR_NEQF:
+         DoFloatCondition( ConditionOp::DoesNotEqual );
+         return true;
       case MBCBR_LTF:
          DoFloatCondition( ConditionOp::LessThan );
          return true;
@@ -151,6 +154,9 @@ bool MbcVirtualMachine::HandleCommand( mbc_command command )
          return true;
       case MBCBR_EQI:
          DoIntCondition( ConditionOp::Equals );
+         return true;
+      case MBCBR_NEQI:
+         DoIntCondition( ConditionOp::DoesNotEqual );
          return true;
       case MBCBR_LTI:
          DoIntCondition( ConditionOp::LessThan );
@@ -284,6 +290,7 @@ void MbcVirtualMachine::DoFloatCondition( ConditionOp op )
    switch ( op )
    {
       case ConditionOp::Equals:              if ( _floatRegisters[leftRegIndex] != _floatRegisters[rightRegIndex] ) _currentLine = falseBlockLine - 1; break;
+      case ConditionOp::DoesNotEqual:        if ( _floatRegisters[leftRegIndex] == _floatRegisters[rightRegIndex] ) _currentLine = falseBlockLine - 1; break;
       case ConditionOp::LessThan:            if ( _floatRegisters[leftRegIndex] >= _floatRegisters[rightRegIndex] ) _currentLine = falseBlockLine - 1; break;
       case ConditionOp::LessThanOrEqual:     if ( _floatRegisters[leftRegIndex] >  _floatRegisters[rightRegIndex] ) _currentLine = falseBlockLine - 1; break;
       case ConditionOp::GreaterThan:         if ( _floatRegisters[leftRegIndex] <= _floatRegisters[rightRegIndex] ) _currentLine = falseBlockLine - 1; break;
@@ -300,6 +307,7 @@ void MbcVirtualMachine::DoIntCondition( ConditionOp op )
    switch ( op )
    {
       case ConditionOp::Equals:              if ( _intRegisters[leftRegIndex] != _intRegisters[rightRegIndex] ) _currentLine = falseBlockLine - 1; break;
+      case ConditionOp::DoesNotEqual:        if ( _intRegisters[leftRegIndex] != _intRegisters[rightRegIndex] ) _currentLine = falseBlockLine - 1; break;
       case ConditionOp::LessThan:            if ( _intRegisters[leftRegIndex] >= _intRegisters[rightRegIndex] ) _currentLine = falseBlockLine - 1; break;
       case ConditionOp::LessThanOrEqual:     if ( _intRegisters[leftRegIndex] >  _intRegisters[rightRegIndex] ) _currentLine = falseBlockLine - 1; break;
       case ConditionOp::GreaterThan:         if ( _intRegisters[leftRegIndex] <= _intRegisters[rightRegIndex] ) _currentLine = falseBlockLine - 1; break;

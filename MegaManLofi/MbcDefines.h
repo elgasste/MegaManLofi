@@ -51,19 +51,21 @@ typedef unsigned char mbc_command;
 
 // branch operations
 #define MBCBR_EQF          0x30     // check equality of two floats; arg0 and arg1 are register indexes, arg2 is where the "else" block starts, arg3 is the line after the whole branch
-#define MBCBR_LTF          0x31     // check if left float is less than right float
-#define MBCBR_GTF          0x32     // check if left float is greater than right float
-#define MBCBR_LTEF         0x33     // check if left float is less than or equal to right float
-#define MBCBR_GTEF         0x34     // check if left float is greater than or equal to right float
-#define MBCBR_EQI          0x35     // check equality of two ints; arg0 and arg1 are register indexes, arg2 is where the "else" block starts, arg3 is the line after the whole branch
-#define MBCBR_LTI          0x36     // check if left int is less than right int
-#define MBCBR_GTI          0x37     // check if left int is greater than right int
-#define MBCBR_LTEI         0x38     // check if left int is less than or equal to right int
-#define MBCBR_GTEI         0x39     // check if left int is greater than or equal to right int
-#define MBCBR_TRUEF        0x3A     // check if float is greater than zero ("true"); arg0 is a register index, arg1 is where the "else" block starts, arg2 is the line after the whole branch
-#define MBCBR_FALSEF       0x3B     // check if float is less than or equal to zero ("false")
-#define MBCBR_TRUEI        0x3C     // check if int is greater than zero ("true")
-#define MBCBR_FALSEI       0x3D     // check if int is less than or equal to zero ("false")
+#define MBCBR_NEQF         0x31     // check inequality of two floats
+#define MBCBR_LTF          0x32     // check if left float is less than right float
+#define MBCBR_GTF          0x33     // check if left float is greater than right float
+#define MBCBR_LTEF         0x34     // check if left float is less than or equal to right float
+#define MBCBR_GTEF         0x35     // check if left float is greater than or equal to right float
+#define MBCBR_EQI          0x36     // check equality of two ints; arg0 and arg1 are register indexes, arg2 is where the "else" block starts, arg3 is the line after the whole branch
+#define MBCBR_NEQI         0x37     // check inequality of two ints
+#define MBCBR_LTI          0x38     // check if left int is less than right int
+#define MBCBR_GTI          0x39     // check if left int is greater than right int
+#define MBCBR_LTEI         0x3A     // check if left int is less than or equal to right int
+#define MBCBR_GTEI         0x3B     // check if left int is greater than or equal to right int
+#define MBCBR_TRUEF        0x3C     // check if float is greater than zero ("true"); arg0 is a register index, arg1 is where the "else" block starts, arg2 is the line after the whole branch
+#define MBCBR_FALSEF       0x3D     // check if float is less than or equal to zero ("false")
+#define MBCBR_TRUEI        0x3E     // check if int is greater than zero ("true")
+#define MBCBR_FALSEI       0x3F     // check if int is less than or equal to zero ("false")
 
 // getters
 #define MBCGET_FRAMESECONDS                  0x40  // get the last frame's elapsed seconds

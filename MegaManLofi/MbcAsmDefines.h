@@ -30,11 +30,13 @@
 #define MBCCOMP_NOOP                      "NOOP"
 
 #define MBCCOMP_IF_EQF                    "IF_EQF"
+#define MBCCOMP_IF_NEQF                   "IF_NEQF"
 #define MBCCOMP_IF_LTF                    "IF_LTF"
 #define MBCCOMP_IF_GTF                    "IF_GTF"
 #define MBCCOMP_IF_LTEF                   "IF_LTEF"
 #define MBCCOMP_IF_GTEF                   "IF_GTEF"
 #define MBCCOMP_IF_EQI                    "IF_EQI"
+#define MBCCOMP_IF_NEQI                   "IF_NEQI"
 #define MBCCOMP_IF_LTI                    "IF_LTI"
 #define MBCCOMP_IF_GTI                    "IF_GTI"
 #define MBCCOMP_IF_LTEI                   "IF_LTEI"

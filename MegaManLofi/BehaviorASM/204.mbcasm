@@ -25,8 +25,7 @@
 #
 # Int Registers:
 #
-# [0] - first run value (if equal to the comparator, then it'e the first run)
-# [1] - first run comparator (starts at 0, becomes 1 on first run)
+# [0] - first run checker (false if this is the first run)
 #
 # [2] - Direction::Left (0)
 # [3] - Direction::Right (4)
@@ -44,9 +43,9 @@ FUNC main
 	get_playerPositionTop 7
 
 	# init on first run
-	if_eqi 0 1
+	if_falsei 0
 		call init
-		regi 1 1
+		regi 0 1
 	endif
 
 	call adjustMovement

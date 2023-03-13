@@ -30,7 +30,7 @@ FUNC main
 		regi 1 1
 	endif
 
-	# increment elapsed seconds
+	# add elapsed seconds
 	get_frameseconds 2
 	addf 0 2 0
 

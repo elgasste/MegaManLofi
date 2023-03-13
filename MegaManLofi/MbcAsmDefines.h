@@ -9,6 +9,8 @@
 #define MBCCOMP_REGI                      "REGI"
 #define MBCCOMP_CLEARFREG                 "CLEARFREG"
 #define MBCCOMP_CLEARIREG                 "CLEARIREG"
+#define MBCCOMP_INCF                      "INCF"
+#define MBCCOMP_INCI                      "INCI"
 #define MBCCOMP_ADDF                      "ADDF"
 #define MBCCOMP_SUBF                      "SUBF"
 #define MBCCOMP_MULF                      "MULF"

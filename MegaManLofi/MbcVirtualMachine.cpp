@@ -83,6 +83,12 @@ bool MbcVirtualMachine::HandleCommand( mbc_command command )
       case MBCCMD_CLEARIREG:
          ClearIntRegisters();
          return true;
+      case MBCCMD_INCF:
+         _floatRegisters[MBC_PARSE_ARG0( _currentInstruction )]++;
+         return true;
+      case MBCCMD_INCI:
+         _intRegisters[MBC_PARSE_ARG0( _currentInstruction )]++;
+         return true;
 
       case MBCCMD_ADDF:
          DoFloatMath( MathOp::Add );

@@ -30,6 +30,8 @@ typedef unsigned char mbc_command;
 #define MBCCMD_REGI        0x01     // put an int in a register; next whole instruction should be the int
 #define MBCCMD_CLEARFREG   0x02     // clear the float registers
 #define MBCCMD_CLEARIREG   0x03     // clear the int registers
+#define MBCCMD_INCF        0x04     // increment the value of a float register slot
+#define MBCCMD_INCI        0x05     // increment the value of an int register slot
 
 #define MBCCMD_ADDF        0x10     // add two floats; arg0 and arg1 are register indexes, result is stored in arg2 register index
 #define MBCCMD_SUBF        0x11     // subtracts

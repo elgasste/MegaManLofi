@@ -333,7 +333,7 @@ bool ArenaPhysics::DetectPlayerCrossedPortal( Direction direction, const shared_
 
 void ArenaPhysics::HandleEntityEnvironmentCollision( const shared_ptr<Entity> entity )
 {
-   if ( entity->GetEntityType() == EntityType::Projectile )
+   if ( entity->GetEntityType() != EntityType::Player )
    {
       _entityTileIndicesCache.erase( entity );
       _stage->GetMutableActiveArena()->RemoveEntity( entity );

@@ -37,6 +37,7 @@ namespace MegaManLofi
       void DetectEntityTileCollisionY( const std::shared_ptr<Entity> entity, float& newPositionTop, bool& crossedPortal );
       bool DetectPlayerCrossedPortal( Direction direction, const std::shared_ptr<Entity> entity );
       void HandleEntityEnvironmentCollision( const std::shared_ptr<Entity> entity );
+      void HandleEntityArenaEdgeCollision( const std::shared_ptr<Entity> entity );
       void DetectEntityMovementType( const std::shared_ptr<Entity> entity ) const;
 
       void UpdateRegions();

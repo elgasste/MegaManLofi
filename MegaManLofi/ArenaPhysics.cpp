@@ -144,7 +144,7 @@ void ArenaPhysics::DetectEntityTileCollisionX( const shared_ptr<Entity> entity, 
             else
             {
                entity->StopX();
-               HandleEntityEnvironmentCollision( entity );
+               HandleEntityArenaEdgeCollision( entity );
                break;
             }
          }
@@ -178,7 +178,7 @@ void ArenaPhysics::DetectEntityTileCollisionX( const shared_ptr<Entity> entity, 
             else
             {
                entity->StopX();
-               HandleEntityEnvironmentCollision( entity );
+               HandleEntityArenaEdgeCollision( entity );
                break;
             }
          }
@@ -223,7 +223,7 @@ void ArenaPhysics::DetectEntityTileCollisionY( const shared_ptr<Entity> entity, 
             else
             {
                entity->StopY();
-               HandleEntityEnvironmentCollision( entity );
+               HandleEntityArenaEdgeCollision( entity );
                break;
             }
          }
@@ -260,7 +260,7 @@ void ArenaPhysics::DetectEntityTileCollisionY( const shared_ptr<Entity> entity, 
                {
                   _eventAggregator->RaiseEvent( GameEvent::Pitfall );
                }
-               HandleEntityEnvironmentCollision( entity );
+               HandleEntityArenaEdgeCollision( entity );
                break;
             }
          }
@@ -332,6 +332,15 @@ bool ArenaPhysics::DetectPlayerCrossedPortal( Direction direction, const shared_
 }
 
 void ArenaPhysics::HandleEntityEnvironmentCollision( const shared_ptr<Entity> entity )
+{
+   if ( entity->GetEntityType() == EntityType::Projectile )
+   {
+      _entityTileIndicesCache.erase( entity );
+      _stage->GetMutableActiveArena()->RemoveEntity( entity );
+   }
+}
+
+void ArenaPhysics::HandleEntityArenaEdgeCollision( const shared_ptr<Entity> entity )
 {
    if ( entity->GetEntityType() != EntityType::Player )
    {

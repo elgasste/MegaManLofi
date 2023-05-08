@@ -497,7 +497,24 @@ TEST_F( EntityBehaviorTests, Tick_GetKnockBackVelocityCommand_GetsKnockBackVeloc
    _behavior->Tick();
 }
 
-TEST_F( EntityBehaviorTests, Tick_GetRandom_GetsRandomInt )
+TEST_F( EntityBehaviorTests, Tick_GetRandomFloat_GetsRandomFloat )
+{
+   vector<mbc_instruction> instructions
+   {
+      (mbc_instruction)( MBCCMD_REGF << MBC_CMD_SHIFT | 0 << MBC_ARG0_SHIFT ),
+      GetFloatAsInstruction( 3 ),
+      (mbc_instruction)( MBCCMD_REGF << MBC_CMD_SHIFT | 1 << MBC_ARG0_SHIFT ),
+      GetFloatAsInstruction( 42 ),
+      (mbc_instruction)( MBCGET_RANDOMFLOAT << MBC_CMD_SHIFT | 0 << MBC_ARG0_SHIFT | 1 << MBC_ARG1_SHIFT | 2 << MBC_ARG2_SHIFT )
+   };
+   _behavior->SetInstructions( instructions );
+
+   EXPECT_CALL( *_randomMock, GetFloat( 3, 42 ) );
+
+   _behavior->Tick();
+}
+
+TEST_F( EntityBehaviorTests, Tick_GetRandomInt_GetsRandomInt )
 {
    vector<mbc_instruction> instructions
    {
@@ -505,7 +522,7 @@ TEST_F( EntityBehaviorTests, Tick_GetRandom_GetsRandomInt )
       (mbc_instruction)( 3 ),
       (mbc_instruction)( MBCCMD_REGI << MBC_CMD_SHIFT | 1 << MBC_ARG0_SHIFT ),
       (mbc_instruction)( 42 ),
-      (mbc_instruction)( MBCGET_RANDOM << MBC_CMD_SHIFT | 0 << MBC_ARG0_SHIFT | 1 << MBC_ARG1_SHIFT | 2 << MBC_ARG2_SHIFT )
+      (mbc_instruction)( MBCGET_RANDOMINT << MBC_CMD_SHIFT | 0 << MBC_ARG0_SHIFT | 1 << MBC_ARG1_SHIFT | 2 << MBC_ARG2_SHIFT )
    };
    _behavior->SetInstructions( instructions );
 

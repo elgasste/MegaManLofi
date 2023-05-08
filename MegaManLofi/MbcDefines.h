@@ -114,7 +114,8 @@ typedef unsigned char mbc_command;
 #define MBCGET_ARENAENTITYKNOCKBACKSECONDS   0x68  // get the knock-back seconds of an arena entity; arg0 is the entity's index, arg1 is a register index
 #define MBCGET_ARENAENTITYKNOCKBACKVELOCITY  0x69  // get the knock-back velocity of an arena entity; arg0 is the entity's index, arg1 is a register index
 
-#define MBCGET_RANDOM         0x79     // get a random unsigned int; arg0/arg1 are the min/max number indices, arg1 is the index of the result
+#define MBCGET_RANDOMFLOAT          0x78     // get a random int; arg0/arg1 are the min/max number indices, arg1 is the index of the result
+#define MBCGET_RANDOMINT            0x79     // get a random float; arg0/arg1 are the min/max number indices, arg1 is the index of the result
 
 // setters
 #define MBCSET_VELOCITYX      0x80     // set the entity's X velocity

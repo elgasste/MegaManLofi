@@ -9,10 +9,16 @@ namespace
 {
    random_device r_device;
    mt19937 rng( r_device() );
-   uniform_int_distribution<mt19937::result_type> r_distribution;
 }
 
-unsigned int RandomWrapper::GetUnsignedInt( unsigned int min, unsigned int max ) const
+int RandomWrapper::GetInt( int min, int max ) const
 {
-   return ( r_distribution( r_device ) % ( ( max + 1 ) - min ) ) + min;
+   uniform_int_distribution<int> distribution( min, max );
+   return distribution( r_device );
+}
+
+float RandomWrapper::GetFloat( float min, float max ) const
+{
+   uniform_real_distribution<float> distribution( min, max );
+   return distribution( r_device );
 }

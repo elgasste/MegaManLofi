@@ -31,7 +31,8 @@ namespace MegaManLofi
       void RegisterIntFromArg( int argNum, int val );
       void RegisterBoolFromArg( int argNum, bool val );
 
-      void GetRandom();
+      void GetRandomFloat();
+      void GetRandomInt();
 
       void ShootTarget() const;
 

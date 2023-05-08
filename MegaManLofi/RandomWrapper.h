@@ -7,6 +7,7 @@ namespace MegaManLofi
    class RandomWrapper : public IRandom
    {
    public:
-      unsigned int GetUnsignedInt( unsigned int min, unsigned int max ) const override;
+      float GetFloat( float min, float max ) const override;
+      int GetInt( int min, int max ) const override;
    };
 }

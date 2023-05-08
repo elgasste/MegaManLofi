@@ -237,9 +237,9 @@ void EntityBehavior::RegisterBoolFromArg( int argNum, bool val )
 
 void EntityBehavior::GetRandom()
 {
-   auto min = (unsigned int)_intRegisters[MBC_PARSE_ARG0( _currentInstruction )];
-   auto max = (unsigned int)_intRegisters[MBC_PARSE_ARG1( _currentInstruction )];
-   _intRegisters[MBC_PARSE_ARG2( _currentInstruction )] = _random->GetUnsignedInt( min, max );
+   auto min = _intRegisters[MBC_PARSE_ARG0( _currentInstruction )];
+   auto max = _intRegisters[MBC_PARSE_ARG1( _currentInstruction )];
+   _intRegisters[MBC_PARSE_ARG2( _currentInstruction )] = _random->GetInt( min, max );
 }
 
 void EntityBehavior::ShootTarget() const

@@ -34,9 +34,9 @@ TitleStateConsoleRenderer::TitleStateConsoleRenderer( const shared_ptr<ConsoleBu
 {
    for ( int i = 0; i < renderDefs->TitleStarCount; i++ )
    {
-      _starCoordinates.push_back( { (float)random->GetInt( 0, (int)( ( renderDefs->ConsoleWidthChars - 1 ) * renderDefs->ArenaCharWidth ) ),
-                                    (float)random->GetInt( 0, (int)( ( renderDefs->ConsoleHeightChars - 1 ) * renderDefs->ArenaCharHeight ) ) } );
-      _starVelocities.push_back( (float)random->GetInt( (int)renderDefs->MinStarVelocity, (int)renderDefs->MaxStarVelocity ) );
+      _starCoordinates.push_back( { random->GetFloat( 0, ( renderDefs->ConsoleWidthChars - 1 ) * renderDefs->ArenaCharWidth ),
+                                    random->GetFloat( 0, ( renderDefs->ConsoleHeightChars - 1 ) * renderDefs->ArenaCharHeight ) } );
+      _starVelocities.push_back( random->GetFloat( renderDefs->MinStarVelocity, renderDefs->MaxStarVelocity ) );
    }
 
    _eventAggregator->RegisterEventHandler( GameEvent::GameStarted, std::bind( &TitleStateConsoleRenderer::HandleGameStartedEvent, this ) );
@@ -92,8 +92,8 @@ void TitleStateConsoleRenderer::DrawStars()
       // if it's flown off the screen, generate a new star
       if ( _starCoordinates[i].Left >= ( _renderDefs->ArenaCharWidth * _renderDefs->ConsoleWidthChars ) )
       {
-         _starCoordinates[i] = { 0, (float)_random->GetInt( 0, (int)( ( _renderDefs->ConsoleHeightChars - 1 ) * _renderDefs->ArenaCharHeight ) ) };
-         _starVelocities[i] = (float)_random->GetInt( (int)_renderDefs->MinStarVelocity, (int)_renderDefs->MaxStarVelocity );
+         _starCoordinates[i] = { 0, _random->GetFloat( 0, ( _renderDefs->ConsoleHeightChars - 1 ) * _renderDefs->ArenaCharHeight ) };
+         _starVelocities[i] = _random->GetFloat( _renderDefs->MinStarVelocity, _renderDefs->MaxStarVelocity );
       }
    }
 }
